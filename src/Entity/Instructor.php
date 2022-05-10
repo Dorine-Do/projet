@@ -1,0 +1,140 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\InstructorRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: InstructorRepository::class)]
+class Instructor
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private $id;
+
+    #[ORM\Column(type: 'string', length: 150)]
+    private $first_name;
+
+    #[ORM\Column(type: 'string', length: 150)]
+    private $last_name;
+
+    #[ORM\Column(type: 'datetime')]
+    private $birth_date;
+
+    #[ORM\Column(type: 'string', length: 12)]
+    private $phone_number;
+
+    #[ORM\Column(type: 'string', length: 150)]
+    private $email;
+
+    #[ORM\Column(type: 'string', length: 50)]
+    private $password;
+
+    #[ORM\Column(type: 'datetime')]
+    private $created_at;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $updated_at;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->first_name;
+    }
+
+    public function setFirstName(string $first_name): self
+    {
+        $this->first_name = $first_name;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->last_name;
+    }
+
+    public function setLastName(string $last_name): self
+    {
+        $this->last_name = $last_name;
+
+        return $this;
+    }
+
+    public function getBirthDate(): ?\DateTimeInterface
+    {
+        return $this->birth_date;
+    }
+
+    public function setBirthDate(\DateTimeInterface $birth_date): self
+    {
+        $this->birth_date = $birth_date;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?string
+    {
+        return $this->phone_number;
+    }
+
+    public function setPhoneNumber(string $phone_number): self
+    {
+        $this->phone_number = $phone_number;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+}
