@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QcmInstanceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QcmInstanceRepository::class)]
@@ -36,6 +38,18 @@ class QcmInstance
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
+
+    #[ORM\ManyToOne(targetEntity: Qcm::class, inversedBy: 'qcm_instance')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $qcm;
+
+    #[ORM\OneToMany(mappedBy: 'qcmInstance', targetEntity: Result::class)]
+    private $result;
+
+    public function __construct()
+    {
+        $this->result = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -134,6 +148,48 @@ class QcmInstance
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getQcm(): ?Qcm
+    {
+        return $this->qcm;
+    }
+
+    public function setQcm(?Qcm $qcm): self
+    {
+        $this->qcm = $qcm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Result>
+     */
+    public function getResult(): Collection
+    {
+        return $this->result;
+    }
+
+    public function addResult(Result $result): self
+    {
+        if (!$this->result->contains($result)) {
+            $this->result[] = $result;
+            $result->setQcmInstance($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResult(Result $result): self
+    {
+        if ($this->result->removeElement($result)) {
+            // set the owning side to null (unless already changed)
+            if ($result->getQcmInstance() === $this) {
+                $result->setQcmInstance(null);
+            }
+        }
 
         return $this;
     }

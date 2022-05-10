@@ -11,7 +11,7 @@ class Admin
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private $id_tools;
 
     #[ORM\Column(type: 'string', length: 150)]
     private $first_name;
@@ -27,7 +27,7 @@ class Admin
 
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id_tools;
     }
 
     public function getFirstName(): ?string

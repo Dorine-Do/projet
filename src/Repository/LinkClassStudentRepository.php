@@ -9,25 +9,25 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<LinClassStudent>
+ * @extends ServiceEntityRepository<LinkClassStudent>
  *
- * @method LinClassStudent|null find($id, $lockMode = null, $lockVersion = null)
- * @method LinClassStudent|null findOneBy(array $criteria, array $orderBy = null)
- * @method LinClassStudent[]    findAll()
- * @method LinClassStudent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method LinkClassStudent|null find($id, $lockMode = null, $lockVersion = null)
+ * @method LinkClassStudent|null findOneBy(array $criteria, array $orderBy = null)
+ * @method LinkClassStudent[]    findAll()
+ * @method LinkClassStudent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LinClassStudentRepository extends ServiceEntityRepository
+class LinkClassStudentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, LinClassStudent::class);
+        parent::__construct($registry, LinkClassStudent::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(LinClassStudent $entity, bool $flush = false): void
+    public function add(LinkClassStudent $entity, bool $flush = false): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -39,7 +39,7 @@ class LinClassStudentRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(LinClassStudent $entity, bool $flush = false): void
+    public function remove(LinkClassStudent $entity, bool $flush = false): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -48,7 +48,7 @@ class LinClassStudentRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return LinClassStudent[] Returns an array of LinClassStudent objects
+//     * @return LinkClassStudent[] Returns an array of LinkClassStudent objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -62,7 +62,7 @@ class LinClassStudentRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?LinClassStudent
+//    public function findOneBySomeField($value): ?LinkClassStudent
 //    {
 //        return $this->createQueryBuilder('l')
 //            ->andWhere('l.exampleField = :val')

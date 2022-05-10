@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QcmRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QcmRepository::class)]
@@ -42,6 +44,22 @@ class Qcm
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
+
+    #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: LinkQcmQuestion::class)]
+    private $link_qcm_question;
+
+    #[ORM\ManyToOne(targetEntity: Module::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $module;
+
+    #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: QcmInstance::class)]
+    private $qcm_instance;
+
+    public function __construct()
+    {
+        $this->link_qcm_question = new ArrayCollection();
+        $this->qcm_instance = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -164,6 +182,78 @@ class Qcm
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LinkQcmQuestion>
+     */
+    public function getLinkQcmQuestion(): Collection
+    {
+        return $this->link_qcm_question;
+    }
+
+    public function addLinkQcmQuestion(LinkQcmQuestion $linkQcmQuestion): self
+    {
+        if (!$this->link_qcm_question->contains($linkQcmQuestion)) {
+            $this->link_qcm_question[] = $linkQcmQuestion;
+            $linkQcmQuestion->setQcm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinkQcmQuestion(LinkQcmQuestion $linkQcmQuestion): self
+    {
+        if ($this->link_qcm_question->removeElement($linkQcmQuestion)) {
+            // set the owning side to null (unless already changed)
+            if ($linkQcmQuestion->getQcm() === $this) {
+                $linkQcmQuestion->setQcm(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+    public function setModule(?Module $module): self
+    {
+        $this->module = $module;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QcmInstance>
+     */
+    public function getQcmInstance(): Collection
+    {
+        return $this->qcm_instance;
+    }
+
+    public function addQcmInstance(QcmInstance $qcmInstance): self
+    {
+        if (!$this->qcm_instance->contains($qcmInstance)) {
+            $this->qcm_instance[] = $qcmInstance;
+            $qcmInstance->setQcm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQcmInstance(QcmInstance $qcmInstance): self
+    {
+        if ($this->qcm_instance->removeElement($qcmInstance)) {
+            // set the owning side to null (unless already changed)
+            if ($qcmInstance->getQcm() === $this) {
+                $qcmInstance->setQcm(null);
+            }
+        }
 
         return $this;
     }

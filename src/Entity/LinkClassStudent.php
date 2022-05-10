@@ -5,8 +5,8 @@ namespace App\Entity;
 use App\Repository\LinClassStudentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: LinClassStudentRepository::class)]
-class LinClassStudent
+#[ORM\Entity(repositoryClass: LinkClassStudentRepository::class)]
+class LinkClassStudent
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,6 +21,14 @@ class LinClassStudent
 
     #[ORM\Column(type: 'boolean')]
     private $enabled;
+
+    #[ORM\ManyToOne(targetEntity: Student::class, inversedBy: 'link_class_student')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $student;
+
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'link_class_student')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $session;
 
     public function getId(): ?int
     {
@@ -59,6 +67,30 @@ class LinClassStudent
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function getStudent(): ?Student
+    {
+        return $this->student;
+    }
+
+    public function setStudent(?Student $student): self
+    {
+        $this->student = $student;
+
+        return $this;
+    }
+
+    public function getSession(): ?Session
+    {
+        return $this->session;
+    }
+
+    public function setSession(?Session $session): self
+    {
+        $this->session = $session;
 
         return $this;
     }

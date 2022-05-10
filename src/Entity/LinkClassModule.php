@@ -25,6 +25,14 @@ class LinkClassModule
     #[ORM\Column(type: 'datetime')]
     private $end_date;
 
+    #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'link_class_module')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $module;
+
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'link_class_module')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $session;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +82,30 @@ class LinkClassModule
     public function setEndDate(\DateTimeInterface $end_date): self
     {
         $this->end_date = $end_date;
+
+        return $this;
+    }
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+    public function setModule(?Module $module): self
+    {
+        $this->module = $module;
+
+        return $this;
+    }
+
+    public function getSession(): ?Session
+    {
+        return $this->session;
+    }
+
+    public function setSession(?Session $session): self
+    {
+        $this->session = $session;
 
         return $this;
     }
