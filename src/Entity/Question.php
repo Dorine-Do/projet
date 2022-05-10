@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QuestionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
@@ -39,6 +41,22 @@ class Question
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
+
+    #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'question')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $module;
+
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: LinkQcmQuestion::class)]
+    private $link_qcm_question;
+
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class)]
+    private $proposal;
+
+    public function __construct()
+    {
+        $this->link_qcm_question = new ArrayCollection();
+        $this->proposal = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -149,6 +167,78 @@ class Question
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+    public function setModule(?Module $module): self
+    {
+        $this->module = $module;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LinkQcmQuestion>
+     */
+    public function getLinkQcmQuestion(): Collection
+    {
+        return $this->link_qcm_question;
+    }
+
+    public function addLinkQcmQuestion(LinkQcmQuestion $linkQcmQuestion): self
+    {
+        if (!$this->link_qcm_question->contains($linkQcmQuestion)) {
+            $this->link_qcm_question[] = $linkQcmQuestion;
+            $linkQcmQuestion->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinkQcmQuestion(LinkQcmQuestion $linkQcmQuestion): self
+    {
+        if ($this->link_qcm_question->removeElement($linkQcmQuestion)) {
+            // set the owning side to null (unless already changed)
+            if ($linkQcmQuestion->getQuestion() === $this) {
+                $linkQcmQuestion->setQuestion(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Proposal>
+     */
+    public function getProposal(): Collection
+    {
+        return $this->proposal;
+    }
+
+    public function addProposal(Proposal $proposal): self
+    {
+        if (!$this->proposal->contains($proposal)) {
+            $this->proposal[] = $proposal;
+            $proposal->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProposal(Proposal $proposal): self
+    {
+        if ($this->proposal->removeElement($proposal)) {
+            // set the owning side to null (unless already changed)
+            if ($proposal->getQuestion() === $this) {
+                $proposal->setQuestion(null);
+            }
+        }
 
         return $this;
     }

@@ -28,6 +28,10 @@ class Proposal
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
+    #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'proposal')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $question;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +93,18 @@ class Proposal
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getQuestion(): ?Question
+    {
+        return $this->question;
+    }
+
+    public function setQuestion(?Question $question): self
+    {
+        $this->question = $question;
 
         return $this;
     }
