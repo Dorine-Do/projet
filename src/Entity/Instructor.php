@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\InstructorRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InstructorRepository::class)]
@@ -11,7 +13,7 @@ class Instructor
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    private $id_tools;
 
     #[ORM\Column(type: 'string', length: 150)]
     private $first_name;
@@ -37,9 +39,21 @@ class Instructor
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
+    #[ORM\OneToMany(mappedBy: 'instructor', targetEntity: LinkInstructorClass::class)]
+    private $link_instructor_class;
+
+    #[ORM\OneToMany(mappedBy: 'instructor', targetEntity: LinkInstructorModule::class)]
+    private $link_instructor_module;
+
+    public function __construct()
+    {
+        $this->link_instructor_class = new ArrayCollection();
+        $this->link_instructor_module = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
-        return $this->id;
+        return $this->id_tools;
     }
 
     public function getFirstName(): ?string
@@ -134,6 +148,66 @@ class Instructor
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LinkInstructorClass>
+     */
+    public function getLinkInstructorClass(): Collection
+    {
+        return $this->link_instructor_class;
+    }
+
+    public function addLinkInstructorClass(LinkInstructorClass $linkInstructorClass): self
+    {
+        if (!$this->link_instructor_class->contains($linkInstructorClass)) {
+            $this->link_instructor_class[] = $linkInstructorClass;
+            $linkInstructorClass->setInstructor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinkInstructorClass(LinkInstructorClass $linkInstructorClass): self
+    {
+        if ($this->link_instructor_class->removeElement($linkInstructorClass)) {
+            // set the owning side to null (unless already changed)
+            if ($linkInstructorClass->getInstructor() === $this) {
+                $linkInstructorClass->setInstructor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LinkInstructorModule>
+     */
+    public function getLinkInstructorModule(): Collection
+    {
+        return $this->link_instructor_module;
+    }
+
+    public function addLinkInstructorModule(LinkInstructorModule $linkInstructorModule): self
+    {
+        if (!$this->link_instructor_module->contains($linkInstructorModule)) {
+            $this->link_instructor_module[] = $linkInstructorModule;
+            $linkInstructorModule->setInstructor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinkInstructorModule(LinkInstructorModule $linkInstructorModule): self
+    {
+        if ($this->link_instructor_module->removeElement($linkInstructorModule)) {
+            // set the owning side to null (unless already changed)
+            if ($linkInstructorModule->getInstructor() === $this) {
+                $linkInstructorModule->setInstructor(null);
+            }
+        }
 
         return $this;
     }

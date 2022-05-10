@@ -19,6 +19,14 @@ class LinkInstructorModule
     #[ORM\Column(type: 'integer')]
     private $instructor_id;
 
+    #[ORM\ManyToOne(targetEntity: Instructor::class, inversedBy: 'link_instructor_module')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $instructor;
+
+    #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'link_instructor_module')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $module;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +52,30 @@ class LinkInstructorModule
     public function setInstructorId(int $instructor_id): self
     {
         $this->instructor_id = $instructor_id;
+
+        return $this;
+    }
+
+    public function getInstructor(): ?Instructor
+    {
+        return $this->instructor;
+    }
+
+    public function setInstructor(?Instructor $instructor): self
+    {
+        $this->instructor = $instructor;
+
+        return $this;
+    }
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+    public function setModule(?Module $module): self
+    {
+        $this->module = $module;
 
         return $this;
     }

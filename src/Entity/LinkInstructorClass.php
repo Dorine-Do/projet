@@ -19,6 +19,14 @@ class LinkInstructorClass
     #[ORM\Column(type: 'integer')]
     private $class_id;
 
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'link_instructor_class')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $session;
+
+    #[ORM\ManyToOne(targetEntity: Instructor::class, inversedBy: 'link_instructor_class')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $instructor;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +52,30 @@ class LinkInstructorClass
     public function setClassId(int $class_id): self
     {
         $this->class_id = $class_id;
+
+        return $this;
+    }
+
+    public function getSession(): ?Session
+    {
+        return $this->session;
+    }
+
+    public function setSession(?Session $session): self
+    {
+        $this->session = $session;
+
+        return $this;
+    }
+
+    public function getInstructor(): ?Instructor
+    {
+        return $this->instructor;
+    }
+
+    public function setInstructor(?Instructor $instructor): self
+    {
+        $this->instructor = $instructor;
 
         return $this;
     }

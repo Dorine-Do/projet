@@ -40,6 +40,14 @@ class Result
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
+    #[ORM\ManyToOne(targetEntity: QcmInstance::class, inversedBy: 'result')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $qcmInstance;
+
+    #[ORM\ManyToOne(targetEntity: Student::class, inversedBy: 'results')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $student;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -149,6 +157,18 @@ class Result
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getStudent(): ?Student
+    {
+        return $this->student;
+    }
+
+    public function setStudent(?Student $student): self
+    {
+        $this->student = $student;
 
         return $this;
     }

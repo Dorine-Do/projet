@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StudentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
@@ -36,6 +38,18 @@ class Student
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
+
+    #[ORM\OneToMany(mappedBy: 'student', targetEntity: LinkClassStudent::class)]
+    private $link_class_student;
+
+    #[ORM\OneToMany(mappedBy: 'student', targetEntity: Result::class)]
+    private $results;
+
+    public function __construct()
+    {
+        $this->link_class_student = new ArrayCollection();
+        $this->results = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -134,6 +148,66 @@ class Student
     public function setUpdatedTime(?\DateTimeInterface $updated_time): self
     {
         $this->updated_time = $updated_time;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LinkClassStudent>
+     */
+    public function getLinkClassStudent(): Collection
+    {
+        return $this->link_class_student;
+    }
+
+    public function addLinkClassStudent(LinkClassStudent $linkClassStudent): self
+    {
+        if (!$this->link_class_student->contains($linkClassStudent)) {
+            $this->link_class_student[] = $linkClassStudent;
+            $linkClassStudent->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinkClassStudent(LinkClassStudent $linkClassStudent): self
+    {
+        if ($this->link_class_student->removeElement($linkClassStudent)) {
+            // set the owning side to null (unless already changed)
+            if ($linkClassStudent->getStudent() === $this) {
+                $linkClassStudent->setStudent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Result>
+     */
+    public function getResults(): Collection
+    {
+        return $this->results;
+    }
+
+    public function addResult(Result $result): self
+    {
+        if (!$this->results->contains($result)) {
+            $this->results[] = $result;
+            $result->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResult(Result $result): self
+    {
+        if ($this->results->removeElement($result)) {
+            // set the owning side to null (unless already changed)
+            if ($result->getStudent() === $this) {
+                $result->setStudent(null);
+            }
+        }
 
         return $this;
     }

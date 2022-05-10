@@ -19,6 +19,14 @@ class LinkQcmQuestion
     #[ORM\Column(type: 'integer')]
     private $qcm_id;
 
+    #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'link_qcm_question')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $question;
+
+    #[ORM\ManyToOne(targetEntity: Qcm::class, inversedBy: 'link_qcm_question')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $qcm;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +52,30 @@ class LinkQcmQuestion
     public function setQcmId(int $qcm_id): self
     {
         $this->qcm_id = $qcm_id;
+
+        return $this;
+    }
+
+    public function getQuestion(): ?Question
+    {
+        return $this->question;
+    }
+
+    public function setQuestion(?Question $question): self
+    {
+        $this->question = $question;
+
+        return $this;
+    }
+
+    public function getQcm(): ?Qcm
+    {
+        return $this->qcm;
+    }
+
+    public function setQcm(?Qcm $qcm): self
+    {
+        $this->qcm = $qcm;
 
         return $this;
     }
