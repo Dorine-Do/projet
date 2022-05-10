@@ -16,7 +16,7 @@ class Session
     #[ORM\Column(type: 'string', length: 10)]
     private $name;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'smallint')]
     private $school_year;
 
     #[ORM\Column(type: 'datetime')]
