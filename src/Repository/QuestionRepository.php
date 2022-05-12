@@ -23,6 +23,7 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
+    //Test Evan
     public function findALlVisible(){
         return $this->createQueryBuilder('q')
             ->where('q.is_mandatory = true')
