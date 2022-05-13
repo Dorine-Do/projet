@@ -16,7 +16,7 @@ class Student
     private $id;
 
     #[ORM\Column(type: 'integer')]
-    private $id_module;
+    private $id_moodle;
 
     #[ORM\Column(type: 'string', length: 150)]
     private $first_name;
@@ -59,12 +59,12 @@ class Student
 
     public function getIdModule(): ?int
     {
-        return $this->id_module;
+        return $this->id_moodle;
     }
 
-    public function setIdModule(int $id_module): self
+    public function setIdModule(int $id_moodle): self
     {
-        $this->id_module = $id_module;
+        $this->id_moodle = $id_moodle;
 
         return $this;
     }

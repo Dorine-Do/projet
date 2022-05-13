@@ -25,7 +25,7 @@ class QuestionController extends AbstractController
 
     {
         $question = $this->repository->findALlVisible();
-        dump($question);
+        dd($question);
         return $this->render('question/index.html.twig', [
             'controller_name' => 'QuestionController',
         ]);
