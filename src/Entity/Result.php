@@ -13,14 +13,8 @@ class Result
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'integer')]
-    private $student_id;
-
-    #[ORM\Column(type: 'integer')]
-    private $qcm_instance_id;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $level;
+    #[ORM\Column(type: "string", enumType: Enum\Level::class)]
+    private Level $level;
 
     #[ORM\Column(type: 'json')]
     private $answers = [];
@@ -48,31 +42,25 @@ class Result
     #[ORM\JoinColumn(nullable: false)]
     private $student;
 
+    public function __construct()
+    {
+        $this->level = Level::Discover;
+        $this->created_at = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getStudentId(): ?int
-    {
-        return $this->student_id;
-    }
-
-    public function setStudentId(int $student_id): self
-    {
-        $this->student_id = $student_id;
-
-        return $this;
-    }
-
     public function getQcmInstance(): ?int
     {
-        return $this->qcm_instance;
+        return $this->qcmInstance;
     }
 
     public function setQcmInstance(int $qcm_instance): self
     {
-        $this->qcm_instance = $qcm_instance;
+        $this->qcmInstance = $qcm_instance;
 
         return $this;
     }

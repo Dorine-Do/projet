@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: ModuleRepository::class)]
 class Module
 {
@@ -27,21 +28,28 @@ class Module
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkInstructorModule::class)]
     private $link_instructor_module;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkClassModule::class)]
-    private $link_class_module;
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkSessionModule::class)]
+    private $link_session_module;
 
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: Question::class)]
     private $question;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Qcm::class)]
-    private $qcm;
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkModuleQcm::class)]
+    private $link_module_qcm;
+
+    #[ORM\Column(type: 'datetime')]
+    private $created_at;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $updated_at;
 
     public function __construct()
     {
         $this->link_instructor_module = new ArrayCollection();
-        $this->link_class_module = new ArrayCollection();
+        $this->link_session_module = new ArrayCollection();
         $this->question = new ArrayCollection();
-        $this->qcm = new ArrayCollection();
+        $this->created_at = new \DateTime();
+        $this->link_module_qcm = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,29 +124,29 @@ class Module
     }
 
     /**
-     * @return Collection<int, LinkClassModule>
+     * @return Collection<int, LinkSessionModule>
      */
-    public function getLinkClassModule(): Collection
+    public function getLinkSessionModule(): Collection
     {
-        return $this->link_class_module;
+        return $this->link_session_module;
     }
 
-    public function addLinkClassModule(LinkClassModule $linkClassModule): self
+    public function addLinkSessionModule(LinkSessionModule $linkSessionModule): self
     {
-        if (!$this->link_class_module->contains($linkClassModule)) {
-            $this->link_class_module[] = $linkClassModule;
-            $linkClassModule->setModule($this);
+        if (!$this->link_session_module->contains($linkSessionModule)) {
+            $this->link_session_module[] = $linkSessionModule;
+            $linkSessionModule->setModule($this);
         }
 
         return $this;
     }
 
-    public function removeLinkClassModule(LinkClassModule $linkClassModule): self
+    public function removeLinkSessionModule(LinkSessionModule $linkSessionModule): self
     {
-        if ($this->link_class_module->removeElement($linkClassModule)) {
+        if ($this->link_session_module->removeElement($linkSessionModule)) {
             // set the owning side to null (unless already changed)
-            if ($linkClassModule->getModule() === $this) {
-                $linkClassModule->setModule(null);
+            if ($linkSessionModule->getModule() === $this) {
+                $linkSessionModule->setModule(null);
             }
         }
 
@@ -174,32 +182,61 @@ class Module
 
         return $this;
     }
-    /**
-     * @return Collection<int, Qcm>
-     */
-    public function getQcm(): Collection
+
+    public function getLinkModuleQcm(): ?LinkModuleQcm
     {
-        return $this->qcm;
+        return $this->linkModuleQcm;
     }
 
-    public function addQcm(Qcm $qcm): self
+    public function setLinkModuleQcm(?LinkModuleQcm $linkModuleQcm): self
     {
-        if (!$this->qcm->contains($qcm)) {
-            $this->qcm[] = $qcm;
-            $qcm->setModule($this);
+        $this->linkModuleQcm = $linkModuleQcm;
+
+        return $this;
+    }
+
+    public function addLinkModuleQcm(LinkModuleQcm $linkModuleQcm): self
+    {
+        if (!$this->link_module_qcm->contains($linkModuleQcm)) {
+            $this->link_module_qcm[] = $linkModuleQcm;
+            $linkModuleQcm->setModule($this);
         }
 
         return $this;
     }
 
-    public function removeQcm(Qcm $qcm): self
+    public function removeLinkModuleQcm(LinkModuleQcm $linkModuleQcm): self
     {
-        if ($this->qcm->removeElement($qcm)) {
+        if ($this->link_module_qcm->removeElement($linkModuleQcm)) {
             // set the owning side to null (unless already changed)
-            if ($qcm->getModule() === $this) {
-                $qcm->setModule(null);
+            if ($linkModuleQcm->getModule() === $this) {
+                $linkModuleQcm->setModule(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

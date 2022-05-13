@@ -15,9 +15,6 @@ class Qcm
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'integer')]
-    private $module_id;
-
     #[ORM\Column(type: 'json')]
     private $questions_answers = [];
 
@@ -27,8 +24,8 @@ class Qcm
     #[ORM\Column(type: 'string', length: 75)]
     private $name;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $difficulty;
+    #[ORM\Column(type: "string", enumType: Enum\Difficulty::class)]
+    private Enum\Difficulty $difficulty;
 
     #[ORM\Column(type: 'boolean')]
     private $is_official;
@@ -48,34 +45,25 @@ class Qcm
     #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: LinkQcmQuestion::class)]
     private $link_qcm_question;
 
-    #[ORM\ManyToOne(targetEntity: Module::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private $module;
-
     #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: QcmInstance::class)]
     private $qcm_instance;
+
+    #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: LinkModuleQcm::class)]
+    private $link_module_qcm;
 
     public function __construct()
     {
         $this->link_qcm_question = new ArrayCollection();
         $this->qcm_instance = new ArrayCollection();
+
+        $this->difficulty = Enum\Difficulty::Medium;
+        $this->created_at = new \DateTime();
+        $this->link_module_qcm = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getModuleId(): ?int
-    {
-        return $this->module_id;
-    }
-
-    public function setModuleId(int $module_id): self
-    {
-        $this->module_id = $module_id;
-
-        return $this;
     }
 
     public function getQuestionsAnswers(): ?array
@@ -252,6 +240,36 @@ class Qcm
             // set the owning side to null (unless already changed)
             if ($qcmInstance->getQcm() === $this) {
                 $qcmInstance->setQcm(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LinkModuleQcm>
+     */
+    public function getLinkModuleQcm(): Collection
+    {
+        return $this->link_module_qcm;
+    }
+
+    public function addLinkModuleQcm(LinkModuleQcm $linkModuleQcm): self
+    {
+        if (!$this->link_module_qcm->contains($linkModuleQcm)) {
+            $this->link_module_qcm[] = $linkModuleQcm;
+            $linkModuleQcm->setQcm($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinkModuleQcm(LinkModuleQcm $linkModuleQcm): self
+    {
+        if ($this->link_module_qcm->removeElement($linkModuleQcm)) {
+            // set the owning side to null (unless already changed)
+            if ($linkModuleQcm->getQcm() === $this) {
+                $linkModuleQcm->setQcm(null);
             }
         }
 

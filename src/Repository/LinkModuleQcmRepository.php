@@ -2,32 +2,32 @@
 
 namespace App\Repository;
 
-use App\Entity\LinkInstructorSession;
+use App\Entity\LinkModuleQcm;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<LinkInstructorSession>
+ * @extends ServiceEntityRepository<LinkModuleQcm>
  *
- * @method LinkInstructorSession|null find($id, $lockMode = null, $lockVersion = null)
- * @method LinkInstructorSession|null findOneBy(array $criteria, array $orderBy = null)
- * @method LinkInstructorSession[]    findAll()
- * @method LinkInstructorSession[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method LinkModuleQcm|null find($id, $lockMode = null, $lockVersion = null)
+ * @method LinkModuleQcm|null findOneBy(array $criteria, array $orderBy = null)
+ * @method LinkModuleQcm[]    findAll()
+ * @method LinkModuleQcm[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LinkInstructorClassRepository extends ServiceEntityRepository
+class LinkModuleQcmRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, LinkInstructorSession::class);
+        parent::__construct($registry, LinkModuleQcm::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(LinkInstructorSession $entity, bool $flush = false): void
+    public function add(LinkModuleQcm $entity, bool $flush = false): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -39,7 +39,7 @@ class LinkInstructorClassRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(LinkInstructorSession $entity, bool $flush = false): void
+    public function remove(LinkModuleQcm $entity, bool $flush = false): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -48,7 +48,7 @@ class LinkInstructorClassRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return LinkInstructorSession[] Returns an array of LinkInstructorSession objects
+//     * @return LinkModuleQcm[] Returns an array of LinkModuleQcm objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -62,7 +62,7 @@ class LinkInstructorClassRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?LinkInstructorSession
+//    public function findOneBySomeField($value): ?LinkModuleQcm
 //    {
 //        return $this->createQueryBuilder('l')
 //            ->andWhere('l.exampleField = :val')
