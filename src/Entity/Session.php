@@ -27,20 +27,21 @@ class Session
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkClassStudent::class)]
-    private $link_class_student;
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkSessionStudent::class)]
+    private $link_session_student;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkInstructorClass::class)]
-    private $link_instructor_class;
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkInstructorSession::class)]
+    private $link_instructor_session;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkClassModule::class)]
-    private $link_class_module;
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkSessionModule::class)]
+    private $link_session_module;
 
     public function __construct()
     {
-        $this->link_class_student = new ArrayCollection();
-        $this->link_instructor_class = new ArrayCollection();
-        $this->link_class_module = new ArrayCollection();
+        $this->link_session_student = new ArrayCollection();
+        $this->link_instructor_session = new ArrayCollection();
+        $this->link_session_module = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int
@@ -97,29 +98,29 @@ class Session
     }
 
     /**
-     * @return Collection<int, LinkClassStudent>
+     * @return Collection<int, LinkSessionStudent>
      */
-    public function getLinkClassStudent(): Collection
+    public function getLinkSessionStudent(): Collection
     {
-        return $this->link_class_student;
+        return $this->link_session_student;
     }
 
-    public function addLinkClassStudent(LinkClassStudent $linkClassStudent): self
+    public function addLinkSessionStudent(LinkSessionStudent $linkSessionStudent): self
     {
-        if (!$this->link_class_student->contains($linkClassStudent)) {
-            $this->link_class_student[] = $linkClassStudent;
-            $linkClassStudent->setSession($this);
+        if (!$this->link_session_student->contains($linkSessionStudent)) {
+            $this->link_session_student[] = $linkSessionStudent;
+            $linkSessionStudent->setSession($this);
         }
 
         return $this;
     }
 
-    public function removeLinkClassStudent(LinkClassStudent $linkClassStudent): self
+    public function removeLinkSessionStudent(LinkSessionStudent $linkSessionStudent): self
     {
-        if ($this->link_class_student->removeElement($linkClassStudent)) {
+        if ($this->link_session_student->removeElement($linkSessionStudent)) {
             // set the owning side to null (unless already changed)
-            if ($linkClassStudent->getSession() === $this) {
-                $linkClassStudent->setSession(null);
+            if ($linkSessionStudent->getSession() === $this) {
+                $linkSessionStudent->setSession(null);
             }
         }
 
@@ -127,29 +128,29 @@ class Session
     }
 
     /**
-     * @return Collection<int, LinkInstructorClass>
+     * @return Collection<int, LinkInstructorSession>
      */
-    public function getLinkInstructorClass(): Collection
+    public function getLinkInstructorSession(): Collection
     {
-        return $this->link_instructor_class;
+        return $this->link_instructor_session;
     }
 
-    public function addLinkInstructorClass(LinkInstructorClass $linkInstructorClass): self
+    public function addLinkInstructorSession(LinkInstructorSession $linkInstructorSession): self
     {
-        if (!$this->link_instructor_class->contains($linkInstructorClass)) {
-            $this->link_instructor_class[] = $linkInstructorClass;
-            $linkInstructorClass->setSession($this);
+        if (!$this->link_instructor_session->contains($linkInstructorSession)) {
+            $this->link_instructor_session[] = $linkInstructorSession;
+            $linkInstructorSession->setSession($this);
         }
 
         return $this;
     }
 
-    public function removeLinkInstructorClass(LinkInstructorClass $linkInstructorClass): self
+    public function removeLinkInstructorSession(LinkInstructorSession $linkInstructorSession): self
     {
-        if ($this->link_instructor_class->removeElement($linkInstructorClass)) {
+        if ($this->link_instructor_session->removeElement($linkInstructorSession)) {
             // set the owning side to null (unless already changed)
-            if ($linkInstructorClass->getSession() === $this) {
-                $linkInstructorClass->setSession(null);
+            if ($linkInstructorSession->getSession() === $this) {
+                $linkInstructorSession->setSession(null);
             }
         }
 
@@ -157,29 +158,29 @@ class Session
     }
 
     /**
-     * @return Collection<int, LinkClassModule>
+     * @return Collection<int, LinkSessionModule>
      */
-    public function getLinkClassModule(): Collection
+    public function getLinkSessionModule(): Collection
     {
-        return $this->link_class_module;
+        return $this->link_session_module;
     }
 
-    public function addLinkClassModule(LinkClassModule $linkClassModule): self
+    public function addLinkSessionModule(LinkSessionModule $linkSessionModule): self
     {
-        if (!$this->link_class_module->contains($linkClassModule)) {
-            $this->link_class_module[] = $linkClassModule;
-            $linkClassModule->setSession($this);
+        if (!$this->link_session_module->contains($linkSessionModule)) {
+            $this->link_session_module[] = $linkSessionModule;
+            $linkSessionModule->setSession($this);
         }
 
         return $this;
     }
 
-    public function removeLinkClassModule(LinkClassModule $linkClassModule): self
+    public function removeLinkSessionModule(LinkSessionModule $linkSessionModule): self
     {
-        if ($this->link_class_module->removeElement($linkClassModule)) {
+        if ($this->link_session_module->removeElement($linkSessionModule)) {
             // set the owning side to null (unless already changed)
-            if ($linkClassModule->getSession() === $this) {
-                $linkClassModule->setSession(null);
+            if ($linkSessionModule->getSession() === $this) {
+                $linkSessionModule->setSession(null);
             }
         }
 

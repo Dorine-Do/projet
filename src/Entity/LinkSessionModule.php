@@ -6,18 +6,12 @@ use App\Repository\LinkClassModuleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LinkClassModuleRepository::class)]
-class LinkClassModule
+class LinkSessionModule
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
-
-    #[ORM\Column(type: 'integer')]
-    private $module_id;
-
-    #[ORM\Column(type: 'integer')]
-    private $class_id;
 
     #[ORM\Column(type: 'datetime')]
     private $start_date;
@@ -25,41 +19,22 @@ class LinkClassModule
     #[ORM\Column(type: 'datetime')]
     private $end_date;
 
-    #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'link_class_module')]
+    #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'link_session_module')]
     #[ORM\JoinColumn(nullable: false)]
     private $module;
 
-    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'link_class_module')]
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'link_session_module')]
     #[ORM\JoinColumn(nullable: false)]
     private $session;
+
+    public function __construct()
+    {
+        $this->created_at = new \DateTime();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getModuleId(): ?int
-    {
-        return $this->module_id;
-    }
-
-    public function setModuleId(int $module_id): self
-    {
-        $this->module_id = $module_id;
-
-        return $this;
-    }
-
-    public function getClassId(): ?int
-    {
-        return $this->class_id;
-    }
-
-    public function setClassId(int $class_id): self
-    {
-        $this->class_id = $class_id;
-
-        return $this;
     }
 
     public function getStartDate(): ?\DateTimeInterface

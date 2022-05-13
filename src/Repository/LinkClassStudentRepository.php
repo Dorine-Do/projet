@@ -48,7 +48,7 @@ class LinkClassStudentRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return LinkClassStudent[] Returns an array of LinkClassStudent objects
+//     * @return LinkSessionStudent[] Returns an array of LinkSessionStudent objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -62,7 +62,7 @@ class LinkClassStudentRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?LinkClassStudent
+//    public function findOneBySomeField($value): ?LinkSessionStudent
 //    {
 //        return $this->createQueryBuilder('l')
 //            ->andWhere('l.exampleField = :val')

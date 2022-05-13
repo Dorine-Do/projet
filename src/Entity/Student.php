@@ -39,16 +39,17 @@ class Student
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\OneToMany(mappedBy: 'student', targetEntity: LinkClassStudent::class)]
-    private $link_class_student;
+    #[ORM\OneToMany(mappedBy: 'student', targetEntity: LinkSessionStudent::class)]
+    private $link_session_student;
 
     #[ORM\OneToMany(mappedBy: 'student', targetEntity: Result::class)]
     private $results;
 
     public function __construct()
     {
-        $this->link_class_student = new ArrayCollection();
+        $this->link_session_student = new ArrayCollection();
         $this->results = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int
@@ -153,29 +154,29 @@ class Student
     }
 
     /**
-     * @return Collection<int, LinkClassStudent>
+     * @return Collection<int, LinkSessionStudent>
      */
-    public function getLinkClassStudent(): Collection
+    public function getLinkSessionStudent(): Collection
     {
-        return $this->link_class_student;
+        return $this->link_session_student;
     }
 
-    public function addLinkClassStudent(LinkClassStudent $linkClassStudent): self
+    public function addLinkSessionStudent(LinkSessionStudent $linkSessionStudent): self
     {
-        if (!$this->link_class_student->contains($linkClassStudent)) {
-            $this->link_class_student[] = $linkClassStudent;
-            $linkClassStudent->setStudent($this);
+        if (!$this->link_session_student->contains($linkSessionStudent)) {
+            $this->link_session_student[] = $linkSessionStudent;
+            $linkSessionStudent->setStudent($this);
         }
 
         return $this;
     }
 
-    public function removeLinkClassStudent(LinkClassStudent $linkClassStudent): self
+    public function removeLinkSessionStudent(LinkSessionStudent $linkSessionStudent): self
     {
-        if ($this->link_class_student->removeElement($linkClassStudent)) {
+        if ($this->link_session_student->removeElement($linkSessionStudent)) {
             // set the owning side to null (unless already changed)
-            if ($linkClassStudent->getStudent() === $this) {
-                $linkClassStudent->setStudent(null);
+            if ($linkSessionStudent->getStudent() === $this) {
+                $linkSessionStudent->setStudent(null);
             }
         }
 

@@ -15,9 +15,6 @@ class QcmInstance
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'integer')]
-    private $qcm_id;
-
     #[ORM\Column(type: 'json')]
     private $questions_answers = [];
 
@@ -49,23 +46,12 @@ class QcmInstance
     public function __construct()
     {
         $this->result = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getQcmId(): ?int
-    {
-        return $this->qcm_id;
-    }
-
-    public function setQcmId(int $qcm_id): self
-    {
-        $this->qcm_id = $qcm_id;
-
-        return $this;
     }
 
     public function getQuestionAnswers(): ?array
