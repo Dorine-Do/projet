@@ -16,11 +16,11 @@ class LinkSessionStudent
     #[ORM\Column(type: 'boolean')]
     private $enabled;
 
-    #[ORM\ManyToOne(targetEntity: Student::class, inversedBy: 'link_class_student')]
+    #[ORM\ManyToOne(targetEntity: Student::class, inversedBy: 'link_session_student')]
     #[ORM\JoinColumn(nullable: false)]
     private $student;
 
-    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'link_class_student')]
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'link_session_student')]
     #[ORM\JoinColumn(nullable: false)]
     private $session;
 

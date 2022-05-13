@@ -19,11 +19,11 @@ class LinkSessionModule
     #[ORM\Column(type: 'datetime')]
     private $end_date;
 
-    #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'link_class_module')]
+    #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'link_session_module')]
     #[ORM\JoinColumn(nullable: false)]
     private $module;
 
-    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'link_class_module')]
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'link_session_module')]
     #[ORM\JoinColumn(nullable: false)]
     private $session;
 

@@ -13,11 +13,11 @@ class LinkInstructorSession
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'link_instructor_class')]
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'link_instructor_session')]
     #[ORM\JoinColumn(nullable: false)]
     private $session;
 
-    #[ORM\ManyToOne(targetEntity: Instructor::class, inversedBy: 'link_instructor_class')]
+    #[ORM\ManyToOne(targetEntity: Instructor::class, inversedBy: 'link_instructor_session')]
     #[ORM\JoinColumn(nullable: false)]
     private $instructor;
 

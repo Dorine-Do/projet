@@ -49,6 +49,9 @@ class Question
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class)]
     private $proposal;
 
+    #[ORM\Column(type: 'boolean')]
+    private $enabled;
+
     public function __construct()
     {
         $this->link_qcm_question = new ArrayCollection();
@@ -226,6 +229,18 @@ class Question
                 $proposal->setQuestion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
 
         return $this;
     }

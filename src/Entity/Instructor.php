@@ -41,16 +41,15 @@ class Instructor
     private $updated_at;
 
     #[ORM\OneToMany(mappedBy: 'instructor', targetEntity: LinkInstructorSession::class)]
-    private $link_instructor_class;
+    private $link_instructor_session;
 
     #[ORM\OneToMany(mappedBy: 'instructor', targetEntity: LinkInstructorModule::class)]
     private $link_instructor_module;
 
     public function __construct()
     {
-        $this->link_instructor_class = new ArrayCollection();
+        $this->link_instructor_session = new ArrayCollection();
         $this->link_instructor_module = new ArrayCollection();
-
         $this->created_at = new \DateTime();
     }
 
@@ -158,27 +157,27 @@ class Instructor
     /**
      * @return Collection<int, LinkInstructorSession>
      */
-    public function getLinkInstructorClass(): Collection
+    public function getLinkInstructorSession(): Collection
     {
-        return $this->link_instructor_class;
+        return $this->link_instructor_session;
     }
 
-    public function addLinkInstructorClass(LinkInstructorSession $linkInstructorClass): self
+    public function addLinkInstructorSession(LinkInstructorSession $linkInstructorSession): self
     {
-        if (!$this->link_instructor_class->contains($linkInstructorClass)) {
-            $this->link_instructor_class[] = $linkInstructorClass;
-            $linkInstructorClass->setInstructor($this);
+        if (!$this->link_instructor_session->contains($linkInstructorSession)) {
+            $this->link_instructor_session[] = $linkInstructorSession;
+            $linkInstructorSession->setInstructor($this);
         }
 
         return $this;
     }
 
-    public function removeLinkInstructorClass(LinkInstructorSession $linkInstructorClass): self
+    public function removeLinkInstructorSession(LinkInstructorSession $linkInstructorSession): self
     {
-        if ($this->link_instructor_class->removeElement($linkInstructorClass)) {
+        if ($this->link_instructor_session->removeElement($linkInstructorSession)) {
             // set the owning side to null (unless already changed)
-            if ($linkInstructorClass->getInstructor() === $this) {
-                $linkInstructorClass->setInstructor(null);
+            if ($linkInstructorSession->getInstructor() === $this) {
+                $linkInstructorSession->setInstructor(null);
             }
         }
 

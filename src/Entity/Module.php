@@ -29,21 +29,21 @@ class Module
     private $link_instructor_module;
 
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkSessionModule::class)]
-    private $link_class_module;
+    private $link_session_module;
 
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: Question::class)]
     private $question;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Qcm::class)]
-    private $qcm;
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkModuleQcm::class)]
+    private $link_module_qcm;
 
     public function __construct()
     {
         $this->link_instructor_module = new ArrayCollection();
-        $this->link_class_module = new ArrayCollection();
+        $this->link_session_module = new ArrayCollection();
         $this->question = new ArrayCollection();
-        $this->qcm = new ArrayCollection();
         $this->created_at = new \DateTime();
+        $this->link_module_qcm = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -120,27 +120,27 @@ class Module
     /**
      * @return Collection<int, LinkSessionModule>
      */
-    public function getLinkClassModule(): Collection
+    public function getLinkSessionModule(): Collection
     {
-        return $this->link_class_module;
+        return $this->link_session_module;
     }
 
-    public function addLinkClassModule(LinkSessionModule $linkClassModule): self
+    public function addLinkSessionModule(LinkSessionModule $linkSessionModule): self
     {
-        if (!$this->link_class_module->contains($linkClassModule)) {
-            $this->link_class_module[] = $linkClassModule;
-            $linkClassModule->setModule($this);
+        if (!$this->link_session_module->contains($linkSessionModule)) {
+            $this->link_session_module[] = $linkSessionModule;
+            $linkSessionModule->setModule($this);
         }
 
         return $this;
     }
 
-    public function removeLinkClassModule(LinkSessionModule $linkClassModule): self
+    public function removeLinkSessionModule(LinkSessionModule $linkSessionModule): self
     {
-        if ($this->link_class_module->removeElement($linkClassModule)) {
+        if ($this->link_session_module->removeElement($linkSessionModule)) {
             // set the owning side to null (unless already changed)
-            if ($linkClassModule->getModule() === $this) {
-                $linkClassModule->setModule(null);
+            if ($linkSessionModule->getModule() === $this) {
+                $linkSessionModule->setModule(null);
             }
         }
 
@@ -176,30 +176,35 @@ class Module
 
         return $this;
     }
-    /**
-     * @return Collection<int, Qcm>
-     */
-    public function getQcm(): Collection
+
+    public function getLinkModuleQcm(): ?LinkModuleQcm
     {
-        return $this->qcm;
+        return $this->linkModuleQcm;
     }
 
-    public function addQcm(Qcm $qcm): self
+    public function setLinkModuleQcm(?LinkModuleQcm $linkModuleQcm): self
     {
-        if (!$this->qcm->contains($qcm)) {
-            $this->qcm[] = $qcm;
-            $qcm->setModule($this);
+        $this->linkModuleQcm = $linkModuleQcm;
+
+        return $this;
+    }
+
+    public function addLinkModuleQcm(LinkModuleQcm $linkModuleQcm): self
+    {
+        if (!$this->link_module_qcm->contains($linkModuleQcm)) {
+            $this->link_module_qcm[] = $linkModuleQcm;
+            $linkModuleQcm->setModule($this);
         }
 
         return $this;
     }
 
-    public function removeQcm(Qcm $qcm): self
+    public function removeLinkModuleQcm(LinkModuleQcm $linkModuleQcm): self
     {
-        if ($this->qcm->removeElement($qcm)) {
+        if ($this->link_module_qcm->removeElement($linkModuleQcm)) {
             // set the owning side to null (unless already changed)
-            if ($qcm->getModule() === $this) {
-                $qcm->setModule(null);
+            if ($linkModuleQcm->getModule() === $this) {
+                $linkModuleQcm->setModule(null);
             }
         }
 
