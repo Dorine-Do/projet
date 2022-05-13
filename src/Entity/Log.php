@@ -16,7 +16,7 @@ class Log
     #[ORM\Column(type: 'text')]
     private $log;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'smallint')]
     private $level;
 
     #[ORM\Column(type: 'string', length: 150)]
