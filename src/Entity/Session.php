@@ -27,13 +27,13 @@ class Session
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkClassStudent::class)]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkSessionStudent::class)]
     private $link_class_student;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkInstructorClass::class)]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkInstructorSession::class)]
     private $link_instructor_class;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkClassModule::class)]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkSessionModule::class)]
     private $link_class_module;
 
     public function __construct()
@@ -41,6 +41,7 @@ class Session
         $this->link_class_student = new ArrayCollection();
         $this->link_instructor_class = new ArrayCollection();
         $this->link_class_module = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int
@@ -97,14 +98,14 @@ class Session
     }
 
     /**
-     * @return Collection<int, LinkClassStudent>
+     * @return Collection<int, LinkSessionStudent>
      */
     public function getLinkClassStudent(): Collection
     {
         return $this->link_class_student;
     }
 
-    public function addLinkClassStudent(LinkClassStudent $linkClassStudent): self
+    public function addLinkClassStudent(LinkSessionStudent $linkClassStudent): self
     {
         if (!$this->link_class_student->contains($linkClassStudent)) {
             $this->link_class_student[] = $linkClassStudent;
@@ -114,7 +115,7 @@ class Session
         return $this;
     }
 
-    public function removeLinkClassStudent(LinkClassStudent $linkClassStudent): self
+    public function removeLinkClassStudent(LinkSessionStudent $linkClassStudent): self
     {
         if ($this->link_class_student->removeElement($linkClassStudent)) {
             // set the owning side to null (unless already changed)
@@ -127,14 +128,14 @@ class Session
     }
 
     /**
-     * @return Collection<int, LinkInstructorClass>
+     * @return Collection<int, LinkInstructorSession>
      */
     public function getLinkInstructorClass(): Collection
     {
         return $this->link_instructor_class;
     }
 
-    public function addLinkInstructorClass(LinkInstructorClass $linkInstructorClass): self
+    public function addLinkInstructorClass(LinkInstructorSession $linkInstructorClass): self
     {
         if (!$this->link_instructor_class->contains($linkInstructorClass)) {
             $this->link_instructor_class[] = $linkInstructorClass;
@@ -144,7 +145,7 @@ class Session
         return $this;
     }
 
-    public function removeLinkInstructorClass(LinkInstructorClass $linkInstructorClass): self
+    public function removeLinkInstructorClass(LinkInstructorSession $linkInstructorClass): self
     {
         if ($this->link_instructor_class->removeElement($linkInstructorClass)) {
             // set the owning side to null (unless already changed)
@@ -157,14 +158,14 @@ class Session
     }
 
     /**
-     * @return Collection<int, LinkClassModule>
+     * @return Collection<int, LinkSessionModule>
      */
     public function getLinkClassModule(): Collection
     {
         return $this->link_class_module;
     }
 
-    public function addLinkClassModule(LinkClassModule $linkClassModule): self
+    public function addLinkClassModule(LinkSessionModule $linkClassModule): self
     {
         if (!$this->link_class_module->contains($linkClassModule)) {
             $this->link_class_module[] = $linkClassModule;
@@ -174,7 +175,7 @@ class Session
         return $this;
     }
 
-    public function removeLinkClassModule(LinkClassModule $linkClassModule): self
+    public function removeLinkClassModule(LinkSessionModule $linkClassModule): self
     {
         if ($this->link_class_module->removeElement($linkClassModule)) {
             // set the owning side to null (unless already changed)

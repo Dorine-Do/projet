@@ -39,7 +39,7 @@ class Student
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\OneToMany(mappedBy: 'student', targetEntity: LinkClassStudent::class)]
+    #[ORM\OneToMany(mappedBy: 'student', targetEntity: LinkSessionStudent::class)]
     private $link_class_student;
 
     #[ORM\OneToMany(mappedBy: 'student', targetEntity: Result::class)]
@@ -49,6 +49,7 @@ class Student
     {
         $this->link_class_student = new ArrayCollection();
         $this->results = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int
@@ -153,14 +154,14 @@ class Student
     }
 
     /**
-     * @return Collection<int, LinkClassStudent>
+     * @return Collection<int, LinkSessionStudent>
      */
     public function getLinkClassStudent(): Collection
     {
         return $this->link_class_student;
     }
 
-    public function addLinkClassStudent(LinkClassStudent $linkClassStudent): self
+    public function addLinkClassStudent(LinkSessionStudent $linkClassStudent): self
     {
         if (!$this->link_class_student->contains($linkClassStudent)) {
             $this->link_class_student[] = $linkClassStudent;
@@ -170,7 +171,7 @@ class Student
         return $this;
     }
 
-    public function removeLinkClassStudent(LinkClassStudent $linkClassStudent): self
+    public function removeLinkClassStudent(LinkSessionStudent $linkClassStudent): self
     {
         if ($this->link_class_student->removeElement($linkClassStudent)) {
             // set the owning side to null (unless already changed)

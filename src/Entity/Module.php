@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: ModuleRepository::class)]
 class Module
 {
@@ -27,7 +28,7 @@ class Module
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkInstructorModule::class)]
     private $link_instructor_module;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkClassModule::class)]
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkSessionModule::class)]
     private $link_class_module;
 
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: Question::class)]
@@ -42,6 +43,7 @@ class Module
         $this->link_class_module = new ArrayCollection();
         $this->question = new ArrayCollection();
         $this->qcm = new ArrayCollection();
+        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int
@@ -116,14 +118,14 @@ class Module
     }
 
     /**
-     * @return Collection<int, LinkClassModule>
+     * @return Collection<int, LinkSessionModule>
      */
     public function getLinkClassModule(): Collection
     {
         return $this->link_class_module;
     }
 
-    public function addLinkClassModule(LinkClassModule $linkClassModule): self
+    public function addLinkClassModule(LinkSessionModule $linkClassModule): self
     {
         if (!$this->link_class_module->contains($linkClassModule)) {
             $this->link_class_module[] = $linkClassModule;
@@ -133,7 +135,7 @@ class Module
         return $this;
     }
 
-    public function removeLinkClassModule(LinkClassModule $linkClassModule): self
+    public function removeLinkClassModule(LinkSessionModule $linkClassModule): self
     {
         if ($this->link_class_module->removeElement($linkClassModule)) {
             // set the owning side to null (unless already changed)

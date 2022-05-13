@@ -13,12 +13,6 @@ class LinkInstructorModule
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'integer')]
-    private $module_id;
-
-    #[ORM\Column(type: 'integer')]
-    private $instructor_id;
-
     #[ORM\ManyToOne(targetEntity: Instructor::class, inversedBy: 'link_instructor_module')]
     #[ORM\JoinColumn(nullable: false)]
     private $instructor;
@@ -27,33 +21,14 @@ class LinkInstructorModule
     #[ORM\JoinColumn(nullable: false)]
     private $module;
 
+    public function __construct()
+    {
+        $this->created_at = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getModuleId(): ?int
-    {
-        return $this->module_id;
-    }
-
-    public function setModuleId(int $module_id): self
-    {
-        $this->module_id = $module_id;
-
-        return $this;
-    }
-
-    public function getInstructorId(): ?int
-    {
-        return $this->instructor_id;
-    }
-
-    public function setInstructorId(int $instructor_id): self
-    {
-        $this->instructor_id = $instructor_id;
-
-        return $this;
     }
 
     public function getInstructor(): ?Instructor

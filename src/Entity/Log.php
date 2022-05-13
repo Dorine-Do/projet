@@ -28,6 +28,11 @@ class Log
     #[ORM\Column(type: 'datetime')]
     private $created_at;
 
+    public function __construct()
+    {
+        $this->created_at = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
