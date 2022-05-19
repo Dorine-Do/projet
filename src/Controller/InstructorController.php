@@ -31,7 +31,7 @@ class InstructorController extends AbstractController
 
     {
         $question = $this->repository->findALlVisible();
-        dump($question);
+        dd($question);
         return $this->render('instructor/index.html.twig', [
             'controller_name' => 'InstructorController',
         ]);
