@@ -39,15 +39,17 @@ class QuestionRepository extends ServiceEntityRepository
         INNER JOIN App\Entity\LinkInstructorModule lim
         WITH m.id = lim.module_id
      ')
-
-
-
      ->getResult();
-        return $this->createQueryBuilder('q')
-            ->where('q.is_mandatory = false')
-            ->getQuery()
-            ->getResult();
     }
+
+
+//        return $this->createQueryBuilder('q')
+//            ->where('q.is_mandatory = false')
+//            ->getQuery()
+//            ->getResult();
+//    }
+
+
 
     /**
      * @throws ORMException

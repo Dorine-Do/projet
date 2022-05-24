@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\QuestionType;
 use App\Repository\QuestionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,4 +37,19 @@ class InstructorController extends AbstractController
             'controller_name' => 'InstructorController',
         ]);
     }
+    /**
+     * @Route("/insertquest", name="question.index")
+     * @return Response
+     */
+    public function insertQuestions(): Response
+
+    {
+        $form = $this->createForm(QuestionType::class);
+//        dd($form->createView());
+        return $this->render('instructor/index.html.twig', [
+            'controller_name' => 'InstructorController',
+            'form' => $form->createView()
+        ]);
+    }
+
 }
