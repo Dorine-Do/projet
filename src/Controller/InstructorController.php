@@ -36,4 +36,19 @@ class InstructorController extends AbstractController
             'controller_name' => 'InstructorController',
         ]);
     }
+    /**
+     * @Route("/modify_question", name="modify.question")
+     * @return Response
+     */
+    public function modifyQuestion(): Response
+
+    {
+        $question_id = 1;
+        $instructor_id = 1;
+        $question = $this->repository->findQuestionById($question_id, $instructor_id);
+        dd($question);
+        return $this->render('instructor/index.html.twig', [
+            'controller_name' => 'InstructorController',
+        ]);
+    }
 }
