@@ -242,7 +242,7 @@ class Module
     }
 
     public function __toString(): string{
-        return $this->getId();
+        return $this->getTitle();
     }
 
 }

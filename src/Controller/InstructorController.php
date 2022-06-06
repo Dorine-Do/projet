@@ -45,7 +45,7 @@ class InstructorController extends AbstractController
     public function insertQuestions(): Response
 
     {
-        $question = new Question();
+//        $question = new Question();
 //        dd($question);
         $form = $this->createForm(QuestionType::class);
 //        dd($form->createView());

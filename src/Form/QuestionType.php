@@ -23,8 +23,8 @@ class QuestionType extends AbstractType
             ->add('is_official')
             ->add('difficulty')
             ->add('response_type')
-            ->add('created_at')
-            ->add('updated_at')
+//            ->add('created_at')
+//            ->add('updated_at')
             ->add('enabled')
             ->add('module_id', EntityType::class, [
                 'class' => Module::class
