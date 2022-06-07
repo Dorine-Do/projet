@@ -15,6 +15,9 @@ class Question
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[ORM\Column(type: 'integer')]
+    private $module_id;
+
     #[ORM\Column(type: 'integer', nullable: true)]
     private $id_author;
 

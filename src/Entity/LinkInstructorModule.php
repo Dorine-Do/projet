@@ -13,6 +13,12 @@ class LinkInstructorModule
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[ORM\Column(type: 'integer')]
+    private $module_id;
+
+    #[ORM\Column(type: 'integer')]
+    private $instructor_id;
+
     #[ORM\ManyToOne(targetEntity: Instructor::class, inversedBy: 'link_instructor_module')]
     #[ORM\JoinColumn(nullable: false)]
     private $instructor;
