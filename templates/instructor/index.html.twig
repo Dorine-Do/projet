@@ -8,6 +8,16 @@
         {% for question in questions %}
             <li>{{ question.wording }}</li>
 
+            {% for proposal in proposals  %}
+
+                {% if question.id === proposal.question_id %}
+
+                    <p>{{proposal.wording}}</p>
+
+                {% endif %}
+
+            {% endfor %}
+
         {%endfor%}
     </ul>
 

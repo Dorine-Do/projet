@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,9 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class InstructorController extends AbstractController
 {
     private $repository;
+    private $proposals;
 
-    public function __construct(QuestionRepository $repository){
+    public function __construct(QuestionRepository $repository, ProposalRepository $proposals){
         $this->repository = $repository;
+        $this->proposals = $proposals;
     }
 
 //    TODO future page à implémenter
@@ -30,10 +33,17 @@ class InstructorController extends AbstractController
      */
     public function displayQuestions(): Response
     {
+        $proposals = [];
         $questions = $this->repository->findBy(['id_author' => 2]);
+
+        foreach ($questions as $question) {
+            $questions_id = $question->{'id'};
+            $proposals[$questions_id] = $this->proposals->findBy(['question_id' => $questions_id]);
+        }
 
         return $this->render('instructor/index.html.twig', [
             'questions' => $questions,
+            'proposals' => $proposals,
         ]);
     }
 
