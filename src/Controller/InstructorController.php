@@ -36,14 +36,16 @@ class InstructorController extends AbstractController
         $proposals = [];
         $questions = $this->repository->findBy(['id_author' => 2]);
 
-        foreach ($questions as $key => $value) {
+        foreach ($questions as $question) {
+            $question = array($question);
+            foreach ($question as $key => $value) {
 
-            if ($key === 'id') {
-                $question_id = $value;
-                $proposals[] = $this->proposals->findBy(['question_id' => $question_id]);
+                if ($key === 'id') {
+                    $question_id = $value;
+                    $proposals[] = $this->proposals->findBy(['question_id' => $question_id]);
+                }
             }
         }
-
         return $this->render('instructor/index.html.twig', [
             'questions' => $questions,
             'proposals' => $proposals,

@@ -10,7 +10,7 @@
 
             {% for proposal in proposals  %}
 
-                {% if question.id === proposal.question_id %}
+                {% if question.id == proposal.question_id %}
 
                     <p>{{proposal.wording}}</p>
 
