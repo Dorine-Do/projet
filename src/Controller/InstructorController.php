@@ -14,7 +14,8 @@ class InstructorController extends AbstractController
     public function __construct(QuestionRepository $repository){
         $this->repository = $repository;
     }
-//
+
+//    TODO future page à implémenter
 //    #[Route('/instructor', name: 'app_instructor')]
 //    public function index(): Response
 //    {
@@ -24,29 +25,28 @@ class InstructorController extends AbstractController
 //    }
 
     /**
-     * @Route("/quest", name="question.index")
+     * @Route("/questions", name="display_questions")
      * @return Response
      */
     public function displayQuestions(): Response
-
     {
-        $question = $this->repository->findALlVisible();
-        dd($question);
+        $questions = $this->repository->findBy(['id_author' => 2]);
+
         return $this->render('instructor/index.html.twig', [
-            'controller_name' => 'InstructorController',
+            'questions' => $questions,
         ]);
     }
+
     /**
      * @Route("/modify_question", name="modify.question")
      * @return Response
      */
     public function modifyQuestion(): Response
-
     {
         $question_id = 1;
         $instructor_id = 1;
         $question = $this->repository->findQuestionById($question_id, $instructor_id);
-        dd($question);
+
         return $this->render('instructor/index.html.twig', [
             'controller_name' => 'InstructorController',
         ]);
