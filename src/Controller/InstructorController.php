@@ -39,9 +39,8 @@ class InstructorController extends AbstractController
         foreach ($questions as $question) {
 
             $question_id = $question->getId();
-            $proposals[$question_id] = $this->proposals->findBy(['question_id' => $question_id]);
+            $proposals[$question_id] = $this->proposals->findBy(['question' => $question_id]);
         }
-
         return $this->render('instructor/index.html.twig', [
             'questions' => $questions,
             'proposals' => $proposals,
