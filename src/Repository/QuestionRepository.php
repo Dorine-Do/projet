@@ -23,13 +23,25 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
-    // Test Evan
-    public function findALlVisible(){
-        return $this->createQueryBuilder('q')
-            ->where('q.is_mandatory = false')
-            ->getQuery()
+    /* MEMO
+        /*$questionBdd = $this->getEntityManager();
+        return $questionBdd->createQuery('
+        SELECT q
+        FROM App\Entity\Question q
+        INNER JOIN App\Entity\Module m
+        WITH m.id = q.module_id
+        INNER JOIN App\Entity\LinkInstructorModule lim
+        WITH m.id = lim.module_id
+        INNER JOIN App\Entity\Instructor i
+        WITH i.id = lim.instructor_id
+        WHERE q.id > :id_question
+        AND i.id > :id_instructor
+     ')
+            ->setParameter('id_question', $question_id)
+            ->setParameter('id_instructor', $instructor_id)
             ->getResult();
-    }
+    */
+
 
     /**
      * @throws ORMException
