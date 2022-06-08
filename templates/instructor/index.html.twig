@@ -10,11 +10,15 @@
 
             {% for proposal in proposals  %}
 
-                {% if question.id == proposal.question_id %}
+                {% for prop in proposal  %}
 
-                    <p>{{proposal.wording}}</p>
+                    {% if question.id == prop.question.id %}
 
-                {% endif %}
+                        <p>{{prop.wording}}</p>
+
+                    {% endif %}
+
+                {% endfor %}
 
             {% endfor %}
 
