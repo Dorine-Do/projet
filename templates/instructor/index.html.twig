@@ -2,10 +2,30 @@
 
 {% block title %}Hello InstructorController!{% endblock %}
 
+     {% block stylesheets %}
+         {# <link href="public/css/test.css" rel="stylesheet"> #}
+         <link href="{{asset('build/app.css')}}" rel="stylesheet">
+         {# {{ encore_entry_link_tags('app') }} #}
+     {% endblock %}
+         {% block javascripts %}
+             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+             {#<script src="{{ asset('/jquery/dist/jquery.min.js') }}"></script>  #}
+
+             <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>
+         {% endblock %}
+
+
+{% block content %}
+
+
+{% endblock %}
+
 {% block body %}
+
 
     <ul>
         {% for question in questions %}
+
             <li>{{ question.wording }}</li>
 
             {% for proposal in proposals  %}
@@ -24,5 +44,60 @@
 
         {%endfor%}
     </ul>
+
+    <div class="form-question">
+        {{ form_start(form) }}
+        <table>
+            <tr>
+                <td colspan="2">
+                    <p><span>1</span> Choisir le module:</p>
+                </td>
+                <td colspan="2"> {{form_row(form.module, { 'label': false })}}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p><span>2</span> Intitulé de la question :</p>
+                </td>
+                <td colspan="2">{{form_row(form.wording, { 'label': false })}}</td>
+            </tr>
+            <tr>
+                <td colspan="2"><p><span>3</span> Difficulté de la question:</p></td>
+                <td colspan="2">{{form_row(form.difficulty, { 'label': false })}}</td>
+            </tr>
+            <tr>
+                <td colspan="2"><p><span>Réponses</span></p></td>
+                <td colspan="2">
+
+                    <ul id='response-proposal'
+                        data-prototype="{{ form_row(form.proposal.vars.prototype)|e }}"
+                        data-widget-tags="{{ '<li></li>'|e }}"
+                        data-widget-counter="{{ form.proposal|length }}">
+                        {#        {{dump(form.proposal)}}#}
+
+                        {% for response in form.proposal %}
+                            <li>
+                                {{dump(response.wording)}}
+                                {{form_row(response.wording) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <button type="button"
+                            class="add-another-collection-widget"
+                            data-list-selector="#response-proposal">Add a response</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><p><span>6</span> Désactiver la question</p></td>
+                <td colspan="2"><button type="submit">Désactiver</button></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit">Enregistrer</button></td>
+            </tr>
+        </table>
+
+
+        {{ form_end(form) }}
+
+    </div>
 
 {% endblock %}
