@@ -8,5 +8,8 @@ import Home from './js/components/Home';
 const container = document.getElementById('root');
 const root = createRoot(container);
     root.render(
-        <h1>Hello, world!</h1>
+        <Home>
+            <h1>Hello, world!</h1>
+        </Home>
+
     );
