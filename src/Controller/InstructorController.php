@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Question;
+use App\Form\QuestionType;
 use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
