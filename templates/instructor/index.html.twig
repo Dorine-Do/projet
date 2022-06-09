@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello InstructorController!{% endblock %}
+
+{% block body %}
+
+    <ul>
+        {% for question in questions %}
+            <li>{{ question.wording }}</li>
+
+            {% for proposal in proposals  %}
+
+                {% for prop in proposal  %}
+
+                    {% if question.id == prop.question.id %}
+
+                        <p>{{prop.wording}}</p>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endfor %}
+
+        {%endfor%}
+    </ul>
+
+{% endblock %}
