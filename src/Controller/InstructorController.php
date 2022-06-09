@@ -66,6 +66,8 @@ class InstructorController extends AbstractController
         ]);
     }
 
+    // init de branches
+    // init de InstructorQuestionForm
 //    /**
 //     * @Route("/create_question", name="question.index")
 //     * @return Response
