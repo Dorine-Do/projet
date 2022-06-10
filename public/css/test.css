@@ -1,0 +1,116 @@
+body{
+    background-color: white;
+}
+
+.form-question{
+    max-width: 100%
+}
+
+table{
+    margin-left: 5%;
+    width: 100%;
+}
+
+.numeroform{
+    background-color: #FFAC8F;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+p{
+    padding: 50px;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+tr{
+    display: flex;
+    flex-direction: column;
+}
+
+td{
+    text-align: left;
+}
+
+tbody{
+    width: 100%;
+}
+
+.premier{
+    margin-left: 0;
+}
+
+.second{
+    margin: auto;
+    background-color: #FFF4E4;
+    padding: 25px 1px;
+    width: 85%;
+}
+
+.difficulty{
+    margin: auto;
+    background-color: #FFF4E4;
+    padding: 25px 1px;
+    width: 85%;
+    display: flex;
+    justify-content: space-around;
+}
+
+#question_wording{
+    width: 80%;
+    height: 75px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border: hidden;
+}
+
+.premierselect{
+    margin:auto;
+}
+
+#question_module{
+    margin: auto;
+    padding: 20px 60px;
+    border: none;
+    box-shadow: none;
+    background-color: #FFF4E4;
+    font-weight: bold;
+}
+
+#question_module::after{
+    background-color: white;
+}
+
+.buttondesac{
+    background-color: #616161;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    padding: 5px 15px;
+    font-size: 1.2em;
+}
+.buttondiff{
+    background-color: #616161;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    border: none;
+    padding: 7px 49px;;
+    font-size: 1em;
+}
+
+.valid{
+    background-color: #616161;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    border: none;
+    padding: 15px 300px;;
+    font-size: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+

@@ -59,7 +59,7 @@ class Question
     {
         $this->link_qcm_question = new ArrayCollection();
         $this->proposal = new ArrayCollection();
-        $this->difficulty = Enum\Difficulty::Medium;
+//        $this->difficulty = Enum\Difficulty::Medium;
         $this->created_at = new \DateTime();
     }
 
@@ -116,8 +116,10 @@ class Question
         return $this;
     }
 
+
     public function getDifficulty(): ?string
     {
+
         return $this->difficulty;
     }
 
