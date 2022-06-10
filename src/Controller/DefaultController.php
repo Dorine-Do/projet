@@ -31,8 +31,9 @@ class DefaultController extends AbstractController
         }
         $response = new Response();
 
+        /*TODO : réparer l'erreur : Blocage d’une requête multiorigines (Cross-Origin Request) */
         $response->headers->set('Content-Type', 'application/json');
-        $response->headers->set('Access-Control-Allow-Origin', '*');
+        $response->headers->set('Access-Control-Allow-Origin', 'https://127.0.0.1:8000/');
 
         $response->setContent(json_encode($questions));
 

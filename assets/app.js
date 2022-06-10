@@ -11,6 +11,9 @@ class DisplayQuestionsInstructor extends React.Component {
         super(props);
         this.state = {questions: []};
     }
+    componentDidMount() {
+        this.getUsers();
+    }
     getUsers() {
         fetch(`http://localhost:8000/instucteur/questions`)
             .then(response => {
