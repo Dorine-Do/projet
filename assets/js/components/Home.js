@@ -9,7 +9,7 @@ class Home extends Component {
             <div>
                  <nav className="">
                         <ul>
-                            <li><a href="/">Question instructor</a></li>
+                            <li><a href=>Question instructor</a></li>
                         </ul>
                    </nav>
                </div>
