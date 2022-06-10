@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-// import {Route, Switch,Redirect, Link, withRouter} from 'react-router-dom';
+import {Route, Switch,Redirect, Link, withRouter} from 'react-router-dom';
 //
 //
 class Home extends Component {
@@ -9,7 +9,7 @@ class Home extends Component {
             <div>
                  <nav className="">
                         <ul>
-                            <li><a href=>Question instructor</a></li>
+                            <li><Link className={"nav-link"} to={"/posts"}> Posts </Link></li>
                         </ul>
                    </nav>
                </div>
