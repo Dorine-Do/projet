@@ -6,6 +6,7 @@ use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
@@ -30,8 +31,8 @@ class Question
     #[ORM\Column(type: 'boolean')]
     private $is_official;
 
-    #[ORM\Column(type: "string", enumType: Enum\Difficulty::class)]
-    private Enum\Difficulty $difficulty;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $difficulty;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $response_type;
@@ -49,23 +50,38 @@ class Question
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: LinkQcmQuestion::class)]
     private $link_qcm_question;
 
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class)]
+    // #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class,cascade: {'persist'})]
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="Proposal::class,cascade",
+     *     mappedBy="question",
+     *     fetch="EXTRA_LAZY",
+     *     cascade={"persist"}
+     * )
+     */
     private $proposal;
-
-    #[ORM\Column(type: 'boolean')]
-    private $enabled;
 
     public function __construct()
     {
         $this->link_qcm_question = new ArrayCollection();
         $this->proposal = new ArrayCollection();
-//        $this->difficulty = Enum\Difficulty::Medium;
-        $this->created_at = new \DateTime();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getModuleId(): ?int
+    {
+        return $this->module_id;
+    }
+
+    public function setModuleId(int $module_id): self
+    {
+        $this->module_id = $module_id;
+
+        return $this;
     }
 
     public function getIdAuthor(): ?int
@@ -116,10 +132,8 @@ class Question
         return $this;
     }
 
-
     public function getDifficulty(): ?string
     {
-
         return $this->difficulty;
     }
 
@@ -249,5 +263,6 @@ class Question
 
         return $this;
     }
+
 
 }

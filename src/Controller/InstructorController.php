@@ -5,8 +5,10 @@ namespace App\Controller;
 
 use App\Entity\Question;
 use App\Form\QuestionType;
+use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,8 +19,14 @@ class InstructorController extends AbstractController
     private $repository;
     private $proposals;
 
-    public function __construct(QuestionRepository $repository, ProposalRepository $proposals){
+   
+  
+    
+  
+    public function __construct(QuestionRepository $repository,ModuleRepository $moduleRepository,EntityManagerInterface $entityManager,ProposalRepository $proposals){
         $this->repository = $repository;
+        $this->repositoryModule = $moduleRepository;
+        $this->manager=$entityManager;
         $this->proposals = $proposals;
     }
 
@@ -91,7 +99,10 @@ class InstructorController extends AbstractController
             $questionData->setCreatedAt($date);
             $questionData->setUpdatedAt($date);
             $questionData->setIsOfficial(true);//temporaire
-            dd($form->getData());
+            $questionData->setDifficulty(true);//temporaire
+            $questionData->setResponseType(true);//temporaire
+            $questionData->setIsMandatory(true);//temporaire
+            // dd($form->getData());
 
             //  validation et enregistrement des données du form dans la bdd
             $this->manager->persist($questionEntity);
