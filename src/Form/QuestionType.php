@@ -28,7 +28,7 @@ class QuestionType extends AbstractType
         ->add('wording',TextType::class,[
             'label'=>false,
             'constraints' => [
-                //TODO faire un fichier où on stock les regex
+                /*TODO faire un fichier où on stock les regex*/
                 new Regex('#^[a-zA-Z0-9]+$#'),
                 new Assert\Length([
                     'min' => 0,
@@ -44,17 +44,18 @@ class QuestionType extends AbstractType
                     return $choice->value;}
              ])
             
-            // Imbriquation formulaire voir instructor > index.html.twig
+            // Imbriquation formulaire voir instructor > create_question.html.twig
             ->add('proposal', CollectionType::class, [ // voir question.php @manyToMany > cascade -> important pour l'enregistrement en base de donnée
                 'entry_type' => ProposalFormType::class,
                 'label' =>true,
                 'allow_add' => true,
                 'allow_delete' => true,
              ])
+            /* TODO Enlever is_mandatory */
              ->add('is_mandatory')//temporaire
             
 
-           //    Intégration d'une autre entité dans un form
+           // Intégration d'une autre entité dans un form
             ->add('module', EntityType::class, [
                 'class'=> Module::class,
                 'label'=>false,
