@@ -15,7 +15,7 @@ class DisplayQuestionsInstructor extends React.Component {
         this.getUsers();
     }
     getUsers() {
-        fetch(`http://localhost:8000/instucteur/questions`)
+        fetch(`http://localhost:8000/instucteur/questions`,{mode: 'cors'})
             .then(response => {
                 if( response.ok){
                     return response.json()}

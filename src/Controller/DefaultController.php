@@ -23,9 +23,12 @@ class DefaultController extends AbstractController
     /**
      * @Route("/instucteur/questions", name="display_instructeur_questions")
      */
-    public function getUsers(QuestionRepository $questionRepository)
+    public function getQuestionsByIdAuthor(QuestionRepository $questionRepository)
     {
-        $questions = $questionRepository->find(2);
+        // findBy returns an array of Instances's Entity = ARRAY
+        // find return ONE Instance's Entity = OBJECT
+        $questions = $questionRepository->findBy(["id_author" => 2]);
+
         foreach ($questions as $key => $question){
             $questions[$key] = (array)$question;
         }
@@ -33,7 +36,7 @@ class DefaultController extends AbstractController
 
         /*TODO : réparer l'erreur : Blocage d’une requête multiorigines (Cross-Origin Request) */
         $response->headers->set('Content-Type', 'application/json');
-        $response->headers->set('Access-Control-Allow-Origin', 'https://127.0.0.1:8000/');
+        $response->headers->set('Access-Control-Allow-Origin', 'https://127.0.0.1:8000');
 
         $response->setContent(json_encode($questions));
 
