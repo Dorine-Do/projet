@@ -1,0 +1,71 @@
+@import url(main.css);
+.difficulty_icone{
+    max-width: 2em;
+    width: 1em;
+    background: var(--fond);
+    height: auto;
+    padding: .5em;
+    border-radius: 50%;
+    margin: 0;
+}
+
+.div_chevron{
+    justify-content: flex-end;
+    display: flex;
+    flex-grow: 2;
+}
+
+.chevron{
+    max-width: 2em;
+    width: 1.2em;
+    height: auto;
+    padding: .5em;
+    border-radius: 50%;
+    margin: 0;
+    text-align: right;
+}
+
+
+.div_questions {
+    background-color: var(--fond);
+    border-radius: 5px;
+    padding: 2em;
+    color: var(--grey);
+    width: 75%;
+    margin:auto;
+}
+
+.ul_questions {
+    border: 1px solid aliceblue;
+    padding: 2em;
+    border-radius: 5px;
+    background-color: white;
+}
+.div_question{
+    margin: 1em auto;
+}
+.li_wording {
+    background-color: var(--pamplemousse);
+    padding: .7em;
+    border-radius: 5px 5px 0 0;
+    list-style: none;
+    font-family: "Alumni Sans", serif;
+    display: flex;
+    align-items: center;
+}
+
+.difficulty{
+    margin: 0 5px 0 0;
+}
+
+.span_question{
+    font-weight: 600;
+}
+
+.div_proposals{
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--fond);
+    border-radius: 0 0 5px 5px;
+    margin-top: .1em;
+}
