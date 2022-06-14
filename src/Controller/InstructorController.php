@@ -4,10 +4,15 @@ namespace App\Controller;
 
 
 use App\Entity\Question;
+use App\Form\CreateQuestionType;
 use App\Form\QuestionType;
 use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Tests\IdGenerator\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -53,19 +58,43 @@ class InstructorController extends AbstractController
 
     /**
      * @Route("/modify_question", name="modify.question")
+     * @param Request $request
+     * @param $em
      * @return Response
      */
-    public function modifyQuestion(): Response
+    public function modifyQuestion(Request $request, EntityManagerInterface $em): Response
     {
-        $question_id = 1;
-        $instructor_id = 1;
-        $question = $this->repository->findQuestionById($question_id, $instructor_id);
+        $questionEntity= new Question();
+        // création form
+        $form = $this->createForm(CreateQuestionType::class,$questionEntity);
+        // voir createdAt et UpdatedAt
+        $date=new \DateTime();
 
-        return $this->render('instructor/index.html.twig', [
-            'controller_name' => 'InstructorController',
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            dd($data['Module']);
+
+            $data->setModule($data['Module']);
+            $data->setIntitule($data['Intitule']);
+            $data->setDifficulte($data['Difficulte']);
+            $data->setReponses($data['Reponses']);
+            $data->setReponses_correctes($data['Reponses_correctes']);
+            $em->persist($data);
+            $em->flush();
+
+            return $this->redirectToRoute('questions');
+        }
+
+
+        return $this->render('instructor/modify_question.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 
+    // init de branches
+    // init de InstructorQuestionForm
     // init de branches
     // init de InstructorModifyQuestion
 //    /**

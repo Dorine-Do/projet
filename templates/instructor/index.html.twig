@@ -1,32 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello InstructorController!{% endblock %}
-
-     {% block stylesheets %}
-         {# <link href="public/css/test.css" rel="stylesheet"> #}
-         <link href="{{asset('build/app.css')}}" rel="stylesheet">
-         {# {{ encore_entry_link_tags('app') }} #}
-     {% endblock %}
-         {% block javascripts %}
-             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-             {#<script src="{{ asset('/jquery/dist/jquery.min.js') }}"></script>  #}
-
-             <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>
-         {% endblock %}
-
-
-{% block content %}
-
-
-{% endblock %}
-
 {% block body %}
 
 
     <ul>
         {% for question in questions %}
 
-            <li>{{ question.wording }}</li>
+            <li>{{question.wording}}</li>
 
             {% for proposal in proposals  %}
 
