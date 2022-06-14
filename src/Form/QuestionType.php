@@ -4,23 +4,6 @@ namespace App\Form;
 
 use App\Entity\Module;
 use App\Entity\Question;
-use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
-
-
-<?php
-
-namespace App\Form;
-
-use App\Entity\Module;
-use App\Entity\Question;
 use App\Entity\Enum\Difficulty;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -32,7 +15,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Regex;
-
 use Symfony\Component\Validator\Constraints as Assert;
 class QuestionType extends AbstractType
 {
