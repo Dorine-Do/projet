@@ -11,7 +11,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
   {# Fichier js pour faire apparaitre les inputs du collectionType #}
-  <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>
+  <script src="{{ asset('js/add-collection-widget.js') }}"></script>
 {% endblock %}
 
 
@@ -46,7 +46,7 @@
             data-widget-counter="{{ form.difficulty|length }}">
            
             {# {{dump(form.difficulty.vars.choices)}} #}
-            {# boucle dans l'objet choice -> plus bouble dans les différents tableau pour récupérer la value  #}
+            {# boucle dans l'objet choice -> plus boucle dans les différents tableaux pour récupérer la value  #}
            {% for difficulty in form.difficulty.vars.choices %}
               <li>
                 <button >
@@ -72,28 +72,31 @@
             data-prototype="{{ form_row(form.proposal.vars.prototype)|e }}"
             data-widget-tags="{{ '<li></li>'|e }}"
             data-widget-counter="{{ form.proposal|length }}">
-         
-            {# {{form_row(response.wording) }} #}
-     
                     {% for response in form.proposal %}
                        
-                        <li>
-                           
+                        <li>  
                             {{form_row(response.wording) }}
-                           
-                          
                         </li>    
                     {% endfor %}
         </ul>
-        <div class='bloc-btn-add-response'>
+        <div class='bloc-btn-add-remove-response'>
           <button type="button"
                     class="add-another-collection-widget"
                     {# au clic le ul s'active (lien id -> ul id) voir fichier js add-collection-widget #}
                     data-list-selector="#response-proposal">
                     Add a response
           </button>
+           <button type="button"
+                    class="remove-collection-widget"
+                    {# au clic le ul s'active (lien id -> ul id) voir fichier js add-collection-widget #}
+                    data-list-selector="#response-proposal">
+                    remove a response
+          </button>
           {# {{ ( in company_abilities) ? 'selected' : '' }} #}
         </div>
+
+        {# temporaire TODO #}
+        
     </td>
   </tr>
   <tr>
