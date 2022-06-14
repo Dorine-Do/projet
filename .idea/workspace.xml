@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="15934274-039c-487b-aa88-996aa29a7919" name="Changes" comment="Nouvelles branches">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Enum/Difficulty.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Enum/Difficulty.php" afterDir="false" />
+    <list default="true" id="15934274-039c-487b-aa88-996aa29a7919" name="Changes" comment="enum debug">
       <change beforePath="$PROJECT_DIR$/src/Entity/Question.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Question.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/CreateQuestionType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/CreateQuestionType.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,6 +150,14 @@
       <updated>1655213522631</updated>
       <workItem from="1655213524397" duration="4378000" />
     </task>
+    <task id="LOCAL-00001" summary="enum debug">
+      <created>1655220259943</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1655220259943</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,6 +176,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Data twig to js" />
-    <option name="LAST_COMMIT_MESSAGE" value="Data twig to js" />
+    <MESSAGE value="enum debug" />
+    <option name="LAST_COMMIT_MESSAGE" value="enum debug" />
   </component>
 </project>
