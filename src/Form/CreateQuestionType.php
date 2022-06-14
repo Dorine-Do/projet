@@ -2,12 +2,15 @@
 
 namespace App\Form;
 
+use App\Config\Difficulty;
 use App\Entity\Module;
 use App\Entity\Question;
+use Doctrine\Common\Annotations\Annotation\Enum;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,7 +33,8 @@ class CreateQuestionType extends AbstractType
                     ]),
                 ]
             ])
-            ->add('difficulty', ChoiceType::class,[
+            ->add('difficulty', enumType::class,[
+                "class" => Difficulty::class
 
             ])
 

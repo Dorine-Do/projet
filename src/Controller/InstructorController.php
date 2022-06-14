@@ -57,16 +57,16 @@ class InstructorController extends AbstractController
     }
 
     /**
-     * @Route("/modify_question", name="modify.question")
+     * @Route("/modify_question/{question}", name="modify.question")
      * @param Request $request
      * @param $em
      * @return Response
      */
-    public function modifyQuestion(Request $request, EntityManagerInterface $em): Response
+    public function modifyQuestion(Request $request, Question $question, EntityManagerInterface $em): Response
     {
         $questionEntity= new Question();
         // création form
-        $form = $this->createForm(CreateQuestionType::class,$questionEntity);
+        $form = $this->createForm(CreateQuestionType::class,$question);
         // voir createdAt et UpdatedAt
         $date=new \DateTime();
 
@@ -93,10 +93,7 @@ class InstructorController extends AbstractController
         ]);
     }
 
-    // init de branches
-    // init de InstructorQuestionForm
-    // init de branches
-    // init de InstructorModifyQuestion
+
 //    /**
 //     * @Route("/create_question", name="question.index")
 //     * @return Response
