@@ -4,7 +4,6 @@
 
 {% block stylesheets %}
     <link href="{{asset('build/app.css')}}" rel="stylesheet">
-    <link href="{{asset('css/test.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block javascripts %}
@@ -12,68 +11,103 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     {# Fichier js pour faire apparaitre les inputs du collectionType #}
-    <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>
+    <script src="{{ asset('js/add-collection-widget.js') }}"></script>
 {% endblock %}
 
 
-
 {% block body %}
-
+    {# {{form_row(form.proposal.vars.prototype.wording)}}  #}
+    {# {{dump(form.difficulty.vars.choices)}} #}
+    {{dump(form)}}
     {# Form question #}
-        {{ form_start(form) }}
+    <div class="bloc-form-question">
+        {{ form_start(form,{'attr':{'class':'form-question'}}) }}
+
         <table>
             <tr>
-                <td colspan="2" class="premier">
-                    <p><span class="numeroform">1</span> Choisir le module:</p>
-                </td>
-                <td colspan="2" class="premierselect"> {{form_row(form.module, { 'label': false })}}</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="premier">
-                    <p><span class="numeroform">2</span> Intitulé de la question :</p>
-                </td>
-                <td colspan="2" class="second">{{form_row(form.wording, { 'label': false })}}</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="premier"><p><span class="numeroform">3</span> Difficulté de la question:</p></td>
-                <td colspan="2" class="difficulty">
-                    <button type="submit" class="buttondiff">Facile</button>
-                    <button type="submit" class="buttondiff">Moyen</button>
-                    <button type="submit" class="buttondiff">Difficile</button>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" class="premier"><p class="paddingoption"><span class="formoption">Option</span> Désactiver la question</p></td>
-                <td colspan="2" class="second"><button class="buttondesac" type="submit">Désactiver la question</button></td>
-            </tr>
-            <tr>
-                <td colspan="2"><p><span>Option 1</span>  requis:</p></td>
                 <td colspan="2">
+                    <p><span>1</span> Choisir le module:</p>
+                </td>
+                <td colspan="2"> {{form_row(form.module, { 'label': false })}}</td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p><span>2</span> Intitulé de la question :</p>
+                </td>
+                <td colspan="2">{{form_row(form.wording, { 'label': false })}}</td>
+            </tr>
+            <tr>
+                <td colspan="2"><p><span>3</span> Difficulté de la question:</p></td>
+                <td colspan="2">
+
+                    <ul id='difficulties'
+                        data-prototype="{{ form_row(form.difficulty, { 'label': false})|e }}"
+                        data-widget-tags="{{ '<li></li>'|e }}"
+                        data-widget-counter="{{ form.difficulty|length }}">
+
+                        {# {{dump(form.difficulty.vars.choices)}} #}
+                        {# boucle dans l'objet choice -> plus boucle dans les différents tableaux pour récupérer la value  #}
+                        {% for difficulty in form.difficulty.vars.choices %}
+                            <li>
+                                <button >
+                                    {{difficulty.value}}
+                                </button>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+
+            </tr>
+            <tr>
+                <td ><p><span>4</span> Désactiver la question</p></td>
+                <td><button class="disabled-question" type="submit">Désactiver</button></td>
+            </tr>
+            <tr>
+                <td >
+                    <p class='option-required'>Option</p>
+                </td>
+                <td class='td-collection-type'>
                     {# CollectionType voir form > QuestionType #}
                     <ul id='response-proposal'
                         data-prototype="{{ form_row(form.proposal.vars.prototype)|e }}"
                         data-widget-tags="{{ '<li></li>'|e }}"
                         data-widget-counter="{{ form.proposal|length }}">
                         {% for response in form.proposal %}
+
                             <li>
                                 {{form_row(response.wording) }}
                             </li>
                         {% endfor %}
                     </ul>
-                    <button type="button"
-                            class="add-another-collection-widget"
-                            {# au clic le ul s'active (lien id -> ul id) voir fichier js add-collection-widget #}
-                            data-list-selector="#response-proposal">
-                        Add a response
-                    </button>
+                    <div class='bloc-btn-add-remove-response'>
+                        <button type="button"
+                                class="add-another-collection-widget"
+                                {# au clic le ul s'active (lien id -> ul id) voir fichier js add-collection-widget #}
+                                data-list-selector="#response-proposal">
+                            Add a response
+                        </button>
+                        <button type="button"
+                                class="remove-collection-widget"
+                                {# au clic le ul s'active (lien id -> ul id) voir fichier js add-collection-widget #}
+                                data-list-selector="#response-proposal">
+                            remove a response
+                        </button>
+                        {# {{ ( in company_abilities) ? 'selected' : '' }} #}
+                    </div>
+
+                    {# temporaire TODO #}
+
                 </td>
             </tr>
             <tr>
-                <td colspan="2"><button type="submit" class="valid">Valider</button></td>
+
+                <td colspan="2"><button type="submit">Enregistrer</button></td>
             </tr>
         </table>
 
+
         {{ form_end(form) }}
 
+    </div>
 
 {% endblock %}
