@@ -1,29 +1,64 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/intructorIndex.css') }}">
+{% endblock %}
+
+
+
 {% block title %}Hello InstructorController!{% endblock %}
 
 {% block body %}
+    <h1>- Liste des questions personalisées -</h1>
+    <div class="div_questions">
+        <ul class="ul_questions">
+            {% for question in questions %}
+                <div class="div_question">
+                    <li class="li_wording">
+                        <p class="difficulty">
+                            {% if question.difficulty == 'Facile' %}
+                                <img class="difficulty_icone" src="{{ asset('build/images/trefle_facile_bon_vert.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
+                            {% elseif question.difficulty == 'Moyen' %}
+                                <img class="difficulty_icone" src="{{ asset('build/images/trefle_moyen_bon_vert.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
+                            {% else %}
+                                <img class="difficulty_icone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
+                            {% endif %}
+                        </p>
+                        <span class="span_question">{{ question.wording }}</span>
+                        <div class="div_chevron">
+                            <img class="chevron" src="{{ asset('build/images/chevron_bas.png') }}" alt="chevron ouvrant" data-id="{{ question.id }}">
+                        </div>
 
-    <ul>
-        {% for question in questions %}
+                    </li>
 
-            <li>{{ question.wording }}</li>
+                    <div class="div_proposals">
+{#                    {% for proposal in proposals  %}#}
+{#                            {% for prop in proposal  %}#}
 
-            {% for proposal in proposals  %}
+{#                                {% if question.id == prop.question.id %}#}
 
-                {% for prop in proposal  %}
+{#                                    <p>{{prop.wording}}</p>#}
 
-                    {% if question.id == prop.question.id %}
+{#                                {% endif %}#}
 
-                        <p>{{prop.wording}}</p>
+{#                            {% endfor %}#}
+{#                    {% endfor %}#}
+                    </div>
+                </div>
+            {%endfor%}
+        </ul>
+    </div>
 
-                    {% endif %}
 
-                {% endfor %}
-
-            {% endfor %}
-
-        {%endfor%}
-    </ul>
-
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    <script>
+        // proposals[1].forEach(proposal=>{
+        //     console.log(proposal)
+        // })
+        {#let proposals = JSON.parse('{{ proposals | json_encode | raw }}');#}
+        {#console.log(proposals)#}
+    </script>
+    <script type="text/javascript" src="{{ asset('js/intructorIndex.js') }}"></script>
 {% endblock %}
