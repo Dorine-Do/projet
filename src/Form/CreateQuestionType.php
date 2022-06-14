@@ -2,7 +2,8 @@
 
 namespace App\Form;
 
-use App\Config\Difficulty;
+
+use App\Entity\Enum\Difficulty;
 use App\Entity\Module;
 use App\Entity\Question;
 use Doctrine\Common\Annotations\Annotation\Enum;

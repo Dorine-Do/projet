@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use App\Entity\Enum\Difficulty;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Config\Difficulty;
+
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
@@ -117,7 +118,7 @@ class Question
         return $this;
     }
 
-    public function getDifficulty(): Enum\Difficulty
+    public function getDifficulty(): Difficulty
     {
         return $this->difficulty;
     }
