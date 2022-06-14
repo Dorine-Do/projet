@@ -50,6 +50,7 @@ class Question
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: LinkQcmQuestion::class)]
     private $link_qcm_question;
 
+    /* TODO Pourquoi cette annotion et pas l'autre */
     // #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class,cascade: {'persist'})]
     /**
      * @ORM\OneToMany(
