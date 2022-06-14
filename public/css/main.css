@@ -1,0 +1,12 @@
+body {
+    background-color: white;
+}
+
+.container{
+    width: 85%;
+    margin: auto;
+}
+
+ul{
+    list-style: none;
+}

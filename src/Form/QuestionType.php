@@ -13,7 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\Regex;
 
 
 class QuestionType extends AbstractType
@@ -27,19 +26,15 @@ class QuestionType extends AbstractType
             ->add('wording',TextareaType::class,[
                 'label'=>false,
                 'constraints' => [
-                    //TODO faire un fichier où on stock les regex
-                    new Regex('#^[a-zA-Z0-9]+$#'),
                     new Assert\Length([
                         'min' => 0,
                         'minMessage' => "La question ne peut pas être vide.",
-                        'max' => 120,
-                        'maxMessage' => "La question doit faire moins de 120 caractères.",
+                        'max' => 250,
+                        'maxMessage' => "La question doit faire moins de 250 caractères.",
                     ]),
                 ]
             ])
-            ->add('difficulty', ChoiceType::class,[
-
-            ])
+            ->add('difficulty')
 
             // Imbriquation formulaire voir instructor > index.html.twig
             ->add('proposal', CollectionType::class, [

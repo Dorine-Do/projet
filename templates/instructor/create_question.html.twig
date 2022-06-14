@@ -20,7 +20,6 @@
 {% block body %}
 
     {# Form question #}
-    <div class="form-question">
         {{ form_start(form) }}
         <table>
             <tr>
@@ -44,7 +43,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" class="premier"><p><span class="numeroform">4</span> Désactiver la question</p></td>
+                <td colspan="2" class="premier"><p class="paddingoption"><span class="formoption">Option</span> Désactiver la question</p></td>
                 <td colspan="2" class="second"><button class="buttondesac" type="submit">Désactiver la question</button></td>
             </tr>
             <tr>
@@ -70,12 +69,11 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2"><button type="submit" class="valid">Valider</button></td>²
+                <td colspan="2"><button type="submit" class="valid">Valider</button></td>
             </tr>
         </table>
 
         {{ form_end(form) }}
 
-    </div>
 
 {% endblock %}
