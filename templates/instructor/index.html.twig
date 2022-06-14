@@ -57,7 +57,7 @@
         // proposals[1].forEach(proposal=>{
         //     console.log(proposal)
         // })
-        {#let proposals = JSON.parse('{{ proposals | json_encode | raw }}');#}
+        let proposals = ({{proposals|json_encode|raw}});
         {#console.log(proposals)#}
     </script>
     <script type="text/javascript" src="{{ asset('js/intructorIndex.js') }}"></script>

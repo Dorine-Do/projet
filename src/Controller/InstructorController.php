@@ -42,7 +42,23 @@ class InstructorController extends AbstractController
 
             $question_id = $question->getId();
             $proposals[$question_id] = $this->proposals->findBy(['question' => $question_id]);
+            foreach ($proposals[$question_id] as $proposal){
+                dd($proposal);
+            }
         }
+//        foreach ($proposals as $key => $proposal){
+//            foreach ($proposal as $prop => $value){
+//                $proposals[$key][$prop] = (array)$value;
+//                foreach ($value as $k => $v){
+//                    $propValues = explode('\x00',$k);
+////                dd($propValues);
+//                    $k = end($propValues);
+//                    $proposals[$key][$prop][$k] = $v;
+//                }
+//            }
+//        }
+
+        dd($proposals);
         return $this->render('instructor/index.html.twig', [
             'questions' => $questions,
             'proposals' => $proposals,
