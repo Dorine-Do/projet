@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="-&gt;add('difficulty', enumType::class,[&#10;      &quot;class&quot; =&gt; Difficulty::class&#10;])">
+    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="css + html + js modify_question.html.twig">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/main.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/InstructorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InstructorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/CreateQuestionType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/CreateQuestionType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ProposalFormType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ProposalFormType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/instructor/modify_question.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/instructor/modify_question.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Proposal.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Proposal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Question.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Question.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +189,21 @@
       <option name="project" value="LOCAL" />
       <updated>1655303358223</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="css + html modify_question.html.twig">
+      <created>1655315754124</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1655315754124</updated>
+    </task>
+    <task id="LOCAL-00005" summary="css + html + js modify_question.html.twig">
+      <created>1655316102497</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1655316102497</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -213,6 +225,8 @@
     <MESSAGE value="enum debug" />
     <MESSAGE value="js /questions =&gt; index.html.twig" />
     <MESSAGE value="-&gt;add('difficulty', enumType::class,[&#10;      &quot;class&quot; =&gt; Difficulty::class&#10;])" />
-    <option name="LAST_COMMIT_MESSAGE" value="-&gt;add('difficulty', enumType::class,[&#10;      &quot;class&quot; =&gt; Difficulty::class&#10;])" />
+    <MESSAGE value="css + html modify_question.html.twig" />
+    <MESSAGE value="css + html + js modify_question.html.twig" />
+    <option name="LAST_COMMIT_MESSAGE" value="css + html + js modify_question.html.twig" />
   </component>
 </project>

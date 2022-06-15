@@ -79,10 +79,17 @@ class InstructorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//            dd($question);
-            $data = $form->getData();
-            $data->setUpdatedAt($date);
-            dd($question);
+            $count = 0;
+            foreach ($question->getProposal() as $prop){
+                if($prop->getIsCorrect() === true){
+                    $count++;
+                }
+                if($count > 1){
+                    $question->setResponseType("checkbox");
+                }elseif ($count < 1){
+                    $question->setResponseType("radio");
+                }
+            }
             $em->persist($question);
             $em->flush();
 
