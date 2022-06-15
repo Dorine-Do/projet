@@ -26,26 +26,24 @@
                         </p>
                         <span class="span_question">{{ question.wording }}</span>
                         <div class="div_chevron">
-                            <img class="chevron" src="{{ asset('build/images/chevron_bas.png') }}" alt="chevron ouvrant" data-id="{{ question.id }}">
+                            <img class="img_chevron" src="{{ asset('build/images/chevron_bas.png') }}" alt="chevron ouvrant" data-id="{{ question.id }}">
                         </div>
-
                     </li>
-
                     <div class="div_proposals">
 {#                    {% for proposal in proposals  %}#}
 {#                            {% for prop in proposal  %}#}
-
 {#                                {% if question.id == prop.question.id %}#}
-
 {#                                    <p>{{prop.wording}}</p>#}
-
 {#                                {% endif %}#}
-
 {#                            {% endfor %}#}
 {#                    {% endfor %}#}
                     </div>
+                    <img class="button_modify" src="{{ asset('build/images/Modify.png') }}" alt="bouton de modification de la question">
                 </div>
             {%endfor%}
+            <div class="div_add">
+                <a href="{{ path('display_questions') }}" class="link_create"><button class="button_add">Créer une question</button></a>
+            </div>
         </ul>
     </div>
 
@@ -54,11 +52,7 @@
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
     <script>
-        // proposals[1].forEach(proposal=>{
-        //     console.log(proposal)
-        // })
-        let proposals = ({{proposals|json_encode|raw}});
-        {#console.log(proposals)#}
+        let proposals = {{proposals|json_encode|raw}};
     </script>
     <script type="text/javascript" src="{{ asset('js/intructorIndex.js') }}"></script>
 {% endblock %}

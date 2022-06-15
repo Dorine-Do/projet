@@ -123,7 +123,7 @@ class Question
         return $this->difficulty;
     }
 
-    public function setDifficulty($difficulty): self
+    public function setDifficulty(Difficulty $difficulty): self
     {
         $this->difficulty = $difficulty;
 

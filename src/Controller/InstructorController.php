@@ -43,32 +43,25 @@ class InstructorController extends AbstractController
     public function displayQuestions(): Response
     {
         $proposals = [];
+        $proposalValues =[];
+        $resumeProposal = [];
         $questions = $this->repository->findBy(['id_author' => 2]);
-
         foreach ($questions as $question) {
-
             $question_id = $question->getId();
             $proposals[$question_id] = $this->proposals->findBy(['question' => $question_id]);
             foreach ($proposals[$question_id] as $proposal){
-                dd($proposal);
+                $proposalValues = [
+                    'id'=>$proposal->getId(),
+                    'wording'=>$proposal->getWording(),
+                    'id_question'=>$proposal->getQuestion()->getId()
+                ];
+                array_push($resumeProposal, $proposalValues);
             }
         }
-//        foreach ($proposals as $key => $proposal){
-//            foreach ($proposal as $prop => $value){
-//                $proposals[$key][$prop] = (array)$value;
-//                foreach ($value as $k => $v){
-//                    $propValues = explode('\x00',$k);
-////                dd($propValues);
-//                    $k = end($propValues);
-//                    $proposals[$key][$prop][$k] = $v;
-//                }
-//            }
-//        }
-
-        dd($proposals);
+//        dd($resumeProposal);
         return $this->render('instructor/index.html.twig', [
             'questions' => $questions,
-            'proposals' => $proposals,
+            'proposals' => $resumeProposal,
         ]);
     }
 
@@ -89,18 +82,16 @@ class InstructorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            dd($data['Module']);
-
-            $data->setModule($data['Module']);
-            $data->setIntitule($data['Intitule']);
-            $data->setDifficulte($data['Difficulte']);
-            $data->setReponses($data['Reponses']);
-            $data->setReponses_correctes($data['Reponses_correctes']);
-            $em->persist($data);
+//            dd($question);
+//            foreach ( $question->getProposal() as $proposal){
+//                $question->addProposal($proposal);
+//            }
+//            $data->setReponses($data['Reponses']);
+//            $data->setReponses_correctes($data['Reponses_correctes']);
+            $em->persist($question);
             $em->flush();
 
-            return $this->redirectToRoute('questions');
+            return $this->redirectToRoute('display_questions');
         }
 
 
