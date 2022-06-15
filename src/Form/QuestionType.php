@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Enum\Difficulty;
 use App\Entity\Module;
 use App\Entity\Question;
 use Doctrine\DBAL\Types\DateTimeType;
@@ -13,6 +14,7 @@ use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,17 +36,9 @@ class QuestionType extends AbstractType
             ->add('wording',TextareaType::class,[
                 'label'=>false,
             ])
-            ->add('difficulty', ChoiceType::class,[
+            ->add('difficulty', enumType::class,[
+                "class" => Difficulty::class
 
-                'choices' => [
-                    'Difficulté' => [
-
-                        'Facile' => 1,
-                        'Moyen' => 2,
-                        'Difficile' => 3,
-
-                    ],
-                ]
             ])
             ->add('proposal', CollectionType::class, [
                 'entry_type' => ProposalFormType::class,
