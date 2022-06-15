@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use App\Entity\Enum\Difficulty;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
@@ -30,8 +32,8 @@ class Question
     #[ORM\Column(type: 'boolean')]
     private $is_official;
 
-    #[ORM\Column(type: "string", enumType: Enum\Difficulty::class)]
-    private Enum\Difficulty $difficulty;
+    #[ORM\Column(type: "string", enumType: Difficulty::class)]
+    private $difficulty;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $response_type;
@@ -59,7 +61,7 @@ class Question
     {
         $this->link_qcm_question = new ArrayCollection();
         $this->proposal = new ArrayCollection();
-        $this->difficulty = Enum\Difficulty::Medium;
+        $this->difficulty = Difficulty::Medium;
         $this->created_at = new \DateTime();
     }
 
@@ -116,12 +118,12 @@ class Question
         return $this;
     }
 
-    public function getDifficulty(): ?string
+    public function getDifficulty(): Difficulty
     {
         return $this->difficulty;
     }
 
-    public function setDifficulty(string $difficulty): self
+    public function setDifficulty(Difficulty $difficulty): self
     {
         $this->difficulty = $difficulty;
 

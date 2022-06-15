@@ -38,35 +38,64 @@ class InstructorController extends AbstractController
     public function displayQuestions(): Response
     {
         $proposals = [];
+        $proposalValues =[];
+        $resumeProposal = [];
         $questions = $this->repository->findBy(['id_author' => 2]);
-
         foreach ($questions as $question) {
-
             $question_id = $question->getId();
             $proposals[$question_id] = $this->proposals->findBy(['question' => $question_id]);
+            foreach ($proposals[$question_id] as $proposal){
+                $proposalValues = [
+                    'id'=>$proposal->getId(),
+                    'wording'=>$proposal->getWording(),
+                    'id_question'=>$proposal->getQuestion()->getId()
+                ];
+                array_push($resumeProposal, $proposalValues);
+            }
         }
+//        dd($resumeProposal);
         return $this->render('instructor/index.html.twig', [
             'questions' => $questions,
-            'proposals' => $proposals,
+            'proposals' => $resumeProposal,
         ]);
     }
 
     /**
-     * @Route("/modify_question", name="modify.question")
+     * @Route("/modify_question/{question}", name="modify.question")
+     * @param Request $request
+     * @param $em
      * @return Response
      */
-    public function modifyQuestion(): Response
+    public function modifyQuestion(Request $request, Question $question, EntityManagerInterface $em): Response
     {
-        $question_id = 1;
-        $instructor_id = 1;
-        $question = $this->repository->findQuestionById($question_id, $instructor_id);
+        $questionEntity= new Question();
+        // création form
+        $form = $this->createForm(CreateQuestionType::class,$question);
+        // voir createdAt et UpdatedAt
+        $date=new \DateTime();
 
-        return $this->render('instructor/index.html.twig', [
-            'controller_name' => 'InstructorController',
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+//            dd($question);
+//            foreach ( $question->getProposal() as $proposal){
+//                $question->addProposal($proposal);
+//            }
+//            $data->setReponses($data['Reponses']);
+//            $data->setReponses_correctes($data['Reponses_correctes']);
+            $em->persist($question);
+            $em->flush();
+
+            return $this->redirectToRoute('display_questions');
+        }
+
+
+        return $this->render('instructor/modify_question.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 
-    // init de branches
+
 //    /**
 //     * @Route("/create_question", name="question.index")
 //     * @return Response
