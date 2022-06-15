@@ -38,5 +38,11 @@ h1{
 
     /*FONT-SIZE*/
     --normal: 20px;
+    --semi_small: 18px;
+
+
+
+    /*FONT-WEIGHT*/
+    --semi_bold: 600;
 }
 

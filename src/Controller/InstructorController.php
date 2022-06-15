@@ -4,9 +4,11 @@ namespace App\Controller;
 
 
 use App\Entity\Question;
+use App\Form\CreateQuestionType;
 use App\Form\QuestionType;
 use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -78,11 +80,9 @@ class InstructorController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 //            dd($question);
-//            foreach ( $question->getProposal() as $proposal){
-//                $question->addProposal($proposal);
-//            }
-//            $data->setReponses($data['Reponses']);
-//            $data->setReponses_correctes($data['Reponses_correctes']);
+            $data = $form->getData();
+            $data->setUpdatedAt($date);
+            dd($question);
             $em->persist($question);
             $em->flush();
 

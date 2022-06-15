@@ -9,6 +9,7 @@ use App\Entity\Question;
 use Doctrine\Common\Annotations\Annotation\Enum;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
@@ -42,7 +43,7 @@ class CreateQuestionType extends AbstractType
             // Imbriquation formulaire voir instructor > index.html.twig
             ->add('proposal', CollectionType::class, [
                 'entry_type' => ProposalFormType::class,
-                'label' => true,
+                'label' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
             ])
@@ -56,8 +57,11 @@ class CreateQuestionType extends AbstractType
 
             ])
 
-            ->add('enabled')
-        ;
+            ->add('enabled', CheckboxType::class, [
+                'label'    => 'Hors service',
+                'required' => false,
+            ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
