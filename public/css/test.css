@@ -1,6 +1,5 @@
-body{
-    background-color: white;
-}
+@import url(main.css);
+
 
 .form-question{
     max-width: 100%
@@ -116,4 +115,74 @@ tbody{
     margin-left: auto;
     margin-right: auto;
     display: block;
+}
+
+.formoption{
+    background-color: var(--pamplemousse);;
+    padding: 12px 30px;
+    border-radius: 50%;
+}
+
+.paddingoption{
+    padding-left: 25px;
+}
+
+@media screen and (max-width: 1200px) {
+
+    .buttondiff{
+        padding: 5px 35px;;
+        font-size: 1em;
+    }
+
+    .buttondesac{
+        padding: 5px 15px;
+        font-size: 1em;
+    }
+
+    .formoption{
+        padding: 8px 20px;
+    }
+
+    .valid{
+        padding: 15px 200px;;
+    }
+}
+
+@media screen and (max-width: 780px) {
+
+    table{
+        width: 100%;
+    }
+
+    .buttondesac{
+        padding: 10px 30px;
+        font-size: 0.9em;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+
+    .buttondiff{
+        padding: 10px 35px;;
+        font-size: 0.9em;
+    }
+
+    .valid{
+        padding: 13px 150px;
+    }
+
+    #question_module{
+        padding: 10px 30px;
+        font-size: 1.1em;
+    }
+
+    .difficulty{
+        padding-bottom: 60px;
+    }
+
+}
+
+@media screen and (max-width: 450px) {
+
+
 }
