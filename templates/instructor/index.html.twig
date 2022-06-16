@@ -38,11 +38,11 @@
 {#                            {% endfor %}#}
 {#                    {% endfor %}#}
                     </div>
-                    <img class="button_modify" src="{{ asset('build/images/Modify.png') }}" alt="bouton de modification de la question">
+                    <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="link_modify"><img class="button_modify" src="{{ asset('build/images/Modify.png') }}" alt="bouton de modification de la question"></a>
                 </div>
             {%endfor%}
             <div class="div_add">
-                <a href="{{ path('display_questions') }}" class="link_create"><button class="button_add">Créer une question</button></a>
+                <a href="{{ path('instructor_create_question') }}" class="link_create"><button class="button_add">Créer une question</button></a>
             </div>
         </ul>
     </div>

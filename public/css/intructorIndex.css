@@ -35,6 +35,10 @@
     box-shadow: 3px 3px 8px -3px var(--grey);
     cursor: pointer;
 }
+.link_create,
+.link_modify{
+    cursor: pointer;
+}
 
 .div_questions {
     background-color: var(--fond);

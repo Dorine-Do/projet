@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         buttonRemoveNew.addEventListener("click", clickRemove)
         li.append(buttonRemoveNew)
         ul.append(li)
+        console.log(addbutton.dataset.index)
         addbutton.dataset.index++
     }
 

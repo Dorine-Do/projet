@@ -3,7 +3,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     console.log(proposals)
     $status = false; // Chevron fermé
     let p_prop;
-    let chevrons = document.querySelectorAll('.chevron')
+    let chevrons = document.querySelectorAll('.img_chevron')
+    console.log(chevrons)
     chevrons.forEach(chevron=>{
         chevron.addEventListener('click',(e)=>{
             if($status === false){ // Si fermé alors
