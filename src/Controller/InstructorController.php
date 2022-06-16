@@ -86,7 +86,7 @@ class InstructorController extends AbstractController
             }
             if($count > 1){
                 $question->setResponseType("checkbox");
-            }elseif ($count = 1){
+            }elseif ($count == 1){
                 $question->setResponseType("radio");
             }
 
