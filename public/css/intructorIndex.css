@@ -103,6 +103,10 @@
     margin-top: .1em;
 }
 
+.display_none{
+    display : none;
+}
+
 @media screen and (max-width: 1200px) {
 
     .li_wording {
