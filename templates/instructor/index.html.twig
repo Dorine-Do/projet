@@ -12,37 +12,41 @@
     <h1>- Liste des questions personalisées -</h1>
     <div class="div_questions">
         <ul class="ul_questions">
+
             {% for question in questions %}
                 <div class="div_question">
-                    <li class="li_wording">
-                        <p class="difficulty">
-                            {% if question.difficulty == 'Facile' %}
-                                <img class="difficulty_icone" src="{{ asset('build/images/trefle_facile_bon_vert.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
-                            {% elseif question.difficulty == 'Moyen' %}
-                                <img class="difficulty_icone" src="{{ asset('build/images/trefle_moyen_bon_vert.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
-                            {% else %}
-                                <img class="difficulty_icone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
-                            {% endif %}
-                        </p>
-                        <span class="span_question">{{ question.wording }}</span>
-                        <div class="div_chevron">
-                            <img class="img_chevron" src="{{ asset('build/images/chevron_bas.png') }}" alt="chevron ouvrant" data-id="{{ question.id }}">
-                        </div>
-                    </li>
-                    <div class="div_proposals">
-{#                    {% for proposal in proposals  %}#}
-{#                            {% for prop in proposal  %}#}
-{#                                {% if question.id == prop.question.id %}#}
-{#                                    <p>{{prop.wording}}</p>#}
-{#                                {% endif %}#}
-{#                            {% endfor %}#}
-{#                    {% endfor %}#}
+                    <div class="div_question_chevron">
+                        <li class="li_wording">
+                            <p class="difficulty">
+                                {% if question.difficulty == 'Facile' %}
+                                    <img class="difficulty_icone" src="{{ asset('build/images/trefle_facile_bon_vert.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
+                                {% elseif question.difficulty == 'Moyen' %}
+                                    <img class="difficulty_icone" src="{{ asset('build/images/trefle_moyen_bon_vert.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
+                                {% else %}
+                                    <img class="difficulty_icone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
+                                {% endif %}
+                            </p>
+                            <span class="span_question">{{ question.wording }}</span>
+                            <div class="div_chevron">
+                                <img class="img_chevron" src="{{ asset('build/images/chevron_bas.png') }}" alt="chevron ouvrant" data-status="false" data-id="{{ question.id }}">
+                            </div>
+                        </li>
+                        <div class="div_js">
                     </div>
-                    <img class="button_modify" src="{{ asset('build/images/Modify.png') }}" alt="bouton de modification de la question">
+
+                    </div>
+                    <div class="div_proposals">
+                        {% for proposal in proposals  %}
+                                {% if question.id == proposal.id_question %}
+                                    <p>{{proposal.wording}}</p>
+                                {% endif %}
+                        {% endfor %}
+                    </div>
+                    <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="link_modify"><img class="button_modify" src="{{ asset('build/images/Modify.png') }}" alt="bouton de modification de la question"></a>
                 </div>
             {%endfor%}
             <div class="div_add">
-                <a href="{{ path('display_questions') }}" class="link_create"><button class="button_add">Créer une question</button></a>
+                <a href="{{ path('instructor_create_question') }}" class="link_create"><button class="button_add">Créer une question</button></a>
             </div>
         </ul>
     </div>

@@ -34,7 +34,7 @@ class InstructorController extends AbstractController
 //    }
 
     /**
-     * @Route("/questions", name="display_questions")
+     * @Route("instructor/questions", name="instructor_display_questions")
      * @return Response
      */
     public function displayQuestions(): Response
@@ -63,16 +63,15 @@ class InstructorController extends AbstractController
     }
 
     /**
-     * @Route("/modify_question/{question}", name="modify.question")
+     * @Route("instructor/modify_question/{question}", name="instructor_modify_question")
      * @param Request $request
      * @param $em
      * @return Response
      */
     public function modifyQuestion(Request $request, Question $question, EntityManagerInterface $em): Response
     {
-        $questionEntity= new Question();
         // création form
-        $form = $this->createForm(QuestionType::class,$question);
+        $form = $this->createForm(CreateQuestionType::class,$question);
         // voir createdAt et UpdatedAt
         $date=new \DateTime();
 
@@ -87,15 +86,15 @@ class InstructorController extends AbstractController
             }
             if($count > 1){
                 $question->setResponseType("checkbox");
-            }elseif ($count = 1){
+            }elseif ($count == 1){
                 $question->setResponseType("radio");
             }
+
             $em->persist($question);
             $em->flush();
 
-            return $this->redirectToRoute('display_questions');
+            return $this->redirectToRoute('instructor_display_questions');
         }
-
 
         return $this->render('instructor/modify_question.html.twig', [
             'form' => $form->createView()
@@ -104,7 +103,7 @@ class InstructorController extends AbstractController
 
 
     /**
-     * @Route("/create_question", name="app_create_question")
+     * @Route("instructor/create_question", name="instructor_create_question")
      * @return Response
      * @param $em
      */
@@ -115,16 +114,17 @@ class InstructorController extends AbstractController
         $form = $this->createForm(CreateQuestionType::class,$questionEntity);
         // accès aux données du form
         $form->handleRequest($request);
-        // voir createAt et UpdatedAt -> voir construct dans question
-        // $date=new \DateTime();
 
         // vérification des données soumises
         if($form->isSubmitted() && $form->isValid()){
+            /* TODO setDifficulty avec Enum = Pour l'instant c'est un select mais devra être en bouton */
 
             $count = 0;
             foreach ($questionEntity->getProposal() as $proposal){
                 // set les proposals
                 $proposal->setQuestion($questionEntity);
+
+                /* TODO setResponseType pour l'instant c'est checkbox avec la question mais devra être une question à part*/
                 // set le response type
                 if($proposal->getIsCorrect() === true){
                     $count++;
@@ -136,24 +136,22 @@ class InstructorController extends AbstractController
                 $questionEntity->setResponseType("radio");
             }
 
+            /*TODO Devra être automatisé avec l'id du user connecté si id appartient à un admin alors Null si appartient à un instructor alors id*/
             $questionEntity->setIdAuthor(2);
-            $questionData=$form->getData();
-            // $questionData->setCreatedAt($date);
-            /* TODO Demander à Baptiste si null ou date now */
-            // $questionData->setUpdatedAt($date); // Maybe Null
-            $questionData->setIsOfficial(false);// Toujours false quand c'est un instructor qui créé une question
-            /* TODO setDifficulty avec Enum */
-            //  $questionData->setDifficulty(true);//temporaire
-            /* TODO setResponseType */
-            $questionData->setResponseType(true);//temporaire
-            $questionData->setIsMandatory(false);// Toujours false quand c'est un instructor qui créé une question
-//            dd($form->getData());
 
-            /* TODO faire le insert des datas des reponses*/
+            // $questionData->setCreatedAt($date); Pas necessaire car créer directement dans le construct de l'entity Question
+            // $questionData->setUpdatedAt($date); Pas necessaire car créer directement dans le construct de l'entity Question
+            $questionEntity->setIsOfficial(false);// Toujours false quand c'est un instructor qui créé une question
+
+
+            $questionEntity->setIsMandatory(false);// Toujours false quand c'est un instructor qui créé une question
+//            dd($form->getData());
 
             //  validation et enregistrement des données du form dans la bdd
             $em->persist($questionEntity);
             $em->flush();
+
+            return $this->redirectToRoute('instructor_display_questions');
         }
 
         return $this->render('instructor/create_question2.html.twig', [

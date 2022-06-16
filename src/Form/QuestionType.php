@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class QuestionType extends AbstractType
 {
@@ -36,6 +37,14 @@ class QuestionType extends AbstractType
             // ->add('id_author')
             ->add('wording',TextareaType::class,[
                 'label'=>false,
+                'constraints' => [
+                    new Assert\Length([
+                        'min' => 0,
+                        'minMessage' => "La question ne peut pas être vide.",
+                        'max' => 250,
+                        'maxMessage' => "La question doit faire moins de 250 caractères.",
+                    ]),
+                ]
             ])
             ->add('difficulty', enumType::class,[
                 "class" => Difficulty::class,
@@ -50,17 +59,18 @@ class QuestionType extends AbstractType
                 'allow_delete' => true,
             ])
 
-            ->add('enabled', CheckboxType::class, [
-                'label'    => 'Hors service',
-                'required' => false,
-            ])
+
 
             ->add('module', EntityType::class, [
                 'class'=> Module::class,
                 'label'=>false,
 
-            ]);
+            ])
 
+            ->add('enabled', CheckboxType::class, [
+            'label'    => 'Hors service',
+            'required' => false,
+            ])
         ;
     }
 
