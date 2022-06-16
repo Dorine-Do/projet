@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="css index.html.twig">
-      <change beforePath="$PROJECT_DIR$/public/js/intructorIndex.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/intructorIndex.js" afterDir="false" />
-    </list>
+    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="js /questions =&gt; index.html.twig" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
