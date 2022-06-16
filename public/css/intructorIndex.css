@@ -68,7 +68,7 @@
     font-family: "Alumni Sans", serif;
     display: flex;
     align-items: center;
-    width: 90%;
+    width: 100%;
 }
 
 .difficulty{
@@ -105,6 +105,21 @@
 
 .display_none{
     display : none;
+}
+
+.div_question_chevron{
+    display: flex;
+    width: 90%;
+    flex-wrap: wrap;
+}
+
+.div_js{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0 1em;
+    background: var(--fond);
+    border-radius: 0 0 5px 5px;
 }
 
 @media screen and (max-width: 1200px) {

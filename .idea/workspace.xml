@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="correct bug = =&gt; == if">
+    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="correction bug js display_question">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/intructorIndex.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/intructorIndex.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/intructorIndex.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/intructorIndex.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/instructor/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/instructor/index.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -223,7 +222,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655391745488</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="correction bug js display_question">
+      <created>1655398453019</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1655398453019</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -261,6 +267,7 @@
     <MESSAGE value="css + html + js modify_question.html.twig" />
     <MESSAGE value="difficulty modify_question.html.twig" />
     <MESSAGE value="correct bug = =&gt; == if" />
-    <option name="LAST_COMMIT_MESSAGE" value="correct bug = =&gt; == if" />
+    <MESSAGE value="correction bug js display_question" />
+    <option name="LAST_COMMIT_MESSAGE" value="correction bug js display_question" />
   </component>
 </project>
