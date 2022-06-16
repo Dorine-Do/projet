@@ -72,7 +72,7 @@ class InstructorController extends AbstractController
     {
         $questionEntity= new Question();
         // création form
-        $form = $this->createForm(CreateQuestionType::class,$question);
+        $form = $this->createForm(QuestionType::class,$question);
         // voir createdAt et UpdatedAt
         $date=new \DateTime();
 
@@ -106,12 +106,13 @@ class InstructorController extends AbstractController
     /**
      * @Route("/create_question", name="app_create_question")
      * @return Response
+     * @param $em
      */
-    public function createQuestion(Request $request): Response
+    public function createQuestion(Request $request, EntityManagerInterface $em): Response
     {
         $questionEntity= new Question();
         // création form
-        $form = $this->createForm(QuestionType::class,$questionEntity);
+        $form = $this->createForm(CreateQuestionType::class,$questionEntity);
         // accès aux données du form
         $form->handleRequest($request);
         // voir createAt et UpdatedAt -> voir construct dans question
@@ -120,6 +121,11 @@ class InstructorController extends AbstractController
         // vérification des données soumises
         if($form->isSubmitted() && $form->isValid()){
 
+            foreach ($questionEntity->getProposal() as $proposal){
+                $proposal->setQuestion($questionEntity);
+            }
+
+            $questionEntity->setIdAuthor(2);
             $questionData=$form->getData();
             // $questionData->setCreatedAt($date);
             /* TODO Demander à Baptiste si null ou date now */
@@ -135,11 +141,11 @@ class InstructorController extends AbstractController
             /* TODO faire le insert des datas des reponses*/
 
             //  validation et enregistrement des données du form dans la bdd
-            $this->manager->persist($questionEntity);
-            $this->manager->flush();
+            $em->persist($questionEntity);
+            $em->flush();
         }
 
-        return $this->render('instructor/create_question.html.twig', [
+        return $this->render('instructor/create_question2.html.twig', [
             'controller_name' => 'InstructorController',
             'form' => $form->createView(),
 

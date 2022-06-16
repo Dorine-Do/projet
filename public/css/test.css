@@ -57,7 +57,7 @@ tbody{
     justify-content: space-around;
 }
 
-#question_wording{
+#create_question_wording{
     width: 80%;
     height: 75px;
     margin-left: auto;
@@ -70,7 +70,7 @@ tbody{
     margin:auto;
 }
 
-#question_module{
+#create_question_module{
     margin: auto;
     padding: 20px 60px;
     border: none;
