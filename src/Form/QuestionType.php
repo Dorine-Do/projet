@@ -38,7 +38,9 @@ class QuestionType extends AbstractType
                 'label'=>false,
             ])
             ->add('difficulty', enumType::class,[
-                "class" => Difficulty::class
+                "class" => Difficulty::class,
+                'choice_label'=> 'value',
+                'label'=>false,
 
             ])
             ->add('proposal', CollectionType::class, [

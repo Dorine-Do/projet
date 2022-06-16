@@ -39,9 +39,7 @@
         <tr>
             <td colspan="2" class="premier"><p><span class="numeroform">3</span> Difficulté de la question:</p></td>
             <td colspan="2" class="difficulty">
-                <button type="submit" class="buttondiff">Facile</button>
-                <button type="submit" class="buttondiff">Moyen</button>
-                <button type="submit" class="buttondiff">Difficile</button>
+                {{ form_row(form.difficulty, {'label': false}) }}
             </td>
         </tr>
         <tr>

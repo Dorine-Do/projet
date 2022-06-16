@@ -84,11 +84,11 @@ class InstructorController extends AbstractController
                 if($prop->getIsCorrect() === true){
                     $count++;
                 }
-                if($count > 1){
-                    $question->setResponseType("checkbox");
-                }elseif ($count < 1){
-                    $question->setResponseType("radio");
-                }
+            }
+            if($count > 1){
+                $question->setResponseType("checkbox");
+            }elseif ($count = 1){
+                $question->setResponseType("radio");
             }
             $em->persist($question);
             $em->flush();
@@ -121,8 +121,19 @@ class InstructorController extends AbstractController
         // vérification des données soumises
         if($form->isSubmitted() && $form->isValid()){
 
+            $count = 0;
             foreach ($questionEntity->getProposal() as $proposal){
+                // set les proposals
                 $proposal->setQuestion($questionEntity);
+                // set le response type
+                if($proposal->getIsCorrect() === true){
+                    $count++;
+                }
+            }
+            if($count > 1){
+                $questionEntity->setResponseType("checkbox");
+            }elseif ($count == 1){
+                $questionEntity->setResponseType("radio");
             }
 
             $questionEntity->setIdAuthor(2);
@@ -136,7 +147,7 @@ class InstructorController extends AbstractController
             /* TODO setResponseType */
             $questionData->setResponseType(true);//temporaire
             $questionData->setIsMandatory(false);// Toujours false quand c'est un instructor qui créé une question
-            dd($form->getData());
+//            dd($form->getData());
 
             /* TODO faire le insert des datas des reponses*/
 
