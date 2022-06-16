@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="modify question : responce type">
+    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="js /questions =&gt; index.html.twig">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/InstructorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InstructorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/instructor/modify_question.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/instructor/modify_question.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/QuestionType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/QuestionType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/instructor/create_question2.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/instructor/create_question2.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,7 +167,6 @@
       <updated>1655213522631</updated>
       <workItem from="1655213524397" duration="4378000" />
       <workItem from="1655280478885" duration="11595000" />
-      <workItem from="1655367343791" duration="5970000" />
     </task>
     <task id="LOCAL-00001" summary="enum debug">
       <created>1655220259943</created>
@@ -203,14 +203,7 @@
       <option name="project" value="LOCAL" />
       <updated>1655316102497</updated>
     </task>
-    <task id="LOCAL-00006" summary="modify question : responce type">
-      <created>1655317218448</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1655317218449</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -234,7 +227,6 @@
     <MESSAGE value="-&gt;add('difficulty', enumType::class,[&#10;      &quot;class&quot; =&gt; Difficulty::class&#10;])" />
     <MESSAGE value="css + html modify_question.html.twig" />
     <MESSAGE value="css + html + js modify_question.html.twig" />
-    <MESSAGE value="modify question : responce type" />
-    <option name="LAST_COMMIT_MESSAGE" value="modify question : responce type" />
+    <option name="LAST_COMMIT_MESSAGE" value="css + html + js modify_question.html.twig" />
   </component>
 </project>

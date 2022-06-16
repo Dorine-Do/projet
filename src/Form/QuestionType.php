@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -37,7 +38,9 @@ class QuestionType extends AbstractType
                 'label'=>false,
             ])
             ->add('difficulty', enumType::class,[
-                "class" => Difficulty::class
+                "class" => Difficulty::class,
+                'choice_label'=> 'value',
+                'label'=>false,
 
             ])
             ->add('proposal', CollectionType::class, [
@@ -46,8 +49,12 @@ class QuestionType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
             ])
-//            ->add('response_type')
-//           ->add('is_official')
+
+            ->add('enabled', CheckboxType::class, [
+                'label'    => 'Hors service',
+                'required' => false,
+            ])
+
             ->add('module', EntityType::class, [
                 'class'=> Module::class,
                 'label'=>false,

@@ -11,7 +11,7 @@ table{
 }
 
 .numeroform{
-    background-color: #FFAC8F;
+    background-color: var(--pamplemousse);
     padding: 12px 17px;
     border-radius: 50%;
     border: 1px solid;
@@ -42,7 +42,7 @@ tbody{
 
 .second{
     margin: auto;
-    background-color: #FFF4E4;
+    background-color: var(--fond);
     padding: 25px 1px;
     width: 85%;
     border-radius: 10px;
@@ -50,14 +50,14 @@ tbody{
 
 .difficulty{
     margin: auto;
-    background-color: #FFF4E4;
+    background-color: var(--fond);
     padding: 25px 1px;
     width: 85%;
     display: flex;
     justify-content: space-around;
 }
 
-#question_wording{
+#create_question_wording{
     width: 80%;
     height: 75px;
     margin-left: auto;
@@ -70,12 +70,12 @@ tbody{
     margin:auto;
 }
 
-#question_module{
+#create_question_module{
     margin: auto;
     padding: 20px 60px;
     border: none;
     box-shadow: none;
-    background-color: #FFF4E4;
+    background-color: var(--fond);;
     font-size: 1.3em;
     -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
     box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
@@ -86,7 +86,7 @@ tbody{
 }
 
 .buttondesac{
-    background-color: #616161;
+    background-color: var(--grey);
     color: white;
     border-radius: 5px;
     font-weight: bold;
@@ -95,7 +95,7 @@ tbody{
     font-size: 1.2em;
 }
 .buttondiff{
-    background-color: #616161;
+    background-color: var(--grey);
     color: white;
     border-radius: 20px;
     font-weight: bold;
@@ -105,7 +105,7 @@ tbody{
 }
 
 .valid{
-    background-color: #616161;
+    background-color: var(--grey);
     color: white;
     border-radius: 20px;
     font-weight: bold;
@@ -183,6 +183,53 @@ tbody{
 }
 
 @media screen and (max-width: 450px) {
+
+     .container{
+         max-width: 90%;
+     }
+
+    table{
+        margin: auto;
+    }
+
+    tr{
+        background-color: var(--fond);
+        margin-top: 20px;
+        padding: 0;
+    }
+
+    #question_module{
+        background-color: white;
+        margin-bottom: 20px;
+        font-size: 0.8em;
+    }
+
+    .numeroform{
+        background-color: var(--pamplemousse);
+        padding: 4px 16px;
+        border-radius: 50%;
+        border: none;
+    }
+
+    p{
+        padding: 0;
+        margin-left: 20%;
+    }
+
+    .buttondiff{
+        padding: 8px 27px;;
+        font-size: 0.7em;
+    }
+
+    #question_wording{
+        width: 95%;
+        height: 35px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        border: 1px solid var(--grey);
+    }
+
 
 
 }
