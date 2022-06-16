@@ -28,18 +28,22 @@
             <tr>
                 <td colspan="2" class="premier"><p><span class="numeroform">3</span> Difficulté de la question:</p></td>
                 <td colspan="2" class="difficulty">
-                    <div class="div_difficulty">
-                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_facile_bon_vert.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
-                        <button type="submit" class="buttondiff">Facile</button>
-                    </div>
-                    <div class="div_difficulty">
-                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_moyen_bon_vert.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
-                        <button type="submit" class="buttondiff">Moyen</button>
-                    </div>
-                    <div class="div_difficulty">
-                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
-                        <button type="submit" class="buttondiff">Difficile</button>
-                    </div>
+
+                    {{ form_row(form.difficulty, {'label': false}) }}
+
+
+{#                    <div class="div_difficulty">#}
+{#                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_facile_bon_vert.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">#}
+{#                        <button type="submit" class="buttondiff">Facile</button>#}
+{#                    </div>#}
+{#                    <div class="div_difficulty">#}
+{#                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_moyen_bon_vert.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">#}
+{#                        <button type="submit" class="buttondiff">Moyen</button>#}
+{#                    </div>#}
+{#                    <div class="div_difficulty">#}
+{#                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">#}
+{#                        <button type="submit" class="buttondiff">Difficile</button>#}
+{#                    </div>#}
                 </td>
             </tr>
             <tr>

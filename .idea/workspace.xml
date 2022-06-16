@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="js /questions =&gt; index.html.twig">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/intructorIndex.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/intructorIndex.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/intructorIndex.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/intructorIndex.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/modify_question.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/modify_question.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/InstructorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InstructorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/QuestionType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/QuestionType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/instructor/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/instructor/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/instructor/modify_question.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/instructor/modify_question.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
