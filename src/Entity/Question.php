@@ -51,7 +51,7 @@ class Question
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: LinkQcmQuestion::class)]
     private $link_qcm_question;
 
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class)]
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class, cascade:["persist", "remove"])]
     private $proposal;
 
     #[ORM\Column(type: 'boolean')]
@@ -63,6 +63,7 @@ class Question
         $this->proposal = new ArrayCollection();
         $this->difficulty = Difficulty::Medium;
         $this->created_at = new \DateTime();
+        $this->updated_at = new \DateTime();
     }
 
     public function getId(): ?int

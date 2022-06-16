@@ -4,21 +4,21 @@
 
 {% block stylesheets %}
     <link href="{{asset('build/app.css')}}" rel="stylesheet">
-    <link href="{{asset('css/test.css')}}" rel="stylesheet">
+    <link href="{{asset('css/modify_question.css')}}" rel="stylesheet">
 {% endblock %}
 
-{% block javascripts %}
-    {# Import jquery #}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{#{% block javascripts %}#}
+{#    #}{# Import jquery #}
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>#}
 
-    {# Fichier js pour faire apparaitre les inputs du collectionType #}
-    <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>
-{% endblock %}
+{#    #}{# Fichier js pour faire apparaitre les inputs du collectionType #}
+{#    <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>#}
+{#{% endblock %}#}
 
 
 
 {% block body %}
-
+    <h1>- Modifier une question -</h1>
     {# Form question #}
     <div class="form-question">
         {{ form_start(form) }}
@@ -38,43 +38,59 @@
             <tr>
                 <td colspan="2" class="premier"><p><span class="numeroform">3</span> Difficulté de la question:</p></td>
                 <td colspan="2" class="difficulty">
-                    <button type="submit" class="buttondiff">Facile</button>
-                    <button type="submit" class="buttondiff">Moyen</button>
-                    <button type="submit" class="buttondiff">Difficile</button>
+                    <div class="div_difficulty">
+                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_facile_bon_vert.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
+                        <button type="submit" class="buttondiff">Facile</button>
+                    </div>
+                    <div class="div_difficulty">
+                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_moyen_bon_vert.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
+                        <button type="submit" class="buttondiff">Moyen</button>
+                    </div>
+                    <div class="div_difficulty">
+                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
+                        <button type="submit" class="buttondiff">Difficile</button>
+                    </div>
                 </td>
             </tr>
             <tr>
                 <td colspan="2" class="premier"><p><span class="numeroform">4</span> Désactiver la question</p></td>
-                <td colspan="2" class="second"><button class="buttondesac" type="submit">Désactiver la question</button></td>
+                <td colspan="2" class="second">
+                    {{ form_row(form.enabled) }}
+                </td>
             </tr>
             <tr>
-                <td colspan="2"><p><span>Option 1</span>  requis:</p></td>
-                <td colspan="2">
-                    {# CollectionType voir form > QuestionType #}
-                    <ul id='response-proposal'
-                        data-prototype="{{ form_row(form.proposal.vars.prototype)|e }}"
-                        data-widget-tags="{{ '<li></li>'|e }}"
-                        data-widget-counter="{{ form.proposal|length }}">
-                        {% for response in form.proposal %}
-                            <li>
-                                {{form_row(response.wording) }}
+                <td colspan="2"><p><span class="numeroform" >5</span> Réponses</p></td>
+                <td colspan="2" class="second">
+                    <ul id ="list_proposal">
+                        {% for proposal in form.proposal %}
+                            <li class="li_proposal">
+                                <div class="div_proposal">
+                                    {{form_row(proposal.wording)}}
+                                    {{form_row(proposal.is_correct)}}
+                                </div>
+                                <button type="button" class="removeProposal" >Suppimer</button>
                             </li>
-                        {% endfor %}
+                        {%endfor%}
                     </ul>
-                    <button type="button"
-                            class="add-another-collection-widget"
-                            {# au clic le ul s'active (lien id -> ul id) voir fichier js add-collection-widget #}
-                            data-list-selector="#response-proposal">
-                        Add a response
+                    <button
+                            data-form='{{ form_widget(form.proposal.vars.prototype) }}'
+                            data-index="{{form.proposal|length }}"
+                            type="button"
+                            id="addProposal"
+                            class="addProposal"
+                    >
+                        Ajouter une réponse
                     </button>
+
+{#                    <button type="button"#}
+{#                            class="add-another-collection-widget"#}
+{#                             au clic le ul s'active (lien id -> ul id) voir fichier js add-collection-widget #}
+{#                            data-list-selector="#response-proposal">#}
+{#                        Add a response#}
+{#                    </button>#}
                 </td>
             </tr>
-            <tr>
-                <td colspan="2" class="premier">
-                    <p><span class="numeroform">5</span> Question viable ? </p>
-                </td>
-                <td colspan="2" class="second">{{form_row(form.enabled, { 'label': true })}}</td>
-            </tr>
+
             <tr>
                 <td colspan="2"><button type="submit" class="valid">Valider</button></td>
             </tr>
@@ -84,4 +100,8 @@
 
     </div>
 
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    <script type="text/javascript" src="{{ asset('js/modify_question.js') }}"></script>
 {% endblock %}

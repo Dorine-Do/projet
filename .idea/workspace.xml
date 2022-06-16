@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="984994d2-4e6d-4889-9540-655879271cd0" name="Changes" comment="js /questions =&gt; index.html.twig">
+    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="css + html + js modify_question.html.twig">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/controllers.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/controllers.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/test.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/test.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/QuestionType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/QuestionType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/InstructorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InstructorController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Proposal.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Proposal.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Question.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Question.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +17,11 @@
     <execution />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="InstructorQuestionForm" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -137,16 +139,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/PROJETS/YouUp/public/css",
+    "nodejs_package_manager_path": "yarn",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\PROJETS\YouUp\public\css" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\PROJETS\YouUp\assets\images" />
     </key>
@@ -161,7 +167,6 @@
       <updated>1655213522631</updated>
       <workItem from="1655213524397" duration="4378000" />
       <workItem from="1655280478885" duration="11595000" />
-      <workItem from="1655366352951" duration="1498000" />
     </task>
     <task id="LOCAL-00001" summary="enum debug">
       <created>1655220259943</created>
@@ -177,7 +182,28 @@
       <option name="project" value="LOCAL" />
       <updated>1655297182870</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="-&gt;add('difficulty', enumType::class,[&#10;      &quot;class&quot; =&gt; Difficulty::class&#10;])">
+      <created>1655303358223</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1655303358223</updated>
+    </task>
+    <task id="LOCAL-00004" summary="css + html modify_question.html.twig">
+      <created>1655315754124</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1655315754124</updated>
+    </task>
+    <task id="LOCAL-00005" summary="css + html + js modify_question.html.twig">
+      <created>1655316102497</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1655316102497</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,6 +224,9 @@
     <MESSAGE value="Data twig to js" />
     <MESSAGE value="enum debug" />
     <MESSAGE value="js /questions =&gt; index.html.twig" />
-    <option name="LAST_COMMIT_MESSAGE" value="js /questions =&gt; index.html.twig" />
+    <MESSAGE value="-&gt;add('difficulty', enumType::class,[&#10;      &quot;class&quot; =&gt; Difficulty::class&#10;])" />
+    <MESSAGE value="css + html modify_question.html.twig" />
+    <MESSAGE value="css + html + js modify_question.html.twig" />
+    <option name="LAST_COMMIT_MESSAGE" value="css + html + js modify_question.html.twig" />
   </component>
 </project>

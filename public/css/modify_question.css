@@ -1,0 +1,280 @@
+@import url(main.css);
+
+
+.form-question{
+    max-width: 100%
+}
+
+table{
+    margin-left: 5%;
+    width: 100%;
+}
+
+#create_question_module {
+    padding: 1em 2em;
+    border: none;
+    border-radius: 5px;
+    background: var(--fond);
+    color: var(--grey);
+    font-size: var(--normal);
+    box-shadow: 5px 5px 13px -7px var(--grey);
+}
+
+.numeroform{
+    background-color: #FFAC8F;
+    padding: .5em 1em;
+    border-radius: 50%;
+    margin-right: 1em;
+}
+
+#create_question_wording {
+    width: 50%;
+    border-radius: 5px;
+    border: none;
+    color: grey;
+    padding: .5em;
+}
+
+p{
+    padding: 50px;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+tr{
+    display: flex;
+    flex-direction: column;
+}
+
+td{
+    text-align: left;
+}
+
+tbody{
+    width: 100%;
+}
+
+.premier{
+    margin-left: 0;
+}
+
+.second{
+    margin: auto;
+    background-color: #FFF4E4;
+    padding: 1em;
+    width: 85%;
+    border-radius: 10px;
+}
+.difficulty_icone{
+    max-width: 2em;
+    width: 1.5em;
+    height: auto;
+    padding-right: .5em;
+    margin: 0;
+}
+
+.difficulty{
+    margin: auto;
+    background-color: #FFF4E4;
+    padding: 25px 1px;
+    width: 85%;
+    display: flex;
+    justify-content: space-around;
+}
+.div_difficulty {
+    display: flex;
+    align-items: center;
+}
+
+#question_wording{
+    width: 80%;
+    height: 75px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border: hidden;
+}
+
+.premierselect{
+    margin:auto;
+}
+
+#question_module{
+    margin: auto;
+    padding: 20px 60px;
+    border: none;
+    background-color: #FFF4E4;
+    font-size: 1.3em;
+    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+}
+
+#question_module::after{
+    background-color: white;
+}
+
+.buttondesac{
+    background-color: var(--grey);
+    color: white;
+    border-radius: 5px;
+    font-weight: var(--semi_bold);
+    border: none;
+    padding: 5px 15px;
+    font-size: var(--normal);
+}
+.buttondiff{
+    background-color: #616161;
+    color: white;
+    border-radius: 30px;
+    border: none;
+    padding: 7px 49px;
+    font-size: var(--semi_small);
+    font-weight: var(--semi_bold);
+}
+
+#response-proposal {
+    padding: 0;
+    background-color: var(--fond);
+    border-radius: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+}
+.div_proposal{
+    text-align: center;
+}
+
+.div_proposal label{
+    padding: .5em;
+}
+
+.div_proposal textarea{
+    border-radius: 5px;
+    border: none;
+    color: grey;
+    padding: .5em;
+    background: var(--fond);
+    width: 100%;
+}
+
+
+.div_proposal:first-child{
+    display: flex;
+    flex-direction: column;
+    margin: 0 1em;
+}
+.div_proposal:nth-child(2) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#list_proposal{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+}
+
+.li_proposal{
+    width: 25%;
+    text-align: center;
+    margin: 1em;
+    /*border: 2px solid var(--pamplemousse);*/
+    padding: .5em;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 0px 10px -2px var(--grey);
+}
+
+.li_wording {
+    max-width: 25%;
+    border-radius: 5px;
+    border: none;
+    color: grey;
+    padding: .5em;
+}
+
+.valid{
+    background-color: #616161;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    border: none;
+    padding: 15px 300px;;
+    font-size: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.formoption{
+    background-color: var(--pamplemousse);;
+    padding: 12px 30px;
+    border-radius: 50%;
+}
+
+.paddingoption{
+    padding-left: 25px;
+}
+
+@media screen and (max-width: 1200px) {
+
+    .buttondiff{
+        padding: 5px 35px;;
+        font-size: 1em;
+    }
+
+    .buttondesac{
+        padding: 5px 15px;
+        font-size: 1em;
+    }
+
+    .formoption{
+        padding: 8px 20px;
+    }
+
+    .valid{
+        padding: 15px 200px;;
+    }
+}
+
+@media screen and (max-width: 780px) {
+
+    table{
+        width: 100%;
+    }
+
+    .buttondesac{
+        padding: 10px 30px;
+        font-size: 0.9em;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+
+    .buttondiff{
+        padding: 10px 35px;;
+        font-size: 0.9em;
+    }
+
+    .valid{
+        padding: 13px 150px;
+    }
+
+    #question_module{
+        padding: 10px 30px;
+        font-size: 1.1em;
+    }
+
+    .difficulty{
+        padding-bottom: 60px;
+    }
+
+}
+
+@media screen and (max-width: 450px) {
+
+
+}

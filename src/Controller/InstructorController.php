@@ -4,9 +4,11 @@ namespace App\Controller;
 
 
 use App\Entity\Question;
+use App\Form\CreateQuestionType;
 use App\Form\QuestionType;
 use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,12 +79,17 @@ class InstructorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-//            dd($question);
-//            foreach ( $question->getProposal() as $proposal){
-//                $question->addProposal($proposal);
-//            }
-//            $data->setReponses($data['Reponses']);
-//            $data->setReponses_correctes($data['Reponses_correctes']);
+            $count = 0;
+            foreach ($question->getProposal() as $prop){
+                if($prop->getIsCorrect() === true){
+                    $count++;
+                }
+                if($count > 1){
+                    $question->setResponseType("checkbox");
+                }elseif ($count < 1){
+                    $question->setResponseType("radio");
+                }
+            }
             $em->persist($question);
             $em->flush();
 
