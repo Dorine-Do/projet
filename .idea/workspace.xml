@@ -3,8 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="984994d2-4e6d-4889-9540-655879271cd0" name="Changes" comment="js /questions =&gt; index.html.twig">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/intructorIndex.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/intructorIndex.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/controllers.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/controllers.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/test.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/test.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/QuestionType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/QuestionType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,6 +161,7 @@
       <updated>1655213522631</updated>
       <workItem from="1655213524397" duration="4378000" />
       <workItem from="1655280478885" duration="11595000" />
+      <workItem from="1655366352951" duration="1498000" />
     </task>
     <task id="LOCAL-00001" summary="enum debug">
       <created>1655220259943</created>
