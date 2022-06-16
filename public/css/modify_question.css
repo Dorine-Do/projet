@@ -10,7 +10,7 @@ table{
     width: 100%;
 }
 
-#create_question_module {
+#question_module, #question_difficulty {
     padding: 1em 2em;
     border: none;
     border-radius: 5px;
@@ -275,6 +275,69 @@ tbody{
 }
 
 @media screen and (max-width: 450px) {
+    .container{
+        max-width: 90%;
+    }
 
+    table{
+        margin: auto;
+    }
 
+    tr{
+        background-color: var(--fond);
+        margin-top: 20px;
+        padding: 0;
+    }
+
+    #question_module, #question_difficulty{
+        background-color: var(--fond);
+        margin-bottom: 20px;
+        font-size: 0.8em;
+    }
+
+    .numeroform{
+        background-color: var(--pamplemousse);
+        padding: 4px 16px;
+        border-radius: 50%;
+        border: none;
+    }
+
+    p{
+        padding: 0;
+        margin-left: 20%;
+    }
+
+    .buttondiff{
+        padding: 8px 27px;;
+        font-size: 0.7em;
+    }
+
+    #question_wording{
+        width: 95%;
+        height: 35px;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        border: 1px solid var(--grey);
+    }
+
+    li{
+        margin-left: 15%;
+    }
+
+    tr{
+        background-color: white;
+    }
+
+    .paddingoption{
+        margin-left: 0;
+    }
+
+    .difficulty{
+        background-color: white;
+    }
+
+    .li_proposal{
+        width: 80%;
+    }
 }

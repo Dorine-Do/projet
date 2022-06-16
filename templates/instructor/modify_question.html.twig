@@ -47,13 +47,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2" class="premier"><p><span class="numeroform">4</span> Désactiver la question</p></td>
-                <td colspan="2" class="second">
-                    {{ form_row(form.enabled) }}
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2"><p><span class="numeroform" >5</span> Réponses</p></td>
+                <td colspan="2"><p><span class="numeroform" >4</span> Réponses</p></td>
                 <td colspan="2" class="second">
                     <ul id ="list_proposal">
                         {% for proposal in form.proposal %}
@@ -75,6 +69,19 @@
                     >
                         Ajouter une réponse
                     </button>
+
+                    {#                    <button type="button"#}
+                    {#                            class="add-another-collection-widget"#}
+                    {#                             au clic le ul s'active (lien id -> ul id) voir fichier js add-collection-widget #}
+                    {#                            data-list-selector="#response-proposal">#}
+                    {#                        Add a response#}
+                    {#                    </button>#}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="premier"><p><span class="numeroform">5</span> Désactiver la question</p></td>
+                <td colspan="2" class="second">
+                    {{ form_row(form.enabled) }}
                 </td>
             </tr>
 
@@ -82,8 +89,11 @@
                 <td colspan="2"><button type="submit" class="valid">Valider</button></td>
             </tr>
         </table>
+
         {{ form_end(form) }}
+
     </div>
+
 {% endblock %}
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
