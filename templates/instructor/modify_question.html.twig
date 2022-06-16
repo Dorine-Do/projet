@@ -38,28 +38,23 @@
             <tr>
                 <td colspan="2" class="premier"><p><span class="numeroform">3</span> Difficulté de la question:</p></td>
                 <td colspan="2" class="difficulty">
-                    <div class="div_difficulty">
-                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_facile_bon_vert.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
-                        <button type="submit" class="buttondiff">Facile</button>
-                    </div>
-                    <div class="div_difficulty">
-                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_moyen_bon_vert.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
-                        <button type="submit" class="buttondiff">Moyen</button>
-                    </div>
-                    <div class="div_difficulty">
-                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
-                        <button type="submit" class="buttondiff">Difficile</button>
-                    </div>
+{#                    <div class="div_difficulty">#}
+{#                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_facile_bon_vert.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">#}
+{#                        <button type="submit" class="buttondiff">Facile</button>#}
+{#                    </div>#}
+{#                    <div class="div_difficulty">#}
+{#                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_moyen_bon_vert.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">#}
+{#                        <button type="submit" class="buttondiff">Moyen</button>#}
+{#                    </div>#}
+{#                    <div class="div_difficulty">#}
+{#                        <img class="difficulty_icone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">#}
+{#                        <button type="submit" class="buttondiff">Difficile</button>#}
+{#                    </div>#}
+                    {{ form_row(form.difficulty, {'label': false}) }}
                 </td>
             </tr>
             <tr>
-                <td colspan="2" class="premier"><p><span class="numeroform">4</span> Désactiver la question</p></td>
-                <td colspan="2" class="second">
-                    {{ form_row(form.enabled) }}
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2"><p><span class="numeroform" >5</span> Réponses</p></td>
+                <td colspan="2"><p><span class="numeroform" >4</span> Réponses</p></td>
                 <td colspan="2" class="second">
                     <ul id ="list_proposal">
                         {% for proposal in form.proposal %}
@@ -82,12 +77,18 @@
                         Ajouter une réponse
                     </button>
 
-{#                    <button type="button"#}
-{#                            class="add-another-collection-widget"#}
-{#                             au clic le ul s'active (lien id -> ul id) voir fichier js add-collection-widget #}
-{#                            data-list-selector="#response-proposal">#}
-{#                        Add a response#}
-{#                    </button>#}
+                    {#                    <button type="button"#}
+                    {#                            class="add-another-collection-widget"#}
+                    {#                             au clic le ul s'active (lien id -> ul id) voir fichier js add-collection-widget #}
+                    {#                            data-list-selector="#response-proposal">#}
+                    {#                        Add a response#}
+                    {#                    </button>#}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="premier"><p><span class="numeroform">5</span> Désactiver la question</p></td>
+                <td colspan="2" class="second">
+                    {{ form_row(form.enabled) }}
                 </td>
             </tr>
 
