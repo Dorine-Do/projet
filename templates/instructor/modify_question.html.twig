@@ -7,16 +7,6 @@
     <link href="{{asset('css/modify_question.css')}}" rel="stylesheet">
 {% endblock %}
 
-{#{% block javascripts %}#}
-{#    #}{# Import jquery #}
-{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>#}
-
-{#    #}{# Fichier js pour faire apparaitre les inputs du collectionType #}
-{#    <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>#}
-{#{% endblock %}#}
-
-
-
 {% block body %}
     <h1>- Modifier une question -</h1>
     {# Form question #}
@@ -81,13 +71,6 @@
                     >
                         Ajouter une réponse
                     </button>
-
-{#                    <button type="button"#}
-{#                            class="add-another-collection-widget"#}
-{#                             au clic le ul s'active (lien id -> ul id) voir fichier js add-collection-widget #}
-{#                            data-list-selector="#response-proposal">#}
-{#                        Add a response#}
-{#                    </button>#}
                 </td>
             </tr>
 
@@ -95,11 +78,8 @@
                 <td colspan="2"><button type="submit" class="valid">Valider</button></td>
             </tr>
         </table>
-
         {{ form_end(form) }}
-
     </div>
-
 {% endblock %}
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}

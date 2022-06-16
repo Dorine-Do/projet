@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="css + html + js modify_question.html.twig">
+    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="modify question : responce type">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/InstructorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InstructorController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Proposal.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Proposal.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Question.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Question.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/instructor/modify_question.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/instructor/modify_question.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,16 +138,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/PROJETS/YouUp/public/css",
-    "nodejs_package_manager_path": "yarn",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/PROJETS/YouUp/public/css&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\PROJETS\YouUp\public\css" />
@@ -160,13 +159,14 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="984994d2-4e6d-4889-9540-655879271cd0" name="Changes" comment="enum debug" />
+      <changelist id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="modify question : responce type" />
       <created>1655213522631</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1655213522631</updated>
       <workItem from="1655213524397" duration="4378000" />
       <workItem from="1655280478885" duration="11595000" />
+      <workItem from="1655367343791" duration="5970000" />
     </task>
     <task id="LOCAL-00001" summary="enum debug">
       <created>1655220259943</created>
@@ -203,7 +203,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655316102497</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="modify question : responce type">
+      <created>1655317218448</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1655317218449</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -227,6 +234,7 @@
     <MESSAGE value="-&gt;add('difficulty', enumType::class,[&#10;      &quot;class&quot; =&gt; Difficulty::class&#10;])" />
     <MESSAGE value="css + html modify_question.html.twig" />
     <MESSAGE value="css + html + js modify_question.html.twig" />
-    <option name="LAST_COMMIT_MESSAGE" value="css + html + js modify_question.html.twig" />
+    <MESSAGE value="modify question : responce type" />
+    <option name="LAST_COMMIT_MESSAGE" value="modify question : responce type" />
   </component>
 </project>

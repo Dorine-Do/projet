@@ -34,7 +34,7 @@ class InstructorController extends AbstractController
 //    }
 
     /**
-     * @Route("/questions", name="display_questions")
+     * @Route("instructor/questions", name="instructor_display_questions")
      * @return Response
      */
     public function displayQuestions(): Response
@@ -63,7 +63,7 @@ class InstructorController extends AbstractController
     }
 
     /**
-     * @Route("/modify_question/{question}", name="modify.question")
+     * @Route("instructor/modify_question/{question}", name="instructor_modify_question")
      * @param Request $request
      * @param $em
      * @return Response
@@ -104,7 +104,7 @@ class InstructorController extends AbstractController
 
 
     /**
-     * @Route("/create_question", name="app_create_question")
+     * @Route("instructor/create_question", name="instructor_create_question")
      * @return Response
      */
     public function createQuestion(Request $request): Response
@@ -121,16 +121,15 @@ class InstructorController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
 
             $questionData=$form->getData();
-            // $questionData->setCreatedAt($date);
-            /* TODO Demander à Baptiste si null ou date now */
-            // $questionData->setUpdatedAt($date); // Maybe Null
+            // $questionData->setCreatedAt($date); // Pas necessaire car créer directement dans le construct de l'entity Question
+            // $questionData->setUpdatedAt($date); // Pas necessaire car créer directement dans le construct de l'entity Question
             $questionData->setIsOfficial(false);// Toujours false quand c'est un instructor qui créé une question
             /* TODO setDifficulty avec Enum */
             //  $questionData->setDifficulty(true);//temporaire
             /* TODO setResponseType */
-            $questionData->setResponseType(true);//temporaire
+            $questionData->setResponseType(true);//temporaire => Voir dans addQuestion
             $questionData->setIsMandatory(false);// Toujours false quand c'est un instructor qui créé une question
-            dd($form->getData());
+//            dd($form->getData());
 
             /* TODO faire le insert des datas des reponses*/
 
