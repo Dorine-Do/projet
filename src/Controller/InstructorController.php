@@ -97,7 +97,7 @@ class InstructorController extends AbstractController
             return $this->redirectToRoute('instructor_display_questions');
         }
 
-        return $this->render('instructor/modify_question_new_version.html.twig', [
+        return $this->render('instructor/file_a_verifier/modify_question_new_version.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -155,7 +155,7 @@ class InstructorController extends AbstractController
             return $this->redirectToRoute('instructor_display_questions');
         }
 
-        return $this->render('instructor/create_question2.html.twig', [
+        return $this->render('instructor/file_a_verifier/create_question2.html.twig', [
             'controller_name' => 'InstructorController',
             'form' => $form->createView(),
 
