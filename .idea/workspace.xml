@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="js /questions =&gt; index.html.twig" />
+    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="js mise en page instructoIndex.js">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/create_question.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/create_question.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/modify_question.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/modify_question.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -232,7 +236,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655399478703</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="js mise en page instructoIndex.js">
+      <created>1655400146510</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1655400146510</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -272,6 +283,7 @@
     <MESSAGE value="correct bug = =&gt; == if" />
     <MESSAGE value="correction bug js display_question" />
     <MESSAGE value="css index.html.twig" />
-    <option name="LAST_COMMIT_MESSAGE" value="css index.html.twig" />
+    <MESSAGE value="js mise en page instructoIndex.js" />
+    <option name="LAST_COMMIT_MESSAGE" value="js mise en page instructoIndex.js" />
   </component>
 </project>
