@@ -80,6 +80,7 @@ class InstructorController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $count = 0;
             foreach ($question->getProposal() as $prop){
+
                 if($prop->getIsCorrect() === true){
                     $count++;
                 }

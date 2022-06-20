@@ -14,7 +14,7 @@
     {# Fichier js pour faire apparaitre les inputs du collectionType #}
     <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>
 
-    <script type="text/javascript" src="{{ asset('js/modify_question.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/create_modify_question.js') }}"></script>
 {% endblock %}
 
 
@@ -70,6 +70,7 @@
             <td colspan="2" class="premier"><p class="paddingoption"><span class="formoption">Option</span> Désactiver la question</p></td>
             <td colspan="2" class="second">{{ form_row(form.enabled) }}</td>
         </tr>
+        <tr>
             <td colspan="2"><button type="submit" class="valid">Valider</button></td>
         </tr>
     </table>

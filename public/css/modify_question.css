@@ -209,16 +209,6 @@ tbody{
     padding: .5em;
 }
 
-css #addProposal{
-    background-color: var(--grey);
-    color: white;
-    border-radius: 5px;
-    font-weight: bold;
-    border: none;
-    padding: 3px 9px;
-    font-size: 0.7em;
-}
-
 .valid{
     background-color: #616161;
     color: white;
