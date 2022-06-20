@@ -10,7 +10,7 @@ table{
     width: 100%;
 }
 
-#question_module, #question_difficulty {
+#create_question_module, #create_question_difficulty {
     padding: 1em 2em;
     border: none;
     border-radius: 5px;
@@ -86,7 +86,7 @@ tbody{
     align-items: center;
 }
 
-#question_wording{
+#create_question_wording{
     width: 80%;
     height: 75px;
     margin-left: auto;
@@ -99,14 +99,15 @@ tbody{
     margin:auto;
 }
 
-#question_module{
-    margin: auto;
-    padding: 20px 60px;
+.removeProposal, .addProposal{
+    background-color: var(--grey);
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
     border: none;
-    background-color: #FFF4E4;
-    font-size: 1.3em;
-    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
-    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    padding: 3px 9px;
+    font-size: 0.7em;
+    margin-bottom: 15px;
 }
 
 #question_module::after{
@@ -263,7 +264,7 @@ tbody{
         padding: 13px 150px;
     }
 
-    #question_module{
+    #create_question_module{
         padding: 10px 30px;
         font-size: 1.1em;
     }
@@ -289,7 +290,7 @@ tbody{
         padding: 0;
     }
 
-    #question_module, #question_difficulty{
+    #create_question_module, #create_question_difficulty{
         background-color: var(--fond);
         margin-bottom: 20px;
         font-size: 0.8em;
@@ -312,7 +313,7 @@ tbody{
         font-size: 0.7em;
     }
 
-    #question_wording{
+    #create_question_wording{
         width: 95%;
         height: 35px;
         margin-left: auto;

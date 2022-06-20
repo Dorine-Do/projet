@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="css index.html.twig">
-      <change beforePath="$PROJECT_DIR$/public/js/intructorIndex.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/intructorIndex.js" afterDir="false" />
+    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="css + html + js modify_question.html.twig">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/modify_question.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/modify_question.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/QuestionType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/QuestionType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/instructor/create_question.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/instructor/create_question.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,12 +19,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="InstructorBackup" />
-      </map>
-    </option>
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="InstructorQuestionForm" />
+        <entry key="$PROJECT_DIR$" value="InstructorResponsive" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
