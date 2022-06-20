@@ -80,6 +80,7 @@ class InstructorController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $count = 0;
             foreach ($question->getProposal() as $prop){
+
                 if($prop->getIsCorrect() === true){
                     $count++;
                 }
@@ -96,7 +97,7 @@ class InstructorController extends AbstractController
             return $this->redirectToRoute('instructor_display_questions');
         }
 
-        return $this->render('instructor/modify_question.html.twig', [
+        return $this->render('instructor/modify_question_new_version.html.twig', [
             'form' => $form->createView()
         ]);
     }

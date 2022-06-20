@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="css + html + js modify_question.html.twig">
+    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="plus image">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/css/modify_question.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/modify_question.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/QuestionType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/QuestionType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/instructor/create_question.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/instructor/create_question.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/InstructorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InstructorController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" doNotAsk="true">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="InstructorResponsive" />
+        <entry key="$PROJECT_DIR$" value="InstructorDisplayQuestionCss" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -139,18 +138,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/PROJETS/YouUp/public/css&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/PROJETS/YouUp/templates/instructor",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\PROJETS\YouUp\templates\instructor" />
+      <recent name="D:\PROJETS\YouUp\assets\images" />
       <recent name="D:\PROJETS\YouUp\public\css" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -168,6 +170,7 @@
       <workItem from="1655213524397" duration="4378000" />
       <workItem from="1655280478885" duration="11595000" />
       <workItem from="1655364538708" duration="4932000" />
+      <workItem from="1655712532044" duration="14578000" />
     </task>
     <task id="LOCAL-00001" summary="enum debug">
       <created>1655220259943</created>
@@ -232,7 +235,35 @@
       <option name="project" value="LOCAL" />
       <updated>1655399478703</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="js mise en page instructoIndex.js">
+      <created>1655400146510</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1655400146510</updated>
+    </task>
+    <task id="LOCAL-00011" summary="css addProposal modify_question.css">
+      <created>1655712894094</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1655712894094</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Try to manage modify_question.html.twig">
+      <created>1655727761472</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1655727761472</updated>
+    </task>
+    <task id="LOCAL-00013" summary="plus image">
+      <created>1655727970246</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1655727970246</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -272,6 +303,10 @@
     <MESSAGE value="correct bug = =&gt; == if" />
     <MESSAGE value="correction bug js display_question" />
     <MESSAGE value="css index.html.twig" />
-    <option name="LAST_COMMIT_MESSAGE" value="css index.html.twig" />
+    <MESSAGE value="js mise en page instructoIndex.js" />
+    <MESSAGE value="css addProposal modify_question.css" />
+    <MESSAGE value="Try to manage modify_question.html.twig" />
+    <MESSAGE value="plus image" />
+    <option name="LAST_COMMIT_MESSAGE" value="plus image" />
   </component>
 </project>

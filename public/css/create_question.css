@@ -73,7 +73,6 @@ tbody{
     margin: auto;
     padding: 20px 60px;
     border: none;
-    box-shadow: none;
     background-color: var(--fond);;
     font-size: 1.3em;
     -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);

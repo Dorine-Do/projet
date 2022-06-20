@@ -35,7 +35,7 @@ table{
     padding: .5em;
 }
 
-p{
+.partTitle{
     padding: 50px;
     font-weight: bold;
     font-size: 1.3em;
@@ -303,7 +303,7 @@ tbody{
         border: none;
     }
 
-    p{
+    .partTitle{
         padding: 0;
         margin-left: 20%;
     }
