@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block body %}
+    <h1>- Je modifie ma question -</h1>
     {# Form question #}
     <div class="form-question">
         {{ form_start(form) }}
@@ -96,5 +97,5 @@
 {% endblock %}
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
-    <script type="text/javascript" src="{{ asset('js/create_modify_question.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/modify_question.js') }}"></script>
 {% endblock %}
