@@ -52,9 +52,10 @@ class QuestionType extends AbstractType
                 'label'=>false,
 
             ])
-            ->add('proposal', CollectionType::class, [
+
+            ->add('proposal', CollectionType::class ,[
                 'entry_type' => ProposalFormType::class,
-                'label' => true,
+                'label' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
             ])
