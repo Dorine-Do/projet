@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="creation d'un dossier file_a_verifier correction bug">
-      <change beforePath="$PROJECT_DIR$/templates/instructor/file_a_verifier/create_question2.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/instructor/file_a_verifier/create_question2.html.twig" afterDir="false" />
+    <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="correction modify_question_new_version.html.twig">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/create_modify_question.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/create_modify_question.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/instructor/file_a_verifier/modify_question_new_version.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/instructor/file_a_verifier/modify_question_new_version.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -170,7 +171,7 @@
       <workItem from="1655213524397" duration="4378000" />
       <workItem from="1655280478885" duration="11595000" />
       <workItem from="1655364538708" duration="4932000" />
-      <workItem from="1655712532044" duration="15659000" />
+      <workItem from="1655712532044" duration="17123000" />
     </task>
     <task id="LOCAL-00001" summary="enum debug">
       <created>1655220259943</created>
@@ -284,7 +285,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655731578629</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="correction modify_question_new_version.html.twig">
+      <created>1655731945656</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1655731945656</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -331,6 +339,7 @@
     <MESSAGE value="modify_question_new_version" />
     <MESSAGE value="creation d'un dossier file_a_verifier" />
     <MESSAGE value="creation d'un dossier file_a_verifier correction bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="creation d'un dossier file_a_verifier correction bug" />
+    <MESSAGE value="correction modify_question_new_version.html.twig" />
+    <option name="LAST_COMMIT_MESSAGE" value="correction modify_question_new_version.html.twig" />
   </component>
 </project>
