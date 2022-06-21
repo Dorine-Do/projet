@@ -11,6 +11,7 @@ use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -99,15 +100,25 @@ class InstructorController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $count = 0;
+            $persitPropCount=0;
             $persitProp = [];
+//            dd($instanceQuestion);
             foreach ($instanceQuestion->getProposal() as $prop){
-                foreach ($arrayBeforeProp as $beforeProp){
-                    if($prop->getId() == $beforeProp){
+                $bool = in_array($prop->getId(),$arrayBeforeProp);
+                // Si la prop est une déjà créer en db ou si son id est null alors si elle vient d'être créée.
+                    if($bool || $prop->getId() == null ){
+
+                        // Ajout des lettres dans la réponse
+                        $alphabet = ['A','B','C','D','E','F'];
+                        $wording = $prop->getWording();
+                        $resut = $prop->setWording($alphabet[$persitPropCount]." ".$wording);
+
                         // Si l'utilisateur a modifié la reponse
-                        $prop->setQuestion($instanceQuestion);
+                        $prop->setQuestion($instanceQuestion);;
                         array_push($persitProp,$prop->getId());
+                        $persitPropCount++;
                     }
-                }
+
 
                 // Si la reponse est une reponse correcte
                 if($prop->getIsCorrect() === true){
@@ -126,11 +137,10 @@ class InstructorController extends AbstractController
             //Supprime le lien entre les proposals et la question que l'utilisateur ne veut plus
             $removeProp = array_diff($arrayBeforeProp,$persitProp);
             foreach ($removeProp as $id){
-                echo "before".$id;
                 $prop = $proposalRepository->find($id);
-//                $instanceQuestion->removeProposal($prop);
                 $em->remove($prop);
             }
+//            dd($instanceQuestion);
             $em->persist($instanceQuestion);
             $em->flush();
 
