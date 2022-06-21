@@ -2,11 +2,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let addbutton = document.querySelector(".addProposal")
     let removeButtons = document.querySelectorAll('.removeProposal')
-    let proposals_length = 0
+    let proposals_length = addbutton.dataset.index
 
 // Add function
     function clickAdd(e) {
-        console.log(e.target.dataset.form)
+        // console.log(e.target.dataset.form)
 
         // AJOUT D'UNE REPONSE
         let ul = document.querySelector('#list_proposal')
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             addbutton.dataset.index
         );
         li.className = "li_proposal"
-        console.log(li)
+        // console.log(li)
         let buttonRemoveNew = document.createElement("button")
         buttonRemoveNew.innerHTML = "Supprimer"
         buttonRemoveNew.classList.add("removeProposal")
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let begin = addbutton.dataset.index
 
         let letter = alphabet.slice(begin, end)
-        console.log(letter)
+        // console.log(letter)
 
         let p = document.createElement('p')
         p.className = 'p_letter'
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // INCREMENT LA LONGUEUR DU TABLEAU DES REPONSES
         addbutton.dataset.index++
         proposals_length = addbutton.dataset
-        console.log(addbutton.dataset.index++)
+        // console.log(addbutton.dataset.index++)
 
     }
 
@@ -60,18 +60,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // Remove Function
     function clickRemove() {
         this.parentElement.remove()
-
-        // let p_letters = document.querySelectorAll('.p_letter')
-        // p_letters.forEach(p =>{
-        //     let letters = p.textContent
-        //     console.log(letters)
-        //     for (let i; i>proposals_length.length; i++) {
-        //
-        //     }
-        // })
+        let alphabet = ['A','B','C','D','E','F']
+        let p_letters = document.querySelectorAll('.p_letter')
+        p_letters.forEach(p =>{
+            let letters = p.textContent
+            // console.log(letters)
+            for (let i; i>proposals_length.length; i++) {
+                p.innerHTML = alphabet[i];
+                console.log(p)
+            }
+        })
         console.log(proposals_length)
-
-
     }
 
 // *******************************************************************************************************
@@ -82,7 +81,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 //Remove
 
     for (const removeButton of removeButtons) {
-        console.log(removeButton)
         removeButton.addEventListener("click", clickRemove)
     }
 
@@ -98,11 +96,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let textareaContent = textarea.textContent
 
         let letter = textareaContent.slice(0,1)
-        console.log(letter)
+        // console.log(letter)
         let arrayTexteareaContent = textareaContent.split('')
         arrayTexteareaContent.splice(0,2)
         arrayTexteareaContent = arrayTexteareaContent.join('')
-        console.log(arrayTexteareaContent)
+        // console.log(arrayTexteareaContent)
 
         textarea.innerHTML = arrayTexteareaContent
 

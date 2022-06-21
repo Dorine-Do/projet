@@ -70,38 +70,61 @@ class InstructorController extends AbstractController
      * @param $em
      * @return Response
      */
-    public function modifyQuestion(Request $request, Question $question, EntityManagerInterface $em, QuestionRepository $questionRepository): Response
+    public function modifyQuestion(Request $request, $question,QuestionRepository $questionRepository, ProposalRepository $proposalRepository, EntityManagerInterface $em): Response
     {
+        $instanceQuestion = $questionRepository->find($question);
+
+        //Stock les id avant render le form
+        $arrayBeforeProp =[];
+        foreach ($instanceQuestion->getProposal() as $beforeProp){
+            array_push($arrayBeforeProp, $beforeProp->getId());
+        }
+
         // création form
-        $form = $this->createForm(CreateQuestionType::class,$question);
-        // voir createdAt et UpdatedAt
-        $date=new \DateTime();
+        $form = $this->createForm(CreateQuestionType::class,$instanceQuestion);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $count = 0;
-            foreach ($question->getProposal() as $prop){
 
+            $count = 0;
+            $persitProp = [];
+            foreach ($instanceQuestion->getProposal() as $prop){
+                foreach ($arrayBeforeProp as $beforeProp){
+                    if($prop->getId() == $beforeProp){
+                        // Si l'utilisateur a modifié la reponse
+                        $prop->setQuestion($instanceQuestion);
+                        array_push($persitProp,$prop->getId());
+                    }
+                }
+
+                // Si la reponse est une reponse correcte
                 if($prop->getIsCorrect() === true){
                     $count++;
                 }
             }
+
+            // Set le champs ResponseType
             if($count > 1){
-                $question->setResponseType("checkbox");
+                $instanceQuestion->setResponseType("checkbox");
             }elseif ($count == 1){
-                $question->setResponseType("radio");
+                $instanceQuestion->setResponseType("radio");
             }
 
-            $em->persist($question);
+            /*TODO à faire vérifier au chef => remove()*/
+            //Supprime le lien entre les proposals et la question que l'utilisateur ne veut plus
+            $removeProp = array_diff($arrayBeforeProp,$persitProp);
+            foreach ($removeProp as $id){
+                echo "before".$id;
+                $prop = $proposalRepository->find($id);
+//                $instanceQuestion->removeProposal($prop);
+                $em->remove($prop);
+            }
+            $em->persist($instanceQuestion);
             $em->flush();
 
             return $this->redirectToRoute('instructor_display_questions');
         }
-
-        $date = new DateTime('2022-06-18');
-        $donnees = $em->getRepository(QcmInstance::class)->findBy(['release_date' => $date]);
-        dd($donnees);
 
         return $this->render('instructor/file_a_verifier/modify_question_new_version.html.twig', [
             'form' => $form->createView()
@@ -167,5 +190,4 @@ class InstructorController extends AbstractController
 
         ]);
     }
-
 }

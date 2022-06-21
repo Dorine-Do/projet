@@ -9,6 +9,7 @@
     <list default="true" id="ce267e13-b4ba-4166-8004-934c19405ab8" name="Changes" comment="correction modify_question_new_version.html.twig">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/create_modify_question.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/create_modify_question.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/InstructorController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InstructorController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/instructor/file_a_verifier/modify_question_new_version.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/instructor/file_a_verifier/modify_question_new_version.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -135,6 +136,9 @@
       <path value="$PROJECT_DIR$/vendor/symfony/flex" />
     </include_path>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2AZODekoIkIoxKgxDIyiNB2QLDc" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -176,6 +180,8 @@
       <workItem from="1655213524397" duration="4378000" />
       <workItem from="1655280478885" duration="11595000" />
       <workItem from="1655364538708" duration="4932000" />
+      <workItem from="1655712532044" duration="23229000" />
+      <workItem from="1655798337764" duration="4557000" />
       <workItem from="1655712532044" duration="17123000" />
       <workItem from="1655712532044" duration="15329000" />
       <workItem from="1655798507996" duration="5016000" />
@@ -299,7 +305,14 @@
       <option name="project" value="LOCAL" />
       <updated>1655731945656</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="correction modify_question_new_version.html.twig">
+      <created>1655733900560</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1655733900560</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
