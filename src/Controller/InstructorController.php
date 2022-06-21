@@ -9,6 +9,7 @@ use App\Form\CreateQuestionType;
 use App\Form\QuestionType;
 use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
+use App\Repository\SessionRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -72,6 +73,10 @@ class InstructorController extends AbstractController
      */
     public function modifyQuestion(Request $request, $question,QuestionRepository $questionRepository, ProposalRepository $proposalRepository, EntityManagerInterface $em): Response
     {
+        $releasedateonsession = $questionRepository -> getSessionWithReleaseDate($question);
+        $session = $releasedateonsession[0]['name'];
+
+
         // GetQuestionById with release_date
         $releasedate = $questionRepository -> getQuestionWithReleaseDate($question);
 
@@ -140,6 +145,7 @@ class InstructorController extends AbstractController
         return $this->render('instructor/file_a_verifier/modify_question_new_version.html.twig', [
             'form' => $form->createView(),
             'distribute' => $distribute,
+            'session' => $session,
         ]);
     }
 
