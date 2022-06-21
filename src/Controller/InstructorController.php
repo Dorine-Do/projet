@@ -173,6 +173,11 @@ class InstructorController extends AbstractController
 
             $count = 0;
             foreach ($questionEntity->getProposal() as $proposal){
+                // Ajout des lettres dans la réponse
+                $alphabet = ['A','B','C','D','E','F'];
+                $wording = $proposal->getWording();
+                $resut = $proposal->setWording($alphabet[$persitPropCount]." ".$wording);
+
                 // set les proposals
                 $proposal->setQuestion($questionEntity);
 
@@ -199,6 +204,7 @@ class InstructorController extends AbstractController
             $questionEntity->setIsMandatory(false);// Toujours false quand c'est un instructor qui créé une question
 //            dd($form->getData());
 
+            dd($questionEntity);
             //  validation et enregistrement des données du form dans la bdd
             $em->persist($questionEntity);
             $em->flush();
