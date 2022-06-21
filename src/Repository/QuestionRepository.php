@@ -108,9 +108,9 @@ class QuestionRepository extends ServiceEntityRepository
         WITH l.qcm = qcm.id
         INNER JOIN App\Entity\QcmInstance qcmi
         WITH qcmi.qcm = qcm.id
-        WHERE q.id = 3
+        WHERE q.id = :id_question
         ')
-//            ->setParameter('id_question', $question_id)
+            ->setParameter('id_question', $question_id)
             ->getResult();
 
     }

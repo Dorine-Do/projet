@@ -72,6 +72,17 @@ class InstructorController extends AbstractController
      */
     public function modifyQuestion(Request $request, $question,QuestionRepository $questionRepository, ProposalRepository $proposalRepository, EntityManagerInterface $em): Response
     {
+        // GetQuestionById with release_date
+        $releasedate = $questionRepository -> getQuestionWithReleaseDate($question);
+
+        if($releasedate != null){
+        $date = $releasedate[0]['release_date'];
+        $distribute = date_format($date, 'd/m/y');
+        }else{
+            $distribute = null;
+        }
+
+        // GetQuestionById
         $instanceQuestion = $questionRepository->find($question);
 
         //Stock les id avant render le form
@@ -127,7 +138,8 @@ class InstructorController extends AbstractController
         }
 
         return $this->render('instructor/file_a_verifier/modify_question_new_version.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'distribute' => $distribute,
         ]);
     }
 
