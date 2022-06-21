@@ -29,7 +29,7 @@
         </p>
     {% else %}
         <p>
-            Votre quesiton n'a pas encore été donné aux élèves, vous pouvez vous la modifier
+            Votre quesiton n'a pas encore été donnée aux élèves, vous pouvez encore la modifier
         </p>
     {% endif %}
     </div>
@@ -60,7 +60,7 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="2"><p class = "partTitle"><span class="numeroform" >4</span> Réponses</p></td>
+                <td colspan="2"><p class = "partTitle"><span class="numeroform" >4</span> Créer des réponses</p></td>
                 <td colspan="2" class="second">
                     <ul id ="list_proposal">
                         {% for proposal in form.proposal %}
@@ -91,15 +91,17 @@
             <tr>
                 <td colspan="2" class="premier">
                     <p class = "partTitle"><span class="numeroform">5</span> Désactiver la question</p>
+                    <p>La question ne sera plus dans la liste des questions pouvant être ajoutée à un qcm</p>
                 </td>
                 <td colspan="2" class="second">
                     {{ form_row(form.enabled) }}
                 </td>
             </tr>
-
-            <tr>
-                <td colspan="2"><button type="submit" class="valid">Valider</button></td>
-            </tr>
+            {% if distribute == false %}
+                <tr>
+                    <td colspan="2"><button type="submit" class="valid">Valider</button></td>
+                </tr>
+            {% endif %}
         </table>
 
         {{ form_end(form) }}
@@ -109,5 +111,5 @@
 {% endblock %}
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
-    <script type="text/javascript" src="{{ asset('js/modify_question.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/create_modify_question.js') }}"></script>
 {% endblock %}
