@@ -91,4 +91,29 @@ class QuestionRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function getQuestionWithReleaseDate($question_id)
+    {
+             $questionBdd = $this->getEntityManager();
+        return $questionBdd->createQuery('
+        SELECT q.id, q.wording, qcmi.release_date
+        FROM App\Entity\Question q
+        INNER JOIN App\Entity\LinkQcmQuestion l
+        WITH l.question = q.id
+        INNER JOIN App\Entity\Qcm qcm
+        WITH l.qcm = qcm.id
+        INNER JOIN App\Entity\QcmInstance qcmi
+        WITH qcmi.qcm = qcm.id
+        WHERE q.id = 3
+        ')
+//            ->setParameter('id_question', $question_id)
+            ->getResult();
+
+    }
+
+
 }

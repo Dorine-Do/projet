@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 
+use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Form\CreateQuestionType;
 use App\Form\QuestionType;
 use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,7 +70,7 @@ class InstructorController extends AbstractController
      * @param $em
      * @return Response
      */
-    public function modifyQuestion(Request $request, Question $question, EntityManagerInterface $em): Response
+    public function modifyQuestion(Request $request, Question $question, EntityManagerInterface $em, QuestionRepository $questionRepository): Response
     {
         // création form
         $form = $this->createForm(CreateQuestionType::class,$question);
@@ -96,6 +98,10 @@ class InstructorController extends AbstractController
 
             return $this->redirectToRoute('instructor_display_questions');
         }
+
+        $date = new DateTime('2022-06-18');
+        $donnees = $em->getRepository(QcmInstance::class)->findBy(['release_date' => $date]);
+        dd($donnees);
 
         return $this->render('instructor/file_a_verifier/modify_question_new_version.html.twig', [
             'form' => $form->createView()
@@ -161,4 +167,5 @@ class InstructorController extends AbstractController
 
         ]);
     }
+
 }
