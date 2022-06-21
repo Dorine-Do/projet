@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let addbutton = document.querySelector(".addProposal")
     let removeButtons = document.querySelectorAll('.removeProposal')
-    let proposals_length = addbutton.dataset.index
+    let index = addbutton.dataset.index
 
 // Add function
     function clickAdd(e) {
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // Replace
         li.innerHTML += e.target.dataset.form.replace(
             /__name__/g,
-            addbutton.dataset.index
+            index
         );
         li.className = "li_proposal"
         // console.log(li)
@@ -36,8 +36,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         let alphabet = ['A','B','C','D','E','F']
 
-        let end = parseInt(addbutton.dataset.index,10) + 1 // 4 +1 = 5    '4' + 1 = 41
-        let begin = addbutton.dataset.index
+        let end = parseInt(index,10) + 1 // 4 +1 = 5    '4' + 1 = 41
+        let begin = index
 
         let letter = alphabet.slice(begin, end)
         // console.log(letter)
@@ -50,9 +50,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         // ************************************************************************************
         // INCREMENT LA LONGUEUR DU TABLEAU DES REPONSES
-        addbutton.dataset.index++
-        proposals_length = addbutton.dataset
-        // console.log(addbutton.dataset.index++)
+        index++
+        // console.log(index)
 
     }
 
@@ -62,15 +61,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
         this.parentElement.remove()
         let alphabet = ['A','B','C','D','E','F']
         let p_letters = document.querySelectorAll('.p_letter')
+        let count=0;
         p_letters.forEach(p =>{
             let letters = p.textContent
-            // console.log(letters)
-            for (let i; i>proposals_length.length; i++) {
-                p.innerHTML = alphabet[i];
-                console.log(p)
-            }
+            p.innerHTML = alphabet[count];
+            count ++
         })
-        console.log(proposals_length)
+        index --
     }
 
 // *******************************************************************************************************
