@@ -40,7 +40,7 @@ class CreateQuestionType extends AbstractType
 
             ])
 
-            // Imbriquation formulaire voir instructor > index.html.twig
+            // Imbriquation de formulaire voir instructor > index.html.twig
             ->add('proposal', CollectionType::class, [
                 'entry_type' => ProposalFormType::class,
                 'label' => false,
