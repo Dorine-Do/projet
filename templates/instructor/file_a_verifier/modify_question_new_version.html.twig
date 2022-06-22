@@ -21,7 +21,7 @@
         </p>
 
         <p>
-            Votre question a déjà été diffusée aux élèves, elle ne peut plus être modifiée.
+            Votre question a déjà été diffusée aux élèves, elle ne peut plus être modifiée. <br>
 
             - 1ère date de diffusion : {{distribute}} <br>
             - Classe : {{session}}
@@ -108,6 +108,13 @@
 
     <div class="info_question">
         <p>
+            Cette page a pour but de permettre de corriger les possibles fautes orthoqraphiques dans l'intitulé de la
+            quesiton ou des réponses.
+        </p>
+        <p>
+            <strong> Attention </strong>, une fois créée et distribuée aux élève, la question ne pourra plus être modifiées ou supprimer.
+        </p>
+        <p>
             Votre quesiton n'a pas encore été donnée aux élèves, vous pouvez encore la modifier
         </p>
     </div>
@@ -137,7 +144,7 @@
             </tr>
             <tr>
                 <td colspan="2"><p class = "partTitle"><span class="numeroform" >4</span> Créer des réponses</p></td>
-                <td colspan="2" class="second">
+                <td colspan="2" class="second" id="errorChecked">
                     <ul id ="list_proposal">
                         {% for proposal in form.proposal %}
                             <li class="li_proposal">

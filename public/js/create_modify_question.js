@@ -22,6 +22,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
         );
         li.className = "li_proposal"
         console.log(li)
+
+        console.log(li.firstElementChild)
+
+        let checkbox = li.firstElementChild.lastElementChild.lastElementChild
+        checkbox.className = "isCorrect"
+
         let buttonRemoveNew = document.createElement("button")
         buttonRemoveNew.innerHTML = "Supprimer"
         buttonRemoveNew.classList.add("removeProposal")
@@ -77,12 +83,38 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // isChecked Function
 
     function isChecked(e){
-        if(correct.checked){
-            console.log('Check effectué')
+        e.preventDefault()
+        let checkbox = document.querySelectorAll('.isCorrect')
+        console.log(checkbox)
+        let check = []
+        checkbox.forEach(box => {
+            console.log(box)
+            if(box.checked === true){
+                console.log('Check effectué')
+                check.push(true)
+            }else{
+                alert('Veuillez cocher une case')
+                check.push(false)
+            }
+        })
+        console.log(check)
+        let bool = check.indexOf(true)
+        if(bool !== -1){
+            document.forms[0].submit()
         }else{
-            alert('Veuillez cocher une case')
+            let p = document.createElement('p')
+            p.innerHTML = 'Veuillez cocher au moins une réponse correcte pour cette question'
+            let div_proposal = document.getElementById('errorChecked')
+            div_proposal.append(p)
+            p.className = 'errorP'
         }
     }
+
+
+
+
+
+
 
 // *******************************************************************************************************
 // Add
@@ -106,11 +138,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let div_proposal = document.querySelectorAll('.div_proposal')
     // console.log(div_proposal)
     // console.log(div_proposal[0].firstElementChild.lastChild)
-
     div_proposal.forEach(div=>{
 
         let textarea = div.firstElementChild.lastChild
         let textareaContent = textarea.textContent
+        let checkbox = div.lastElementChild.lastElementChild
+        checkbox.className = 'isCorrect'
 
         let letter = textareaContent.slice(0,1)
         // console.log(letter)

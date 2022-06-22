@@ -219,6 +219,18 @@ tbody{
     padding-left: 25px;
 }
 
+.errorP{
+    color: red;
+    text-align: center;
+    padding: 3px;
+    border: 1px solid red;
+    border-radius: 10px;
+}
+
+.info_question{
+    text-align: center;
+}
+
 @media screen and (max-width: 1200px) {
 
     .buttondiff{
