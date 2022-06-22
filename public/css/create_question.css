@@ -85,9 +85,10 @@ tbody{
     border-radius: 5px;
     font-weight: bold;
     border: none;
-    padding: 3px 9px;
+    padding: 1px 3px;
     font-size: 0.7em;
-    margin-bottom: 15px;
+    height: 30px;
+    margin-left: 10px;
 }
 
 #addProposal{
@@ -151,6 +152,35 @@ li{
 
 .paddingoption{
     padding-left: 25px;
+}
+
+.li_proposal{
+    margin: auto;
+    display: flex;
+    justify-content: flex-start
+}
+
+.div_proposal{
+    display: flex;
+    justify-content: flex-start
+}
+
+.div_wording{
+    display: flex;
+    justify-content: flex-start;
+    padding-right: 20px;
+}
+
+.p_letter{
+    background-color: var(--grey);
+    padding: 8px 17px;
+    border-radius: 50%;
+    color: white;
+    margin-right: 15px;
+}
+
+#response{
+
 }
 
 

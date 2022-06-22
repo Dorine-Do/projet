@@ -23,7 +23,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
         li.className = "li_proposal"
         console.log(li)
 
-        console.log(li.firstElementChild)
+        console.log(li.firstElementChild.firstChild)
+
+        let div_wording = li.firstElementChild.firstChild
+        div_wording.className = 'div_wording'
 
         let checkbox = li.firstElementChild.lastElementChild.lastElementChild
         checkbox.className = "isCorrect"
