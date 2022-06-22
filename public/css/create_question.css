@@ -12,9 +12,8 @@ table{
 
 .numeroform{
     background-color: var(--pamplemousse);
-    padding: 12px 17px;
+    padding: 8px 17px;
     border-radius: 50%;
-    border: 1px solid;
 }
 
 p{
@@ -98,7 +97,7 @@ tbody{
     border: 4px solid var(--writing);
     font-size: 2em;
     background-color: var(--fond);
-    margin-left: 30px;
+    margin: auto;
 
 }
 
@@ -157,12 +156,8 @@ li{
 .li_proposal{
     margin: auto;
     display: flex;
-    justify-content: flex-start
-}
-
-.div_proposal{
-    display: flex;
-    justify-content: flex-start
+    align-items: center;
+    padding: 30px;
 }
 
 .div_wording{
@@ -179,9 +174,49 @@ li{
     margin-right: 15px;
 }
 
-#response{
-
+#errorChecked{
+    display: flex;
+    justify-content: flex-start
 }
+.div_proposal{
+    display: flex;
+    align-items: center;
+}
+
+#create_question_enabled{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 4px;
+    height: 30px;
+    width: 30px;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+#create_question_enabled:checked {
+    background: var(--vert);
+    margin:0px;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid;
+}
+#create_question_enabled:checked:before {
+     font-family: 'Alumni Sans', sans-serif;
+     display: block;
+     color: grey;
+     font-size: 13px;
+     position: absolute;
+ }
+
+.option{
+    margin: auto;
+    background-color: var(--fond);
+    padding: 25px 1px;
+    border-radius: 10px;
+    width: 85%;
+    text-align: center;
+}
+
 
 
 @media screen and (max-width: 1200px) {
