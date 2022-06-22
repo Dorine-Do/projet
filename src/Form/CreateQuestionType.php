@@ -26,6 +26,7 @@ class CreateQuestionType extends AbstractType
         $builder
             ->add('wording',TextareaType::class,[
                 'label'=>false,
+                'required' => true,
                 'constraints' => [
                     new Assert\Length([
                         'min' => 0,
@@ -36,8 +37,9 @@ class CreateQuestionType extends AbstractType
                 ]
             ])
             ->add('difficulty', enumType::class,[
-                "class" => Difficulty::class
-
+                "class" => Difficulty::class,
+                'choice_label'=> 'value',
+                'label'=>false,
             ])
 
             // Imbriquation de formulaire voir instructor > index.html.twig
