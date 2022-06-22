@@ -114,17 +114,16 @@ class InstructorController extends AbstractController
                 // Si la prop est une déjà créer en db ou si son id est null alors si elle vient d'être créée.
                     if($bool || $prop->getId() == null ){
 
-                        // Ajout des lettres dans la réponse
-                        $alphabet = ['A','B','C','D','E','F'];
-                        $wording = $prop->getWording();
-                        $prop->setWording($alphabet[$persitPropCount]." ".$wording);
+//                        // Ajout des lettres dans la réponse
+//                        $alphabet = ['A','B','C','D','E','F'];
+//                        $wording = $prop->getWording();
+//                        $prop->setWording($alphabet[$persitPropCount]." ".$wording);
 
                         // Si l'utilisateur a modifié la reponse
                         $prop->setQuestion($instanceQuestion);;
                         array_push($persitProp,$prop->getId());
                         $persitPropCount++;
                     }
-
 
                 // Si la reponse est une reponse correcte
                 if($prop->getIsCorrect() === true){
@@ -153,10 +152,12 @@ class InstructorController extends AbstractController
             return $this->redirectToRoute('instructor_display_questions');
         }
 
+        /*TODO Vérifier si la add passe bien au front*/
         return $this->render('instructor/file_a_verifier/modify_question_new_version.html.twig', [
             'form' => $form->createView(),
             'distribute' => $distribute,
             'session' => $session,
+            "add"=>false,
         ]);
     }
 
@@ -181,10 +182,10 @@ class InstructorController extends AbstractController
             $count = 0;
             $persitPropCount=0;
             foreach ($questionEntity->getProposal() as $proposal){
-                // Ajout des lettres dans la réponse
-                $alphabet = ['A','B','C','D','E','F'];
-                $wording = $proposal->getWording();
-                $proposal->setWording($alphabet[$persitPropCount]." ".$wording);
+//                // Ajout des lettres dans la réponse
+//                $alphabet = ['A','B','C','D','E','F'];
+//                $wording = $proposal->getWording();
+//                $proposal->setWording($alphabet[$persitPropCount]." ".$wording);
 
                 // set les proposals
                 $proposal->setQuestion($questionEntity);
@@ -220,8 +221,8 @@ class InstructorController extends AbstractController
         }
 
         return $this->render('instructor/file_a_verifier/create_question2.html.twig', [
-            'controller_name' => 'InstructorController',
             'form' => $form->createView(),
+            "add"=>true,
 
         ]);
     }

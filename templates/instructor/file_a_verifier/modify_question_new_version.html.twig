@@ -189,4 +189,7 @@
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
     <script type="text/javascript" src="{{ asset('js/create_modify_question.js') }}"></script>
+    <script>
+        let add = {{add|json_encode}};
+    </script>
 {% endblock %}

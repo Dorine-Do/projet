@@ -5,15 +5,6 @@
     <link href="{{asset('css/create_question.css')}}" rel="stylesheet">
 {% endblock %}
 
-{% block javascripts %}
-
-    {# Fichier js pour faire apparaitre les inputs du collectionType #}
-    <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>
-
-    <script type="text/javascript" src="{{ asset('js/create_modify_question.js') }}"></script>
-{% endblock %}
-
-
 {% block body %}
     <h1>Je crée ma question</h1>
     {# Form question #}
@@ -39,7 +30,7 @@
         </tr>
         <tr>
             <td colspan="2"><p><span class="numeroform" >4</span> Réponses</p></td>
-            <td colspan="2" class="second">
+            <td colspan="2" class="second" id="td_response_proposal">
                 <ul id ="list_proposal">
                     {% for proposal in form.proposal %}
                         <li class="li_proposal">
@@ -73,4 +64,16 @@
     {{ form_end(form) }}
 
 
+{% endblock %}
+
+{% block javascripts %}
+
+    {# Fichier js pour faire apparaitre les inputs du collectionType #}
+    <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('js/create_modify_question.js') }}"></script>
+
+    <script>
+        let add = {{add}};
+    </script>
 {% endblock %}
