@@ -59,7 +59,6 @@ class InstructorController extends AbstractController
                 array_push($resumeProposal, $proposalValues);
             }
         }
-//        dd($resumeProposal);
         return $this->render('instructor/index.html.twig', [
             'questions' => $questions,
             'proposals' => $resumeProposal,
