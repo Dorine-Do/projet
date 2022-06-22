@@ -75,10 +75,8 @@ class InstructorController extends AbstractController
     public function modifyQuestion(Request $request, $question,QuestionRepository $questionRepository, ProposalRepository $proposalRepository, EntityManagerInterface $em): Response
     {
         $releasedateonsession = $questionRepository -> getSessionWithReleaseDate($question);
-
-
         if($releasedateonsession != null){
-            $session = $releasedateonsession[0]['name'];
+        $session = $releasedateonsession[0]['name'];
         }else{
             $session = null;
         }
@@ -112,7 +110,6 @@ class InstructorController extends AbstractController
             $count = 0;
             $persitPropCount=0;
             $persitProp = [];
-//            dd($instanceQuestion);
             foreach ($instanceQuestion->getProposal() as $prop){
                 $bool = in_array($prop->getId(),$arrayBeforeProp);
                 // Si la prop est une déjà créer en db ou si son id est null alors si elle vient d'être créée.
@@ -121,7 +118,7 @@ class InstructorController extends AbstractController
                         // Ajout des lettres dans la réponse
                         $alphabet = ['A','B','C','D','E','F'];
                         $wording = $prop->getWording();
-                        $resut = $prop->setWording($alphabet[$persitPropCount]." ".$wording);
+                        $prop->setWording($alphabet[$persitPropCount]." ".$wording);
 
                         // Si l'utilisateur a modifié la reponse
                         $prop->setQuestion($instanceQuestion);;
@@ -150,7 +147,7 @@ class InstructorController extends AbstractController
                 $prop = $proposalRepository->find($id);
                 $em->remove($prop);
             }
-//            dd($instanceQuestion);
+
             $em->persist($instanceQuestion);
             $em->flush();
 
@@ -183,14 +180,16 @@ class InstructorController extends AbstractController
             /* TODO setDifficulty avec Enum = Pour l'instant c'est un select mais devra être en bouton */
 
             $count = 0;
+            $persitPropCount=0;
             foreach ($questionEntity->getProposal() as $proposal){
                 // Ajout des lettres dans la réponse
                 $alphabet = ['A','B','C','D','E','F'];
                 $wording = $proposal->getWording();
-                $resut = $proposal->setWording($alphabet[$persitPropCount]." ".$wording);
+                $proposal->setWording($alphabet[$persitPropCount]." ".$wording);
 
                 // set les proposals
                 $proposal->setQuestion($questionEntity);
+                $persitPropCount ++;
 
                 /* TODO setResponseType pour l'instant c'est checkbox avec la question mais devra être une question à part*/
                 // set le response type
@@ -213,9 +212,7 @@ class InstructorController extends AbstractController
 
 
             $questionEntity->setIsMandatory(false);// Toujours false quand c'est un instructor qui créé une question
-//            dd($form->getData());
 
-            dd($questionEntity);
             //  validation et enregistrement des données du form dans la bdd
             $em->persist($questionEntity);
             $em->flush();
