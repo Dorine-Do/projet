@@ -75,8 +75,13 @@ class InstructorController extends AbstractController
     public function modifyQuestion(Request $request, $question,QuestionRepository $questionRepository, ProposalRepository $proposalRepository, EntityManagerInterface $em): Response
     {
         $releasedateonsession = $questionRepository -> getSessionWithReleaseDate($question);
-        $session = $releasedateonsession[0]['name'];
 
+
+        if($releasedateonsession != null){
+            $session = $releasedateonsession[0]['name'];
+        }else{
+            $session = null;
+        }
 
         // GetQuestionById with release_date
         $releasedate = $questionRepository -> getQuestionWithReleaseDate($question);

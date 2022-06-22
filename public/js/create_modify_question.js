@@ -3,8 +3,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let addbutton = document.querySelector(".addProposal")
     let removeButtons = document.querySelectorAll('.removeProposal')
     let index = addbutton.dataset.index
+    let correct = document.querySelectorAll('input')
+    let validate = document.querySelector(".valid")
 
 // Add function
+
     function clickAdd(e) {
         // console.log(e.target.dataset.form)
 
@@ -18,7 +21,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             index
         );
         li.className = "li_proposal"
-        // console.log(li)
+        console.log(li)
         let buttonRemoveNew = document.createElement("button")
         buttonRemoveNew.innerHTML = "Supprimer"
         buttonRemoveNew.classList.add("removeProposal")
@@ -71,6 +74,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
 // *******************************************************************************************************
+// isChecked Function
+
+    function isChecked(e){
+        if(correct.checked){
+            console.log('Check effectué')
+        }else{
+            alert('Veuillez cocher une case')
+        }
+    }
+
+// *******************************************************************************************************
 // Add
     addbutton.addEventListener("click", clickAdd)
 
@@ -80,6 +94,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
     for (const removeButton of removeButtons) {
         removeButton.addEventListener("click", clickRemove)
     }
+
+// *******************************************************************************************************
+//Validate
+
+    validate.addEventListener("click", isChecked)
+
 
 // *******************************************************************************************************
 // AFFICHE LA LETTRE DE LA REPONSE EN DEHORS DU TEXTEAREA
