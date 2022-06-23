@@ -2,18 +2,20 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './styles/app.css';
+import DisplayQuestionsInstructor from './js/components/QuestionInstructor';
 
 
-import Home from './js/components/Home';
-
-class DisplayQuestionsInstructor extends React.Component {
+class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state =
             {
-                questions: [{'name' :'Yeah!'}],
+                questions: [],
+                proposals: [],
                 word : "heelo"
             };
+    }
+    componentDidMount() {
         this.getUsers();
     }
 
@@ -37,36 +39,21 @@ class DisplayQuestionsInstructor extends React.Component {
                 }
             })
             .then(questionsData => {
-
-                // let test = questionsData[0]
-                // let test = [{"id":1}]
-                // console.log(test)
-                // this.setState({ questions: [test]})
-                this.setState({ word: "Youpi"})
-
-                console.log(this.state.word)
-                console.log(questionsData);
+                this.setState({ proposals: questionsData.proposals})
+                this.setState({ questions: questionsData.questions})
+                console.log(questionsData.proposals);
             })
     }
-    render() {
-        console.log(this.state.word)
-        return (
-            <div>
-                <h1>Hello, world!</h1>
-                <h2>It is </h2>
-                {/*{this.state.questions}*/}
+}
 
-                {this.state.word}
-                { this.state.questions.map(question =>
-                    <li>{question.name}</li>
-                )}
-            </div>
-        );
-    }
+function App () {
+
 }
 
 const container = document.getElementById('root');
 const root = createRoot(container);
     root.render(
-        <DisplayQuestionsInstructor/>
+        <div className={"container"}>
+            <Home/>
+        </div>
     );

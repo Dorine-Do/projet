@@ -113,12 +113,12 @@ class Question
         return $this;
     }
 
-    public function getDifficulty(): ?string
+    public function getDifficulty()
     {
         return $this->difficulty;
     }
 
-    public function setDifficulty(string $difficulty): self
+    public function setDifficulty($difficulty): self
     {
         $this->difficulty = $difficulty;
 
