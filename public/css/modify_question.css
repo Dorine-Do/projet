@@ -231,6 +231,40 @@ tbody{
     text-align: center;
 }
 
+#create_question_enabled{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 4px;
+    height: 30px;
+    width: 30px;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+#create_question_enabled:checked {
+    background: var(--vert);
+    margin:0px;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid;
+}
+#create_question_enabled:checked:before {
+    font-family: 'Alumni Sans', sans-serif;
+    display: block;
+    color: grey;
+    font-size: 13px;
+    position: absolute;
+}
+
+.option{
+    margin: auto;
+    background-color: var(--fond);
+    padding: 25px 1px;
+    border-radius: 10px;
+    width: 85%;
+    text-align: center;
+}
+
 @media screen and (max-width: 1200px) {
 
     .buttondiff{
@@ -284,11 +318,15 @@ tbody{
         padding-bottom: 60px;
     }
 
+    .li_proposal{
+        width: 33%
+    }
+
 }
 
 @media screen and (max-width: 450px) {
     .container{
-        max-width: 90%;
+        width: 90%;
     }
 
     table{
@@ -312,6 +350,7 @@ tbody{
         padding: 4px 16px;
         border-radius: 50%;
         border: none;
+        margin-right: 10px;
     }
 
     .partTitle{
@@ -352,4 +391,15 @@ tbody{
     .li_proposal{
         width: 80%;
     }
+
+    .center{
+        text-align: center;
+    }
+    .addProposal{
+        margin-right: auto;
+        margin-left: auto;
+        display: block;
+        margin-top: 10px;
+    }
+
 }

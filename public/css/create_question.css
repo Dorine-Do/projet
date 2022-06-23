@@ -271,9 +271,9 @@ li{
 
 @media screen and (max-width: 450px) {
 
-     .container{
-         max-width: 90%;
-     }
+    .container{
+        max-width: 90%;
+    }
 
     table{
         margin: auto;
@@ -329,4 +329,47 @@ li{
         margin-left: 0;
     }
 
+    .div_proposal, .li_proposal, .div_wording, #errorChecked{
+        flex-direction: column;
+    }
+
+    .div_wording{
+        padding: 0;
+    }
+
+    .p_letter{
+        text-align: center;
+    }
+
+    .li_proposal{
+        text-align: center;
+        padding: 0;
+    }
+
+    .div_wording textarea{
+        width: 200px;
+        height: 50px;
+        margin: 15px auto;
+
+    }
+    .div_wording .p_letter{
+        width: 10px;
+        margin: auto auto 25px auto;
+    }
+
+    .removeProposal{
+        width: 150px;;
+        margin: 15px auto 50px auto;
+        display: block;
+    }
+
+    #addProposal{
+        font-size: 1.4em;
+        border: 1px solid;
+        padding: 2px 9px 4px 9px;
+    }
+
+    #list_proposal{
+        padding-left: 0;
+    }
 }
