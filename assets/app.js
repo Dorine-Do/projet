@@ -9,29 +9,56 @@ import Home from './js/components/Home';
 class DisplayQuestionsInstructor extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {questions: []};
-    }
-    componentDidMount() {
+        this.state =
+            {
+                questions: [{'name' :'Yeah!'}],
+                word : "heelo"
+            };
         this.getUsers();
     }
+
     getUsers() {
-        fetch(`http://localhost:8000/instucteur/questions`,{mode: 'cors'})
+        let myHeaders = new Headers({
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        });
+        let myInit = {
+            method: 'GET',
+            headers: myHeaders,
+            mode: 'cors',
+            cache: 'default' };
+
+        fetch(`/instucteur/questions`,myInit)
             .then(response => {
                 if( response.ok){
-                    return response.json()}
+                    return response.json()
+                }else{
+                    console.log(response)
+                }
             })
             .then(questionsData => {
-                this.setState({ questions: questionsData.data, loading: false})
-                console.log(this.state.questions)
+
+                // let test = questionsData[0]
+                // let test = [{"id":1}]
+                // console.log(test)
+                // this.setState({ questions: [test]})
+                this.setState({ word: "Youpi"})
+
+                console.log(this.state.word)
+                console.log(questionsData);
             })
     }
     render() {
+        console.log(this.state.word)
         return (
             <div>
                 <h1>Hello, world!</h1>
                 <h2>It is </h2>
+                {/*{this.state.questions}*/}
+
+                {this.state.word}
                 { this.state.questions.map(question =>
-                    <li>{question.wording}</li>
+                    <li>{question.name}</li>
                 )}
             </div>
         );
