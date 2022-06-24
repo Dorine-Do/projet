@@ -15,6 +15,12 @@ ul{
     list-style: none;
 }
 
+a{
+    text-decoration: none;
+    color: var(--grey);
+    font-family: 'Alumni Sans', sans-serif;
+}
+
 h1{
     font-family: 'Alumni Sans', sans-serif;
     font-style: normal;
