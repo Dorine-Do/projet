@@ -15,7 +15,7 @@ class ProposalFormType extends AbstractType
     {
         $builder
             ->add('wording',TextareaType::class, [
-                'label'    => 'Intitulé'
+                'label'    => false
             ])
             ->add('is_correct',CheckboxType::class, [
                 'label'    => 'Reponse correcte',

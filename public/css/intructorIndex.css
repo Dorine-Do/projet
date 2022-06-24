@@ -187,110 +187,50 @@
 
 }
 
-@media all and (max-width: 450px) {
+@media screen and (max-width: 450px) {
 
     .container {
         max-width: 90%;
     }
 
-    .div_questions {
-        background-color: var(--fond);
+    .li_wording{
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 0 14px -3px gray;
+        z-index: 99;
         border-radius: 5px;
-        padding: 2em;
-        color: var(--grey);
-        width: 80%;
+    }
+
+    .div_question{
+        display: flex;
+        flex-direction: column-reverse;
+        margin-left: 10px;
+        border-radius: 15%;
+    }
+
+    .ul_questions{
+        width: 100%;
+        padding: 0;
         margin: auto;
-        display: inline-block;
+    }
+
+    .link_modify{
         text-align: center;
+        margin-right: -135px;
+        margin-top: 35px;
     }
 
-    .li_wording {
-        background-color: var(--pamplemousse);
-        border-radius: 5px 5px 0 0;
-        list-style: none;
-        font-family: "Alumni Sans", serif;
-        display: flex;
-        align-items: center;
-        width: 81%;
-        margin-left: -16px;
-        padding-top: 0;
+    .button_modify{
+        height: 52px;
+        width: 37px;
     }
 
-    .div_question {
-        margin: 1em auto;
-        display: flex;
+    .div_js{
+        flex-direction: column;
     }
 
-    .ul_questions {
-        border: 1px solid var(--fond);
-        padding: 2em;
-        border-radius: 5px;
-        background-color: white;
+    .button_add{
+        width: 75%;
+        margin-top: 60px;
     }
-
-    .span_question {
-
-        font-weight: 600;
-        margin-left: -102%;
-
-    }
-
-    .div_chevron {
-        justify-content: flex-end;
-        display: flex;
-        flex-grow: 2;
-    }
-
-    .img_chevron {
-        max-width: 2em;
-        width: 1.2em;
-        height: auto;
-        padding: .5em;
-        border-radius: 50%;
-        text-align: right;
-        cursor: pointer;
-        margin-top: 251%;
-        margin-right: 220%;
-    }
-
-    .difficulty_icone {
-        max-width: 2em;
-        width: 2em;
-        background: var(--fond);
-        height: auto;
-        padding: 0.5em;
-        border-radius: 50%;
-        margin-left: 150%;
-        margin-bottom: -152%;
-    }
-
-    .button_modify {
-        max-width: 2em;
-        padding: 0.2em;
-        margin-left: 0.3em;
-        border-radius: 10px;
-        background-color: var(--fond);
-        box-shadow: 3px 3px 8px -3px var(--grey);
-        cursor: pointer;
-        margin-bottom: -1em;
-
-    }
-
-    .button_add {
-
-        background-color: var(--vert);
-        border-radius: 50px;
-        border: 1px solid var(--fond);
-        padding: 1em;
-        font-family: 'Alumni Sans', sans-serif;
-        color: white;
-        box-shadow: 5px 5px 8px -4px gray;
-        font-size: var(--normal);
-        width: 91%;
-    }
-
-    .difficulty {
-        margin-left: 60%;
-    }
-
 }
