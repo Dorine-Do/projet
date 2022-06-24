@@ -7,14 +7,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let validate = document.querySelector(".valid")
     let ul = document.querySelector('#list_proposal')
 
+// *******************************************************************************************************
 // Add function
-
     function clickAdd(e) {
-        // console.log(e.target.dataset.form)
-
         // AJOUT D'UNE REPONSE
         li_form(ul)
-
     }
 
 // *******************************************************************************************************
@@ -34,7 +31,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 // *******************************************************************************************************
 // isChecked Function
-
     function isChecked(e){
         e.preventDefault()
         let checkbox = document.querySelectorAll('.isCorrect')
@@ -52,11 +48,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }else{
             let p = document.createElement('p')
             p.innerHTML = 'Veuillez cocher au moins une réponse correcte pour cette question'
-            let div_proposal = document.getElementById('errorChecked')
-            div_proposal.append(p)
+            let td_proposals = document.getElementById('errorChecked')
+            td_proposals.append(p)
             p.className = 'errorP'
         }
     }
+
 // *******************************************************************************************************
 // li_form Function
     function li_form(ul){
@@ -68,9 +65,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
             index
         );
         li.className = "li_proposal"
-        console.log(li)
-
-        console.log(li.firstElementChild)
 
         let checkbox = li.firstElementChild.lastElementChild.lastElementChild
         checkbox.className = "isCorrect"
@@ -95,11 +89,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // ************************************************************************************
         // INCREMENT LA LONGUEUR DU TABLEAU DES REPONSES
         index++
-        // console.log(index)
     }
 
+// *******************************************************************************************************
+// letterProposal Function
     function letterProposal(div_proposal, index){
-        console.log(index)
         let textarea = div_proposal.firstElementChild.lastChild
 
         let alphabet = ['A','B','C','D','E','F']
@@ -108,7 +102,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let begin = index
 
         let letter = alphabet.slice(begin, end)
-        // console.log(letter)
 
         let p = document.createElement('p')
         p.className = 'p_letter'
@@ -117,21 +110,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
         div_proposal.firstElementChild.insertBefore(p,textarea)
     }
 
+
+
 // *******************************************************************************************************
 // Add
     addbutton.addEventListener("click", clickAdd)
 
 // *******************************************************************************************************
 //Remove
-
     for (const removeButton of removeButtons) {
         removeButton.addEventListener("click", clickRemove)
     }
 
 // *******************************************************************************************************
 //Validate
-
     validate.addEventListener("click", isChecked)
+
 
 
 // *******************************************************************************************************
@@ -140,9 +134,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         for (let i = 0; i < 2 ; i++){
             li_form(ul)
         }
-    }else {
-
     }
+
     let div_proposal = document.querySelectorAll('.div_proposal')
     Object.entries(div_proposal).forEach(([index, div])=>{
 
@@ -152,39 +145,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if(!add){
             letterProposal(div, index)
         }
-
     })
-
-
-    // let div_proposal = document.querySelectorAll('.div_proposal')
-    // console.log(div_proposal)
-    // console.log(div_proposal[0].firstElementChild.lastChild)
-
-    // div_proposal.forEach(div=>{
-
-        // let textarea = div.firstElementChild.lastChild
-        // let textareaContent = textarea.textContent
-
-
-
-        // let letter = textareaContent.slice(0,1)
-        // console.log(letter)
-        // let arrayTexteareaContent = textareaContent.split('')
-        // arrayTexteareaContent.splice(0,2)
-        // arrayTexteareaContent = arrayTexteareaContent.join('')
-        // console.log(arrayTexteareaContent)
-
-        // textarea.innerHTML = arrayTexteareaContent
-
-        // let p = document.createElement('p')
-        // p.className = 'p_letter'
-        // p.innerHTML = letter
-        //
-        // div.firstElementChild.insertBefore(p,textarea)
-    // })
-
-
-
 })
 
 

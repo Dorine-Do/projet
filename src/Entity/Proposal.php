@@ -33,7 +33,6 @@ class Proposal
     {
         $this->created_at = new \DateTime();
         $this->updated_at = new \DateTime();
-
     }
 
     public function getId(): ?int

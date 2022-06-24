@@ -114,11 +114,6 @@ class InstructorController extends AbstractController
                 // Si la prop est une déjà créer en db ou si son id est null alors si elle vient d'être créée.
                     if($bool || $prop->getId() == null ){
 
-//                        // Ajout des lettres dans la réponse
-//                        $alphabet = ['A','B','C','D','E','F'];
-//                        $wording = $prop->getWording();
-//                        $prop->setWording($alphabet[$persitPropCount]." ".$wording);
-
                         // Si l'utilisateur a modifié la reponse
                         $prop->setQuestion($instanceQuestion);;
                         array_push($persitProp,$prop->getId());
@@ -152,7 +147,6 @@ class InstructorController extends AbstractController
             return $this->redirectToRoute('instructor_display_questions');
         }
 
-        /*TODO Vérifier si la add passe bien au front*/
         return $this->render('instructor/file_a_verifier/modify_question_new_version.html.twig', [
             'form' => $form->createView(),
             'distribute' => $distribute,
@@ -182,16 +176,14 @@ class InstructorController extends AbstractController
             $count = 0;
             $persitPropCount=0;
             foreach ($questionEntity->getProposal() as $proposal){
-//                // Ajout des lettres dans la réponse
-//                $alphabet = ['A','B','C','D','E','F'];
-//                $wording = $proposal->getWording();
-//                $proposal->setWording($alphabet[$persitPropCount]." ".$wording);
 
                 // set les proposals
                 $proposal->setQuestion($questionEntity);
                 $persitPropCount ++;
 
-                /* TODO setResponseType pour l'instant c'est checkbox avec la question mais devra être une question à part*/
+                /* TODO setResponseType pour l'instant c'est checkbox avec la question mais devra être une question à part
+                    !Changement! A voir avec le chef
+                */
                 // set le response type
                 if($proposal->getIsCorrect() === true){
                     $count++;
