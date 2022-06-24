@@ -20,7 +20,7 @@
             <td colspan="2" class="premier">
                 <p><span class="numeroform">2</span> Intitulé de la question :</p>
             </td>
-            <td colspan="2" class="second">{{form_row(form.wording, { 'label': false })}}</td>
+            <td colspan="2" class="second">{{form_row(form.wording, { 'label': false })}}{{ form_errors(form.wording) }}</td>
         </tr>
         <tr>
             <td colspan="2" class="premier"><p><span class="numeroform">3</span> Difficulté de la question:</p></td>
