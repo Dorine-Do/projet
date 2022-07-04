@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 // *******************************************************************************************************
 //Validate
-    validate.addEventListener("click", isChecked)
+//     validate.addEventListener("click", isChecked)
 
 
 
@@ -146,7 +146,27 @@ document.addEventListener("DOMContentLoaded", (event) => {
             letterProposal(div, index)
         }
     })
+
+
+// *******************************************************************************************************
+// DIV POUR CSS
+    let div = document.querySelector('#create_question_difficulty')
+    console.log(div)
+    let div_input_label;
+    let label = div.querySelectorAll("label")
+    let input = div.querySelectorAll('input')
+    for (let i = 0; i < 3; i++){
+
+        div_input_label = document.createElement('div')
+        div_input_label.className = "div_input_label"
+        div_input_label.append(label[i],input[i])
+        div.append(div_input_label);
+    }
+
+
 })
+
+
 
 
 
