@@ -43,10 +43,14 @@ class QcmInstance
     #[ORM\OneToMany(mappedBy: 'qcmInstance', targetEntity: Result::class)]
     private $result;
 
+    #[ORM\ManyToMany(targetEntity: Student::class, mappedBy: 'qcmInstances')]
+    private $students;
+
     public function __construct()
     {
         $this->result = new ArrayCollection();
         $this->created_at = new \DateTime();
+        $this->students = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +179,33 @@ class QcmInstance
             if ($result->getQcmInstance() === $this) {
                 $result->setQcmInstance(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Student>
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(Student $student): self
+    {
+        if (!$this->students->contains($student)) {
+            $this->students[] = $student;
+            $student->addQcmInstance($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): self
+    {
+        if ($this->students->removeElement($student)) {
+            $student->removeQcmInstance($this);
         }
 
         return $this;

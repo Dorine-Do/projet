@@ -16,12 +16,14 @@ class StudentController extends AbstractController
         $student = $studentRepo->find( 12345 ); // changer l'id pour l'id de l'etudiant qui est log
 
         // Recupérer l'instance de QCM pour laquelle la date du jour se trouve entre release_date et end_date pour l'etudiant connecté
-        $weeklyQCM = $qcmInstanceRepo->findAll()->where('release_date < ' . time())->andWhere('end_date > ' . time());
+
 
         // Recupérer les de QCM ayant is_official false/0
 
         // Recupérer tous les modules (voir pour resteindre à ce qu'il étudie ou non ?)
+
         // Recupérer tous les QCM de la table result pour l'id de l'etudiant
+
         // Recupérer tous les QCM de la table result pour l'id de l'etudiant qui ont un total score < 50
 
         return $this->render('student/index.html.twig', [

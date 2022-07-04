@@ -16,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method LinkInstructorSession[]    findAll()
  * @method LinkInstructorSession[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LinkInstructorClassRepository extends ServiceEntityRepository
+class LinkInstructorSessionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

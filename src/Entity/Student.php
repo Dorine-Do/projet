@@ -45,11 +45,15 @@ class Student
     #[ORM\OneToMany(mappedBy: 'student', targetEntity: Result::class)]
     private $results;
 
+    #[ORM\ManyToMany(targetEntity: QcmInstance::class, inversedBy: 'students')]
+    private $qcmInstances;
+
     public function __construct()
     {
         $this->link_session_student = new ArrayCollection();
         $this->results = new ArrayCollection();
         $this->created_at = new \DateTime();
+        $this->qcmInstances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -209,6 +213,30 @@ class Student
                 $result->setStudent(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QcmInstance>
+     */
+    public function getQcmInstances(): Collection
+    {
+        return $this->qcmInstances;
+    }
+
+    public function addQcmInstance(QcmInstance $qcmInstance): self
+    {
+        if (!$this->qcmInstances->contains($qcmInstance)) {
+            $this->qcmInstances[] = $qcmInstance;
+        }
+
+        return $this;
+    }
+
+    public function removeQcmInstance(QcmInstance $qcmInstance): self
+    {
+        $this->qcmInstances->removeElement($qcmInstance);
 
         return $this;
     }
