@@ -15,9 +15,6 @@ class Question
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'integer')]
-    private $module_id;
-
     #[ORM\Column(type: 'integer', nullable: true)]
     private $id_author;
 
@@ -59,7 +56,7 @@ class Question
     {
         $this->link_qcm_question = new ArrayCollection();
         $this->proposal = new ArrayCollection();
-        //$this->difficulty = Enum\Difficulty::Medium;
+        $this->difficulty = Enum\Difficulty::Medium;
         $this->created_at = new \DateTime();
     }
 
@@ -116,7 +113,7 @@ class Question
         return $this;
     }
 
-    public function getDifficulty(): Enum\Difficulty
+    public function getDifficulty()
     {
         return $this->difficulty;
     }
@@ -247,5 +244,4 @@ class Question
 
         return $this;
     }
-
 }

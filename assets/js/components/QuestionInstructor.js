@@ -1,11 +1,7 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import './styles/app.css';
-import DisplayQuestionsInstructor from './js/components/QuestionInstructor';
+import React, {Component} from 'react';
 
 
-class Home extends React.Component {
+class DisplayQuestionsInstructor extends React.Component {
     constructor(props) {
         super(props);
         this.state =
@@ -44,16 +40,30 @@ class Home extends React.Component {
                 console.log(questionsData.proposals);
             })
     }
+    render() {
+        console.log(this.state.word)
+        return (
+            <div>
+                <h1>Hello, world!</h1>
+                <h2>It is </h2>
+                { this.state.proposals.map(proposal =>
+                    <li key={proposal.id}>{proposal.wording}</li>
+                )}
+            </div>
+        );
+    }
 }
 
-function App () {
-
-}
-
-const container = document.getElementById('root');
-const root = createRoot(container);
-    root.render(
-        <div className={"container"}>
-            <Home/>
+function QuestionsINstructor(props){
+    return (
+        <div>
+            <h1>Hello, world!</h1>
+            <h2>It is </h2>
+            { this.state.proposals.map(proposal =>
+                <li key={proposal.id}>{proposal.wording}</li>
+            )}
         </div>
-    );
+    )
+}
+
+export default DisplayQuestionsInstructor;
