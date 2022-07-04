@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // AFFICHE LA LETTRE AU MOMENT DE L'AJOUT
         li.firstElementChild.className =  "div_proposal"
 
-        letterProposal(li.firstElementChild, indexData)
+        letterProposal(li.firstElementChild, indexData,)
 
         // ************************************************************************************
         // INCREMENT LA LONGUEUR DU TABLEAU DES REPONSES
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function letterProposal(div_proposal, indexData){
         let textarea = div_proposal.firstElementChild.lastChild
 
-        let alphabet = ['A','B','C','D','E','F']
+        let alphabet = ['A','B','C','D','E','F','G','H']
 
         let end = parseInt(indexData,10) + 1 // 4 +1 = 5    '4' + 1 = 41
         let begin = indexData
@@ -136,22 +136,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 // *******************************************************************************************************
 // AFFICHE LA LETTRE DE LA REPONSE EN DEHORS DU TEXTEAREA
-//     if(add){
-//         for (let i = 0; i < 2 ; i++){
-//             li_form(ul)
-//         }
-//     }
-
-    // let div_proposal = document.querySelectorAll('.div_proposal')
-    // Object.entries(div_proposal).forEach(([index, div])=>{
-    //
-    //     let checkbox = div.lastElementChild.lastElementChild
-    //     checkbox.className = 'isCorrect'
-    //
-    //     if(!add){
-    //         letterProposal(div, index)
-    //     }
-    // })
+    let div_proposal = document.querySelectorAll('.div_proposal')
+    Object.entries(div_proposal).forEach(([index, div])=>{
+        letterProposal(div, 0)
+    })
 
 
 // *******************************************************************************************************
@@ -169,29 +157,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         div.append(div_input_label);
     }
 // *******************************************************************************************************
-// REPLACE __name__
-
-    // li_proposal_v1.forEach((value, index) => {
-    //     // Replace
-    //     value.innerHTML = form.replace(
-    //         /__name__/g,
-    //         index
-    //     );
-    //     value.className = "li_proposal"
-    //
-    //     let checkbox = value.firstElementChild.lastElementChild.lastElementChild
-    //     checkbox.className = "isCorrect"
-    //
-    //     let div_wording = value.firstElementChild.firstChild
-    //     div_wording.className = 'div_wording'
-    //
-    //     let buttonRemoveNew = document.createElement("button")
-    //     buttonRemoveNew.innerHTML = "Supprimer"
-    //     buttonRemoveNew.classList.add("removeProposal")
-    //     // Remove
-    //     buttonRemoveNew.addEventListener("click", clickRemove)
-    //     value.append(buttonRemoveNew)
-    // })
 
 
 

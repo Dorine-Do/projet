@@ -25,6 +25,7 @@ class ProposalFormType extends AbstractType
             ->add('is_correct',CheckboxType::class, [
                 'label'    => 'Reponse correcte',
                 'required' => false,
+                'attr' => ['class' => 'isCorrect'],
             ])
         ;
     }
