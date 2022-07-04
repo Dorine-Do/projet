@@ -1012,6 +1012,8 @@
     "schema-utils" "^3.0.0"
 
 "@symfony/webpack-encore@^2.1.0":
+  "integrity" "sha512-Cl4VhFUsiaG+R5vAntnpOqi0eBXyk2ccxR+7DatpJ9eq+qRtnxBD84/+q4jHM9AJ9gMqHzWTtBVcDmSj1rKuPA=="
+  "resolved" "https://registry.npmjs.org/@symfony/webpack-encore/-/webpack-encore-2.1.0.tgz"
   "version" "2.1.0"
   dependencies:
     "@babel/core" "^7.17.0"
