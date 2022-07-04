@@ -7,6 +7,7 @@ use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
@@ -23,6 +24,7 @@ class Question
     #[ORM\Column(type: 'integer', nullable: true)]
     private $id_author;
 
+    #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
     private $wording;
 
@@ -51,8 +53,9 @@ class Question
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: LinkQcmQuestion::class)]
     private $link_qcm_question;
 
+
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class, cascade:["persist", "remove"])]
-    private $proposal;
+    private $proposals;
 
     #[ORM\Column(type: 'boolean')]
     private $enabled;
@@ -60,7 +63,7 @@ class Question
     public function __construct()
     {
         $this->link_qcm_question = new ArrayCollection();
-        $this->proposal = new ArrayCollection();
+        $this->proposals = new ArrayCollection();
         $this->difficulty = Difficulty::Medium;
         $this->created_at = new \DateTime();
         $this->updated_at = new \DateTime();
@@ -212,15 +215,15 @@ class Question
     /**
      * @return Collection<int, Proposal>
      */
-    public function getProposal(): Collection
+    public function getProposals(): Collection
     {
-        return $this->proposal;
+        return $this->proposals;
     }
 
     public function addProposal(Proposal $proposal): self
     {
-        if (!$this->proposal->contains($proposal)) {
-            $this->proposal[] = $proposal;
+        if (!$this->proposals->contains($proposal)) {
+            $this->proposals[] = $proposal;
             $proposal->setQuestion($this);
         }
 
@@ -229,7 +232,7 @@ class Question
 
     public function removeProposal(Proposal $proposal): self
     {
-        if ($this->proposal->removeElement($proposal)) {
+        if ($this->proposals->removeElement($proposal)) {
             // set the owning side to null (unless already changed)
             if ($proposal->getQuestion() === $this) {
                 $proposal->setQuestion(null);

@@ -2,10 +2,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let addbutton = document.querySelector(".addProposal")
     let removeButtons = document.querySelectorAll('.removeProposal')
-    let index = addbutton.dataset.index
+    let li_proposal_v1 = document.querySelectorAll('.li_proposal')
+    addbutton.dataset.index = li_proposal_v1.length
+    let indexData = addbutton.dataset.index
+    console.log(indexData)
     let form = addbutton.dataset.form
     let validate = document.querySelector(".valid")
     let ul = document.querySelector('#list_proposal')
+
+    console.log(li_proposal_v1.length)
+
 
 // *******************************************************************************************************
 // Add function
@@ -26,7 +32,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             p.innerHTML = alphabet[count];
             count ++
         })
-        index --
+        indexData --
     }
 
 // *******************************************************************************************************
@@ -62,7 +68,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // Replace
         li.innerHTML += form.replace(
             /__name__/g,
-            index
+            indexData
         );
         li.className = "li_proposal"
 
@@ -84,22 +90,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // AFFICHE LA LETTRE AU MOMENT DE L'AJOUT
         li.firstElementChild.className =  "div_proposal"
 
-        letterProposal(li.firstElementChild, index)
+        letterProposal(li.firstElementChild, indexData)
 
         // ************************************************************************************
         // INCREMENT LA LONGUEUR DU TABLEAU DES REPONSES
-        index++
+        indexData++
     }
 
 // *******************************************************************************************************
 // letterProposal Function
-    function letterProposal(div_proposal, index){
+    function letterProposal(div_proposal, indexData){
         let textarea = div_proposal.firstElementChild.lastChild
 
         let alphabet = ['A','B','C','D','E','F']
 
-        let end = parseInt(index,10) + 1 // 4 +1 = 5    '4' + 1 = 41
-        let begin = index
+        let end = parseInt(indexData,10) + 1 // 4 +1 = 5    '4' + 1 = 41
+        let begin = indexData
 
         let letter = alphabet.slice(begin, end)
 
@@ -130,22 +136,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 // *******************************************************************************************************
 // AFFICHE LA LETTRE DE LA REPONSE EN DEHORS DU TEXTEAREA
-    if(add){
-        for (let i = 0; i < 2 ; i++){
-            li_form(ul)
-        }
-    }
+//     if(add){
+//         for (let i = 0; i < 2 ; i++){
+//             li_form(ul)
+//         }
+//     }
 
-    let div_proposal = document.querySelectorAll('.div_proposal')
-    Object.entries(div_proposal).forEach(([index, div])=>{
-
-        let checkbox = div.lastElementChild.lastElementChild
-        checkbox.className = 'isCorrect'
-
-        if(!add){
-            letterProposal(div, index)
-        }
-    })
+    // let div_proposal = document.querySelectorAll('.div_proposal')
+    // Object.entries(div_proposal).forEach(([index, div])=>{
+    //
+    //     let checkbox = div.lastElementChild.lastElementChild
+    //     checkbox.className = 'isCorrect'
+    //
+    //     if(!add){
+    //         letterProposal(div, index)
+    //     }
+    // })
 
 
 // *******************************************************************************************************
@@ -162,6 +168,31 @@ document.addEventListener("DOMContentLoaded", (event) => {
         div_input_label.append(label[i],input[i])
         div.append(div_input_label);
     }
+// *******************************************************************************************************
+// REPLACE __name__
+
+    // li_proposal_v1.forEach((value, index) => {
+    //     // Replace
+    //     value.innerHTML = form.replace(
+    //         /__name__/g,
+    //         index
+    //     );
+    //     value.className = "li_proposal"
+    //
+    //     let checkbox = value.firstElementChild.lastElementChild.lastElementChild
+    //     checkbox.className = "isCorrect"
+    //
+    //     let div_wording = value.firstElementChild.firstChild
+    //     div_wording.className = 'div_wording'
+    //
+    //     let buttonRemoveNew = document.createElement("button")
+    //     buttonRemoveNew.innerHTML = "Supprimer"
+    //     buttonRemoveNew.classList.add("removeProposal")
+    //     // Remove
+    //     buttonRemoveNew.addEventListener("click", clickRemove)
+    //     value.append(buttonRemoveNew)
+    // })
+
 
 
 })
