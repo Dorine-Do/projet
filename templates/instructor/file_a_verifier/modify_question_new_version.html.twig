@@ -58,7 +58,7 @@
                 <td colspan="2"><p class = "partTitle"><span class="numeroform" >4</span> Créer des réponses</p></td>
                 <td colspan="2" class="second">
                     <ul id ="list_proposal">
-                        {% for proposal in form.proposal %}
+                        {% for proposal in form.proposals %}
                             <li class="li_proposal">
                                 <div class="div_proposal">
                                     {{form_row(proposal.wording,{'disabled' : true})}}
@@ -72,8 +72,8 @@
                     </ul>
                     {% if distribute == null %}
                         <button
-                                data-form='{{ form_widget(form.proposal.vars.prototype) }}'
-                                data-index="{{form.proposal|length }}"
+                                data-form='{{ form_widget(form.proposals.vars.prototype) }}'
+                                data-index="{{form.proposals|length }}"
                                 type="button"
                                 id="addProposal"
                                 class="addProposal"
@@ -146,7 +146,7 @@
                 <td colspan="2"><p class = "partTitle"><span class="numeroform" >4</span> Créer des réponses</p></td>
                 <td colspan="2" class="second" id="errorChecked">
                     <ul id ="list_proposal">
-                        {% for proposal in form.proposal %}
+                        {% for proposal in form.proposals %}
                             <li class="li_proposal">
                                 <div class="div_proposal">
                                     {{form_row(proposal.wording)}}
@@ -157,8 +157,8 @@
                         {%endfor%}
                     </ul>
                         <button
-                                data-form='{{ form_widget(form.proposal.vars.prototype) }}'
-                                data-index="{{form.proposal|length }}"
+                                data-form='{{ form_widget(form.proposals.vars.prototype) }}'
+                                data-index="{{form.proposals|length }}"
                                 type="button"
                                 id="addProposal"
                                 class="addProposal"

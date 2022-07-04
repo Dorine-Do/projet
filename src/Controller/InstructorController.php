@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Proposal;
 use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Form\CreateQuestionType;
@@ -95,7 +96,7 @@ class InstructorController extends AbstractController
 
         //Stock les id avant render le form
         $arrayBeforeProp =[];
-        foreach ($instanceQuestion->getProposal() as $beforeProp){
+        foreach ($instanceQuestion->getProposals() as $beforeProp){
             array_push($arrayBeforeProp, $beforeProp->getId());
         }
 
@@ -109,7 +110,7 @@ class InstructorController extends AbstractController
             $count = 0;
             $persitPropCount=0;
             $persitProp = [];
-            foreach ($instanceQuestion->getProposal() as $prop){
+            foreach ($instanceQuestion->getProposals() as $prop){
                 $bool = in_array($prop->getId(),$arrayBeforeProp);
                 // Si la prop est une déjà créer en db ou si son id est null alors si elle vient d'être créée.
                     if($bool || $prop->getId() == null ){
@@ -144,6 +145,7 @@ class InstructorController extends AbstractController
             $em->persist($instanceQuestion);
             $em->flush();
 
+            $this->addFlash('success', 'La question a bien été modifiée.');
             return $this->redirectToRoute('instructor_display_questions');
         }
 
@@ -164,6 +166,16 @@ class InstructorController extends AbstractController
     public function createQuestion(Request $request, EntityManagerInterface $em): Response
     {
         $questionEntity= new Question();
+
+        $proposal1 = new Proposal();
+        $proposal1->setWording('reponse1');
+
+        $proposal2 = new Proposal();
+        $proposal2->setWording('reponse2');
+
+        $questionEntity->addProposal($proposal2);
+//        $questionEntity->addProposal($proposal1);
+
         // création form
         $form = $this->createForm(CreateQuestionType::class,$questionEntity);
         // accès aux données du form
@@ -171,11 +183,12 @@ class InstructorController extends AbstractController
 
         // vérification des données soumises
         if($form->isSubmitted() && $form->isValid()){
+            dd('submited');
             /* TODO setDifficulty avec Enum = Pour l'instant c'est un select mais devra être en bouton */
 
             $count = 0;
             $persitPropCount=0;
-            foreach ($questionEntity->getProposal() as $proposal){
+            foreach ($questionEntity->getProposals() as $proposal){
 
                 // set les proposals
                 $proposal->setQuestion($questionEntity);
@@ -206,6 +219,7 @@ class InstructorController extends AbstractController
             $questionEntity->setIsMandatory(false);// Toujours false quand c'est un instructor qui créé une question
 
             //  validation et enregistrement des données du form dans la bdd
+            dd('stop');
             $em->persist($questionEntity);
             $em->flush();
 
