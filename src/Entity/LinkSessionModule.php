@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\LinkClassModuleRepository;
+use App\Repository\LinkSessionModuleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: LinkClassModuleRepository::class)]
+#[ORM\Entity(repositoryClass: LinkSessionModuleRepository::class)]
 class LinkSessionModule
 {
     #[ORM\Id]

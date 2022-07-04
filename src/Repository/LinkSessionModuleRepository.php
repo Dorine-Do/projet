@@ -2,32 +2,32 @@
 
 namespace App\Repository;
 
-use App\Entity\LinClassStudent;
+use App\Entity\LinkSessionModule;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<LinkClassStudent>
+ * @extends ServiceEntityRepository<LinkSessionModule>
  *
- * @method LinkClassStudent|null find($id, $lockMode = null, $lockVersion = null)
- * @method LinkClassStudent|null findOneBy(array $criteria, array $orderBy = null)
- * @method LinkClassStudent[]    findAll()
- * @method LinkClassStudent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method LinkSessionModule|null find($id, $lockMode = null, $lockVersion = null)
+ * @method LinkSessionModule|null findOneBy(array $criteria, array $orderBy = null)
+ * @method LinkSessionModule[]    findAll()
+ * @method LinkSessionModule[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LinkClassStudentRepository extends ServiceEntityRepository
+class LinkSessionModuleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, LinkClassStudent::class);
+        parent::__construct($registry, LinkSessionModule::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(LinkClassStudent $entity, bool $flush = false): void
+    public function add(LinkSessionModule $entity, bool $flush = false): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -39,7 +39,7 @@ class LinkClassStudentRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(LinkClassStudent $entity, bool $flush = false): void
+    public function remove(LinkSessionModule $entity, bool $flush = false): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -48,7 +48,7 @@ class LinkClassStudentRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return LinkSessionStudent[] Returns an array of LinkSessionStudent objects
+//     * @return LinkSessionModule[] Returns an array of LinkSessionModule objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -62,7 +62,7 @@ class LinkClassStudentRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?LinkSessionStudent
+//    public function findOneBySomeField($value): ?LinkSessionModule
 //    {
 //        return $this->createQueryBuilder('l')
 //            ->andWhere('l.exampleField = :val')
