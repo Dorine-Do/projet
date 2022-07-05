@@ -194,6 +194,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // })
 
 
+    let badgesParent = document.getElementById('create_question_difficulty')
+    let badges = document.querySelectorAll('.div_input_label')
+    console.log(badges)
+    for (const [key, value] of Object.entries(badges)) {
+        let logo = document.createElement('img')
+        logo.setAttribute("src", imgPath[key])
+        badgesParent.insertBefore(logo, value)
+        console.log(value)
+    }
+
 
 })
 

@@ -62,24 +62,31 @@ li{
 .div_input_label{
     position: relative;
     width: 25%;
+    padding-left: 5px;
+    padding-right: 0;
 }
 #create_question_difficulty input[type=radio]{
     -webkit-appearance: none;
     -moz-appearance: none;
-    border-radius: 50%;
+    border-radius: 25px;
     height: 59px;
     border: 1px solid #ccc;
     margin: 0;
-    width: 100%;
+    width: 90%;
 }
 #create_question_difficulty label{
     position: absolute;
     top: 20%;
     left: 29%;
+    color: white;
+}
+
+input[type="radio"]{
+    background-color: var(--grey);
 }
 
 input[type="radio"]:checked {
-    background: yellow;
+    background-color: var(--vert);
     margin:0;
 }
 
@@ -210,10 +217,18 @@ input[type="radio"]:checked {
     margin-right: 15px;
 }
 
-.required, label{
+.required{
     color: var(--grey);
     font-weight: bold;
     margin: auto;
+    text-align: center;
+    width: 80px;
+}
+
+label{
+    margin-left: 20px;
+    color: var(--grey);
+    font-weight: bold;
 }
 
 /******************************************* PARTIE DESACTIVE LA QUESTION ************************************************/
@@ -241,6 +256,12 @@ input[type="radio"]:checked {
     margin-left: auto;
     margin-right: auto;
     display: block;
+}
+
+img{
+    width: 50px;
+    height: 50px;
+    margin-left: 20px
 }
 
 @media screen and (max-width: 1200px) {
