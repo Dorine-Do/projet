@@ -50,23 +50,22 @@ class Question
     #[ORM\JoinColumn(nullable: false)]
     private $module;
 
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: LinkQcmQuestion::class)]
-    private $link_qcm_question;
-
-
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class, cascade:["persist", "remove"])]
     private $proposals;
 
     #[ORM\Column(type: 'boolean')]
     private $enabled;
 
+    #[ORM\ManyToMany(targetEntity: Qcm::class, mappedBy: 'questions')]
+    private $qcms;
+
     public function __construct()
     {
-        $this->link_qcm_question = new ArrayCollection();
         $this->proposals = new ArrayCollection();
         $this->difficulty = Difficulty::Medium;
         $this->created_at = new \DateTime();
         $this->updated_at = new \DateTime();
+        $this->qcms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,36 +182,6 @@ class Question
     }
 
     /**
-     * @return Collection<int, LinkQcmQuestion>
-     */
-    public function getLinkQcmQuestion(): Collection
-    {
-        return $this->link_qcm_question;
-    }
-
-    public function addLinkQcmQuestion(LinkQcmQuestion $linkQcmQuestion): self
-    {
-        if (!$this->link_qcm_question->contains($linkQcmQuestion)) {
-            $this->link_qcm_question[] = $linkQcmQuestion;
-            $linkQcmQuestion->setQuestion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLinkQcmQuestion(LinkQcmQuestion $linkQcmQuestion): self
-    {
-        if ($this->link_qcm_question->removeElement($linkQcmQuestion)) {
-            // set the owning side to null (unless already changed)
-            if ($linkQcmQuestion->getQuestion() === $this) {
-                $linkQcmQuestion->setQuestion(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Proposal>
      */
     public function getProposals(): Collection
@@ -250,6 +219,33 @@ class Question
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Qcm>
+     */
+    public function getQcms(): Collection
+    {
+        return $this->qcms;
+    }
+
+    public function addQcm(Qcm $qcm): self
+    {
+        if (!$this->qcms->contains($qcm)) {
+            $this->qcms[] = $qcm;
+            $qcm->addQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQcm(Qcm $qcm): self
+    {
+        if ($this->qcms->removeElement($qcm)) {
+            $qcm->removeQuestion($this);
+        }
 
         return $this;
     }

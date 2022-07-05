@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Enum\Level;
 use App\Repository\ResultRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -65,12 +66,12 @@ class Result
         return $this;
     }
 
-    public function getLevel(): ?string
+    public function getLevel()
     {
         return $this->level;
     }
 
-    public function setLevel(string $level): self
+    public function setLevel($level): self
     {
         $this->level = $level;
 

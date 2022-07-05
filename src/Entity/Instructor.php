@@ -40,17 +40,17 @@ class Instructor
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\OneToMany(mappedBy: 'instructor', targetEntity: LinkInstructorSession::class)]
-    private $link_instructor_session;
+    #[ORM\ManyToMany(targetEntity: Session::class, mappedBy: 'instructors')]
+    private $sessions;
 
-    #[ORM\OneToMany(mappedBy: 'instructor', targetEntity: LinkInstructorModule::class)]
-    private $link_instructor_module;
+    #[ORM\ManyToMany(targetEntity: Module::class, mappedBy: 'instructors')]
+    private $modules;
 
     public function __construct()
     {
-        $this->link_instructor_session = new ArrayCollection();
-        $this->link_instructor_module = new ArrayCollection();
         $this->created_at = new \DateTime();
+        $this->sessions = new ArrayCollection();
+        $this->modules = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -155,62 +155,57 @@ class Instructor
     }
 
     /**
-     * @return Collection<int, LinkInstructorSession>
+     * @return Collection<int, Session>
      */
-    public function getLinkInstructorSession(): Collection
+    public function getSessions(): Collection
     {
-        return $this->link_instructor_session;
+        return $this->sessions;
     }
 
-    public function addLinkInstructorSession(LinkInstructorSession $linkInstructorSession): self
+    public function addSession(Session $session): self
     {
-        if (!$this->link_instructor_session->contains($linkInstructorSession)) {
-            $this->link_instructor_session[] = $linkInstructorSession;
-            $linkInstructorSession->setInstructor($this);
+        if (!$this->sessions->contains($session)) {
+            $this->sessions[] = $session;
+            $session->addInstructor($this);
         }
 
         return $this;
     }
 
-    public function removeLinkInstructorSession(LinkInstructorSession $linkInstructorSession): self
+    public function removeSession(Session $session): self
     {
-        if ($this->link_instructor_session->removeElement($linkInstructorSession)) {
-            // set the owning side to null (unless already changed)
-            if ($linkInstructorSession->getInstructor() === $this) {
-                $linkInstructorSession->setInstructor(null);
-            }
+        if ($this->sessions->removeElement($session)) {
+            $session->removeInstructor($this);
         }
 
         return $this;
     }
 
     /**
-     * @return Collection<int, LinkInstructorModule>
+     * @return Collection<int, Module>
      */
-    public function getLinkInstructorModule(): Collection
+    public function getModules(): Collection
     {
-        return $this->link_instructor_module;
+        return $this->modules;
     }
 
-    public function addLinkInstructorModule(LinkInstructorModule $linkInstructorModule): self
+    public function addModule(Module $module): self
     {
-        if (!$this->link_instructor_module->contains($linkInstructorModule)) {
-            $this->link_instructor_module[] = $linkInstructorModule;
-            $linkInstructorModule->setInstructor($this);
+        if (!$this->modules->contains($module)) {
+            $this->modules[] = $module;
+            $module->addInstructor($this);
         }
 
         return $this;
     }
 
-    public function removeLinkInstructorModule(LinkInstructorModule $linkInstructorModule): self
+    public function removeModule(Module $module): self
     {
-        if ($this->link_instructor_module->removeElement($linkInstructorModule)) {
-            // set the owning side to null (unless already changed)
-            if ($linkInstructorModule->getInstructor() === $this) {
-                $linkInstructorModule->setInstructor(null);
-            }
+        if ($this->modules->removeElement($module)) {
+            $module->removeInstructor($this);
         }
 
         return $this;
     }
+
 }

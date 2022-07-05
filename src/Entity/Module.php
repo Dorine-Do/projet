@@ -25,17 +25,11 @@ class Module
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $badges;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkInstructorModule::class)]
-    private $link_instructor_module;
-
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkSessionModule::class)]
     private $link_session_module;
 
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: Question::class)]
     private $question;
-
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkModuleQcm::class)]
-    private $link_module_qcm;
 
     #[ORM\Column(type: 'datetime')]
     private $created_at;
@@ -43,13 +37,19 @@ class Module
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
+    #[ORM\ManyToMany(targetEntity: Instructor::class, inversedBy: 'modules')]
+    private $instructors;
+
+    #[ORM\ManyToMany(targetEntity: Qcm::class, inversedBy: 'modules')]
+    private $qcms;
+
     public function __construct()
     {
-        $this->link_instructor_module = new ArrayCollection();
+        $this->instructors = new ArrayCollection();
         $this->link_session_module = new ArrayCollection();
         $this->question = new ArrayCollection();
         $this->created_at = new \DateTime();
-        $this->link_module_qcm = new ArrayCollection();
+        $this->qcms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,36 +89,6 @@ class Module
     public function setBadges(?string $badges): self
     {
         $this->badges = $badges;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, LinkInstructorModule>
-     */
-    public function getLinkInstructorModule(): Collection
-    {
-        return $this->link_instructor_module;
-    }
-
-    public function addLinkInstructorModule(LinkInstructorModule $linkInstructorModule): self
-    {
-        if (!$this->link_instructor_module->contains($linkInstructorModule)) {
-            $this->link_instructor_module[] = $linkInstructorModule;
-            $linkInstructorModule->setModule($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLinkInstructorModule(LinkInstructorModule $linkInstructorModule): self
-    {
-        if ($this->link_instructor_module->removeElement($linkInstructorModule)) {
-            // set the owning side to null (unless already changed)
-            if ($linkInstructorModule->getModule() === $this) {
-                $linkInstructorModule->setModule(null);
-            }
-        }
 
         return $this;
     }
@@ -183,40 +153,6 @@ class Module
         return $this;
     }
 
-    public function getLinkModuleQcm(): ?LinkModuleQcm
-    {
-        return $this->linkModuleQcm;
-    }
-
-    public function setLinkModuleQcm(?LinkModuleQcm $linkModuleQcm): self
-    {
-        $this->linkModuleQcm = $linkModuleQcm;
-
-        return $this;
-    }
-
-    public function addLinkModuleQcm(LinkModuleQcm $linkModuleQcm): self
-    {
-        if (!$this->link_module_qcm->contains($linkModuleQcm)) {
-            $this->link_module_qcm[] = $linkModuleQcm;
-            $linkModuleQcm->setModule($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLinkModuleQcm(LinkModuleQcm $linkModuleQcm): self
-    {
-        if ($this->link_module_qcm->removeElement($linkModuleQcm)) {
-            // set the owning side to null (unless already changed)
-            if ($linkModuleQcm->getModule() === $this) {
-                $linkModuleQcm->setModule(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
@@ -243,6 +179,54 @@ class Module
 
     public function __toString(): string{
         return $this->getTitle();
+    }
+
+    /**
+     * @return Collection<int, Instructor>
+     */
+    public function getInstructors(): Collection
+    {
+        return $this->instructors;
+    }
+
+    public function addInstructor(Instructor $instructor): self
+    {
+        if (!$this->instructors->contains($instructor)) {
+            $this->instructors[] = $instructor;
+        }
+
+        return $this;
+    }
+
+    public function removeInstructor(Instructor $instructor): self
+    {
+        $this->instructors->removeElement($instructor);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Qcm>
+     */
+    public function getQcms(): Collection
+    {
+        return $this->qcms;
+    }
+
+    public function addQcm(Qcm $qcm): self
+    {
+        if (!$this->qcms->contains($qcm)) {
+            $this->qcms[] = $qcm;
+        }
+
+        return $this;
+    }
+
+    public function removeQcm(Qcm $qcm): self
+    {
+        $this->qcms->removeElement($qcm);
+
+        return $this;
     }
 
 }
