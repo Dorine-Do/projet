@@ -10,5 +10,17 @@
 
 <div class="example-wrapper">
     <h1>Hello {{ student.getFirstName }} !!!!!!!</h1>
+    <p>qcmOfTheWeek (official, current date between release date and end date)
+        {% for qcm in qcmOfTheWeek %}
+            {{ dump(qcm) }}
+        {% endfor %}
+    </p>
+    <p>
+        unofficialQcmInstances
+        {% for unofficialQcmInstance in unofficialQcmInstances %}
+            {{ dump(unofficialQcmInstance) }}
+        {% endfor %}
+    </p>
+
 </div>
 {% endblock %}
