@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\QcmInstance;
+use App\Entity\Result;
 use App\Repository\QcmRepository;
 use App\Repository\StudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,26 +30,34 @@ class StudentController extends AbstractController
 
         // Recupérer tous les QCM de la table result pour l'id de l'etudiant
         $qcmResults = $student->getResults();
-        $qcmInstancesDone = [];
+        $unofficialQcmInstancesDone = [];
         foreach ($qcmResults as $qcmResult)
         {
-            $qcmInstancesDone[] = $$qcmResult->getQcmInstance();
+            if( !$qcmResult->getQcmInstance()->getQcm()->getIsOfficial() ) {
+                $unofficialQcmInstancesDone[] = $qcmResult->getQcmInstance();
+            }
         }
-        $unofficialQcmNotDone = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
-            return $qcmInstance->getQcm()->getIsOfficial() == false;
-        });
-
+        $unofficialQcmNotDone = [];
+        foreach( $unofficialQcmInstances as $unofficialQcmInstance )
+        {
+            if( !in_array($unofficialQcmInstance, $unofficialQcmInstancesDone) )
+            {
+                $unofficialQcmNotDone[] = $unofficialQcmInstance;
+            }
+        }
         // Recupérer tous les QCM de la table result pour l'id de l'etudiant qui ont un total score < 50
-        $qcmResultsUnderFifty = $qcmResults->filter(function(){
-            //...
+        $qcmResultsUnderFifty = $qcmResults->filter(function(Result $qcmResult){
+            return $qcmResult->getTotalScore() < 50;
         });
 
         // Recupérer tous les modules liés à la session de l'élève
 
         return $this->render('student/index.html.twig', [
-            'student'                => $student,
-            'unofficialQcmInstances' => $unofficialQcmInstances,
-            'qcmOfTheWeek'           => $officialQcmOfTheWeek,
+            'student'                       => $student,
+            'unofficialQcmInstances'        => $unofficialQcmInstances,
+            'qcmOfTheWeek'                  => $officialQcmOfTheWeek,
+            'qcmResultsUnderFifty'          => $qcmResultsUnderFifty,
+            'unofficialQcmInstancesNotDone' => $unofficialQcmNotDone
         ]);
     }
 

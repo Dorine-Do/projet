@@ -21,6 +21,11 @@
             {{ dump(unofficialQcmInstance) }}
         {% endfor %}
     </p>
-
+    <p>
+        unofficialQcmInstancesNotDone
+        {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
+            {{ dump(unofficialQcmInstanceNotDone) }}
+        {% endfor %}
+    </p>
 </div>
 {% endblock %}
