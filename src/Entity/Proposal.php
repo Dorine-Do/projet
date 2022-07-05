@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProposalRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProposalRepository::class)]
 class Proposal
@@ -13,6 +14,7 @@ class Proposal
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
     private $wording;
 
@@ -32,6 +34,7 @@ class Proposal
     public function __construct()
     {
         $this->created_at = new \DateTime();
+        $this->updated_at = new \DateTime();
     }
 
     public function getId(): ?int

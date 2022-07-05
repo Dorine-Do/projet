@@ -42,23 +42,22 @@ class Qcm
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: LinkQcmQuestion::class)]
-    private $link_qcm_question;
-
     #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: QcmInstance::class)]
     private $qcm_instance;
 
-    #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: LinkModuleQcm::class)]
-    private $link_module_qcm;
+    #[ORM\ManyToMany(targetEntity: Module::class, mappedBy: '$qcms')]
+    private $modules;
+
+    #[ORM\ManyToMany(targetEntity: Question::class, inversedBy: 'qcms')]
+    private $questions;
 
     public function __construct()
     {
-        $this->link_qcm_question = new ArrayCollection();
         $this->qcm_instance = new ArrayCollection();
-
         $this->difficulty = Enum\Difficulty::Medium;
         $this->created_at = new \DateTime();
-        $this->link_module_qcm = new ArrayCollection();
+        $this->modules = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -102,12 +101,12 @@ class Qcm
         return $this;
     }
 
-    public function getDifficulty(): ?string
+    public function getDifficulty()
     {
         return $this->difficulty;
     }
 
-    public function setDifficulty(string $difficulty): self
+    public function setDifficulty($difficulty): self
     {
         $this->difficulty = $difficulty;
 
@@ -174,36 +173,6 @@ class Qcm
         return $this;
     }
 
-    /**
-     * @return Collection<int, LinkQcmQuestion>
-     */
-    public function getLinkQcmQuestion(): Collection
-    {
-        return $this->link_qcm_question;
-    }
-
-    public function addLinkQcmQuestion(LinkQcmQuestion $linkQcmQuestion): self
-    {
-        if (!$this->link_qcm_question->contains($linkQcmQuestion)) {
-            $this->link_qcm_question[] = $linkQcmQuestion;
-            $linkQcmQuestion->setQcm($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLinkQcmQuestion(LinkQcmQuestion $linkQcmQuestion): self
-    {
-        if ($this->link_qcm_question->removeElement($linkQcmQuestion)) {
-            // set the owning side to null (unless already changed)
-            if ($linkQcmQuestion->getQcm() === $this) {
-                $linkQcmQuestion->setQcm(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getModule(): ?Module
     {
         return $this->module;
@@ -247,32 +216,54 @@ class Qcm
     }
 
     /**
-     * @return Collection<int, LinkModuleQcm>
+     * @return Collection<int, Module>
      */
-    public function getLinkModuleQcm(): Collection
+    public function getModules(): Collection
     {
-        return $this->link_module_qcm;
+        return $this->modules;
     }
 
-    public function addLinkModuleQcm(LinkModuleQcm $linkModuleQcm): self
+    public function addModule(Module $module): self
     {
-        if (!$this->link_module_qcm->contains($linkModuleQcm)) {
-            $this->link_module_qcm[] = $linkModuleQcm;
-            $linkModuleQcm->setQcm($this);
+        if (!$this->modules->contains($module)) {
+            $this->modules[] = $module;
+            $module->addQcm($this);
         }
 
         return $this;
     }
 
-    public function removeLinkModuleQcm(LinkModuleQcm $linkModuleQcm): self
+    public function removeModule(Module $module): self
     {
-        if ($this->link_module_qcm->removeElement($linkModuleQcm)) {
-            // set the owning side to null (unless already changed)
-            if ($linkModuleQcm->getQcm() === $this) {
-                $linkModuleQcm->setQcm(null);
-            }
+        if ($this->modules->removeElement($module)) {
+            $module->removeQcm($this);
         }
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getQuestion(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        $this->questions->removeElement($question);
+
+        return $this;
+    }
+
 }

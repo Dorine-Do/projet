@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
+use App\Entity\Enum\Difficulty;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 class Question
@@ -15,9 +18,13 @@ class Question
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[ORM\Column(type: 'integer')]
+    private $module_id;
+
     #[ORM\Column(type: 'integer', nullable: true)]
     private $id_author;
 
+    #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
     private $wording;
 
@@ -27,8 +34,8 @@ class Question
     #[ORM\Column(type: 'boolean')]
     private $is_official;
 
-    #[ORM\Column(type: "string", enumType: Enum\Difficulty::class)]
-    private Enum\Difficulty $difficulty;
+    #[ORM\Column(type: "string", enumType: Difficulty::class)]
+    private $difficulty;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $response_type;
@@ -43,21 +50,22 @@ class Question
     #[ORM\JoinColumn(nullable: false)]
     private $module;
 
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: LinkQcmQuestion::class)]
-    private $link_qcm_question;
-
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class)]
-    private $proposal;
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class, cascade:["persist", "remove"])]
+    private $proposals;
 
     #[ORM\Column(type: 'boolean')]
     private $enabled;
 
+    #[ORM\ManyToMany(targetEntity: Qcm::class, mappedBy: 'questions')]
+    private $qcms;
+
     public function __construct()
     {
-        $this->link_qcm_question = new ArrayCollection();
-        $this->proposal = new ArrayCollection();
-        $this->difficulty = Enum\Difficulty::Medium;
+        $this->proposals = new ArrayCollection();
+        $this->difficulty = Difficulty::Medium;
         $this->created_at = new \DateTime();
+        $this->updated_at = new \DateTime();
+        $this->qcms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -113,12 +121,12 @@ class Question
         return $this;
     }
 
-    public function getDifficulty()
+    public function getDifficulty(): Difficulty
     {
         return $this->difficulty;
     }
 
-    public function setDifficulty($difficulty): self
+    public function setDifficulty(Difficulty $difficulty): self
     {
         $this->difficulty = $difficulty;
 
@@ -174,47 +182,17 @@ class Question
     }
 
     /**
-     * @return Collection<int, LinkQcmQuestion>
-     */
-    public function getLinkQcmQuestion(): Collection
-    {
-        return $this->link_qcm_question;
-    }
-
-    public function addLinkQcmQuestion(LinkQcmQuestion $linkQcmQuestion): self
-    {
-        if (!$this->link_qcm_question->contains($linkQcmQuestion)) {
-            $this->link_qcm_question[] = $linkQcmQuestion;
-            $linkQcmQuestion->setQuestion($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLinkQcmQuestion(LinkQcmQuestion $linkQcmQuestion): self
-    {
-        if ($this->link_qcm_question->removeElement($linkQcmQuestion)) {
-            // set the owning side to null (unless already changed)
-            if ($linkQcmQuestion->getQuestion() === $this) {
-                $linkQcmQuestion->setQuestion(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Proposal>
      */
-    public function getProposal(): Collection
+    public function getProposals(): Collection
     {
-        return $this->proposal;
+        return $this->proposals;
     }
 
     public function addProposal(Proposal $proposal): self
     {
-        if (!$this->proposal->contains($proposal)) {
-            $this->proposal[] = $proposal;
+        if (!$this->proposals->contains($proposal)) {
+            $this->proposals[] = $proposal;
             $proposal->setQuestion($this);
         }
 
@@ -223,7 +201,7 @@ class Question
 
     public function removeProposal(Proposal $proposal): self
     {
-        if ($this->proposal->removeElement($proposal)) {
+        if ($this->proposals->removeElement($proposal)) {
             // set the owning side to null (unless already changed)
             if ($proposal->getQuestion() === $this) {
                 $proposal->setQuestion(null);
@@ -241,6 +219,33 @@ class Question
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Qcm>
+     */
+    public function getQcms(): Collection
+    {
+        return $this->qcms;
+    }
+
+    public function addQcm(Qcm $qcm): self
+    {
+        if (!$this->qcms->contains($qcm)) {
+            $this->qcms[] = $qcm;
+            $qcm->addQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQcm(Qcm $qcm): self
+    {
+        if ($this->qcms->removeElement($qcm)) {
+            $qcm->removeQuestion($this);
+        }
 
         return $this;
     }

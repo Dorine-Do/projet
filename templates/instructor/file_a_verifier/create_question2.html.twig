@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{asset('build/app.css')}}" rel="stylesheet">
+    <link href="{{asset('css/create_question.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <h1>Je crée ma question</h1>
+    {# Form question #}
+    {{ form_start(form) }}
+    <div>
+        {{ form_errors(form) }}
+    </div>
+    <table>
+        <tr>
+            <td colspan="2" class="premier">
+                <p><span class="numeroform">1</span> Choisir le module:</p>
+            </td>
+            <td colspan="2" class="premierselect"> {{form_widget(form.module)}}</td>
+        </tr>
+        <tr>
+            <td colspan="2" class="premier">
+                <p><span class="numeroform">2</span> Intitulé de la question :</p>
+            </td>
+            <td colspan="2" class="second">{{form_widget(form.wording)}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="premier"><p><span class="numeroform">3</span> Difficulté de la question:</p></td>
+            <td colspan="2" class="difficulty">
+                {{ form_widget(form.difficulty)}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"><p><span class="numeroform" >4</span> Je crée mes réponses</p></td>
+            <td colspan="2" class="second" id="errorChecked">
+                <ul id ="list_proposal">
+                    {% for proposal in form.proposals %}
+                        <li class="li_proposal">
+                            <div class="div_proposal">
+                                <div>
+                                    {{form_label(proposal.wording)}}
+                                    {{form_widget(proposal.wording)}}
+                                </div>
+
+
+                                {{form_row(proposal.is_correct)}}
+                            </div>
+                        </li>
+                    {%endfor%}
+
+
+                </ul>
+                <button
+                        data-form='{{ form_widget(form.proposals.vars.prototype) }}'
+                        data-index="{{form.proposals|length }}"
+                        type="button"
+                        id="addProposal"
+                        class="addProposal"
+                >
+                    +
+                </button>
+        <tr>
+        <tr>
+            <td colspan="2" class="premier"><p class="paddingoption"><span class="formoption">Option</span> Désactiver la question</p></td>
+            <td colspan="2" class="second">{{ form_widget(form.enabled) }}</td>
+        </tr>
+        <tr>
+            <td colspan="2"><button type="submit" class="valid">Valider</button></td>
+        </tr>
+    </table>
+    {{ form_row(form._token) }}
+    {{ form_end(form, {render_rest:false})}}
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {# Fichier js pour faire apparaitre les inputs du collectionType #}
+    <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('js/create_modify_question.js') }}"></script>
+
+    <script>
+        let add = {{add}};
+    </script>
+{% endblock %}

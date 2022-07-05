@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\LinClassStudentRepository;
+use App\Repository\LinkSessionStudentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: LinkClassStudentRepository::class)]
+#[ORM\Entity(repositoryClass: LinkSessionStudentRepository::class)]
 class LinkSessionStudent
 {
     #[ORM\Id]
