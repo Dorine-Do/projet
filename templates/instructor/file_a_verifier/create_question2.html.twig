@@ -39,13 +39,11 @@
                     {% for proposal in form.proposals %}
                         <li class="li_proposal">
                             <div class="div_proposal">
-                                <div>
+                                <div class="proposal">
                                     {{form_label(proposal.wording)}}
                                     {{form_widget(proposal.wording)}}
+                                    {{form_row(proposal.is_correct)}}
                                 </div>
-
-
-                                {{form_row(proposal.is_correct)}}
                             </div>
                         </li>
                     {%endfor%}

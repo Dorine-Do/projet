@@ -131,6 +131,7 @@ input[type="radio"]:checked {
     margin-right: auto;
     display: block;
     border: hidden;
+    padding: 10px;
 }
 
 #create_question_module, #create_question_difficulty{
@@ -215,6 +216,8 @@ input[type="radio"]:checked {
     border-radius: 50%;
     color: white;
     margin-right: 15px;
+    width: 15px;
+    text-align: center;
 }
 
 .required{
@@ -230,6 +233,24 @@ label{
     color: var(--grey);
     font-weight: bold;
 }
+
+.wording{
+    margin-left: 20px;
+}
+
+label.required {
+
+}
+
+.div_wording{
+    display: flex;
+}
+
+.proposal{
+    display: flex;
+    align-items: center;
+}
+
 
 /******************************************* PARTIE DESACTIVE LA QUESTION ************************************************/
 
@@ -322,6 +343,7 @@ img{
 
     table{
         margin: auto;
+        width: 350px;
     }
 
     tr{
@@ -382,10 +404,6 @@ img{
         padding: 0;
     }
 
-    .p_letter{
-        text-align: center;
-    }
-
     .li_proposal{
         text-align: center;
         padding: 0;
@@ -397,7 +415,7 @@ img{
         margin: 15px auto;
 
     }
-    .div_wording .p_letter{
+    .div_wording{
         width: 10px;
         margin: auto auto 25px auto;
     }
@@ -416,5 +434,30 @@ img{
 
     #list_proposal{
         padding-left: 0;
+    }
+
+    img{
+        width: 32px;
+        height: 32px;
+    }
+
+    .proposal{
+        display: flex;
+        flex-direction: column;
+    }
+
+    #create_question_difficulty input[type=radio]{
+        width: 80px;
+        height: 35px;
+    }
+    .difficulty{
+        width: 60%;
+        display: flex;
+        justify-content: space-around;
+    }
+
+    label.required{
+        width: 50%;
+        text-align: center;
     }
 }

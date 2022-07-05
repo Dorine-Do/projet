@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // *******************************************************************************************************
 // letterProposal Function
     function letterProposal(div_proposal, indexData){
-        let textarea = div_proposal.firstElementChild.lastChild
+        let label = div_proposal.firstElementChild.firstChild
 
         let alphabet = ['A','B','C','D','E','F','G','H']
 
@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         p.className = 'p_letter'
         p.innerHTML = letter
 
-        div_proposal.firstElementChild.insertBefore(p,textarea)
+        div_proposal.firstElementChild.insertBefore(p,label)
     }
 
 
