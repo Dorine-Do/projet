@@ -6,6 +6,7 @@ use App\Repository\LogRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LogRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Log
 {
     #[ORM\Id]
@@ -30,7 +31,17 @@ class Log
 
     public function __construct()
     {
+
+    }
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(){
         $this->created_at = new \DateTime();
+        $this->updated_at = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue(){
+        $this->updated_at = new \DateTime();
     }
 
     public function getId(): ?int

@@ -6,6 +6,7 @@ use App\Repository\LinkSessionModuleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LinkSessionModuleRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class LinkSessionModule
 {
     #[ORM\Id]
@@ -29,7 +30,17 @@ class LinkSessionModule
 
     public function __construct()
     {
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(){
         $this->created_at = new \DateTime();
+        $this->updated_at = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue(){
+        $this->updated_at = new \DateTime();
     }
 
     public function getId(): ?int
