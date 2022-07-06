@@ -9,18 +9,29 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ student.getFirstName }} !!!!!!!</h1>
+    <h1>QCM {{ student.getFirstName }}</h1>
     <p>qcmOfTheWeek (official, current date between release date and end date)
         {% for qcm in qcmOfTheWeek %}
             {{ dump(qcm) }}
         {% endfor %}
     </p>
     <p>
-        unofficialQcmInstances
-        {% for unofficialQcmInstance in unofficialQcmInstances %}
-            {{ dump(unofficialQcmInstance) }}
+        unofficialQcmInstancesNotDone
+        {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
+            {{ dump(unofficialQcmInstanceNotDone) }}
         {% endfor %}
     </p>
-
+    <p>
+        sessionModules
+        {% for sessionModule in sessionModules %}
+            {{ dump(sessionModule) }}
+        {% endfor %}
+    </p>
+    <p>
+        retryableModules
+        {% for retryableModule in retryableModules %}
+            {{ dump(retryableModule) }}
+        {% endfor %}
+    </p>
 </div>
 {% endblock %}

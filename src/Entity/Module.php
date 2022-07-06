@@ -42,6 +42,7 @@ class Module
     private $instructors;
 
     #[ORM\ManyToMany(targetEntity: Qcm::class, inversedBy: 'modules')]
+    #[ORM\JoinTable(name: "link_module_qcm")]
     private $qcms;
 
     public function __construct()

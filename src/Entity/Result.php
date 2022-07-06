@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Entity\Enum\Level;
 use App\Repository\ResultRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Enum\Level;
+
 
 #[ORM\Entity(repositoryClass: ResultRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -65,24 +66,24 @@ class Result
         return $this->id;
     }
 
-    public function getQcmInstance(): ?int
+    public function getQcmInstance(): ?QcmInstance
     {
         return $this->qcmInstance;
     }
 
-    public function setQcmInstance(int $qcm_instance): self
+    public function setQcmInstance(QcmInstance $qcm_instance): self
     {
         $this->qcmInstance = $qcm_instance;
 
         return $this;
     }
 
-    public function getLevel()
+    public function getLevel(): ?Level
     {
         return $this->level;
     }
 
-    public function setLevel($level): self
+    public function setLevel(Level $level): self
     {
         $this->level = $level;
 
