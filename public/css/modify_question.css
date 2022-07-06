@@ -131,7 +131,6 @@ input[type="radio"]:checked {
 img{
     width: 50px;
     height: 50px;
-    margin-left: 20px;
 }
 
 /************************************************ CSS SUR LES TD **************************************************************/
@@ -291,6 +290,16 @@ img{
     .valid{
         padding: 15px 200px;;
     }
+
+    #create_question_difficulty input[type=radio]{
+        text-align: left;
+        margin-left: 6px;
+        border: none;
+    }
+
+    .div_input_label label.required{
+        margin-left: -10px;
+    }
 }
 
 @media screen and (max-width: 780px) {
@@ -322,13 +331,33 @@ img{
     }
 
     .difficulty{
-        padding-bottom: 60px;
+        padding-bottom: 10px;
     }
 
     .li_proposal{
         width: 33%
     }
 
+    #create_question_difficulty input[type=radio]{
+        width: 120px;
+        height: 50px;
+        margin-left: 4px;
+        border: none;
+    }
+
+    tr{
+        margin-left: 0;
+        max-width: 700px;
+    }
+
+    #create_question_difficulty{
+        width: 700px;
+    }
+
+    img{
+        width: 40px;
+        height: 40px;
+    }
 }
 
 @media screen and (max-width: 450px) {
@@ -338,18 +367,22 @@ img{
 
     table{
         margin: auto;
+        max-width: 450px;
     }
+
 
     tr{
         background-color: var(--fond);
         margin-top: 20px;
         padding: 0;
+        max-width: 400px;
     }
 
     #create_question_module, #create_question_difficulty{
         background-color: var(--fond);
         margin-bottom: 20px;
         font-size: 0.8em;
+        width: 240px;
     }
 
     .numeroform{
@@ -391,10 +424,6 @@ img{
         margin-left: 0;
     }
 
-    .difficulty{
-        background-color: white;
-    }
-
     .li_proposal{
         width: 80%;
     }
@@ -407,6 +436,32 @@ img{
         margin-left: auto;
         display: block;
         margin-top: 10px;
+    }
+
+    #create_question_difficulty input[type=radio]{
+        width: 65px;
+        height: 31px;
+        border: none;
+        margin-left: 4px;
+    }
+
+    create_question_difficulty{
+        -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+        box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    }
+
+    .difficulty{
+        background-color: white;
+        box-shadow: none;
+    }
+
+    img{
+        width: 25px;
+        height: 25px;
+    }
+
+    .div_input_label label.required{
+        margin-left: -4px;
     }
 
 }

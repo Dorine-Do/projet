@@ -236,14 +236,16 @@ label{
 
 .wording{
     margin-left: 20px;
+    height: 50px;
 }
 
-label.required {
-
-}
 
 .div_wording{
     display: flex;
+}
+
+.div_wording textarea{
+    margin-top: 23px;
 }
 
 .proposal{
@@ -304,6 +306,10 @@ img{
     .valid{
         padding: 15px 200px;;
     }
+
+    label.required{
+        text-align: left;
+    }
 }
 
 @media screen and (max-width: 780px) {
@@ -333,6 +339,33 @@ img{
         padding: 10px 30px;
         font-size: 1.1em;
     }
+
+    #create_question_difficulty input[type=radio]{
+        width: 140px;
+        height: 60px;
+    }
+
+    img{
+        width: 45px;
+        height: 45px;
+    }
+
+    .div_proposal div{
+        display: flex;
+    }
+
+    .div_proposal div label{
+        margin-right: 20px;
+    }
+
+    .removeProposal{
+        margin-left: 20px;
+    }
+
+    .wording{
+        width: 120px;
+        height: 60px;
+    }
 }
 
 @media screen and (max-width: 450px) {
@@ -344,6 +377,11 @@ img{
     table{
         margin: auto;
         width: 350px;
+    }
+
+    tbody{
+        width: 400px;
+        display: block;
     }
 
     tr{
@@ -396,7 +434,7 @@ img{
         margin-left: 0;
     }
 
-    .div_proposal, .li_proposal, .div_wording, #errorChecked{
+    .li_proposal, .div_wording, #errorChecked{
         flex-direction: column;
     }
 
@@ -410,18 +448,13 @@ img{
     }
 
     .div_wording textarea{
-        width: 200px;
-        height: 50px;
-        margin: 15px auto;
-
-    }
-    .div_wording{
-        width: 10px;
-        margin: auto auto 25px auto;
+        width: 224px;
+        height: 76px;
+        margin-top: 2px;
     }
 
     .removeProposal{
-        width: 150px;;
+        width: 80px;
         margin: 15px auto 50px auto;
         display: block;
     }
@@ -437,8 +470,8 @@ img{
     }
 
     img{
-        width: 32px;
-        height: 32px;
+        width: 25px;
+        height: 25px;
     }
 
     .proposal{
@@ -447,8 +480,9 @@ img{
     }
 
     #create_question_difficulty input[type=radio]{
-        width: 80px;
-        height: 35px;
+        width: 65px;
+        height: 31px;
+        border: none;
     }
     .difficulty{
         width: 60%;
@@ -459,5 +493,24 @@ img{
     label.required{
         width: 50%;
         text-align: center;
+    }
+
+    .div_proposal{
+        width: 300px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .p_letter{
+        margin: 30px auto auto auto;
+    }
+
+    .div_proposal div label {
+        margin: auto;
+    }
+
+    .wording{
+        width: 216px;
+        height: 68px;
     }
 }
