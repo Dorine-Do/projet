@@ -28,6 +28,6 @@ final class Version20220704151632 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP TABLE student_qcm_instance');
+        $this->addSql('DROP TABLE link_student_qcm_instance');
     }
 }

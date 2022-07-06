@@ -191,5 +191,7 @@
     <script type="text/javascript" src="{{ asset('js/create_modify_question.js') }}"></script>
     <script>
         let add = {{add|json_encode}};
+        let imgPath = [];
+        imgPath.push('{{asset('build/images/trefle_facile_bon_vert.png')}}', '{{asset('build/images/trefle_moyen_bon_vert.png')}}', '{{asset('build/images/trefle_difficile_bon_vert.png')}}')
     </script>
 {% endblock %}

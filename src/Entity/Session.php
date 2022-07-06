@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Session
 {
     #[ORM\Id]
@@ -15,7 +16,7 @@ class Session
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 10)]
+    #[ORM\Column(type: 'string', length: 50)]
     private $name;
 
     #[ORM\Column(type: 'smallint')]
@@ -34,13 +35,24 @@ class Session
     private $link_session_module;
 
     #[ORM\ManyToMany(targetEntity: Instructor::class, inversedBy: 'sessions')]
+    #[ORM\JoinTable(name: "link_session_instructor")]
     private $instructors;
 
     public function __construct()
     {
         $this->link_session_student = new ArrayCollection();
         $this->link_session_module = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(){
         $this->created_at = new \DateTime();
+        $this->updated_at = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue(){
+        $this->updated_at = new \DateTime();
     }
 
     public function getId(): ?int

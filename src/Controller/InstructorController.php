@@ -168,13 +168,13 @@ class InstructorController extends AbstractController
         $questionEntity= new Question();
 
         $proposal1 = new Proposal();
-        $proposal1->setWording('reponse1');
+        $proposal1->setWording('');
 
         $proposal2 = new Proposal();
-        $proposal2->setWording('reponse2');
+        $proposal2->setWording('');
 
         $questionEntity->addProposal($proposal2);
-//        $questionEntity->addProposal($proposal1);
+        $questionEntity->addProposal($proposal1);
 
         // création form
         $form = $this->createForm(CreateQuestionType::class,$questionEntity);

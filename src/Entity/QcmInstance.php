@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QcmInstanceRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class QcmInstance
 {
     #[ORM\Id]
@@ -49,8 +50,18 @@ class QcmInstance
     public function __construct()
     {
         $this->result = new ArrayCollection();
-        $this->created_at = new \DateTime();
         $this->students = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(){
+        $this->created_at = new \DateTime();
+        $this->updated_at = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue(){
+        $this->updated_at = new \DateTime();
     }
 
     public function getId(): ?int

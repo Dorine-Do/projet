@@ -8,6 +8,7 @@ use App\Entity\Enum\Level;
 
 
 #[ORM\Entity(repositoryClass: ResultRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Result
 {
     #[ORM\Id]
@@ -47,7 +48,17 @@ class Result
     public function __construct()
     {
         $this->level = Level::Discover;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(){
         $this->created_at = new \DateTime();
+        $this->updated_at = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue(){
+        $this->updated_at = new \DateTime();
     }
 
     public function getId(): ?int

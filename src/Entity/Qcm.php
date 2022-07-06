@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QcmRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Qcm
 {
     #[ORM\Id]
@@ -49,15 +50,25 @@ class Qcm
     private $modules;
 
     #[ORM\ManyToMany(targetEntity: Question::class, inversedBy: 'qcms')]
+    #[ORM\JoinTable(name: "link_qcm_question")]
     private $questions;
 
     public function __construct()
     {
         $this->qcm_instance = new ArrayCollection();
         $this->difficulty = Enum\Difficulty::Medium;
-        $this->created_at = new \DateTime();
         $this->modules = new ArrayCollection();
         $this->questions = new ArrayCollection();
+    }
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(){
+        $this->created_at = new \DateTime();
+        $this->updated_at = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue(){
+        $this->updated_at = new \DateTime();
     }
 
     public function getId(): ?int

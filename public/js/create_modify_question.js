@@ -4,13 +4,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let removeButtons = document.querySelectorAll('.removeProposal')
     let li_proposal_v1 = document.querySelectorAll('.li_proposal')
     addbutton.dataset.index = li_proposal_v1.length
-    let indexData = addbutton.dataset.index
+    // let indexData = addbutton.dataset.index
+    let indexData = 0
     console.log(indexData)
     let form = addbutton.dataset.form
     let validate = document.querySelector(".valid")
     let ul = document.querySelector('#list_proposal')
 
-    console.log(li_proposal_v1.length)
+    // console.log(li_proposal_v1.length)
 
 
 // *******************************************************************************************************
@@ -100,7 +101,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // *******************************************************************************************************
 // letterProposal Function
     function letterProposal(div_proposal, indexData){
-        let textarea = div_proposal.firstElementChild.lastChild
+        let label = div_proposal.firstElementChild.firstChild
 
         let alphabet = ['A','B','C','D','E','F','G','H']
 
@@ -113,7 +114,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         p.className = 'p_letter'
         p.innerHTML = letter
 
-        div_proposal.firstElementChild.insertBefore(p,textarea)
+        div_proposal.firstElementChild.insertBefore(p,label)
+
     }
 
 
@@ -138,7 +140,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // AFFICHE LA LETTRE DE LA REPONSE EN DEHORS DU TEXTEAREA
     let div_proposal = document.querySelectorAll('.div_proposal')
     Object.entries(div_proposal).forEach(([index, div])=>{
-        letterProposal(div, 0)
+        letterProposal(div, indexData)
+        indexData++
+
     })
 
 
@@ -157,7 +161,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
         div.append(div_input_label);
     }
 // *******************************************************************************************************
+// IMAGE TREFFLES
 
+    let badgesParent = document.getElementById('create_question_difficulty')
+    let badges = document.querySelectorAll('.div_input_label')
+    console.log(badges)
+    for (const [key, value] of Object.entries(badges)) {
+        let logo = document.createElement('img')
+        logo.setAttribute("src", imgPath[key])
+        badgesParent.insertBefore(logo, value)
+        console.log(value)
+    }
 
 
 })

@@ -1,6 +1,6 @@
 @import url(main.css);
 
-
+/*************************************** CSS sur simple balise HTML **********************************/
 .form-question{
     max-width: 100%
 }
@@ -10,11 +10,6 @@ table{
     width: 100%;
 }
 
-.numeroform{
-    background-color: var(--pamplemousse);
-    padding: 8px 17px;
-    border-radius: 50%;
-}
 
 p{
     padding: 50px;
@@ -34,6 +29,12 @@ td{
 tbody{
     width: 100%;
 }
+
+li{
+    margin-left: 35%;
+}
+
+/************************************************ CSS SUR LES TD **************************************************************/
 
 .premier{
     margin-left: 0;
@@ -61,24 +62,31 @@ tbody{
 .div_input_label{
     position: relative;
     width: 25%;
+    padding-left: 5px;
+    padding-right: 0;
 }
 #create_question_difficulty input[type=radio]{
     -webkit-appearance: none;
     -moz-appearance: none;
-    border-radius: 50%;
+    border-radius: 25px;
     height: 59px;
     border: 1px solid #ccc;
     margin: 0;
-    width: 100%;
+    width: 90%;
 }
 #create_question_difficulty label{
     position: absolute;
     top: 20%;
     left: 29%;
+    color: white;
+}
+
+input[type="radio"]{
+    background-color: var(--grey);
 }
 
 input[type="radio"]:checked {
-    background: yellow;
+    background-color: var(--vert);
     margin:0;
 }
 
@@ -90,6 +98,32 @@ input[type="radio"]:checked {
 /*}*/
 
 
+#errorChecked{
+    display: flex;
+    justify-content: flex-start
+}
+
+.option{
+    margin: auto;
+    background-color: var(--fond);
+    padding: 25px 1px;
+    border-radius: 10px;
+    width: 85%;
+    text-align: center;
+}
+
+.premierselect{
+    margin:auto;
+}
+
+.numeroform{
+    background-color: var(--pamplemousse);
+    padding: 8px 17px;
+    border-radius: 50%;
+}
+
+/********************************************************* CSS SUR LES ELEMENTS DU FORM ***************************************/
+
 #create_question_wording{
     width: 80%;
     height: 75px;
@@ -97,10 +131,6 @@ input[type="radio"]:checked {
     margin-right: auto;
     display: block;
     border: hidden;
-}
-
-.premierselect{
-    margin:auto;
 }
 
 #create_question_module, #create_question_difficulty{
@@ -114,6 +144,35 @@ input[type="radio"]:checked {
     display: flex;
     justify-content: space-around;
 }
+
+#create_question_enabled{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 4px;
+    height: 30px;
+    width: 30px;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+#create_question_enabled:checked {
+    background: var(--vert);
+    margin:0px;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid;
+}
+#create_question_enabled:checked:before {
+    font-family: 'Alumni Sans', sans-serif;
+    display: block;
+    color: grey;
+    font-size: 13px;
+    position: absolute;
+}
+
+/********************************************* CE QUI A UN RAPPORT AVEC LA PARTIE PROPOSAL ***************************************************/
+
+
 
 .removeProposal{
     background-color: var(--grey);
@@ -138,34 +197,53 @@ input[type="radio"]:checked {
 
 }
 
-li{
-    margin-left: 35%;
+.li_proposal{
+    margin: auto;
+    display: flex;
+    align-items: center;
+    padding: 30px;
 }
 
-.required, label{
+.div_proposal{
+    display: flex;
+    align-items: center;
+}
+
+.p_letter{
+    background-color: var(--grey);
+    padding: 8px 17px;
+    border-radius: 50%;
+    color: white;
+    margin-right: 15px;
+}
+
+.required{
     color: var(--grey);
     font-weight: bold;
     margin: auto;
+    text-align: center;
+    width: 80px;
 }
 
-.buttondesac{
-    background-color: var(--grey);
-    color: white;
-    border-radius: 5px;
+label{
+    margin-left: 20px;
+    color: var(--grey);
     font-weight: bold;
-    border: none;
-    padding: 5px 15px;
-    font-size: 1.2em;
 }
-.buttondiff{
-    background-color: var(--grey);
-    color: white;
-    border-radius: 20px;
-    font-weight: bold;
-    border: none;
-    padding: 7px 49px;;
-    font-size: 1.2em;
+
+/******************************************* PARTIE DESACTIVE LA QUESTION ************************************************/
+
+.formoption{
+    background-color: var(--pamplemousse);;
+    padding: 12px 30px;
+    border-radius: 50%;
 }
+
+.paddingoption{
+    padding-left: 25px;
+}
+
+/******************************************************** VALIDATION *****************************************************************/
 
 .valid{
     background-color: var(--grey);
@@ -180,81 +258,11 @@ li{
     display: block;
 }
 
-.formoption{
-    background-color: var(--pamplemousse);;
-    padding: 12px 30px;
-    border-radius: 50%;
+img{
+    width: 50px;
+    height: 50px;
+    margin-left: 20px
 }
-
-.paddingoption{
-    padding-left: 25px;
-}
-
-.li_proposal{
-    margin: auto;
-    display: flex;
-    align-items: center;
-    padding: 30px;
-}
-
-.div_wording{
-    display: flex;
-    justify-content: flex-start;
-    padding-right: 20px;
-}
-
-.p_letter{
-    background-color: var(--grey);
-    padding: 8px 17px;
-    border-radius: 50%;
-    color: white;
-    margin-right: 15px;
-}
-
-#errorChecked{
-    display: flex;
-    justify-content: flex-start
-}
-.div_proposal{
-    display: flex;
-    align-items: center;
-}
-
-#create_question_enabled{
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    border-radius: 4px;
-    height: 30px;
-    width: 30px;
-    background: #fff;
-    border: 1px solid #ccc;
-}
-
-#create_question_enabled:checked {
-    background: var(--vert);
-    margin:0px;
-    position: relative;
-    cursor: pointer;
-    border: 1px solid;
-}
-#create_question_enabled:checked:before {
-     font-family: 'Alumni Sans', sans-serif;
-     display: block;
-     color: grey;
-     font-size: 13px;
-     position: absolute;
- }
-
-.option{
-    margin: auto;
-    background-color: var(--fond);
-    padding: 25px 1px;
-    border-radius: 10px;
-    width: 85%;
-    text-align: center;
-}
-
-
 
 @media screen and (max-width: 1200px) {
 

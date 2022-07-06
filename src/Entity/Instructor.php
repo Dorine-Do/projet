@@ -6,9 +6,12 @@ use App\Repository\InstructorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: InstructorRepository::class)]
-class Instructor
+#[ORM\HasLifecycleCallbacks]
+class Instructor implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
     #[ORM\Id]
@@ -31,7 +34,7 @@ class Instructor
     #[ORM\Column(type: 'string', length: 150)]
     private $email;
 
-    #[ORM\Column(type: 'string', length: 50)]
+    #[ORM\Column(type: 'string', length: 60)]
     private $password;
 
     #[ORM\Column(type: 'datetime')]
@@ -46,11 +49,23 @@ class Instructor
     #[ORM\ManyToMany(targetEntity: Module::class, mappedBy: 'instructors')]
     private $modules;
 
+    #[ORM\Column(type: 'array')]
+    private $roles = [];
+
     public function __construct()
     {
-        $this->created_at = new \DateTime();
         $this->sessions = new ArrayCollection();
         $this->modules = new ArrayCollection();
+    }
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(){
+        $this->created_at = new \DateTimeImmutable();
+        $this->updated_at = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue(){
+        $this->updated_at = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -114,18 +129,6 @@ class Instructor
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
 
         return $this;
     }
@@ -207,5 +210,63 @@ class Instructor
 
         return $this;
     }
+
+    /**********************************************************************************************************/
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    /**********************************************************************************************************/
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
 
 }

@@ -11,15 +11,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Question
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
-
-    #[ORM\Column(type: 'integer')]
-    private $module_id;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $id_author;
@@ -63,9 +61,18 @@ class Question
     {
         $this->proposals = new ArrayCollection();
         $this->difficulty = Difficulty::Medium;
+        $this->qcms = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(){
         $this->created_at = new \DateTime();
         $this->updated_at = new \DateTime();
-        $this->qcms = new ArrayCollection();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue(){
+        $this->updated_at = new \DateTime();
     }
 
     public function getId(): ?int
