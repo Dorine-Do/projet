@@ -50,6 +50,7 @@ class Qcm
     private $modules;
 
     #[ORM\ManyToMany(targetEntity: Question::class, inversedBy: 'qcms')]
+    #[ORM\JoinTable(name: "link_qcm_question")]
     private $questions;
 
     public function __construct()
