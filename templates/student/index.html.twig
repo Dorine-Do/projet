@@ -16,15 +16,21 @@
         {% endfor %}
     </p>
     <p>
-        unofficialQcmInstances
-        {% for unofficialQcmInstance in unofficialQcmInstances %}
-            {{ dump(unofficialQcmInstance) }}
-        {% endfor %}
-    </p>
-    <p>
         unofficialQcmInstancesNotDone
         {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
             {{ dump(unofficialQcmInstanceNotDone) }}
+        {% endfor %}
+    </p>
+    <p>
+        sessionModules
+        {% for sessionModule in sessionModules %}
+            {{ dump(sessionModule) }}
+        {% endfor %}
+    </p>
+    <p>
+        retryableModules
+        {% for retryableModule in retryableModules %}
+            {{ dump(retryableModule) }}
         {% endfor %}
     </p>
 </div>
