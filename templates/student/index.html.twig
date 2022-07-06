@@ -9,7 +9,7 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ student.getFirstName }} !!!!!!!</h1>
+    <h1>QCM {{ student.getFirstName }}</h1>
     <p>qcmOfTheWeek (official, current date between release date and end date)
         {% for qcm in qcmOfTheWeek %}
             {{ dump(qcm) }}

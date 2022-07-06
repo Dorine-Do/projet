@@ -96,11 +96,24 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('/qcmDone', 'app_qcmdone')]
-    public function qcmDone()
+    #[Route('/qcmDone', name: 'app_qcmdone')]
+    public function qcmDone( StudentRepository $studentRepo )
     {
-        return $this->render('student/index.html.twig', [
-            'msg' => 'A faire'
+        $student = $studentRepo->find( 11111 ); // changer l'id pour l'id de l'etudiant qui est log
+
+        $studentResults = $student->getResults();
+        $qcmsDone = [];
+        foreach($studentResults as $studentResult)
+        {
+            $qcmInstance = $studentResult->getQcmInstance();
+            $qcmsDone[] = [
+                'qcm'    => $qcmInstance->getQcm(),
+                'result' => $studentResult
+            ];
+        }
+
+        return $this->render('student/qcm_done.html.twig', [
+            'qcmsDone' => $qcmsDone
         ]);
     }
 }
