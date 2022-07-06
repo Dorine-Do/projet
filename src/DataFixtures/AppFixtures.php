@@ -2,10 +2,19 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Enum\Difficulty;
 use App\Entity\Instructor;
+use App\Entity\LinkSessionStudent;
 use App\Entity\Module;
+use App\Entity\Proposal;
+use App\Entity\Qcm;
+use App\Entity\Question;
 use App\Entity\Session;
 use App\Entity\Student;
+use App\Repository\InstructorRepository;
+use App\Repository\ModuleRepository;
+use App\Repository\QuestionRepository;
+use App\Repository\SessionRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
@@ -13,77 +22,261 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    public function __construct (UserPasswordHasherInterface $userPasswordHasherInterface)
+    private UserPasswordHasherInterface $userPasswordHasherInterface;
+    private InstructorRepository $instructorRepository;
+    private ModuleRepository $moduleRepository;
+    private SessionRepository $sessionRepository;
+    private QuestionRepository $questionRepository;
+
+
+    public function __construct (
+        UserPasswordHasherInterface $userPasswordHasherInterface,
+        InstructorRepository $instructorRepository,
+        ModuleRepository $moduleRepository,
+        SessionRepository $sessionRepository,
+        QuestionRepository $questionRepository
+
+    )
     {
         $this->userPasswordHasherInterface = $userPasswordHasherInterface;
+        $this->instructorRepository = $instructorRepository;
+        $this->moduleRepository = $moduleRepository;
+        $this->sessionRepository = $sessionRepository;
+        $this->questionRepository = $questionRepository;
     }
 
     public function load(ObjectManager $manager): void
     {
+
+        $arrayModule = [];
+        $arraySession = [];
+        $arrayStudent = [];
+        $arrayInstructor = [];
+        $ChoicesDifficulty = [ Difficulty::Easy, Difficulty::Medium, Difficulty::Difficult];
+
         $faker = Faker\Factory::create();
-        //Module
-        for ($i=0; $i<10; $i++){
+//        //Module
+//        for ($i=0; $i<10; $i++){
+//
+//            $word = $faker->word();
+//            $module = new Module();
+//            $module->setTitle($word);
+//            $module->setNumberOfWeeks(rand(1,10));
+//
+//            $manager->persist($module);
+////            $manager->flush();
+//
+//            array_push($arrayModule, $module);
+//
+//        }
+//
+//        //Session
+//        for ($i=0; $i<10; $i++){
+//
+//            $word = $faker->word();
+//            $session = new Session();
+//            $session->setName($word);
+//            $session->setSchoolYear(2021);
+//
+//            $manager->persist($session);
+////            $manager->flush();
+//
+//            array_push($arraySession, $session);
+//        }
+//
+//        //Instructeur
+//        for ($i=0; $i<10; $i++){
+//            $name = $faker->name();
+//            $arrayName = explode(' ', $name);
+//            $instructor = new Instructor();
+//
+//            $instructor->setFirstname($arrayName[0]);
+//            $instructor->setLastname($arrayName[1]);
+//            $instructor->setEmail($faker->email());
+//            $instructor->setPhoneNumber('06xxxxxxxxxx');
+//            $instructor->setBirthDate(new \DateTime("22-05-1957"));
+//            $instructor->setRoles(['instructor']);
+//
+//            $instructor->setPassword(
+//                $this->userPasswordHasherInterface->hashPassword(
+//                    $instructor, "password"
+//                )
+//            );
+//
+//            $instructor->addModule($arrayModule[rand(1,9)]);
+////            $sessionInstructor = $arraySession[rand(1,9)];
+////            $instructor->addSession($sessionInstructor);
+//
+//            $manager->persist($instructor);
+////            $manager->flush();
+//            array_push($arrayInstructor, $instructor);
+//        }
+//
+//        //Student
+//        for ($i=0; $i<50; $i++){
+//            $name = $faker->name();
+//            $arrayName = explode(' ', $name);
+//            $student = new Student();
+//
+//            $student->setFirstname($arrayName[0]);
+//            $student->setLastname($arrayName[1]);
+//            $student->setIdModule('12345');
+//            $student->setMail3wa('xxxxx@3wa.io');
+//            $student->setBirthDate(new \DateTime("22-05-1997"));
+//
+//            $student->setBadges([
+//                array_rand($arrayModule,1) => "Découvre",
+//                array_rand($arrayModule,1) => "Explore",
+//                array_rand($arrayModule,1) => "Domine",
+//            ]);
+//
+//            $manager->persist($student);
+//            array_push($arrayStudent, $student);
+////
+////
+////            //LinkSessionStudent
+//            $lms = new linkSessionStudent();
+//            $lms->setEnabled(1);
+//            $lms->setStudent($student);
+//            $lms->setSession($arraySession[rand(1,9)]);
+//
+//            $manager->persist($lms);
+////            $manager->flush();
+//        }
 
+
+
+
+        //Question
+//        for ($i=0; $i<30; $i++){
+//
+//            $text = $faker->sentence();
+//            $question = new Question();
+//
+//            $question->setWording($text);
+//            $instructorEntity= $this->instructorRepository->findAll();
+//            $instructorEntity = $instructorEntity[rand(0,9)];
+//            $instructorId = $instructorEntity->getId();
+//            $question->setIdAuthor($instructorId);
+//
+//            $question->setEnabled(1);
+//            $question->setIsMandatory(0);
+//            $question->setIsOfficial(0);
+//
+//            $difficulty = $ChoicesDifficulty[rand(0,2)];
+//            $question->setDifficulty($difficulty);
+//
+//            $instructorModules = $instructorEntity->getModules();
+//            $question->setModule($instructorModules[0]);
+//            $question->setResponseType('checkbox');
+//
+//            $manager->persist($question);
+//
+//
+//        }
+
+        //Proposal
+            $count=0;
+//            $length = rand(0,6);
+//            $questions = $this->questionRepository->findAll();
+//
+//                for ($i=0; $i<50; $i++){
+//
+//                    $word = $faker->word();
+//                    $proposal = new Proposal();
+//
+//                    $proposal->setWording($word);
+//                    $isCorrect = rand(0,1);
+//                    $proposal->setIsCorrect($isCorrect);
+//                    if($isCorrect){
+//                        $count ++;
+//                    }
+//
+//                    $proposal->setQuestion($questions[rand(0,29)]);
+//                    $manager->persist($proposal);
+//                }
+
+        //Qcm
+        for ($i=0; $i<10; $i++){
             $word = $faker->word();
-            $module = new Module();
-            $module->setTitle($word);
-            $module->setNumberOfWeeks(rand(1,10));
-            $manager->flush();
-//            array_push($this->categories, $category);
+            $qcm = new Qcm();
+            $qcm->setEnabled('1');
+            $modules = $this->moduleRepository->findAll();
+            $module = $modules[array_rand($modules)];
+//            $module = $this->moduleRepository->find(347);
+            $qcm->addModule($module);
+            $qcm->setIsOfficial('0');
+            $qcm->setName($word);
+            $qcm->setAuthorId($this->instructorRepository->findAll()[rand(0,9)]->getId());
+            $qcm->setPublic("1");
+
+            $arrayQuestionAnswers = [];
+            $arrayDifficulty=[];
+            $questions = [];
+            while(count($questions) == 0){
+                $questions = $this->questionRepository->findBy(array('module' => $module->getId()));
+            }
+//            $allQuestions = $this->questionRepository->findAll();
+//            $questions = $allQuestions->array_filter(
+//                function(Question $question, $module){
+//                    return $question->getModule() == $module;
+//                });
+
+//            $questions = array_filter($allQuestions,function(Question $question) use($module){
+//                return $question->getModule() === $module;
+//            });
+
+            for($i=0; $i<10; $i++){
+                $question=$questions[array_rand($questions)];
+                $qcm->addQuestion($question);
+                $answers = $question->getProposals();
+                $difficulty = $question->getDifficulty()->value;
+                array_push($arrayDifficulty, $difficulty);
+                $arrayAnswers = [];
+                foreach ($answers as $answer){
+                    array_push($arrayAnswers, ["id" => $answer->getWording(), "libelle" => $answer->getId()]);
+                }
+                $questionAnswer =
+                    [
+                        [
+                        "question"=>
+                            [
+                            "id"=> $question->getId(),
+                            "libelle"=>$question->getWording(),
+                            "answers"=>
+                                $arrayAnswers
+                            ],
+                        ]
+                    ];
+                $questionAnswerJson = json_encode($questionAnswer);
+                array_push($arrayQuestionAnswers,$questionAnswerJson);
+            }
+            $qcm->setQuestionsAnswers($arrayQuestionAnswers);
+
+            $nrbValues = array_count_values($arrayDifficulty);
+            $valueKey = array_search(max($nrbValues),$nrbValues);
+            switch ($valueKey){
+                case "Facile":
+                    $qcm->setDifficulty(Difficulty::Easy);
+                    break;
+                case "Moyen":
+                    $qcm->setDifficulty(Difficulty::Medium);
+                    break;
+                case "Difficile":
+                    $qcm->setDifficulty(Difficulty::Difficult);
+                    break;
+            }
+
+
+            $manager->persist($qcm);
+
         }
 
-        //Session
-        for ($i=0; $i<10; $i++){
+        $manager->flush();
 
-            $word = $faker->word();
-            $session = new Session();
-            $session->setName($word);
-            $session->setSchoolYear(2021);
-            $manager->flush();
-//            array_push($this->categories, $category);
-        }
 
-        //Instructeur
-        for ($i=0; $i<10; $i++){
-            $name = $faker->text();
-            $arrayName = explode(' ', $name);
-            $instructor = new Instructor();
 
-            $instructor->setFirstname($arrayName[0]);
-            $instructor->setLastname($arrayName[1]);
-            $instructor->setEmail($faker->email());
-            $instructor->setPhoneNumber('06xxxxxxxxxx');
-            $instructor->setBirthDate(new \DateTime("22/05/1957"));
 
-            $instructor->setPassword(
-                $this->userPasswordHasherInterface->hashPassword(
-                    $instructor, "password"
-                )
-            );
-
-            $manager->flush();
-//            array_push($this->categories, $category);
-        }
-
-        //Student
-        for ($i=0; $i<50; $i++){
-            $name = $faker->text();
-            $arrayName = explode(' ', $name);
-            $instructor = new Student();
-
-            $instructor->setFirstname($arrayName[0]);
-            $instructor->setLastname($arrayName[1]);
-            $instructor->setIdModule('12345');
-            $instructor->setMail3wa('xxxxx@3wa.io');
-            $instructor->setBirthDate(new \DateTime("22/05/1997"));
-
-            $instructor->setBadges([
-
-            ]);
-
-            $manager->flush();
-//            array_push($this->categories, $category);
-        }
 
 
 
