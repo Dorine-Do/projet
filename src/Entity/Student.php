@@ -47,6 +47,7 @@ class Student
     private $results;
 
     #[ORM\ManyToMany(targetEntity: QcmInstance::class, inversedBy: 'students')]
+    #[ORM\JoinTable(name: "link_student_qcm_instance")]
     private $qcmInstances;
 
     public function __construct()
