@@ -97,7 +97,7 @@ class StudentController extends AbstractController
     }
 
     #[Route('/qcmDone', name: 'app_qcmdone')]
-    public function qcmDone( StudentRepository $studentRepo )
+    public function qcmDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo )
     {
         $student = $studentRepo->find( 11111 ); // changer l'id pour l'id de l'etudiant qui est log
 
@@ -112,8 +112,16 @@ class StudentController extends AbstractController
             ];
         }
 
+        $studentSession = $linkSessionStudentRepo->findOneBy([ 'student' => $student->getId()] )->getSession();
+        $sessionModules = $linkSessionModuleRepo->findBy([ 'session' => $studentSession->getId() ]);
+        foreach ( $sessionModules as $key => $sessionModule )
+        {
+            $sessionModules[$key] = $sessionModule->getModule();
+        }
+
         return $this->render('student/qcm_done.html.twig', [
-            'qcmsDone' => $qcmsDone
+            'qcmsDone' => $qcmsDone,
+            'sessionModules'  => $sessionModules
         ]);
     }
 }
