@@ -77,7 +77,7 @@ class AppFixtures extends Fixture
         $this->generateProposals( $manager);
 
         //Qcm
-        // $this->generateQcms( $manager );
+        $this->generateQcms( $manager );
     }
 
     public function generateModules( $manager ) :void
@@ -321,5 +321,10 @@ class AppFixtures extends Fixture
             $manager->persist($qcm);
             $manager->flush();
         }
+    }
+
+    public function generateQcmInstances( $manager ) :void
+    {
+
     }
 }
