@@ -9,13 +9,17 @@ use App\Entity\LinkSessionStudent;
 use App\Entity\Module;
 use App\Entity\Proposal;
 use App\Entity\Qcm;
+use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Entity\Session;
 use App\Entity\Student;
 use App\Repository\InstructorRepository;
 use App\Repository\ModuleRepository;
+use App\Repository\QcmInstanceRepository;
+use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
+use App\Repository\StudentRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker;
@@ -28,6 +32,10 @@ class AppFixtures extends Fixture
     private ModuleRepository $moduleRepository;
     private SessionRepository $sessionRepository;
     private QuestionRepository $questionRepository;
+    private QcmRepository $qcmRepository;
+    private QcmInstanceRepository $qcmInstanceRepository;
+    private StudentRepository $studentRepository;
+
 
     private $faker;
 
@@ -37,12 +45,18 @@ class AppFixtures extends Fixture
     protected array $arrayInstructor = [];
     protected array $ChoicesDifficulty = [ Difficulty::Easy, Difficulty::Medium, Difficulty::Difficult];
 
+
     public function __construct (
         UserPasswordHasherInterface $userPasswordHasherInterface,
         InstructorRepository $instructorRepository,
         ModuleRepository $moduleRepository,
         SessionRepository $sessionRepository,
-        QuestionRepository $questionRepository
+        QuestionRepository $questionRepository,
+        QcmRepository $qcmRepository,
+        QcmInstanceRepository $qcmInstanceRepository,
+        StudentRepository $studentRepository
+
+
     )
     {
         $this->userPasswordHasherInterface = $userPasswordHasherInterface;
@@ -50,6 +64,10 @@ class AppFixtures extends Fixture
         $this->moduleRepository = $moduleRepository;
         $this->sessionRepository = $sessionRepository;
         $this->questionRepository = $questionRepository;
+        $this->qcmRepository = $qcmRepository;
+        $this->qcmInstanceRepository = $qcmInstanceRepository;
+        $this->studentRepository = $studentRepository;
+
         $this->faker = Faker\Factory::create();
     }
 
@@ -325,6 +343,30 @@ class AppFixtures extends Fixture
 
     public function generateQcmInstances( $manager ) :void
     {
+        for($i=0; $i<1; $i++){
 
+            $qcms = $this->qcmRepository->findAll();
+            $students = $this->studentRepository->findAll();
+            $qcm =  $qcms[array_rand($qcms)];
+            $qcmInstance = new QcmInstance();
+            $qcmInstance->setName($qcm->getName());
+            $qcmInstance->setEnabled(1);
+            $qcmInstance->setEndDate($this->faker->dateTimeBetween("now", "+1 year"));
+            $qcmInstance->setQcm($qcm);
+            $questionsAnswers = $qcm->getQuestionsAnswers();
+            $questionsAnswersJSON = [];
+            foreach ($questionsAnswers as $questionAnswer)
+            {
+
+                array_push($questionsAnswersJSON,json_encode($questionAnswer));
+            }
+            dd($questionsAnswersJSON);
+            $qcmInstance->setQuestionAnswers($questionsAnswersJSON);
+            $qcmInstance->setReleaseDate(new \DateTime());
+            $qcmInstance->addStudent($students[array_rand($students)]);
+
+            $manager->persist($qcmInstance);
+
+        }
     }
 }
