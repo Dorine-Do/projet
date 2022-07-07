@@ -20,8 +20,6 @@ final class Version20220706163226 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP TABLE link_instructor_module');
-        $this->addSql('DROP TABLE link_instructor_session');
         $this->addSql('ALTER TABLE instructor ADD roles LONGTEXT NOT NULL COMMENT \'(DC2Type:array)\', CHANGE password password VARCHAR(60) NOT NULL');
         $this->addSql('ALTER TABLE link_module_instructor DROP FOREIGN KEY FK_A41968408C4FC193');
         $this->addSql('ALTER TABLE link_module_instructor DROP FOREIGN KEY FK_A4196840AFC2B591');

@@ -2,36 +2,96 @@
 
 {% block title %}Hello StudentController!{% endblock %}
 
+{% block stylesheets %}
+    <link href="{{asset('css/studentIndex.css')}}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper { margin: 1em auto; max-width: 100%; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
 <div class="example-wrapper">
-    <h1>QCM {{ student.getFirstName }}</h1>
+    <h1>- QCM -</h1>
+
+    <div class="global">
+            <article class="article1">
+                <section>
+                    <h2>QCM à faire</h2>
+                        <div class="centre">
+                            <p><strong>Nom du qcm</strong> :</p>
+                            <a class="button" href="">Faire le QCM</a>
+                        </div>
+                </section>
+                  <h2>Je m'entraine</h2>
+                <section class="cercle">
+                    <div class="training">
+                        <select name="module">
+                            <option value="">Choix du module</option>
+                        </select>
+                        <div class="difficult">
+                            <a class="buttondiff" href="">Facile</a>
+                            <a class="buttondiff" href="">Moyen</a>
+                            <a class="buttondiff" href="">Difficile</a>
+                        </div>
+                        <a class="buttonvalid" href="">Je m'entraine</a>
+                    </div>
+                </section>
+            </article>
+            <span></span>
+            <article class="article2">
+                <section>
+                    <h2>QCM réalisés</h2>
+                    <div class="centre">
+                        <p>En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les qcm que tu as terminés, voir tes réponses fausses et t'entrainer à les refaire.</p>
+                        <a class="real" href="">QCM réalisés</a>
+                    </div>
+                </section>
+                <section>
+                    <h2>Je retente ma chance</h2>
+                    <div class="centre_chance">
+                        <p>Si tu as obtenu "découvre" ou "explore" à un des qcm, tu peux tenter d'obtenir à nouveau ton badge et l'ajouter à ta collection en repassant un qcm du module en question.</p>
+                    </div>
+                </section>
+                <section>
+                    <div class="div_badge">
+                        <div class="last_div">
+                            <select name="module">
+                                <option value="">Module</option>
+                            </select>
+                        </div>
+                        <a class="buttonbadge" href="">J'essaie d'obtenir mon badge</a>
+                    </div>
+                </section>
+                <p class="lastP">Repasser le qcm pour obtenir le badge du module ne changera pas le niveau obtenu lors du QCM officiel</p>
+            </article>
+    </div>
+</div>
+
     <p>qcmOfTheWeek (official, current date between release date and end date)
         {% for qcm in qcmOfTheWeek %}
-            {{ dump(qcm) }}
+            {{ qcm.id }}
         {% endfor %}
     </p>
     <p>
         unofficialQcmInstancesNotDone
         {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
-            {{ dump(unofficialQcmInstanceNotDone) }}
+            {{ unofficialQcmInstanceNotDone.id }}
         {% endfor %}
     </p>
     <p>
         sessionModules
         {% for sessionModule in sessionModules %}
-            {{ dump(sessionModule) }}
+            {{ sessionModule.id }}
         {% endfor %}
     </p>
     <p>
         retryableModules
         {% for retryableModule in retryableModules %}
-            {{ dump(retryableModule) }}
+            {{ retryableModule.id }}
         {% endfor %}
     </p>
-</div>
 {% endblock %}
+
+
