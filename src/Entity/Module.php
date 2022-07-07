@@ -39,6 +39,7 @@ class Module
     private $updated_at;
 
     #[ORM\ManyToMany(targetEntity: Instructor::class, inversedBy: 'modules')]
+    #[ORM\JoinTable(name: "link_module_instructor")]
     private $instructors;
 
     #[ORM\ManyToMany(targetEntity: Qcm::class, inversedBy: 'modules')]

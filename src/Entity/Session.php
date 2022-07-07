@@ -16,7 +16,7 @@ class Session
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 10)]
+    #[ORM\Column(type: 'string', length: 50)]
     private $name;
 
     #[ORM\Column(type: 'smallint')]
@@ -35,6 +35,7 @@ class Session
     private $link_session_module;
 
     #[ORM\ManyToMany(targetEntity: Instructor::class, inversedBy: 'sessions')]
+    #[ORM\JoinTable(name: "link_session_instructor")]
     private $instructors;
 
     public function __construct()

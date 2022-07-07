@@ -28,7 +28,7 @@ class Proposal
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'proposal')]
+    #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'proposal', cascade:["persist", "remove"])]
     #[ORM\JoinColumn(nullable: false)]
     private $question;
 
