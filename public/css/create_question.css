@@ -366,6 +366,11 @@ img{
         width: 120px;
         height: 60px;
     }
+
+    #errorChecked{
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 @media screen and (max-width: 450px) {

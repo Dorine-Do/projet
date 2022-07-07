@@ -1,0 +1,64 @@
+@import url(main.css);
+
+h1, h2{
+    text-align: center;
+}
+
+.numeroform{
+    background-color: var(--pamplemousse);
+    padding: 8px 14px;
+    border-radius: 50%;
+}
+
+.module{
+    text-align: center;
+}
+
+.realise{
+    width: 100%;
+    display: flex;
+    column-count: 3;
+    justify-content: space-between;
+    background-color: var(--fond);
+    padding: 20px;
+}
+
+.nomqcm{
+    background-color: var(--pamplemousse);
+    padding: 28px 115px;
+    border-radius: 9px;
+}
+
+.button{
+    border-radius: 25px;
+    margin: 0;
+    width: 90%;
+    background-color: var(--grey);
+    color: white;
+    padding: 8px 35px;
+    text-align: center;
+}
+
+.button:hover{
+    background-color: var(--vert);
+}
+
+.div_button{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0 auto 0 0;
+    height: 120px;
+}
+
+.date{
+    margin: auto;
+    font-size: 1.1rem;
+}
+
+.ligne{
+    display: block;
+    width: 100%;
+    border: dashed 1px black;
+    margin: 50px 0;
+}

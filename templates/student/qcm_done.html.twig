@@ -2,21 +2,38 @@
 
 {% block title %}Hello StudentController!{% endblock %}
 
+{% block stylesheets %}
+    <link href="{{asset('css/qcmDone.css')}}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
     <style>
         .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
         .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
     </style>
-
+    {% for module in modules %}
+    {{ dump(module.)}}
+    {% endfor %}
     <div class="example-wrapper">
-        <h1>QCM réalisés</h1>
-        <p>
-            qcmsDone
-            {% for qcmDone in qcmsDone %}
-                {{ dump(qcmDone.qcm) }}
-                {{ dump(qcmDone.result) }}
-                <span style="display: block; width: 100%; height: 2px; background-color: dodgerblue;"></span>
-            {% endfor %}
-        </p>
+        <h1>- QCM réalisés -</h1>
+        <p><span class="numeroform">1</span> Filtre par module:</p>
+        <span class="ligne"></span>
+        <p><span class="numeroform">2</span> Qcm</p>
+
+        <p class="module">Module : </p>
+        {% for qcmDone in qcmsDone %}
+        <div class="realise">
+            <div class="nomqcm">
+                <p>Nom du QCM : {{qcmDone.qcm.name}}</p>
+            </div>
+            <div class="date">
+                {{qcmDone.result.getCreatedAt()|date('d/m/Y')}}
+            </div>
+            <div class="div_button">
+                <a class="button" href="">Voir les réponses</a>
+                <a class="button" href="">Refaire le qcm</a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 {% endblock %}
