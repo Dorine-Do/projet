@@ -43,7 +43,8 @@ class Instructor implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $updated_at;
 
-    #[ORM\ManyToMany(targetEntity: Session::class, mappedBy: 'instructors')]
+    #[ORM\ManyToMany(targetEntity: Session::class, inversedBy: 'instructors')]
+    #[ORM\JoinTable(name: "link_session_instructor")]
     private $sessions;
 
     #[ORM\ManyToMany(targetEntity: Module::class, mappedBy: 'instructors')]
@@ -158,33 +159,6 @@ class Instructor implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Session>
-     */
-    public function getSessions(): Collection
-    {
-        return $this->sessions;
-    }
-
-    public function addSession(Session $session): self
-    {
-        if (!$this->sessions->contains($session)) {
-            $this->sessions[] = $session;
-            $session->addInstructor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSession(Session $session): self
-    {
-        if ($this->sessions->removeElement($session)) {
-            $session->removeInstructor($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Module>
      */
     public function getModules(): Collection
@@ -264,6 +238,30 @@ class Instructor implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Session>
+     */
+    public function getSessions(): Collection
+    {
+        return $this->sessions;
+    }
+
+    public function addSession(Session $session): self
+    {
+        if (!$this->sessions->contains($session)) {
+            $this->sessions[] = $session;
+        }
+
+        return $this;
+    }
+
+    public function removeSession(Session $session): self
+    {
+        $this->sessions->removeElement($session);
 
         return $this;
     }
