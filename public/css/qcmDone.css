@@ -2,6 +2,19 @@
 
 h1, h2{
     text-align: center;
+    width: 100%;
+}
+
+.example-wrapper {
+    margin: 1em auto;
+    max-width: 800px;
+    width: 95%;
+    font: 18px/1.5 sans-serif;
+}
+
+.example-wrapper code {
+    background: #F5F5F5;
+    padding: 2px 6px;
 }
 
 .numeroform{
@@ -14,6 +27,7 @@ h1, h2{
     text-align: center;
 }
 
+
 .realise{
     width: 100%;
     display: flex;
@@ -21,6 +35,7 @@ h1, h2{
     justify-content: space-between;
     background-color: var(--fond);
     padding: 20px;
+    margin-bottom: 25px;
 }
 
 .nomqcm{
@@ -61,4 +76,55 @@ h1, h2{
     width: 100%;
     border: dashed 1px black;
     margin: 50px 0;
+}
+
+@media screen and (max-width: 780px) {
+    .nomqcm{
+        padding: 25px 65px 15px 65px;
+    }
+
+    .button{
+        margin: 0;
+        width: 90%;
+        padding: 6px 20px;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .realise{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .div_button{
+        margin: 25px 0 0 0;
+        justify-content: space-around;
+        width: 300px;
+    }
+
+    .nomqcm{
+        margin-bottom: 25px;
+        width: 220px;
+        text-align: center;
+    }
+
+    .button{
+        text-align: center;
+    }
+
+    .container{
+        width: 90%;
+        margin: 0;
+    }
+
+    h1{
+        width: 412px;
+    }
+
+
+    .ligne{
+        width: 405px;
+    }
+
 }

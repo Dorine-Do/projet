@@ -25,7 +25,7 @@ class StudentController extends AbstractController
         // Recupérer l'instance de QCM pour laquelle la date du jour se trouve entre release_date et end_date pour l'etudiant connecté
         $allAvailableQcmInstances = $student->getQcmInstances();
         $officialQcmOfTheWeek  = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
-            return $qcmInstance->getQcm()->getIsOfficial() == true && $qcmInstance->getReleaseDate() < new \DateTime() && $qcmInstance->getEndDate() > new \DateTime();
+            return $qcmInstance->getQcm()->getIsOfficial() == true && $qcmInstance->getReleaseDate() < new \DateTime() && $qcmInstance->getEndDate() > new \DateTime() && $qcmInstance->getQcm()->getEnabled() == true ;;
         });
 
         // Recupérer les de QCM ayant is_official false/0
@@ -64,6 +64,7 @@ class StudentController extends AbstractController
             return $linkSessionModule->getEndDate() < new \DateTime();
         });
 
+
         $endedModules = [];
         foreach($endedLinkSessionModules as $endedLinkSessionModule)
         {
@@ -85,7 +86,6 @@ class StudentController extends AbstractController
                 $retryableModules[] = $endedModule;
             }
         }
-
         // Rendering
         return $this->render('student/index.html.twig', [
             'student'                       => $student,

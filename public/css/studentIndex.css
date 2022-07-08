@@ -63,8 +63,9 @@ article{
 }
 
 .difficult{
-    margin-bottom: 20px;
-    margin-top: 15px;
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-around;
 }
 
 .buttonvalid{
@@ -149,4 +150,91 @@ span{
 .lastP{
     font-weight: lighter;
     font-size: 0.6rem;
+}
+
+input[type="radio"]{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 25px;
+    height: 35px;
+    margin: 0;
+    width: 80px;
+    background-color: var(--grey);
+}
+
+label{
+    position: relative;
+    bottom: 40px;
+    color: white;
+    font-size: 1rem;
+}
+
+input[type="radio"]:checked {
+    background-color: var(--vert);
+    margin:0;
+}
+
+@media screen and (max-width: 1200px) {
+    .div_badge{
+        width: 80%;
+        margin: 80px auto auto auto;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .global{
+        display: flex;
+        flex-direction: column;
+    }
+
+    span{
+        display: block;
+        border: solid 2px var(--fond);
+        margin-top: 25px;
+    }
+
+    .div_badge{
+        margin: 30px auto auto auto;
+    }
+
+    h2{
+        margin-bottom: 10px;
+    }
+
+    a.button{
+        padding: 15px 130px;
+    }
+
+    .centre p {
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    a.button{
+        border-radius: 25px;
+        background-color: var(--grey);
+        color: white;
+        padding: 10px 60px;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .centre, .centre_chance{
+        width: 300px;
+    }
+
+    .section .centre{
+        height: 125px;
+    }
+
+    .container{
+        width: 88%;
+        margin: 0;
+    }
+
+    h1{
+        width: 412px;
+    }
+
 }

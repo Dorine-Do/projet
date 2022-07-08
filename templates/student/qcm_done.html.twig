@@ -7,20 +7,26 @@
 {% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    </style>
-{#    {% for module in modules %}#}
-{#    {{ module.id}}#}
-{#    {% endfor %}#}
+
     <div class="example-wrapper">
         <h1>- QCM réalisés -</h1>
         <p><span class="numeroform">1</span> Filtre par module:</p>
+
+
+        <select name="module">
+            <option value="">--- Veuillez sélectionner un module ---</option>
+            {% for module in modules %}
+            <option value="">
+                    {{module.title}}
+            </option>
+            {% endfor %}
+        </select>
         <span class="ligne"></span>
         <p><span class="numeroform">2</span> Qcm</p>
 
-        <p class="module">Module : </p>
+        {% for module in modules %}
+        <p class="module">Module : {{module.title}}</p>
+        {% endfor %}
         {% for qcmDone in qcmsDone %}
         <div class="realise">
             <div class="nomqcm">

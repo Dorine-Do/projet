@@ -20,20 +20,38 @@
                 <section>
                     <h2>QCM à faire</h2>
                         <div class="centre">
-                            <p><strong>Nom du qcm</strong> :</p>
+                            <p><strong>Nom du qcm : </strong> {% for qcm in qcmOfTheWeek %} {{qcm.name}} {% endfor %}</p>
                             <a class="button" href="">Faire le QCM</a>
                         </div>
                 </section>
                   <h2>Je m'entraine</h2>
                 <section class="cercle">
+
                     <div class="training">
                         <select name="module">
-                            <option value="">Choix du module</option>
+                            <option value="">-- Choix du module --</option>
+                            {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
+                            <option value="">
+                                    {{ unofficialQcmInstanceNotDone.name}}
+                            </option>
+                            {% endfor %}
                         </select>
                         <div class="difficult">
-                            <a class="buttondiff" href="">Facile</a>
-                            <a class="buttondiff" href="">Moyen</a>
-                            <a class="buttondiff" href="">Difficile</a>
+                                <div>
+                                    <input type="radio" id="huey" name="drone" value="huey"
+                                           checked>
+                                    <label for="huey">Facile</label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" id="dewey" name="drone" value="dewey">
+                                    <label for="dewey">Moyen</label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" id="louie" name="drone" value="louie">
+                                    <label for="louie">Difficile</label>
+                                </div>
                         </div>
                         <a class="buttonvalid" href="">Je m'entraine</a>
                     </div>
@@ -41,11 +59,11 @@
             </article>
             <span></span>
             <article class="article2">
-                <section>
+                <section class="section">
                     <h2>QCM réalisés</h2>
                     <div class="centre">
                         <p>En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les qcm que tu as terminés, voir tes réponses fausses et t'entrainer à les refaire.</p>
-                        <a class="real" href="">QCM réalisés</a>
+                        <a class="real" href="qcmDone">QCM réalisés</a>
                     </div>
                 </section>
                 <section>
@@ -58,7 +76,12 @@
                     <div class="div_badge">
                         <div class="last_div">
                             <select name="module">
-                                <option value="">Module</option>
+                                <option value="">-- Choix du module --</option>
+                                {% for retryableModule in retryableModules %}
+                                    <option value="">
+                                        {{retryableModule.title}}
+                                    </option>
+                                {% endfor %}
                             </select>
                         </div>
                         <a class="buttonbadge" href="">J'essaie d'obtenir mon badge</a>
@@ -69,27 +92,26 @@
     </div>
 </div>
 
-    <p>qcmOfTheWeek (official, current date between release date and end date)
-        {% for qcm in qcmOfTheWeek %}
-            {{ qcm.id }}
+    <p>
+        {% for students in student %}
+            {{ dump(sutdents) }}
         {% endfor %}
     </p>
     <p>
-        unofficialQcmInstancesNotDone
+
         {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
-            {{ unofficialQcmInstanceNotDone.id }}
+            {{ dump(unofficialQcmInstanceNotDone.name)}}
         {% endfor %}
     </p>
     <p>
-        sessionModules
-        {% for sessionModule in sessionModules %}
-            {{ sessionModule.id }}
-        {% endfor %}
+
+{#        {% for sessionModule in sessionModules %}#}
+{#            {{ dump(sessionModule) }}#}
+{#        {% endfor %}#}
     </p>
     <p>
-        retryableModules
         {% for retryableModule in retryableModules %}
-            {{ retryableModule.id }}
+            {{ dump(retryableModule) }}
         {% endfor %}
     </p>
 {% endblock %}

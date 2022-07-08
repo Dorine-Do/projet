@@ -81,7 +81,7 @@ class AppFixtures extends Fixture
 //        $this->generateLinksSessionModule( $manager );
 
         //Instructeur
-        $this->generateInstructors( $manager );
+//        $this->generateInstructors( $manager );
 //        $this->generateLinkSessionInstructor();
 
         //Student
