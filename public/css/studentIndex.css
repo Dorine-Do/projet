@@ -17,6 +17,28 @@ article{
     text-align: center;
 }
 
+.select1{
+    margin: auto;
+    background-color: white;
+    padding: 15px 40px;
+    font-size: 0.9em;
+    text-align: center;
+    border: 1px solid var(--grey);
+    border-radius: 9px;
+    font-family: 'Alumni Sans', sans-serif;
+}
+
+.select2{
+    margin: auto;
+    background-color: white;
+    padding: 2px 40px;
+    font-size: 0.9em;
+    text-align: center;
+    border: 1px solid var(--grey);
+    border-radius: 7px;
+    font-family: 'Alumni Sans', sans-serif;
+}
+
 .global{
     background-color: var(--pamplemousse);
     width: 100%;
@@ -42,7 +64,7 @@ article{
 .centre{
     border: 2px solid white;
     width: 400px;
-    margin: auto;
+    margin: auto auto 15px auto;
     height: 100px;
     border-radius: 9px;
     padding: 7px 15px;
@@ -63,9 +85,10 @@ article{
 }
 
 .difficult{
-    margin-top: 25px;
+    margin-top: 13px;
     display: flex;
     justify-content: space-around;
+    height: 55px;
 }
 
 .buttonvalid{
@@ -91,7 +114,7 @@ article{
 }
 
 .training{
-    padding-top: 80px;
+    padding-top: 75px;
 }
 
 .real{
@@ -111,7 +134,7 @@ article{
 .centre_chance{
     border: 2px solid white;
     width: 400px;
-    margin: auto;
+    margin: auto auto 35px auto;
     height: 70px;
     border-radius: 9px;
     padding: 7px 15px;
@@ -142,7 +165,7 @@ span{
 
 .div_badge{
     background-color: var(--fond);
-    margin-top: 80px;
+    margin-top: 20px;
     padding: 22px 30px 30px 30px;
     border-radius: 13px;
 }
@@ -166,12 +189,54 @@ label{
     position: relative;
     bottom: 40px;
     color: white;
-    font-size: 1rem;
+    font-size: 0.9em;
+    font-family: 'Alumni Sans', sans-serif;
 }
 
 input[type="radio"]:checked {
     background-color: var(--vert);
     margin:0;
+}
+
+.inter{
+    display: flex;
+    justify-content: space-between;
+}
+
+.centre2{
+    border: 2px solid white;
+    width: 400px;
+    margin: auto;
+    height: 80px;
+    border-radius: 9px;
+    padding: 7px 15px;
+}
+
+.centre3{
+    border: 2px solid white;
+    width: 400px;
+    margin: auto auto 70px auto;
+    height: 100px;
+    border-radius: 9px;
+    padding: 7px 15px;
+}
+
+.button2{
+    border-radius: 25px;
+    background-color: var(--grey);
+    color: white;
+    padding: 5px 50px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.button2:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
+.centre2 h2{
+    margin: 0;
 }
 
 @media screen and (max-width: 1200px) {

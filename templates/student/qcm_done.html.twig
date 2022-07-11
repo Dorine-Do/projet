@@ -10,17 +10,31 @@
 
     <div class="example-wrapper">
         <h1>- QCM réalisés -</h1>
-        <p><span class="numeroform">1</span> Filtre par module:</p>
 
+        <div class="premierediv">
+            <div class="div_badge">
+                <p>Officiel</p>
+                <img class="badge" src="{{asset('build/images/officiel.png')}}">
+            </div>
+            <div class="div_badge">
+                <p>Intermédiaire</p>
+                <img class="badge" src="{{asset('build/images/non-officiel.png')}}">
+            </div>
+        </div>
+        <div class="officiel">
+            <div>
+                <p><span class="numeroform">1</span> Filtre par module:</p>
+            </div>
+            <select name="module">
+                <option value="">--- Veuillez sélectionner un module ---</option>
+                {% for module in modules %}
+                <option value="">
+                        {{module.title}}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
 
-        <select name="module">
-            <option value="">--- Veuillez sélectionner un module ---</option>
-            {% for module in modules %}
-            <option value="">
-                    {{module.title}}
-            </option>
-            {% endfor %}
-        </select>
         <span class="ligne"></span>
         <p><span class="numeroform">2</span> Qcm</p>
 

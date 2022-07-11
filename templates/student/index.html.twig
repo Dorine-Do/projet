@@ -23,16 +23,30 @@
                             <p><strong>Nom du qcm : </strong> {% for qcm in qcmOfTheWeek %} {{qcm.name}} {% endfor %}</p>
                             <a class="button" href="">Faire le QCM</a>
                         </div>
+                    <div class="centre2">
+                        <h2>QCM intermédiaire</h2>
+                        <div class="inter">
+                            <select name="module" class="select2">
+                                <option value="">-- Choix du QCM --</option>
+                                {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
+                                    <option value="">
+                                        {{unofficialQcmInstanceNotDone.name}}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <a class="button2" href="">Faire le QCM</a>
+                        </div>
+                    </div>
                 </section>
                   <h2>Je m'entraine</h2>
                 <section class="cercle">
 
                     <div class="training">
-                        <select name="module">
+                        <select name="module" class="select1">
                             <option value="">-- Choix du module --</option>
-                            {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
+                            {% for sessionModule in sessionModules %}
                             <option value="">
-                                    {{ unofficialQcmInstanceNotDone.name}}
+                                {{sessionModule.title}}
                             </option>
                             {% endfor %}
                         </select>
@@ -61,7 +75,7 @@
             <article class="article2">
                 <section class="section">
                     <h2>QCM réalisés</h2>
-                    <div class="centre">
+                    <div class="centre3">
                         <p>En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les qcm que tu as terminés, voir tes réponses fausses et t'entrainer à les refaire.</p>
                         <a class="real" href="qcmDone">QCM réalisés</a>
                     </div>
@@ -71,11 +85,9 @@
                     <div class="centre_chance">
                         <p>Si tu as obtenu "découvre" ou "explore" à un des qcm, tu peux tenter d'obtenir à nouveau ton badge et l'ajouter à ta collection en repassant un qcm du module en question.</p>
                     </div>
-                </section>
-                <section>
                     <div class="div_badge">
                         <div class="last_div">
-                            <select name="module">
+                            <select name="module" class="select2">
                                 <option value="">-- Choix du module --</option>
                                 {% for retryableModule in retryableModules %}
                                     <option value="">
@@ -92,28 +104,28 @@
     </div>
 </div>
 
-    <p>
-        {% for students in student %}
-            {{ dump(sutdents) }}
-        {% endfor %}
-    </p>
-    <p>
+{#    <p>#}
+{#        {% for students in student %}#}
+{#            {{ dump(sutdents) }}#}
+{#        {% endfor %}#}
+{#    </p>#}
+{#    <p>#}
 
-        {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
-            {{ dump(unofficialQcmInstanceNotDone.name)}}
-        {% endfor %}
-    </p>
-    <p>
+{#        {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}#}
+{#            {{ dump(unofficialQcmInstanceNotDone.name)}}#}
+{#        {% endfor %}#}
+{#    </p>#}
+{#    <p>#}
 
 {#        {% for sessionModule in sessionModules %}#}
 {#            {{ dump(sessionModule) }}#}
 {#        {% endfor %}#}
-    </p>
-    <p>
-        {% for retryableModule in retryableModules %}
-            {{ dump(retryableModule) }}
-        {% endfor %}
-    </p>
+{#    </p>#}
+{#    <p>#}
+{#        {% for retryableModule in retryableModules %}#}
+{#            {{ dump(retryableModule) }}#}
+{#        {% endfor %}#}
+{#    </p>#}
 {% endblock %}
 
 

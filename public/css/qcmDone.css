@@ -78,6 +78,40 @@ h1, h2{
     margin: 50px 0;
 }
 
+.badge{
+    width: 50px;
+    height: 50px;
+}
+
+.premierediv{
+    background-color: var(--fond);
+    width: 90%;
+    margin: auto auto 75px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.div_badge{
+    padding: 0 50px;
+    text-align: center;
+}
+
+select{
+    margin: auto 0 auto auto;
+    padding: 20px 40px;
+    border: none;
+    background-color: var(--fond);
+    font-size: 1em;
+    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    text-align: center;
+}
+
+.officiel{
+    display: flex;
+    justify-content: flex-end;
+}
+
 @media screen and (max-width: 780px) {
     .nomqcm{
         padding: 25px 65px 15px 65px;
