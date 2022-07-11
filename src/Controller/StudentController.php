@@ -10,6 +10,7 @@ use App\Entity\Result;
 use App\Repository\LinkSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
+use App\Repository\QcmRepository;
 use App\Repository\StudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StudentController extends AbstractController
 {
-    #[Route('/student', name: 'app_student')]
+    #[Route('/student', name: 'student')]
     public function index( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
     {
         $student = $studentRepo->find( 13581 ); // changer l'id pour l'id de l'etudiant qui est log
@@ -100,7 +101,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('/qcmDone', name: 'app_qcmdone')]
+    #[Route('student/qcmsDone', name: 'student_qcmsdone')]
     public function qcmDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo )
     {
         $student = $studentRepo->find( 13581 ); // changer l'id pour l'id de l'etudiant qui est log
@@ -128,4 +129,29 @@ class StudentController extends AbstractController
             'sessionModules'  => $sessionModules
         ]);
     }
+
+    #[Route('student/qcmToDo/{qcmInstance}', name: 'student_qcmToDo')]
+    public function QcmToDo( QcmInstance $qcmInstance, QcmRepository $qcmRepository){
+
+        $qcm = $qcmRepository->find(['id' => ($qcmInstance->getQcm()->getId())]);
+//        dump(json_decode($qcm->getQuestionsAnswers()[0]));
+        $questionsAnswers = [];
+        foreach ($qcm->getQuestionsAnswers() as $questionAnswer){
+            array_push($questionsAnswers, json_decode( $questionAnswer)[0]) ;
+        }
+//        dump($questionsAnswers);
+//        dump($qcm);
+//        dump($qcm->getModule()->getTitle());
+//        dd($qcmInstance);
+
+
+
+
+        return $this->render('student/qcm_to_do.html.twig', [
+            'nameQcmInstance' => $qcmInstance->getName(),
+            'titleModule'=> $qcm->getModule()->getTitle(),
+            'questionsAnswers' => $questionsAnswers
+        ]);
+    }
+
 }

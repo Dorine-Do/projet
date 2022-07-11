@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StudentController!{% endblock %}
+
+{% block body %}
+
+    <div class="qcm">
+        <h1>QCM A FAIRE</h1>
+
+        <p>Nom du qcm
+            {{ dump(nameQcmInstance) }}
+        </p>
+        <p>
+            Nom du module
+            {{ dump(titleModule) }}
+        </p>
+
+
+        <form action="">
+            <p>Question Reponses</p>
+            {% for questionAnswer in questionsAnswers %}
+{#                {{ dump(questionAnswer) }}#}
+            {% endfor %}
+            {% for questionAnswer in questionsAnswers %}
+                {{ dump(questionAnswer) }}
+                {{ questionAnswer.question.libelle }}
+                {% for answer in questionAnswer.question.answers %}
+                    {{ answer.libelle }}
+                {% endfor %}
+            {% endfor %}
+        </form>
+
+    </div>
+{% endblock %}
