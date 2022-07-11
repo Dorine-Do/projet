@@ -72,6 +72,7 @@ class CreateQuestionType extends AbstractType
 
             ->add('enabled', CheckboxType::class, [
                 'required' => false,
+                'label' => false,
             ]);
 
     }

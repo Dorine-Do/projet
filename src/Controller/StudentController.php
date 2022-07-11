@@ -69,6 +69,7 @@ class StudentController extends AbstractController
             return $linkSessionModule->getEndDate() < new \DateTime();
         });
 
+
         $endedModules = [];
         foreach($endedLinkSessionModules as $endedLinkSessionModule)
         {
@@ -90,7 +91,6 @@ class StudentController extends AbstractController
                 $retryableModules[] = $endedModule;
             }
         }
-
         // Rendering
         return $this->render('student/index.html.twig', [
             'student'                       => $student,
@@ -126,7 +126,7 @@ class StudentController extends AbstractController
 
         return $this->render('student/qcm_done.html.twig', [
             'qcmsDone' => $qcmsDone,
-            'sessionModules'  => $sessionModules
+            'modules'  => $sessionModules
         ]);
     }
 

@@ -102,10 +102,8 @@ class QuestionRepository extends ServiceEntityRepository
         return $questionBdd->createQuery('
         SELECT q.id, q.wording, qcmi.release_date
         FROM App\Entity\Question q
-        INNER JOIN App\Entity\LinkQcmQuestion l
-        WITH l.question = q.id
         INNER JOIN App\Entity\Qcm qcm
-        WITH l.qcm = qcm.id
+        WITH q.id = qcm.id
         INNER JOIN App\Entity\QcmInstance qcmi
         WITH qcmi.qcm = qcm.id
         WHERE q.id = :id_question
@@ -125,10 +123,8 @@ class QuestionRepository extends ServiceEntityRepository
         return $sessionBdd->createQuery('
         SELECT q.id, q.wording, qcmi.release_date, se.name
         FROM App\Entity\Question q
-        INNER JOIN App\Entity\LinkQcmQuestion l
-        WITH l.question = q.id
         INNER JOIN App\Entity\Qcm qcm
-        WITH l.qcm = qcm.id
+        WITH q.id = qcm.id
         INNER JOIN App\Entity\QcmInstance qcmi
         WITH qcmi.qcm = qcm.id
         INNER JOIN App\Entity\Result r

@@ -1,0 +1,305 @@
+@import url(main.css);
+
+h1{
+    text-align: center;
+}
+
+h2{
+    color: var(--fond);
+    font-family: 'Alumni Sans', sans-serif;
+}
+
+p{
+    font-size: 0.7rem;
+}
+
+article{
+    text-align: center;
+}
+
+.select1{
+    margin: auto;
+    background-color: white;
+    padding: 15px 40px;
+    font-size: 0.9em;
+    text-align: center;
+    border: 1px solid var(--grey);
+    border-radius: 9px;
+    font-family: 'Alumni Sans', sans-serif;
+}
+
+.select2{
+    margin: auto;
+    background-color: white;
+    padding: 2px 40px;
+    font-size: 0.9em;
+    text-align: center;
+    border: 1px solid var(--grey);
+    border-radius: 7px;
+    font-family: 'Alumni Sans', sans-serif;
+}
+
+.global{
+    background-color: var(--pamplemousse);
+    width: 100%;
+    padding: 25px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.button{
+    border-radius: 25px;
+    background-color: var(--grey);
+    color: white;
+    padding: 10px 85px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.button:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
+.centre{
+    border: 2px solid white;
+    width: 400px;
+    margin: auto auto 15px auto;
+    height: 100px;
+    border-radius: 9px;
+    padding: 7px 15px;
+}
+
+.buttondiff{
+    border-radius: 25px;
+    background-color: var(--grey);
+    color: white;
+    padding: 4px 25px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.buttondiff:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
+.difficult{
+    margin-top: 13px;
+    display: flex;
+    justify-content: space-around;
+    height: 55px;
+}
+
+.buttonvalid{
+    border-radius: 25px;
+    background-color: var(--grey);
+    color: white;
+    padding: 10px 85px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.buttonvalid:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
+.cercle{
+    background-color: var(--fond);
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+}
+
+.training{
+    padding-top: 75px;
+}
+
+.real{
+    border-radius: 13px;
+    background-color: var(--fond);
+    color: var(--writing);
+    padding: 10px 115px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.real:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
+.centre_chance{
+    border: 2px solid white;
+    width: 400px;
+    margin: auto auto 35px auto;
+    height: 70px;
+    border-radius: 9px;
+    padding: 7px 15px;
+}
+
+span{
+    display: block;
+    border: solid 1px var(--fond);
+}
+
+.last_div{
+    padding-bottom: 15px;
+}
+
+.buttonbadge{
+    border-radius: 25px;
+    background-color: var(--grey);
+    color: white;
+    padding: 10px 42px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.buttonbadge:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
+.div_badge{
+    background-color: var(--fond);
+    margin-top: 20px;
+    padding: 22px 30px 30px 30px;
+    border-radius: 13px;
+}
+
+.lastP{
+    font-weight: lighter;
+    font-size: 0.6rem;
+}
+
+input[type="radio"]{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 25px;
+    height: 35px;
+    margin: 0;
+    width: 80px;
+    background-color: var(--grey);
+}
+
+label{
+    position: relative;
+    bottom: 40px;
+    color: white;
+    font-size: 0.9em;
+    font-family: 'Alumni Sans', sans-serif;
+}
+
+input[type="radio"]:checked {
+    background-color: var(--vert);
+    margin:0;
+}
+
+.inter{
+    display: flex;
+    justify-content: space-between;
+}
+
+.centre2{
+    border: 2px solid white;
+    width: 400px;
+    margin: auto;
+    height: 80px;
+    border-radius: 9px;
+    padding: 7px 15px;
+}
+
+.centre3{
+    border: 2px solid white;
+    width: 400px;
+    margin: auto auto 70px auto;
+    height: 100px;
+    border-radius: 9px;
+    padding: 7px 15px;
+}
+
+.button2{
+    border-radius: 25px;
+    background-color: var(--grey);
+    color: white;
+    padding: 5px 50px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.button2:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
+.centre2 h2{
+    margin: 0;
+}
+
+@media screen and (max-width: 1200px) {
+    .div_badge{
+        width: 80%;
+        margin: 80px auto auto auto;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .global{
+        display: flex;
+        flex-direction: column;
+    }
+
+    span{
+        display: block;
+        border: solid 2px var(--fond);
+        margin-top: 25px;
+    }
+
+    .div_badge{
+        margin: 30px auto auto auto;
+    }
+
+    h2{
+        margin-bottom: 10px;
+    }
+
+    a.button{
+        padding: 15px 130px;
+    }
+
+    .centre p {
+        margin-bottom: 20px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    a.button{
+        border-radius: 25px;
+        background-color: var(--grey);
+        color: white;
+        padding: 10px 60px;
+        text-align: center;
+        font-size: 1rem;
+    }
+
+    .centre, .centre_chance{
+        width: 300px;
+    }
+
+    .section .centre{
+        height: 125px;
+    }
+
+    .container{
+        width: 88%;
+        margin: 0;
+    }
+
+    h1{
+        width: 412px;
+    }
+
+}
