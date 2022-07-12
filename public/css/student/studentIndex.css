@@ -1,4 +1,4 @@
-@import url(main.css);
+@import url(public/css/main.css);
 
 h1{
     text-align: center;
@@ -10,18 +10,22 @@ h2{
 }
 
 p{
-    font-size: 0.7rem;
+    font-size: var(--semi_small);
 }
 
 article{
     text-align: center;
 }
 
+.container{
+    font: 18px/1.5 sans-serif;
+}
+
 .select1{
     margin: auto;
     background-color: white;
     padding: 15px 40px;
-    font-size: 0.9em;
+    font-size: var(--normal);
     text-align: center;
     border: 1px solid var(--grey);
     border-radius: 9px;
@@ -31,8 +35,8 @@ article{
 .select2{
     margin: auto;
     background-color: white;
-    padding: 2px 40px;
-    font-size: 0.9em;
+    padding: 2px 65px;
+    font-size: var(--normal);
     text-align: center;
     border: 1px solid var(--grey);
     border-radius: 7px;
@@ -53,7 +57,7 @@ article{
     color: white;
     padding: 10px 85px;
     text-align: center;
-    font-size: 1rem;
+    font-size: var(--normal);
 }
 
 .button:hover{
@@ -63,7 +67,7 @@ article{
 
 .centre{
     border: 2px solid white;
-    width: 400px;
+    width: 500px;
     margin: auto auto 15px auto;
     height: 100px;
     border-radius: 9px;
@@ -76,7 +80,7 @@ article{
     color: white;
     padding: 4px 25px;
     text-align: center;
-    font-size: 1rem;
+    font-size: var(--normal);
 }
 
 .buttondiff:hover{
@@ -97,7 +101,7 @@ article{
     color: white;
     padding: 10px 85px;
     text-align: center;
-    font-size: 1rem;
+    font-size: var(--normal);
 }
 
 .buttonvalid:hover{
@@ -123,19 +127,20 @@ article{
     color: var(--writing);
     padding: 10px 115px;
     text-align: center;
-    font-size: 1rem;
+    font-size: var(--normal);
 }
 
 .real:hover{
     background-color: var(--vert);
     font-weight: bold;
+    color: white;
 }
 
 .centre_chance{
     border: 2px solid white;
-    width: 400px;
+    width: 500px;
     margin: auto auto 35px auto;
-    height: 70px;
+    height: 90px;
     border-radius: 9px;
     padding: 7px 15px;
 }
@@ -155,7 +160,7 @@ span{
     color: white;
     padding: 10px 42px;
     text-align: center;
-    font-size: 1rem;
+    font-size: var(--normal);
 }
 
 .buttonbadge:hover{
@@ -172,7 +177,7 @@ span{
 
 .lastP{
     font-weight: lighter;
-    font-size: 0.6rem;
+    font-size: var(--small);
 }
 
 input[type="radio"]{
@@ -189,7 +194,7 @@ label{
     position: relative;
     bottom: 40px;
     color: white;
-    font-size: 0.9em;
+    font-size: var(--normal);
     font-family: 'Alumni Sans', sans-serif;
 }
 
@@ -205,18 +210,18 @@ input[type="radio"]:checked {
 
 .centre2{
     border: 2px solid white;
-    width: 400px;
+    width: 500px;
     margin: auto;
-    height: 80px;
+    height: 100px;
     border-radius: 9px;
     padding: 7px 15px;
 }
 
 .centre3{
     border: 2px solid white;
-    width: 400px;
+    width: 500px;
     margin: auto auto 70px auto;
-    height: 100px;
+    height: 120px;
     border-radius: 9px;
     padding: 7px 15px;
 }
@@ -225,9 +230,9 @@ input[type="radio"]:checked {
     border-radius: 25px;
     background-color: var(--grey);
     color: white;
-    padding: 5px 50px;
+    padding: 5px 55px;
     text-align: center;
-    font-size: 1rem;
+    font-size: var(--normal);
 }
 
 .button2:hover{
@@ -236,13 +241,58 @@ input[type="radio"]:checked {
 }
 
 .centre2 h2{
-    margin: 0;
+    margin: 0 0 10px 0;
 }
 
+
 @media screen and (max-width: 1200px) {
+
+    .centre{
+        width: 350px;
+    }
+
+    .centre2{
+        width: 350px;
+        height: 150px;
+    }
+
+    .centre_chance{
+        width: 350px;
+        height: 100px;
+        margin: auto 30px auto auto;
+    }
+
+    .centre3{
+        width: 350px;
+        height: 140px;
+        margin: auto 30px auto auto;
+    }
+
+    .inter{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .button2{
+        width: 30%;
+        margin: auto;
+    }
+
+    .select2{
+        margin-bottom: 20px;
+    }
+
     .div_badge{
-        width: 80%;
-        margin: 80px auto auto auto;
+        width: 320px;
+        margin: 80px 30px auto auto;
+    }
+
+    span{
+        margin-left: 60px;
+    }
+
+    .article1{
+        margin-left: 40px;
     }
 }
 
@@ -273,6 +323,14 @@ input[type="radio"]:checked {
     .centre p {
         margin-bottom: 20px;
     }
+
+    .centre3, .centre_chance{
+        margin: auto;
+    }
+
+    .article1{
+        margin: auto;
+    }
 }
 
 @media screen and (max-width: 450px) {
@@ -282,24 +340,66 @@ input[type="radio"]:checked {
         color: white;
         padding: 10px 60px;
         text-align: center;
-        font-size: 1rem;
+        font-size: var(--normal);
     }
 
-    .centre, .centre_chance{
+    .centre, .centre_chance, .centre3{
         width: 300px;
+    }
+
+
+    .centre2{
+        width: 300px;
+        height: 150px;
     }
 
     .section .centre{
         height: 125px;
     }
 
-    .container{
-        width: 88%;
-        margin: 0;
-    }
-
     h1{
         width: 412px;
     }
 
+    .inter{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .select2{
+        margin-bottom: 20px;
+    }
+
+    .centre3{
+        height: 180px;
+    }
+
+    .real{
+        padding: 10px 70px;
+    }
+
+    .centre3 p{
+        margin-bottom: 25px;
+    }
+
+    .centre_chance{
+        height: 110px;
+    }
+
+    .article1{
+        margin: auto;
+    }
+
+    .div_badge{
+        width: 280px;
+    }
+
+    span{
+        width: 340px;
+        margin: 20px 0;
+    }
+
+    .global{
+        width: auto;
+    }
 }

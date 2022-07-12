@@ -1,21 +1,14 @@
-@import url(main.css);
+@import url(public/css/main.css);
 
 h1, h2{
     text-align: center;
     width: 100%;
 }
 
-.example-wrapper {
-    margin: 1em auto;
-    max-width: 800px;
-    width: 95%;
+.container{
     font: 18px/1.5 sans-serif;
 }
 
-.example-wrapper code {
-    background: #F5F5F5;
-    padding: 2px 6px;
-}
 
 .numeroform{
     background-color: var(--pamplemousse);
@@ -68,7 +61,7 @@ h1, h2{
 
 .date{
     margin: auto;
-    font-size: 1.1rem;
+    font-size: var(--normal);
 }
 
 .ligne{
@@ -101,7 +94,7 @@ select{
     padding: 20px 40px;
     border: none;
     background-color: var(--fond);
-    font-size: 1em;
+    font-size: var(--normal);
     -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
     box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
     text-align: center;
@@ -122,13 +115,19 @@ select{
         width: 90%;
         padding: 6px 20px;
     }
+
+    .ligne{
+        width: 600px;
+    }
+
 }
 
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 450px) {
     .realise{
         display: flex;
         flex-direction: column;
         align-items: center;
+        width: auto;
     }
 
     .div_button{
@@ -147,10 +146,6 @@ select{
         text-align: center;
     }
 
-    .container{
-        width: 90%;
-        margin: 0;
-    }
 
     h1{
         width: 412px;
@@ -159,6 +154,16 @@ select{
 
     .ligne{
         width: 405px;
+    }
+
+    .officiel select{
+        width: 350px;
+        font-size: var(--normal);
+        margin: 25px auto auto auto;
+    }
+
+    .officiel{
+        flex-direction: column;
     }
 
 }

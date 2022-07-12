@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     <link href="{{asset('build/app.css')}}" rel="stylesheet">
-    <link href="{{asset('css/create_question.css')}}" rel="stylesheet">
+    <link href="{{asset('css/instructor/create_question.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -15,25 +15,25 @@
     <table>
         <tr>
             <td colspan="2" class="premier">
-                <p><span class="numeroform">1</span> Choisir le module:</p>
+                <p class="etape"><span class="numeroform">1</span> Choisir le module:</p>
             </td>
             <td colspan="2" class="premierselect"> {{form_widget(form.module)}}</td>
         </tr>
         <tr>
             <td colspan="2" class="premier">
-                <p><span class="numeroform">2</span> Intitulé de la question :</p>
+                <p class="etape"><span class="numeroform">2</span> Intitulé de la question :</p>
             </td>
             <td colspan="2" class="second">{{form_widget(form.wording)}}
             </td>
         </tr>
         <tr>
-            <td colspan="2" class="premier"><p><span class="numeroform">3</span> Difficulté de la question:</p></td>
+            <td colspan="2" class="premier"><p class="etape"><span class="numeroform">3</span> Difficulté de la question:</p></td>
             <td colspan="2" class="difficulty">
                 {{ form_widget(form.difficulty)}}
             </td>
         </tr>
         <tr>
-            <td colspan="2"><p><span class="numeroform" >4</span> Je crée mes réponses</p></td>
+            <td colspan="2"><p class="etape"><span class="numeroform" >4</span> Je crée mes réponses</p></td>
             <td colspan="2" class="second" id="errorChecked">
                 <ul id ="list_proposal">
                     {% for proposal in form.proposals %}
