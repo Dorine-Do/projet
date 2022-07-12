@@ -97,7 +97,7 @@ class AppFixtures extends Fixture
 //        $this->generateQcmInstances( $manager );
 
         // Results
-        $this->generateResults( $manager );
+//        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
@@ -318,7 +318,7 @@ class AppFixtures extends Fixture
 
             $qcm->setEnabled('1');
             $relatedModule = $dbModules[array_rand($dbModules)];
-            $qcm->addModule($relatedModule);
+            $qcm->setModule($relatedModule);
             $qcm->setIsOfficial( $this->faker->numberBetween(0, 1) );
             $qcm->setName( $this->faker->word() );
             $qcm->setAuthorId( $dbInstructors[array_rand($dbInstructors)]->getId() );
@@ -331,9 +331,15 @@ class AppFixtures extends Fixture
                 $questions = $this->questionRepository->findBy( [ 'module' => $relatedModule->getId() ] );
             }
 
-            for( $i = 0; $i < 2; $i++ )
+            $questionsId = [];
+            for( $i = 0; $i < 5; $i++ )
             {
-                $question=$questions[array_rand($questions)];
+                $isInArray= true;
+                while ($isInArray){
+                    $question=$questions[array_rand($questions)];
+                    $isInArray= in_array($question->getId(), $questionsId);
+                }
+                array_push($questionsId, $question->getId());
                 $qcm->addQuestion($question);
                 $answers = $question->getProposals();
                 $difficulty = $question->getDifficulty()->value;
@@ -349,6 +355,7 @@ class AppFixtures extends Fixture
                                 [
                                     "id"=> $question->getId(),
                                     "libelle"=>$question->getWording(),
+                                    "responce_type"=>$question->getResponseType(),
                                     "answers"=>
                                         $arrayAnswers
                                 ],
@@ -408,12 +415,8 @@ class AppFixtures extends Fixture
             $dbStudents = [];
             while (count($dbStudents) == 0){
                 $dbQcmInstance = $dbQcmInstances[array_rand($dbQcmInstances)];
-                dump($dbQcmInstance->getId());
                 $dbStudents = $this->studentRepository->AllStudentByQcmInstance($dbQcmInstance->getId(), $manager);
             }
-            dump($dbStudents);
-            dump(array_rand($dbStudents));
-            dump($dbStudents[array_rand($dbStudents)]);
             $result->setQcmInstance( $dbQcmInstance );
             $result->setStudent($dbStudents[array_rand($dbStudents)]);
             $score = $this->faker->numberBetween(0,100);
