@@ -15,19 +15,25 @@
             {{ dump(titleModule) }}
         </p>
 
-
-        <form action="">
+        <form action="{{ path('student_qcmToDo', { 'qcmInstance': idQcmInstance }) }}">
             <p>Question Reponses</p>
-            {% for questionAnswer in questionsAnswers %}
-{#                {{ dump(questionAnswer) }}#}
-            {% endfor %}
-            {% for questionAnswer in questionsAnswers %}
-                {{ dump(questionAnswer) }}
-                {{ questionAnswer.question.libelle }}
-                {% for answer in questionAnswer.question.answers %}
-                    {{ answer.libelle }}
+            {% for question in questionsAnswers %}
+                {{ dump(question) }}
+
+{#            {{ dump(question) }}#}
+                    <p>
+                    {{ question.libelle }}
+                    </p>
+                {% for answer in question.answers %}
+                    {% if question.responce_type == 'radio'%}
+                        <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}"> <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                    {% else %}
+                        <input type="checkbox" for='{{ answer.id}}' name="{{question.id}}[]" value="{{ answer.id }}"> <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                    {% endif %}
+
                 {% endfor %}
             {% endfor %}
+            <input type="submit" value="J'ai fini mon qcm">
         </form>
 
     </div>
