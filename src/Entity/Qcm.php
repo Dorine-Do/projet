@@ -46,18 +46,17 @@ class Qcm
     #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: QcmInstance::class)]
     private $qcm_instance;
 
-    #[ORM\ManyToMany(targetEntity: Module::class, mappedBy: '$qcms')]
-    private $modules;
-
     #[ORM\ManyToMany(targetEntity: Question::class, inversedBy: 'qcms')]
     #[ORM\JoinTable(name: "link_qcm_question")]
     private $questions;
+
+    #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'qcms')]
+    private $module;
 
     public function __construct()
     {
         $this->qcm_instance = new ArrayCollection();
         $this->difficulty = Enum\Difficulty::Medium;
-        $this->modules = new ArrayCollection();
         $this->questions = new ArrayCollection();
     }
     #[ORM\PrePersist]
@@ -184,18 +183,6 @@ class Qcm
         return $this;
     }
 
-    public function getModule(): ?Module
-    {
-        return $this->module;
-    }
-
-    public function setModule(?Module $module): self
-    {
-        $this->module = $module;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, QcmInstance>
      */
@@ -227,33 +214,6 @@ class Qcm
     }
 
     /**
-     * @return Collection<int, Module>
-     */
-    public function getModules(): Collection
-    {
-        return $this->modules;
-    }
-
-    public function addModule(Module $module): self
-    {
-        if (!$this->modules->contains($module)) {
-            $this->modules[] = $module;
-            $module->addQcm($this);
-        }
-
-        return $this;
-    }
-
-    public function removeModule(Module $module): self
-    {
-        if ($this->modules->removeElement($module)) {
-            $module->removeQcm($this);
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Question>
      */
     public function getQuestion(): Collection
@@ -273,6 +233,18 @@ class Qcm
     public function removeQuestion(Question $question): self
     {
         $this->questions->removeElement($question);
+
+        return $this;
+    }
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+    public function setModule(?Module $module): self
+    {
+        $this->module = $module;
 
         return $this;
     }

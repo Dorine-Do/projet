@@ -4,8 +4,11 @@ namespace App\Repository;
 
 use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,7 +21,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class StudentRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry,)
     {
         parent::__construct($registry, Student::class);
     }
@@ -45,6 +48,38 @@ class StudentRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    /**
+     * @return Student[] Returns an array of Student objects
+     */
+    public function findByEnabled(): array
+    {
+        $studentBdd = $this->getEntityManager();
+        return $studentBdd->createQuery('
+        SELECT DISTINCT s
+        FROM App\Entity\Student s
+        INNER JOIN App\Entity\LinkSessionStudent lss
+        WITH lss.student = s.id
+        WHERE lss.enabled = true
+        ')
+            ->getResult();
+    }
+
+    /**
+     * @return Student[] Returns an array of Student objects
+     */
+    public function AllStudentByQcmInstance($id, $entityManager): array
+    {
+            return $this->createQueryBuilder('s')
+            ->innerJoin('s.qcmInstances', 'qi')
+            ->where('qi.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+;
+
+
     }
 
 

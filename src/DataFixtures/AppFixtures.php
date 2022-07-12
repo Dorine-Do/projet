@@ -97,7 +97,7 @@ class AppFixtures extends Fixture
 //        $this->generateQcmInstances( $manager );
 
         // Results
-//        $this->generateResults( $manager );
+        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
@@ -292,7 +292,7 @@ class AppFixtures extends Fixture
     public function generateProposals( $manager, $question )
     {
         $count=0;
-        for ($i=0; $i<10; $i++)
+        for ($i=0; $i<rand(2,6); $i++)
         {
             $proposal = new Proposal();
 
@@ -304,8 +304,8 @@ class AppFixtures extends Fixture
             {
                 $count ++;
             }
-        }
             $manager->persist($proposal);
+        }
             return $count;
     }
 
@@ -314,8 +314,6 @@ class AppFixtures extends Fixture
         $dbModules = $this->moduleRepository->findAll();
         $dbInstructors = $this->instructorRepository->findAll();
 
-        // for( $i = 0; $i < 2; $i++ )
-        // {
             $qcm = new Qcm();
 
             $qcm->setEnabled('1');
@@ -342,7 +340,7 @@ class AppFixtures extends Fixture
                 array_push($arrayDifficulty, $difficulty);
                 $arrayAnswers = [];
                 foreach ($answers as $answer){
-                    array_push($arrayAnswers, ["id" => $answer->getWording(), "libelle" => $answer->getId()]);
+                    array_push($arrayAnswers, ["id" => $answer->getId(), "libelle" => $answer->getWording(), "is_correct" => $answer->getIsCorrect()]);
                 }
                 $questionAnswer =
                     [
@@ -376,14 +374,13 @@ class AppFixtures extends Fixture
             }
 
             $manager->persist($qcm);
-        // }
         $manager->flush();
     }
 
     public function generateQcmInstances( $manager ) :void
     {
         $dbQcms = $this->qcmRepository->findAll();
-
+        $dbStudents = $this->studentRepository->findByEnabled();
         for( $i = 0; $i < 10; $i++ )
         {
             $relatedQcm = $dbQcms[array_rand($dbQcms)];
@@ -395,7 +392,7 @@ class AppFixtures extends Fixture
             $qcmInstance->setName( $relatedQcm->getName() );
             $qcmInstance->setReleaseDate( $this->faker->dateTimeBetween('-1 year', 'now') );
             $qcmInstance->setEndDate( $this->faker->dateTimeBetween('now', '+1 month') );
-
+            $qcmInstance->addStudent($dbStudents[array_rand($dbStudents,1)]);
             $manager->persist($qcmInstance);
         }
         $manager->flush();
@@ -403,14 +400,22 @@ class AppFixtures extends Fixture
 
     public function generateResults( $manager ) :void
     {
-        $dbStudents     = $this->studentRepository->findAll();
         $dbQcmInstances = $this->qcmInstanceRepository->findAll();
 
         for( $i = 0; $i < 10; $i++ )
         {
             $result = new Result();
-            $result->setQcmInstance( $dbQcmInstances[array_rand($dbQcmInstances)] );
-            $result->setStudent( $dbStudents[array_rand($dbStudents)] );
+            $dbStudents = [];
+            while (count($dbStudents) == 0){
+                $dbQcmInstance = $dbQcmInstances[array_rand($dbQcmInstances)];
+                dump($dbQcmInstance->getId());
+                $dbStudents = $this->studentRepository->AllStudentByQcmInstance($dbQcmInstance->getId(), $manager);
+            }
+            dump($dbStudents);
+            dump(array_rand($dbStudents));
+            dump($dbStudents[array_rand($dbStudents)]);
+            $result->setQcmInstance( $dbQcmInstance );
+            $result->setStudent($dbStudents[array_rand($dbStudents)]);
             $score = $this->faker->numberBetween(0,100);
             $result->setTotalScore( $score );
             if( $score < 25 )
@@ -433,7 +438,19 @@ class AppFixtures extends Fixture
             $result->setInstructorComment( $this->faker->sentence() );
             $result->setStudentComment( $this->faker->sentence() );
 
-            $manager->persist( $result );
+            $questionAnswers = $dbQcmInstance->getQcm()->getQuestionsAnswers();
+            // Transforme les objets à l'interieur de $questionAnswers en des tableaux et rajoute "student_answer"
+            $questionAnswersDecode = array_map(function($questionAnswer){
+                return json_encode(array_map(function($qa){
+                    $qa = (array)$qa;
+                    return array_map(function($qaa){
+                        $qaa = (array)$qaa;
+                        return array_merge($qaa, ['student_answer' => rand(0,1)] );
+                    },$qa['answers']);
+                },(array)json_decode($questionAnswer)[0]));
+            },$questionAnswers);
+            $result->setAnswers($questionAnswersDecode);
+            $manager->persist($result);
         }
         $manager->flush();
     }

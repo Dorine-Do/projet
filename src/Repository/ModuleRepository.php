@@ -62,8 +62,7 @@ class ModuleRepository extends ServiceEntityRepository
             INNER JOIN result ON result.student_id = student.id
             INNER JOIN qcm_instance ON result.qcm_instance_id = qcm_instance.id
             INNER JOIN qcm ON qcm_instance.qcm_id = qcm.id
-            INNER JOIN link_module_qcm ON link_module_qcm.qcm_id = qcm.id
-            INNER JOIN module ON link_module_qcm.module_id = module.id
+            INNER JOIN module ON qcm.module_id = module.id
             INNER JOIN link_session_module ON link_session_module.module_id = module.id
             WHERE result.total_score >= 50 AND link_session_module.end_date <= now() AND qcm.is_official = true AND student.id = :student_id
         ';
