@@ -201,7 +201,7 @@ class StudentController extends AbstractController
                             ];
                             foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue)
                             {
-                                if( $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['isCorrect'] )
+                                if( $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['is_correct'] )
                                 {
                                     $dbAnswersCheck['good'][] = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['id'];
                                 }
@@ -228,16 +228,13 @@ class StudentController extends AbstractController
 
                             foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue)
                             {
-                                foreach ($studentAnswerValue as $studentAnswer)
+                                if( in_array($answerDbValue['id'], $studentAnswerValue) )
                                 {
-                                    if( in_array($answerDbValue['id'], $studentAnswer) )
-                                    {
-                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 1;
-                                    }
-                                    else
-                                    {
-                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
-                                    }
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 1;
+                                }
+                                else
+                                {
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
                                 }
                             }
 
