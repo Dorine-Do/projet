@@ -183,7 +183,7 @@ class InstructorController extends AbstractController
 
         // vérification des données soumises
         if($form->isSubmitted() && $form->isValid()){
-            dd('submited');
+//            dd('submited');
             /* TODO setDifficulty avec Enum = Pour l'instant c'est un select mais devra être en bouton */
 
             $count = 0;
@@ -219,7 +219,7 @@ class InstructorController extends AbstractController
             $questionEntity->setIsMandatory(false);// Toujours false quand c'est un instructor qui créé une question
 
             //  validation et enregistrement des données du form dans la bdd
-            dd('stop');
+//            dd('stop');
             $em->persist($questionEntity);
             $em->flush();
 

@@ -1,4 +1,4 @@
-@import url(main.css);
+@import url(public/css/main.css);
 
 /*************************************** CSS sur simple balise HTML **********************************/
 
@@ -40,7 +40,7 @@ tbody{
     margin: auto;
     padding: 20px 60px;
     border: none;
-    font-size: 1.3em;
+    font-size: var(--grand);
     display: flex;
     justify-content: space-around;
 }
@@ -75,7 +75,6 @@ tbody{
     font-family: 'Alumni Sans', sans-serif;
     display: block;
     color: grey;
-    font-size: 13px;
     position: absolute;
 }
 
@@ -174,7 +173,7 @@ img{
 .partTitle{
     padding: 50px;
     font-weight: bold;
-    font-size: 1.3em;
+    font-size: var(--grand);
 }
 
 .numeroform{
@@ -194,7 +193,7 @@ img{
     font-weight: bold;
     border: none;
     padding: 3px 9px;
-    font-size: 0.7em;
+    font-size: var(--small);
     margin-bottom: 15px;
 }
 
@@ -261,7 +260,7 @@ img{
     font-weight: bold;
     border: none;
     padding: 15px 300px;;
-    font-size: 1em;
+    font-size: var(--normal);
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -275,12 +274,12 @@ img{
 
     .buttondiff{
         padding: 5px 35px;;
-        font-size: 1em;
+        font-size: var(--normal);
     }
 
     .buttondesac{
         padding: 5px 15px;
-        font-size: 1em;
+        font-size: var(--normal);
     }
 
     .formoption{
@@ -310,7 +309,7 @@ img{
 
     .buttondesac{
         padding: 10px 30px;
-        font-size: 0.9em;
+        font-size: var(--normal);
         margin-left: auto;
         margin-right: auto;
         display: block;
@@ -318,7 +317,7 @@ img{
 
     .buttondiff{
         padding: 10px 35px;;
-        font-size: 0.9em;
+        font-size: var(--normal);
     }
 
     .valid{
@@ -327,7 +326,7 @@ img{
 
     #create_question_module{
         padding: 10px 30px;
-        font-size: 1.1em;
+        font-size: var(--normal);
     }
 
     .difficulty{
@@ -381,7 +380,7 @@ img{
     #create_question_module, #create_question_difficulty{
         background-color: var(--fond);
         margin-bottom: 20px;
-        font-size: 0.8em;
+        font-size: var(--semi_small);
         width: 240px;
     }
 
@@ -400,7 +399,7 @@ img{
 
     .buttondiff{
         padding: 8px 27px;;
-        font-size: 0.7em;
+        font-size: var(--semi_small);
     }
 
     #create_question_wording{
