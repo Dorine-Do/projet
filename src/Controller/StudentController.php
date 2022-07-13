@@ -194,7 +194,7 @@ class StudentController extends AbstractController
                             }
                         } // CheckBox
                         else {
-                            $studentAnswers = [];
+
                             $dbAnswersCheck = [
                                 'good' => [],
                                 'bad' => []
@@ -203,11 +203,11 @@ class StudentController extends AbstractController
                             {
                                 if( $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['isCorrect'] )
                                 {
-                                    $dbAnswersCheck['good'] = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['id'];
+                                    $dbAnswersCheck['good'][] = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['id'];
                                 }
                                 else
                                 {
-                                    $dbAnswersCheck['bad'] = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['id'];
+                                    $dbAnswersCheck['bad'][] = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['id'];
                                 }
                             }
                             $goodAnswersCount = 0;
@@ -217,12 +217,27 @@ class StudentController extends AbstractController
                                 if( in_array($studentAnswer, $dbAnswersCheck['good']) )
                                 {
                                     $goodAnswersCount++;
-                                    $questionDbValue['student_answer'] = 1;
+                                    $questionAnswersDecode[$questionDbKey]['student_answer_correct'] = 1;
                                 }
                                 elseif( in_array($studentAnswer, $dbAnswersCheck['bad']) )
                                 {
                                     $badAnswersCount++;
-                                    $questionDbValue['student_answer'] = 0;
+                                    $questionAnswersDecode[$questionDbKey]['student_answer_correct'] = 0;
+                                }
+                            }
+
+                            foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue)
+                            {
+                                foreach ($studentAnswerValue as $studentAnswer)
+                                {
+                                    if( in_array($answerDbValue['id'], $studentAnswer) )
+                                    {
+                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 1;
+                                    }
+                                    else
+                                    {
+                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
+                                    }
                                 }
                             }
 
