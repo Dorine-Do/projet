@@ -152,79 +152,88 @@ class StudentController extends AbstractController
             return $questionsDecode['question'];
         },$qcm->getQuestionsAnswers());
 
+
+
 //        dd($questionAnswersDecode);
 
         // Récupere les datas du form
         $result = $request->query->all();
 
         $countIsCorrectAnswer = 0;
-        // Si pas vide
+//         Si pas vide
+
         if ($result) {
-            foreach ($questionAnswersDecode as $ke => $val) {
-                foreach ($result as $key => $value) {
-                    if ($questionAnswersDecode[$ke]['id'] == $key) {
-                        // Radio
-                        if ($questionAnswersDecode[$ke]['responce_type'] === "radio") {
-                            foreach ($questionAnswersDecode[$ke]['answers'] as $answerKey => $answerValue ) {
-                                if ($value === $questionAnswersDecode[$ke]['answers'][$answerKey]['id']) {
-                                    $countIsCorrectAnswer++;
-                                    $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer'] = 1;
-                                    $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer_wording'] = $value;
-                                }else{
-                                    $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer'] = 0;
-                                    $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer_wording'] = $value;
-                                }
-                            }
-                        } // CheckBox
-                        else {
-                            $answersValidity = [];
-                            $countInArray = 0;
-                            $countIsCorrectAnswerQuestion = 0;
-                            $IsCorrectAnswerStudent=false;
-                            foreach ($questionAnswersDecode[$ke]['answers'] as $answerKey => $answerValue) {
-                                $isFalse = false;
+            foreach ($questionAnswersDecode as &$question) {
+                $question['bla'] = "hello";
+                dump($question);
+//                dump($questionAnswersDecode);
+//                foreach ($result as $key => $value) {
+//                    if ($questionAnswersDecode[$ke]['id'] == $key) {
+//                        // Radio
+//                        if ($questionAnswersDecode[$ke]['responce_type'] === "radio") {
+//                            foreach ($questionAnswersDecode[$ke]['answers'] as $answerKey => $answerValue ) {
+//                                if ($value === $questionAnswersDecode[$ke]['answers'][$answerKey]['id']) {
+//                                    $countIsCorrectAnswer++;
+//                                    $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer'] = 1;
+//                                    $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer_wording'] = $value;
+//                                }else{
+//                                    $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer'] = 0;
+//                                    $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer_wording'] = $value;
+//                                }
+//                            }
+//                        } // CheckBox
+//                        else {
+//                            $answersValidity = [];
+//                            $countInArray = 0;
+//                            $countIsCorrectAnswerQuestion = 0;
+//                            $IsCorrectAnswerStudent=false;
+                                $pts = 0;
+//                            foreach ($questionAnswersDecode[$ke]['answers'] as $answerKey => $answerValue) {
+//                                $isFalse = false;
+//
+//                                // Compte combien de réponse juste il y a dans la question
+//                                if($answerKey['is_correct']){
+//                                    $countIsCorrectAnswerQuestion ++;
+//                                }
+//
+//                                // Si il y une réponse fausse, on sort de la boucle car il a échoué
+//                                if(!in_array($questionAnswersDecode[$ke]['answers'][$answerKey]['id'],$value)){
+//                                    $isFalse = true;
 
-                                // Compte combien de réponse juste il y a dans la question
-                                if($answerKey['is_correct']){
-                                    $countIsCorrectAnswerQuestion ++;
-                                }
-
-                                // Si il y une réponse fausse, on sort de la boucle car il a échoué
-                                if(!in_array($questionAnswersDecode[$ke]['answers'][$answerKey]['id'],$value)){
-                                    $isFalse = true;
-                                    return $isFalse;
-                                }
-                                // S'il a des réponses juste, countInArray ++
-                                else{
-                                    $countInArray ++;
-                                    $isInArray=true;
-                                    $isFalse = true;
-                                }
-                                $answersValidity[$answerKey] = [
-                                    'valueStudentAnswer' => $value,
-                                    'valueQcmAnswer' => $answerValue,
-                                    'isFalse' => $isFalse,
-                                    'isInArray'=>$isInArray
-                                ];
-                            }
-
-
-
-
-                            dd($answersValidity);
-
-
-
-                            if ($isFalse === true) {
-                                $countIsCorrectAnswer++;
-                                $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer'] = 1;
-                            }else{
-                                $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer'] = 0;
-                            }
-                        }
-                    }
-                }
+//                                    break $isFalse;
+//                                }
+//                                // S'il a des réponses juste, countInArray ++
+//                                else{
+//                                    $countInArray ++;
+//                                    $isInArray=true;
+//                                    $isFalse = true;
+//                                }
+//                                $answersValidity[$answerKey] = [
+//                                    'valueStudentAnswer' => $value,
+//                                    'valueQcmAnswer' => $answerValue,
+//                                    'isFalse' => $isFalse,
+//                                    'isInArray'=>$isInArray
+//                                ];
+//                            }
+//
+//                             if()
+//
+//
+////                            dd($answersValidity);
+//
+//
+//
+//                            if ($qcm = $student) {
+//                                $countIsCorrectAnswer++;
+//                                $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer'] = 1;
+//                            }else{
+//                                $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer'] = 0;
+//                            }
+//                        }
+//                    }
+//                }
             }
+
         }
 //        dd($countIsCorrectAnswer);
         dd($questionAnswersDecode);
@@ -264,17 +273,17 @@ class StudentController extends AbstractController
         }
 
         foreach ($questionAnswersDecode as $question){
-            dump($question);
+//            dump($question);
             foreach ($question['answers'] as $answers){
-                dd($answer);
+//                dd($answer);
 //                $answer = ['student_answer' => ]
             }
         }
         $result->setAnswers();
 
 
-        $this->addFlash('success', 'La question a bien été modifiée.');
-        return $this->redirectToRoute('instructor_display_questions');
+//        $this->addFlash('success', 'La question a bien été modifiée.');
+//        return $this->redirectToRoute('instructor_display_questions');
 
 
 

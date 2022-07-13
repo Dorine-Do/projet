@@ -91,7 +91,7 @@ class AppFixtures extends Fixture
 //        $this->generateQuestions( $manager );
 
         //Qcm
-//        $this->generateQcms( $manager );
+        $this->generateQcms( $manager );
 
         // QcmInstances
 //        $this->generateQcmInstances( $manager );
@@ -332,13 +332,20 @@ class AppFixtures extends Fixture
             }
 
             $questionsId = [];
+            $pickedQuestions = [];
             for( $i = 0; $i < 5; $i++ )
             {
-                $isInArray= true;
+                $isInArray = true;
+                $randomQuestion = $questions[array_rand($questions)];
                 while ($isInArray){
-                    $question=$questions[array_rand($questions)];
-                    $isInArray= in_array($question->getId(), $questionsId);
+                    if(in_array($randomQuestion, $pickedQuestions)){
+                        $randomQuestion = $questions[array_rand($questions)];
+                    }else{
+                        $isInArray = false;
+                        $pickedQuestions[] = $randomQuestion;
+                    }
                 }
+                /* TODO mettre à jour les variables */
                 array_push($questionsId, $question->getId());
                 $qcm->addQuestion($question);
                 $answers = $question->getProposals();
