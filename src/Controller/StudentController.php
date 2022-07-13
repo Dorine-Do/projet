@@ -196,37 +196,51 @@ class StudentController extends AbstractController
                         else {
                             $countIsCorrectStudent = 0;
                             $countIsCorrectDb = 0;
-                            foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue) {
-                                dump();
-                                foreach ($studentAnswerValue as $studentAnswer){
+                            foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue)
+                            {
+                                foreach ($studentAnswerValue as $studentAnswer)
+                                {
+                                    $proposal = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey];
+
+                                    // ----------------------------------------------------------------------------------------
                                     $studentAnswer = intval($studentAnswer);
 
                                     // Compte combien de réponse juste il y a dans la question
-                                    if ($questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['is_correct'] === true) {
+                                    if ( $proposal['is_correct'] === true )
+                                    {
                                         $countIsCorrectDb++;
                                     }
 
-                                    // Si il y une réponse vrai
+                                    // Si la reponse attendu est juste et que l'etudiant l'a cochée
                                     if (
-                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['is_correct'] === true
-                                        &&
-                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['id'] === $studentAnswer
-                                    ){
-                                        dump('hey');
+                                        $proposal['is_correct'] === true &&
+                                        $proposal['id'] === $studentAnswer
+                                    )
+                                    {
                                         $countIsCorrectStudent++;
-                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 1;
+                                        $proposal['student_answer'] = 1;
                                     }
-                                    else{
-                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
+                                    elseif (
+                                        $proposal['is_correct'] === false &&
+                                        $proposal['id'] === $studentAnswer
+                                    )
+                                    {
+                                        $countIsCorrectStudent--;
+                                        $proposal['student_answer'] = 0;
+                                    }
+                                    else
+                                    {
+                                        $countIsCorrectStudent--;
+                                        $proposal['student_answer'] = 0;
                                     }
                                 }
 //                                if(){
 //                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
 //                                }
-                                if($countIsCorrectDb === $countIsCorrectStudent)
-                                {
-                                    $countIsCorrectAnswer ++;
-                                }
+                            }
+                            if($countIsCorrectDb === $countIsCorrectStudent)
+                            {
+                                $countIsCorrectAnswer ++;
                             }
                         }
                     }
