@@ -1,4 +1,4 @@
-@import url(main.css);
+@import url(public/css/main.css);
 
 /************************************* bouton modifier **********************************/
 .button_modify{
@@ -245,11 +245,15 @@
 
     .div_js{
         flex-direction: column;
-        width: 85%
+        width: 89%;
     }
 
     .button_add{
         width: 75%;
-        margin-top: 60px;
+        margin: 25px auto;
+    }
+
+    .link_create{
+        margin: auto;
     }
 }
