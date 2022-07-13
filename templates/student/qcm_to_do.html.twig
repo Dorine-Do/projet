@@ -11,14 +11,15 @@
     <div class="qcm">
         <h1>QCM A FAIRE</h1>
 
-        <p>Nom du qcm
-            {{ nameQcmInstance }}
-        </p>
-        <p>
-            Nom du module
-            {{ titleModule }}
-        </p>
-
+        <div class="div_name">
+            <p class="nom">
+                Nom du module
+                {{ titleModule }}
+            </p>
+            <p class="nom">Nom du qcm
+                {{ nameQcmInstance }}
+            </p>
+        </div>
         <div class="premierediv">
             <div class="diff">
                 <p>Facile</p>
@@ -35,10 +36,9 @@
         </div>
 
         <form action="{{ path('student_qcmToDo', { 'qcmInstance': idQcmInstance }) }}">
-            <p>Question Reponses</p>
             {% for question in questionsAnswers %}
 
-                    <p>
+                    <p class="question"><span class="numeroform">1</span>
                     {{ question.libelle }}
                     </p>
                 {% for answer in question.answers %}
@@ -50,7 +50,7 @@
 
                 {% endfor %}
             {% endfor %}
-            <input type="submit" value="J'ai fini mon qcm">
+            <input class="valid" type="submit" value="J'ai fini mon qcm">
         </form>
 
     </div>

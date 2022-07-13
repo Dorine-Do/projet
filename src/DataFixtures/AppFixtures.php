@@ -342,8 +342,8 @@ class AppFixtures extends Fixture
                 $randomQuestion = $questions[array_rand($questions)];
 
                 while ($isInArray){
-                    dump($isInArray);
-                    dump(in_array($randomQuestion->getId(), $pickedQuestions));
+//                    dump($isInArray);
+//                    dump(in_array($randomQuestion->getId(), $pickedQuestions));
                     if(in_array($randomQuestion->getId(), $pickedQuestions)){
                         $randomQuestion = $questions[array_rand($questions)];
                     }else{

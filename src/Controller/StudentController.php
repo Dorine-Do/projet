@@ -26,7 +26,7 @@ class StudentController extends AbstractController
     #[Route('/student', name: 'student')]
     public function index( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
     {
-        $student = $studentRepo->find( 12346 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 3 ); // changer l'id pour l'id de l'etudiant qui est log
 
         // Recupérer l'instance de QCM pour laquelle la date du jour se trouve entre release_date et end_date pour l'etudiant connecté
         $allAvailableQcmInstances = $student->getQcmInstances();
@@ -108,7 +108,7 @@ class StudentController extends AbstractController
     #[Route('student/qcmsDone', name: 'student_qcmsdone')]
     public function qcmDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo )
     {
-        $student = $studentRepo->find( 12346 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 3 ); // changer l'id pour l'id de l'etudiant qui est log
 
         $studentResults = $student->getResults();
         $qcmsDone = [];
