@@ -91,13 +91,13 @@ class AppFixtures extends Fixture
 //        $this->generateQuestions( $manager );
 
         //Qcm
-        $this->generateQcms( $manager );
+//        $this->generateQcms( $manager );
 
         // QcmInstances
 //        $this->generateQcmInstances( $manager );
 
         // Results
-//        $this->generateResults( $manager );
+        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
@@ -334,7 +334,6 @@ class AppFixtures extends Fixture
                 $questions = $this->questionRepository->findBy( [ 'module' => $relatedModule->getId() ] );
             }
 
-            $questionsId = [];
             $pickedQuestions = [];
             for( $i = 0; $i < 5; $i++ )
             {
@@ -342,7 +341,6 @@ class AppFixtures extends Fixture
                 $randomQuestion = $questions[array_rand($questions)];
 
                 while ($isInArray){
-                    dump($isInArray);
                     dump(in_array($randomQuestion->getId(), $pickedQuestions));
                     if(in_array($randomQuestion->getId(), $pickedQuestions)){
                         $randomQuestion = $questions[array_rand($questions)];

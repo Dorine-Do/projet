@@ -197,6 +197,7 @@ class StudentController extends AbstractController
                             $countIsCorrectStudent = 0;
                             $countIsCorrectDb = 0;
                             foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue) {
+                                dump();
                                 foreach ($studentAnswerValue as $studentAnswer){
                                     $studentAnswer = intval($studentAnswer);
 
@@ -214,6 +215,9 @@ class StudentController extends AbstractController
                                         dump('hey');
                                         $countIsCorrectStudent++;
                                         $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 1;
+                                    }
+                                    else{
+                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
                                     }
                                 }
 //                                if(){
