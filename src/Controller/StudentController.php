@@ -194,54 +194,92 @@ class StudentController extends AbstractController
                             }
                         } // CheckBox
                         else {
-                            $countIsCorrectStudent = 0;
-                            $countIsCorrectDb = 0;
+                            $studentAnswers = [];
+                            $dbAnswersCheck = [
+                                'good' => [],
+                                'bad' => []
+                            ];
                             foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue)
                             {
-                                foreach ($studentAnswerValue as $studentAnswer)
+                                if( $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['isCorrect'] )
                                 {
-                                    $proposal = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey];
-
-                                    // ----------------------------------------------------------------------------------------
-                                    $studentAnswer = intval($studentAnswer);
-
-                                    // Compte combien de réponse juste il y a dans la question
-                                    if ( $proposal['is_correct'] === true )
-                                    {
-                                        $countIsCorrectDb++;
-                                    }
-
-                                    // Si la reponse attendu est juste et que l'etudiant l'a cochée
-                                    if (
-                                        $proposal['is_correct'] === true &&
-                                        $proposal['id'] === $studentAnswer
-                                    )
-                                    {
-                                        $countIsCorrectStudent++;
-                                        $proposal['student_answer'] = 1;
-                                    }
-                                    elseif (
-                                        $proposal['is_correct'] === false &&
-                                        $proposal['id'] === $studentAnswer
-                                    )
-                                    {
-                                        $countIsCorrectStudent--;
-                                        $proposal['student_answer'] = 0;
-                                    }
-                                    else
-                                    {
-                                        $countIsCorrectStudent--;
-                                        $proposal['student_answer'] = 0;
-                                    }
+                                    $dbAnswersCheck['good'] = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['id'];
                                 }
-//                                if(){
-//                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
-//                                }
+                                else
+                                {
+                                    $dbAnswersCheck['bad'] = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['id'];
+                                }
                             }
-                            if($countIsCorrectDb === $countIsCorrectStudent)
+                            $goodAnswersCount = 0;
+                            $badAnswersCount = 0;
+                            foreach ($studentAnswerValue as $studentAnswer)
+                            {
+                                if( in_array($studentAnswer, $dbAnswersCheck['good']) )
+                                {
+                                    $goodAnswersCount++;
+                                    $questionDbValue['student_answer'] = 1;
+                                }
+                                elseif( in_array($studentAnswer, $dbAnswersCheck['bad']) )
+                                {
+                                    $badAnswersCount++;
+                                    $questionDbValue['student_answer'] = 0;
+                                }
+                            }
+
+                            if( $goodAnswersCount === count($dbAnswersCheck['good']) && $badAnswersCount === 0 )
                             {
                                 $countIsCorrectAnswer ++;
                             }
+
+//                            //------
+//                            $countIsCorrectStudent = 0;
+//                            $countIsCorrectDb = 0;
+//                            foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue)
+//                            {
+//                                foreach ($studentAnswerValue as $studentAnswer)
+//                                {
+//                                    $proposal = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey];
+//
+//                                    // ----------------------------------------------------------------------------------------
+//                                    $studentAnswer = intval($studentAnswer);
+//
+//                                    // Compte combien de réponse juste il y a dans la question
+//                                    if ( $proposal['is_correct'] === true )
+//                                    {
+//                                        $countIsCorrectDb++;
+//                                    }
+//
+//                                    // Si la reponse attendu est juste et que l'etudiant l'a cochée
+//                                    if (
+//                                        $proposal['is_correct'] === true &&
+//                                        $proposal['id'] === $studentAnswer
+//                                    )
+//                                    {
+//                                        $countIsCorrectStudent++;
+//                                        $proposal['student_answer'] = 1;
+//                                    }
+//                                    elseif ( // Si la reponse attendu est fausse et que l'etudiant l'a cochée
+//                                        $proposal['is_correct'] === false &&
+//                                        $proposal['id'] === $studentAnswer
+//                                    )
+//                                    {
+//                                        $countIsCorrectStudent--;
+//                                        $proposal['student_answer'] = 0;
+//                                    }
+//                                    else // sinon
+//                                    {
+//                                        $countIsCorrectStudent--;
+//                                        $proposal['student_answer'] = 0;
+//                                    }
+//                                }
+////                                if(){
+////                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
+////                                }
+//                            }
+//                            if($countIsCorrectDb === $countIsCorrectStudent)
+//                            {
+//                                $countIsCorrectAnswer ++;
+//                            }
                         }
                     }
                 }
