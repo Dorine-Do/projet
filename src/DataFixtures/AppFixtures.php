@@ -91,7 +91,7 @@ class AppFixtures extends Fixture
 //        $this->generateQuestions( $manager );
 
         //Qcm
-//        $this->generateQcms( $manager );
+        $this->generateQcms( $manager );
 
         // QcmInstances
 //        $this->generateQcmInstances( $manager );
@@ -264,27 +264,30 @@ class AppFixtures extends Fixture
         $dbModules  = $this->moduleRepository->findAll();
         $dbInstructors = $this->instructorRepository->findAll();
 
-        for ($i=0; $i<10; $i++)
-        {
-            $question = new Question();
+        // 10 questions par module
+        foreach ($dbModules as $dbModule){
+            for ($i=0; $i<10; $i++)
+            {
+                $question = new Question();
+                $question->setModule($dbModule);
+                $question->setWording( $this->faker->sentence() );
+                $question->setIdAuthor( $dbInstructors[array_rand($dbInstructors)]->getId() );
 
-            $question->setWording( $this->faker->sentence() );
-            $question->setIdAuthor( $dbInstructors[array_rand($dbInstructors)]->getId() );
+                $question->setEnabled( $this->faker->numberBetween(0, 1) );
+                $question->setIsMandatory(0);
+                $question->setIsOfficial(0);
+                $count = $this->generateProposals($manager, $question);
+                $question->setDifficulty($this->ChoicesDifficulty[array_rand($this->ChoicesDifficulty)]);
 
-            $question->setEnabled( $this->faker->numberBetween(0, 1) );
-            $question->setIsMandatory(0);
-            $question->setIsOfficial(0);
-            $count = $this->generateProposals($manager, $question);
-            $question->setDifficulty($this->ChoicesDifficulty[array_rand($this->ChoicesDifficulty)]);
 
-            $question->setModule($dbModules[array_rand($dbModules)]);
-            if($count > 1){
-                $question->setResponseType('checkbox');
-            }else{
-                $question->setResponseType('radio');
+                if($count > 1){
+                    $question->setResponseType('checkbox');
+                }else{
+                    $question->setResponseType('radio');
+                }
+
+                $manager->persist($question);
             }
-
-            $manager->persist($question);
         }
         $manager->flush();
     }
@@ -332,17 +335,27 @@ class AppFixtures extends Fixture
             }
 
             $questionsId = [];
+            $pickedQuestions = [];
             for( $i = 0; $i < 5; $i++ )
             {
-                $isInArray= true;
+                $isInArray = true;
+                $randomQuestion = $questions[array_rand($questions)];
+
                 while ($isInArray){
-                    $question=$questions[array_rand($questions)];
-                    $isInArray= in_array($question->getId(), $questionsId);
+                    dump($isInArray);
+                    dump(in_array($randomQuestion->getId(), $pickedQuestions));
+                    if(in_array($randomQuestion->getId(), $pickedQuestions)){
+                        $randomQuestion = $questions[array_rand($questions)];
+                    }else{
+                        $isInArray = false;
+                        $pickedQuestions[] = $randomQuestion->getId();
+                    }
                 }
-                array_push($questionsId, $question->getId());
-                $qcm->addQuestion($question);
-                $answers = $question->getProposals();
-                $difficulty = $question->getDifficulty()->value;
+                /* TODO mettre à jour les variables */
+
+                $qcm->addQuestion($randomQuestion);
+                $answers = $randomQuestion->getProposals();
+                $difficulty = $randomQuestion->getDifficulty()->value;
                 array_push($arrayDifficulty, $difficulty);
                 $arrayAnswers = [];
                 foreach ($answers as $answer){
@@ -353,9 +366,9 @@ class AppFixtures extends Fixture
                         [
                             "question"=>
                                 [
-                                    "id"=> $question->getId(),
-                                    "libelle"=>$question->getWording(),
-                                    "responce_type"=>$question->getResponseType(),
+                                    "id"=> $randomQuestion->getId(),
+                                    "libelle"=>$randomQuestion->getWording(),
+                                    "responce_type"=>$randomQuestion->getResponseType(),
                                     "answers"=>
                                         $arrayAnswers
                                 ],
