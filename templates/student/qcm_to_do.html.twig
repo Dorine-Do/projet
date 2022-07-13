@@ -2,25 +2,42 @@
 
 {% block title %}Hello StudentController!{% endblock %}
 
+{% block stylesheets %}
+    <link href="{{asset('css/student/qcmToDo.css')}}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
 
     <div class="qcm">
         <h1>QCM A FAIRE</h1>
 
         <p>Nom du qcm
-            {{ dump(nameQcmInstance) }}
+            {{ nameQcmInstance }}
         </p>
         <p>
             Nom du module
-            {{ dump(titleModule) }}
+            {{ titleModule }}
         </p>
+
+        <div class="premierediv">
+            <div class="diff">
+                <p>Facile</p>
+                <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="facile">
+            </div>
+            <div class="diff">
+                <p>Moyen</p>
+                <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="moyen">
+            </div>
+            <div class="diff">
+                <p>Difficile</p>
+                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+            </div>
+        </div>
 
         <form action="{{ path('student_qcmToDo', { 'qcmInstance': idQcmInstance }) }}">
             <p>Question Reponses</p>
             {% for question in questionsAnswers %}
-                {{ dump(question) }}
 
-{#            {{ dump(question) }}#}
                     <p>
                     {{ question.libelle }}
                     </p>

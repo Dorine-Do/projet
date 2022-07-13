@@ -91,7 +91,7 @@ class AppFixtures extends Fixture
 //        $this->generateQuestions( $manager );
 
         //Qcm
-        $this->generateQcms( $manager );
+//        $this->generateQcms( $manager );
 
         // QcmInstances
 //        $this->generateQcmInstances( $manager );

@@ -1,0 +1,24 @@
+@import url(public/css/main.css);
+
+img{
+    width: 40px;
+}
+
+.premierediv{
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--fond);
+    padding: 20px;
+}
+
+.diff{
+    align-items: center;
+}
+
+.diff p{
+    background-color: var(--grey);
+    color: white;
+    padding: 5px 50px;
+    border-radius: 20px;
+}
+
