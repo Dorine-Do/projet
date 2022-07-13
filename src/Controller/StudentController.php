@@ -160,83 +160,79 @@ class StudentController extends AbstractController
         $result = $request->query->all();
 
         $countIsCorrectAnswer = 0;
-//         Si pas vide
 
+//      Si pas vide
         if ($result) {
-            foreach ($questionAnswersDecode as &$question) {
-                $question['bla'] = "hello";
-                dump($question);
-//                dump($questionAnswersDecode);
-//                foreach ($result as $key => $value) {
-//                    if ($questionAnswersDecode[$ke]['id'] == $key) {
-//                        // Radio
-//                        if ($questionAnswersDecode[$ke]['responce_type'] === "radio") {
-//                            foreach ($questionAnswersDecode[$ke]['answers'] as $answerKey => $answerValue ) {
-//                                if ($value === $questionAnswersDecode[$ke]['answers'][$answerKey]['id']) {
-//                                    $countIsCorrectAnswer++;
-//                                    $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer'] = 1;
-//                                    $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer_wording'] = $value;
-//                                }else{
-//                                    $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer'] = 0;
-//                                    $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer_wording'] = $value;
-//                                }
-//                            }
-//                        } // CheckBox
-//                        else {
-//                            $answersValidity = [];
-//                            $countInArray = 0;
-//                            $countIsCorrectAnswerQuestion = 0;
-//                            $IsCorrectAnswerStudent=false;
-                                $pts = 0;
-//                            foreach ($questionAnswersDecode[$ke]['answers'] as $answerKey => $answerValue) {
-//                                $isFalse = false;
-//
-//                                // Compte combien de réponse juste il y a dans la question
-//                                if($answerKey['is_correct']){
-//                                    $countIsCorrectAnswerQuestion ++;
-//                                }
-//
-//                                // Si il y une réponse fausse, on sort de la boucle car il a échoué
-//                                if(!in_array($questionAnswersDecode[$ke]['answers'][$answerKey]['id'],$value)){
-//                                    $isFalse = true;
+            // Traitement des réponses et ajout d'information dans le tableau pour json ensuite et add db
+            foreach ($questionAnswersDecode as $questionDbKey => $questionDbValue) {
+                foreach ($result as $studentAnswerKey => $studentAnswerValue) {
+                    if ($questionAnswersDecode[$questionDbKey]['id'] == $studentAnswerKey) {
+                        // Radio
+                        if ($questionAnswersDecode[$questionDbKey]['responce_type'] === "radio") {
+                            $studentAnswerValue = intval($studentAnswerValue);
+                            foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerKey => $answerValue) {
+                                //Si case cochée par l'etudiant et bonne réponse
+                                if (
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['is_correct'] === true
+                                    &&
+                                    $studentAnswerValue === $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['id']
+                                ) {
+                                    $countIsCorrectAnswer++;
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['student_answer'] = 1;
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['student_answer_wording'] = $studentAnswerValue;
+                                }
+                                // Si case cochée par l'etudiant
+                                elseif ($studentAnswerValue === $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['id']) {
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['student_answer'] = 1;
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['student_answer_wording'] = $studentAnswerValue;
+                                }
+                                // Si pas case cochée par l'etudiant
+                                else {
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['student_answer'] = 0;
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['student_answer_wording'] = $studentAnswerValue;
+                                }
+                            }
+                        } // CheckBox
+                        else {
+                            $countIsCorrectStudent = 0;
+                            $countIsCorrectDb = 0;
+                            foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue) {
+                                foreach ($studentAnswerValue as $studentAnswer){
+                                    $studentAnswer = intval($studentAnswer);
 
-//                                    break $isFalse;
+                                    // Compte combien de réponse juste il y a dans la question
+                                    if ($questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['is_correct'] === true) {
+                                        $countIsCorrectDb++;
+                                    }
+
+                                    // Si il y une réponse vrai
+                                    if (
+                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['is_correct'] === true
+                                        &&
+                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['id'] === $studentAnswer
+                                    ){
+                                        dump('hey');
+                                        $countIsCorrectStudent++;
+                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 1;
+                                    }
+                                }
+//                                if(){
+//                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
 //                                }
-//                                // S'il a des réponses juste, countInArray ++
-//                                else{
-//                                    $countInArray ++;
-//                                    $isInArray=true;
-//                                    $isFalse = true;
-//                                }
-//                                $answersValidity[$answerKey] = [
-//                                    'valueStudentAnswer' => $value,
-//                                    'valueQcmAnswer' => $answerValue,
-//                                    'isFalse' => $isFalse,
-//                                    'isInArray'=>$isInArray
-//                                ];
-//                            }
-//
-//                             if()
-//
-//
-////                            dd($answersValidity);
-//
-//
-//
-//                            if ($qcm = $student) {
-//                                $countIsCorrectAnswer++;
-//                                $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer'] = 1;
-//                            }else{
-//                                $questionAnswersDecode[$ke]['answers'][$answerKey]['student_answer'] = 0;
-//                            }
-//                        }
-//                    }
-//                }
+                                if($countIsCorrectDb === $countIsCorrectStudent)
+                                {
+                                    $countIsCorrectAnswer ++;
+                                }
+                            }
+                        }
+                    }
+                }
             }
-
         }
+
+
 //        dd($countIsCorrectAnswer);
-        dd($questionAnswersDecode);
+        dump($questionAnswersDecode);
 
         //Resultats
         //En points
@@ -244,7 +240,7 @@ class StudentController extends AbstractController
         $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
 
 
-//        dd($totalScore);
+        dd($totalScore);
 
         /*TODO A changer quand le système de connection sera opérationnel*/
         $student = $studentRepository->find(13212);
