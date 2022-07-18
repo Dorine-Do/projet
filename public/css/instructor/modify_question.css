@@ -1,4 +1,4 @@
-@import url(main.css);
+@import url(public/css/main.css);
 
 /*************************************** CSS sur simple balise HTML **********************************/
 
@@ -40,7 +40,7 @@ tbody{
     margin: auto;
     padding: 20px 60px;
     border: none;
-    font-size: 1.3em;
+    font-size: var(--grand);
     display: flex;
     justify-content: space-around;
 }
@@ -75,7 +75,6 @@ tbody{
     font-family: 'Alumni Sans', sans-serif;
     display: block;
     color: grey;
-    font-size: 13px;
     position: absolute;
 }
 
@@ -131,7 +130,6 @@ input[type="radio"]:checked {
 img{
     width: 50px;
     height: 50px;
-    margin-left: 20px;
 }
 
 /************************************************ CSS SUR LES TD **************************************************************/
@@ -175,7 +173,7 @@ img{
 .partTitle{
     padding: 50px;
     font-weight: bold;
-    font-size: 1.3em;
+    font-size: var(--grand);
 }
 
 .numeroform{
@@ -195,7 +193,7 @@ img{
     font-weight: bold;
     border: none;
     padding: 3px 9px;
-    font-size: 0.7em;
+    font-size: var(--small);
     margin-bottom: 15px;
 }
 
@@ -262,7 +260,7 @@ img{
     font-weight: bold;
     border: none;
     padding: 15px 300px;;
-    font-size: 1em;
+    font-size: var(--normal);
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -276,12 +274,12 @@ img{
 
     .buttondiff{
         padding: 5px 35px;;
-        font-size: 1em;
+        font-size: var(--normal);
     }
 
     .buttondesac{
         padding: 5px 15px;
-        font-size: 1em;
+        font-size: var(--normal);
     }
 
     .formoption{
@@ -290,6 +288,16 @@ img{
 
     .valid{
         padding: 15px 200px;;
+    }
+
+    #create_question_difficulty input[type=radio]{
+        text-align: left;
+        margin-left: 6px;
+        border: none;
+    }
+
+    .div_input_label label.required{
+        margin-left: -10px;
     }
 }
 
@@ -301,7 +309,7 @@ img{
 
     .buttondesac{
         padding: 10px 30px;
-        font-size: 0.9em;
+        font-size: var(--normal);
         margin-left: auto;
         margin-right: auto;
         display: block;
@@ -309,7 +317,7 @@ img{
 
     .buttondiff{
         padding: 10px 35px;;
-        font-size: 0.9em;
+        font-size: var(--normal);
     }
 
     .valid{
@@ -318,17 +326,37 @@ img{
 
     #create_question_module{
         padding: 10px 30px;
-        font-size: 1.1em;
+        font-size: var(--normal);
     }
 
     .difficulty{
-        padding-bottom: 60px;
+        padding-bottom: 10px;
     }
 
     .li_proposal{
         width: 33%
     }
 
+    #create_question_difficulty input[type=radio]{
+        width: 120px;
+        height: 50px;
+        margin-left: 4px;
+        border: none;
+    }
+
+    tr{
+        margin-left: 0;
+        max-width: 700px;
+    }
+
+    #create_question_difficulty{
+        width: 700px;
+    }
+
+    img{
+        width: 40px;
+        height: 40px;
+    }
 }
 
 @media screen and (max-width: 450px) {
@@ -338,18 +366,22 @@ img{
 
     table{
         margin: auto;
+        max-width: 450px;
     }
+
 
     tr{
         background-color: var(--fond);
         margin-top: 20px;
         padding: 0;
+        max-width: 400px;
     }
 
     #create_question_module, #create_question_difficulty{
         background-color: var(--fond);
         margin-bottom: 20px;
-        font-size: 0.8em;
+        font-size: var(--semi_small);
+        width: 240px;
     }
 
     .numeroform{
@@ -367,7 +399,7 @@ img{
 
     .buttondiff{
         padding: 8px 27px;;
-        font-size: 0.7em;
+        font-size: var(--semi_small);
     }
 
     #create_question_wording{
@@ -391,10 +423,6 @@ img{
         margin-left: 0;
     }
 
-    .difficulty{
-        background-color: white;
-    }
-
     .li_proposal{
         width: 80%;
     }
@@ -407,6 +435,32 @@ img{
         margin-left: auto;
         display: block;
         margin-top: 10px;
+    }
+
+    #create_question_difficulty input[type=radio]{
+        width: 65px;
+        height: 31px;
+        border: none;
+        margin-left: 4px;
+    }
+
+    create_question_difficulty{
+        -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+        box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    }
+
+    .difficulty{
+        background-color: white;
+        box-shadow: none;
+    }
+
+    img{
+        width: 25px;
+        height: 25px;
+    }
+
+    .div_input_label label.required{
+        margin-left: -4px;
     }
 
 }

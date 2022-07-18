@@ -34,14 +34,14 @@ class Session
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkSessionModule::class)]
     private $link_session_module;
 
-    #[ORM\ManyToMany(targetEntity: Instructor::class, inversedBy: 'sessions')]
-    #[ORM\JoinTable(name: "link_session_instructor")]
+    #[ORM\ManyToMany(targetEntity: Instructor::class, mappedBy: 'sessions')]
     private $instructors;
 
     public function __construct()
     {
         $this->link_session_student = new ArrayCollection();
         $this->link_session_module = new ArrayCollection();
+        $this->instructors = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -180,6 +180,7 @@ class Session
     {
         if (!$this->instructors->contains($instructor)) {
             $this->instructors[] = $instructor;
+            $instructor->addSession($this);
         }
 
         return $this;
@@ -187,7 +188,9 @@ class Session
 
     public function removeInstructor(Instructor $instructor): self
     {
-        $this->instructors->removeElement($instructor);
+        if ($this->instructors->removeElement($instructor)) {
+            $instructor->removeSession($this);
+        }
 
         return $this;
     }

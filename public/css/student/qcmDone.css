@@ -1,0 +1,173 @@
+@import url(public/css/main.css);
+
+h1, h2{
+    text-align: center;
+    width: 100%;
+}
+
+.container{
+    font: 18px/1.5 sans-serif;
+}
+
+.ligne{
+    display: block;
+    width: 100%;
+    border: dashed 1px black;
+    margin: 50px 0;
+}
+
+/****************************************** PARTIE BADGES ***********************************************/
+.badge{
+    width: 50px;
+    height: 50px;
+}
+
+.premierediv{
+    background-color: var(--fond);
+    width: 90%;
+    margin: auto auto 75px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.div_badge{
+    padding: 0 50px;
+    text-align: center;
+}
+
+/**************************************** PARTIE MODULE *********************************************/
+
+.numeroform{
+    background-color: var(--pamplemousse);
+    padding: 8px 14px;
+    border-radius: 50%;
+}
+
+.module{
+    text-align: center;
+}
+
+select{
+    margin: auto 0 auto auto;
+    padding: 20px 40px;
+    border: none;
+    background-color: var(--fond);
+    font-size: var(--normal);
+    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    text-align: center;
+}
+
+.officiel{
+    display: flex;
+    justify-content: flex-end;
+}
+
+/***************************************** PARTIE AFFICHAGE QCM ******************************************/
+
+.realise{
+    width: 100%;
+    display: flex;
+    column-count: 3;
+    justify-content: space-between;
+    background-color: var(--fond);
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.nomqcm{
+    background-color: var(--pamplemousse);
+    padding: 28px 115px;
+    border-radius: 9px;
+    max-width: 150px;
+}
+
+.button{
+    border-radius: 25px;
+    margin: 0;
+    width: 90%;
+    background-color: var(--grey);
+    color: white;
+    padding: 8px 35px;
+    text-align: center;
+}
+
+.button:hover{
+    background-color: var(--vert);
+}
+
+.div_button{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0 auto 0 0;
+    height: 120px;
+}
+
+.date{
+    margin: auto;
+    font-size: var(--normal);
+}
+
+@media screen and (max-width: 780px) {
+    .nomqcm{
+        padding: 25px 65px 15px 65px;
+    }
+
+    .button{
+        margin: 0;
+        width: 90%;
+        padding: 6px 20px;
+    }
+
+    .ligne{
+        width: 600px;
+    }
+
+}
+
+@media screen and (max-width: 450px) {
+    .realise{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: auto;
+    }
+
+    .div_button{
+        margin: 25px 0 0 0;
+        justify-content: space-around;
+        width: 300px;
+    }
+
+    .nomqcm{
+        margin-bottom: 25px;
+        width: 220px;
+        text-align: center;
+    }
+
+    .button{
+        text-align: center;
+    }
+
+
+    h1{
+        width: 412px;
+    }
+
+
+    .ligne{
+        width: 405px;
+    }
+
+    .officiel select{
+        width: 350px;
+        font-size: var(--normal);
+        margin: 25px auto auto auto;
+    }
+
+    .officiel{
+        flex-direction: column;
+    }
+
+}

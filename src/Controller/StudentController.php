@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Enum\Level;
 use App\Entity\LinkSessionModule;
 use App\Entity\LinkSessionStudent;
 use App\Entity\Qcm;
@@ -10,22 +11,33 @@ use App\Entity\Result;
 use App\Repository\LinkSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
+use App\Repository\QcmRepository;
 use App\Repository\StudentRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class StudentController extends AbstractController
 {
-    #[Route('/student', name: 'app_student')]
+    #[Route('/student', name: 'student')]
     public function index( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
     {
-        $student = $studentRepo->find( 13581 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
 
         // Recupérer l'instance de QCM pour laquelle la date du jour se trouve entre release_date et end_date pour l'etudiant connecté
         $allAvailableQcmInstances = $student->getQcmInstances();
         $officialQcmOfTheWeek  = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
-            return $qcmInstance->getQcm()->getIsOfficial() == true && $qcmInstance->getReleaseDate() < new \DateTime() && $qcmInstance->getEndDate() > new \DateTime();
+            return
+                $qcmInstance->getQcm()->getIsOfficial() == true
+                && $qcmInstance->getReleaseDate() < new \DateTime()
+                && $qcmInstance->getEndDate() > new \DateTime()
+                && $qcmInstance->getQcm()->getEnabled() == true ;
         });
 
         // Recupérer les de QCM ayant is_official false/0
@@ -64,6 +76,7 @@ class StudentController extends AbstractController
             return $linkSessionModule->getEndDate() < new \DateTime();
         });
 
+
         $endedModules = [];
         foreach($endedLinkSessionModules as $endedLinkSessionModule)
         {
@@ -85,7 +98,6 @@ class StudentController extends AbstractController
                 $retryableModules[] = $endedModule;
             }
         }
-
         // Rendering
         return $this->render('student/index.html.twig', [
             'student'                       => $student,
@@ -96,10 +108,10 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('/qcmDone', name: 'app_qcmdone')]
+    #[Route('student/qcmsDone', name: 'student_qcmsdone')]
     public function qcmDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo )
     {
-        $student = $studentRepo->find( 13581 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
 
         $studentResults = $student->getResults();
         $qcmsDone = [];
@@ -121,7 +133,167 @@ class StudentController extends AbstractController
 
         return $this->render('student/qcm_done.html.twig', [
             'qcmsDone' => $qcmsDone,
-            'sessionModules'  => $sessionModules
+            'modules'  => $sessionModules
         ]);
     }
+
+    #[Route('student/qcmToDo/{qcmInstance}', name: 'student_qcmToDo')]
+    public function QcmToDo( QcmInstance $qcmInstance, QcmRepository $qcmRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em){
+
+        // Récupere le qcm par rapport à l'id du qcmInstance
+        $qcm = $qcmRepository->find(['id' => ($qcmInstance->getQcm()->getId())]);
+
+        // Retourne les questions avec leurs réponses sous forme de tableau
+        $questionAnswersDecode = array_map(function($questionAnswer){
+                $questionsDecode =(array)json_decode($questionAnswer)[0];
+                $questionsDecode['question'] = (array)$questionsDecode['question'];
+                $questionsDecode['question']['answers'] = (array)$questionsDecode['question']['answers'];
+                foreach ($questionsDecode['question']['answers'] as $key => $value){
+                    $questionsDecode['question']['answers'][$key] =  (array)$value;
+                }
+            return $questionsDecode['question'];
+        },$qcm->getQuestionsAnswers());
+
+        // Récupere les datas du form
+        $result = $request->query->all();
+
+        $countIsCorrectAnswer = 0;
+
+//      Si pas vide
+        if (count($result) !== 0) {
+
+            // Traitement des réponses et ajout d'information dans le tableau pour json ensuite et add db
+            foreach ($questionAnswersDecode as $questionDbKey => $questionDbValue) {
+                foreach ($result as $studentAnswerKey => $studentAnswerValue) {
+                    if ($questionAnswersDecode[$questionDbKey]['id'] == $studentAnswerKey) {
+                        // Radio
+                        if ($questionAnswersDecode[$questionDbKey]['responce_type'] === "radio") {
+                            $studentAnswerValue = intval($studentAnswerValue);
+                            foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerKey => $answerValue) {
+                                //Si case cochée par l'etudiant et bonne réponse
+                                if (
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['is_correct'] === true
+                                    &&
+                                    $studentAnswerValue === $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['id']
+                                ) {
+                                    $countIsCorrectAnswer++;
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['student_answer'] = 1;
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['student_answer_wording'] = $studentAnswerValue;
+                                }
+                                // Si case cochée par l'etudiant
+                                elseif ($studentAnswerValue === $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['id']) {
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['student_answer'] = 1;
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['student_answer_wording'] = $studentAnswerValue;
+                                }
+                                // Si pas case cochée par l'etudiant
+                                else {
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['student_answer'] = 0;
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['student_answer_wording'] = $studentAnswerValue;
+                                }
+                            }
+                        } // CheckBox
+                        else {
+                            $dbAnswersCheck = [
+                                'good' => [],
+                                'bad' => []
+                            ];
+                            foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue)
+                            {
+                                if( $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['is_correct'] )
+                                {
+                                    $dbAnswersCheck['good'][] = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['id'];
+                                }
+                                else
+                                {
+                                    $dbAnswersCheck['bad'][] = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['id'];
+                                }
+                            }
+                            $goodAnswersCount = 0;
+                            $badAnswersCount = 0;
+                            foreach ($studentAnswerValue as $studentAnswer)
+                            {
+                                if( in_array($studentAnswer, $dbAnswersCheck['good']) )
+                                {
+                                    $goodAnswersCount++;
+                                    $questionAnswersDecode[$questionDbKey]['student_answer_correct'] = 1;
+                                }
+                                elseif( in_array($studentAnswer, $dbAnswersCheck['bad']) )
+                                {
+                                    $badAnswersCount++;
+                                    $questionAnswersDecode[$questionDbKey]['student_answer_correct'] = 0;
+                                }
+                            }
+
+                            foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue)
+                            {
+                                if( in_array($answerDbValue['id'], $studentAnswerValue) )
+                                {
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 1;
+                                }
+                                else
+                                {
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
+                                }
+                            }
+
+                            if( $goodAnswersCount === count($dbAnswersCheck['good']) && $badAnswersCount === 0 )
+                            {
+                                $countIsCorrectAnswer ++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            //Resultats
+            //En points
+            $nbQuestions = count($questionAnswersDecode);
+            $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
+
+            /*TODO A changer quand le système de connection sera opérationnel*/
+            $student = $studentRepository->find(2);
+            $result = new Result();
+            $result->setStudent($student);
+            $result->setQcmInstance($qcmInstance);
+            $result->setTotalScore($totalScore);
+            if( $totalScore < 25 )
+            {
+                $result->setLevel(Level::Discover);
+            }
+            elseif( $totalScore >= 25 && $totalScore < 50 )
+            {
+                $result->setLevel(Level::Explore);
+            }
+            elseif( $totalScore >= 50 && $totalScore < 75 )
+            {
+                $result->setLevel(Level::Master);
+            }
+            elseif( $totalScore >= 75 && $totalScore <= 100 )
+            {
+                $result->setLevel(Level::Dominate);
+            }
+
+            foreach ($questionAnswersDecode as $questionAnswersKey => $questionAnswersValue){
+                $questionAnswersDecode[$questionAnswersKey] = json_encode($questionAnswersDecode[$questionAnswersKey]);
+            }
+            $result->setAnswers($questionAnswersDecode);
+            $result->setInstructorComment(null);
+
+            //  validation et enregistrement des données du form dans la bdd
+            $em->persist($result);
+            $em->flush();
+
+            $this->addFlash('success', 'Le qcm a bien été enregistré.');
+            return $this->redirectToRoute('student_qcmsdone');
+        }
+
+        return $this->render('student/qcm_to_do.html.twig', [
+            'idQcmInstance' => $qcmInstance->getId(),
+            'nameQcmInstance' => $qcmInstance->getName(),
+            'titleModule'=> $qcm->getModule()->getTitle(),
+            'questionsAnswers' => $questionAnswersDecode
+        ]);
+    }
+
+
 }

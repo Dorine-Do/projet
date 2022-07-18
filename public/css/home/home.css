@@ -14,7 +14,8 @@
     margin-right: 2em;
 }
 
-.li_route_formateur{
+.li_route_formateur,
+.li_route_etudiant{
     margin: 1em;
     padding: 1em;
     border: 1px solid var(--grey);

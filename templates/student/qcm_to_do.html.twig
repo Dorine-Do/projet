@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StudentController!{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{asset('css/student/qcmToDo.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    <div class="qcm">
+        <h1>QCM A FAIRE</h1>
+
+        <div class="div_name">
+            <p class="nom">
+                Nom du module
+                {{ titleModule }}
+            </p>
+            <p class="nom">Nom du qcm
+                {{ nameQcmInstance }}
+            </p>
+        </div>
+        <div class="premierediv">
+            <div class="diff">
+                <p>Facile</p>
+                <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="facile">
+            </div>
+            <div class="diff">
+                <p>Moyen</p>
+                <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="moyen">
+            </div>
+            <div class="diff">
+                <p>Difficile</p>
+                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+            </div>
+        </div>
+
+        <form action="{{ path('student_qcmToDo', { 'qcmInstance': idQcmInstance }) }}">
+            {% for question in questionsAnswers %}
+
+                    <p class="question"><span class="numeroform">1</span>
+                    {{ question.libelle }}
+                    </p>
+                {% for answer in question.answers %}
+                    {% if question.responce_type == 'radio'%}
+                        <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}"> <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                    {% else %}
+                        <input type="checkbox" for='{{ answer.id}}' name="{{question.id}}[]" value="{{ answer.id }}"> <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                    {% endif %}
+
+                {% endfor %}
+            {% endfor %}
+            <input class="valid" type="submit" value="J'ai fini mon qcm">
+        </form>
+
+    </div>
+{% endblock %}

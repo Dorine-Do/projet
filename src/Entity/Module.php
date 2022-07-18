@@ -42,9 +42,9 @@ class Module
     #[ORM\JoinTable(name: "link_module_instructor")]
     private $instructors;
 
-    #[ORM\ManyToMany(targetEntity: Qcm::class, inversedBy: 'modules')]
-    #[ORM\JoinTable(name: "link_module_qcm")]
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Qcm::class)]
     private $qcms;
+
 
     public function __construct()
     {
@@ -230,6 +230,7 @@ class Module
     {
         if (!$this->qcms->contains($qcm)) {
             $this->qcms[] = $qcm;
+            $qcm->setModule($this);
         }
 
         return $this;
@@ -237,9 +238,13 @@ class Module
 
     public function removeQcm(Qcm $qcm): self
     {
-        $this->qcms->removeElement($qcm);
+        if ($this->qcms->removeElement($qcm)) {
+            // set the owning side to null (unless already changed)
+            if ($qcm->getModule() === $this) {
+                $qcm->setModule(null);
+            }
+        }
 
         return $this;
     }
-
 }
