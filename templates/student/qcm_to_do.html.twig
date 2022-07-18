@@ -37,10 +37,12 @@
 
         <form action="{{ path('student_qcmToDo', { 'qcmInstance': idQcmInstance }) }}">
             {% for question in questionsAnswers %}
-
                     <p class="question"><span class="numeroform">1</span>
                     {{ question.libelle }}
                     </p>
+                <div>
+                    <pre>let test = 'heelo'</pre>
+                </div>
                 {% for answer in question.answers %}
                     {% if question.responce_type == 'radio'%}
                         <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}"> <label for="{{ answer.id }}">{{ answer.libelle }}</label>
