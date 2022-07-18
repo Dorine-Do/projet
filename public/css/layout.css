@@ -6,10 +6,14 @@ header{
     margin: 0 20px;
 }
 
+/**************************************** LOGO ********************************************************/
+
 .logo{
     width: 170px;
     height: 80px;
 }
+
+/**************************************** MENU AVEC LES DEUX "BOUTONS" *************************************************/
 
 .choix{
     background-color: var(--pamplemousse);
@@ -45,6 +49,8 @@ header{
     background-color: var(--fond);
 }
 
+/************************************** RECTANGLE ELEVE DYNAMIQUE HAUT A DROITE **********************************/
+
 .eleve{
     width: 350px;
     border: 2px solid var(--pamplemousse);
@@ -55,7 +61,7 @@ header{
 
 .hellostudent{
     font-weight: bold;
-    font-size: 1em;
+    font-size: var(--normal);
     margin-top: 27px;
 }
 

@@ -1,5 +1,19 @@
 @import url(public/css/main.css);
 
+.container{
+    font: 18px/1.5 sans-serif;
+}
+
+.global{
+    background-color: var(--pamplemousse);
+    width: 100%;
+    padding: 25px;
+    display: flex;
+    justify-content: space-around;
+}
+
+/********************************************** BALISES GENERALES ***************************************************/
+
 h1{
     text-align: center;
 }
@@ -17,38 +31,20 @@ article{
     text-align: center;
 }
 
-.container{
-    font: 18px/1.5 sans-serif;
+span{
+    display: block;
+    border: solid 1px var(--fond);
 }
 
-.select1{
-    margin: auto;
-    background-color: white;
-    padding: 15px 40px;
-    font-size: var(--normal);
-    text-align: center;
-    border: 1px solid var(--grey);
+/*********************************************** PREMIERE SECTION *********************************************/
+
+.centre{
+    border: 2px solid white;
+    width: 500px;
+    margin: auto auto 15px auto;
+    height: 100px;
     border-radius: 9px;
-    font-family: 'Alumni Sans', sans-serif;
-}
-
-.select2{
-    margin: auto;
-    background-color: white;
-    padding: 2px 65px;
-    font-size: var(--normal);
-    text-align: center;
-    border: 1px solid var(--grey);
-    border-radius: 7px;
-    font-family: 'Alumni Sans', sans-serif;
-}
-
-.global{
-    background-color: var(--pamplemousse);
-    width: 100%;
-    padding: 25px;
-    display: flex;
-    justify-content: space-around;
+    padding: 7px 15px;
 }
 
 .button{
@@ -65,27 +61,60 @@ article{
     font-weight: bold;
 }
 
-.centre{
+.centre2{
     border: 2px solid white;
     width: 500px;
-    margin: auto auto 15px auto;
+    margin: auto;
     height: 100px;
     border-radius: 9px;
     padding: 7px 15px;
 }
 
-.buttondiff{
+.inter{
+    display: flex;
+    justify-content: space-between;
+}
+
+.select2{
+    margin: auto;
+    background-color: white;
+    padding: 2px 65px;
+    font-size: var(--normal);
+    text-align: center;
+    border: 1px solid var(--grey);
+    border-radius: 7px;
+    font-family: 'Alumni Sans', sans-serif;
+}
+
+.button2{
     border-radius: 25px;
     background-color: var(--grey);
     color: white;
-    padding: 4px 25px;
+    padding: 5px 55px;
     text-align: center;
     font-size: var(--normal);
 }
 
-.buttondiff:hover{
+.button2:hover{
     background-color: var(--vert);
     font-weight: bold;
+}
+
+.centre2 h2{
+    margin: 0 0 10px 0;
+}
+
+/******************************************** SECTION AVEC LE CERCLE **********************************************/
+
+.select1{
+    margin: auto;
+    background-color: white;
+    padding: 15px 40px;
+    font-size: var(--normal);
+    text-align: center;
+    border: 1px solid var(--grey);
+    border-radius: 9px;
+    font-family: 'Alumni Sans', sans-serif;
 }
 
 .difficult{
@@ -93,6 +122,18 @@ article{
     display: flex;
     justify-content: space-around;
     height: 55px;
+}
+
+.cercle{
+    background-color: var(--fond);
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+}
+
+.training{
+    padding-top: 75px;
 }
 
 .buttonvalid{
@@ -109,17 +150,30 @@ article{
     font-weight: bold;
 }
 
-.cercle{
-    background-color: var(--fond);
-    border-radius: 50%;
-    width: 300px;
-    height: 300px;
-    margin: auto;
+input[type="radio"]{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border-radius: 25px;
+    height: 35px;
+    margin: 0;
+    width: 80px;
+    background-color: var(--grey);
 }
 
-.training{
-    padding-top: 75px;
+label{
+    position: relative;
+    bottom: 40px;
+    color: white;
+    font-size: var(--normal);
+    font-family: 'Alumni Sans', sans-serif;
 }
+
+input[type="radio"]:checked {
+    background-color: var(--vert);
+    margin:0;
+}
+
+/********************************************** SECTION QCM REALISES *******************************************/
 
 .real{
     border-radius: 13px;
@@ -136,6 +190,17 @@ article{
     color: white;
 }
 
+.centre3{
+    border: 2px solid white;
+    width: 500px;
+    margin: auto auto 70px auto;
+    height: 120px;
+    border-radius: 9px;
+    padding: 7px 15px;
+}
+
+/******************************************** SECTION RETENTE MA CHANCE ***************************************************/
+
 .centre_chance{
     border: 2px solid white;
     width: 500px;
@@ -143,11 +208,6 @@ article{
     height: 90px;
     border-radius: 9px;
     padding: 7px 15px;
-}
-
-span{
-    display: block;
-    border: solid 1px var(--fond);
 }
 
 .last_div{
@@ -178,70 +238,6 @@ span{
 .lastP{
     font-weight: lighter;
     font-size: var(--small);
-}
-
-input[type="radio"]{
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    border-radius: 25px;
-    height: 35px;
-    margin: 0;
-    width: 80px;
-    background-color: var(--grey);
-}
-
-label{
-    position: relative;
-    bottom: 40px;
-    color: white;
-    font-size: var(--normal);
-    font-family: 'Alumni Sans', sans-serif;
-}
-
-input[type="radio"]:checked {
-    background-color: var(--vert);
-    margin:0;
-}
-
-.inter{
-    display: flex;
-    justify-content: space-between;
-}
-
-.centre2{
-    border: 2px solid white;
-    width: 500px;
-    margin: auto;
-    height: 100px;
-    border-radius: 9px;
-    padding: 7px 15px;
-}
-
-.centre3{
-    border: 2px solid white;
-    width: 500px;
-    margin: auto auto 70px auto;
-    height: 120px;
-    border-radius: 9px;
-    padding: 7px 15px;
-}
-
-.button2{
-    border-radius: 25px;
-    background-color: var(--grey);
-    color: white;
-    padding: 5px 55px;
-    text-align: center;
-    font-size: var(--normal);
-}
-
-.button2:hover{
-    background-color: var(--vert);
-    font-weight: bold;
-}
-
-.centre2 h2{
-    margin: 0 0 10px 0;
 }
 
 

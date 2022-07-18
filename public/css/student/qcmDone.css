@@ -9,6 +9,33 @@ h1, h2{
     font: 18px/1.5 sans-serif;
 }
 
+.ligne{
+    display: block;
+    width: 100%;
+    border: dashed 1px black;
+    margin: 50px 0;
+}
+
+/****************************************** PARTIE BADGES ***********************************************/
+.badge{
+    width: 50px;
+    height: 50px;
+}
+
+.premierediv{
+    background-color: var(--fond);
+    width: 90%;
+    margin: auto auto 75px auto;
+    display: flex;
+    justify-content: center;
+}
+
+.div_badge{
+    padding: 0 50px;
+    text-align: center;
+}
+
+/**************************************** PARTIE MODULE *********************************************/
 
 .numeroform{
     background-color: var(--pamplemousse);
@@ -20,6 +47,23 @@ h1, h2{
     text-align: center;
 }
 
+select{
+    margin: auto 0 auto auto;
+    padding: 20px 40px;
+    border: none;
+    background-color: var(--fond);
+    font-size: var(--normal);
+    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    text-align: center;
+}
+
+.officiel{
+    display: flex;
+    justify-content: flex-end;
+}
+
+/***************************************** PARTIE AFFICHAGE QCM ******************************************/
 
 .realise{
     width: 100%;
@@ -35,6 +79,7 @@ h1, h2{
     background-color: var(--pamplemousse);
     padding: 28px 115px;
     border-radius: 9px;
+    max-width: 150px;
 }
 
 .button{
@@ -62,47 +107,6 @@ h1, h2{
 .date{
     margin: auto;
     font-size: var(--normal);
-}
-
-.ligne{
-    display: block;
-    width: 100%;
-    border: dashed 1px black;
-    margin: 50px 0;
-}
-
-.badge{
-    width: 50px;
-    height: 50px;
-}
-
-.premierediv{
-    background-color: var(--fond);
-    width: 90%;
-    margin: auto auto 75px auto;
-    display: flex;
-    justify-content: center;
-}
-
-.div_badge{
-    padding: 0 50px;
-    text-align: center;
-}
-
-select{
-    margin: auto 0 auto auto;
-    padding: 20px 40px;
-    border: none;
-    background-color: var(--fond);
-    font-size: var(--normal);
-    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
-    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
-    text-align: center;
-}
-
-.officiel{
-    display: flex;
-    justify-content: flex-end;
 }
 
 @media screen and (max-width: 780px) {
