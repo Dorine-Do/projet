@@ -13,6 +13,8 @@ use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\QcmRepository;
 use App\Repository\StudentRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
@@ -23,10 +25,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StudentController extends AbstractController
 {
+
     #[Route('/student', name: 'student')]
     public function index( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
     {
-        $student = $studentRepo->find( 13250 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
 
         // Recupérer l'instance de QCM pour laquelle la date du jour se trouve entre release_date et end_date pour l'etudiant connecté
         $allAvailableQcmInstances = $student->getQcmInstances();
@@ -109,7 +112,7 @@ class StudentController extends AbstractController
     #[Route('student/qcmsDone', name: 'student_qcmsdone')]
     public function qcmDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo )
     {
-        $student = $studentRepo->find( 13581 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
 
         $studentResults = $student->getResults();
         $qcmsDone = [];
@@ -136,7 +139,7 @@ class StudentController extends AbstractController
     }
 
     #[Route('student/qcmToDo/{qcmInstance}', name: 'student_qcmToDo')]
-    public function QcmToDo( QcmInstance $qcmInstance, QcmRepository $qcmRepository,StudentRepository $studentRepository, Request $request){
+    public function QcmToDo( QcmInstance $qcmInstance, QcmRepository $qcmRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em){
 
         // Récupere le qcm par rapport à l'id du qcmInstance
         $qcm = $qcmRepository->find(['id' => ($qcmInstance->getQcm()->getId())]);
@@ -152,17 +155,14 @@ class StudentController extends AbstractController
             return $questionsDecode['question'];
         },$qcm->getQuestionsAnswers());
 
-
-
-//        dd($questionAnswersDecode);
-
         // Récupere les datas du form
         $result = $request->query->all();
 
         $countIsCorrectAnswer = 0;
 
 //      Si pas vide
-        if ($result) {
+        if (count($result) !== 0) {
+
             // Traitement des réponses et ajout d'information dans le tableau pour json ensuite et add db
             foreach ($questionAnswersDecode as $questionDbKey => $questionDbValue) {
                 foreach ($result as $studentAnswerKey => $studentAnswerValue) {
@@ -194,14 +194,13 @@ class StudentController extends AbstractController
                             }
                         } // CheckBox
                         else {
-
                             $dbAnswersCheck = [
                                 'good' => [],
                                 'bad' => []
                             ];
                             foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue)
                             {
-                                if( $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['isCorrect'] )
+                                if( $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['is_correct'] )
                                 {
                                     $dbAnswersCheck['good'][] = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['id'];
                                 }
@@ -228,16 +227,13 @@ class StudentController extends AbstractController
 
                             foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue)
                             {
-                                foreach ($studentAnswerValue as $studentAnswer)
+                                if( in_array($answerDbValue['id'], $studentAnswerValue) )
                                 {
-                                    if( in_array($answerDbValue['id'], $studentAnswer) )
-                                    {
-                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 1;
-                                    }
-                                    else
-                                    {
-                                        $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
-                                    }
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 1;
+                                }
+                                else
+                                {
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
                                 }
                             }
 
@@ -245,116 +241,52 @@ class StudentController extends AbstractController
                             {
                                 $countIsCorrectAnswer ++;
                             }
-
-//                            //------
-//                            $countIsCorrectStudent = 0;
-//                            $countIsCorrectDb = 0;
-//                            foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerDbKey => $answerDbValue)
-//                            {
-//                                foreach ($studentAnswerValue as $studentAnswer)
-//                                {
-//                                    $proposal = $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey];
-//
-//                                    // ----------------------------------------------------------------------------------------
-//                                    $studentAnswer = intval($studentAnswer);
-//
-//                                    // Compte combien de réponse juste il y a dans la question
-//                                    if ( $proposal['is_correct'] === true )
-//                                    {
-//                                        $countIsCorrectDb++;
-//                                    }
-//
-//                                    // Si la reponse attendu est juste et que l'etudiant l'a cochée
-//                                    if (
-//                                        $proposal['is_correct'] === true &&
-//                                        $proposal['id'] === $studentAnswer
-//                                    )
-//                                    {
-//                                        $countIsCorrectStudent++;
-//                                        $proposal['student_answer'] = 1;
-//                                    }
-//                                    elseif ( // Si la reponse attendu est fausse et que l'etudiant l'a cochée
-//                                        $proposal['is_correct'] === false &&
-//                                        $proposal['id'] === $studentAnswer
-//                                    )
-//                                    {
-//                                        $countIsCorrectStudent--;
-//                                        $proposal['student_answer'] = 0;
-//                                    }
-//                                    else // sinon
-//                                    {
-//                                        $countIsCorrectStudent--;
-//                                        $proposal['student_answer'] = 0;
-//                                    }
-//                                }
-////                                if(){
-////                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
-////                                }
-//                            }
-//                            if($countIsCorrectDb === $countIsCorrectStudent)
-//                            {
-//                                $countIsCorrectAnswer ++;
-//                            }
                         }
                     }
                 }
             }
-        }
 
+            //Resultats
+            //En points
+            $nbQuestions = count($questionAnswersDecode);
+            $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
 
-//        dd($countIsCorrectAnswer);
-        dump($questionAnswersDecode);
-
-        //Resultats
-        //En points
-        $nbQuestions = count($questionAnswersDecode);
-        $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
-
-
-        dd($totalScore);
-
-        /*TODO A changer quand le système de connection sera opérationnel*/
-        $student = $studentRepository->find(13212);
-
-        $result = new Result();
-
-        $result->setStudent($student);
-        $result->setQcmInstance($qcmInstance);
-        $result->setTotalScore($totalScore);
-
-        if( $totalScore < 25 )
-        {
-            $result->setLevel(Level::Discover);
-        }
-        elseif( $totalScore >= 25 && $totalScore < 50 )
-        {
-            $result->setLevel(Level::Explore);
-        }
-        elseif( $totalScore >= 50 && $totalScore < 75 )
-        {
-            $result->setLevel(Level::Master);
-        }
-        elseif( $totalScore >= 75 && $totalScore <= 100 )
-        {
-            $result->setLevel(Level::Dominate);
-        }
-
-        foreach ($questionAnswersDecode as $question){
-//            dump($question);
-            foreach ($question['answers'] as $answers){
-//                dd($answer);
-//                $answer = ['student_answer' => ]
+            /*TODO A changer quand le système de connection sera opérationnel*/
+            $student = $studentRepository->find(2);
+            $result = new Result();
+            $result->setStudent($student);
+            $result->setQcmInstance($qcmInstance);
+            $result->setTotalScore($totalScore);
+            if( $totalScore < 25 )
+            {
+                $result->setLevel(Level::Discover);
             }
+            elseif( $totalScore >= 25 && $totalScore < 50 )
+            {
+                $result->setLevel(Level::Explore);
+            }
+            elseif( $totalScore >= 50 && $totalScore < 75 )
+            {
+                $result->setLevel(Level::Master);
+            }
+            elseif( $totalScore >= 75 && $totalScore <= 100 )
+            {
+                $result->setLevel(Level::Dominate);
+            }
+
+            foreach ($questionAnswersDecode as $questionAnswersKey => $questionAnswersValue){
+                $questionAnswersDecode[$questionAnswersKey] = json_encode($questionAnswersDecode[$questionAnswersKey]);
+            }
+            $result->setAnswers($questionAnswersDecode);
+            $result->setInstructorComment(null);
+
+            //  validation et enregistrement des données du form dans la bdd
+            $em->persist($result);
+            $em->flush();
+
+            $this->addFlash('success', 'Le qcm a bien été enregistré.');
+            return $this->redirectToRoute('student_qcmsdone');
         }
-        $result->setAnswers();
-
-
-//        $this->addFlash('success', 'La question a bien été modifiée.');
-//        return $this->redirectToRoute('instructor_display_questions');
-
-
-
-
 
         return $this->render('student/qcm_to_do.html.twig', [
             'idQcmInstance' => $qcmInstance->getId(),
