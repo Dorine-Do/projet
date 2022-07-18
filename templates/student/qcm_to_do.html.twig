@@ -2,24 +2,43 @@
 
 {% block title %}Hello StudentController!{% endblock %}
 
+{% block stylesheets %}
+    <link href="{{asset('css/student/qcmToDo.css')}}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
 
     <div class="qcm">
         <h1>QCM A FAIRE</h1>
 
-        <p>Nom du qcm
-            {{ dump(nameQcmInstance) }}
-        </p>
-        <p>
-            Nom du module
-            {{ dump(titleModule) }}
-        </p>
+        <div class="div_name">
+            <p class="nom">
+                Nom du module
+                {{ titleModule }}
+            </p>
+            <p class="nom">Nom du qcm
+                {{ nameQcmInstance }}
+            </p>
+        </div>
+        <div class="premierediv">
+            <div class="diff">
+                <p>Facile</p>
+                <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="facile">
+            </div>
+            <div class="diff">
+                <p>Moyen</p>
+                <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="moyen">
+            </div>
+            <div class="diff">
+                <p>Difficile</p>
+                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+            </div>
+        </div>
 
         <form action="{{ path('student_qcmToDo', { 'qcmInstance': idQcmInstance }) }}">
-            <p>Question Reponses</p>
             {% for question in questionsAnswers %}
-                {{ dump(question) }}
-                    <p>
+
+                    <p class="question"><span class="numeroform">1</span>
                     {{ question.libelle }}
                     </p>
                 {% for answer in question.answers %}
@@ -31,7 +50,7 @@
 
                 {% endfor %}
             {% endfor %}
-            <input type="submit" value="J'ai fini mon qcm">
+            <input class="valid" type="submit" value="J'ai fini mon qcm">
         </form>
 
     </div>
