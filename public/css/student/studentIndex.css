@@ -1,3 +1,4 @@
+
 @import url(public/css/main.css);
 
 .container{
@@ -21,6 +22,7 @@ h1{
 h2{
     color: var(--fond);
     font-family: 'Alumni Sans', sans-serif;
+    text-align: center;
 }
 
 p{
@@ -36,22 +38,31 @@ span{
     border: solid 1px var(--fond);
 }
 
+.badge{
+    width: 30px;
+    height: 30px;
+    display: block;
+    margin: auto
+}
 /*********************************************** PREMIERE SECTION *********************************************/
 
 .centre{
     border: 2px solid white;
     width: 500px;
     margin: auto auto 15px auto;
-    height: 100px;
+    height: 60px;
     border-radius: 9px;
     padding: 7px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .button{
     border-radius: 25px;
-    background-color: var(--grey);
+    background-color: var(--vert);
     color: white;
-    padding: 10px 85px;
+    padding: 10px 30px;
     text-align: center;
     font-size: var(--normal);
 }
@@ -59,13 +70,14 @@ span{
 .button:hover{
     background-color: var(--vert);
     font-weight: bold;
+    color: white;
 }
 
 .centre2{
     border: 2px solid white;
     width: 500px;
-    margin: auto;
-    height: 100px;
+    margin: 15px auto;
+    height: 130px;
     border-radius: 9px;
     padding: 7px 15px;
 }
@@ -103,6 +115,7 @@ span{
 .centre2 h2{
     margin: 0 0 10px 0;
 }
+
 
 /******************************************** SECTION AVEC LE CERCLE **********************************************/
 
@@ -230,14 +243,18 @@ input[type="radio"]:checked {
 
 .div_badge{
     background-color: var(--fond);
-    margin-top: 20px;
+    margin: auto;
     padding: 22px 30px 30px 30px;
     border-radius: 13px;
+    width: 500px;
 }
 
 .lastP{
-    font-weight: lighter;
-    font-size: var(--small);
+    font-size: var(--semi_small);
+    color: var(--vert);
+    font-weight: bold;
+    text-align: center;
+    width: 500px;
 }
 
 
@@ -249,7 +266,7 @@ input[type="radio"]:checked {
 
     .centre2{
         width: 350px;
-        height: 150px;
+        height: 200px;
     }
 
     .centre_chance{
@@ -283,12 +300,19 @@ input[type="radio"]:checked {
         margin: 80px 30px auto auto;
     }
 
-    span{
-        margin-left: 60px;
-    }
 
     .article1{
         margin-left: 40px;
+    }
+
+    .lastP{
+        text-align: center;
+        margin: 15px 25px auto auto;
+        width: 380px;
+    }
+
+    .button{
+        background-color: var(--vert);
     }
 }
 
@@ -313,7 +337,14 @@ input[type="radio"]:checked {
     }
 
     a.button{
-        padding: 15px 130px;
+        border-radius: 25px;
+        background-color: var(--vert);
+        color: white;
+        padding: 10px 45px;
+        text-align: center;
+        font-size: var(--normal);
+        width: 250px;
+        margin: auto;
     }
 
     .centre p {
@@ -327,16 +358,27 @@ input[type="radio"]:checked {
     .article1{
         margin: auto;
     }
+
+    .lastP{
+        text-align: center;
+        margin: 15px auto;
+        width: 350px;
+    }
+
+    .centre2{
+        height: 180px;
+    }
 }
 
 @media screen and (max-width: 450px) {
     a.button{
         border-radius: 25px;
-        background-color: var(--grey);
+        background-color: var(--vert);
         color: white;
-        padding: 10px 60px;
+        padding: 10px 25px;
         text-align: center;
         font-size: var(--normal);
+        width: 250px;
     }
 
     .centre, .centre_chance, .centre3{
@@ -346,7 +388,7 @@ input[type="radio"]:checked {
 
     .centre2{
         width: 300px;
-        height: 150px;
+        height: 200px;
     }
 
     .section .centre{
@@ -397,5 +439,10 @@ input[type="radio"]:checked {
 
     .global{
         width: auto;
+    }
+    
+    .lastP{
+        text-align: center;
+        width: 350px;
     }
 }
