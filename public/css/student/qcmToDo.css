@@ -95,7 +95,11 @@ img{
         width: 35px;
     }
 
-    .valid{
+    .allreponse{
+        margin-left: 50px;
+    }
 
+    .reponse{
+        padding: 15px 50px 15px 10px;
     }
 }

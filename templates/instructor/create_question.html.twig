@@ -15,18 +15,18 @@
         <tr>
             <td colspan="2" class="premier">
                 <p class="etape">
-                    <span class="numeroform">1</span>
+                    <span class="numeroForm">1</span>
                     Choisir le module:
                 </p>
             </td>
-            <td colspan="2" class="premierselect">
+            <td colspan="2" class="premierSelect">
                 {{form_widget(form.module)}}
             </td>
         </tr>
         <tr>
             <td colspan="2" class="premier">
                 <p class="etape">
-                    <span class="numeroform">2</span>
+                    <span class="numeroForm">2</span>
                     Intitulé de la question :
                 </p>
             </td>
@@ -37,7 +37,7 @@
         <tr>
             <td colspan="2" class="premier">
                 <p class="etape">
-                    <span class="numeroform">3</span>
+                    <span class="numeroForm">3</span>
                     Difficulté de la question:
                 </p>
             </td>
@@ -48,15 +48,15 @@
         <tr>
             <td colspan="2">
                 <p class="etape">
-                    <span class="numeroform" >4</span>
+                    <span class="numeroForm" >4</span>
                     Je crée mes réponses
                 </p>
             </td>
             <td colspan="2" class="second" id="errorChecked">
-                <ul id ="list_proposal">
+                <ul id ="listProposal">
                     {% for proposal in form.proposals %}
-                        <li class="li_proposal">
-                            <div class="div_proposal">
+                        <li class="liProposal">
+                            <div class="divProposal">
                                 <div class="proposal">
                                     {{form_label(proposal.wording)}}{{form_widget(proposal.wording)}}{{form_row(proposal.is_correct)}}
                                 </div>
@@ -70,8 +70,8 @@
         <tr>
         <tr>
             <td colspan="2" class="premier">
-                <p class="paddingoption">
-                    <span class="formoption">Option</span>
+                <p class="paddingOption">
+                    <span class="formOption">Option</span>
                     Désactiver la question
                 </p>
             </td>
