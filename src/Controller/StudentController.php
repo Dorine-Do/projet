@@ -12,6 +12,7 @@ use App\Repository\LinkSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\QcmRepository;
+use App\Repository\ResultRepository;
 use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -109,7 +110,7 @@ class StudentController extends AbstractController
     }
 
     #[Route('student/qcmsDone', name: 'student_qcmsdone')]
-    public function qcmDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo )
+    public function qcmsDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo )
     {
         $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
 
@@ -131,7 +132,7 @@ class StudentController extends AbstractController
             $sessionModules[$key] = $sessionModule->getModule();
         }
 
-        return $this->render('student/qcm_done.html.twig', [
+        return $this->render('student/qcms_done.html.twig', [
             'qcmsDone' => $qcmsDone,
             'modules'  => $sessionModules
         ]);
@@ -295,5 +296,29 @@ class StudentController extends AbstractController
         ]);
     }
 
+    #[Route('student/qcmDone/{qcmInstance}', name: 'student_qcmDone')]
+    public function QcmDone( $qcmInstance, QcmRepository $qcmRepository,ResultRepository $resultRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em)
+    {
+        $studentId = 2;
+        $resutl = $resultRepository->findBy(['qcmInstance'=>$qcmInstance, 'student'=>$studentId] );
+        dump(gettype($resutl[0]));
 
-}
+        dump($resutl[0]->getAnswers());
+        dump(json_decode($resutl[0]->getAnswers()[0]));
+        $questionsAnswersDecode = [];
+        foreach ($resutl[0]->getAnswers() as $result){
+            $questionsAnswersDecode[] = json_decode($result);
+        }
+        dump($questionsAnswersDecode);
+
+
+//dd('stop');
+
+
+        return $this->render('student/qcmDone.twig', [
+            'questionsAnswers' => $questionsAnswersDecode
+        ]);
+    }
+
+
+    }

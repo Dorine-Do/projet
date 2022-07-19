@@ -350,7 +350,6 @@ class AppFixtures extends Fixture
                         $pickedQuestions[] = $randomQuestion->getId();
                     }
                 }
-                /* TODO mettre à jour les variables */
 
                 $qcm->addQuestion($randomQuestion);
                 $answers = $randomQuestion->getProposals();
