@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StudentController!{% endblock %}
+{% block title %}Qcms réalisés{% endblock %}
 
 {% block stylesheets %}
     <link href="{{asset('css/student/qcmDone.css')}}" rel="stylesheet">
@@ -8,17 +8,17 @@
 
 {% block body %}
 
-    <h1>- QCM réalisés -</h1>
+    <h1>- {{ 'qcm.done'|trans }} -</h1>
     <div class="premierediv">
         <div class="div_badge">
             <p>
-                Officiel
+                {{ 'qcm.official'|trans }}
             </p>
             <img class="badge" src="{{asset('build/images/officiel.png')}}">
         </div>
         <div class="div_badge">
             <p>
-                Intermédiaire
+                {{ 'qcm.inter'|trans }}
             </p>
             <img class="badge" src="{{asset('build/images/non-officiel.png')}}">
         </div>
@@ -27,11 +27,11 @@
         <div>
             <p>
                 <span class="numeroform">1</span>
-                Filtre par module:
+                {{ 'module.filter'|trans }}:
             </p>
         </div>
         <select name="module">
-            <option value="">Veuillez sélectionner un module</option>
+            <option value="">{{ 'module.plsChoice'|trans }}</option>
             {% for module in modules %}
                 <option value="">{{module.title}}</option>
             {% endfor %}
@@ -50,7 +50,7 @@
     <div class="realise">
         <div class="nomqcm">
             <p>
-                Nom du QCM : {{qcmDone.qcm.name}}
+                {{ 'qcm.name'|trans }}: {{qcmDone.qcm.name}}
             </p>
         </div>
         <div class="date">

@@ -10,9 +10,10 @@
 
     {% if  distribute != null %}
 
-{#    Info question#}<div class="info_question">
+{#    Info question#}
+        <div class="info_question">
         <p>
-            Cette page a pour but de permettre de corriger les possibles fautes orthoqraphiques dans l'intitulé de laquesiton ou des réponses.
+            Cette page a pour but de permettre de corriger les possibles fautes orthoqraphiques dans l'intitulé de la quesiton ou des réponses.
         </p>
         <p>
             <strong> Attention </strong>
@@ -34,7 +35,7 @@
                     <td colspan="2" class="premier">
                         <p class="partTitle">
                             <span class="numeroform">1</span>
-                            Choisir le module:
+                            {{ 'module.choice'|trans }} :
                         </p>
                     </td>
                     <td colspan="2" class="premierselect">
@@ -45,7 +46,7 @@
                     <td colspan="2" class="premier">
                         <p class = "partTitle">
                             <span class="numeroform">2</span>
-                            Intitulé de la question :
+                            {{ 'question.wording'|trans }} :
                         </p>
                     </td>
                     <td colspan="2" class="second">
@@ -56,7 +57,7 @@
                     <td colspan="2" class="premier">
                         <p  class="partTitle">
                             <span class="numeroform">3</span>
-                            Difficulté de la question:
+                            {{ 'question.difficulty'|trans }} :
                         </p>
                     </td>
                     <td colspan="2" class="difficulty">
@@ -67,7 +68,7 @@
                     <td colspan="2">
                         <p class = "partTitle">
                             <span class="numeroform" >4</span>
-                            Créer des réponses
+                            {{ 'proposal.create'|trans }}
                         </p>
                     </td>
                     <td colspan="2" class="second">
@@ -78,14 +79,14 @@
                                         {{form_row(proposal.wording,{'disabled' : true})}}{{form_row(proposal.is_correct,{'disabled' : true})}}
                                     </div>
                                     {% if distribute == null %}
-                                        <button type="button" class="removeProposal" >Suppimer</button>
+                                        <button type="button" class="removeProposal" >{{ 'button.delete'|trans }}</button>
                                     {% endif %}
                                 </li>
                             {%endfor%}
                         </ul>
                         {% if distribute == null %}
-                            <buttondata-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="addProposal"class="addProposal">
-                            Ajouter une réponse
+                            <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="addProposal"class="addProposal">
+                                {{ 'button.addProposal'|trans }}
                             </button>
                         {% endif %}
                     </td>
@@ -94,10 +95,10 @@
                     <td colspan="2" class="premier">
                         <p class = "partTitle">
                             <span class="numeroform">5</span>
-                            Désactiver la question
+                            {{ 'question.desactivate'|trans }}
                         </p>
                         <p>
-                            La question ne sera plus dans la liste des questions pouvant être ajoutée à un qcm
+                            {{ 'question.desactivateExplain'|trans }}
                         </p>
                     </td>
                     <td colspan="2" class="second">
@@ -138,7 +139,7 @@
                     <td colspan="2" class="premier">
                         <p class="partTitle">
                             <span class="numeroform">1</span>
-                            Choisir le module:
+                            {{ 'module.choice'|trans }} :
                         </p>
                     </td>
                     <td colspan="2" class="premierselect">
@@ -149,7 +150,7 @@
                     <td colspan="2" class="premier">
                         <p class = "partTitle">
                             <span class="numeroform">2</span>
-                            Intitulé de la question :
+                            {{ 'question.wording'|trans }} :
                         </p>
                     </td>
                     <td colspan="2" class="second">
@@ -160,7 +161,7 @@
                     <td colspan="2" class="premier">
                         <p  class="partTitle">
                             <span class="numeroform">3</span>
-                            Difficulté de la question:
+                            {{ 'question.difficulty'|trans }} :
                         </p>
                     </td>
                     <td colspan="2" class="difficulty">
@@ -171,7 +172,7 @@
                     <td colspan="2">
                         <p class = "partTitle">
                             <span class="numeroform" >4</span>
-                            Créer des réponses
+                            {{ 'proposal.create'|trans }}
                         </p>
                     </td>
                     <td colspan="2" class="second" id="errorChecked">
@@ -181,12 +182,12 @@
                                     <div class="div_proposal">
                                         {{form_row(proposal.wording)}}{{form_row(proposal.is_correct)}}
                                     </div>
-                                    <button type="button" class="removeProposal" >Suppimer</button>
+                                    <button type="button" class="removeProposal" >{{ 'button.delete'|trans }}</button>
                                 </li>
                             {%endfor%}
                         </ul>
                         <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="addProposal" class="addProposal">
-                        Ajouter une réponse
+                            {{ 'button.addProposal'|trans }}
                         </button>
                     </td>
                 </tr>
@@ -194,11 +195,10 @@
                     <td colspan="2" class="premier">
                         <p class = "partTitle">
                             <span class="numeroform">5</span>
-                            Désactiver la question
+                            {{ 'question.desactivate'|trans }}
                         </p>
                         <p class="center">
-                            La question ne sera plus dans la liste des questions pouvant être ajoutée à un qcm
-                        </p>
+                            {{ 'question.desactivateExplain'|trans }}
                     </td>
                     <td colspan="2" class="option">
                         {{ form_widget(form.enabled) }}
@@ -206,7 +206,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button type="submit" class="valid">Valider</button>
+                        <button type="submit" class="valid">{{ 'button.validate'|trans }}</button>
                     </td>
                 </tr>
             </table>

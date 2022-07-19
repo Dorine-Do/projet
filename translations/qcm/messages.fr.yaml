@@ -1,5 +1,37 @@
 qcm:
   title: QCM
   name: Nom du qcm
-  todo: Faire le qcm
+  do: Faire le qcm
+  todo: Qcm à faire
+  official: QCM officiel
   inter: QCM intermédiaire
+  choice: Choix du QCM
+  done: QCM Réalisé
+
+difficulty:
+  easy: Facile
+  medium: Moyen
+  difficult: Difficle
+
+module:
+  name: Nom du module
+  choice: Choix du Module
+  filter: Filtre par module
+  plsChoice: Veuillez sélectionner un module
+
+question:
+  plsChoice:
+  wording: Intitulé de la question
+  difficulty: Difficulté de la question
+  desactivate: Désactiver la question
+  desactivateExplain: La question ne sera plus dans la liste des questions pouvant être ajoutée à un qcm
+
+proposal:
+  create: Créer les réponses
+
+button:
+  validate: Valider
+  delete: Supprimer
+  addProposal: Ajouter une réponse
+  createQuestion: Créer une question
+
