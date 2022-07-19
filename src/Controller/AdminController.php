@@ -2,6 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Admin;
+use App\Entity\Instructor;
+use App\Entity\Student;
+use Safe\DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,6 +43,42 @@ class AdminController extends AbstractController
             );
 
             $entityManager->persist($user);
+
+            if( in_array( 'student', $user->getRoles() ) || in_array( 'instructor', $user->getRoles() ) || in_array( 'admin', $user->getRoles() )  )
+            {
+                $student = new Student();
+                $student->setIdModule( $user->getIdMoodle() );
+                $student->setFirstName( $user->getFirstName() );
+                $student->setLastName( $user->getLastName() );
+                $student->setBirthDate( $user->getBirthDate() );
+                $student->setMail3wa( $user->getFirstName() . '.' . $user->getLastName() . '@3wa.io' );
+                $student->setCreatedAtValue();
+
+                $entityManager->persist($student);
+
+                if( in_array( 'instructor', $user->getRoles() ) || in_array( 'admin', $user->getRoles() ) ) {
+                    $instructor = new Instructor();
+                    $instructor->setFirstName( $user->getFirstName() );
+                    $instructor->setLastName( $user->getLastName() );
+                    $instructor->setBirthDate( $user->getBirthDate() );
+                    $instructor->setPhoneNumber( '0600000000' );
+                    $instructor->setPassword( $user->getPassword() );
+                    $instructor->setEmail( $user->getEmail() );
+                    $instructor->setCreatedAtValue();
+
+                    $entityManager->persist($instructor);
+
+                    if (in_array('admin', $user->getRoles())) {
+                        $admin = new Admin();
+                        $admin->setFirstName($user->getFirstName());
+                        $admin->setLastName($user->getLastName());
+                        $admin->setCreatedAtValue();
+
+                        $entityManager->persist($admin);
+                    }
+                }
+            }
+
             $entityManager->flush();
 
             // envoi d'email ici (ex: avec id et password pour le nouvel inscrit)
