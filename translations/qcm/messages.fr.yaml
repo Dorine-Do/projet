@@ -35,3 +35,7 @@ button:
   addProposal: Ajouter une réponse
   createQuestion: Créer une question
 
+header:
+  qcm: QCM
+  dashboard: Tableau de bord
+
