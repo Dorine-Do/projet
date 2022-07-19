@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StudentController extends AbstractController
 {
-    #[Route('/student', name: 'student')]
+    #[Route('/student', name: 'app_student')]
     public function index( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
     {
         $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
