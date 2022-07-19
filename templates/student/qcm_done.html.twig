@@ -43,9 +43,14 @@
                 </p>
                 {% for answer in question.answers %}
                     {% if question.responce_type == 'radio'%}
-                        <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}"> <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                        {% if question.difficulty == 'Difficile'%}
+                            <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                        {% else %}
+                            <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}">
+                            <label for="{{ answer.id }}">{{ answer.libelle }}</label>
                     {% else %}
-                        <input type="checkbox" for='{{ answer.id}}' name="{{question.id}}[]" value="{{ answer.id }}"> <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                        <input type="checkbox" for='{{ answer.id}}' name="{{question.id}}[]" value="{{ answer.id }}">
+                        <label for="{{ answer.id }}">{{ answer.libelle }}</label>
                     {% endif %}
 
                 {% endfor %}
