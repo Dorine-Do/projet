@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class ConnectionController extends AbstractController
@@ -20,5 +21,33 @@ class ConnectionController extends AbstractController
         ]);
     }
 
+    #[Route('/dashboard/check', name: 'app_check_dashboard')]
+    public function roleChecking( Security $security): Response
+    {
+        $user = $security->getUser();
 
+        $userRoles = $user->getRoles();
+
+        if( in_array('ROLE_USER', $userRoles) )
+        {
+            $dashboardRouteName = 'home';
+        }
+
+        if( in_array('student', $userRoles) )
+        {
+            $dashboardRouteName = 'app_student';
+        }
+
+        if( in_array('instructor', $userRoles) )
+        {
+            $dashboardRouteName = 'app_instructor';
+        }
+
+        if( in_array('admin', $userRoles) )
+        {
+            $dashboardRouteName = 'app_admin';
+        }
+
+        return $this->redirectToRoute( $dashboardRouteName );
+    }
 }

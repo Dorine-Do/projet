@@ -25,7 +25,7 @@ class RegistrationFormType extends AbstractType
             ->add('first_name')
             ->add('last_name')
             ->add('email')
-            ->add('bith_date', DateType::class)
+            ->add('birth_date', DateType::class)
             ->add('id_moodle')
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
