@@ -45,9 +45,10 @@ img{
 .question{
     background-color: var(--pamplemousse);
     padding: 20px 10px;
-    width: 400px;
     text-align: left;
     border-radius: 8px;
+    margin-top: 80px;
+    width: fit-content;
 }
 
 .valid{
@@ -60,4 +61,41 @@ img{
     font-size: var(--normal);
     margin: 50px auto;
     display: block;
+}
+
+.reponse{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    padding: 15px 50px;
+}
+
+.allreponse{
+    background-color: var(--fond);
+    border-radius: 13px;
+    margin-left: 55px;
+}
+
+.imagediff{
+    display: flex;
+    align-items: flex-start;
+}
+
+.trefle{
+    margin-top: 90px;
+    margin-right: 15px;
+}
+
+@media screen and (max-width: 780px) {
+    .diff p{
+        padding: 5px 30px;
+    }
+
+    img{
+        width: 35px;
+    }
+
+    .valid{
+
+    }
 }
