@@ -9,20 +9,20 @@
 {% block body %}
 
 
-    <h1>- {{ 'qcm'|trans }} -</h1>
+    <h1>- {{ 'qcm.title'|trans }} -</h1>
     <div class="global">
         <article class="article1">
             <section>
                 <h2>QCM à faire</h2>
                 <div class="centre">
                     <p>
-                        <strong>Nom du qcm : </strong>
+                        <strong>{{ 'qcm.name'|trans }} : </strong>
                         {% for qcm in qcmOfTheWeek %} {{qcm.name}} {% endfor %}
                     </p>
-                    <a class="button" href="">Faire le QCM</a>
+                    <a class="button" href="">{{ 'qcm.todo'|trans }}</a>
                 </div>
                 <div class="centre2">
-                    <h2>QCM intermédiaire</h2>
+                    <h2>{{ 'qcm.inter'|trans }}</h2>
                     <div class="inter">
                         <select name="module" class="select2">
                             <option value="">-- Choix du QCM --</option>
@@ -30,7 +30,7 @@
                                 <option value="">{{unofficialQcmInstanceNotDone.name}}</option>
                             {% endfor %}
                         </select>
-                        <a class="button2" href="">Faire le QCM</a>
+                        <a class="button2" href="">{{ 'qcm.todo'|trans }}</a>
                     </div>
                 </div>
             </section>
