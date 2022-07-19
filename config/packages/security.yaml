@@ -21,10 +21,10 @@ security:
             form_login:
                 login_path: app_connection
                 check_path: app_connection
-            login_throttling:
-                max_attempts: 3
-                interval: '15 minutes'
-                limiter: cache.rate_limiter
+#            login_throttling:
+#                max_attempts: 3
+#                interval: '15 minutes'
+#                limiter: cache.rate_limiter
             logout:
                 path: app_logout
         secured_area:

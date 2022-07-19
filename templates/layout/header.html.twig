@@ -11,6 +11,6 @@
         <a href="" class="tab">Tableau de bord</a>
     </div>
     <div class="eleve">
-        <p class="hellostudent">Salut, </p>
+        <p class="hellostudent">Salut, {{ app.user.getFirstName() }}</p>
     </div>
 </header>
