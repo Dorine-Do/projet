@@ -34,7 +34,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id_moodle;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $bith_date;
+    private $birth_date;
 
     #[ORM\Column(type: 'string', length: 45, nullable: true)]
     private $mail_3wa;
@@ -151,14 +151,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBithDate(): ?\DateTimeInterface
+    public function getBirthDate(): ?\DateTimeInterface
     {
-        return $this->bith_date;
+        return $this->birth_date;
     }
 
-    public function setBithDate(?\DateTimeInterface $bith_date): self
+    public function setBirthDate(?\DateTimeInterface $birth_date): self
     {
-        $this->bith_date = $bith_date;
+        $this->birth_date = $birth_date;
 
         return $this;
     }
