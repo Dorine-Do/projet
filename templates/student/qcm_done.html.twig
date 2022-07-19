@@ -43,9 +43,13 @@
                 </p>
                 {% for answer in question.answers %}
                     {% if question.responce_type == 'radio'%}
-                        {% if question.difficulty == 'Difficile'%}
+                        {% if question.difficulty == 'Difficile' %}
+                            <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                        {% elseif question.difficulty == 'Moyen' %}
                             <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
                         {% else %}
+                            <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                        {% endif %}
                             <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}">
                             <label for="{{ answer.id }}">{{ answer.libelle }}</label>
                     {% else %}
