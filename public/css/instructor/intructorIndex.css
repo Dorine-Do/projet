@@ -22,7 +22,7 @@
     text-align: center;
 }
 .buttonAdd {
-    background-color: var(--vert);
+    background-color: var(--grey);
     border-radius: 50px;
     border: 1px solid var(--fond);
     padding: 1em;
@@ -32,6 +32,12 @@
     font-size: var(--normal);
     width: 40%;
 
+}
+
+.buttonAdd:hover {
+    box-shadow: none;
+    background-color: var(--vert);
+    font-weight: bold;
 }
 
 /******************************************* PARTIE QUESTION MENU DEROULANT ***********************************************/

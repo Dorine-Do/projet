@@ -11,9 +11,9 @@
 
     <h1>- QCM -</h1>
     <div class="global">
-        <article class="article1">
+        <article class="articleGauche">
             <section>
-                <div class="centre2">
+                <div class="divQcm">
                     <h2><img class="badge" src="{{asset('build/images/officiel.png')}}">QCM officiel à faire</h2>
                     <div class="inter">
                     <p>
@@ -23,23 +23,23 @@
                     <a class="button" href="">Faire le QCM de fin de semaine</a>
                     </div>
                 </div>
-                <div class="centre2">
+                <div class="divQcm">
                     <h2><img class="badge" src="{{asset('build/images/non-officiel.png')}}">QCM d'exercice</h2>
                     <div class="inter">
-                        <select name="module" class="select2">
+                        <select name="module" class="selectEntrainement">
                             <option value="">-- Choix du QCM --</option>
                             {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
                                 <option value="">{{unofficialQcmInstanceNotDone.name}}</option>
                             {% endfor %}
                         </select>
-                        <a class="button2" href="">Faire le QCM</a>
+                        <a class="buttonExercice" href="">Faire le QCM</a>
                     </div>
                 </div>
             </section>
             <h2><img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">QCM d'entrainement</h2>
             <section class="cercle">
                 <div class="training">
-                    <select name="module" class="select1">
+                    <select name="module" class="selectModule">
                         <option value="">-- Choix du module --</option>
                         {% for sessionModule in sessionModules %}
                             <option value="">{{sessionModule.title}}</option>
@@ -59,15 +59,15 @@
                             <label for="Difficult">Difficile</label>
                         </div>
                     </div>
-                    <a class="buttonvalid" href="">Je m'entraine</a>
+                    <a class="buttonValid" href="">Je m'entraine</a>
                 </div>
             </section>
         </article>
         <span></span>
-        <article class="article2">
+        <article class="articleDroite">
             <section class="section">
                 <h2>QCM réalisés</h2>
-                <div class="centre3">
+                <div class="centreRealise">
                     <p>
                         En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les qcm que tu as terminés, voir tes réponses fausses et t'entrainer à les refaire.
                     </p>
@@ -76,21 +76,21 @@
             </section>
             <section>
                 <h2>Je retente ma chance</h2>
-                <div class="centre_chance">
+                <div class="centreChance">
                     <p>
                         Si tu as obtenu "découvre" ou "explore" à un des qcm, tu peux tenter d'obtenir à nouveau ton badge et l'ajouter à ta collection en repassant un qcm du module en question.
                     </p>
                 </div>
-                <div class="div_badge">
-                    <div class="last_div">
-                        <select name="module" class="select2">
+                <div class="divBadge">
+                    <div class="lastDiv">
+                        <select name="module" class="selectEntrainement">
                             <option value="">-- Choix du module --</option>
                             {% for retryableModule in retryableModules %}
                                 <option value="">{{retryableModule.title}}</option>
                             {% endfor %}
                         </select>
                     </div>
-                    <a class="buttonbadge" href="">J'essaie d'obtenir mon badge</a>
+                    <a class="buttonBadge" href="">J'essaie d'obtenir mon badge</a>
                 </div>
             </section>
             <p class="lastP">

@@ -4,7 +4,7 @@ img{
     width: 40px;
 }
 
-.premierediv{
+.premiereDiv{
     display: flex;
     justify-content: space-around;
     background-color: var(--fond);
@@ -29,13 +29,13 @@ img{
     border-radius: 17px;
 }
 
-.div_name{
+.divName{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.numeroform{
+.numeroForm{
     background-color: white;
     padding: 8px 17px;
     border-radius: 50%;
@@ -70,13 +70,13 @@ img{
     padding: 15px 50px;
 }
 
-.allreponse{
+.allReponse{
     background-color: var(--fond);
     border-radius: 13px;
     margin-left: 55px;
 }
 
-.imagediff{
+.imageDiff{
     display: flex;
     align-items: flex-start;
 }
@@ -95,7 +95,7 @@ img{
         width: 35px;
     }
 
-    .allreponse{
+    .allReponse{
         margin-left: 50px;
     }
 

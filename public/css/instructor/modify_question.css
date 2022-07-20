@@ -193,8 +193,14 @@ img{
     font-weight: bold;
     border: none;
     padding: 3px 9px;
-    font-size: var(--small);
+    font-size: var(--semi_small);
     margin-bottom: 15px;
+}
+
+.removeProposal:hover, .addProposal:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+    padding: 4px 11px;
 }
 
 
@@ -264,6 +270,11 @@ img{
     margin-left: auto;
     margin-right: auto;
     display: block;
+}
+
+.valid:hover{
+    background-color: var(--vert);
+    font-weight: bold;
 }
 
 .required input{

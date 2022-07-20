@@ -11,7 +11,7 @@
     <div class="qcm">
         <h1>QCM A FAIRE</h1>
 
-        <div class="div_name">
+        <div class="divName">
             <p class="nom">
                 Nom du module
                 {{ titleModule }}
@@ -20,7 +20,7 @@
                 {{ nameQcmInstance }}
             </p>
         </div>
-        <div class="premierediv">
+        <div class="premiereDiv">
             <div class="diff">
                 <p>Facile</p>
                 <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="facile">
@@ -37,17 +37,17 @@
 
         <form action="{{ path('student_qcmToDo', { 'qcmInstance': idQcmInstance }) }}" name="formulaire">
             {% for question in questionsAnswers %}
-                <div class="imagediff">
+                <div class="imageDiff">
                     <div class="trefle">
                     <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
                     </div>
                     <div>
-                    <p class="question"><span class="numeroform">1</span>
+                    <p class="question"><span class="numeroForm">1</span>
                     {{ question.libelle }}
                     </p>
                     </div>
                 </div>
-                <div class="allreponse">
+                <div class="allReponse">
                 {% for answer in question.answers %}
                     {% if question.responce_type == 'radio'%}
                         <div class="reponse">

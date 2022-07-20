@@ -9,14 +9,14 @@
 {% block body %}
 
     <h1>- QCM réalisés -</h1>
-    <div class="premierediv">
-        <div class="div_badge">
+    <div class="premiereDiv">
+        <div class="divBadge">
             <p>
                 Officiel
             </p>
             <img class="badge" src="{{asset('build/images/officiel.png')}}">
         </div>
-        <div class="div_badge">
+        <div class="divBadge">
             <p>
                 Intermédiaire
             </p>
@@ -26,7 +26,7 @@
     <div class="officiel">
         <div>
             <p>
-                <span class="numeroform">1</span>
+                <span class="numeroForm">1</span>
                 Filtre par module:
             </p>
         </div>
@@ -39,7 +39,7 @@
     </div>
     <span class="ligne"></span>
     <p>
-        <span class="numeroform">2</span>
+        <span class="numeroForm">2</span>
         Qcm
     </p>
     {% for module in modules %}
@@ -48,7 +48,7 @@
         </p>
     {% endfor %}{% for qcmDone in qcmsDone %}
     <div class="realise">
-        <div class="nomqcm">
+        <div class="nomQcm">
             <p>
                 Nom du QCM : {{qcmDone.qcm.name}}
             </p>
@@ -56,7 +56,7 @@
         <div class="date">
             {{qcmDone.result.getCreatedAt()|date('d/m/Y')}}
         </div>
-        <div class="div_button">
+        <div class="divButton">
             <a class="button" href="">Voir les réponses</a>
             <a class="button" href="">Refaire le qcm</a>
         </div>

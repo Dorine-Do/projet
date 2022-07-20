@@ -73,7 +73,7 @@ span{
     color: white;
 }
 
-.centre2{
+.divQcm{
     border: 2px solid white;
     width: 500px;
     margin: 15px auto;
@@ -87,7 +87,7 @@ span{
     justify-content: space-between;
 }
 
-.select2{
+.selectEntrainement{
     margin: auto;
     background-color: white;
     padding: 2px 65px;
@@ -98,7 +98,7 @@ span{
     font-family: 'Alumni Sans', sans-serif;
 }
 
-.button2{
+.buttonExercice{
     border-radius: 25px;
     background-color: var(--grey);
     color: white;
@@ -107,19 +107,19 @@ span{
     font-size: var(--normal);
 }
 
-.button2:hover{
+.buttonExercice:hover{
     background-color: var(--vert);
     font-weight: bold;
 }
 
-.centre2 h2{
+.divQcm h2{
     margin: 0 0 10px 0;
 }
 
 
 /******************************************** SECTION AVEC LE CERCLE **********************************************/
 
-.select1{
+.selectModule{
     margin: auto;
     background-color: white;
     padding: 15px 40px;
@@ -149,7 +149,7 @@ span{
     padding-top: 75px;
 }
 
-.buttonvalid{
+.buttonValid{
     border-radius: 25px;
     background-color: var(--grey);
     color: white;
@@ -158,7 +158,7 @@ span{
     font-size: var(--normal);
 }
 
-.buttonvalid:hover{
+.buttonValid:hover{
     background-color: var(--vert);
     font-weight: bold;
 }
@@ -203,7 +203,7 @@ input[type="radio"]:checked {
     color: white;
 }
 
-.centre3{
+.centreRealise{
     border: 2px solid white;
     width: 500px;
     margin: auto auto 70px auto;
@@ -214,7 +214,7 @@ input[type="radio"]:checked {
 
 /******************************************** SECTION RETENTE MA CHANCE ***************************************************/
 
-.centre_chance{
+.centreChance{
     border: 2px solid white;
     width: 500px;
     margin: auto auto 35px auto;
@@ -223,11 +223,11 @@ input[type="radio"]:checked {
     padding: 7px 15px;
 }
 
-.last_div{
+.lastDiv{
     padding-bottom: 15px;
 }
 
-.buttonbadge{
+.buttonBadge{
     border-radius: 25px;
     background-color: var(--grey);
     color: white;
@@ -236,12 +236,12 @@ input[type="radio"]:checked {
     font-size: var(--normal);
 }
 
-.buttonbadge:hover{
+.buttonBadge:hover{
     background-color: var(--vert);
     font-weight: bold;
 }
 
-.div_badge{
+.divBadge{
     background-color: var(--fond);
     margin: auto;
     padding: 22px 30px 30px 30px;
@@ -264,18 +264,18 @@ input[type="radio"]:checked {
         width: 350px;
     }
 
-    .centre2{
+    .divQcm{
         width: 350px;
         height: 200px;
     }
 
-    .centre_chance{
+    .centreChance{
         width: 350px;
         height: 100px;
         margin: auto 30px auto auto;
     }
 
-    .centre3{
+    .centreRealise{
         width: 350px;
         height: 140px;
         margin: auto 30px auto auto;
@@ -286,22 +286,22 @@ input[type="radio"]:checked {
         flex-direction: column;
     }
 
-    .button2{
+    .buttonExercice{
         width: 30%;
         margin: auto;
     }
 
-    .select2{
+    .selectEntrainement{
         margin-bottom: 20px;
     }
 
-    .div_badge{
+    .divBadge{
         width: 320px;
         margin: 80px 30px auto auto;
     }
 
 
-    .article1{
+    .articleGauche{
         margin-left: 40px;
     }
 
@@ -328,7 +328,7 @@ input[type="radio"]:checked {
         margin-top: 25px;
     }
 
-    .div_badge{
+    .divBadge{
         margin: 30px auto auto auto;
     }
 
@@ -351,11 +351,11 @@ input[type="radio"]:checked {
         margin-bottom: 20px;
     }
 
-    .centre3, .centre_chance{
+    .centreRealise, .centreChance{
         margin: auto;
     }
 
-    .article1{
+    .articleGauche{
         margin: auto;
     }
 
@@ -365,7 +365,7 @@ input[type="radio"]:checked {
         width: 350px;
     }
 
-    .centre2{
+    .divQcm{
         height: 180px;
     }
 }
@@ -381,12 +381,12 @@ input[type="radio"]:checked {
         width: 250px;
     }
 
-    .centre, .centre_chance, .centre3{
+    .centre, .centreChance, .centreRealise{
         width: 300px;
     }
 
 
-    .centre2{
+    .divQcm{
         width: 300px;
         height: 200px;
     }
@@ -404,11 +404,11 @@ input[type="radio"]:checked {
         flex-direction: column;
     }
 
-    .select2{
+    .selectEntrainement{
         margin-bottom: 20px;
     }
 
-    .centre3{
+    .centreRealise{
         height: 180px;
     }
 
@@ -416,19 +416,19 @@ input[type="radio"]:checked {
         padding: 10px 70px;
     }
 
-    .centre3 p{
+    .centreRealise p{
         margin-bottom: 25px;
     }
 
-    .centre_chance{
+    .centreChance{
         height: 110px;
     }
 
-    .article1{
+    .articleGauche{
         margin: auto;
     }
 
-    .div_badge{
+    .divBadge{
         width: 280px;
     }
 
