@@ -112,11 +112,11 @@ input[type="radio"]:checked {
     text-align: center;
 }
 
-.premierselect{
+.premierSelect{
     margin:auto;
 }
 
-.numeroform{
+.numeroForm{
     background-color: var(--pamplemousse);
     padding: 8px 17px;
     border-radius: 50%;
@@ -198,14 +198,14 @@ input[type="radio"]:checked {
 
 }
 
-.li_proposal{
+.liProposal{
     margin: auto;
     display: flex;
     align-items: center;
     padding: 30px;
 }
 
-.div_proposal{
+.divProposal{
     display: flex;
     align-items: center;
 }
@@ -256,13 +256,13 @@ label{
 
 /******************************************* PARTIE DESACTIVE LA QUESTION ************************************************/
 
-.formoption{
+.formOption{
     background-color: var(--pamplemousse);;
     padding: 12px 30px;
     border-radius: 50%;
 }
 
-.paddingoption{
+.paddingOption{
     padding-left: 25px;
 }
 
@@ -279,6 +279,11 @@ label{
     margin-left: auto;
     margin-right: auto;
     display: block;
+}
+
+.valid:hover{
+    background-color: var(--vert);
+    font-weight: bold;
 }
 
 img{
@@ -299,7 +304,7 @@ img{
         font-size: var(--normal);
     }
 
-    .formoption{
+    .formOption{
         padding: 8px 20px;
     }
 
@@ -350,11 +355,11 @@ img{
         height: 45px;
     }
 
-    .div_proposal div{
+    .divProposal div{
         display: flex;
     }
 
-    .div_proposal div label{
+    .divProposal div label{
         margin-right: 20px;
     }
 
@@ -401,7 +406,7 @@ img{
         font-size: var(--semi_small);
     }
 
-    .numeroform{
+    .numeroForm{
         background-color: var(--pamplemousse);
         padding: 4px 16px;
         border-radius: 50%;
@@ -435,11 +440,11 @@ img{
         background-color: white;
     }
 
-    .paddingoption{
+    .paddingOption{
         margin-left: 0;
     }
 
-    .li_proposal, .div_wording, #errorChecked{
+    .liProposal, .div_wording, #errorChecked{
         flex-direction: column;
     }
 
@@ -447,7 +452,7 @@ img{
         padding: 0;
     }
 
-    .li_proposal{
+    .liProposal{
         text-align: center;
         padding: 0;
     }
@@ -470,7 +475,7 @@ img{
         padding: 2px 9px 4px 9px;
     }
 
-    #list_proposal{
+    #listProposal{
         padding-left: 0;
     }
 
@@ -500,7 +505,7 @@ img{
         text-align: center;
     }
 
-    .div_proposal{
+    .divProposal{
         width: 300px;
         flex-direction: column;
         align-items: center;
@@ -510,7 +515,7 @@ img{
         margin: 30px auto auto auto;
     }
 
-    .div_proposal div label {
+    .divProposal div label {
         margin: auto;
     }
 

@@ -59,7 +59,7 @@ header{
     height: 85px;
 }
 
-.hellostudent{
+.helloStudent{
     font-weight: bold;
     font-size: var(--normal);
     margin-top: 27px;
@@ -120,7 +120,7 @@ header{
         margin-top: 40px;
     }
 
-    .hellostudent{
+    .helloStudent{
         margin-top: 18px;
     }
 }

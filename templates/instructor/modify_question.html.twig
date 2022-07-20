@@ -10,7 +10,7 @@
 
     {% if  distribute != null %}
 
-{#    Info question#}<div class="info_question">
+{#    Info question#}<div class="infoQuestion">
         <p>
             Cette page a pour but de permettre de corriger les possibles fautes orthoqraphiques dans l'intitulé de laquesiton ou des réponses.
         </p>
@@ -27,13 +27,13 @@
         </p>
         </div>
         {# Form question #}
-        <div class="form-question">
+        <div class="formQuestion">
             {{ form_start(form) }}
             <table>
                 <tr>
                     <td colspan="2" class="premier">
                         <p class="partTitle">
-                            <span class="numeroform">1</span>
+                            <span class="numeroForm">1</span>
                             Choisir le module:
                         </p>
                     </td>
@@ -44,7 +44,7 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p class = "partTitle">
-                            <span class="numeroform">2</span>
+                            <span class="numeroForm">2</span>
                             Intitulé de la question :
                         </p>
                     </td>
@@ -55,7 +55,7 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p  class="partTitle">
-                            <span class="numeroform">3</span>
+                            <span class="numeroForm">3</span>
                             Difficulté de la question:
                         </p>
                     </td>
@@ -66,15 +66,15 @@
                 <tr>
                     <td colspan="2">
                         <p class = "partTitle">
-                            <span class="numeroform" >4</span>
+                            <span class="numeroForm" >4</span>
                             Créer des réponses
                         </p>
                     </td>
                     <td colspan="2" class="second">
-                        <ul id ="list_proposal">
+                        <ul id ="listProposal">
                             {% for proposal in form.proposals %}
-                                <li class="li_proposal">
-                                    <div class="div_proposal">
+                                <li class="liProposal">
+                                    <div class="divProposal">
                                         {{form_row(proposal.wording,{'disabled' : true})}}{{form_row(proposal.is_correct,{'disabled' : true})}}
                                     </div>
                                     {% if distribute == null %}
@@ -84,7 +84,7 @@
                             {%endfor%}
                         </ul>
                         {% if distribute == null %}
-                            <buttondata-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="addProposal"class="addProposal">
+                            <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="addProposal"class="addProposal">
                             Ajouter une réponse
                             </button>
                         {% endif %}
@@ -93,7 +93,7 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p class = "partTitle">
-                            <span class="numeroform">5</span>
+                            <span class="numeroForm">5</span>
                             Désactiver la question
                         </p>
                         <p>
@@ -118,7 +118,7 @@
     {#    Info question#}
     {% if distribute == null %}
 
-        <div class="info_question">
+        <div class="infoQuestion">
             <p>
                 Cette page a pour but de permettre de corriger les possibles fautes orthoqraphiques dans l'intitulé de laquesiton ou des réponses.
             </p>
@@ -131,13 +131,13 @@
             </p>
         </div>
         {# Form question #}
-        <div class="form-question">
+        <div class="formQuestion">
             {{ form_start(form) }}
             <table>
                 <tr>
                     <td colspan="2" class="premier">
                         <p class="partTitle">
-                            <span class="numeroform">1</span>
+                            <span class="numeroForm">1</span>
                             Choisir le module:
                         </p>
                     </td>
@@ -148,7 +148,7 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p class = "partTitle">
-                            <span class="numeroform">2</span>
+                            <span class="numeroForm">2</span>
                             Intitulé de la question :
                         </p>
                     </td>
@@ -159,7 +159,7 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p  class="partTitle">
-                            <span class="numeroform">3</span>
+                            <span class="numeroForm">3</span>
                             Difficulté de la question:
                         </p>
                     </td>
@@ -170,22 +170,22 @@
                 <tr>
                     <td colspan="2">
                         <p class = "partTitle">
-                            <span class="numeroform" >4</span>
+                            <span class="numeroForm" >4</span>
                             Créer des réponses
                         </p>
                     </td>
                     <td colspan="2" class="second" id="errorChecked">
-                        <ul id ="list_proposal">
+                        <ul id ="listProposal">
                             {% for proposal in form.proposals %}
-                                <li class="li_proposal">
-                                    <div class="div_proposal">
+                                <li class="liProposal">
+                                    <div class="divProposal">
                                         {{form_row(proposal.wording)}}{{form_row(proposal.is_correct)}}
                                     </div>
-                                    <button type="button" class="removeProposal" >Suppimer</button>
+                                    <button type="button" class="removeProposal" >Supprimer</button>
                                 </li>
                             {%endfor%}
                         </ul>
-                        <buttondata-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="addProposal"class="addProposal">
+                        <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="addProposal"class="addProposal">
                         Ajouter une réponse
                         </button>
                     </td>
@@ -193,7 +193,7 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p class = "partTitle">
-                            <span class="numeroform">5</span>
+                            <span class="numeroForm">5</span>
                             Désactiver la question
                         </p>
                         <p class="center">

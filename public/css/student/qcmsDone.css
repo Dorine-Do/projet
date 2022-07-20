@@ -22,7 +22,7 @@ h1, h2{
     height: 50px;
 }
 
-.premierediv{
+.premiereDiv{
     background-color: var(--fond);
     width: 90%;
     margin: auto auto 75px auto;
@@ -30,14 +30,14 @@ h1, h2{
     justify-content: center;
 }
 
-.div_badge{
+.divBadge{
     padding: 0 50px;
     text-align: center;
 }
 
 /**************************************** PARTIE MODULE *********************************************/
 
-.numeroform{
+.numeroForm{
     background-color: var(--pamplemousse);
     padding: 8px 14px;
     border-radius: 50%;
@@ -75,7 +75,7 @@ select{
     margin-bottom: 25px;
 }
 
-.nomqcm{
+.nomQcm{
     background-color: var(--pamplemousse);
     padding: 28px 115px;
     border-radius: 9px;
@@ -96,7 +96,7 @@ select{
     background-color: var(--vert);
 }
 
-.div_button{
+.divButton{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -110,7 +110,7 @@ select{
 }
 
 @media screen and (max-width: 780px) {
-    .nomqcm{
+    .nomQcm{
         padding: 25px 65px 15px 65px;
     }
 
@@ -134,13 +134,13 @@ select{
         width: auto;
     }
 
-    .div_button{
+    .divButton{
         margin: 25px 0 0 0;
         justify-content: space-around;
         width: 300px;
     }
 
-    .nomqcm{
+    .nomQcm{
         margin-bottom: 25px;
         width: 220px;
         text-align: center;

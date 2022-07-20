@@ -11,7 +11,7 @@
     <div class="qcm">
         <h1>QCM A FAIRE</h1>
 
-        <div class="div_name">
+        <div class="divName">
             <p class="nom">
                 Nom du module
                 {{ titleModule }}
@@ -20,7 +20,7 @@
                 {{ nameQcmInstance }}
             </p>
         </div>
-        <div class="premierediv">
+        <div class="premiereDiv">
             <div class="diff">
                 <p>Facile</p>
                 <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="facile">
@@ -35,23 +35,42 @@
             </div>
         </div>
 
-        <form action="{{ path('student_qcmToDo', { 'qcmInstance': idQcmInstance }) }}">
+        <form action="{{ path('student_qcmToDo', { 'qcmInstance': idQcmInstance }) }}" name="formulaire">
             {% for question in questionsAnswers %}
-
-                    <p class="question"><span class="numeroform">1</span>
+                <div class="imageDiff">
+                    <div class="trefle">
+                    <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                    </div>
+                    <div>
+                    <p class="question"><span class="numeroForm">1</span>
                     {{ question.libelle }}
                     </p>
+                    </div>
+                </div>
+                <div class="allReponse">
                 {% for answer in question.answers %}
                     {% if question.responce_type == 'radio'%}
-                        <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}"> <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                        <div class="reponse">
+                            <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}">
+                            <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                        </div>
                     {% else %}
-                        <input type="checkbox" for='{{ answer.id}}' name="{{question.id}}[]" value="{{ answer.id }}"> <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                        <div class="reponse">
+                            <input type="checkbox" for='{{ answer.id}}' name="{{question.id}}[]" value="{{ answer.id }}">
+                            <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                        </div>
                     {% endif %}
 
                 {% endfor %}
+                </div>
+
+
             {% endfor %}
-            <input class="valid" type="submit" value="J'ai fini mon qcm">
+            <input class="valid" type="submit" value="J'ai fini mon qcm" onclick="checker()">
         </form>
 
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/qcmToDo.js') }}"></script>
 {% endblock %}

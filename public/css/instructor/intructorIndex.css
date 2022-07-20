@@ -1,7 +1,7 @@
 @import url(public/css/main.css);
 
 /************************************* bouton modifier **********************************/
-.button_modify{
+.buttonModify{
     max-width: 2.5em;
     padding: .2em;
     margin-left: 1em;
@@ -10,19 +10,19 @@
     box-shadow: 3px 3px 8px -3px var(--grey);
     cursor: pointer;
 }
-.link_create,
-.link_modify{
+.linkCreate,
+.linkModify{
     cursor: pointer;
     margin-left: 20px;
 }
 
 /******************************************** PARTIE VALIDATION ****************************************************/
 
-.div_add{
+.divAdd{
     text-align: center;
 }
-.button_add {
-    background-color: var(--vert);
+.buttonAdd {
+    background-color: var(--grey);
     border-radius: 50px;
     border: 1px solid var(--fond);
     padding: 1em;
@@ -34,9 +34,15 @@
 
 }
 
+.buttonAdd:hover {
+    box-shadow: none;
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
 /******************************************* PARTIE QUESTION MENU DEROULANT ***********************************************/
 
-.difficulty_icone{
+.difficultyIcone{
     max-width: 2em;
     width: 1em;
     background: var(--fond);
@@ -46,13 +52,13 @@
     margin: 0;
 }
 
-.div_chevron{
+.divChevron{
     justify-content: flex-end;
     display: flex;
     flex-grow: 2;
 }
 
-.img_chevron{
+.imgChevron{
     max-width: 2em;
     width: 1.2em;
     height: auto;
@@ -64,7 +70,7 @@
 }
 
 
-.div_questions {
+.divQuestions {
     background-color: var(--fond);
     border-radius: 5px;
     padding: 2em;
@@ -73,18 +79,18 @@
     margin:auto;
 }
 
-.ul_questions {
+.ulQuestions {
     border: 1px solid var(--fond);
     padding: 2em;
     border-radius: 5px;
     background-color: white;
 
 }
-.div_question{
+.divQuestion{
     margin: 1em auto;
     display: flex;
 }
-.li_wording {
+.liWording {
     background-color: var(--pamplemousse);
     padding: .7em;
     border-radius: 5px 5px 0 0;
@@ -100,11 +106,11 @@
 }
 
 
-.span_question{
+.spanQuestion{
     font-weight: 600;
 }
 
-.div_proposals{
+.divProposals{
     display: flex;
     justify-content: space-around;
     background-color: var(--fond);
@@ -116,11 +122,11 @@
     display : none;
 }
 
-.div_question_chevron{
+.divQuestionChevron{
     width: 90%;
 }
 
-.div_js{
+.divJs{
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -131,7 +137,7 @@
 
 @media screen and (max-width: 1200px) {
 
-    .li_wording {
+    .liWording {
         background-color: var(--pamplemousse);
         padding: .7em;
         border-radius: 5px 5px 0 0;
@@ -142,18 +148,18 @@
         width: 90%;
     }
 
-    .div_question{
+    .divQuestion{
         margin: 1em auto;
         display: flex;
     }
 
-    .button_modify{
+    .buttonModify{
         height: 70px;
         width: 50px;
         margin: auto;
     }
 
-    .div_js{
+    .divJs{
         flex-direction: column;
         width: 88%;
     }
@@ -161,7 +167,7 @@
 
 @media screen and (max-width: 780px) {
 
-    .div_questions {
+    .divQuestions {
         background-color: var(--fond);
         border-radius: 5px;
         padding: 2em;
@@ -170,7 +176,7 @@
         margin:auto;
     }
 
-    .li_wording {
+    .liWording {
         background-color: var(--pamplemousse);
         padding: 1.3em;
         border-radius: 5px 5px 0 0;
@@ -181,24 +187,24 @@
         width: 80%;
     }
 
-    .div_question{
+    .divQuestion{
         margin: 1em auto;
         display: flex;
     }
 
-    .ul_questions {
+    .ulQuestions {
         border: 1px solid var(--fond);
         padding: 2em;
         border-radius: 5px;
         background-color: white;
     }
 
-    .div_js{
+    .divJs{
         display: flex;
         flex-direction: column;
     }
 
-    .button_modify{
+    .buttonModify{
         height: 52px;
         width: 37px;
         margin: auto;
@@ -211,7 +217,7 @@
         max-width: 90%;
     }
 
-    .li_wording{
+    .liWording{
         display: flex;
         flex-direction: column;
         box-shadow: 0 0 14px -3px gray;
@@ -219,41 +225,41 @@
         border-radius: 5px;
     }
 
-    .div_question{
+    .divQuestion{
         display: flex;
         flex-direction: column-reverse;
         margin-left: 20px;
         border-radius: 15%;
     }
 
-    .ul_questions{
+    .ulQuestions{
         width: 100%;
         padding: 0;
         margin: auto;
     }
 
-    .link_modify{
+    .linkModify{
         text-align: right;
         margin-top: 35px;
         margin-right: 21px;
     }
 
-    .button_modify{
+    .buttonModify{
         height: 52px;
         width: 37px;
     }
 
-    .div_js{
+    .divJs{
         flex-direction: column;
         width: 89%;
     }
 
-    .button_add{
+    .buttonAdd{
         width: 75%;
         margin: 25px auto;
     }
 
-    .link_create{
+    .linkCreate{
         margin: auto;
     }
 }

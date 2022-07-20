@@ -30,16 +30,14 @@ class InstructorController extends AbstractController
     }
 
 //    TODO future page à implémenter
-//    #[Route('/instructor', name: 'app_instructor')]
-//    public function index(): Response
-//    {
-//        return $this->render('instructor/index.html.twig', [
-//            'controller_name' => 'InstructorController',
-//        ]);
-//    }
+    #[Route('/instructor', name: 'app_instructor')]
+    public function index(): Response
+    {
+        return $this->render('instructor/index.html.twig', []);
+    }
 
     /**
-     * @Route("instructor/questions", name="instructor_display_questions")
+     * @Route("/instructor/questions", name="instructor_display_questions")
      * @return Response
      */
     public function displayQuestions(): Response
@@ -60,7 +58,7 @@ class InstructorController extends AbstractController
                 array_push($resumeProposal, $proposalValues);
             }
         }
-        return $this->render('instructor/index.html.twig', [
+        return $this->render('instructor/questions.html.twig', [
             'questions' => $questions,
             'proposals' => $resumeProposal,
         ]);
