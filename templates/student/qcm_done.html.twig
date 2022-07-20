@@ -3,63 +3,64 @@
 {% block title %}Hello StudentController!{% endblock %}
 
 {% block stylesheets %}
-    <link href="{{asset('css/student/qcmDone.css')}}" rel="stylesheet">
+    <link href="{{asset('css/student/qcmsDone.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
 
-    <h1>- QCM réalisés -</h1>
-    <div class="premiereDiv">
-        <div class="divBadge">
-            <p>
-                Officiel
+    <div class="qcm">
+        <h1>QCM A FAIRE</h1>
+
+        <div class="div_name">
+            <p class="nom">
+                Nom du module
+                {{ titleModule }}
             </p>
-            <img class="badge" src="{{asset('build/images/officiel.png')}}">
-        </div>
-        <div class="divBadge">
-            <p>
-                Intermédiaire
-            </p>
-            <img class="badge" src="{{asset('build/images/non-officiel.png')}}">
-        </div>
-    </div>
-    <div class="officiel">
-        <div>
-            <p>
-                <span class="numeroForm">1</span>
-                Filtre par module:
+            <p class="nom">Nom du qcm
+                {{ nameQcmInstance }}
             </p>
         </div>
-        <select name="module">
-            <option value="">Veuillez sélectionner un module</option>
-            {% for module in modules %}
-                <option value="">{{module.title}}</option>
+        <div class="premierediv">
+            <div class="diff">
+                <p>Facile</p>
+                <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="facile">
+            </div>
+            <div class="diff">
+                <p>Moyen</p>
+                <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="moyen">
+            </div>
+            <div class="diff">
+                <p>Difficile</p>
+                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+            </div>
+        </div>
+
+        <form action="{{ path('student_qcmToDo', { 'qcmInstance': idQcmInstance }) }}">
+            {% for question in questionsAnswers %}
+
+                <p class="question"><span class="numeroform">1</span>
+                    {{ question.libelle }}
+                </p>
+                {% for answer in question.answers %}
+                    {% if question.responce_type == 'radio'%}
+                        {% if question.difficulty == 'Difficile' %}
+                            <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                        {% elseif question.difficulty == 'Moyen' %}
+                            <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                        {% else %}
+                            <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                        {% endif %}
+                            <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}">
+                            <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                    {% else %}
+                        <input type="checkbox" for='{{ answer.id}}' name="{{question.id}}[]" value="{{ answer.id }}">
+                        <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                    {% endif %}
+
+                {% endfor %}
             {% endfor %}
-        </select>
+            <input class="valid" type="submit" value="J'ai fini mon qcm">
+        </form>
+
     </div>
-    <span class="ligne"></span>
-    <p>
-        <span class="numeroForm">2</span>
-        Qcm
-    </p>
-    {% for module in modules %}
-        <p class="module">
-            Module : {{module.title}}
-        </p>
-    {% endfor %}{% for qcmDone in qcmsDone %}
-    <div class="realise">
-        <div class="nomQcm">
-            <p>
-                Nom du QCM : {{qcmDone.qcm.name}}
-            </p>
-        </div>
-        <div class="date">
-            {{qcmDone.result.getCreatedAt()|date('d/m/Y')}}
-        </div>
-        <div class="divButton">
-            <a class="button" href="">Voir les réponses</a>
-            <a class="button" href="">Refaire le qcm</a>
-        </div>
-    </div>
-        {% endfor %}
 {% endblock %}
