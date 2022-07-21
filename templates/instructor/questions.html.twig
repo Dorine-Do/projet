@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/instructor/intructorIndex.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/instructor/instructorIndex.css') }}">
 {% endblock %}
 
 
@@ -58,5 +58,5 @@
     <script>
         let proposals = {{proposals|json_encode|raw}};
     </script>
-    <script type="text/javascript" src="{{ asset('js/intructorIndex.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/instructorIndex.js') }}"></script>
 {% endblock %}
