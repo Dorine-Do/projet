@@ -47,9 +47,9 @@
         </tr>
         <tr>
             <td colspan="2">
-                <p class="etape">
+                <p class= "partTitle">
                     <span class="numeroForm" >4</span>
-                    Je crée mes réponses
+                    Créer des réponses
                 </p>
             </td>
             <td colspan="2" class="second" id="errorChecked">
@@ -57,17 +57,17 @@
                     {% for proposal in form.proposals %}
                         <li class="liProposal">
                             <div class="divProposal">
-                                <div class="proposal">
-                                    {{form_label(proposal.wording)}}{{form_widget(proposal.wording)}}{{form_row(proposal.is_correct)}}
-                                </div>
+                                {{form_row(proposal.wording)}}{{form_row(proposal.is_correct)}}
                             </div>
+                            <button type="button" class="removeProposal" >Supprimer</button>
                         </li>
                     {%endfor%}
                 </ul>
                 <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="addProposal"class="addProposal">
-                +
+                    Ajouter une réponse
                 </button>
-        <tr>
+            </td>
+        </tr>
         <tr>
             <td colspan="2" class="premier">
                 <p class="paddingOption">

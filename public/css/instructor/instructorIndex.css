@@ -38,6 +38,7 @@
     box-shadow: none;
     background-color: var(--vert);
     font-weight: bold;
+    cursor: pointer;
 }
 
 /******************************************* PARTIE QUESTION MENU DEROULANT ***********************************************/
