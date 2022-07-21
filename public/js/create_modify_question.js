@@ -2,16 +2,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let addbutton = document.querySelector(".addProposal")
     let removeButtons = document.querySelectorAll('.removeProposal')
-    let li_proposal_v1 = document.querySelectorAll('.li_proposal')
+    let li_proposal_v1 = document.querySelectorAll('.liProposal')
     addbutton.dataset.index = li_proposal_v1.length
     // let indexData = addbutton.dataset.index
     let indexData = 0
-    console.log(indexData)
     let form = addbutton.dataset.form
     let validate = document.querySelector(".valid")
-    let ul = document.querySelector('#list_proposal')
-
-    // console.log(li_proposal_v1.length)
+    let ul = document.querySelector('#listProposal')
 
 
 // *******************************************************************************************************
@@ -26,7 +23,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function clickRemove() {
         this.parentElement.remove()
         let alphabet = ['A','B','C','D','E','F']
-        let p_letters = document.querySelectorAll('.p_letter')
+        let p_letters = document.querySelectorAll('.pLetter')
         let count=0;
         p_letters.forEach(p =>{
             let letters = p.textContent
@@ -71,13 +68,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
             /__name__/g,
             indexData
         );
-        li.className = "li_proposal"
+        li.className = "liProposal"
 
         let checkbox = li.firstElementChild.lastElementChild.lastElementChild
         checkbox.className = "isCorrect"
 
         let div_wording = li.firstElementChild.firstChild
-        div_wording.className = 'div_wording'
+        div_wording.className = 'divWording'
 
         let buttonRemoveNew = document.createElement("button")
         buttonRemoveNew.innerHTML = "Supprimer"
@@ -89,7 +86,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         // ************************************************************************************
         // AFFICHE LA LETTRE AU MOMENT DE L'AJOUT
-        li.firstElementChild.className =  "div_proposal"
+        li.firstElementChild.className = "divProposal"
 
         letterProposal(li.firstElementChild, indexData,)
 
@@ -111,7 +108,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let letter = alphabet.slice(begin, end)
 
         let p = document.createElement('p')
-        p.className = 'p_letter'
+        p.className = 'pLetter'
         p.innerHTML = letter
 
         div_proposal.firstElementChild.insertBefore(p,label)
@@ -138,39 +135,35 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 // *******************************************************************************************************
 // AFFICHE LA LETTRE DE LA REPONSE EN DEHORS DU TEXTEAREA
-    let div_proposal = document.querySelectorAll('.div_proposal')
+    let div_proposal = document.querySelectorAll('.divProposal')
     Object.entries(div_proposal).forEach(([index, div])=>{
         letterProposal(div, indexData)
         indexData++
-
     })
 
 
 // *******************************************************************************************************
 // DIV POUR CSS
-    let div = document.querySelector('#create_question_difficulty')
-    console.log(div)
+    let div = document.querySelector('#createQuestionDifficulty')
+    console.log(div);
     let div_input_label;
     let label = div.querySelectorAll("label")
     let input = div.querySelectorAll('input')
     for (let i = 0; i < 3; i++){
-
         div_input_label = document.createElement('div')
-        div_input_label.className = "div_input_label"
+        div_input_label.className = "divInputLabel"
         div_input_label.append(label[i],input[i])
         div.append(div_input_label);
     }
 // *******************************************************************************************************
 // IMAGE TREFFLES
 
-    let badgesParent = document.getElementById('create_question_difficulty')
-    let badges = document.querySelectorAll('.div_input_label')
-    console.log(badges)
+    let badgesParent = document.getElementById('createQuestionDifficulty')
+    let badges = document.querySelectorAll('.divInputLabel')
     for (const [key, value] of Object.entries(badges)) {
         let logo = document.createElement('img')
         logo.setAttribute("src", imgPath[key])
         badgesParent.insertBefore(logo, value)
-        console.log(value)
     }
 
 

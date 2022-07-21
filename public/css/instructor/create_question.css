@@ -1,4 +1,4 @@
-@import url(public/css/main.css);
+@import url('../main.css');
 
 /*************************************** CSS sur simple balise HTML **********************************/
 .form-question{
