@@ -1,5 +1,4 @@
-
-@import url(public/css/main.css);
+@import url('../main.css');
 
 .container{
     font: 18px/1.5 sans-serif;
