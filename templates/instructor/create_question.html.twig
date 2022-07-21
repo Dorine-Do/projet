@@ -46,13 +46,13 @@
             </td>
         </tr>
         <tr>
-            <td colspan="2">
-                <p class= "partTitle">
+            <td colspan="2" class="premier">
+                <p class="etape">
                     <span class="numeroForm" >4</span>
                     Créer des réponses
                 </p>
             </td>
-            <td colspan="2" class="second" id="errorChecked">
+            <td colspan="2" class="second" id="error_checked">
                 <ul id ="listProposal">
                     {% for proposal in form.proposals %}
                         <li class="liProposal">
@@ -63,7 +63,7 @@
                         </li>
                     {%endfor%}
                 </ul>
-                <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="addProposal"class="addProposal">
+                <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="add_proposal"class="addProposal">
                     Ajouter une réponse
                 </button>
             </td>

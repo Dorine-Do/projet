@@ -100,7 +100,7 @@ input[type="radio"]:checked {
 /*}*/
 
 
-#errorChecked{
+#error_checked{
     display: flex;
     flex-direction: column;
 }
@@ -426,7 +426,7 @@ img{
         height: 60px;
     }
 
-    #errorChecked{
+    #error_checked{
         display: flex;
         flex-direction: column;
     }
@@ -498,7 +498,7 @@ img{
         margin-left: 0;
     }
 
-    .liProposal, .div_wording, #errorChecked{
+    .liProposal, .div_wording, #error_checked{
         flex-direction: column;
     }
 
@@ -523,7 +523,7 @@ img{
         display: block;
     }
 
-    #addProposal{
+    #add_proposal{
         font-size: 1.4em;
         border: 1px solid;
         padding: 2px 9px 4px 9px;
