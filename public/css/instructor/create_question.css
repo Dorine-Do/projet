@@ -255,7 +255,7 @@ input[type="radio"]:checked {
 }
 
 
-#listProposal{
+#list_proposal{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -529,7 +529,7 @@ img{
         padding: 2px 9px 4px 9px;
     }
 
-    #listProposal{
+    #list_proposal{
         padding-left: 0;
     }
 
