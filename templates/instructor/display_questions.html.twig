@@ -32,14 +32,14 @@
                             </div>
                         </li>
                         <div class="divJs">
-                    </div>
+                        </div>
 
                     </div>
                     <div class="divProposals">
                         {% for proposal in proposals  %}
-                                {% if question.id == proposal.id_question %}
-                                    <p>{{proposal.wording}}</p>
-                                {% endif %}
+                            {% if question.id == proposal.id_question %}
+                                <p>{{proposal.wording}}</p>
+                            {% endif %}
                         {% endfor %}
                     </div>
                     <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/Modify.png') }}" alt="bouton de modification de la question"></a>
@@ -50,13 +50,18 @@
             </div>
         </ul>
     </div>
-
-
+    <div>
+        <p>
+            dklf,slkf,zsedkl,ezlkdf,ùLKFÄPZMLDFAZ%M
+        </p>
+    </div>
 {% endblock %}
+
 {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
+    <script type="text/javascript" src="{{ asset('js/instructor/instructorIndex.js') }}"></script>
+    {#    <script type="text/javascript" src="../../public/js/instructor/instructorIndex.js"></script>#}
+
     <script>
         let proposals = {{proposals|json_encode|raw}};
     </script>
-    <script type="text/javascript" src="{{ asset('js/instructorIndex.js') }}"></script>
 {% endblock %}
