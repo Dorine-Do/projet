@@ -36,10 +36,7 @@ class InstructorController extends AbstractController
         return $this->render('instructor/index.html.twig', []);
     }
 
-    /**
-     * @Route("/instructor/questions", name="instructor_display_questions")
-     * @return Response
-     */
+    #[Route('instructor/questions', name: 'instructor_display_questions')]
     public function displayQuestions(): Response
     {
         $proposals = [];
@@ -58,18 +55,13 @@ class InstructorController extends AbstractController
                 array_push($resumeProposal, $proposalValues);
             }
         }
-        return $this->render('instructor/questions.html.twig', [
+        return $this->render('instructor/display_questions.html.twig', [
             'questions' => $questions,
             'proposals' => $resumeProposal,
         ]);
     }
 
-    /**
-     * @Route("instructor/modify_question/{question}", name="instructor_modify_question")
-     * @param Request $request
-     * @param $em
-     * @return Response
-     */
+    #[Route('instructor/modify_question/{question}', name: 'instructor_modify_question')]
     public function modifyQuestion(Request $request, $question,QuestionRepository $questionRepository, ProposalRepository $proposalRepository, EntityManagerInterface $em): Response
     {
         $releasedateonsession = $questionRepository -> getSessionWithReleaseDate($question);
@@ -155,12 +147,7 @@ class InstructorController extends AbstractController
         ]);
     }
 
-
-    /**
-     * @Route("instructor/create_question", name="instructor_create_question")
-     * @return Response
-     * @param $em
-     */
+    #[Route('instructor/create_question', name: 'instructor_create_question')]
     public function createQuestion(Request $request, EntityManagerInterface $em): Response
     {
         $questionEntity= new Question();
@@ -181,7 +168,6 @@ class InstructorController extends AbstractController
 
         // vérification des données soumises
         if($form->isSubmitted() && $form->isValid()){
-//            dd('submited');
             $count = 0;
             $persitPropCount=0;
             foreach ($questionEntity->getProposals() as $proposal){
@@ -203,13 +189,8 @@ class InstructorController extends AbstractController
 
             /*TODO Devra être automatisé avec l'id du user connecté si id appartient à un admin alors Null si appartient à un instructor alors id*/
             $questionEntity->setIdAuthor(2);
-
-            // $questionData->setCreatedAt($date); Pas necessaire car créer directement dans le construct de l'entity Question
-            // $questionData->setUpdatedAt($date); Pas necessaire car créer directement dans le construct de l'entity Question
-            $questionEntity->setIsOfficial(false);// Toujours false quand c'est un instructor qui créé une question
-
-            $questionEntity->setIsMandatory(false);// Toujours false quand c'est un instructor qui créé une question
-
+            $questionEntity->setIsOfficial(false);
+            $questionEntity->setIsMandatory(false);
             //  validation et enregistrement des données du form dans la bdd
             $em->persist($questionEntity);
             $em->flush();
