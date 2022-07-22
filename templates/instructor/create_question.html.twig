@@ -5,6 +5,8 @@
     <link href="{{asset('css/instructor/create_question.css')}}" rel="stylesheet">
 {% endblock %}
 
+{% block title %}Création de questions{% endblock %}
+
 {% block body %}
     <h1>Je crée ma question</h1>
     {# Form question #}{{ form_start(form) }}
@@ -63,7 +65,7 @@
                         </li>
                     {%endfor%}
                 </ul>
-                <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="add_proposal"class="addProposal">
+                <button data-form='{{ form_widget(form.proposals.vars.prototype) }}' data-index="{{form.proposals|length }}" type="button" id="add_proposal" class="addProposal">
                     Ajouter une réponse
                 </button>
             </td>

@@ -63,6 +63,11 @@ img{
     display: block;
 }
 
+.valid:hover{
+    background-color: var(--vert);
+    cursor: pointer;
+}
+
 .reponse{
     display: flex;
     justify-content: space-between;
@@ -101,5 +106,30 @@ img{
 
     .reponse{
         padding: 15px 50px 15px 10px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .premiereDiv{
+        width: 300px;
+        margin: auto;
+    }
+
+    .global{
+        width: 400px;
+    }
+
+    .diff{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .diff p{
+        padding: 5px 25px;
+    }
+
+    .valid{
+        padding: 12px 110px;
     }
 }

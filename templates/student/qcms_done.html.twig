@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StudentController!{% endblock %}
+{% block title %}QCM réalisé{% endblock %}
 
 {% block stylesheets %}
     <link href="{{asset('css/student/qcmsDone.css')}}" rel="stylesheet">
@@ -30,7 +30,7 @@
                 Filtre par module:
             </p>
         </div>
-        <select name="module">
+        <select name="module" id="select-module">
             <option value="">Veuillez sélectionner un module</option>
             {% for module in modules %}
                 <option value="">{{module.title}}</option>
@@ -42,11 +42,8 @@
         <span class="numeroForm">2</span>
         Qcm
     </p>
-    {% for module in modules %}
-        <p class="module">
-            Module : {{module.title}}
-        </p>
-    {% endfor %}{% for qcmDone in qcmsDone %}
+        <p id="module"></p>
+    {% for qcmDone in qcmsDone %}
     <div class="realise">
         <div class="nomQcm">
             <p>
@@ -62,4 +59,7 @@
         </div>
     </div>
 {% endfor %}
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/qcmsDone.js') }}"></script>
 {% endblock %}
