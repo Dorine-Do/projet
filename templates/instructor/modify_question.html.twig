@@ -210,14 +210,14 @@
                     </td>
                 </tr>
             </table>
+debig            {{form_rest(form)}}
             {{ form_end(form) }}
         </div>
 
     {% endif %}
 {% endblock %}
 {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-    <script type="text/javascript" src="{{ asset('js/create_modify_question.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/instructor/create_modify_question.js') }}"></script>
     <script>
         let add = {{add|json_encode}};
         let imgPath = [];

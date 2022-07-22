@@ -5,6 +5,8 @@
     <link href="{{asset('css/instructor/create_question.css')}}" rel="stylesheet">
 {% endblock %}
 
+{% block title %}Hello InstructorController!{% endblock %}
+
 {% block body %}
     <h1>Je crée ma question</h1>
     {# Form question #}{{ form_start(form) }}
@@ -53,7 +55,7 @@
                 </p>
             </td>
             <td colspan="2" class="second" id="error_checked">
-                <ul id ="listProposal">
+                <ul id="list_proposal">
                     {% for proposal in form.proposals %}
                         <li class="liProposal">
                             <div class="divProposal">
@@ -86,7 +88,7 @@
         </tr>
     </table>
 
-
+    {{form_rest(form)}}
 
 {% endblock %}
 
@@ -95,7 +97,7 @@
     {# Fichier js pour faire apparaitre les inputs du collectionType #}
     <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>
 
-    <script type="text/javascript" src="{{ asset('js/create_modify_question.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/instructor/create_modify_question.js') }}"></script>
 
     <script>
         let add = {{add}};
