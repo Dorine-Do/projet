@@ -1,4 +1,3 @@
-
 function checker(event) {
     event.preventDefault();
     let result = confirm('Êtes vous sûr de vouloir valider ce QCM ?')

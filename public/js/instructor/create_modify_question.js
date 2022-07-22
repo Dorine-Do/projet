@@ -4,12 +4,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let removeButtons = document.querySelectorAll('.removeProposal')
     let li_proposal_v1 = document.querySelectorAll('.liProposal')
     addbutton.dataset.index = li_proposal_v1.length
-    // let indexData = addbutton.dataset.index
     let indexData = 0
     let form = addbutton.dataset.form
-    let validate = document.querySelector(".valid")
-    let ul = document.querySelector('#listProposal')
-
+    let ul = document.querySelector('#list_proposal')
 
 // *******************************************************************************************************
 // Add function
@@ -52,7 +49,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }else{
             let p = document.createElement('p')
             p.innerHTML = 'Veuillez cocher au moins une réponse correcte pour cette question'
-            let td_proposals = document.getElementById('errorChecked')
+            let td_proposals = document.getElementById('error_checked')
             td_proposals.append(p)
             p.className = 'errorP'
         }
@@ -115,8 +112,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     }
 
-
-
 // *******************************************************************************************************
 // Add
     addbutton.addEventListener("click", clickAdd)
@@ -126,12 +121,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     for (const removeButton of removeButtons) {
         removeButton.addEventListener("click", clickRemove)
     }
-
-// *******************************************************************************************************
-//Validate
-//     validate.addEventListener("click", isChecked)
-
-
 
 // *******************************************************************************************************
 // AFFICHE LA LETTRE DE LA REPONSE EN DEHORS DU TEXTEAREA
@@ -144,8 +133,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 // *******************************************************************************************************
 // DIV POUR CSS
-    let div = document.querySelector('#createQuestionDifficulty')
-    console.log(div);
+    let div = document.querySelector('#create_question_difficulty')
     let div_input_label;
     let label = div.querySelectorAll("label")
     let input = div.querySelectorAll('input')
@@ -158,7 +146,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // *******************************************************************************************************
 // IMAGE TREFFLES
 
-    let badgesParent = document.getElementById('createQuestionDifficulty')
+    let badgesParent = document.getElementById('create_question_difficulty')
     let badges = document.querySelectorAll('.divInputLabel')
     for (const [key, value] of Object.entries(badges)) {
         let logo = document.createElement('img')
