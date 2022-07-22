@@ -6,8 +6,9 @@
 {% endblock %}
 
 {% block body %}
-    <h1> - Je crée ma question - </h1>
-    {# Form question #}{{ form_start(form) }}
+    <h1> - {{ 'question.iCreate'|trans }} - </h1>
+
+    {{ form_start(form) }}
     <div>
         {{ form_errors(form) }}
     </div>
@@ -59,7 +60,7 @@
                             <div class="divProposal">
                                 {{form_row(proposal.wording)}}{{form_row(proposal.is_correct)}}
                             </div>
-                            <button type="button" class="removeProposal" >Supprimer</button>
+                            <button type="button" class="removeProposal" >{{ 'button.delete'|trans }}</button>
                         </li>
                     {%endfor%}
                 </ul>
@@ -85,13 +86,10 @@
             </td>
         </tr>
     </table>
-
     {{form_rest(form)}}
-
 {% endblock %}
 
 {% block javascripts %}
-
     {# Fichier js pour faire apparaitre les inputs du collectionType #}
     <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>
 
@@ -102,6 +100,4 @@
         let imgPath = [];
         imgPath.push('{{asset('build/images/trefle_facile_bon_vert.png')}}', '{{asset('build/images/trefle_moyen_bon_vert.png')}}', '{{asset('build/images/trefle_difficile_bon_vert.png')}}')
     </script>
-
-
 {% endblock %}

@@ -36,7 +36,7 @@
                     </div>
                 </div>
             </section>
-            <h2><img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">QCM d'entrainement</h2>
+            <h2><img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">{{ 'qcm.trainning'|trans }}</h2>
             <section class="cercle">
                 <div class="training">
                     <select name="module" class="selectModule">
@@ -59,26 +59,26 @@
                             <label for="Difficult">{{ 'difficulty.difficult'|trans }}</label>
                         </div>
                     </div>
-                    <a class="buttonValid" href="">Je m'entraine</a>
+                    <a class="buttonValid" href="">{{ 'qcm.trainning'|trans }}</a>
                 </div>
             </section>
         </article>
         <span></span>
         <article class="articleDroite">
             <section class="section">
-                <h2>{{ 'qcm.done'|trans }}</h2>
+                <h2>{{ 'qcm.dones'|trans }}</h2>
                 <div class="centreRealise">
                     <p>
-                        En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les qcm que tu as terminés, voir tes réponses fausses et t'entrainer à les refaire.
+                        {{ 'qcm.donesExplain'|trans }}
                     </p>
-                    <a class="real" href="{{ path('student_qcmsdone') }}">QCM réalisés</a>
+                    <a class="real" href="{{ path('student_qcmsdone') }}">{{ 'qcm.dones'|trans }}</a>
                 </div>
             </section>
             <section>
-                <h2>Je retente ma chance</h2>
+                <h2>{{ 'qcm.iChance'|trans }}</h2>
                 <div class="centreChance">
                     <p>
-                        Si tu as obtenu "découvre" ou "explore" à un des qcm, tu peux tenter d'obtenir à nouveau ton badge et l'ajouter à ta collection en repassant un qcm du module en question.
+                        {{ 'qcm.chanceexplain'|trans }}
                     </p>
                 </div>
                 <div class="divBadge">
@@ -90,11 +90,11 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <a class="buttonBadge" href="">J'essaie d'obtenir mon badge</a>
+                    <a class="buttonBadge" href="">{{ 'module.tryAgain'|trans }}</a>
                 </div>
             </section>
             <p class="lastP">
-                /!\ Repasser le qcm pour obtenir le badge du module ne changera pas le niveau obtenu lors du QCM officiel
+                {{ 'module.tryAgainExplain'|trans }}
             </p>
         </article>
     </div>

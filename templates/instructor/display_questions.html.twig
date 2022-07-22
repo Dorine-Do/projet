@@ -4,12 +4,10 @@
     <link rel="stylesheet" href="{{ asset('css/instructor/instructorIndex.css') }}">
 {% endblock %}
 
-
-
 {% block title %}Hello InstructorController!{% endblock %}
 
 {% block body %}
-    <h1>- Liste des questions personalisées -</h1>
+    <h1>- {{ 'question.listePerso'|trans }} -</h1>
     <div class="divQuestions">
         <ul class="ulQuestions">
 
@@ -46,21 +44,18 @@
                 </div>
             {%endfor%}
             <div class="divAdd">
-                <a href="{{ path('instructor_create_question') }}" class="linkCreate"><button class="buttonAdd">Créer une question</button></a>
+                <a href="{{ path('instructor_create_question') }}" class="linkCreate">
+                    <button class="buttonAdd">
+                        {{ 'question.addProposal'|trans }}
+                    </button>
+                </a>
             </div>
         </ul>
-    </div>
-    <div>
-        <p>
-            dklf,slkf,zsedkl,ezlkdf,ùLKFÄPZMLDFAZ%M
-        </p>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/instructor/instructorIndex.js') }}"></script>
-    {#    <script type="text/javascript" src="../../public/js/instructor/instructorIndex.js"></script>#}
-
     <script>
         let proposals = {{proposals|json_encode|raw}};
     </script>

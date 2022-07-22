@@ -6,25 +6,24 @@
 {% endblock %}
 
 {% block body %}
-    <h1>- Je corrige/modifie ma question -</h1>
+    <h1>- {{ 'question.iCorrectModify'|trans }} -</h1>
 
     {% if  distribute != null %}
 
 {#    Info question#}
         <div class="infoQuestion">
         <p>
-            Cette page a pour but de permettre de corriger les possibles fautes orthoqraphiques dans l'intitulé de la quesiton ou des réponses.
+            {{ 'question.goal'|trans }}
         </p>
         <p>
-            <strong> Attention </strong>
-            , une fois créée et distribuée aux élève, la question ne pourra plus être modifiées ou supprimer.
+            {{ 'question.warning'|trans }}, {{ 'question.warningExplain'|trans }}
         </p>
         <p>
-            Votre question a déjà été diffusée aux élèves, elle ne peut plus être modifiée.
+            {{ 'question.infoPublished'|trans }}
             <br>
-            - 1ère date de diffusion : {{distribute}}
+            - {{ 'question.firstDatePublished'|trans }} : {{distribute}}
             <br>
-            - Classe : {{session}}
+            - {{ 'question.session'|trans }} : {{session}}
         </p>
         </div>
         {# Form question #}
@@ -107,7 +106,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button type="submit" class="valid">Valider</button>
+                        <button type="submit" class="valid">{{ 'button.validate'|trans }}</button>
                     </td>
                 </tr>
             </table>
@@ -121,14 +120,14 @@
 
         <div class="infoQuestion">
             <p>
-                Cette page a pour but de permettre de corriger les possibles fautes orthoqraphiques dans l'intitulé de laquesiton ou des réponses.
+                {{ 'question.goal'|trans }}
             </p>
             <p>
-                <strong> Attention </strong>
-                , une fois créée et distribuée aux élève, la question ne pourra plus être modifiées ou supprimer.
+                <strong> {{ 'question.warning'|trans }} </strong>
+                , {{ 'question.warningExplain'|trans }}
             </p>
             <p>
-                Votre quesiton n'a pas encore été donnée aux élèves, vous pouvez encore la modifier
+                {{ 'question.infoNoPublished'|trans }}
             </p>
         </div>
         {# Form question #}
@@ -210,7 +209,7 @@
                     </td>
                 </tr>
             </table>
-debig            {{form_rest(form)}}
+            {{form_rest(form)}}
             {{ form_end(form) }}
         </div>
 
