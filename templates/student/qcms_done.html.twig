@@ -12,13 +12,13 @@
     <div class="premiereDiv">
         <div class="divBadge">
             <p>
-                Officiel
+                {{ 'qcm.official'|trans }}
             </p>
             <img class="badge" src="{{asset('build/images/officiel.png')}}">
         </div>
         <div class="divBadge">
             <p>
-                Intermédiaire
+                {{ 'qcm.inter'|trans }}
             </p>
             <img class="badge" src="{{asset('build/images/non-officiel.png')}}">
         </div>
@@ -27,7 +27,7 @@
         <div>
             <p>
                 <span class="numeroForm">1</span>
-                Filtre par module:
+                {{ 'module.filter'|trans }} :
             </p>
         </div>
         <select name="module">
@@ -50,7 +50,7 @@
     <div class="realise">
         <div class="nomQcm">
             <p>
-                Nom du QCM : {{qcmDone.qcm.name}}
+                {{ 'qcm.name'|trans }} : {{qcmDone.qcm.name}}
             </p>
         </div>
         <div class="date">

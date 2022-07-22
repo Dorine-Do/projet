@@ -9,28 +9,29 @@
 {% block body %}
 
     <div class="qcm">
-        <h1>QCM A FAIRE</h1>
+        <h1>- {{ 'qcm.todo'|trans }} -</h1>
 
         <div class="divName">
             <p class="nom">
-                Nom du module
+                {{ 'module.name'|trans }} :
                 {{ titleModule }}
             </p>
-            <p class="nom">Nom du qcm
+            <p class="nom">
+                {{ 'qcm.name'|trans }} :
                 {{ nameQcmInstance }}
             </p>
         </div>
         <div class="premiereDiv">
             <div class="diff">
-                <p>Facile</p>
+                <p>{{ 'difficulty.easy'|trans }}</p>
                 <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="facile">
             </div>
             <div class="diff">
-                <p>Moyen</p>
+                <p>{{ 'difficulty.medium'|trans }}</p>
                 <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="moyen">
             </div>
             <div class="diff">
-                <p>Difficile</p>
+                <p>{{ 'difficulty.difficult'|trans }}</p>
                 <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
             </div>
         </div>
