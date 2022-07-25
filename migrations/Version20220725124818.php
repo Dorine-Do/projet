@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220725123705 extends AbstractMigration
+final class Version20220725124818 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -22,6 +22,7 @@ final class Version20220725123705 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE link_instructor_session_module (id INT AUTO_INCREMENT NOT NULL, instructor_id INT NOT NULL, session_id INT NOT NULL, module_id INT NOT NULL, INDEX IDX_DA16236F8C4FC193 (instructor_id), INDEX IDX_DA16236F613FECDF (session_id), INDEX IDX_DA16236FAFC2B591 (module_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE link_session_student (id INT AUTO_INCREMENT NOT NULL, session_id INT NOT NULL, student_id INT NOT NULL, is_enabled TINYINT(1) NOT NULL, INDEX IDX_4A3A4987613FECDF (session_id), INDEX IDX_4A3A4987CB944F1A (student_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE log (id INT AUTO_INCREMENT NOT NULL, log LONGTEXT NOT NULL, level SMALLINT NOT NULL, path VARCHAR(150) NOT NULL, latency VARCHAR(150) NOT NULL, created_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE module (id INT AUTO_INCREMENT NOT NULL, weeks SMALLINT NOT NULL, title VARCHAR(50) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE proposal (id INT AUTO_INCREMENT NOT NULL, question_id INT NOT NULL, proposal LONGTEXT NOT NULL, is_correct_answer TINYINT(1) NOT NULL, is_mandatory TINYINT(1) NOT NULL, is_official TINYINT(1) NOT NULL, difficulty SMALLINT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX IDX_BFE594721E27F6BF (question_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE qcm (id INT AUTO_INCREMENT NOT NULL, author_id INT NOT NULL, module_id INT NOT NULL, title VARCHAR(75) NOT NULL, difficulty SMALLINT NOT NULL, is_official TINYINT(1) NOT NULL, is_enabled TINYINT(1) NOT NULL, is_public TINYINT(1) NOT NULL, questions_cache LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\', created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX IDX_D7A1FEF4F675F31B (author_id), INDEX IDX_D7A1FEF4AFC2B591 (module_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -72,6 +73,7 @@ final class Version20220725123705 extends AbstractMigration
         $this->addSql('ALTER TABLE qcm_instance DROP FOREIGN KEY FK_A3EC941DCB944F1A');
         $this->addSql('DROP TABLE link_instructor_session_module');
         $this->addSql('DROP TABLE link_session_student');
+        $this->addSql('DROP TABLE log');
         $this->addSql('DROP TABLE module');
         $this->addSql('DROP TABLE proposal');
         $this->addSql('DROP TABLE qcm');
