@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220725124818 extends AbstractMigration
+final class Version20220725133255 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -28,7 +28,7 @@ final class Version20220725124818 extends AbstractMigration
         $this->addSql('CREATE TABLE qcm (id INT AUTO_INCREMENT NOT NULL, author_id INT NOT NULL, module_id INT NOT NULL, title VARCHAR(75) NOT NULL, difficulty SMALLINT NOT NULL, is_official TINYINT(1) NOT NULL, is_enabled TINYINT(1) NOT NULL, is_public TINYINT(1) NOT NULL, questions_cache LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\', created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX IDX_D7A1FEF4F675F31B (author_id), INDEX IDX_D7A1FEF4AFC2B591 (module_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE qcm_question (qcm_id INT NOT NULL, question_id INT NOT NULL, INDEX IDX_572B6C8DFF6241A6 (qcm_id), INDEX IDX_572B6C8D1E27F6BF (question_id), PRIMARY KEY(qcm_id, question_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE qcm_instance (id INT AUTO_INCREMENT NOT NULL, student_id INT NOT NULL, qcm_id INT NOT NULL, start_time DATETIME NOT NULL, end_time DATETIME NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, INDEX IDX_A3EC941DCB944F1A (student_id), INDEX IDX_A3EC941DFF6241A6 (qcm_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE question (id INT AUTO_INCREMENT NOT NULL, module_id INT NOT NULL, question LONGTEXT NOT NULL, is_mandatory TINYINT(1) NOT NULL, is_official TINYINT(1) NOT NULL, difficulty SMALLINT NOT NULL, is_multiple TINYINT(1) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, is_enabled TINYINT(1) NOT NULL, explanation LONGTEXT NOT NULL, INDEX IDX_B6F7494EAFC2B591 (module_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE question (id INT AUTO_INCREMENT NOT NULL, module_id INT NOT NULL, author_id INT NOT NULL, question LONGTEXT NOT NULL, is_mandatory TINYINT(1) NOT NULL, is_official TINYINT(1) NOT NULL, difficulty SMALLINT NOT NULL, is_multiple TINYINT(1) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, is_enabled TINYINT(1) NOT NULL, explanation LONGTEXT NOT NULL, INDEX IDX_B6F7494EAFC2B591 (module_id), INDEX IDX_B6F7494EF675F31B (author_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE result (id INT AUTO_INCREMENT NOT NULL, qcm_instance_id INT NOT NULL, submitted_at DATETIME NOT NULL, answers LONGTEXT NOT NULL COMMENT \'(DC2Type:json)\', score SMALLINT NOT NULL, student_comment LONGTEXT DEFAULT NULL, instructor_comment LONGTEXT DEFAULT NULL, is_first_try TINYINT(1) NOT NULL, UNIQUE INDEX UNIQ_136AC113CE2E14FD (qcm_instance_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE session (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(50) NOT NULL, school_year SMALLINT NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE session_module (session_id INT NOT NULL, module_id INT NOT NULL, INDEX IDX_634F2C71613FECDF (session_id), INDEX IDX_634F2C71AFC2B591 (module_id), PRIMARY KEY(session_id, module_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -47,6 +47,7 @@ final class Version20220725124818 extends AbstractMigration
         $this->addSql('ALTER TABLE qcm_instance ADD CONSTRAINT FK_A3EC941DCB944F1A FOREIGN KEY (student_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE qcm_instance ADD CONSTRAINT FK_A3EC941DFF6241A6 FOREIGN KEY (qcm_id) REFERENCES qcm (id)');
         $this->addSql('ALTER TABLE question ADD CONSTRAINT FK_B6F7494EAFC2B591 FOREIGN KEY (module_id) REFERENCES module (id)');
+        $this->addSql('ALTER TABLE question ADD CONSTRAINT FK_B6F7494EF675F31B FOREIGN KEY (author_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE result ADD CONSTRAINT FK_136AC113CE2E14FD FOREIGN KEY (qcm_instance_id) REFERENCES qcm_instance (id)');
         $this->addSql('ALTER TABLE session_module ADD CONSTRAINT FK_634F2C71613FECDF FOREIGN KEY (session_id) REFERENCES session (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE session_module ADD CONSTRAINT FK_634F2C71AFC2B591 FOREIGN KEY (module_id) REFERENCES module (id) ON DELETE CASCADE');
@@ -71,6 +72,7 @@ final class Version20220725124818 extends AbstractMigration
         $this->addSql('ALTER TABLE link_session_student DROP FOREIGN KEY FK_4A3A4987CB944F1A');
         $this->addSql('ALTER TABLE qcm DROP FOREIGN KEY FK_D7A1FEF4F675F31B');
         $this->addSql('ALTER TABLE qcm_instance DROP FOREIGN KEY FK_A3EC941DCB944F1A');
+        $this->addSql('ALTER TABLE question DROP FOREIGN KEY FK_B6F7494EF675F31B');
         $this->addSql('DROP TABLE link_instructor_session_module');
         $this->addSql('DROP TABLE link_session_student');
         $this->addSql('DROP TABLE log');
