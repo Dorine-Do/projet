@@ -8,6 +8,8 @@ use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Form\CreateQuestionType;
 use App\Form\QuestionType;
+use App\Repository\InstructorRepository;
+use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
@@ -193,5 +195,18 @@ class InstructorController extends AbstractController
             'form' => $form->createView(),
             "add"=>true,
         ]);
+    }
+
+    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
+    public function createQcmPersonalized(InstructorRepository $instructorRepository){
+
+        $modules = $instructorRepository->find(2)->getModules();
+
+
+
+        return $this->render('instructor/create_question.html.twig', [
+            'modules' => $modules
+        ]);
+
     }
 }
