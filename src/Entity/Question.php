@@ -52,6 +52,10 @@ class Question
     #[ORM\ManyToMany(targetEntity: Qcm::class, mappedBy: 'questions')]
     private $qcms;
 
+    #[ORM\ManyToOne(targetEntity: Instructor::class, inversedBy: 'questions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $author;
+
     public function __construct()
     {
         $this->proposals = new ArrayCollection();
@@ -236,6 +240,18 @@ class Question
         if ($this->qcms->removeElement($qcm)) {
             $qcm->removeQuestion($this);
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?Instructor
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?Instructor $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

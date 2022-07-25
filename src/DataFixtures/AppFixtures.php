@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Enum\Difficulty;
 use App\Entity\Enum\Level;
 use App\Entity\Instructor;
+use App\Entity\LinkInstructorSessionModule;
 use App\Entity\LinkSessionModule;
 use App\Entity\LinkSessionStudent;
 use App\Entity\Module;
@@ -68,7 +69,7 @@ class AppFixtures extends Fixture
 //        $this->generateLinkSessionInstructor();
 
         //Student
-//        $this->generateStudents( $manager );
+        $this->generateStudents( $manager );
 
         //Question + Proposal
 //        $this->generateQuestions( $manager );
@@ -83,7 +84,7 @@ class AppFixtures extends Fixture
 //        $this->generateQcmInstances( $manager );
 
         //QcmInstance avec le module de démo (réelles data)
-        $this->generateQcmInstancesWithSpecifyModule($manager);
+//        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
 //        $this->generateResults( $manager );
@@ -133,7 +134,7 @@ class AppFixtures extends Fixture
             $module = new Module();
 
             $module->setTitle( $this->faker->word() );
-            $module->setNumberOfWeeks( $this->faker->numberBetween(1,10) );
+            $module->setWeeks( $this->faker->numberBetween(1,10) );
 
             $manager->persist($module);
         }
@@ -170,6 +171,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+
     public function generateInstructors( $manager ) :void
     {
         $dbModules  = $this->moduleRepository->findAll();
@@ -179,21 +181,27 @@ class AppFixtures extends Fixture
         {
             $instructor = new Instructor();
 
-            $instructor->setFirstname($this->faker->firstName());
-            $instructor->setLastname($this->faker->lastName());
+            $instructorFirstName = $this->faker->firstName();
+            $instructor->setFirstname($instructorFirstName);
+            $instructorLastName = $this->faker->lastName();
+            $instructor->setLastname($instructorLastName);
             $instructor->setBirthDate( $this->faker->dateTimeBetween('-40 years', '-18 years') );
-            $instructor->setPhoneNumber($this->faker->numerify('06########'));
+            $instructor->setPhone($this->faker->numerify('+33########'));
             $instructor->setEmail($this->faker->email());
             $instructor->setPassword(
                 $this->userPasswordHasherInterface->hashPassword(
                     $instructor, "password"
                 )
             );
-            $instructor->setRoles(['instructor']);
-             $instructor->addModule($dbModules[array_rand($dbModules)]);
-             $session = $dbSessions[array_rand($dbSessions)];
-            // $session->addInstructor($instructor);
-             $instructor->addSession($session);
+            $instructor->setMoodleId($this->faker->randomNumber(5, true));
+            $instructor->setIsReferent($this->faker->numberBetween(0, 1));
+            $instructor->setRoles(['ROLE_INSTRUCTOR']);
+            $instructor->setEmail3wa($instructorFirstName . '.' . $instructorLastName . '@3wa.io');
+            $linkInstructorSessionModule = new linkInstructorSessionModule();
+            $linkInstructorSessionModule->setModule($dbModules[array_rand($dbModules)]);
+            $linkInstructorSessionModule->setSession($dbSessions[array_rand($dbSessions)]);
+            $linkInstructorSessionModule->setInstructor($instructor);
+
 
             $manager->persist($instructor);
         }
@@ -231,15 +239,20 @@ class AppFixtures extends Fixture
                 array_rand($dbModules,1) => "Explore",
                 array_rand($dbModules,1) => "Domine",
             ]);
-            $student->setMail3wa($studentFirstName . '.' . $studentLastName . '@3wa.io');
-            $student->setIdModule( $dbModules[array_rand($dbModules )]->getId() );
-
+            $student->setEmail3wa($studentFirstName . '.' . $studentLastName . '@3wa.io');
+            $student->setEmail($studentFirstName . '.' . $studentLastName . '@yahoo.fr');
+            $student->setMoodleId( $this->faker->randomNumber(5, true) );
+            $student->setPassword(
+                $this->userPasswordHasherInterface->hashPassword(
+                    $student, "password"
+                )
+            );
             $manager->persist($student);
             $manager->flush();
 
             //LinkSessionStudent
             $lms = new linkSessionStudent();
-            $lms->setEnabled( $this->faker->numberBetween(0, 1) );
+            $lms->setIsEnabled( $this->faker->numberBetween(0, 1) );
             $lms->setStudent($student);
             $lms->setSession($dbSessions[array_rand($dbSessions)]);
 
@@ -259,9 +272,9 @@ class AppFixtures extends Fixture
             {
                 $question = new Question();
                 $question->setModule($dbModule);
-                $question->setWording( $this->faker->sentence() );
+                $question->setQuestion( $this->faker->sentence() );
                 $question->setIdAuthor( $dbInstructors[array_rand($dbInstructors)]->getId() );
-
+                $question->setAuthor();
                 $question->setEnabled( $this->faker->numberBetween(0, 1) );
                 $question->setIsMandatory(0);
                 $question->setIsOfficial(0);

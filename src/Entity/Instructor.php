@@ -17,16 +17,17 @@ final class Instructor extends User
     #[ORM\Column(type: 'string', length: 12, nullable: true)]
     private $phone;
 
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Qcm::class)]
-    private $qcms;
-
     #[ORM\OneToMany(mappedBy: 'instructor', targetEntity: LinkInstructorSessionModule::class)]
     private $linksInstructorSessionModule;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Question::class)]
+    private $questions;
 
     public function __construct()
     {
         $this->qcms = new ArrayCollection();
         $this->linksInstructorSessionModule = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function isReferent(): ?bool
@@ -49,36 +50,6 @@ final class Instructor extends User
     public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Qcm>
-     */
-    public function getQcms(): Collection
-    {
-        return $this->qcms;
-    }
-
-    public function addQcm(Qcm $qcm): self
-    {
-        if (!$this->qcms->contains($qcm)) {
-            $this->qcms[] = $qcm;
-            $qcm->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQcm(Qcm $qcm): self
-    {
-        if ($this->qcms->removeElement($qcm)) {
-            // set the owning side to null (unless already changed)
-            if ($qcm->getAuthor() === $this) {
-                $qcm->setAuthor(null);
-            }
-        }
 
         return $this;
     }
@@ -107,6 +78,36 @@ final class Instructor extends User
             // set the owning side to null (unless already changed)
             if ($linksInstructorSessionModule->getInstructor() === $this) {
                 $linksInstructorSessionModule->setInstructor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getAuthor() === $this) {
+                $question->setAuthor(null);
             }
         }
 
