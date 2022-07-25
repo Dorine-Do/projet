@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Session
 {
     #[ORM\Id]
@@ -45,6 +46,19 @@ class Session
         $this->linksSessionStudent = new ArrayCollection();
         $this->linksInstructorSessionModule = new ArrayCollection();
         $this->linksSessionModule = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue():void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue():void
+    {
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
