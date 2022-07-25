@@ -3,12 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\QcmInstanceRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QcmInstanceRepository::class)]
-#[ORM\HasLifecycleCallbacks]
 class QcmInstance
 {
     #[ORM\Id]
@@ -16,139 +13,107 @@ class QcmInstance
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'json')]
-    private $questions_answers = [];
-
-    #[ORM\Column(type: 'boolean')]
-    private $enabled;
-
-    #[ORM\Column(type: 'string', length: 75)]
-    private $name;
+    #[ORM\Column(type: 'datetime')]
+    private $startTime;
 
     #[ORM\Column(type: 'datetime')]
-    private $release_date;
+    private $endTime;
 
     #[ORM\Column(type: 'datetime')]
-    private $end_date;
+    private $createdAt;
 
     #[ORM\Column(type: 'datetime')]
-    private $created_at;
+    private $updatedAt;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $updated_at;
-
-    #[ORM\ManyToOne(targetEntity: Qcm::class, inversedBy: 'qcm_instance')]
+    #[ORM\ManyToOne(targetEntity: Student::class, inversedBy: 'qcmInstances')]
     #[ORM\JoinColumn(nullable: false)]
-    private $qcm;
+    private $student;
 
-    #[ORM\OneToMany(mappedBy: 'qcmInstance', targetEntity: Result::class)]
+    #[ORM\OneToOne(mappedBy: 'qcmInstance', targetEntity: Result::class, cascade: ['persist', 'remove'])]
     private $result;
 
-    #[ORM\ManyToMany(targetEntity: Student::class, mappedBy: 'qcmInstances')]
-    private $students;
-
-    public function __construct()
-    {
-        $this->result = new ArrayCollection();
-        $this->students = new ArrayCollection();
-    }
-
-    #[ORM\PrePersist]
-    public function setCreatedAtValue(){
-        $this->created_at = new \DateTime();
-        $this->updated_at = new \DateTime();
-    }
-
-    #[ORM\PreUpdate]
-    public function setUpdateAtValue(){
-        $this->updated_at = new \DateTime();
-    }
+    #[ORM\ManyToOne(targetEntity: Qcm::class, inversedBy: 'qcmInstances')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $qcm;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getQuestionAnswers(): ?array
+    public function getStartTime(): ?\DateTimeInterface
     {
-        return $this->question_answers;
+        return $this->startTime;
     }
 
-    public function setQuestionAnswers(array $question_answers): self
+    public function setStartTime(\DateTimeInterface $startTime): self
     {
-        $this->question_answers = $question_answers;
+        $this->startTime = $startTime;
 
         return $this;
     }
 
-    public function getEnabled(): ?bool
+    public function getEndTime(): ?\DateTimeInterface
     {
-        return $this->enabled;
+        return $this->endTime;
     }
 
-    public function setEnabled(bool $enabled): self
+    public function setEndTime(\DateTimeInterface $endTime): self
     {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getReleaseDate(): ?\DateTimeInterface
-    {
-        return $this->release_date;
-    }
-
-    public function setReleaseDate(\DateTimeInterface $release_date): self
-    {
-        $this->release_date = $release_date;
-
-        return $this;
-    }
-
-    public function getEndDate(): ?\DateTimeInterface
-    {
-        return $this->end_date;
-    }
-
-    public function setEndDate(\DateTimeInterface $end_date): self
-    {
-        $this->end_date = $end_date;
+        $this->endTime = $endTime;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getStudent(): ?Student
+    {
+        return $this->student;
+    }
+
+    public function setStudent(?Student $student): self
+    {
+        $this->student = $student;
+
+        return $this;
+    }
+
+    public function getResult(): ?Result
+    {
+        return $this->result;
+    }
+
+    public function setResult(Result $result): self
+    {
+        // set the owning side of the relation if necessary
+        if ($result->getQcmInstance() !== $this) {
+            $result->setQcmInstance($this);
+        }
+
+        $this->result = $result;
 
         return $this;
     }
@@ -161,63 +126,6 @@ class QcmInstance
     public function setQcm(?Qcm $qcm): self
     {
         $this->qcm = $qcm;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Result>
-     */
-    public function getResult(): Collection
-    {
-        return $this->result;
-    }
-
-    public function addResult(Result $result): self
-    {
-        if (!$this->result->contains($result)) {
-            $this->result[] = $result;
-            $result->setQcmInstance($this);
-        }
-
-        return $this;
-    }
-
-    public function removeResult(Result $result): self
-    {
-        if ($this->result->removeElement($result)) {
-            // set the owning side to null (unless already changed)
-            if ($result->getQcmInstance() === $this) {
-                $result->setQcmInstance(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Student>
-     */
-    public function getStudents(): Collection
-    {
-        return $this->students;
-    }
-
-    public function addStudent(Student $student): self
-    {
-        if (!$this->students->contains($student)) {
-            $this->students[] = $student;
-            $student->addQcmInstance($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStudent(Student $student): self
-    {
-        if ($this->students->removeElement($student)) {
-            $student->removeQcmInstance($this);
-        }
 
         return $this;
     }
