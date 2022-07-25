@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", (event) => {
-    let select = document.getElementById('select-module');
+    let select = document.getElementById('select_module');
 
     function getSelectValue(){
         let selectedValue = select.options[select.selectedIndex].text

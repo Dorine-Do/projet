@@ -12,7 +12,10 @@ img{
 }
 
 .diff{
+    display: flex;
+    flex-direction: column;
     align-items: center;
+
 }
 
 .diff p{
@@ -51,7 +54,7 @@ img{
     width: fit-content;
 }
 
-.valid{
+#valid{
     background-color: var(--grey);
     color: white;
     border-radius: 20px;
@@ -63,7 +66,7 @@ img{
     display: block;
 }
 
-.valid:hover{
+#valid:hover{
     background-color: var(--vert);
     cursor: pointer;
 }
@@ -91,7 +94,93 @@ img{
     margin-right: 15px;
 }
 
+/***************************************** POP UP *************************************/
+
+#my-modal{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+}
+
+
+.overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #333333d3;
+    backdrop-filter:blur(5px);
+    z-index: -1;
+}
+
+.modalContent{
+    border-radius: 5px;
+    margin-top: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    height: 300px;
+    width: 500px;
+    text-align: center;
+    background-color: var(--fond);
+}
+
+.confirmBtn{
+    border-radius: 8px;
+    background-color: var(--grey);
+    color: white;
+    cursor: pointer;
+    margin: auto;
+    padding: 10px 50px;
+    text-align: center;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: none;
+}
+
+.confirmBtn:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
+.cancelBtn{
+    border-radius: 8px;
+    background-color: var(--grey);
+    color: white;
+    cursor: pointer;
+    margin: 8px auto;
+    padding: 10px 50px;
+    text-align: center;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: none;
+}
+
+.cancelBtn:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
+.buttonPop{
+    display: flex;
+    flex-direction: column;
+}
+
+.logoPop{
+    width: 100px;
+    margin-top: 20px;
+}
+
+
+
+
 @media screen and (max-width: 780px) {
+
     .diff p{
         padding: 5px 30px;
     }
@@ -119,17 +208,21 @@ img{
         width: 400px;
     }
 
-    .diff{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
 
     .diff p{
         padding: 5px 25px;
     }
 
-    .valid{
+    #valid{
         padding: 12px 110px;
+    }
+
+    .reponse{
+        padding: 15px 5px 15px 10px;
+    }
+
+    .modalContent{
+        height: 300px;
+        width: 400px;
     }
 }

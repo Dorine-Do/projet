@@ -66,10 +66,25 @@
 
 
             {% endfor %}
-            <input class="valid" type="submit" value="J'ai fini mon qcm" onclick="checker()">
+            <input type="submit" id="valid" value="J'ai fini mon qcm">
         </form>
-
     </div>
+
+
+
+        <div id="my-modal" class="modalContainer">
+            <div class="overlay"></div>
+            <div class="modalContent">
+                <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}">
+                <p>LE QCM EST TERMINÉ</p>
+                <p>Voulez vous vraiment confirmer ce QCM ?</p>
+                <div class="buttonPop">
+                    <button type="button" class="confirmBtn" id="confirm-qcm-btn">Valider</button>
+                    <button type="button" class="cancelBtn" id="cancel-qcm-btn">Retour</button>
+                </div>
+            </div>
+        </div>
+
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/qcmToDo.js') }}"></script>
