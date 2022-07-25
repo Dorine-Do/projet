@@ -4,10 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ProposalRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProposalRepository::class)]
-#[ORM\HasLifecycleCallbacks]
 class Proposal
 {
     #[ORM\Id]
@@ -15,86 +13,116 @@ class Proposal
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
-    private $wording;
+    private $proposal;
 
     #[ORM\Column(type: 'boolean')]
-    private $is_correct;
+    private $isCorrectAnswer;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isMandatory;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isOfficial;
+
+    #[ORM\Column(type: 'smallint')]
+    private $difficulty;
 
     #[ORM\Column(type: 'datetime')]
-    private $created_at;
+    private $createdAt;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $updated_at;
+    #[ORM\Column(type: 'datetime')]
+    private $updatedAt;
 
-    #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'proposal', cascade:["persist", "remove"])]
+    #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'proposals')]
     #[ORM\JoinColumn(nullable: false)]
     private $question;
-
-    public function __construct()
-    {
-    }
-    #[ORM\PrePersist]
-    public function setCreatedAtValue(){
-        $this->created_at = new \DateTime();
-        $this->updated_at = new \DateTime();
-    }
-
-    #[ORM\PreUpdate]
-    public function setUpdateAtValue(){
-        $this->updated_at = new \DateTime();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getWording(): ?string
+    public function getProposal(): ?string
     {
-        return $this->wording;
+        return $this->proposal;
     }
 
-    public function setWording(string $wording): self
+    public function setProposal(string $proposal): self
     {
-        $this->wording = $wording;
+        $this->proposal = $proposal;
 
         return $this;
     }
 
-    public function getIsCorrect(): ?bool
+    public function isIsCorrectAnswer(): ?bool
     {
-        return $this->is_correct;
+        return $this->isCorrectAnswer;
     }
 
-    public function setIsCorrect(bool $is_correct): self
+    public function setIsCorrectAnswer(bool $isCorrectAnswer): self
     {
-        $this->is_correct = $is_correct;
+        $this->isCorrectAnswer = $isCorrectAnswer;
+
+        return $this;
+    }
+
+    public function isIsMandatory(): ?bool
+    {
+        return $this->isMandatory;
+    }
+
+    public function setIsMandatory(bool $isMandatory): self
+    {
+        $this->isMandatory = $isMandatory;
+
+        return $this;
+    }
+
+    public function isIsOfficial(): ?bool
+    {
+        return $this->isOfficial;
+    }
+
+    public function setIsOfficial(bool $isOfficial): self
+    {
+        $this->isOfficial = $isOfficial;
+
+        return $this;
+    }
+
+    public function getDifficulty(): ?int
+    {
+        return $this->difficulty;
+    }
+
+    public function setDifficulty(int $difficulty): self
+    {
+        $this->difficulty = $difficulty;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

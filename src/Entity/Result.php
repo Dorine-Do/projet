@@ -4,11 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ResultRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Enum\Level;
-
 
 #[ORM\Entity(repositoryClass: ResultRepository::class)]
-#[ORM\HasLifecycleCallbacks]
 class Result
 {
     #[ORM\Id]
@@ -16,76 +13,41 @@ class Result
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: "string", enumType: Enum\Level::class)]
-    private Level $level;
+    #[ORM\Column(type: 'datetime')]
+    private $submittedAt;
 
     #[ORM\Column(type: 'json')]
     private $answers = [];
 
-    #[ORM\Column(type: 'float')]
-    private $total_score;
+    #[ORM\Column(type: 'smallint')]
+    private $score;
 
-    #[ORM\Column(type: 'string', length: 500, nullable: true)]
-    private $instructor_comment;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $studentComment;
 
-    #[ORM\Column(type: 'string', length: 500, nullable: true)]
-    private $student_comment;
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $instructorComment;
 
-    #[ORM\Column(type: 'datetime')]
-    private $created_at;
+    #[ORM\Column(type: 'boolean')]
+    private $isFirstTry;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $updated_at;
-
-    #[ORM\ManyToOne(targetEntity: QcmInstance::class, inversedBy: 'result')]
+    #[ORM\OneToOne(inversedBy: 'result', targetEntity: QcmInstance::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private $qcmInstance;
-
-    #[ORM\ManyToOne(targetEntity: Student::class, inversedBy: 'results')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $student;
-
-    public function __construct()
-    {
-        $this->level = Level::Discover;
-    }
-
-    #[ORM\PrePersist]
-    public function setCreatedAtValue(){
-        $this->created_at = new \DateTime();
-        $this->updated_at = new \DateTime();
-    }
-
-    #[ORM\PreUpdate]
-    public function setUpdateAtValue(){
-        $this->updated_at = new \DateTime();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getQcmInstance(): ?QcmInstance
+    public function getSubmittedAt(): ?\DateTimeInterface
     {
-        return $this->qcmInstance;
+        return $this->submittedAt;
     }
 
-    public function setQcmInstance(QcmInstance $qcm_instance): self
+    public function setSubmittedAt(\DateTimeInterface $submittedAt): self
     {
-        $this->qcmInstance = $qcm_instance;
-
-        return $this;
-    }
-
-    public function getLevel(): ?Level
-    {
-        return $this->level;
-    }
-
-    public function setLevel(Level $level): self
-    {
-        $this->level = $level;
+        $this->submittedAt = $submittedAt;
 
         return $this;
     }
@@ -102,74 +64,62 @@ class Result
         return $this;
     }
 
-    public function getTotalScore(): ?float
+    public function getScore(): ?int
     {
-        return $this->total_score;
+        return $this->score;
     }
 
-    public function setTotalScore(float $total_score): self
+    public function setScore(int $score): self
     {
-        $this->total_score = $total_score;
-
-        return $this;
-    }
-
-    public function getInstructorComment(): ?string
-    {
-        return $this->instructor_comment;
-    }
-
-    public function setInstructorComment(?string $instructor_comment): self
-    {
-        $this->instructor_comment = $instructor_comment;
+        $this->score = $score;
 
         return $this;
     }
 
     public function getStudentComment(): ?string
     {
-        return $this->student_comment;
+        return $this->studentComment;
     }
 
-    public function setStudentComment(?string $student_comment): self
+    public function setStudentComment(?string $studentComment): self
     {
-        $this->student_comment = $student_comment;
+        $this->studentComment = $studentComment;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getInstructorComment(): ?string
     {
-        return $this->created_at;
+        return $this->instructorComment;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setInstructorComment(?string $instructorComment): self
     {
-        $this->created_at = $created_at;
+        $this->instructorComment = $instructorComment;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function isFirstTry(): ?bool
     {
-        return $this->updated_at;
+        return $this->isFirstTry;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    public function setIsFirstTry(bool $isFirstTry): self
     {
-        $this->updated_at = $updated_at;
+        $this->isFirstTry = $isFirstTry;
 
         return $this;
     }
 
-    public function getStudent(): ?Student
+    public function getQcmInstance(): ?QcmInstance
     {
-        return $this->student;
+        return $this->qcmInstance;
     }
 
-    public function setStudent(?Student $student): self
+    public function setQcmInstance(QcmInstance $qcmInstance): self
     {
-        $this->student = $student;
+        $this->qcmInstance = $qcmInstance;
 
         return $this;
     }

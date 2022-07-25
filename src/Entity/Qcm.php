@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QcmRepository::class)]
-#[ORM\HasLifecycleCallbacks]
 class Qcm
 {
     #[ORM\Id]
@@ -16,58 +15,48 @@ class Qcm
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'json')]
-    private $questions_answers = [];
-
-    #[ORM\Column(type: 'boolean')]
-    private $enabled;
-
     #[ORM\Column(type: 'string', length: 75)]
-    private $name;
+    private $title;
 
-    #[ORM\Column(type: "string", enumType: Enum\Difficulty::class)]
-    private Enum\Difficulty $difficulty;
-
-    #[ORM\Column(type: 'boolean')]
-    private $is_official;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $author_id;
+    #[ORM\Column(type: 'smallint')]
+    private $difficulty;
 
     #[ORM\Column(type: 'boolean')]
-    private $public;
+    private $isOfficial;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isEnabled;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isPublic;
+
+    #[ORM\Column(type: 'json')]
+    private $questionsCache = [];
 
     #[ORM\Column(type: 'datetime')]
-    private $created_at;
+    private $createdAt;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $updated_at;
+    #[ORM\Column(type: 'datetime')]
+    private $updatedAt;
 
     #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: QcmInstance::class)]
-    private $qcm_instance;
+    private $qcmInstances;
 
-    #[ORM\ManyToMany(targetEntity: Question::class, inversedBy: 'qcms')]
-    #[ORM\JoinTable(name: "link_qcm_question")]
-    private $questions;
+    #[ORM\ManyToOne(targetEntity: Instructor::class, inversedBy: 'qcms')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $author;
 
     #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'qcms')]
+    #[ORM\JoinColumn(nullable: false)]
     private $module;
+
+    #[ORM\ManyToMany(targetEntity: Question::class, inversedBy: 'qcms')]
+    private $questions;
 
     public function __construct()
     {
-        $this->qcm_instance = new ArrayCollection();
-        $this->difficulty = Enum\Difficulty::Medium;
+        $this->qcmInstances = new ArrayCollection();
         $this->questions = new ArrayCollection();
-    }
-    #[ORM\PrePersist]
-    public function setCreatedAtValue(){
-        $this->created_at = new \DateTime();
-        $this->updated_at = new \DateTime();
-    }
-
-    #[ORM\PreUpdate]
-    public function setUpdateAtValue(){
-        $this->updated_at = new \DateTime();
     }
 
     public function getId(): ?int
@@ -75,110 +64,98 @@ class Qcm
         return $this->id;
     }
 
-    public function getQuestionsAnswers(): ?array
+    public function getTitle(): ?string
     {
-        return $this->questions_answers;
+        return $this->title;
     }
 
-    public function setQuestionsAnswers(array $questions_answers): self
+    public function setTitle(string $title): self
     {
-        $this->questions_answers = $questions_answers;
+        $this->title = $title;
 
         return $this;
     }
 
-    public function getEnabled(): ?bool
-    {
-        return $this->enabled;
-    }
-
-    public function setEnabled(bool $enabled): self
-    {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDifficulty()
+    public function getDifficulty(): ?int
     {
         return $this->difficulty;
     }
 
-    public function setDifficulty($difficulty): self
+    public function setDifficulty(int $difficulty): self
     {
         $this->difficulty = $difficulty;
 
         return $this;
     }
 
-    public function getIsOfficial(): ?bool
+    public function isOfficial(): ?bool
     {
-        return $this->is_official;
+        return $this->isOfficial;
     }
 
-    public function setIsOfficial(bool $is_official): self
+    public function setIsOfficial(bool $isOfficial): self
     {
-        $this->is_official = $is_official;
+        $this->isOfficial = $isOfficial;
 
         return $this;
     }
 
-    public function getAuthorId(): ?int
+    public function isEnabled(): ?bool
     {
-        return $this->author_id;
+        return $this->isEnabled;
     }
 
-    public function setAuthorId(?int $author_id): self
+    public function setIsEnabled(bool $isEnabled): self
     {
-        $this->author_id = $author_id;
+        $this->isEnabled = $isEnabled;
 
         return $this;
     }
 
-    public function getPublic(): ?bool
+    public function isPublic(): ?bool
     {
-        return $this->public;
+        return $this->isPublic;
     }
 
-    public function setPublic(bool $public): self
+    public function setIsPublic(bool $isPublic): self
     {
-        $this->public = $public;
+        $this->isPublic = $isPublic;
+
+        return $this;
+    }
+
+    public function getQuestionsCache(): ?array
+    {
+        return $this->questionsCache;
+    }
+
+    public function setQuestionsCache(array $questionsCache): self
+    {
+        $this->questionsCache = $questionsCache;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -186,15 +163,15 @@ class Qcm
     /**
      * @return Collection<int, QcmInstance>
      */
-    public function getQcmInstance(): Collection
+    public function getQcmInstances(): Collection
     {
-        return $this->qcm_instance;
+        return $this->qcmInstances;
     }
 
     public function addQcmInstance(QcmInstance $qcmInstance): self
     {
-        if (!$this->qcm_instance->contains($qcmInstance)) {
-            $this->qcm_instance[] = $qcmInstance;
+        if (!$this->qcmInstances->contains($qcmInstance)) {
+            $this->qcmInstances[] = $qcmInstance;
             $qcmInstance->setQcm($this);
         }
 
@@ -203,7 +180,7 @@ class Qcm
 
     public function removeQcmInstance(QcmInstance $qcmInstance): self
     {
-        if ($this->qcm_instance->removeElement($qcmInstance)) {
+        if ($this->qcmInstances->removeElement($qcmInstance)) {
             // set the owning side to null (unless already changed)
             if ($qcmInstance->getQcm() === $this) {
                 $qcmInstance->setQcm(null);
@@ -213,10 +190,34 @@ class Qcm
         return $this;
     }
 
+    public function getAuthor(): ?Instructor
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?Instructor $author): self
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+    public function setModule(?Module $module): self
+    {
+        $this->module = $module;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Question>
      */
-    public function getQuestion(): Collection
+    public function getQuestions(): Collection
     {
         return $this->questions;
     }
@@ -236,17 +237,4 @@ class Qcm
 
         return $this;
     }
-
-    public function getModule(): ?Module
-    {
-        return $this->module;
-    }
-
-    public function setModule(?Module $module): self
-    {
-        $this->module = $module;
-
-        return $this;
-    }
-
 }
