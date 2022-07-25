@@ -10,6 +10,7 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -38,9 +39,9 @@ security:
             # switch_user: true
 
     role_hierarchy:
-        student: ROLE_USER
-        instructor: student
-        admin: [ instructor, ROLE_ALLOWED_TO_SWITCH ]
+        ROLE_STUDENT: ROLE_USER
+        ROLE_INSTRUCTOR: ROLE_USER
+        ROLE_ADMIN: [ ROLE_STUDENT, ROLE_INSTRUCTOR, ROLE_ALLOWED_TO_SWITCH ]
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
