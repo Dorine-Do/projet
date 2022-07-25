@@ -39,12 +39,16 @@ class Module
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkInstructorSessionModule::class)]
     private $linksInstructorSessionModule;
 
+    #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkSessionModule::class)]
+    private $linksSessionModule;
+
     public function __construct()
     {
         $this->sessions = new ArrayCollection();
         $this->questions = new ArrayCollection();
         $this->qcms = new ArrayCollection();
         $this->linksInstructorSessionModule = new ArrayCollection();
+        $this->linksSessionModule = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -211,6 +215,36 @@ class Module
             // set the owning side to null (unless already changed)
             if ($linksInstructorSessionModule->getModule() === $this) {
                 $linksInstructorSessionModule->setModule(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, LinkSessionModule>
+     */
+    public function getLinksSessionModule(): Collection
+    {
+        return $this->linksSessionModule;
+    }
+
+    public function addLinksSessionModule(LinkSessionModule $linksSessionModule): self
+    {
+        if (!$this->linksSessionModule->contains($linksSessionModule)) {
+            $this->linksSessionModule[] = $linksSessionModule;
+            $linksSessionModule->setModule($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinksSessionModule(LinkSessionModule $linksSessionModule): self
+    {
+        if ($this->linksSessionModule->removeElement($linksSessionModule)) {
+            // set the owning side to null (unless already changed)
+            if ($linksSessionModule->getModule() === $this) {
+                $linksSessionModule->setModule(null);
             }
         }
 

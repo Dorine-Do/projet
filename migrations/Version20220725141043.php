@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220725133255 extends AbstractMigration
+final class Version20220725141043 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,6 +21,7 @@ final class Version20220725133255 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE link_instructor_session_module (id INT AUTO_INCREMENT NOT NULL, instructor_id INT NOT NULL, session_id INT NOT NULL, module_id INT NOT NULL, INDEX IDX_DA16236F8C4FC193 (instructor_id), INDEX IDX_DA16236F613FECDF (session_id), INDEX IDX_DA16236FAFC2B591 (module_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE link_session_module (id INT AUTO_INCREMENT NOT NULL, session_id INT NOT NULL, module_id INT NOT NULL, start_date DATETIME NOT NULL, end_date DATETIME NOT NULL, INDEX IDX_773BE832613FECDF (session_id), INDEX IDX_773BE832AFC2B591 (module_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE link_session_student (id INT AUTO_INCREMENT NOT NULL, session_id INT NOT NULL, student_id INT NOT NULL, is_enabled TINYINT(1) NOT NULL, INDEX IDX_4A3A4987613FECDF (session_id), INDEX IDX_4A3A4987CB944F1A (student_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE log (id INT AUTO_INCREMENT NOT NULL, log LONGTEXT NOT NULL, level SMALLINT NOT NULL, path VARCHAR(150) NOT NULL, latency VARCHAR(150) NOT NULL, created_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE module (id INT AUTO_INCREMENT NOT NULL, weeks SMALLINT NOT NULL, title VARCHAR(50) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -37,6 +38,8 @@ final class Version20220725133255 extends AbstractMigration
         $this->addSql('ALTER TABLE link_instructor_session_module ADD CONSTRAINT FK_DA16236F8C4FC193 FOREIGN KEY (instructor_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE link_instructor_session_module ADD CONSTRAINT FK_DA16236F613FECDF FOREIGN KEY (session_id) REFERENCES session (id)');
         $this->addSql('ALTER TABLE link_instructor_session_module ADD CONSTRAINT FK_DA16236FAFC2B591 FOREIGN KEY (module_id) REFERENCES module (id)');
+        $this->addSql('ALTER TABLE link_session_module ADD CONSTRAINT FK_773BE832613FECDF FOREIGN KEY (session_id) REFERENCES session (id)');
+        $this->addSql('ALTER TABLE link_session_module ADD CONSTRAINT FK_773BE832AFC2B591 FOREIGN KEY (module_id) REFERENCES module (id)');
         $this->addSql('ALTER TABLE link_session_student ADD CONSTRAINT FK_4A3A4987613FECDF FOREIGN KEY (session_id) REFERENCES session (id)');
         $this->addSql('ALTER TABLE link_session_student ADD CONSTRAINT FK_4A3A4987CB944F1A FOREIGN KEY (student_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE proposal ADD CONSTRAINT FK_BFE594721E27F6BF FOREIGN KEY (question_id) REFERENCES question (id)');
@@ -57,6 +60,7 @@ final class Version20220725133255 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE link_instructor_session_module DROP FOREIGN KEY FK_DA16236FAFC2B591');
+        $this->addSql('ALTER TABLE link_session_module DROP FOREIGN KEY FK_773BE832AFC2B591');
         $this->addSql('ALTER TABLE qcm DROP FOREIGN KEY FK_D7A1FEF4AFC2B591');
         $this->addSql('ALTER TABLE question DROP FOREIGN KEY FK_B6F7494EAFC2B591');
         $this->addSql('ALTER TABLE session_module DROP FOREIGN KEY FK_634F2C71AFC2B591');
@@ -66,6 +70,7 @@ final class Version20220725133255 extends AbstractMigration
         $this->addSql('ALTER TABLE proposal DROP FOREIGN KEY FK_BFE594721E27F6BF');
         $this->addSql('ALTER TABLE qcm_question DROP FOREIGN KEY FK_572B6C8D1E27F6BF');
         $this->addSql('ALTER TABLE link_instructor_session_module DROP FOREIGN KEY FK_DA16236F613FECDF');
+        $this->addSql('ALTER TABLE link_session_module DROP FOREIGN KEY FK_773BE832613FECDF');
         $this->addSql('ALTER TABLE link_session_student DROP FOREIGN KEY FK_4A3A4987613FECDF');
         $this->addSql('ALTER TABLE session_module DROP FOREIGN KEY FK_634F2C71613FECDF');
         $this->addSql('ALTER TABLE link_instructor_session_module DROP FOREIGN KEY FK_DA16236F8C4FC193');
@@ -74,6 +79,7 @@ final class Version20220725133255 extends AbstractMigration
         $this->addSql('ALTER TABLE qcm_instance DROP FOREIGN KEY FK_A3EC941DCB944F1A');
         $this->addSql('ALTER TABLE question DROP FOREIGN KEY FK_B6F7494EF675F31B');
         $this->addSql('DROP TABLE link_instructor_session_module');
+        $this->addSql('DROP TABLE link_session_module');
         $this->addSql('DROP TABLE link_session_student');
         $this->addSql('DROP TABLE log');
         $this->addSql('DROP TABLE module');
