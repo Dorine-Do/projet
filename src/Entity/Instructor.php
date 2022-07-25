@@ -23,10 +23,14 @@ final class Instructor extends User
     #[ORM\OneToMany(mappedBy: 'instructor', targetEntity: LinkInstructorSessionModule::class)]
     private $linksInstructorSessionModule;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Question::class)]
+    private $questions;
+
     public function __construct()
     {
         $this->qcms = new ArrayCollection();
         $this->linksInstructorSessionModule = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
     public function isReferent(): ?bool
@@ -107,6 +111,36 @@ final class Instructor extends User
             // set the owning side to null (unless already changed)
             if ($linksInstructorSessionModule->getInstructor() === $this) {
                 $linksInstructorSessionModule->setInstructor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Question>
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getAuthor() === $this) {
+                $question->setAuthor(null);
             }
         }
 
