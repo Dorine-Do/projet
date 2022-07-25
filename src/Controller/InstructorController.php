@@ -21,14 +21,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class InstructorController extends AbstractController
 {
-    private $repository;
-    private $proposals;
-
-    public function __construct(QuestionRepository $repository, ProposalRepository $proposals){
-        $this->repository = $repository;
-        $this->proposals = $proposals;
-    }
-
 //    TODO future page à implémenter
     #[Route('/instructor', name: 'app_instructor')]
     public function index(): Response
@@ -36,16 +28,17 @@ class InstructorController extends AbstractController
         return $this->render('instructor/index.html.twig', []);
     }
 
-    #[Route('instructor/questions', name: 'instructor_display_questions')]
-    public function displayQuestions(): Response
+    #[Route('instructor/questions', name: 'instructor_display_questions', methods: ['GET'])]
+    public function displayQuestions(QuestionRepository $questionRepository, ProposalRepository $proposalRepository): Response
     {
         $proposals = [];
-        $proposalValues =[];
+        $proposalValues = [];
         $resumeProposal = [];
-        $questions = $this->repository->findBy(['id_author' => 2]);
+        /*TODO A Changer quand la refacto de la bd sera faite*/
+        $questions = $questionRepository->findBy(['id_author' => 2]);
         foreach ($questions as $question) {
             $question_id = $question->getId();
-            $proposals[$question_id] = $this->proposals->findBy(['question' => $question_id]);
+            $proposals[$question_id] = $proposalRepository->findBy(['question' => $question_id]);
             foreach ($proposals[$question_id] as $proposal){
                 $proposalValues = [
                     'id'=>$proposal->getId(),
@@ -61,7 +54,7 @@ class InstructorController extends AbstractController
         ]);
     }
 
-    #[Route('instructor/modify_question/{question}', name: 'instructor_modify_question')]
+    #[Route('instructor/questions/modify_question/{question}', name: 'instructor_modify_question', methods: ['GET', 'POST'])]
     public function modifyQuestion(Request $request, $question,QuestionRepository $questionRepository, ProposalRepository $proposalRepository, EntityManagerInterface $em): Response
     {
         $releasedateonsession = $questionRepository -> getSessionWithReleaseDate($question);
@@ -104,7 +97,6 @@ class InstructorController extends AbstractController
                 $bool = in_array($prop->getId(),$arrayBeforeProp);
                 // Si la prop est une déjà créer en db ou si son id est null alors si elle vient d'être créée.
                     if($bool || $prop->getId() == null ){
-
                         // Si l'utilisateur a modifié la reponse
                         $prop->setQuestion($instanceQuestion);;
                         array_push($persitProp,$prop->getId());
@@ -124,7 +116,6 @@ class InstructorController extends AbstractController
                 $instanceQuestion->setResponseType("radio");
             }
 
-            /*TODO à faire vérifier au chef => remove()*/
             //Supprime le lien entre les proposals et la question que l'utilisateur ne veut plus
             $removeProp = array_diff($arrayBeforeProp,$persitProp);
             foreach ($removeProp as $id){
@@ -147,7 +138,7 @@ class InstructorController extends AbstractController
         ]);
     }
 
-    #[Route('instructor/create_question', name: 'instructor_create_question')]
+    #[Route('instructor/questions/create_question', name: 'instructor_create_question', methods: ['GET', 'POST'])]
     public function createQuestion(Request $request, EntityManagerInterface $em): Response
     {
         $questionEntity= new Question();

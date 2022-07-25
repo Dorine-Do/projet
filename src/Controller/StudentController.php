@@ -26,8 +26,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StudentController extends AbstractController
 {
-    #[Route('/student/qcms', name: 'student_qcms')]
-    public function index( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
+    #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
+    public function manageQcms( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
     {
         $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
 
@@ -108,7 +108,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcmsDone', name: 'student_qcms_done')]
+    #[Route('student/qcms/Done', name: 'student_qcms_done', methods: ['GET'])]
     public function qcmsDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo )
     {
         $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
@@ -137,7 +137,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcmToDo/{qcmInstance}', name: 'student_qcm_to_do')]
+    #[Route('student/qcm/qcmToDo/{qcmInstance}', name: 'student_qcm_to_do', methods: ['GET', 'POST'])]
     public function QcmToDo( QcmInstance $qcmInstance, QcmRepository $qcmRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em){
 
         // Récupere le qcm par rapport à l'id du qcmInstance
@@ -295,7 +295,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcmDone/{qcmInstance}', name: 'student_qcm_done')]
+    #[Route('student/qcm/qcmDone/{qcmInstance}', name: 'student_qcm_done', methods: ['GET'])]
     public function QcmDone( $qcmInstance, QcmRepository $qcmRepository,ResultRepository $resultRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em)
     {
         $studentId = 2;
