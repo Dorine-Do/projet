@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Enum\Difficulty;
 use App\Entity\Enum\Level;
 use App\Entity\Instructor;
+use App\Entity\LinkInstructorSessionModule;
 use App\Entity\LinkSessionModule;
 use App\Entity\LinkSessionStudent;
 use App\Entity\Module;
@@ -61,7 +62,7 @@ class AppFixtures extends Fixture
 //        $this->generateSessions( $manager );
 
         //LinkSessionModule
-//        $this->generateLinksSessionModule( $manager );
+        $this->generateLinksSessionModule( $manager );
 
         //Instructeur
 //        $this->generateInstructors( $manager );
@@ -83,7 +84,7 @@ class AppFixtures extends Fixture
 //        $this->generateQcmInstances( $manager );
 
         //QcmInstance avec le module de démo (réelles data)
-        $this->generateQcmInstancesWithSpecifyModule($manager);
+//        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
 //        $this->generateResults( $manager );
@@ -133,7 +134,7 @@ class AppFixtures extends Fixture
             $module = new Module();
 
             $module->setTitle( $this->faker->word() );
-            $module->setNumberOfWeeks( $this->faker->numberBetween(1,10) );
+            $module->setWeeks( $this->faker->numberBetween(1,10) );
 
             $manager->persist($module);
         }
@@ -182,7 +183,7 @@ class AppFixtures extends Fixture
             $instructor->setFirstname($this->faker->firstName());
             $instructor->setLastname($this->faker->lastName());
             $instructor->setBirthDate( $this->faker->dateTimeBetween('-40 years', '-18 years') );
-            $instructor->setPhoneNumber($this->faker->numerify('06########'));
+            $instructor->setPhone($this->faker->numerify('+33########'));
             $instructor->setEmail($this->faker->email());
             $instructor->setPassword(
                 $this->userPasswordHasherInterface->hashPassword(
@@ -190,8 +191,10 @@ class AppFixtures extends Fixture
                 )
             );
             $instructor->setRoles(['instructor']);
-             $instructor->addModule($dbModules[array_rand($dbModules)]);
-             $session = $dbSessions[array_rand($dbSessions)];
+            $linkInstructorSessionModule = new linkInstructorSessionModule();
+            $instructor->addLinksInstructorSessionModule()
+            $instructor->addModule($dbModules[array_rand($dbModules)]);
+            $session = $dbSessions[array_rand($dbSessions)];
             // $session->addInstructor($instructor);
              $instructor->addSession($session);
 
