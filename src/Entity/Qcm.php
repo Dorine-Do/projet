@@ -42,16 +42,16 @@ class Qcm
     #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: QcmInstance::class)]
     private $qcmInstances;
 
-    #[ORM\ManyToOne(targetEntity: Instructor::class, inversedBy: 'qcms')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $author;
-
     #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'qcms')]
     #[ORM\JoinColumn(nullable: false)]
     private $module;
 
     #[ORM\ManyToMany(targetEntity: Question::class, inversedBy: 'qcms')]
     private $questions;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'qcms')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $author;
 
     public function __construct()
     {
@@ -190,18 +190,6 @@ class Qcm
         return $this;
     }
 
-    public function getAuthor(): ?Instructor
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?Instructor $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
     public function getModule(): ?Module
     {
         return $this->module;
@@ -234,6 +222,18 @@ class Qcm
     public function removeQuestion(Question $question): self
     {
         $this->questions->removeElement($question);
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
