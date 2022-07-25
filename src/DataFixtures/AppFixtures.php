@@ -62,14 +62,14 @@ class AppFixtures extends Fixture
 //        $this->generateSessions( $manager );
 
         //LinkSessionModule
-        $this->generateLinksSessionModule( $manager );
+//        $this->generateLinksSessionModule( $manager );
 
         //Instructeur
 //        $this->generateInstructors( $manager );
 //        $this->generateLinkSessionInstructor();
 
         //Student
-//        $this->generateStudents( $manager );
+        $this->generateStudents( $manager );
 
         //Question + Proposal
 //        $this->generateQuestions( $manager );
@@ -171,6 +171,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+
     public function generateInstructors( $manager ) :void
     {
         $dbModules  = $this->moduleRepository->findAll();
@@ -180,8 +181,10 @@ class AppFixtures extends Fixture
         {
             $instructor = new Instructor();
 
-            $instructor->setFirstname($this->faker->firstName());
-            $instructor->setLastname($this->faker->lastName());
+            $instructorFirstName = $this->faker->firstName();
+            $instructor->setFirstname($instructorFirstName);
+            $instructorLastName = $this->faker->lastName();
+            $instructor->setLastname($instructorLastName);
             $instructor->setBirthDate( $this->faker->dateTimeBetween('-40 years', '-18 years') );
             $instructor->setPhone($this->faker->numerify('+33########'));
             $instructor->setEmail($this->faker->email());
@@ -190,13 +193,15 @@ class AppFixtures extends Fixture
                     $instructor, "password"
                 )
             );
-            $instructor->setRoles(['instructor']);
+            $instructor->setMoodleId($this->faker->randomNumber(5, true));
+            $instructor->setIsReferent($this->faker->numberBetween(0, 1));
+            $instructor->setRoles(['ROLE_INSTRUCTOR']);
+            $instructor->setEmail3wa($instructorFirstName . '.' . $instructorLastName . '@3wa.io');
             $linkInstructorSessionModule = new linkInstructorSessionModule();
-            $instructor->addLinksInstructorSessionModule()
-            $instructor->addModule($dbModules[array_rand($dbModules)]);
-            $session = $dbSessions[array_rand($dbSessions)];
-            // $session->addInstructor($instructor);
-             $instructor->addSession($session);
+            $linkInstructorSessionModule->setModule($dbModules[array_rand($dbModules)]);
+            $linkInstructorSessionModule->setSession($dbSessions[array_rand($dbSessions)]);
+            $linkInstructorSessionModule->setInstructor($instructor);
+
 
             $manager->persist($instructor);
         }
@@ -234,15 +239,20 @@ class AppFixtures extends Fixture
                 array_rand($dbModules,1) => "Explore",
                 array_rand($dbModules,1) => "Domine",
             ]);
-            $student->setMail3wa($studentFirstName . '.' . $studentLastName . '@3wa.io');
-            $student->setIdModule( $dbModules[array_rand($dbModules )]->getId() );
-
+            $student->setEmail3wa($studentFirstName . '.' . $studentLastName . '@3wa.io');
+            $student->setEmail($studentFirstName . '.' . $studentLastName . '@yahoo.fr');
+            $student->setMoodleId( $this->faker->randomNumber(5, true) );
+            $student->setPassword(
+                $this->userPasswordHasherInterface->hashPassword(
+                    $student, "password"
+                )
+            );
             $manager->persist($student);
             $manager->flush();
 
             //LinkSessionStudent
             $lms = new linkSessionStudent();
-            $lms->setEnabled( $this->faker->numberBetween(0, 1) );
+            $lms->setIsEnabled( $this->faker->numberBetween(0, 1) );
             $lms->setStudent($student);
             $lms->setSession($dbSessions[array_rand($dbSessions)]);
 
@@ -262,9 +272,9 @@ class AppFixtures extends Fixture
             {
                 $question = new Question();
                 $question->setModule($dbModule);
-                $question->setWording( $this->faker->sentence() );
+                $question->setQuestion( $this->faker->sentence() );
                 $question->setIdAuthor( $dbInstructors[array_rand($dbInstructors)]->getId() );
-
+                $question->setAuthor();
                 $question->setEnabled( $this->faker->numberBetween(0, 1) );
                 $question->setIsMandatory(0);
                 $question->setIsOfficial(0);
