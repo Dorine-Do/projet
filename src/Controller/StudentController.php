@@ -26,8 +26,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StudentController extends AbstractController
 {
-    #[Route('/student', name: 'app_student')]
-    public function index( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
+    #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
+    public function manageQcms( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
     {
         $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
 
@@ -77,7 +77,6 @@ class StudentController extends AbstractController
             return $linkSessionModule->getEndDate() < new \DateTime();
         });
 
-
         $endedModules = [];
         foreach($endedLinkSessionModules as $endedLinkSessionModule)
         {
@@ -100,7 +99,7 @@ class StudentController extends AbstractController
             }
         }
         // Rendering
-        return $this->render('student/index.html.twig', [
+        return $this->render('student/qcms.html.twig', [
             'student'                       => $student,
             'qcmOfTheWeek'                  => $officialQcmOfTheWeek,
             'unofficialQcmInstancesNotDone' => $unofficialQcmNotDone,
@@ -109,7 +108,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcmsDone', name: 'student_qcmsdone')]
+    #[Route('student/qcms/Done', name: 'student_qcms_done', methods: ['GET'])]
     public function qcmsDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo )
     {
         $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
@@ -138,7 +137,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcmToDo/{qcmInstance}', name: 'student_qcmToDo')]
+    #[Route('student/qcm/qcmToDo/{qcmInstance}', name: 'student_qcm_to_do', methods: ['GET', 'POST'])]
     public function QcmToDo( QcmInstance $qcmInstance, QcmRepository $qcmRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em){
 
         // Récupere le qcm par rapport à l'id du qcmInstance
@@ -296,7 +295,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcmDone/{qcmInstance}', name: 'student_qcmDone')]
+    #[Route('student/qcm/qcmDone/{qcmInstance}', name: 'student_qcm_done', methods: ['GET'])]
     public function QcmDone( $qcmInstance, QcmRepository $qcmRepository,ResultRepository $resultRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em)
     {
         $studentId = 2;
@@ -309,11 +308,6 @@ class StudentController extends AbstractController
         foreach ($resutl[0]->getAnswers() as $result){
             $questionsAnswersDecode[] = json_decode($result);
         }
-        dump($questionsAnswersDecode);
-
-
-//dd('stop');
-
 
         return $this->render('student/qcmDone.twig', [
             'questionsAnswers' => $questionsAnswersDecode

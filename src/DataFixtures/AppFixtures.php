@@ -29,15 +29,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    private UserPasswordHasherInterface $userPasswordHasherInterface;
-    private InstructorRepository $instructorRepository;
-    private ModuleRepository $moduleRepository;
-    private SessionRepository $sessionRepository;
-    private QuestionRepository $questionRepository;
-    private QcmRepository $qcmRepository;
-    private StudentRepository $studentRepository;
-    private QcmInstanceRepository $qcmInstanceRepository;
-
     private $faker;
 
     protected array $arrayModule = [];
@@ -48,24 +39,16 @@ class AppFixtures extends Fixture
     protected array $ChoicesLevel = [ Level::Discover, Level::Explore, Level::Master, Level::Dominate];
 
     public function __construct (
-        UserPasswordHasherInterface $userPasswordHasherInterface,
-        InstructorRepository $instructorRepository,
-        ModuleRepository $moduleRepository,
-        SessionRepository $sessionRepository,
-        QuestionRepository $questionRepository,
-        QcmRepository $qcmRepository,
-        StudentRepository $studentRepository,
-        QcmInstanceRepository $qcmInstanceRepository
+        private UserPasswordHasherInterface $userPasswordHasherInterface,
+        private InstructorRepository $instructorRepository,
+        private ModuleRepository $moduleRepository,
+        private SessionRepository $sessionRepository,
+        private QuestionRepository $questionRepository,
+        private QcmRepository $qcmRepository,
+        private StudentRepository $studentRepository,
+        private QcmInstanceRepository $qcmInstanceRepository
     )
     {
-        $this->userPasswordHasherInterface = $userPasswordHasherInterface;
-        $this->instructorRepository = $instructorRepository;
-        $this->moduleRepository = $moduleRepository;
-        $this->sessionRepository = $sessionRepository;
-        $this->questionRepository = $questionRepository;
-        $this->qcmRepository = $qcmRepository;
-        $this->studentRepository = $studentRepository;
-        $this->qcmInstanceRepository = $qcmInstanceRepository;
         $this->faker = Faker\Factory::create();
     }
 

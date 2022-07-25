@@ -38,6 +38,7 @@
     box-shadow: none;
     background-color: var(--vert);
     font-weight: bold;
+    cursor: pointer;
 }
 
 /******************************************* PARTIE QUESTION MENU DEROULANT ***********************************************/
@@ -118,8 +119,8 @@
     margin-top: .1em;
 }
 
-.display_none{
-    display : none;
+.displayNone{
+    display: none;
 }
 
 .divQuestionChevron{

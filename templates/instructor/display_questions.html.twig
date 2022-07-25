@@ -4,12 +4,10 @@
     <link rel="stylesheet" href="{{ asset('css/instructor/instructorIndex.css') }}">
 {% endblock %}
 
-
-
 {% block title %}Hello InstructorController!{% endblock %}
 
 {% block body %}
-    <h1>- Liste des questions personalisées -</h1>
+    <h1>- {{ 'question.listePerso'|trans }} -</h1>
     <div class="divQuestions">
         <ul class="ulQuestions">
 
@@ -32,31 +30,33 @@
                             </div>
                         </li>
                         <div class="divJs">
-                    </div>
+                        </div>
 
                     </div>
                     <div class="divProposals">
                         {% for proposal in proposals  %}
-                                {% if question.id == proposal.id_question %}
-                                    <p>{{proposal.wording}}</p>
-                                {% endif %}
+                            {% if question.id == proposal.id_question %}
+                                <p>{{proposal.wording}}</p>
+                            {% endif %}
                         {% endfor %}
                     </div>
                     <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/Modify.png') }}" alt="bouton de modification de la question"></a>
                 </div>
             {%endfor%}
             <div class="divAdd">
-                <a href="{{ path('instructor_create_question') }}" class="linkCreate"><button class="buttonAdd">Créer une question</button></a>
+                <a href="{{ path('instructor_create_question') }}" class="linkCreate">
+                    <button class="buttonAdd">
+                        {{ 'question.addProposal'|trans }}
+                    </button>
+                </a>
             </div>
         </ul>
     </div>
-
-
 {% endblock %}
+
 {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
+    <script type="text/javascript" src="{{ asset('js/instructor/instructorIndex.js') }}"></script>
     <script>
         let proposals = {{proposals|json_encode|raw}};
     </script>
-    <script type="text/javascript" src="{{ asset('js/instructorIndex.js') }}"></script>
 {% endblock %}

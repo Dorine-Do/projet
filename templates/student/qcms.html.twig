@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StudentController!{% endblock %}
+{% block title %}Qcm{% endblock %}
 
 {% block stylesheets %}
     <link href="{{asset('css/student/studentIndex.css')}}" rel="stylesheet">
@@ -9,38 +9,38 @@
 {% block body %}
 
 
-    <h1>- QCM -</h1>
+    <h1>- {{ 'qcm.title'|trans }} -</h1>
     <div class="global">
         <article class="articleGauche">
             <section>
                 <div class="divQcm">
-                    <h2><img class="badge" src="{{asset('build/images/officiel.png')}}">QCM officiel à faire</h2>
+                    <h2><img class="badge" src="{{asset('build/images/officiel.png')}}">{{ 'qcm.todo'|trans }}</h2>
                     <div class="inter">
                     <p>
-                        <strong>Nom du qcm : </strong>
+                        <strong>{{ 'qcm.name'|trans }} : </strong>
                         {% for qcm in qcmOfTheWeek %} {{qcm.name}} {% endfor %}
                     </p>
-                    <a class="button" href="">Faire le QCM de fin de semaine</a>
+                    <a class="button" href="">{{ 'qcm.do'|trans }}</a>
                     </div>
                 </div>
                 <div class="divQcm">
-                    <h2><img class="badge" src="{{asset('build/images/non-officiel.png')}}">QCM d'exercice</h2>
+                    <h2><img class="badge" src="{{asset('build/images/non-officiel.png')}}">{{ 'qcm.inter'|trans }}</h2>
                     <div class="inter">
                         <select name="module" class="selectEntrainement">
-                            <option value="">-- Choix du QCM --</option>
+                            <option value="">-- {{ 'qcm.choice'|trans }} --</option>
                             {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
                                 <option value="">{{unofficialQcmInstanceNotDone.name}}</option>
                             {% endfor %}
                         </select>
-                        <a class="buttonExercice" href="">Faire le QCM</a>
+                        <a class="buttonExercice" href="">{{ 'qcm.todo'|trans }}</a>
                     </div>
                 </div>
             </section>
-            <h2><img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">QCM d'entrainement</h2>
+            <h2><img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">{{ 'qcm.trainning'|trans }}</h2>
             <section class="cercle">
                 <div class="training">
                     <select name="module" class="selectModule">
-                        <option value="">-- Choix du module --</option>
+                        <option value="">-- {{ 'module.choice'|trans }} --</option>
                         {% for sessionModule in sessionModules %}
                             <option value="">{{sessionModule.title}}</option>
                         {% endfor %}
@@ -48,78 +48,56 @@
                     <div class="difficult">
                         <div>
                             <input type="radio" id="Facile" name="Difficulty" value="Easy"checked>
-                            <label for="Easy">Facile</label>
+                            <label for="Easy">{{ 'difficulty.easy'|trans }}</label>
                         </div>
                         <div>
                             <input type="radio" id="Moyen" name="Difficulty" value="Medium">
-                            <label for="Medium">Moyen</label>
+                            <label for="Medium">{{ 'difficulty.medium'|trans }}</label>
                         </div>
                         <div>
                             <input type="radio" id="Difficile" name="Difficulty" value="Difficult">
-                            <label for="Difficult">Difficile</label>
+                            <label for="Difficult">{{ 'difficulty.difficult'|trans }}</label>
                         </div>
                     </div>
-                    <a class="buttonValid" href="">Je m'entraine</a>
+                    <a class="buttonValid" href="">{{ 'qcm.trainning'|trans }}</a>
                 </div>
             </section>
         </article>
         <span></span>
         <article class="articleDroite">
             <section class="section">
-                <h2>QCM réalisés</h2>
+                <h2>{{ 'qcm.dones'|trans }}</h2>
                 <div class="centreRealise">
                     <p>
-                        En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les qcm que tu as terminés, voir tes réponses fausses et t'entrainer à les refaire.
+                        {{ 'qcm.donesExplain'|trans }}
                     </p>
-                    <a class="real" href="{{ path('student_qcmsdone') }}">QCM réalisés</a>
+                    <a class="real" href="{{ path('student_qcmsdone') }}">{{ 'qcm.dones'|trans }}</a>
                 </div>
             </section>
             <section>
-                <h2>Je retente ma chance</h2>
+                <h2>{{ 'qcm.iChance'|trans }}</h2>
                 <div class="centreChance">
                     <p>
-                        Si tu as obtenu "découvre" ou "explore" à un des qcm, tu peux tenter d'obtenir à nouveau ton badge et l'ajouter à ta collection en repassant un qcm du module en question.
+                        {{ 'qcm.chanceexplain'|trans }}
                     </p>
                 </div>
                 <div class="divBadge">
                     <div class="lastDiv">
                         <select name="module" class="selectEntrainement">
-                            <option value="">-- Choix du module --</option>
+                            <option value="">-- {{ 'module.choice'|trans }} --</option>
                             {% for retryableModule in retryableModules %}
                                 <option value="">{{retryableModule.title}}</option>
                             {% endfor %}
                         </select>
                     </div>
-                    <a class="buttonBadge" href="">J'essaie d'obtenir mon badge</a>
+                    <a class="buttonBadge" href="">{{ 'module.tryAgain'|trans }}</a>
                 </div>
             </section>
             <p class="lastP">
-                /!\ Repasser le qcm pour obtenir le badge du module ne changera pas le niveau obtenu lors du QCM officiel
+                {{ 'module.tryAgainExplain'|trans }}
             </p>
         </article>
     </div>
-    {#    <p>#}
-    {#        {% for students in student %}#}
-    {#            {{ dump(sutdents) }}#}
-    {#        {% endfor %}#}
-    {#    </p>#}
-    {#    <p>#}
-
-    {#        {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}#}
-    {#            {{ dump(unofficialQcmInstanceNotDone.name)}}#}
-    {#        {% endfor %}#}
-    {#    </p>#}
-    {#    <p>#}
-
-    {#        {% for sessionModule in sessionModules %}#}
-    {#            {{ dump(sessionModule) }}#}
-    {#        {% endfor %}#}
-    {#    </p>#}
-    {#    <p>#}
-    {#        {% for retryableModule in retryableModules %}#}
-    {#            {{ dump(retryableModule) }}#}
-    {#        {% endfor %}#}
-    {#    </p>#}
 {% endblock %}
 
 
