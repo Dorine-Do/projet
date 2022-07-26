@@ -19,15 +19,6 @@ class Proposal
     #[ORM\Column(type: 'boolean')]
     private $isCorrectAnswer;
 
-    #[ORM\Column(type: 'boolean')]
-    private $isMandatory;
-
-    #[ORM\Column(type: 'boolean')]
-    private $isOfficial;
-
-    #[ORM\Column(type: 'smallint')]
-    private $difficulty;
-
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
@@ -63,42 +54,6 @@ class Proposal
     public function setIsCorrectAnswer(bool $isCorrectAnswer): self
     {
         $this->isCorrectAnswer = $isCorrectAnswer;
-
-        return $this;
-    }
-
-    public function isIsMandatory(): ?bool
-    {
-        return $this->isMandatory;
-    }
-
-    public function setIsMandatory(bool $isMandatory): self
-    {
-        $this->isMandatory = $isMandatory;
-
-        return $this;
-    }
-
-    public function isIsOfficial(): ?bool
-    {
-        return $this->isOfficial;
-    }
-
-    public function setIsOfficial(bool $isOfficial): self
-    {
-        $this->isOfficial = $isOfficial;
-
-        return $this;
-    }
-
-    public function getDifficulty(): ?int
-    {
-        return $this->difficulty;
-    }
-
-    public function setDifficulty(int $difficulty): self
-    {
-        $this->difficulty = $difficulty;
 
         return $this;
     }
