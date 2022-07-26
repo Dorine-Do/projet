@@ -28,9 +28,6 @@ class Session
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
 
-    #[ORM\ManyToMany(targetEntity: Module::class, inversedBy: 'sessions')]
-    private $modules;
-
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkSessionStudent::class)]
     private $linksSessionStudent;
 
@@ -42,7 +39,6 @@ class Session
 
     public function __construct()
     {
-        $this->modules = new ArrayCollection();
         $this->linksSessionStudent = new ArrayCollection();
         $this->linksInstructorSessionModule = new ArrayCollection();
         $this->linksSessionModule = new ArrayCollection();
@@ -110,30 +106,6 @@ class Session
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Module>
-     */
-    public function getModules(): Collection
-    {
-        return $this->modules;
-    }
-
-    public function addModule(Module $module): self
-    {
-        if (!$this->modules->contains($module)) {
-            $this->modules[] = $module;
-        }
-
-        return $this;
-    }
-
-    public function removeModule(Module $module): self
-    {
-        $this->modules->removeElement($module);
 
         return $this;
     }

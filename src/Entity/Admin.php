@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: AdminRepository::class)]
-final class Admin extends User
+class Admin extends User
 {
     #[ORM\Column(type: 'string', length: 12, nullable: true)]
     private $phone;

@@ -2,9 +2,9 @@
 
 namespace App\Entity\Enum;
 
-enum Difficulty: string
+enum Difficulty: int
 {
-    case Easy = "Facile";
-    case Medium = "Moyen";
-    case Difficult = "Difficile";
+    case Easy = 1;
+    case Medium = 2;
+    case Difficult = 3;
 }
