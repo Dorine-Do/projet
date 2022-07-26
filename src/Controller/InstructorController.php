@@ -8,9 +8,12 @@ use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Form\CreateQuestionType;
 use App\Form\QuestionType;
+use App\Repository\InstructorRepository;
 use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
+use App\Repository\StudentRepository;
+use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Boolean;
@@ -35,7 +38,7 @@ class InstructorController extends AbstractController
         $proposalValues = [];
         $resumeProposal = [];
         /*TODO A Changer quand la refacto de la bd sera faite*/
-        $questions = $questionRepository->findBy(['id_author' => 2]);
+        $questions = $questionRepository->findBy(['author' => 2]);
         foreach ($questions as $question) {
             $question_id = $question->getId();
             $proposals[$question_id] = $proposalRepository->findBy(['question' => $question_id]);
@@ -139,7 +142,7 @@ class InstructorController extends AbstractController
     }
 
     #[Route('instructor/questions/create_question', name: 'instructor_create_question', methods: ['GET', 'POST'])]
-    public function createQuestion(Request $request, EntityManagerInterface $em): Response
+    public function createQuestion(Request $request, EntityManagerInterface $em, InstructorRepository $instructorRepository): Response
     {
         $questionEntity= new Question();
 
@@ -168,20 +171,23 @@ class InstructorController extends AbstractController
                 $persitPropCount ++;
 
                 // set le response type
-                if($proposal->getIsCorrect() === true){
+                if($proposal->getIsCorrectAnswer() === true){
                     $count++;
                 }
             }
             if($count > 1){
-                $questionEntity->setResponseType("checkbox");
+                $questionEntity->setIsMultiple("true");
             }elseif ($count == 1){
-                $questionEntity->setResponseType("radio");
+                $questionEntity->setIsMultiple("false");
             }
 
             /*TODO Devra être automatisé avec l'id du user connecté si id appartient à un admin alors Null si appartient à un instructor alors id*/
-            $questionEntity->setIdAuthor(2);
+
+            $questionEntity->setAuthor($instructorRepository->find(2));
             $questionEntity->setIsOfficial(false);
             $questionEntity->setIsMandatory(false);
+            $questionEntity->setExplanation('Explication');
+
             //  validation et enregistrement des données du form dans la bdd
             $em->persist($questionEntity);
             $em->flush();
