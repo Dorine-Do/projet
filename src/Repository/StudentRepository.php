@@ -50,7 +50,7 @@ class StudentRepository extends ServiceEntityRepository
         FROM App\Entity\Student s
         INNER JOIN App\Entity\LinkSessionStudent lss
         WITH lss.student = s.id
-        WHERE lss.enabled = true
+        WHERE lss.isEnabled = true
         ')
             ->getResult();
     }
