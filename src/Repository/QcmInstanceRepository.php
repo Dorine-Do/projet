@@ -39,6 +39,34 @@ class QcmInstanceRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return QcmInstance[] Returns an array of Student objects
+     */
+    public function AllQcmInstanceWithoutResult(): array
+    {
+
+        $qcmInstanceBdd = $this->getEntityManager();
+        return $qcmInstanceBdd->createQuery('
+            SELECT qi
+            FROM App\Entity\QcmInstance qi
+            WHERE qi.id NOT IN (
+                SELECT IDENTITY (r.qcmInstance)
+                FROM App\Entity\Result r
+            )
+
+        ')
+//        return $qcmInstanceBdd->createQuery('
+//
+//                SELECT IDENTITY (r.qcmInstance)
+//                FROM App\Entity\Result r
+//
+//        ')
+            ->getResult();
+
+
+
+    }
+
 //    /**
 //     * @return QcmInstance[] Returns an array of QcmInstance objects
 //     */

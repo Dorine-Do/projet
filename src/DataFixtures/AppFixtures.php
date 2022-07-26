@@ -74,7 +74,7 @@ class AppFixtures extends Fixture
 //        $this->generateQuestions( $manager );
 
         //Qcm
-        $this->generateQcm( $manager );
+//        $this->generateQcm( $manager );
 
         //Qcm avec le module de démo (réelles data)
 //        $this->generateQcmWithSpecifyModule($manager);
@@ -348,7 +348,7 @@ class AppFixtures extends Fixture
             $arrayDifficulty[] = $difficulty;
             $arrayAnswers = [];
             foreach ($answers as $answer){
-                $arrayAnswers[] =  ["id" => $answer->getId(), "libelle" => $answer->getProposal(), "is_correct" => $answer->getIsCorrectAnswer()];
+                $arrayAnswers[] =  ["id" => $answer->getId(), "libelle" => $answer->getWording(), "is_correct" => $answer->getIsCorrectAnswer()];
             }
             $questionAnswer =
                 [
@@ -356,7 +356,7 @@ class AppFixtures extends Fixture
                         "question"=>
                             [
                                 "id"=> $randomQuestion->getId(),
-                                "libelle"=>$randomQuestion->getQuestion(),
+                                "libelle"=>$randomQuestion->getWording(),
                                 "responce_type"=>$randomQuestion->getIsMultiple(),
                                 "answers"=>
                                     $arrayAnswers
@@ -506,39 +506,44 @@ class AppFixtures extends Fixture
     {
         $dbQcmInstances = $this->qcmInstanceRepository->findAll();
 
-        for( $i = 0; $i < 10; $i++ )
+        $dbQcmInstanceUsed = [];
+
+        for( $i = 0; $i < 5; $i++ )
         {
             $result = new Result();
-            $dbStudents = [];
-            while (count($dbStudents) == 0){
-                $dbQcmInstance = $dbQcmInstances[array_rand($dbQcmInstances)];
-                $dbStudents = $this->studentRepository->AllStudentByQcmInstance($dbQcmInstance->getId(), $manager);
-            }
+
+            $dbQcmInstanceWithoutResult = $this->qcmInstanceRepository->AllQcmInstanceWithoutResult();
+            $dbQcmInstance = $dbQcmInstanceWithoutResult[array_rand($dbQcmInstanceWithoutResult)];
+
+            $dbQcmInstanceUsed[] = $dbQcmInstance->getId();
+
             $result->setQcmInstance( $dbQcmInstance );
             $score = $this->faker->numberBetween(0,100);
             $result->setIsFirstTry(rand(0,1));
             $result->setScore( $score );
+
             if( $score < 25 )
             {
-                $result->setLevel(Level::Discover);
+                $result->setLevel(Level::Discover->value);
             }
             elseif( $score >= 25 && $score < 50 )
             {
-                $result->setLevel(Level::Explore);
+                $result->setLevel(Level::Explore->value);
             }
             elseif( $score >= 50 && $score < 75 )
             {
-                $result->setLevel(Level::Master);
+                $result->setLevel(Level::Master->value);
             }
             elseif( $score >= 75 && $score <= 100 )
             {
-                $result->setLevel(Level::Dominate);
+                $result->setLevel(Level::Dominate->value);
             }
 
             $result->setInstructorComment( $this->faker->sentence() );
             $result->setStudentComment( $this->faker->sentence() );
 
             $questionAnswers = $dbQcmInstance->getQcm()->getQuestionsCache();
+
             // Transforme les objets à l'interieur de $questionAnswers en des tableaux et rajoute "student_answer"
             $questionAnswersDecode = array_map(function($questionAnswer){
                 return json_encode(array_map(function($qa){
@@ -550,8 +555,9 @@ class AppFixtures extends Fixture
                 },(array)json_decode($questionAnswer)[0]));
             },$questionAnswers);
             $result->setAnswers($questionAnswersDecode);
+
             $manager->persist($result);
+            $manager->flush();
         }
-        $manager->flush();
     }
 }
