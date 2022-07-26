@@ -6,6 +6,7 @@ use App\Repository\ResultRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ResultRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Result
 {
     #[ORM\Id]
@@ -37,6 +38,12 @@ class Result
 
     #[ORM\Column(type: 'smallint', nullable: true)]
     private $level;
+
+    #[ORM\PrePersist]
+    public function setSubmitedAtValue():void
+    {
+        $this->submittedAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {

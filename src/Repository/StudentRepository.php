@@ -62,13 +62,13 @@ class StudentRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('s')
             ->innerJoin('s.qcmInstances', 'qi')
+            ->innerJoin('qi.resutl', 'r')
             ->where('qi.id = :id')
+            ->andWhere('qi.result === null')
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
             ;
-
-
     }
 
 //    /**
