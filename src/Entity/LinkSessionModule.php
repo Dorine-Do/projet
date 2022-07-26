@@ -6,7 +6,6 @@ use App\Repository\LinkSessionModuleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LinkSessionModuleRepository::class)]
-#[ORM\HasLifecycleCallbacks]
 class LinkSessionModule
 {
     #[ORM\Id]
@@ -15,33 +14,18 @@ class LinkSessionModule
     private $id;
 
     #[ORM\Column(type: 'datetime')]
-    private $start_date;
+    private $startDate;
 
     #[ORM\Column(type: 'datetime')]
-    private $end_date;
+    private $endDate;
 
-    #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'link_session_module')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $module;
-
-    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'link_session_module')]
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'linksSessionModule')]
     #[ORM\JoinColumn(nullable: false)]
     private $session;
 
-    public function __construct()
-    {
-    }
-
-    #[ORM\PrePersist]
-    public function setCreatedAtValue(){
-        $this->created_at = new \DateTime();
-        $this->updated_at = new \DateTime();
-    }
-
-    #[ORM\PreUpdate]
-    public function setUpdateAtValue(){
-        $this->updated_at = new \DateTime();
-    }
+    #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'linksSessionModule')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $module;
 
     public function getId(): ?int
     {
@@ -50,36 +34,24 @@ class LinkSessionModule
 
     public function getStartDate(): ?\DateTimeInterface
     {
-        return $this->start_date;
+        return $this->startDate;
     }
 
-    public function setStartDate(\DateTimeInterface $start_date): self
+    public function setStartDate(\DateTimeInterface $startDate): self
     {
-        $this->start_date = $start_date;
+        $this->startDate = $startDate;
 
         return $this;
     }
 
     public function getEndDate(): ?\DateTimeInterface
     {
-        return $this->end_date;
+        return $this->endDate;
     }
 
-    public function setEndDate(\DateTimeInterface $end_date): self
+    public function setEndDate(\DateTimeInterface $endDate): self
     {
-        $this->end_date = $end_date;
-
-        return $this;
-    }
-
-    public function getModule(): ?Module
-    {
-        return $this->module;
-    }
-
-    public function setModule(?Module $module): self
-    {
-        $this->module = $module;
+        $this->endDate = $endDate;
 
         return $this;
     }
@@ -92,6 +64,18 @@ class LinkSessionModule
     public function setSession(?Session $session): self
     {
         $this->session = $session;
+
+        return $this;
+    }
+
+    public function getModule(): ?Module
+    {
+        return $this->module;
+    }
+
+    public function setModule(?Module $module): self
+    {
+        $this->module = $module;
 
         return $this;
     }

@@ -8,8 +8,9 @@
 {% block title %}Création de questions{% endblock %}
 
 {% block body %}
-    <h1>Je crée ma question</h1>
-    {# Form question #}{{ form_start(form) }}
+    <h1> - {{ 'question.iCreate'|trans }} - </h1>
+
+    {{ form_start(form) }}
     <div>
         {{ form_errors(form) }}
     </div>
@@ -18,7 +19,7 @@
             <td colspan="2" class="premier">
                 <p class="etape">
                     <span class="numeroForm">1</span>
-                    Choisir le module:
+                    {{ 'module.choice'|trans }}:
                 </p>
             </td>
             <td colspan="2" class="premierSelect">
@@ -29,7 +30,7 @@
             <td colspan="2" class="premier">
                 <p class="etape">
                     <span class="numeroForm">2</span>
-                    Intitulé de la question :
+                    {{ 'question.wording'|trans }}:
                 </p>
             </td>
             <td colspan="2" class="second">
@@ -40,7 +41,7 @@
             <td colspan="2" class="premier">
                 <p class="etape">
                     <span class="numeroForm">3</span>
-                    Difficulté de la question:
+                    {{ 'question.difficulty'|trans }}:
                 </p>
             </td>
             <td colspan="2" class="difficulty">
@@ -51,7 +52,7 @@
             <td colspan="2" class="premier">
                 <p class="etape">
                     <span class="numeroForm" >4</span>
-                    Créer des réponses
+                    {{ 'proposal.create'|trans }}
                 </p>
             </td>
             <td colspan="2" class="second" id="error_checked">
@@ -61,12 +62,12 @@
                             <div class="divProposal">
                                 {{form_row(proposal.wording)}}{{form_row(proposal.is_correct)}}
                             </div>
-                            <button type="button" class="removeProposal" >Supprimer</button>
+                            <button type="button" class="removeProposal" >{{ 'button.delete'|trans }}</button>
                         </li>
                     {%endfor%}
                 </ul>
-                <button data-form='{{ form_widget(form.proposals.vars.prototype) }}' data-index="{{form.proposals|length }}" type="button" id="add_proposal" class="addProposal">
-                    Ajouter une réponse
+                <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="add_proposal"class="addProposal">
+                +
                 </button>
             </td>
         </tr>
@@ -74,7 +75,7 @@
             <td colspan="2" class="premier">
                 <p class="paddingOption">
                     <span class="formOption">Option</span>
-                    Désactiver la question
+                    {{ 'question.desactivate'|trans }}
                 </p>
             </td>
             <td colspan="2" class="option">
@@ -83,27 +84,22 @@
         </tr>
         <tr>
             <td colspan="2">
-                <button type="submit" class="valid">Valider</button>
+                <button type="submit" class="valid">{{ 'button.validate'|trans }}</button>
             </td>
         </tr>
     </table>
-
-
-
+    {{form_rest(form)}}
 {% endblock %}
 
 {% block javascripts %}
-
     {# Fichier js pour faire apparaitre les inputs du collectionType #}
     <script src="{{ asset('build/js/add-collection-widget.js') }}"></script>
 
-    <script type="text/javascript" src="{{ asset('js/create_modify_question.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/instructor/create_modify_question.js') }}"></script>
 
     <script>
         let add = {{add}};
         let imgPath = [];
         imgPath.push('{{asset('build/images/trefle_facile_bon_vert.png')}}', '{{asset('build/images/trefle_moyen_bon_vert.png')}}', '{{asset('build/images/trefle_difficile_bon_vert.png')}}')
     </script>
-
-
 {% endblock %}

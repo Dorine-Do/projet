@@ -8,17 +8,17 @@
 
 {% block body %}
 
-    <h1>- QCM réalisés -</h1>
+    <h1>- {{ 'qcm.dones'|trans }} -</h1>
     <div class="premiereDiv">
         <div class="divBadge">
             <p>
-                Officiel
+                {{ 'qcm.official'|trans }}
             </p>
             <img class="badge" src="{{asset('build/images/officiel.png')}}">
         </div>
         <div class="divBadge">
             <p>
-                Intermédiaire
+                {{ 'qcm.inter'|trans }}
             </p>
             <img class="badge" src="{{asset('build/images/non-officiel.png')}}">
         </div>
@@ -27,11 +27,11 @@
         <div>
             <p>
                 <span class="numeroForm">1</span>
-                Filtre par module:
+                {{ 'module.filter'|trans }} :
             </p>
         </div>
         <select name="module" id="select_module">
-            <option value="">Veuillez sélectionner un module</option>
+            <option value="">{{ 'module.filter'|trans }}</option>
             {% for module in modules %}
                 <option value="">{{module.title}}</option>
             {% endfor %}
@@ -42,20 +42,23 @@
         <span class="numeroForm">2</span>
         Qcm
     </p>
-        <p id="module"></p>
-    {% for qcmDone in qcmsDone %}
+    {% for module in modules %}
+        <p class="module" id="module">
+            {{ 'module.name'|viewAnswers }} : {{module.title}}
+        </p>
+    {% endfor %}{% for qcmDone in qcmsDone %}
     <div class="realise">
         <div class="nomQcm">
             <p>
-                Nom du QCM : {{qcmDone.qcm.name}}
+                {{ 'qcm.name'|trans }} : {{qcmDone.qcm.name}}
             </p>
         </div>
         <div class="date">
             {{qcmDone.result.getCreatedAt()|date('d/m/Y')}}
         </div>
         <div class="divButton">
-            <a class="button" href="">Voir les réponses</a>
-            <a class="button" href="">Refaire le qcm</a>
+            <a class="button" href="">{{ 'qcm.name'|viewAnswers }}</a>
+            <a class="button" href="">{{ 'qcm.doAgain'|viewAnswers }}</a>
         </div>
     </div>
 {% endfor %}

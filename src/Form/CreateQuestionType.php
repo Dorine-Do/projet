@@ -23,6 +23,12 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class CreateQuestionType extends AbstractType
 {
+    const DIFFICULTIES = [
+        1 => 'Facile',
+        2 => 'Moyen',
+        3 => 'Difficile',
+    ];
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -31,11 +37,11 @@ class CreateQuestionType extends AbstractType
             ])
             ->add('difficulty', enumType::class,[
                 "class" => Difficulty::class,
-                'choice_label'=> 'value',
+                'choice_label'=> self::DIFFICULTIES['value'],
                 'expanded' => true,
             ])
 
-            // Imbriquation de formulaire voir instructor > index.html.twig
+            // Imbriquation de formulaire
             ->add('proposals', CollectionType::class, [
                 'entry_type' => ProposalFormType::class,
                 'entry_options' => ['label' => false],
@@ -47,12 +53,10 @@ class CreateQuestionType extends AbstractType
                         'min' => 2,
                         'max' => 6,
                         'minMessage' => 'La question doit contenir au moins deux réponses',
-                        'maxMessage' => 'You cannot specify more than {{ limit }} emails',
+                        'maxMessage' => 'La question doit contenir au maximum six réponses',
                     ]),
                     new Assert\Callback(
                         ['callback' => static function ( $data, ExecutionContextInterface $context) {
-//                            dd($data);
-//
                             foreach($data as $p){
                                 if($p->getIsCorrect() == true){
                                     return;
@@ -67,9 +71,8 @@ class CreateQuestionType extends AbstractType
             //    Intégration d'une autre entité dans un form
             ->add('module', EntityType::class, [
                 'class'=> Module::class,
-
             ])
-
+            /*TODO A changer quand la refacto de la db sera faite*/
             ->add('enabled', CheckboxType::class, [
                 'required' => false,
                 'label' => false,
