@@ -56,23 +56,23 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Module
-//        $this->generateModules( $manager );
+       $this->generateModules( $manager );
 
         //Session
-//        $this->generateSessions( $manager );
+       $this->generateSessions( $manager );
 
         //LinkSessionModule
-//        $this->generateLinksSessionModule( $manager );
+       $this->generateLinksSessionModule( $manager );
 
         //Instructeur
-//        $this->generateInstructors( $manager );
+       $this->generateInstructors( $manager );
 //        $this->generateLinkSessionInstructor();
 
         //Student
-//        $this->generateStudents( $manager );
+       $this->generateStudents( $manager );
 
         //Question + Proposal
-//        $this->generateQuestions( $manager );
+       $this->generateQuestions( $manager );
 
         //Qcm
         $this->generateQcm( $manager );
@@ -124,7 +124,7 @@ class AppFixtures extends Fixture
               "total_score"=> 75
            ];
         $resJson = json_encode($res);
-        dd($resJson);
+        // dd($resJson);
     }
 
     public function generateModules( $manager ) :void
@@ -327,10 +327,10 @@ class AppFixtures extends Fixture
             $qcm->setIsOfficial( $this->faker->numberBetween(0, 1) );
             $qcm->setTitle( $this->faker->word() );
             $test = (array)$relatedModule->getLinksInstructorSessionModule();
-            dd($test);
-            for ($i=0; $i < count($test); $i++){
-                dump($test[$i]);
-            }
+            // dd($test);
+            // for ($i=0; $i < count($test); $i++){
+            //     dump($test[$i]);
+            // }
 
 
 
@@ -338,7 +338,7 @@ class AppFixtures extends Fixture
 
 
 
-            dd('hello');
+            // dd('hello');
 
 //            dd( $relatedModule->getLinksInstructorSessionModule());
             $qcm->setAuthor( $relatedModule->getLinksInstructorSessionModule()[array_rand($relatedModule->getLinksInstructorSessionModule())]->getId() );
