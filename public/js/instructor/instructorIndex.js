@@ -57,16 +57,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
   let listBtnNav = document.querySelector(".bloc_btns_nav");
   let btnNav = document.querySelectorAll(".bloc_btns_nav div");
   console.log(btnNav[1]);
-  btnNav.children.addEventListener("click", function (e) {
-    console.log(e.target);
-  });
 
   for (numQuestion = 0; numQuestion <= liSpanAll.length; numQuestion++) {
     liSpanAll[numQuestion].innerHTML = 1 + numQuestion;
     // console.log((liSpan.innerHTML = numQuestion));
     // console.log(numQuestion, "ici");
   }
-
+  btnNav.children.addEventListener("click", function (e) {
+    console.log(e.target);
+  });
+  console.log(liSpan);
   ulListQuestions.addEventListener("click", function () {
     console.log(arrayListQuestions, "la");
   });
