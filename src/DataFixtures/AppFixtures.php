@@ -80,13 +80,13 @@ class AppFixtures extends Fixture
 //        $this->generateQcmWithSpecifyModule($manager);
 
         // QcmInstances
-        $this->generateQcmInstances( $manager );
+//        $this->generateQcmInstances( $manager );
 
         //QcmInstance avec le module de démo (réelles data)
 //        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
-//        $this->generateResults( $manager );
+        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
@@ -260,7 +260,7 @@ class AppFixtures extends Fixture
             {
                 $question = new Question();
                 $question->setModule($dbModule);
-                $question->setQuestion( $this->faker->sentence() );
+                $question->setWording( $this->faker->sentence() );
                 $question->setAuthor( $dbInstructors[array_rand($dbInstructors)] );
                 $question->setIsEnabled( $this->faker->numberBetween(0, 1) );
                 $question->setIsMandatory(0);
@@ -290,7 +290,7 @@ class AppFixtures extends Fixture
             $proposal = new Proposal();
 
             $proposal->setQuestion($question);
-            $proposal->setProposal( $this->faker->word() );
+            $proposal->setWording( $this->faker->word() );
             $isCorrect = $this->faker->numberBetween(0, 1);
             $proposal->setIsCorrectAnswer( $isCorrect );
             if( $isCorrect )
@@ -515,9 +515,9 @@ class AppFixtures extends Fixture
                 $dbStudents = $this->studentRepository->AllStudentByQcmInstance($dbQcmInstance->getId(), $manager);
             }
             $result->setQcmInstance( $dbQcmInstance );
-            $result->setStudent($dbStudents[array_rand($dbStudents)]);
             $score = $this->faker->numberBetween(0,100);
-            $result->setTotalScore( $score );
+            $result->setIsFirstTry(rand(0,1));
+            $result->setScore( $score );
             if( $score < 25 )
             {
                 $result->setLevel(Level::Discover);
@@ -538,7 +538,7 @@ class AppFixtures extends Fixture
             $result->setInstructorComment( $this->faker->sentence() );
             $result->setStudentComment( $this->faker->sentence() );
 
-            $questionAnswers = $dbQcmInstance->getQcm()->getQuestionsAnswers();
+            $questionAnswers = $dbQcmInstance->getQcm()->getQuestionsCache();
             // Transforme les objets à l'interieur de $questionAnswers en des tableaux et rajoute "student_answer"
             $questionAnswersDecode = array_map(function($questionAnswer){
                 return json_encode(array_map(function($qa){
