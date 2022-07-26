@@ -35,6 +35,9 @@ class Result
     #[ORM\JoinColumn(nullable: false)]
     private $qcmInstance;
 
+    #[ORM\Column(type: 'smallint', nullable: true)]
+    private $level;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +123,18 @@ class Result
     public function setQcmInstance(QcmInstance $qcmInstance): self
     {
         $this->qcmInstance = $qcmInstance;
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(?int $level): self
+    {
+        $this->level = $level;
 
         return $this;
     }

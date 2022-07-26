@@ -16,7 +16,7 @@ class Question
     private $id;
 
     #[ORM\Column(type: 'text')]
-    private $question;
+    private $wording;
 
     #[ORM\Column(type: 'boolean')]
     private $isMandatory;
@@ -67,14 +67,14 @@ class Question
         return $this->id;
     }
 
-    public function getQuestion(): ?string
+    public function getWording(): ?string
     {
-        return $this->question;
+        return $this->wording;
     }
 
-    public function setQuestion(string $question): self
+    public function setWording(string $wording): self
     {
-        $this->question = $question;
+        $this->wording = $wording;
 
         return $this;
     }

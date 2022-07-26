@@ -47,6 +47,7 @@ class Qcm
     private $module;
 
     #[ORM\ManyToMany(targetEntity: Question::class, inversedBy: 'qcms')]
+    #[ORM\JoinTable(name: "link_qcm_question")]
     private $questions;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'qcms')]
