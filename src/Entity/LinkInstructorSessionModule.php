@@ -13,15 +13,15 @@ class LinkInstructorSessionModule
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\ManyToOne(targetEntity: Instructor::class, inversedBy: 'linksInstructorSessionModule')]
+    #[ORM\ManyToOne(targetEntity: Instructor::class, cascade: ["persist"], inversedBy: 'linksInstructorSessionModule')]
     #[ORM\JoinColumn(nullable: false)]
     private $instructor;
 
-    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'linksInstructorSessionModule')]
+    #[ORM\ManyToOne(targetEntity: Session::class, cascade: ["persist"], inversedBy: 'linksInstructorSessionModule')]
     #[ORM\JoinColumn(nullable: false)]
     private $session;
 
-    #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'linksInstructorSessionModule')]
+    #[ORM\ManyToOne(targetEntity: Module::class, cascade: ["persist"], inversedBy: 'linksInstructorSessionModule')]
     #[ORM\JoinColumn(nullable: false)]
     private $module;
 

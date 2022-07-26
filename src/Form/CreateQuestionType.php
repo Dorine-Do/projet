@@ -23,6 +23,12 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class CreateQuestionType extends AbstractType
 {
+    const DIFFICULTIES = [
+        1 => 'Facile',
+        2 => 'Moyen',
+        3 => 'Difficile',
+    ];
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -31,7 +37,7 @@ class CreateQuestionType extends AbstractType
             ])
             ->add('difficulty', enumType::class,[
                 "class" => Difficulty::class,
-                'choice_label'=> 'value',
+                'choice_label'=> self::DIFFICULTIES['value'],
                 'expanded' => true,
             ])
 
