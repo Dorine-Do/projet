@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: InstructorRepository::class)]
-final class Instructor extends User
+class Instructor extends User
 {
     #[ORM\Column(type: 'boolean')]
     private $isReferent;

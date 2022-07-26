@@ -61,7 +61,7 @@ class Proposal
         return $this;
     }
 
-    public function isIsCorrectAnswer(): ?bool
+    public function getIsCorrectAnswer(): ?bool
     {
         return $this->isCorrectAnswer;
     }

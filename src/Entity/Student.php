@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
-final class Student extends User
+class Student extends User
 {
     #[ORM\Column(type: 'json', nullable: true)]
     private $badges = [];
