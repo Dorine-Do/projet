@@ -56,26 +56,26 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Module
-       $this->generateModules( $manager );
+//        $this->generateModules( $manager );
 
         //Session
-       $this->generateSessions( $manager );
+//        $this->generateSessions( $manager );
 
         //LinkSessionModule
-       $this->generateLinksSessionModule( $manager );
+//        $this->generateLinksSessionModule( $manager );
 
         //Instructeur
-       $this->generateInstructors( $manager );
+//        $this->generateInstructors( $manager );
 //        $this->generateLinkSessionInstructor();
 
         //Student
-       $this->generateStudents( $manager );
+//        $this->generateStudents( $manager );
 
         //Question + Proposal
-       $this->generateQuestions( $manager );
+//        $this->generateQuestions( $manager );
 
         //Qcm
-        // $this->generateQcm( $manager );
+        $this->generateQcm( $manager );
 
         //Qcm avec le module de démo (réelles data)
 //        $this->generateQcmWithSpecifyModule($manager);
@@ -315,278 +315,278 @@ class AppFixtures extends Fixture
             return $count;
     }
 
-//     public function generateQcm( $manager ) :void
-//     {
-//         $dbModules = $this->moduleRepository->findAll();
+    public function generateQcm( $manager ) :void
+    {
+        $dbModules = $this->moduleRepository->findAll();
 
-//             $qcm = new Qcm();
+            $qcm = new Qcm();
 
-//             $qcm->setIsEnabled('1');
-//             $relatedModule = $dbModules[array_rand($dbModules)];
-//             $qcm->setModule($relatedModule);
-//             $qcm->setIsOfficial( $this->faker->numberBetween(0, 1) );
-//             $qcm->setTitle( $this->faker->word() );
-//             $test = (array)$relatedModule->getLinksInstructorSessionModule();
-//             dd($test);
-//             for ($i=0; $i < count($test); $i++){
-//                 dump($test[$i]);
-//             }
-
-
+            $qcm->setIsEnabled('1');
+            $relatedModule = $dbModules[array_rand($dbModules)];
+            $qcm->setModule($relatedModule);
+            $qcm->setIsOfficial( $this->faker->numberBetween(0, 1) );
+            $qcm->setTitle( $this->faker->word() );
+            $test = (array)$relatedModule->getLinksInstructorSessionModule();
+            dd($test);
+            for ($i=0; $i < count($test); $i++){
+                dump($test[$i]);
+            }
 
 
 
 
 
-//             dd('hello');
 
-// //            dd( $relatedModule->getLinksInstructorSessionModule());
-//             $qcm->setAuthor( $relatedModule->getLinksInstructorSessionModule()[array_rand($relatedModule->getLinksInstructorSessionModule())]->getId() );
-//             $qcm->setPublic( $this->faker->numberBetween(0, 1) );
 
-//             $arrayQuestionAnswers = [];
-//             $arrayDifficulty=[];
-//             $questions = [];
-//             while(count($questions) == 0){
-//                 $questions = $this->questionRepository->findBy( [ 'module' => $relatedModule->getId() ] );
-//             }
+            dd('hello');
 
-//             $pickedQuestions = [];
-//             for( $i = 0; $i < 5; $i++ )
-//             {
-//                 $isInArray = true;
-//                 $randomQuestion = $questions[array_rand($questions)];
+//            dd( $relatedModule->getLinksInstructorSessionModule());
+            $qcm->setAuthor( $relatedModule->getLinksInstructorSessionModule()[array_rand($relatedModule->getLinksInstructorSessionModule())]->getId() );
+            $qcm->setPublic( $this->faker->numberBetween(0, 1) );
 
-//                 while ($isInArray){
-// //                    dump($isInArray);
-// //                    dump(in_array($randomQuestion->getId(), $pickedQuestions));
-//                     if(in_array($randomQuestion->getId(), $pickedQuestions)){
-//                         $randomQuestion = $questions[array_rand($questions)];
-//                     }else{
-//                         $isInArray = false;
-//                         $pickedQuestions[] = $randomQuestion->getId();
-//                     }
-//                 }
+            $arrayQuestionAnswers = [];
+            $arrayDifficulty=[];
+            $questions = [];
+            while(count($questions) == 0){
+                $questions = $this->questionRepository->findBy( [ 'module' => $relatedModule->getId() ] );
+            }
 
-//                 $qcm->addQuestion($randomQuestion);
-//                 $answers = $randomQuestion->getProposals();
-//                 $difficulty = $randomQuestion->getDifficulty()->value;
-//                 dd($difficulty);
-//                 array_push($arrayDifficulty, $difficulty);
-//                 $arrayAnswers = [];
-//                 foreach ($answers as $answer){
-//                     array_push($arrayAnswers, ["id" => $answer->getId(), "libelle" => $answer->getWording(), "is_correct" => $answer->getIsCorrect()]);
-//                 }
-//                 $questionAnswer =
-//                     [
-//                         [
-//                             "question"=>
-//                                 [
-//                                     "id"=> $randomQuestion->getId(),
-//                                     "libelle"=>$randomQuestion->getWording(),
-//                                     "responce_type"=>$randomQuestion->getResponseType(),
-//                                     "answers"=>
-//                                         $arrayAnswers
-//                                 ],
-//                         ]
-//                     ];
-//                 $questionAnswerJson = json_encode($questionAnswer);
-//                 array_push($arrayQuestionAnswers,$questionAnswerJson);
-//             }
-//             $qcm->setQuestionsAnswers($arrayQuestionAnswers);
+            $pickedQuestions = [];
+            for( $i = 0; $i < 5; $i++ )
+            {
+                $isInArray = true;
+                $randomQuestion = $questions[array_rand($questions)];
 
-//             $nrbValues = array_count_values($arrayDifficulty);
-//             $valueKey = array_search(max($nrbValues),$nrbValues);
-//             switch ($valueKey){
-//                 case "Facile":
-// //                    $qcm->setDifficulty(Difficulty::1);
-//                     break;
-//                 case "Moyen":
-//                     $qcm->setDifficulty(Difficulty::Medium);
-//                     break;
-//                 case "Difficile":
-//                     $qcm->setDifficulty(Difficulty::Difficult);
-//                     break;
-//             }
+                while ($isInArray){
+//                    dump($isInArray);
+//                    dump(in_array($randomQuestion->getId(), $pickedQuestions));
+                    if(in_array($randomQuestion->getId(), $pickedQuestions)){
+                        $randomQuestion = $questions[array_rand($questions)];
+                    }else{
+                        $isInArray = false;
+                        $pickedQuestions[] = $randomQuestion->getId();
+                    }
+                }
 
-//             $manager->persist($qcm);
-//         $manager->flush();
-//     }
+                $qcm->addQuestion($randomQuestion);
+                $answers = $randomQuestion->getProposals();
+                $difficulty = $randomQuestion->getDifficulty()->value;
+                dd($difficulty);
+                array_push($arrayDifficulty, $difficulty);
+                $arrayAnswers = [];
+                foreach ($answers as $answer){
+                    array_push($arrayAnswers, ["id" => $answer->getId(), "libelle" => $answer->getWording(), "is_correct" => $answer->getIsCorrect()]);
+                }
+                $questionAnswer =
+                    [
+                        [
+                            "question"=>
+                                [
+                                    "id"=> $randomQuestion->getId(),
+                                    "libelle"=>$randomQuestion->getWording(),
+                                    "responce_type"=>$randomQuestion->getResponseType(),
+                                    "answers"=>
+                                        $arrayAnswers
+                                ],
+                        ]
+                    ];
+                $questionAnswerJson = json_encode($questionAnswer);
+                array_push($arrayQuestionAnswers,$questionAnswerJson);
+            }
+            $qcm->setQuestionsAnswers($arrayQuestionAnswers);
 
-//     public function generateQcmWithSpecifyModule($manager) :void
-//     {
-//         $dbModule = $this->moduleRepository->find(11);
-//         $dbInstructors = $dbModule->getInstructors();
-//         $key = $dbModule->getInstructors()->getKeys();
+            $nrbValues = array_count_values($arrayDifficulty);
+            $valueKey = array_search(max($nrbValues),$nrbValues);
+            switch ($valueKey){
+                case "Facile":
+//                    $qcm->setDifficulty(Difficulty::1);
+                    break;
+                case "Moyen":
+                    $qcm->setDifficulty(Difficulty::Medium);
+                    break;
+                case "Difficile":
+                    $qcm->setDifficulty(Difficulty::Difficult);
+                    break;
+            }
 
-//         $qcm = new Qcm();
+            $manager->persist($qcm);
+        $manager->flush();
+    }
 
-//         $qcm->setEnabled('1');
-//         $qcm->setModule($dbModule);
-//         $qcm->setIsOfficial( $this->faker->numberBetween(0, 1) );
-//         $qcm->setName( $this->faker->word() );
-//         $qcm->setAuthorId( $dbInstructors[array_rand($key)]->getId() );
-//         $qcm->setPublic( $this->faker->numberBetween(0, 1) );
+    public function generateQcmWithSpecifyModule($manager) :void
+    {
+        $dbModule = $this->moduleRepository->find(11);
+        $dbInstructors = $dbModule->getInstructors();
+        $key = $dbModule->getInstructors()->getKeys();
 
-//         $arrayQuestionAnswers = [];
-//         $arrayDifficulty=[];
-//         $questions = [];
-//         while(count($questions) == 0){
-//             $questions = $this->questionRepository->findBy( [ 'module' => $dbModule->getId() ] );
-//         }
+        $qcm = new Qcm();
 
-//         $pickedQuestions = [];
-//         for( $i = 0; $i < 5; $i++ )
-//         {
-//             $isInArray = true;
-//             $randomQuestion = $questions[array_rand($questions)];
+        $qcm->setEnabled('1');
+        $qcm->setModule($dbModule);
+        $qcm->setIsOfficial( $this->faker->numberBetween(0, 1) );
+        $qcm->setName( $this->faker->word() );
+        $qcm->setAuthorId( $dbInstructors[array_rand($key)]->getId() );
+        $qcm->setPublic( $this->faker->numberBetween(0, 1) );
 
-//             while ($isInArray){
-//                 if(in_array($randomQuestion->getId(), $pickedQuestions)){
-//                     $randomQuestion = $questions[array_rand($questions)];
-//                 }else{
-//                     $isInArray = false;
-//                     $pickedQuestions[] = $randomQuestion->getId();
-//                 }
-//             }
-//             $qcm->addQuestion($randomQuestion);
-//             $answers = $randomQuestion->getProposals();
-//             $difficulty = $randomQuestion->getDifficulty()->value;
-//             array_push($arrayDifficulty, $difficulty);
-//             $arrayAnswers = [];
-//             foreach ($answers as $answer){
-//                 array_push($arrayAnswers, ["id" => $answer->getId(), "libelle" => $answer->getWording(), "is_correct" => $answer->getIsCorrect()]);
-//             }
+        $arrayQuestionAnswers = [];
+        $arrayDifficulty=[];
+        $questions = [];
+        while(count($questions) == 0){
+            $questions = $this->questionRepository->findBy( [ 'module' => $dbModule->getId() ] );
+        }
 
-//             $questionAnswer =
-//                 [
-//                     [
-//                         "question"=>
-//                             [
-//                                 "id"=> $randomQuestion->getId(),
-//                                 "libelle"=>$randomQuestion->getWording(),
-//                                 "responce_type"=>$randomQuestion->getResponseType(),
-//                                 "answers"=>
-//                                     $arrayAnswers
-//                             ],
-//                     ]
-//                 ];
-//             $questionAnswerJson = json_encode($questionAnswer);
-//             array_push($arrayQuestionAnswers,$questionAnswerJson);
-//         }
-//         $qcm->setQuestionsAnswers($arrayQuestionAnswers);
+        $pickedQuestions = [];
+        for( $i = 0; $i < 5; $i++ )
+        {
+            $isInArray = true;
+            $randomQuestion = $questions[array_rand($questions)];
 
-//         $nrbValues = array_count_values($arrayDifficulty);
-//         $valueKey = array_search(max($nrbValues),$nrbValues);
-//         switch ($valueKey){
-//             case "Facile":
-//                 $qcm->setDifficulty(Difficulty::Easy);
-//                 break;
-//             case "Moyen":
-//                 $qcm->setDifficulty(Difficulty::Medium);
-//                 break;
-//             case "Difficile":
-//                 $qcm->setDifficulty(Difficulty::Difficult);
-//                 break;
-//         }
+            while ($isInArray){
+                if(in_array($randomQuestion->getId(), $pickedQuestions)){
+                    $randomQuestion = $questions[array_rand($questions)];
+                }else{
+                    $isInArray = false;
+                    $pickedQuestions[] = $randomQuestion->getId();
+                }
+            }
+            $qcm->addQuestion($randomQuestion);
+            $answers = $randomQuestion->getProposals();
+            $difficulty = $randomQuestion->getDifficulty()->value;
+            array_push($arrayDifficulty, $difficulty);
+            $arrayAnswers = [];
+            foreach ($answers as $answer){
+                array_push($arrayAnswers, ["id" => $answer->getId(), "libelle" => $answer->getWording(), "is_correct" => $answer->getIsCorrect()]);
+            }
 
-//         $manager->persist($qcm);
-//         $manager->flush();
-//     }
+            $questionAnswer =
+                [
+                    [
+                        "question"=>
+                            [
+                                "id"=> $randomQuestion->getId(),
+                                "libelle"=>$randomQuestion->getWording(),
+                                "responce_type"=>$randomQuestion->getResponseType(),
+                                "answers"=>
+                                    $arrayAnswers
+                            ],
+                    ]
+                ];
+            $questionAnswerJson = json_encode($questionAnswer);
+            array_push($arrayQuestionAnswers,$questionAnswerJson);
+        }
+        $qcm->setQuestionsAnswers($arrayQuestionAnswers);
 
-//     public function generateQcmInstances( $manager ) :void
-//     {
-//         $dbQcms = $this->qcmRepository->findAll();
-//         $dbStudents = $this->studentRepository->findByEnabled();
-//         for( $i = 0; $i < 10; $i++ )
-//         {
-//             $relatedQcm = $dbQcms[array_rand($dbQcms)];
+        $nrbValues = array_count_values($arrayDifficulty);
+        $valueKey = array_search(max($nrbValues),$nrbValues);
+        switch ($valueKey){
+            case "Facile":
+                $qcm->setDifficulty(Difficulty::Easy);
+                break;
+            case "Moyen":
+                $qcm->setDifficulty(Difficulty::Medium);
+                break;
+            case "Difficile":
+                $qcm->setDifficulty(Difficulty::Difficult);
+                break;
+        }
 
-//             $qcmInstance = new QcmInstance();
-//             $qcmInstance->setQcm( $relatedQcm );
-//             $qcmInstance->setQuestionAnswers( $relatedQcm->getQuestionsAnswers() );
-//             $qcmInstance->setEnabled( $this->faker->numberBetween(0, 1) );
-//             $qcmInstance->setName( $relatedQcm->getName() );
-//             $qcmInstance->setReleaseDate( $this->faker->dateTimeBetween('-1 year', 'now') );
-//             $qcmInstance->setEndDate( $this->faker->dateTimeBetween('now', '+1 month') );
-//             $qcmInstance->addStudent($dbStudents[array_rand($dbStudents,1)]);
-//             $manager->persist($qcmInstance);
-//         }
-//         $manager->flush();
-//     }
+        $manager->persist($qcm);
+        $manager->flush();
+    }
 
-//     public function generateQcmInstancesWithSpecifyModule( $manager ) :void
-//     {
-//         $dbQcms = $this->qcmRepository->findBy(['module' => 11]);
-// //        dd($dbQcm);
-//         $dbStudents = $this->studentRepository->findByEnabled();
-//         for( $i = 0; $i < 3; $i++ )
-//         {
-//             $relatedQcm = $dbQcms[array_rand($dbQcms)];
+    public function generateQcmInstances( $manager ) :void
+    {
+        $dbQcms = $this->qcmRepository->findAll();
+        $dbStudents = $this->studentRepository->findByEnabled();
+        for( $i = 0; $i < 10; $i++ )
+        {
+            $relatedQcm = $dbQcms[array_rand($dbQcms)];
 
-//             $qcmInstance = new QcmInstance();
-//             $qcmInstance->setQcm( $relatedQcm );
-//             $qcmInstance->setQuestionAnswers( $relatedQcm->getQuestionsAnswers() );
-//             $qcmInstance->setEnabled( $this->faker->numberBetween(0, 1) );
-//             $qcmInstance->setName( $relatedQcm->getName() );
-//             $qcmInstance->setReleaseDate( $this->faker->dateTimeBetween('-1 year', 'now') );
-//             $qcmInstance->setEndDate( $this->faker->dateTimeBetween('now', '+1 month') );
-//             $qcmInstance->addStudent($dbStudents[array_rand($dbStudents,1)]);
-//             $manager->persist($qcmInstance);
-//         }
-//         $manager->flush();
-//     }
+            $qcmInstance = new QcmInstance();
+            $qcmInstance->setQcm( $relatedQcm );
+            $qcmInstance->setQuestionAnswers( $relatedQcm->getQuestionsAnswers() );
+            $qcmInstance->setEnabled( $this->faker->numberBetween(0, 1) );
+            $qcmInstance->setName( $relatedQcm->getName() );
+            $qcmInstance->setReleaseDate( $this->faker->dateTimeBetween('-1 year', 'now') );
+            $qcmInstance->setEndDate( $this->faker->dateTimeBetween('now', '+1 month') );
+            $qcmInstance->addStudent($dbStudents[array_rand($dbStudents,1)]);
+            $manager->persist($qcmInstance);
+        }
+        $manager->flush();
+    }
 
-//     public function generateResults( $manager ) :void
-//     {
-//         $dbQcmInstances = $this->qcmInstanceRepository->findAll();
+    public function generateQcmInstancesWithSpecifyModule( $manager ) :void
+    {
+        $dbQcms = $this->qcmRepository->findBy(['module' => 11]);
+//        dd($dbQcm);
+        $dbStudents = $this->studentRepository->findByEnabled();
+        for( $i = 0; $i < 3; $i++ )
+        {
+            $relatedQcm = $dbQcms[array_rand($dbQcms)];
 
-//         for( $i = 0; $i < 10; $i++ )
-//         {
-//             $result = new Result();
-//             $dbStudents = [];
-//             while (count($dbStudents) == 0){
-//                 $dbQcmInstance = $dbQcmInstances[array_rand($dbQcmInstances)];
-//                 $dbStudents = $this->studentRepository->AllStudentByQcmInstance($dbQcmInstance->getId(), $manager);
-//             }
-//             $result->setQcmInstance( $dbQcmInstance );
-//             $result->setStudent($dbStudents[array_rand($dbStudents)]);
-//             $score = $this->faker->numberBetween(0,100);
-//             $result->setTotalScore( $score );
-//             if( $score < 25 )
-//             {
-//                 $result->setLevel(Level::Discover);
-//             }
-//             elseif( $score >= 25 && $score < 50 )
-//             {
-//                 $result->setLevel(Level::Explore);
-//             }
-//             elseif( $score >= 50 && $score < 75 )
-//             {
-//                 $result->setLevel(Level::Master);
-//             }
-//             elseif( $score >= 75 && $score <= 100 )
-//             {
-//                 $result->setLevel(Level::Dominate);
-//             }
+            $qcmInstance = new QcmInstance();
+            $qcmInstance->setQcm( $relatedQcm );
+            $qcmInstance->setQuestionAnswers( $relatedQcm->getQuestionsAnswers() );
+            $qcmInstance->setEnabled( $this->faker->numberBetween(0, 1) );
+            $qcmInstance->setName( $relatedQcm->getName() );
+            $qcmInstance->setReleaseDate( $this->faker->dateTimeBetween('-1 year', 'now') );
+            $qcmInstance->setEndDate( $this->faker->dateTimeBetween('now', '+1 month') );
+            $qcmInstance->addStudent($dbStudents[array_rand($dbStudents,1)]);
+            $manager->persist($qcmInstance);
+        }
+        $manager->flush();
+    }
 
-//             $result->setInstructorComment( $this->faker->sentence() );
-//             $result->setStudentComment( $this->faker->sentence() );
+    public function generateResults( $manager ) :void
+    {
+        $dbQcmInstances = $this->qcmInstanceRepository->findAll();
 
-//             $questionAnswers = $dbQcmInstance->getQcm()->getQuestionsAnswers();
-//             // Transforme les objets à l'interieur de $questionAnswers en des tableaux et rajoute "student_answer"
-//             $questionAnswersDecode = array_map(function($questionAnswer){
-//                 return json_encode(array_map(function($qa){
-//                     $qa = (array)$qa;
-//                     return array_map(function($qaa){
-//                         $qaa = (array)$qaa;
-//                         return array_merge($qaa, ['student_answer' => rand(0,1)] );
-//                     },$qa['answers']);
-//                 },(array)json_decode($questionAnswer)[0]));
-//             },$questionAnswers);
-//             $result->setAnswers($questionAnswersDecode);
-//             $manager->persist($result);
-//         }
-//         $manager->flush();
-//     }
+        for( $i = 0; $i < 10; $i++ )
+        {
+            $result = new Result();
+            $dbStudents = [];
+            while (count($dbStudents) == 0){
+                $dbQcmInstance = $dbQcmInstances[array_rand($dbQcmInstances)];
+                $dbStudents = $this->studentRepository->AllStudentByQcmInstance($dbQcmInstance->getId(), $manager);
+            }
+            $result->setQcmInstance( $dbQcmInstance );
+            $result->setStudent($dbStudents[array_rand($dbStudents)]);
+            $score = $this->faker->numberBetween(0,100);
+            $result->setTotalScore( $score );
+            if( $score < 25 )
+            {
+                $result->setLevel(Level::Discover);
+            }
+            elseif( $score >= 25 && $score < 50 )
+            {
+                $result->setLevel(Level::Explore);
+            }
+            elseif( $score >= 50 && $score < 75 )
+            {
+                $result->setLevel(Level::Master);
+            }
+            elseif( $score >= 75 && $score <= 100 )
+            {
+                $result->setLevel(Level::Dominate);
+            }
+
+            $result->setInstructorComment( $this->faker->sentence() );
+            $result->setStudentComment( $this->faker->sentence() );
+
+            $questionAnswers = $dbQcmInstance->getQcm()->getQuestionsAnswers();
+            // Transforme les objets à l'interieur de $questionAnswers en des tableaux et rajoute "student_answer"
+            $questionAnswersDecode = array_map(function($questionAnswer){
+                return json_encode(array_map(function($qa){
+                    $qa = (array)$qa;
+                    return array_map(function($qaa){
+                        $qaa = (array)$qaa;
+                        return array_merge($qaa, ['student_answer' => rand(0,1)] );
+                    },$qa['answers']);
+                },(array)json_decode($questionAnswer)[0]));
+            },$questionAnswers);
+            $result->setAnswers($questionAnswersDecode);
+            $manager->persist($result);
+        }
+        $manager->flush();
+    }
 }

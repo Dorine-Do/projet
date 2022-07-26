@@ -93,7 +93,7 @@ class Question
         return $this;
     }
 
-    public function isMandatory(): ?bool
+    public function getIsMandatory(): ?bool
     {
         return $this->isMandatory;
     }
@@ -105,7 +105,7 @@ class Question
         return $this;
     }
 
-    public function isOfficial(): ?bool
+    public function getIsOfficial(): ?bool
     {
         return $this->isOfficial;
     }
@@ -129,7 +129,7 @@ class Question
         return $this;
     }
 
-    public function isMultiple(): ?bool
+    public function getIsMultiple(): ?bool
     {
         return $this->isMultiple;
     }
