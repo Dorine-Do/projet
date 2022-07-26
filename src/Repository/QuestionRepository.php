@@ -92,6 +92,43 @@ class QuestionRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+//  /**
+//      * @throws ORMException
+//      * @throws OptimisticLockException
+//      */
+//     public function getQuestionByQcm( )
+//     {
+//         $questionBdd = $this->getEntityManager();
+//         return $questionBdd->createQuery('
+//         SELECT ques.id,q.wording,ques
+//         FROM App\Entity\Question ques
+//         INNER JOIN App\Entity\LinkQcmQuestion lqq
+//         WITH ques.id = lqq.question_id
+//         INNER JOIN App\Entity\Qcm q
+//         WITH qcm.id = lqq.qcm_id
+//          WHERE q.id =:qcm_id
+//      ')
+         
+          
+//             ->getResult();
+//     }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function getQuestionByQcm( )
+    {
+        $questionBdd = $this->getEntityManager();
+        return $questionBdd->createQuery('
+        SELECT q.id ,q.wording
+        FROM App\Entity\Question q
+       
+       
+     ')
+            ->getResult();
+    }
+
     /**
      * @throws ORMException
      * @throws OptimisticLockException

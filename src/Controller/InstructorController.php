@@ -9,6 +9,7 @@ use App\Entity\Question;
 use App\Form\CreateQuestionType;
 use App\Form\QuestionType;
 use App\Repository\ProposalRepository;
+use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
 use DateTime;
@@ -23,10 +24,12 @@ class InstructorController extends AbstractController
 {
     private $repository;
     private $proposals;
+    private $qcm;
 
-    public function __construct(QuestionRepository $repository, ProposalRepository $proposals){
+    public function __construct(QuestionRepository $repository, ProposalRepository $proposals,QcmRepository $qcm){
         $this->repository = $repository;
         $this->proposals = $proposals;
+        $this->qcm =$qcm;
     }
 
 //    TODO future page à implémenter
@@ -59,11 +62,34 @@ class InstructorController extends AbstractController
                 ];
                 array_push($resumeProposal, $proposalValues);
             }
+        //    dd( $test=$this->DisplayQcm()[0]);
+        // $test=$this->DisplayQcm()[1];
+         $test=$this->DisplayQcm()[1];
+         $test2=$this->DisplayQcm()[0];
+         $test3=$this->DisplayQcm()[2];
+        //  dd($test3=$this->DisplayQcm()[2]);
         }
         return $this->render('instructor/index.html.twig', [
             'questions' => $questions,
             'proposals' => $resumeProposal,
+            'test'=> $test,
+            'qcms'=> $test2,
+            'qcms_rep'=> $test3
+
         ]);
+    }
+
+
+    // temporaire en attente de la new bdd
+    public function  DisplayQcm()
+    {
+        // $test = 'la';
+        // return $test;
+        $qcm = $this->qcm->getQcmByDifficulty();
+        $question_test = $this->repository->getQuestionByQcm();
+        $qcm_rep = $this->qcm->testQcm();
+       
+        return array($qcm,$question_test,$qcm_rep);
     }
 
     /**
@@ -224,4 +250,20 @@ class InstructorController extends AbstractController
             "add"=>true,
         ]);
     }
+
+
+     /**
+     * @Route("instructor/creation_qcm", name="instructor_create_qcm")
+     * @return Response
+     */
+
+     public function createQcm(){
+
+
+
+
+
+        return $this->render('instructor/create_official_qcm.html.twig', [
+        ]);
+     }
 }

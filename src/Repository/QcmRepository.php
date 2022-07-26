@@ -47,6 +47,55 @@ class QcmRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function getQcmByDifficulty()
+       {
+        $qcmBdd = $this->getEntityManager();
+        return $qcmBdd->createQuery('
+        SELECT q.id, q.name, q.difficulty
+        FROM App\Entity\Qcm q
+       
+        
+       
+       
+     ')
+         
+          
+            ->getResult();
+       }
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+      public function testQcm()
+       {
+        $qcmBdd = $this->getEntityManager();
+        return $qcmBdd->createQuery('
+        SELECT q.id, q.name
+        FROM App\Entity\Qcm q
+     ')
+            ->getResult();
+       }
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function getQcmByInstructor()
+       {
+        $qcmBdd = $this->getEntityManager();
+        return $qcmBdd->createQuery('
+        SELECT q.name, q.difficulty
+        FROM App\Entity\Qcm q
+       
+       
+     ')
+         
+          
+            ->getResult();
+       }
 //    /**
 //     * @return Qcm[] Returns an array of Qcm objects
 //     */
