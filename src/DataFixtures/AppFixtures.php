@@ -475,12 +475,9 @@ class AppFixtures extends Fixture
 
             $qcmInstance = new QcmInstance();
             $qcmInstance->setQcm( $relatedQcm );
-            $qcmInstance->setQuestionAnswers( $relatedQcm->getQuestionsAnswers() );
-            $qcmInstance->setEnabled( $this->faker->numberBetween(0, 1) );
-            $qcmInstance->setName( $relatedQcm->getName() );
-            $qcmInstance->setReleaseDate( $this->faker->dateTimeBetween('-1 year', 'now') );
-            $qcmInstance->setEndDate( $this->faker->dateTimeBetween('now', '+1 month') );
-            $qcmInstance->addStudent($dbStudents[array_rand($dbStudents,1)]);
+            $qcmInstance->setStartTime( $this->faker->dateTimeBetween('-1 year', 'now') );
+            $qcmInstance->setEndTime( $this->faker->dateTimeBetween('now', '+1 month') );
+            $qcmInstance->setStudent($dbStudents[array_rand($dbStudents,1)]);
             $manager->persist($qcmInstance);
         }
         $manager->flush();

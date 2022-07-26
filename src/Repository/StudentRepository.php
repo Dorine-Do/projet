@@ -39,6 +39,38 @@ class StudentRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Student[] Returns an array of Student objects
+     */
+    public function findByEnabled(): array
+    {
+        $studentBdd = $this->getEntityManager();
+        return $studentBdd->createQuery('
+        SELECT DISTINCT s
+        FROM App\Entity\Student s
+        INNER JOIN App\Entity\LinkSessionStudent lss
+        WITH lss.student = s.id
+        WHERE lss.enabled = true
+        ')
+            ->getResult();
+    }
+
+    /**
+     * @return Student[] Returns an array of Student objects
+     */
+    public function AllStudentByQcmInstance($id, $entityManager): array
+    {
+        return $this->createQueryBuilder('s')
+            ->innerJoin('s.qcmInstances', 'qi')
+            ->where('qi.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+
+
+    }
+
 //    /**
 //     * @return Student[] Returns an array of Student objects
 //     */
