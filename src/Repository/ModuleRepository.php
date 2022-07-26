@@ -54,6 +54,11 @@ class ModuleRepository extends ServiceEntityRepository
             WHERE result.total_score >= 50 AND link_session_module.end_date <= now() AND qcm.is_official = true AND student.id = :student_id
         ';
 
+        $stmt = $conn->prepare($sql);
+
+        $resultSet = $stmt->executeQuery(['student_id' => $student_id]);
+
+        return $resultSet->fetchAllAssociative();
     }
 
 //    /**
