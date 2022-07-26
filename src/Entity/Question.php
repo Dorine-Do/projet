@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Question
 {
     #[ORM\Id]
@@ -62,6 +63,19 @@ class Question
         $this->qcms = new ArrayCollection();
     }
 
+    #[ORM\PrePersist]
+    public function setCreatedAtValue():void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue():void
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -79,7 +93,7 @@ class Question
         return $this;
     }
 
-    public function isMandatory(): ?bool
+    public function getIsMandatory(): ?bool
     {
         return $this->isMandatory;
     }
@@ -91,7 +105,7 @@ class Question
         return $this;
     }
 
-    public function isOfficial(): ?bool
+    public function getIsOfficial(): ?bool
     {
         return $this->isOfficial;
     }
@@ -115,7 +129,7 @@ class Question
         return $this;
     }
 
-    public function isMultiple(): ?bool
+    public function getIsMultiple(): ?bool
     {
         return $this->isMultiple;
     }

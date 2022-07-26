@@ -6,6 +6,8 @@ use App\Repository\ProposalRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProposalRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+
 class Proposal
 {
     #[ORM\Id]
@@ -29,6 +31,19 @@ class Proposal
     #[ORM\JoinColumn(nullable: false)]
     private $question;
 
+    #[ORM\PrePersist]
+    public function setCreatedAtValue():void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue():void
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,7 +61,7 @@ class Proposal
         return $this;
     }
 
-    public function isIsCorrectAnswer(): ?bool
+    public function getIsCorrectAnswer(): ?bool
     {
         return $this->isCorrectAnswer;
     }
