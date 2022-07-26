@@ -35,9 +35,8 @@ class InstructorController extends AbstractController
     public function displayQuestions(QuestionRepository $questionRepository, ProposalRepository $proposalRepository): Response
     {
         $proposals = [];
-        $proposalValues = [];
         $resumeProposal = [];
-        /*TODO A Changer quand la refacto de la bd sera faite*/
+
         $questions = $questionRepository->findBy(['author' => 2]);
         foreach ($questions as $question) {
             $question_id = $question->getId();
@@ -107,16 +106,16 @@ class InstructorController extends AbstractController
                     }
 
                 // Si la reponse est une reponse correcte
-                if($prop->getIsCorrect() === true){
+                if($prop->getIsCorrectAnswer() === true){
                     $count++;
                 }
             }
 
             // Set le champs ResponseType
             if($count > 1){
-                $instanceQuestion->setResponseType("checkbox");
+                $instanceQuestion->setIsMultiple(true);
             }elseif ($count == 1){
-                $instanceQuestion->setResponseType("radio");
+                $instanceQuestion->setIsMultiple(false);
             }
 
             //Supprime le lien entre les proposals et la question que l'utilisateur ne veut plus
