@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -11,6 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\DiscriminatorMap(["admin" => Admin::class, "instructor" => Instructor::class, "student" => Student::class])]
 #[ORM\DiscriminatorColumn(name: "discr", type: "string")]
 #[ORM\InheritanceType("SINGLE_TABLE")]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -50,6 +53,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue():void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue():void
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Qcm::class)]
+    private $qcms;
+
+    public function __construct()
+    {
+        $this->qcms = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -213,6 +237,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Qcm>
+     */
+    public function getQcms(): Collection
+    {
+        return $this->qcms;
+    }
+
+    public function addQcm(Qcm $qcm): self
+    {
+        if (!$this->qcms->contains($qcm)) {
+            $this->qcms[] = $qcm;
+            $qcm->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQcm(Qcm $qcm): self
+    {
+        if ($this->qcms->removeElement($qcm)) {
+            // set the owning side to null (unless already changed)
+            if ($qcm->getAuthor() === $this) {
+                $qcm->setAuthor(null);
+            }
+        }
 
         return $this;
     }

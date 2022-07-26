@@ -6,6 +6,8 @@ use App\Repository\ProposalRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProposalRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+
 class Proposal
 {
     #[ORM\Id]
@@ -14,19 +16,10 @@ class Proposal
     private $id;
 
     #[ORM\Column(type: 'text')]
-    private $proposal;
+    private $wording;
 
     #[ORM\Column(type: 'boolean')]
     private $isCorrectAnswer;
-
-    #[ORM\Column(type: 'boolean')]
-    private $isMandatory;
-
-    #[ORM\Column(type: 'boolean')]
-    private $isOfficial;
-
-    #[ORM\Column(type: 'smallint')]
-    private $difficulty;
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
@@ -38,24 +31,37 @@ class Proposal
     #[ORM\JoinColumn(nullable: false)]
     private $question;
 
+    #[ORM\PrePersist]
+    public function setCreatedAtValue():void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue():void
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getProposal(): ?string
+    public function getWording(): ?string
     {
-        return $this->proposal;
+        return $this->wording;
     }
 
-    public function setProposal(string $proposal): self
+    public function setWording(string $wording): self
     {
-        $this->proposal = $proposal;
+        $this->wording = $wording;
 
         return $this;
     }
 
-    public function isIsCorrectAnswer(): ?bool
+    public function getIsCorrectAnswer(): ?bool
     {
         return $this->isCorrectAnswer;
     }
@@ -63,42 +69,6 @@ class Proposal
     public function setIsCorrectAnswer(bool $isCorrectAnswer): self
     {
         $this->isCorrectAnswer = $isCorrectAnswer;
-
-        return $this;
-    }
-
-    public function isIsMandatory(): ?bool
-    {
-        return $this->isMandatory;
-    }
-
-    public function setIsMandatory(bool $isMandatory): self
-    {
-        $this->isMandatory = $isMandatory;
-
-        return $this;
-    }
-
-    public function isIsOfficial(): ?bool
-    {
-        return $this->isOfficial;
-    }
-
-    public function setIsOfficial(bool $isOfficial): self
-    {
-        $this->isOfficial = $isOfficial;
-
-        return $this;
-    }
-
-    public function getDifficulty(): ?int
-    {
-        return $this->difficulty;
-    }
-
-    public function setDifficulty(int $difficulty): self
-    {
-        $this->difficulty = $difficulty;
 
         return $this;
     }

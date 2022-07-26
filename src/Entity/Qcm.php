@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QcmRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Qcm
 {
     #[ORM\Id]
@@ -42,21 +43,35 @@ class Qcm
     #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: QcmInstance::class)]
     private $qcmInstances;
 
-    #[ORM\ManyToOne(targetEntity: Instructor::class, inversedBy: 'qcms')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $author;
-
     #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'qcms')]
     #[ORM\JoinColumn(nullable: false)]
     private $module;
 
     #[ORM\ManyToMany(targetEntity: Question::class, inversedBy: 'qcms')]
+    #[ORM\JoinTable(name: "link_qcm_question")]
     private $questions;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'qcms')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $author;
 
     public function __construct()
     {
         $this->qcmInstances = new ArrayCollection();
         $this->questions = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue():void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue():void
+    {
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -190,18 +205,6 @@ class Qcm
         return $this;
     }
 
-    public function getAuthor(): ?Instructor
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?Instructor $author): self
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
     public function getModule(): ?Module
     {
         return $this->module;
@@ -234,6 +237,18 @@ class Qcm
     public function removeQuestion(Question $question): self
     {
         $this->questions->removeElement($question);
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
