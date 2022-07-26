@@ -1,8 +1,8 @@
-@import url(public/css/main.css);
+@import url('../main.css');
 
 /*************************************** CSS sur simple balise HTML **********************************/
 
-.form-question{
+.formQuestion{
     max-width: 100%
 }
 
@@ -120,11 +120,13 @@ tbody{
 
 input[type="radio"]{
     background-color: var(--grey);
+    cursor:pointer;
 }
 
 input[type="radio"]:checked {
     background-color: var(--vert);
     margin:0;
+    cursor:pointer;
 }
 
 img{
@@ -176,7 +178,7 @@ img{
     font-size: var(--grand);
 }
 
-.numeroform{
+.numeroForm{
     background-color: #FFAC8F;
     padding: .5em 1em;
     border-radius: 50%;
@@ -193,20 +195,27 @@ img{
     font-weight: bold;
     border: none;
     padding: 3px 9px;
-    font-size: var(--small);
+    font-size: var(--semi_small);
     margin-bottom: 15px;
 }
 
+.removeProposal:hover, .addProposal:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+    padding: 4px 11px;
+    cursor: pointer;
+}
 
-.div_proposal{
+
+.divProposal{
     text-align: center;
 }
 
-.div_proposal label{
+.divProposal label{
     padding: .5em;
 }
 
-.div_proposal textarea{
+.divProposal textarea{
     border-radius: 5px;
     border: none;
     color: grey;
@@ -216,18 +225,18 @@ img{
 }
 
 
-.div_proposal:first-child{
+.divProposal:first-child{
     display: flex;
     flex-direction: column;
     margin: 0 1em;
 }
-.div_proposal:nth-child(2) {
+.divProposal:nth-child(2) {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
-.li_proposal{
+.liProposal{
     width: 25%;
     text-align: center;
     margin: 1em;
@@ -239,7 +248,7 @@ img{
 }
 
 
-#list_proposal{
+#listProposal{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -249,7 +258,7 @@ img{
 
 /*********************************** HAUT DE LA PAGE + BOUTON VALIDER ***********************************************/
 
-.info_question{
+.infoQuestion{
     text-align: center;
 }
 
@@ -264,6 +273,12 @@ img{
     margin-left: auto;
     margin-right: auto;
     display: block;
+}
+
+.valid:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .required input{
@@ -333,7 +348,7 @@ img{
         padding-bottom: 10px;
     }
 
-    .li_proposal{
+    .liProposal{
         width: 33%
     }
 
@@ -384,7 +399,7 @@ img{
         width: 240px;
     }
 
-    .numeroform{
+    .numeroForm{
         background-color: var(--pamplemousse);
         padding: 4px 16px;
         border-radius: 50%;
@@ -423,7 +438,7 @@ img{
         margin-left: 0;
     }
 
-    .li_proposal{
+    .liProposal{
         width: 80%;
     }
 

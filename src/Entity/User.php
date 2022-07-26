@@ -3,11 +3,17 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\DiscriminatorMap(["admin" => Admin::class, "instructor" => Instructor::class, "student" => Student::class])]
+#[ORM\DiscriminatorColumn(name: "discr", type: "string")]
+#[ORM\InheritanceType("SINGLE_TABLE")]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -25,25 +31,49 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     #[ORM\Column(type: 'string', length: 150)]
-    private $first_name;
+    private $firstName;
 
     #[ORM\Column(type: 'string', length: 150)]
-    private $last_name;
-
-    #[ORM\Column(type: 'integer')]
-    private $id_moodle;
+    private $lastName;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private $bith_date;
+    private $birthDate;
 
-    #[ORM\Column(type: 'string', length: 45, nullable: true)]
-    private $mail_3wa;
+    #[ORM\Column(type: 'string', length: 80)]
+    private $email3wa;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $googleId;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $moodleId;
 
     #[ORM\Column(type: 'datetime')]
-    private $created_at;
+    private $createdAt;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $updated_at;
+    #[ORM\Column(type: 'datetime')]
+    private $updatedAt;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue():void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue():void
+    {
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Qcm::class)]
+    private $qcms;
+
+    public function __construct()
+    {
+        $this->qcms = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -117,84 +147,126 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getFirstName(): ?string
     {
-        return $this->first_name;
+        return $this->firstName;
     }
 
-    public function setFirstName(string $first_name): self
+    public function setFirstName(string $firstName): self
     {
-        $this->first_name = $first_name;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
     public function getLastName(): ?string
     {
-        return $this->last_name;
+        return $this->lastName;
     }
 
-    public function setLastName(string $last_name): self
+    public function setLastName(string $lastName): self
     {
-        $this->last_name = $last_name;
+        $this->lastName = $lastName;
 
         return $this;
     }
 
-    public function getIdMoodle(): ?int
+    public function getBirthDate(): ?\DateTimeInterface
     {
-        return $this->id_moodle;
+        return $this->birthDate;
     }
 
-    public function setIdMoodle(int $id_moodle): self
+    public function setBirthDate(?\DateTimeInterface $birthDate): self
     {
-        $this->id_moodle = $id_moodle;
+        $this->birthDate = $birthDate;
 
         return $this;
     }
 
-    public function getBithDate(): ?\DateTimeInterface
+    public function getEmail3wa(): ?string
     {
-        return $this->bith_date;
+        return $this->email3wa;
     }
 
-    public function setBithDate(?\DateTimeInterface $bith_date): self
+    public function setEmail3wa(string $email3wa): self
     {
-        $this->bith_date = $bith_date;
+        $this->email3wa = $email3wa;
 
         return $this;
     }
 
-    public function getMail3wa(): ?string
+    public function getGoogleId(): ?int
     {
-        return $this->mail_3wa;
+        return $this->googleId;
     }
 
-    public function setMail3wa(?string $mail_3wa): self
+    public function setGoogleId(int $googleId): self
     {
-        $this->mail_3wa = $mail_3wa;
+        $this->googleId = $googleId;
+
+        return $this;
+    }
+
+    public function getMoodleId(): ?int
+    {
+        return $this->moodleId;
+    }
+
+    public function setMoodleId(int $moodleId): self
+    {
+        $this->moodleId = $moodleId;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Qcm>
+     */
+    public function getQcms(): Collection
+    {
+        return $this->qcms;
+    }
+
+    public function addQcm(Qcm $qcm): self
+    {
+        if (!$this->qcms->contains($qcm)) {
+            $this->qcms[] = $qcm;
+            $qcm->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQcm(Qcm $qcm): self
+    {
+        if ($this->qcms->removeElement($qcm)) {
+            // set the owning side to null (unless already changed)
+            if ($qcm->getAuthor() === $this) {
+                $qcm->setAuthor(null);
+            }
+        }
 
         return $this;
     }

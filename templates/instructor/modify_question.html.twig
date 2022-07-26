@@ -6,35 +6,35 @@
 {% endblock %}
 
 {% block body %}
-    <h1>- Je corrige/modifie ma question -</h1>
+    <h1>- {{ 'question.iCorrectModify'|trans }} -</h1>
 
     {% if  distribute != null %}
 
-{#    Info question#}<div class="info_question">
+{#    Info question#}
+        <div class="infoQuestion">
         <p>
-            Cette page a pour but de permettre de corriger les possibles fautes orthoqraphiques dans l'intitulé de laquesiton ou des réponses.
+            {{ 'question.goal'|trans }}
         </p>
         <p>
-            <strong> Attention </strong>
-            , une fois créée et distribuée aux élève, la question ne pourra plus être modifiées ou supprimer.
+            {{ 'question.warning'|trans }}, {{ 'question.warningExplain'|trans }}
         </p>
         <p>
-            Votre question a déjà été diffusée aux élèves, elle ne peut plus être modifiée.
+            {{ 'question.infoPublished'|trans }}
             <br>
-            - 1ère date de diffusion : {{distribute}}
+            - {{ 'question.firstDatePublished'|trans }} : {{distribute}}
             <br>
-            - Classe : {{session}}
+            - {{ 'question.session'|trans }} : {{session}}
         </p>
         </div>
         {# Form question #}
-        <div class="form-question">
+        <div class="formQuestion">
             {{ form_start(form) }}
             <table>
                 <tr>
                     <td colspan="2" class="premier">
                         <p class="partTitle">
-                            <span class="numeroform">1</span>
-                            Choisir le module:
+                            <span class="numeroForm">1</span>
+                            {{ 'module.choice'|trans }} :
                         </p>
                     </td>
                     <td colspan="2" class="premierselect">
@@ -44,8 +44,8 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p class = "partTitle">
-                            <span class="numeroform">2</span>
-                            Intitulé de la question :
+                            <span class="numeroForm">2</span>
+                            {{ 'question.wording'|trans }} :
                         </p>
                     </td>
                     <td colspan="2" class="second">
@@ -55,8 +55,8 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p  class="partTitle">
-                            <span class="numeroform">3</span>
-                            Difficulté de la question:
+                            <span class="numeroForm">3</span>
+                            {{ 'question.difficulty'|trans }}:
                         </p>
                     </td>
                     <td colspan="2" class="difficulty">
@@ -66,26 +66,26 @@
                 <tr>
                     <td colspan="2">
                         <p class = "partTitle">
-                            <span class="numeroform" >4</span>
-                            Créer des réponses
+                            <span class="numeroForm" >4</span>
+                            {{ 'proposal.create'|trans }}
                         </p>
                     </td>
                     <td colspan="2" class="second">
-                        <ul id ="list_proposal">
+                        <ul id ="listProposal">
                             {% for proposal in form.proposals %}
-                                <li class="li_proposal">
-                                    <div class="div_proposal">
+                                <li class="liProposal">
+                                    <div class="divProposal">
                                         {{form_row(proposal.wording,{'disabled' : true})}}{{form_row(proposal.is_correct,{'disabled' : true})}}
                                     </div>
                                     {% if distribute == null %}
-                                        <button type="button" class="removeProposal" >Suppimer</button>
+                                        <button type="button" class="removeProposal" >{{ 'button.delete'|trans }}</button>
                                     {% endif %}
                                 </li>
                             {%endfor%}
                         </ul>
                         {% if distribute == null %}
-                            <buttondata-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="addProposal"class="addProposal">
-                            Ajouter une réponse
+                            <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="add_proposal"class="addProposal">
+                                {{ 'button.addProposal'|trans }}
                             </button>
                         {% endif %}
                     </td>
@@ -93,11 +93,11 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p class = "partTitle">
-                            <span class="numeroform">5</span>
-                            Désactiver la question
+                            <span class="numeroForm">5</span>
+                            {{ 'question.desactivate'|trans }}
                         </p>
                         <p>
-                            La question ne sera plus dans la liste des questions pouvant être ajoutée à un qcm
+                            {{ 'question.desactivateExplain'|trans }}
                         </p>
                     </td>
                     <td colspan="2" class="second">
@@ -106,7 +106,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button type="submit" class="valid">Valider</button>
+                        <button type="submit" class="valid">{{ 'button.validate'|trans }}</button>
                     </td>
                 </tr>
             </table>
@@ -118,27 +118,27 @@
     {#    Info question#}
     {% if distribute == null %}
 
-        <div class="info_question">
+        <div class="infoQuestion">
             <p>
-                Cette page a pour but de permettre de corriger les possibles fautes orthoqraphiques dans l'intitulé de laquesiton ou des réponses.
+                {{ 'question.goal'|trans }}
             </p>
             <p>
-                <strong> Attention </strong>
-                , une fois créée et distribuée aux élève, la question ne pourra plus être modifiées ou supprimer.
+                <strong> {{ 'question.warning'|trans }} </strong>
+                , {{ 'question.warningExplain'|trans }}
             </p>
             <p>
-                Votre quesiton n'a pas encore été donnée aux élèves, vous pouvez encore la modifier
+                {{ 'question.infoNoPublished'|trans }}
             </p>
         </div>
         {# Form question #}
-        <div class="form-question">
+        <div class="formQuestion">
             {{ form_start(form) }}
             <table>
                 <tr>
                     <td colspan="2" class="premier">
                         <p class="partTitle">
-                            <span class="numeroform">1</span>
-                            Choisir le module:
+                            <span class="numeroForm">1</span>
+                            {{ 'module.choice'|trans }}:
                         </p>
                     </td>
                     <td colspan="2" class="premierselect">
@@ -148,8 +148,8 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p class = "partTitle">
-                            <span class="numeroform">2</span>
-                            Intitulé de la question :
+                            <span class="numeroForm">2</span>
+                            {{ 'question.wording'|trans }} :
                         </p>
                     </td>
                     <td colspan="2" class="second">
@@ -159,8 +159,8 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p  class="partTitle">
-                            <span class="numeroform">3</span>
-                            Difficulté de la question:
+                            <span class="numeroForm">3</span>
+                            {{ 'question.difficulty'|trans }} :
                         </p>
                     </td>
                     <td colspan="2" class="difficulty">
@@ -170,35 +170,34 @@
                 <tr>
                     <td colspan="2">
                         <p class = "partTitle">
-                            <span class="numeroform" >4</span>
-                            Créer des réponses
+                            <span class="numeroForm" >4</span>
+                            {{ 'proposal.create'|trans }}
                         </p>
                     </td>
-                    <td colspan="2" class="second" id="errorChecked">
-                        <ul id ="list_proposal">
+                    <td colspan="2" class="second" id="error_checked">
+                        <ul id ="listProposal">
                             {% for proposal in form.proposals %}
-                                <li class="li_proposal">
-                                    <div class="div_proposal">
+                                <li class="liProposal">
+                                    <div class="divProposal">
                                         {{form_row(proposal.wording)}}{{form_row(proposal.is_correct)}}
                                     </div>
-                                    <button type="button" class="removeProposal" >Suppimer</button>
+                                    <button type="button" class="removeProposal" >{{ 'button.delete'|trans }}</button>
                                 </li>
                             {%endfor%}
                         </ul>
-                        <buttondata-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="addProposal"class="addProposal">
-                        Ajouter une réponse
+                        <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="add_proposal"class="addProposal">
+                            {{ 'button.addProposal'|trans }}
                         </button>
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" class="premier">
                         <p class = "partTitle">
-                            <span class="numeroform">5</span>
-                            Désactiver la question
+                            <span class="numeroForm">5</span>
+                            {{ 'question.desactivate'|trans }}
                         </p>
                         <p class="center">
-                            La question ne sera plus dans la liste des questions pouvant être ajoutée à un qcm
-                        </p>
+                            {{ 'question.desactivateExplain'|trans }}
                     </td>
                     <td colspan="2" class="option">
                         {{ form_widget(form.enabled) }}
@@ -206,18 +205,18 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button type="submit" class="valid">Valider</button>
+                        <button type="submit" class="valid">{{ 'button.validate'|trans }}</button>
                     </td>
                 </tr>
             </table>
+            {{form_rest(form)}}
             {{ form_end(form) }}
         </div>
 
     {% endif %}
 {% endblock %}
 {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-    <script type="text/javascript" src="{{ asset('js/create_modify_question.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/instructor/create_modify_question.js') }}"></script>
     <script>
         let add = {{add|json_encode}};
         let imgPath = [];

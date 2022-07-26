@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Enum\Difficulty;
 use App\Entity\Enum\Level;
 use App\Entity\Instructor;
+use App\Entity\LinkInstructorSessionModule;
 use App\Entity\LinkSessionModule;
 use App\Entity\LinkSessionStudent;
 use App\Entity\Module;
@@ -29,15 +30,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    private UserPasswordHasherInterface $userPasswordHasherInterface;
-    private InstructorRepository $instructorRepository;
-    private ModuleRepository $moduleRepository;
-    private SessionRepository $sessionRepository;
-    private QuestionRepository $questionRepository;
-    private QcmRepository $qcmRepository;
-    private StudentRepository $studentRepository;
-    private QcmInstanceRepository $qcmInstanceRepository;
-
     private $faker;
 
     protected array $arrayModule = [];
@@ -48,24 +40,16 @@ class AppFixtures extends Fixture
     protected array $ChoicesLevel = [ Level::Discover, Level::Explore, Level::Master, Level::Dominate];
 
     public function __construct (
-        UserPasswordHasherInterface $userPasswordHasherInterface,
-        InstructorRepository $instructorRepository,
-        ModuleRepository $moduleRepository,
-        SessionRepository $sessionRepository,
-        QuestionRepository $questionRepository,
-        QcmRepository $qcmRepository,
-        StudentRepository $studentRepository,
-        QcmInstanceRepository $qcmInstanceRepository
+        private UserPasswordHasherInterface $userPasswordHasherInterface,
+        private InstructorRepository $instructorRepository,
+        private ModuleRepository $moduleRepository,
+        private SessionRepository $sessionRepository,
+        private QuestionRepository $questionRepository,
+        private QcmRepository $qcmRepository,
+        private StudentRepository $studentRepository,
+        private QcmInstanceRepository $qcmInstanceRepository
     )
     {
-        $this->userPasswordHasherInterface = $userPasswordHasherInterface;
-        $this->instructorRepository = $instructorRepository;
-        $this->moduleRepository = $moduleRepository;
-        $this->sessionRepository = $sessionRepository;
-        $this->questionRepository = $questionRepository;
-        $this->qcmRepository = $qcmRepository;
-        $this->studentRepository = $studentRepository;
-        $this->qcmInstanceRepository = $qcmInstanceRepository;
         $this->faker = Faker\Factory::create();
     }
 
@@ -91,10 +75,16 @@ class AppFixtures extends Fixture
 //        $this->generateQuestions( $manager );
 
         //Qcm
-        $this->generateQcms( $manager );
+        $this->generateQcm( $manager );
+
+        //Qcm avec le module de démo (réelles data)
+//        $this->generateQcmWithSpecifyModule($manager);
 
         // QcmInstances
 //        $this->generateQcmInstances( $manager );
+
+        //QcmInstance avec le module de démo (réelles data)
+//        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
 //        $this->generateResults( $manager );
@@ -144,7 +134,7 @@ class AppFixtures extends Fixture
             $module = new Module();
 
             $module->setTitle( $this->faker->word() );
-            $module->setNumberOfWeeks( $this->faker->numberBetween(1,10) );
+            $module->setWeeks( $this->faker->numberBetween(1,10) );
 
             $manager->persist($module);
         }
@@ -181,6 +171,7 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+
     public function generateInstructors( $manager ) :void
     {
         $dbModules  = $this->moduleRepository->findAll();
@@ -190,23 +181,29 @@ class AppFixtures extends Fixture
         {
             $instructor = new Instructor();
 
-            $instructor->setFirstname($this->faker->firstName());
-            $instructor->setLastname($this->faker->lastName());
+            $instructorFirstName = $this->faker->firstName();
+            $instructor->setFirstname($instructorFirstName);
+            $instructorLastName = $this->faker->lastName();
+            $instructor->setLastname($instructorLastName);
             $instructor->setBirthDate( $this->faker->dateTimeBetween('-40 years', '-18 years') );
-            $instructor->setPhoneNumber($this->faker->numerify('06########'));
+            $instructor->setPhone($this->faker->numerify('+33########'));
             $instructor->setEmail($this->faker->email());
             $instructor->setPassword(
                 $this->userPasswordHasherInterface->hashPassword(
                     $instructor, "password"
                 )
             );
-            $instructor->setRoles(['instructor']);
-            // $instructor->addModule($dbModules[array_rand($dbModules)]);
-             $session = $dbSessions[array_rand($dbSessions)];
-            // $session->addInstructor($instructor);
-             $instructor->addSession($session);
-
+            $instructor->setMoodleId($this->faker->randomNumber(5, true));
+            $instructor->setIsReferent($this->faker->numberBetween(0, 1));
+            $instructor->setRoles(['ROLE_INSTRUCTOR']);
+            $instructor->setEmail3wa($instructorFirstName . '.' . $instructorLastName . '@3wa.io');
             $manager->persist($instructor);
+
+            $linkInstructorSessionModule = new linkInstructorSessionModule();
+            $linkInstructorSessionModule->setModule($dbModules[array_rand($dbModules)]);
+            $linkInstructorSessionModule->setSession($dbSessions[array_rand($dbSessions)]);
+            $linkInstructorSessionModule->setInstructor($instructor);
+            $manager->persist($linkInstructorSessionModule);
         }
         $manager->flush();
     }
@@ -242,15 +239,21 @@ class AppFixtures extends Fixture
                 array_rand($dbModules,1) => "Explore",
                 array_rand($dbModules,1) => "Domine",
             ]);
-            $student->setMail3wa($studentFirstName . '.' . $studentLastName . '@3wa.io');
-            $student->setIdModule( $dbModules[array_rand($dbModules )]->getId() );
-
+            $student->setEmail3wa($studentFirstName . '.' . $studentLastName . '@3wa.io');
+            $student->setEmail($studentFirstName . '.' . $studentLastName . '@yahoo.fr');
+            $student->setMoodleId( $this->faker->randomNumber(5, true) );
+            $student->setPassword(
+                $this->userPasswordHasherInterface->hashPassword(
+                    $student, "password"
+                )
+            );
+            $student->setRoles(['ROLE_STUDENT']);
             $manager->persist($student);
             $manager->flush();
 
             //LinkSessionStudent
             $lms = new linkSessionStudent();
-            $lms->setEnabled( $this->faker->numberBetween(0, 1) );
+            $lms->setIsEnabled( $this->faker->numberBetween(0, 1) );
             $lms->setStudent($student);
             $lms->setSession($dbSessions[array_rand($dbSessions)]);
 
@@ -270,20 +273,20 @@ class AppFixtures extends Fixture
             {
                 $question = new Question();
                 $question->setModule($dbModule);
-                $question->setWording( $this->faker->sentence() );
-                $question->setIdAuthor( $dbInstructors[array_rand($dbInstructors)]->getId() );
-
-                $question->setEnabled( $this->faker->numberBetween(0, 1) );
+                $question->setQuestion( $this->faker->sentence() );
+                $question->setAuthor( $dbInstructors[array_rand($dbInstructors)] );
+                $question->setIsEnabled( $this->faker->numberBetween(0, 1) );
                 $question->setIsMandatory(0);
                 $question->setIsOfficial(0);
                 $count = $this->generateProposals($manager, $question);
-                $question->setDifficulty($this->ChoicesDifficulty[array_rand($this->ChoicesDifficulty)]);
-
+                $question->setDifficulty($this->faker->numberBetween(1, 3));
+                $question->setExplanation($this->faker->paragraph());
 
                 if($count > 1){
-                    $question->setResponseType('checkbox');
+                    $question->setIsMultiple(true);
+
                 }else{
-                    $question->setResponseType('radio');
+                    $question->setIsMultiple(false);
                 }
 
                 $manager->persist($question);
@@ -300,9 +303,9 @@ class AppFixtures extends Fixture
             $proposal = new Proposal();
 
             $proposal->setQuestion($question);
-            $proposal->setWording( $this->faker->word() );
+            $proposal->setProposal( $this->faker->word() );
             $isCorrect = $this->faker->numberBetween(0, 1);
-            $proposal->setIsCorrect( $isCorrect );
+            $proposal->setIsCorrectAnswer( $isCorrect );
             if( $isCorrect )
             {
                 $count ++;
@@ -312,19 +315,33 @@ class AppFixtures extends Fixture
             return $count;
     }
 
-    public function generateQcms( $manager ) :void
+    public function generateQcm( $manager ) :void
     {
         $dbModules = $this->moduleRepository->findAll();
-        $dbInstructors = $this->instructorRepository->findAll();
 
             $qcm = new Qcm();
 
-            $qcm->setEnabled('1');
+            $qcm->setIsEnabled('1');
             $relatedModule = $dbModules[array_rand($dbModules)];
             $qcm->setModule($relatedModule);
             $qcm->setIsOfficial( $this->faker->numberBetween(0, 1) );
-            $qcm->setName( $this->faker->word() );
-            $qcm->setAuthorId( $dbInstructors[array_rand($dbInstructors)]->getId() );
+            $qcm->setTitle( $this->faker->word() );
+            $test = (array)$relatedModule->getLinksInstructorSessionModule();
+            dd($test);
+            for ($i=0; $i < count($test); $i++){
+                dump($test[$i]);
+            }
+
+
+
+
+
+
+
+            dd('hello');
+
+//            dd( $relatedModule->getLinksInstructorSessionModule());
+            $qcm->setAuthor( $relatedModule->getLinksInstructorSessionModule()[array_rand($relatedModule->getLinksInstructorSessionModule())]->getId() );
             $qcm->setPublic( $this->faker->numberBetween(0, 1) );
 
             $arrayQuestionAnswers = [];
@@ -350,11 +367,11 @@ class AppFixtures extends Fixture
                         $pickedQuestions[] = $randomQuestion->getId();
                     }
                 }
-                /* TODO mettre à jour les variables */
 
                 $qcm->addQuestion($randomQuestion);
                 $answers = $randomQuestion->getProposals();
                 $difficulty = $randomQuestion->getDifficulty()->value;
+                dd($difficulty);
                 array_push($arrayDifficulty, $difficulty);
                 $arrayAnswers = [];
                 foreach ($answers as $answer){
@@ -382,7 +399,7 @@ class AppFixtures extends Fixture
             $valueKey = array_search(max($nrbValues),$nrbValues);
             switch ($valueKey){
                 case "Facile":
-                    $qcm->setDifficulty(Difficulty::Easy);
+//                    $qcm->setDifficulty(Difficulty::1);
                     break;
                 case "Moyen":
                     $qcm->setDifficulty(Difficulty::Medium);
@@ -396,11 +413,114 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    public function generateQcmWithSpecifyModule($manager) :void
+    {
+        $dbModule = $this->moduleRepository->find(11);
+        $dbInstructors = $dbModule->getInstructors();
+        $key = $dbModule->getInstructors()->getKeys();
+
+        $qcm = new Qcm();
+
+        $qcm->setEnabled('1');
+        $qcm->setModule($dbModule);
+        $qcm->setIsOfficial( $this->faker->numberBetween(0, 1) );
+        $qcm->setName( $this->faker->word() );
+        $qcm->setAuthorId( $dbInstructors[array_rand($key)]->getId() );
+        $qcm->setPublic( $this->faker->numberBetween(0, 1) );
+
+        $arrayQuestionAnswers = [];
+        $arrayDifficulty=[];
+        $questions = [];
+        while(count($questions) == 0){
+            $questions = $this->questionRepository->findBy( [ 'module' => $dbModule->getId() ] );
+        }
+
+        $pickedQuestions = [];
+        for( $i = 0; $i < 5; $i++ )
+        {
+            $isInArray = true;
+            $randomQuestion = $questions[array_rand($questions)];
+
+            while ($isInArray){
+                if(in_array($randomQuestion->getId(), $pickedQuestions)){
+                    $randomQuestion = $questions[array_rand($questions)];
+                }else{
+                    $isInArray = false;
+                    $pickedQuestions[] = $randomQuestion->getId();
+                }
+            }
+            $qcm->addQuestion($randomQuestion);
+            $answers = $randomQuestion->getProposals();
+            $difficulty = $randomQuestion->getDifficulty()->value;
+            array_push($arrayDifficulty, $difficulty);
+            $arrayAnswers = [];
+            foreach ($answers as $answer){
+                array_push($arrayAnswers, ["id" => $answer->getId(), "libelle" => $answer->getWording(), "is_correct" => $answer->getIsCorrect()]);
+            }
+
+            $questionAnswer =
+                [
+                    [
+                        "question"=>
+                            [
+                                "id"=> $randomQuestion->getId(),
+                                "libelle"=>$randomQuestion->getWording(),
+                                "responce_type"=>$randomQuestion->getResponseType(),
+                                "answers"=>
+                                    $arrayAnswers
+                            ],
+                    ]
+                ];
+            $questionAnswerJson = json_encode($questionAnswer);
+            array_push($arrayQuestionAnswers,$questionAnswerJson);
+        }
+        $qcm->setQuestionsAnswers($arrayQuestionAnswers);
+
+        $nrbValues = array_count_values($arrayDifficulty);
+        $valueKey = array_search(max($nrbValues),$nrbValues);
+        switch ($valueKey){
+            case "Facile":
+                $qcm->setDifficulty(Difficulty::Easy);
+                break;
+            case "Moyen":
+                $qcm->setDifficulty(Difficulty::Medium);
+                break;
+            case "Difficile":
+                $qcm->setDifficulty(Difficulty::Difficult);
+                break;
+        }
+
+        $manager->persist($qcm);
+        $manager->flush();
+    }
+
     public function generateQcmInstances( $manager ) :void
     {
         $dbQcms = $this->qcmRepository->findAll();
         $dbStudents = $this->studentRepository->findByEnabled();
         for( $i = 0; $i < 10; $i++ )
+        {
+            $relatedQcm = $dbQcms[array_rand($dbQcms)];
+
+            $qcmInstance = new QcmInstance();
+            $qcmInstance->setQcm( $relatedQcm );
+            $qcmInstance->setQuestionAnswers( $relatedQcm->getQuestionsAnswers() );
+            $qcmInstance->setEnabled( $this->faker->numberBetween(0, 1) );
+            $qcmInstance->setName( $relatedQcm->getName() );
+            $qcmInstance->setReleaseDate( $this->faker->dateTimeBetween('-1 year', 'now') );
+            $qcmInstance->setEndDate( $this->faker->dateTimeBetween('now', '+1 month') );
+            $qcmInstance->addStudent($dbStudents[array_rand($dbStudents,1)]);
+            $manager->persist($qcmInstance);
+        }
+        $manager->flush();
+    }
+
+    public function generateQcmInstancesWithSpecifyModule( $manager ) :void
+    {
+        $dbQcms = $this->qcmRepository->findBy(['module' => 11]);
+//        dd($dbQcm);
+        $dbStudents = $this->studentRepository->findByEnabled();
+        for( $i = 0; $i < 3; $i++ )
         {
             $relatedQcm = $dbQcms[array_rand($dbQcms)];
 

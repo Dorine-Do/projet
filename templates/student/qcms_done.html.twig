@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StudentController!{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{asset('css/student/qcmsDone.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    <h1>- {{ 'qcm.dones'|trans }} -</h1>
+    <div class="premiereDiv">
+        <div class="divBadge">
+            <p>
+                {{ 'qcm.official'|trans }}
+            </p>
+            <img class="badge" src="{{asset('build/images/officiel.png')}}">
+        </div>
+        <div class="divBadge">
+            <p>
+                {{ 'qcm.inter'|trans }}
+            </p>
+            <img class="badge" src="{{asset('build/images/non-officiel.png')}}">
+        </div>
+    </div>
+    <div class="officiel">
+        <div>
+            <p>
+                <span class="numeroForm">1</span>
+                {{ 'module.filter'|trans }} :
+            </p>
+        </div>
+        <select name="module">
+            <option value="">{{ 'module.filter'|trans }}</option>
+            {% for module in modules %}
+                <option value="">{{module.title}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <span class="ligne"></span>
+    <p>
+        <span class="numeroForm">2</span>
+        Qcm
+    </p>
+    {% for module in modules %}
+        <p class="module">
+            {{ 'module.name'|viewAnswers }} : {{module.title}}
+        </p>
+    {% endfor %}{% for qcmDone in qcmsDone %}
+    <div class="realise">
+        <div class="nomQcm">
+            <p>
+                {{ 'qcm.name'|trans }} : {{qcmDone.qcm.name}}
+            </p>
+        </div>
+        <div class="date">
+            {{qcmDone.result.getCreatedAt()|date('d/m/Y')}}
+        </div>
+        <div class="divButton">
+            <a class="button" href="">{{ 'qcm.name'|viewAnswers }}</a>
+            <a class="button" href="">{{ 'qcm.doAgain'|viewAnswers }}</a>
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}

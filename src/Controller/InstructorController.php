@@ -24,12 +24,10 @@ class InstructorController extends AbstractController
 {
     private $repository;
     private $proposals;
-    private $qcm;
 
-    public function __construct(QuestionRepository $repository, ProposalRepository $proposals,QcmRepository $qcm){
+    public function __construct(QuestionRepository $repository, ProposalRepository $proposals){
         $this->repository = $repository;
         $this->proposals = $proposals;
-        $this->qcm =$qcm;
     }
 
 //    TODO future page à implémenter
@@ -88,7 +86,7 @@ class InstructorController extends AbstractController
         $qcm = $this->qcm->getQcmByDifficulty();
         $question_test = $this->repository->getQuestionByQcm();
         $qcm_rep = $this->qcm->testQcm();
-       
+
         return array($qcm,$question_test,$qcm_rep);
     }
 
@@ -250,20 +248,4 @@ class InstructorController extends AbstractController
             "add"=>true,
         ]);
     }
-
-
-     /**
-     * @Route("instructor/creation_qcm", name="instructor_create_qcm")
-     * @return Response
-     */
-
-     public function createQcm(){
-
-
-
-
-
-        return $this->render('instructor/create_official_qcm.html.twig', [
-        ]);
-     }
 }

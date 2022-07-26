@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\LinkSessionStudent;
+use App\Entity\LinkInstructorSessionModule;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<LinkSessionStudent>
+ * @extends ServiceEntityRepository<LinkInstructorSessionModule>
  *
- * @method LinkSessionStudent|null find($id, $lockMode = null, $lockVersion = null)
- * @method LinkSessionStudent|null findOneBy(array $criteria, array $orderBy = null)
- * @method LinkSessionStudent[]    findAll()
- * @method LinkSessionStudent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method LinkInstructorSessionModule|null find($id, $lockMode = null, $lockVersion = null)
+ * @method LinkInstructorSessionModule|null findOneBy(array $criteria, array $orderBy = null)
+ * @method LinkInstructorSessionModule[]    findAll()
+ * @method LinkInstructorSessionModule[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LinkSessionStudentRepository extends ServiceEntityRepository
+class LinkInstructorSessionModuleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, LinkSessionStudent::class);
+        parent::__construct($registry, LinkInstructorSessionModule::class);
     }
 
-    public function add(LinkSessionStudent $entity, bool $flush = false): void
+    public function add(LinkInstructorSessionModule $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class LinkSessionStudentRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(LinkSessionStudent $entity, bool $flush = false): void
+    public function remove(LinkInstructorSessionModule $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class LinkSessionStudentRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return LinkSessionStudent[] Returns an array of LinkSessionStudent objects
+//     * @return LinkInstructorSessionModule[] Returns an array of LinkInstructorSessionModule objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class LinkSessionStudentRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?LinkSessionStudent
+//    public function findOneBySomeField($value): ?LinkInstructorSessionModule
 //    {
 //        return $this->createQueryBuilder('l')
 //            ->andWhere('l.exampleField = :val')

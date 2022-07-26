@@ -3,10 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Module;
-use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -24,54 +21,22 @@ class ModuleRepository extends ServiceEntityRepository
         parent::__construct($registry, Module::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Module $entity, bool $flush = false): void
     {
-        $this->_em->persist($entity);
+        $this->getEntityManager()->persist($entity);
+
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Module $entity, bool $flush = false): void
     {
-        $this->_em->remove($entity);
+        $this->getEntityManager()->remove($entity);
+
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
-    }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function getAccomplishedModules( int $student_id ): array
-    {
-        $conn = $this->getEntityManager()->getConnection();
-
-        $sql = '
-            SELECT module.id, module.number_of_weeks, module.title, module.badges, module.created_at, module.updated_at
-            FROM student
-            INNER JOIN result ON result.student_id = student.id
-            INNER JOIN qcm_instance ON result.qcm_instance_id = qcm_instance.id
-            INNER JOIN qcm ON qcm_instance.qcm_id = qcm.id
-            INNER JOIN module ON qcm.module_id = module.id
-            INNER JOIN link_session_module ON link_session_module.module_id = module.id
-            WHERE result.total_score >= 50 AND link_session_module.end_date <= now() AND qcm.is_official = true AND student.id = :student_id
-        ';
-
-        $stmt = $conn->prepare($sql);
-
-        $resultSet = $stmt->executeQuery(['student_id' => $student_id]);
-
-        return $resultSet->fetchAllAssociative();
     }
 
 //    /**

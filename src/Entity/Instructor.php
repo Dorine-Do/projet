@@ -6,265 +6,111 @@ use App\Repository\InstructorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: InstructorRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-class Instructor implements UserInterface, PasswordAuthenticatedUserInterface
+final class Instructor extends User
 {
+    #[ORM\Column(type: 'boolean')]
+    private $isReferent;
 
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column(type: 'string', length: 12, nullable: true)]
+    private $phone;
 
-    #[ORM\Column(type: 'string', length: 150)]
-    private $first_name;
+    #[ORM\OneToMany(mappedBy: 'instructor', targetEntity: LinkInstructorSessionModule::class)]
+    private $linksInstructorSessionModule;
 
-    #[ORM\Column(type: 'string', length: 150)]
-    private $last_name;
-
-    #[ORM\Column(type: 'datetime')]
-    private $birth_date;
-
-    #[ORM\Column(type: 'string', length: 12)]
-    private $phone_number;
-
-    #[ORM\Column(type: 'string', length: 150)]
-    private $email;
-
-    #[ORM\Column(type: 'string', length: 60)]
-    private $password;
-
-    #[ORM\Column(type: 'datetime')]
-    private $created_at;
-
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $updated_at;
-
-    #[ORM\ManyToMany(targetEntity: Session::class, inversedBy: 'instructors')]
-    #[ORM\JoinTable(name: "link_session_instructor")]
-    private $sessions;
-
-    #[ORM\ManyToMany(targetEntity: Module::class, mappedBy: 'instructors')]
-    private $modules;
-
-    #[ORM\Column(type: 'array')]
-    private $roles = [];
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Question::class)]
+    private $questions;
 
     public function __construct()
     {
-        $this->sessions = new ArrayCollection();
-        $this->modules = new ArrayCollection();
-    }
-    #[ORM\PrePersist]
-    public function setCreatedAtValue(){
-        $this->created_at = new \DateTimeImmutable();
-        $this->updated_at = new \DateTimeImmutable();
+        $this->qcms = new ArrayCollection();
+        $this->linksInstructorSessionModule = new ArrayCollection();
+        $this->questions = new ArrayCollection();
     }
 
-    #[ORM\PreUpdate]
-    public function setUpdateAtValue(){
-        $this->updated_at = new \DateTimeImmutable();
-    }
-
-    public function getId(): ?int
+    public function isReferent(): ?bool
     {
-        return $this->id;
+        return $this->isReferent;
     }
 
-    public function getFirstName(): ?string
+    public function setIsReferent(bool $isReferent): self
     {
-        return $this->first_name;
-    }
-
-    public function setFirstName(string $first_name): self
-    {
-        $this->first_name = $first_name;
+        $this->isReferent = $isReferent;
 
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getPhone(): ?string
     {
-        return $this->last_name;
+        return $this->phone;
     }
 
-    public function setLastName(string $last_name): self
+    public function setPhone(?string $phone): self
     {
-        $this->last_name = $last_name;
-
-        return $this;
-    }
-
-    public function getBirthDate(): ?\DateTimeInterface
-    {
-        return $this->birth_date;
-    }
-
-    public function setBirthDate(\DateTimeInterface $birth_date): self
-    {
-        $this->birth_date = $birth_date;
-
-        return $this;
-    }
-
-    public function getPhoneNumber(): ?string
-    {
-        return $this->phone_number;
-    }
-
-    public function setPhoneNumber(string $phone_number): self
-    {
-        $this->phone_number = $phone_number;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
-    {
-        $this->updated_at = $updated_at;
+        $this->phone = $phone;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Module>
+     * @return Collection<int, LinkInstructorSessionModule>
      */
-    public function getModules(): Collection
+    public function getLinksInstructorSessionModule(): Collection
     {
-        return $this->modules;
+        return $this->linksInstructorSessionModule;
     }
 
-    public function addModule(Module $module): self
+    public function addLinksInstructorSessionModule(LinkInstructorSessionModule $linksInstructorSessionModule): self
     {
-        if (!$this->modules->contains($module)) {
-            $this->modules[] = $module;
-            $module->addInstructor($this);
+        if (!$this->linksInstructorSessionModule->contains($linksInstructorSessionModule)) {
+            $this->linksInstructorSessionModule[] = $linksInstructorSessionModule;
+            $linksInstructorSessionModule->setInstructor($this);
         }
 
         return $this;
     }
 
-    public function removeModule(Module $module): self
+    public function removeLinksInstructorSessionModule(LinkInstructorSessionModule $linksInstructorSessionModule): self
     {
-        if ($this->modules->removeElement($module)) {
-            $module->removeInstructor($this);
+        if ($this->linksInstructorSessionModule->removeElement($linksInstructorSessionModule)) {
+            // set the owning side to null (unless already changed)
+            if ($linksInstructorSessionModule->getInstructor() === $this) {
+                $linksInstructorSessionModule->setInstructor(null);
+            }
         }
 
         return $this;
     }
 
-    /**********************************************************************************************************/
-
     /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
+     * @return Collection<int, Question>
      */
-    public function getUserIdentifier(): string
+    public function getQuestions(): Collection
     {
-        return (string) $this->email;
+        return $this->questions;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
+    public function addQuestion(Question $question): self
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
-
-    /**********************************************************************************************************/
-
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Session>
-     */
-    public function getSessions(): Collection
-    {
-        return $this->sessions;
-    }
-
-    public function addSession(Session $session): self
-    {
-        if (!$this->sessions->contains($session)) {
-            $this->sessions[] = $session;
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setAuthor($this);
         }
 
         return $this;
     }
 
-    public function removeSession(Session $session): self
+    public function removeQuestion(Question $question): self
     {
-        $this->sessions->removeElement($session);
+        if ($this->questions->removeElement($question)) {
+            // set the owning side to null (unless already changed)
+            if ($question->getAuthor() === $this) {
+                $question->setAuthor(null);
+            }
+        }
 
         return $this;
     }
-
-
 }

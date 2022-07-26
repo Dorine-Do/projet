@@ -10,6 +10,7 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -18,6 +19,18 @@ security:
             lazy: true
             provider: app_user_provider
             # provider: two_factor_provider
+            form_login:
+                login_path: app_connection
+                check_path: app_connection
+#            login_throttling:
+#                max_attempts: 3
+#                interval: '15 minutes'
+#                limiter: cache.rate_limiter
+            logout:
+                path: app_logout
+        secured_area:
+            form_login:
+                enable_csrf: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -25,11 +38,16 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
+    role_hierarchy:
+        ROLE_STUDENT: ROLE_USER
+        ROLE_INSTRUCTOR: ROLE_USER
+        ROLE_ADMIN: [ ROLE_STUDENT, ROLE_INSTRUCTOR, ROLE_ALLOWED_TO_SWITCH ]
+
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+#        - { path: ^/admin, roles: admin }
+#        - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:
