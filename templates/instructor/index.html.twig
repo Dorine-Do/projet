@@ -1,8 +1,12 @@
 {% extends 'base.html.twig' %}
 
+
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/instructor/intructorIndex.css') }}">
+<link href="{{asset('build/app.css')}}" rel="stylesheet">
+    {# <link rel="stylesheet" href="{{ asset('css/instructor/intructorIndex.css') }}"> #}
+    <link rel="stylesheet" href="{{ asset('css/instructor/instructorIndex.css') }}">
 {% endblock %}
+
 
 
 
@@ -10,6 +14,57 @@
 
 {% block body %}
     <h1>- Liste des questions personalisées -</h1>
+
+{# {{dump(qcms_rep) }}
+{{dump(test) }} #}
+{# displayQCM test fonction imbriquée #}
+{{dump(qcms_rep)}}
+{{dump(implode(explode('voici mon etoile doré')))}} 
+{{dump(numberOfWord('doremi fa sol la si do'))}}
+{% if numberOfWord('doremi fa sol la si do') == 6 %}
+   {{dump('true')}}
+   {{implode(explode('voici mon etoile doré') )}}
+{% endif %}
+
+
+<main class="container_qcm_and_questions_management">
+
+    <div class="bloc_btns_nav">
+        <div class="bloc_link_btn_my_creations"><button>Mes créations</button></div>
+        <div class="bloc_link_btn_qcm_given"><button>Qcm donnés</button></div>
+    </div>
+
+    <div class="bloc_display_question_by_qcm">
+        <div class="bloc_qcm">
+            <ul class="list_btn_qcm">
+            {# {% for qcms_rep_test in qcms_rep %} #}
+                <li>
+                QCM-test1
+                {# {{qcms_rep_test.title }} #}
+                </li>
+            {# {% endfor %} #}
+            </ul>
+            <div class="bloc_btn_selected_qcm">
+                <button>Selectionner</button>
+            </div>
+        </div>
+
+        <ul class="list_questions" >
+                {% for test_test in test %}
+                    <li>
+                    <span></span> 
+                    {{test_test.question }}
+                    {# test
+                    {{dump(test_test.wording) }} #}
+                    </li> 
+                    {# {{dump(numberOfWord(test_test.wording ))}}
+                    {{dump(implode(explode('voici mon etoile doré')))}}    #}
+                    {# {{dump(implode(' ', explode(' ', $phrase, $nbre_mots)).'...')}}    #}
+                {% endfor %}
+         </ul>
+        
+    </div>
+{# 
     <div class="div_questions">
         <ul class="ul_questions">
 
@@ -49,14 +104,15 @@
                 <a href="{{ path('instructor_create_question') }}" class="link_create"><button class="button_add">Créer une question</button></a>
             </div>
         </ul>
-    </div>
-
+    </div> #}
+</main>
 
 {% endblock %}
 {% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-    <script>
-        let proposals = {{proposals|json_encode|raw}};
-    </script>
-    <script type="text/javascript" src="{{ asset('js/intructorIndex.js') }}"></script>
+    {# {{ encore_entry_script_tags('app') }} #}
+    {# // <script> #}
+    {# //     let proposals = {{proposals|json_encode|raw}};
+    // </script> #}
+    {# // <script type="text/javascript" src="{{ asset('js/instructorIndex.js') }}"></script> #}
+    <script type="text/javascript" src="{{ asset('js/instructor/instructorIndex.js') }}"></script>
 {% endblock %}

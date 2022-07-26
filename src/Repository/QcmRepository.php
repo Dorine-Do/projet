@@ -47,7 +47,7 @@ class QcmRepository extends ServiceEntityRepository
        {
         $qcmBdd = $this->getEntityManager();
         return $qcmBdd->createQuery('
-        SELECT q.id, q.name, q.difficulty
+        SELECT q
         FROM App\Entity\Qcm q
        
         
@@ -66,7 +66,7 @@ class QcmRepository extends ServiceEntityRepository
        {
         $qcmBdd = $this->getEntityManager();
         return $qcmBdd->createQuery('
-        SELECT q.id, q.name
+        SELECT q.id, q.title
         FROM App\Entity\Qcm q
      ')
             ->getResult();
@@ -79,7 +79,7 @@ class QcmRepository extends ServiceEntityRepository
        {
         $qcmBdd = $this->getEntityManager();
         return $qcmBdd->createQuery('
-        SELECT q.name, q.difficulty
+        SELECT q.title, q.difficulty
         FROM App\Entity\Qcm q
        
        

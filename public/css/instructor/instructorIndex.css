@@ -1,139 +1,128 @@
 @import url(public/css/main.css);
 
 /************************************* bouton modifier **********************************/
-.button_modify{
-    max-width: 2.5em;
-    padding: .2em;
-    margin-left: 1em;
-    border-radius: 5px;
-    background-color: var(--fond);
-    box-shadow: 3px 3px 8px -3px var(--grey);
-    cursor: pointer;
+.button_modify {
+  max-width: 2.5em;
+  padding: 0.2em;
+  margin-left: 1em;
+  border-radius: 5px;
+  background-color: var(--fond);
+  box-shadow: 3px 3px 8px -3px var(--grey);
+  cursor: pointer;
 }
 .link_create,
-.link_modify{
-    cursor: pointer;
-    margin-left: 20px;
+.link_modify {
+  cursor: pointer;
+  margin-left: 20px;
 }
 
 /******************************************** PARTIE VALIDATION ****************************************************/
 
-.div_add{
-    text-align: center;
+.div_add {
+  text-align: center;
 }
 .button_add {
-    background-color: var(--vert);
-    border-radius: 50px;
-    border: 1px solid var(--fond);
-    padding: 1em;
-    font-family: 'Alumni Sans', sans-serif;
-    color: white;
-    box-shadow: 5px 5px 8px -4px gray;
-    font-size: var(--normal);
-    width: 40%;
-
-}
-
-.buttonAdd:hover {
-    box-shadow: none;
-    background-color: var(--vert);
-    font-weight: bold;
-    cursor: pointer;
+  background-color: var(--vert);
+  border-radius: 50px;
+  border: 1px solid var(--fond);
+  padding: 1em;
+  font-family: "Alumni Sans", sans-serif;
+  color: white;
+  box-shadow: 5px 5px 8px -4px gray;
+  font-size: var(--normal);
+  width: 40%;
 }
 
 /******************************************* PARTIE QUESTION MENU DEROULANT ***********************************************/
 
-.difficulty_icone{
-    max-width: 2em;
-    width: 1em;
-    background: var(--fond);
-    height: auto;
-    padding: .5em;
-    border-radius: 50%;
-    margin: 0;
+.difficulty_icone {
+  max-width: 2em;
+  width: 1em;
+  background: var(--fond);
+  height: auto;
+  padding: 0.5em;
+  border-radius: 50%;
+  margin: 0;
 }
 
-.div_chevron{
-    justify-content: flex-end;
-    display: flex;
-    flex-grow: 2;
+.div_chevron {
+  justify-content: flex-end;
+  display: flex;
+  flex-grow: 2;
 }
 
-.img_chevron{
-    max-width: 2em;
-    width: 1.2em;
-    height: auto;
-    padding: .5em;
-    border-radius: 50%;
-    margin: 0;
-    text-align: right;
-    cursor: pointer;
+.img_chevron {
+  max-width: 2em;
+  width: 1.2em;
+  height: auto;
+  padding: 0.5em;
+  border-radius: 50%;
+  margin: 0;
+  text-align: right;
+  cursor: pointer;
 }
-
 
 .div_questions {
-    background-color: var(--fond);
-    border-radius: 5px;
-    padding: 2em;
-    color: var(--grey);
-    width: 75%;
-    margin:auto;
+  background-color: var(--fond);
+  border-radius: 5px;
+  padding: 2em;
+  color: var(--grey);
+  width: 75%;
+  margin: auto;
 }
 
 .ul_questions {
-    border: 1px solid var(--fond);
-    padding: 2em;
-    border-radius: 5px;
-    background-color: white;
-
+  border: 1px solid var(--fond);
+  padding: 2em;
+  border-radius: 5px;
+  background-color: white;
 }
-.div_question{
-    margin: 1em auto;
-    display: flex;
+.div_question {
+  margin: 1em auto;
+  display: flex;
 }
 .li_wording {
-    background-color: var(--pamplemousse);
-    padding: .7em;
-    border-radius: 5px 5px 0 0;
-    list-style: none;
-    font-family: "Alumni Sans", serif;
-    display: flex;
-    align-items: center;
-    width: 100%;
+  background-color: var(--pamplemousse);
+  padding: 0.7em;
+  border-radius: 5px 5px 0 0;
+  list-style: none;
+  font-family: "Alumni Sans", serif;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
-.difficulty{
-    margin: 0 5px 0 0;
+.difficulty {
+  margin: 0 5px 0 0;
 }
 
-
-.span_question{
-    font-weight: 600;
+.span_question {
+  font-weight: 600;
 }
 
-.div_proposals{
-    display: flex;
-    justify-content: space-around;
-    background-color: var(--fond);
-    border-radius: 0 0 5px 5px;
-    margin-top: .1em;
+.div_proposals {
+  display: flex;
+  justify-content: space-around;
+  background-color: var(--fond);
+  border-radius: 0 0 5px 5px;
+  margin-top: 0.1em;
 }
 
-.display_none{
-    display : none;
+.display_none {
+  display: none;
 }
 
-.div_question_chevron{
-    width: 90%;
+.div_question_chevron {
+  width: 90%;
 }
 
-.div_js{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 9px 0 20px;
-    background: var(--fond);
-    border-radius: 0 0 5px 5px;
+.div_js {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 9px 0 20px;
+  background: var(--fond);
+  border-radius: 0 0 5px 5px;
 }
 
 /* ****************************main questions and qcm management********************** */
@@ -284,130 +273,127 @@
 }
 
 @media screen and (max-width: 1200px) {
+  .li_wording {
+    background-color: var(--pamplemousse);
+    padding: 0.7em;
+    border-radius: 5px 5px 0 0;
+    list-style: none;
+    font-family: "Alumni Sans", serif;
+    display: flex;
+    align-items: center;
+    width: 90%;
+  }
 
-    .li_wording {
-        background-color: var(--pamplemousse);
-        padding: .7em;
-        border-radius: 5px 5px 0 0;
-        list-style: none;
-        font-family: "Alumni Sans", serif;
-        display: flex;
-        align-items: center;
-        width: 90%;
-    }
+  .div_question {
+    margin: 1em auto;
+    display: flex;
+  }
 
-    .div_question{
-        margin: 1em auto;
-        display: flex;
-    }
+  .button_modify {
+    height: 70px;
+    width: 50px;
+    margin: auto;
+  }
 
-    .button_modify{
-        height: 70px;
-        width: 50px;
-        margin: auto;
-    }
-
-    .div_js{
-        flex-direction: column;
-        width: 88%;
-    }
+  .div_js {
+    flex-direction: column;
+    width: 88%;
+  }
 }
 
 @media screen and (max-width: 780px) {
+  .div_questions {
+    background-color: var(--fond);
+    border-radius: 5px;
+    padding: 2em;
+    color: var(--grey);
+    width: 75%;
+    margin: auto;
+  }
 
-    .div_questions {
-        background-color: var(--fond);
-        border-radius: 5px;
-        padding: 2em;
-        color: var(--grey);
-        width: 75%;
-        margin:auto;
-    }
+  .li_wording {
+    background-color: var(--pamplemousse);
+    padding: 1.3em;
+    border-radius: 5px 5px 0 0;
+    list-style: none;
+    font-family: "Alumni Sans", serif;
+    display: flex;
+    align-items: center;
+    width: 80%;
+  }
 
-    .li_wording {
-        background-color: var(--pamplemousse);
-        padding: 1.3em;
-        border-radius: 5px 5px 0 0;
-        list-style: none;
-        font-family: "Alumni Sans", serif;
-        display: flex;
-        align-items: center;
-        width: 80%;
-    }
+  .div_question {
+    margin: 1em auto;
+    display: flex;
+  }
 
-    .div_question{
-        margin: 1em auto;
-        display: flex;
-    }
+  .ul_questions {
+    border: 1px solid var(--fond);
+    padding: 2em;
+    border-radius: 5px;
+    background-color: white;
+  }
 
-    .ul_questions {
-        border: 1px solid var(--fond);
-        padding: 2em;
-        border-radius: 5px;
-        background-color: white;
-    }
+  .div_js {
+    display: flex;
+    flex-direction: column;
+  }
 
-    .div_js{
-        display: flex;
-        flex-direction: column;
-    }
-
-    .button_modify{
-        height: 52px;
-        width: 37px;
-        margin: auto;
-    }
+  .button_modify {
+    height: 52px;
+    width: 37px;
+    margin: auto;
+  }
 }
 
 @media screen and (max-width: 450px) {
+  .container {
+    max-width: 90%;
+  }
 
-    .container {
-        max-width: 90%;
-    }
+  .li_wording {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 14px -3px gray;
+    z-index: 99;
+    border-radius: 5px;
+  }
 
-    .li_wording{
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 0 14px -3px gray;
-        z-index: 99;
-        border-radius: 5px;
-    }
+  .div_question {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-left: 20px;
+    border-radius: 15%;
+  }
 
-    .div_question{
-        display: flex;
-        flex-direction: column-reverse;
-        margin-left: 20px;
-        border-radius: 15%;
-    }
+  .ul_questions {
+    width: 100%;
+    padding: 0;
+    margin: auto;
+  }
 
-    .ul_questions{
-        width: 100%;
-        padding: 0;
-        margin: auto;
-    }
+  .link_modify {
+    text-align: right;
+    margin-top: 35px;
+    margin-right: 21px;
+  }
 
-    .link_modify{
-        text-align: right;
-        margin-top: 35px;
-        margin-right: 21px;
-    }
+  .button_modify {
+    height: 52px;
+    width: 37px;
+  }
 
-    .button_modify{
-        height: 52px;
-        width: 37px;
-    }
+  .div_js {
+    flex-direction: column;
+    width: 89%;
+  }
 
-    .div_js{
-        flex-direction: column;
-        width: 89%;
-    }
+  .button_add {
+    width: 75%;
+    margin: 25px auto;
+  }
 
-    .button_add{
-        width: 75%;
-        margin: 25px auto;
-    }
-
-    .link_create{
-        margin: auto;
-    }
+  .link_create {
+    margin: auto;
+  }
 }

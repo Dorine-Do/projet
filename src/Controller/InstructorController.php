@@ -24,20 +24,13 @@ class InstructorController extends AbstractController
 {
     private $repository;
     private $proposals;
+    private $qcm;
 
-    public function __construct(QuestionRepository $repository, ProposalRepository $proposals){
+    public function __construct(QuestionRepository $repository, ProposalRepository $proposals,QcmRepository $qcm){
         $this->repository = $repository;
         $this->proposals = $proposals;
+        $this->qcm =$qcm;
     }
-
-//    TODO future page à implémenter
-//    #[Route('/instructor', name: 'app_instructor')]
-//    public function index(): Response
-//    {
-//        return $this->render('instructor/index.html.twig', [
-//            'controller_name' => 'InstructorController',
-//        ]);
-//    }
 
     /**
      * @Route("instructor/questions", name="instructor_display_questions")
@@ -48,28 +41,30 @@ class InstructorController extends AbstractController
         $proposals = [];
         $proposalValues =[];
         $resumeProposal = [];
-        $questions = $this->repository->findBy(['id_author' => 2]);
-        foreach ($questions as $question) {
-            $question_id = $question->getId();
-            $proposals[$question_id] = $this->proposals->findBy(['question' => $question_id]);
-            foreach ($proposals[$question_id] as $proposal){
-                $proposalValues = [
-                    'id'=>$proposal->getId(),
-                    'wording'=>$proposal->getWording(),
-                    'id_question'=>$proposal->getQuestion()->getId()
-                ];
-                array_push($resumeProposal, $proposalValues);
-            }
+        // $questions = $this->repository->findBy(['id_author' => 2]);
+        // foreach ($questions as $question) {
+        //     $question_id = $question->getId();
+        //     $proposals[$question_id] = $this->proposals->findBy(['question' => $question_id]);
+        //     foreach ($proposals[$question_id] as $proposal){
+        //         $proposalValues = [
+        //             'id'=>$proposal->getId(),
+        //             'wording'=>$proposal->getWording(),
+        //             'id_question'=>$proposal->getQuestion()->getId()
+        //         ];
+        //         array_push($resumeProposal, $proposalValues);
+        //     }
         //    dd( $test=$this->DisplayQcm()[0]);
         // $test=$this->DisplayQcm()[1];
          $test=$this->DisplayQcm()[1];
+         
          $test2=$this->DisplayQcm()[0];
          $test3=$this->DisplayQcm()[2];
         //  dd($test3=$this->DisplayQcm()[2]);
-        }
+        // dd($test3);//voir appfixtures
+        // }
         return $this->render('instructor/index.html.twig', [
-            'questions' => $questions,
-            'proposals' => $resumeProposal,
+            // 'questions' => $questions,
+            // 'proposals' => $resumeProposal,
             'test'=> $test,
             'qcms'=> $test2,
             'qcms_rep'=> $test3
