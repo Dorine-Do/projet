@@ -45,7 +45,7 @@ class QcmHelper
 
         $qcm = new Qcm();
         $qcm->setModule( $module );
-        $qcm->setAuthor( $this->_userRepository->findOneBy(['email' => $this->_security->getUser()->getUserIdentifier()]) );
+        $qcm->setAuthor( $this->_userRepository->findOneBy( ['email' => $this->_security->getUser()->getUserIdentifier()] ) );
         $qcm->setTitle( $title );
         $qcm->setDifficulty( $difficulty );
         $qcm->setIsOfficial( $isOfficial );
