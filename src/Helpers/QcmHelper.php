@@ -55,9 +55,6 @@ class QcmHelper
         $qcm->setCreatedAtValue();
         $qcm->setUpdateAtValue();
 
-        $this->_manager->persist( $qcm );
-        $this->_manager->flush();
-
         return $qcm;
     }
 
