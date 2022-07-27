@@ -7,12 +7,13 @@ use App\Entity\Proposal;
 use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Form\CreateQuestionType;
-use App\Form\QuestionType;
 use App\Repository\InstructorRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
+use App\Repository\StudentRepository;
+use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Boolean;
@@ -34,10 +35,9 @@ class InstructorController extends AbstractController
     public function displayQuestions(QuestionRepository $questionRepository, ProposalRepository $proposalRepository): Response
     {
         $proposals = [];
-        $proposalValues = [];
         $resumeProposal = [];
-        /*TODO A Changer quand la refacto de la bd sera faite*/
-        $questions = $questionRepository->findBy(['id_author' => 2]);
+
+        $questions = $questionRepository->findBy(['author' => 2]);
         foreach ($questions as $question) {
             $question_id = $question->getId();
             $proposals[$question_id] = $proposalRepository->findBy(['question' => $question_id]);
@@ -106,16 +106,16 @@ class InstructorController extends AbstractController
                     }
 
                 // Si la reponse est une reponse correcte
-                if($prop->getIsCorrect() === true){
+                if($prop->getIsCorrectAnswer() === true){
                     $count++;
                 }
             }
 
             // Set le champs ResponseType
             if($count > 1){
-                $instanceQuestion->setResponseType("checkbox");
+                $instanceQuestion->setIsMultiple(true);
             }elseif ($count == 1){
-                $instanceQuestion->setResponseType("radio");
+                $instanceQuestion->setIsMultiple(false);
             }
 
             //Supprime le lien entre les proposals et la question que l'utilisateur ne veut plus
@@ -141,7 +141,7 @@ class InstructorController extends AbstractController
     }
 
     #[Route('instructor/questions/create_question', name: 'instructor_create_question', methods: ['GET', 'POST'])]
-    public function createQuestion(Request $request, EntityManagerInterface $em): Response
+    public function createQuestion(Request $request, EntityManagerInterface $em, InstructorRepository $instructorRepository): Response
     {
         $questionEntity= new Question();
 
@@ -170,20 +170,23 @@ class InstructorController extends AbstractController
                 $persitPropCount ++;
 
                 // set le response type
-                if($proposal->getIsCorrect() === true){
+                if($proposal->getIsCorrectAnswer() === true){
                     $count++;
                 }
             }
             if($count > 1){
-                $questionEntity->setResponseType("checkbox");
+                $questionEntity->setIsMultiple("true");
             }elseif ($count == 1){
-                $questionEntity->setResponseType("radio");
+                $questionEntity->setIsMultiple("false");
             }
 
             /*TODO Devra être automatisé avec l'id du user connecté si id appartient à un admin alors Null si appartient à un instructor alors id*/
-            $questionEntity->setIdAuthor(2);
+
+            $questionEntity->setAuthor($instructorRepository->find(2));
             $questionEntity->setIsOfficial(false);
             $questionEntity->setIsMandatory(false);
+            $questionEntity->setExplanation('Explication');
+
             //  validation et enregistrement des données du form dans la bdd
             $em->persist($questionEntity);
             $em->flush();

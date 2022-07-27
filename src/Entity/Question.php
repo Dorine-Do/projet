@@ -47,7 +47,7 @@ class Question
     #[ORM\JoinColumn(nullable: false)]
     private $module;
 
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class)]
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class, cascade: ['persist', 'remove'])]
     private $proposals;
 
     #[ORM\ManyToMany(targetEntity: Qcm::class, mappedBy: 'questions')]
