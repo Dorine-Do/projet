@@ -263,12 +263,12 @@ input[type="radio"]:checked {
     padding: 0;
 }
 
-.p_letter{
+.pLetter{
     background-color: var(--grey);
-    padding: 8px 17px;
+    padding: 8px 15px;
     border-radius: 50%;
     color: white;
-    margin-right: 15px;
+    margin: auto;
     width: 15px;
     text-align: center;
 }
@@ -498,16 +498,11 @@ img{
         margin-left: 0;
     }
 
-    .liProposal, .div_wording, #error_checked{
+    .liProposal{
         flex-direction: column;
     }
 
     .div_wording{
-        padding: 0;
-    }
-
-    .liProposal{
-        text-align: center;
         padding: 0;
     }
 
@@ -521,12 +516,6 @@ img{
         width: 80px;
         margin: 15px auto 50px auto;
         display: block;
-    }
-
-    #add_proposal{
-        font-size: 1.4em;
-        border: 1px solid;
-        padding: 2px 9px 4px 9px;
     }
 
     #list_proposal{
@@ -560,12 +549,10 @@ img{
     }
 
     .divProposal{
-        width: 300px;
         flex-direction: column;
-        align-items: center;
     }
 
-    .p_letter{
+    .pLetter{
         margin: 30px auto auto auto;
     }
 
@@ -573,8 +560,30 @@ img{
         margin: auto;
     }
 
+    .divProposal div{
+        flex-direction: column;
+    }
+
     .wording{
         width: 216px;
         height: 68px;
+    }
+
+    .paddingoption{
+        margin-left: 0;
+    }
+
+    .liProposal{
+        width: 80%;
+    }
+
+    .center{
+        text-align: center;
+    }
+    .addProposal{
+        margin-right: auto;
+        margin-left: auto;
+        display: block;
+        margin-top: 10px;
     }
 }

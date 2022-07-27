@@ -33,6 +33,7 @@ h1, h2{
 .divBadge{
     padding: 0 50px;
     text-align: center;
+    width: 30%;
 }
 
 /**************************************** PARTIE MODULE *********************************************/
@@ -173,4 +174,24 @@ select{
         flex-direction: column;
     }
 
+    .badge{
+        width: 40px;
+        height: 40px;
+    }
+
+    .divBadge{
+        padding: 5px;
+    }
+
+    .premiereDiv{
+        width: 100%;
+    }
+
+    .premiereDiv .divBadge:first-child{
+        margin-top: 15px;
+    }
+
+    .premiereDiv .divBadge:first-child .badge{
+        margin-top: 11px;
+    }
 }

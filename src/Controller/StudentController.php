@@ -29,15 +29,15 @@ class StudentController extends AbstractController
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
     public function manageQcms( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkInstructorSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
     {
-        $student = $studentRepo->find( 20 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 30 ); // changer l'id pour l'id de l'etudiant qui est log
 
         // Recupérer l'instance de QCM pour laquelle la date du jour se trouve entre release_date et end_date pour l'etudiant connecté
         $allAvailableQcmInstances = $student->getQcmInstances();
         $officialQcmOfTheWeek  = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
             return
                 $qcmInstance->getQcm()->getIsOfficial() == true
-                && $qcmInstance->getReleaseDate() < new \DateTime()
-                && $qcmInstance->getEndDate() > new \DateTime()
+                && $qcmInstance->getStartTime() < new \DateTime()
+                && $qcmInstance->getEndTime() > new \DateTime()
                 && $qcmInstance->getQcm()->getIsEnabled() == true ;
         });
 
@@ -118,7 +118,7 @@ class StudentController extends AbstractController
     #[Route('student/qcms/Done', name: 'student_qcms_done', methods: ['GET'])]
     public function qcmsDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkInstructorSessionModuleRepository $linkSessionModuleRepo )
     {
-        $student = $studentRepo->find( 12 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 30 ); // changer l'id pour l'id de l'etudiant qui est log
 
         $studentQcmInstances = $student->getQcmInstances();
         $studentResults = [];
@@ -150,7 +150,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcm/qcmToDo/{qcmInstance}', name: 'student_qcm_to_do', methods: ['GET', 'POST'])]
+    #[Route('student/qcms/qcmToDo/{qcmInstance}', name: 'student_qcm_to_do', methods: ['GET', 'POST'])]
     public function QcmToDo( QcmInstance $qcmInstance, QcmRepository $qcmRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em){
 
         // Récupere le qcm par rapport à l'id du qcmInstance
@@ -264,26 +264,25 @@ class StudentController extends AbstractController
             $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
 
             /*TODO A changer quand le système de connection sera opérationnel*/
-            $student = $studentRepository->find(2);
+            $student = $studentRepository->find(30);
             $result = new Result();
-            $result->setStudent($student);
             $result->setQcmInstance($qcmInstance);
-            $result->setTotalScore($totalScore);
+            $result->setScore($totalScore);
             if( $totalScore < 25 )
             {
-                $result->setLevel(Level::Discover);
+                $result->setLevel(Level::Discover->value);
             }
             elseif( $totalScore >= 25 && $totalScore < 50 )
             {
-                $result->setLevel(Level::Explore);
+                $result->setLevel(Level::Explore->value);
             }
             elseif( $totalScore >= 50 && $totalScore < 75 )
             {
-                $result->setLevel(Level::Master);
+                $result->setLevel(Level::Master->value);
             }
             elseif( $totalScore >= 75 && $totalScore <= 100 )
             {
-                $result->setLevel(Level::Dominate);
+                $result->setLevel(Level::Dominate->value);
             }
 
             foreach ($questionAnswersDecode as $questionAnswersKey => $questionAnswersValue){
@@ -302,7 +301,7 @@ class StudentController extends AbstractController
 
         return $this->render('student/qcm_to_do.html.twig', [
             'idQcmInstance' => $qcmInstance->getId(),
-            'nameQcmInstance' => $qcmInstance->getName(),
+            'nameQcmInstance' => $qcmInstance->getQcm()->getTitle(),
             'titleModule'=> $qcm->getModule()->getTitle(),
             'questionsAnswers' => $questionAnswersDecode
         ]);

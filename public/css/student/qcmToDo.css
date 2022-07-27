@@ -199,6 +199,17 @@ img{
 }
 
 @media screen and (max-width: 450px) {
+
+    .container{
+        max-width: 90%;
+    }
+
+    table{
+        margin: auto;
+        width: 350px;
+    }
+
+
     .premiereDiv{
         width: 300px;
         margin: auto;
