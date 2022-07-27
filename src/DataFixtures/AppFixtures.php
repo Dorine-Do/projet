@@ -86,7 +86,7 @@ class AppFixtures extends Fixture
 //        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
-//        $this->generateResults( $manager );
+        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
@@ -260,7 +260,7 @@ class AppFixtures extends Fixture
             {
                 $question = new Question();
                 $question->setModule($dbModule);
-                $question->setQuestion( $this->faker->sentence() );
+                $question->setWording( $this->faker->sentence() );
                 $question->setAuthor( $dbInstructors[array_rand($dbInstructors)] );
                 $question->setIsEnabled( $this->faker->numberBetween(0, 1) );
                 $question->setIsMandatory(0);
@@ -290,7 +290,7 @@ class AppFixtures extends Fixture
             $proposal = new Proposal();
 
             $proposal->setQuestion($question);
-            $proposal->setProposal( $this->faker->word() );
+            $proposal->setWording( $this->faker->word() );
             $isCorrect = $this->faker->numberBetween(0, 1);
             $proposal->setIsCorrectAnswer( $isCorrect );
             if( $isCorrect )
@@ -348,7 +348,7 @@ class AppFixtures extends Fixture
             $arrayDifficulty[] = $difficulty;
             $arrayAnswers = [];
             foreach ($answers as $answer){
-                $arrayAnswers[] =  ["id" => $answer->getId(), "libelle" => $answer->getProposal(), "is_correct" => $answer->getIsCorrectAnswer()];
+                $arrayAnswers[] =  ["id" => $answer->getId(), "libelle" => $answer->getWording(), "is_correct" => $answer->getIsCorrectAnswer()];
             }
             $questionAnswer =
                 [
@@ -356,7 +356,7 @@ class AppFixtures extends Fixture
                         "question"=>
                             [
                                 "id"=> $randomQuestion->getId(),
-                                "libelle"=>$randomQuestion->getQuestion(),
+                                "libelle"=>$randomQuestion->getWording(),
                                 "responce_type"=>$randomQuestion->getIsMultiple(),
                                 "answers"=>
                                     $arrayAnswers
@@ -475,12 +475,9 @@ class AppFixtures extends Fixture
 
             $qcmInstance = new QcmInstance();
             $qcmInstance->setQcm( $relatedQcm );
-            $qcmInstance->setQuestionAnswers( $relatedQcm->getQuestionsAnswers() );
-            $qcmInstance->setEnabled( $this->faker->numberBetween(0, 1) );
-            $qcmInstance->setName( $relatedQcm->getName() );
-            $qcmInstance->setReleaseDate( $this->faker->dateTimeBetween('-1 year', 'now') );
-            $qcmInstance->setEndDate( $this->faker->dateTimeBetween('now', '+1 month') );
-            $qcmInstance->addStudent($dbStudents[array_rand($dbStudents,1)]);
+            $qcmInstance->setStartTime( $this->faker->dateTimeBetween('-1 year', 'now') );
+            $qcmInstance->setEndTime( $this->faker->dateTimeBetween('now', '+1 month') );
+            $qcmInstance->setStudent($dbStudents[array_rand($dbStudents,1)]);
             $manager->persist($qcmInstance);
         }
         $manager->flush();
@@ -497,12 +494,9 @@ class AppFixtures extends Fixture
 
             $qcmInstance = new QcmInstance();
             $qcmInstance->setQcm( $relatedQcm );
-            $qcmInstance->setQuestionAnswers( $relatedQcm->getQuestionsAnswers() );
-            $qcmInstance->setEnabled( $this->faker->numberBetween(0, 1) );
-            $qcmInstance->setName( $relatedQcm->getName() );
-            $qcmInstance->setReleaseDate( $this->faker->dateTimeBetween('-1 year', 'now') );
-            $qcmInstance->setEndDate( $this->faker->dateTimeBetween('now', '+1 month') );
-            $qcmInstance->addStudent($dbStudents[array_rand($dbStudents,1)]);
+            $qcmInstance->setStartTime( $this->faker->dateTimeBetween('-1 year', 'now') );
+            $qcmInstance->setEndTime( $this->faker->dateTimeBetween('now', '+1 month') );
+            $qcmInstance->setStudent($dbStudents[array_rand($dbStudents,1)]);
             $manager->persist($qcmInstance);
         }
         $manager->flush();
@@ -512,39 +506,44 @@ class AppFixtures extends Fixture
     {
         $dbQcmInstances = $this->qcmInstanceRepository->findAll();
 
-        for( $i = 0; $i < 10; $i++ )
+        $dbQcmInstanceUsed = [];
+
+        for( $i = 0; $i < 5; $i++ )
         {
             $result = new Result();
-            $dbStudents = [];
-            while (count($dbStudents) == 0){
-                $dbQcmInstance = $dbQcmInstances[array_rand($dbQcmInstances)];
-                $dbStudents = $this->studentRepository->AllStudentByQcmInstance($dbQcmInstance->getId(), $manager);
-            }
+
+            $dbQcmInstanceWithoutResult = $this->qcmInstanceRepository->AllQcmInstanceWithoutResult();
+            $dbQcmInstance = $dbQcmInstanceWithoutResult[array_rand($dbQcmInstanceWithoutResult)];
+
+            $dbQcmInstanceUsed[] = $dbQcmInstance->getId();
+
             $result->setQcmInstance( $dbQcmInstance );
-            $result->setStudent($dbStudents[array_rand($dbStudents)]);
             $score = $this->faker->numberBetween(0,100);
-            $result->setTotalScore( $score );
+            $result->setIsFirstTry(rand(0,1));
+            $result->setScore( $score );
+
             if( $score < 25 )
             {
-                $result->setLevel(Level::Discover);
+                $result->setLevel(Level::Discover->value);
             }
             elseif( $score >= 25 && $score < 50 )
             {
-                $result->setLevel(Level::Explore);
+                $result->setLevel(Level::Explore->value);
             }
             elseif( $score >= 50 && $score < 75 )
             {
-                $result->setLevel(Level::Master);
+                $result->setLevel(Level::Master->value);
             }
             elseif( $score >= 75 && $score <= 100 )
             {
-                $result->setLevel(Level::Dominate);
+                $result->setLevel(Level::Dominate->value);
             }
 
             $result->setInstructorComment( $this->faker->sentence() );
             $result->setStudentComment( $this->faker->sentence() );
 
-            $questionAnswers = $dbQcmInstance->getQcm()->getQuestionsAnswers();
+            $questionAnswers = $dbQcmInstance->getQcm()->getQuestionsCache();
+
             // Transforme les objets à l'interieur de $questionAnswers en des tableaux et rajoute "student_answer"
             $questionAnswersDecode = array_map(function($questionAnswer){
                 return json_encode(array_map(function($qa){
@@ -556,8 +555,9 @@ class AppFixtures extends Fixture
                 },(array)json_decode($questionAnswer)[0]));
             },$questionAnswers);
             $result->setAnswers($questionAnswersDecode);
+
             $manager->persist($result);
+            $manager->flush();
         }
-        $manager->flush();
     }
 }

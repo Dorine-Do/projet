@@ -6,6 +6,7 @@ use App\Repository\QcmInstanceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QcmInstanceRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class QcmInstance
 {
     #[ORM\Id]
@@ -35,6 +36,19 @@ class QcmInstance
     #[ORM\ManyToOne(targetEntity: Qcm::class, inversedBy: 'qcmInstances')]
     #[ORM\JoinColumn(nullable: false)]
     private $qcm;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue():void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue():void
+    {
+        $this->updatedAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {

@@ -16,7 +16,7 @@ class Proposal
     private $id;
 
     #[ORM\Column(type: 'text')]
-    private $proposal;
+    private $wording;
 
     #[ORM\Column(type: 'boolean')]
     private $isCorrectAnswer;
@@ -49,14 +49,14 @@ class Proposal
         return $this->id;
     }
 
-    public function getProposal(): ?string
+    public function getWording(): ?string
     {
-        return $this->proposal;
+        return $this->wording;
     }
 
-    public function setProposal(string $proposal): self
+    public function setWording(string $wording): self
     {
-        $this->proposal = $proposal;
+        $this->wording = $wording;
 
         return $this;
     }
