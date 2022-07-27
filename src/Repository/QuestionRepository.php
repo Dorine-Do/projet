@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Question;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,82 +21,28 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
-    /* MEMO
-        /*$questionBdd = $this->getEntityManager();
-        return $questionBdd->createQuery('
-        SELECT q
-        FROM App\Entity\Question q
-        INNER JOIN App\Entity\Module m
-        WITH m.id = q.module_id
-        INNER JOIN App\Entity\LinkInstructorModule lim
-        WITH m.id = lim.module_id
-        INNER JOIN App\Entity\Instructor i
-        WITH i.id = lim.instructor_id
-        WHERE q.id > :id_question
-        AND i.id > :id_instructor
-     ')
-            ->setParameter('id_question', $question_id)
-            ->setParameter('id_instructor', $instructor_id)
-            ->getResult();
-    */
-
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Question $entity, bool $flush = false): void
     {
-        $this->_em->persist($entity);
+        $this->getEntityManager()->persist($entity);
+
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Question $entity, bool $flush = false): void
     {
-        $this->_em->remove($entity);
+        $this->getEntityManager()->remove($entity);
+
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
-//    /**
-//     * @return Question[] Returns an array of Question objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('q.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
-//    public function findOneBySomeField($value): ?Question
-//    {
-//        return $this->createQueryBuilder('q')
-//            ->andWhere('q.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function getQuestionWithReleaseDate($question_id)
     {
-             $questionBdd = $this->getEntityManager();
+        $questionBdd = $this->getEntityManager();
         return $questionBdd->createQuery('
         SELECT q.id, q.wording, qcmi.release_date
         FROM App\Entity\Question q
@@ -113,10 +57,6 @@ class QuestionRepository extends ServiceEntityRepository
 
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function getSessionWithReleaseDate($question_id)
     {
         $sessionBdd = $this->getEntityManager();
@@ -144,5 +84,28 @@ class QuestionRepository extends ServiceEntityRepository
 
 
 
+//    /**
+//     * @return Question[] Returns an array of Question objects
+//     */
+//    public function findByExampleField($value): array
+//    {
+//        return $this->createQueryBuilder('q')
+//            ->andWhere('q.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->orderBy('q.id', 'ASC')
+//            ->setMaxResults(10)
+//            ->getQuery()
+//            ->getResult()
+//        ;
+//    }
 
+//    public function findOneBySomeField($value): ?Question
+//    {
+//        return $this->createQueryBuilder('q')
+//            ->andWhere('q.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->getQuery()
+//            ->getOneOrNullResult()
+//        ;
+//    }
 }

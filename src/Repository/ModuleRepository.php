@@ -3,10 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Module;
-use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -24,34 +21,24 @@ class ModuleRepository extends ServiceEntityRepository
         parent::__construct($registry, Module::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Module $entity, bool $flush = false): void
     {
-        $this->_em->persist($entity);
+        $this->getEntityManager()->persist($entity);
+
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Module $entity, bool $flush = false): void
     {
-        $this->_em->remove($entity);
+        $this->getEntityManager()->remove($entity);
+
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function getAccomplishedModules( int $student_id ): array
     {
         $conn = $this->getEntityManager()->getConnection();

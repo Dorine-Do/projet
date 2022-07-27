@@ -2,12 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\LinClassStudentRepository;
 use App\Repository\LinkSessionStudentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LinkSessionStudentRepository::class)]
-#[ORM\HasLifecycleCallbacks]
 class LinkSessionStudent
 {
     #[ORM\Id]
@@ -16,55 +14,29 @@ class LinkSessionStudent
     private $id;
 
     #[ORM\Column(type: 'boolean')]
-    private $enabled;
+    private $isEnabled;
 
-    #[ORM\ManyToOne(targetEntity: Student::class, inversedBy: 'link_session_student')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $student;
-
-    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'link_session_student')]
+    #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'linkSessionStudents')]
     #[ORM\JoinColumn(nullable: false)]
     private $session;
 
-    public function __construct()
-    {
-    }
-    #[ORM\PrePersist]
-    public function setCreatedAtValue(){
-        $this->created_at = new \DateTime();
-        $this->updated_at = new \DateTime();
-    }
-
-    #[ORM\PreUpdate]
-    public function setUpdateAtValue(){
-        $this->updated_at = new \DateTime();
-    }
+    #[ORM\ManyToOne(targetEntity: Student::class, inversedBy: 'linkSessionStudents')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $student;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEnabled(): ?bool
+    public function isEnabled(): ?bool
     {
-        return $this->enabled;
+        return $this->isEnabled;
     }
 
-    public function setEnabled(bool $enabled): self
+    public function setIsEnabled(bool $isEnabled): self
     {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
-
-    public function getStudent(): ?Student
-    {
-        return $this->student;
-    }
-
-    public function setStudent(?Student $student): self
-    {
-        $this->student = $student;
+        $this->isEnabled = $isEnabled;
 
         return $this;
     }
@@ -77,6 +49,18 @@ class LinkSessionStudent
     public function setSession(?Session $session): self
     {
         $this->session = $session;
+
+        return $this;
+    }
+
+    public function getStudent(): ?Student
+    {
+        return $this->student;
+    }
+
+    public function setStudent(?Student $student): self
+    {
+        $this->student = $student;
 
         return $this;
     }
