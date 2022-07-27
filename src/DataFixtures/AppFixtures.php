@@ -32,13 +32,6 @@ class AppFixtures extends Fixture
 {
     private $faker;
 
-    protected array $arrayModule = [];
-    protected array $arraySession = [];
-    protected array $arrayStudent = [];
-    protected array $arrayInstructor = [];
-    protected array $ChoicesDifficulty = [ Difficulty::Easy, Difficulty::Medium, Difficulty::Difficult];
-    protected array $ChoicesLevel = [ Level::Discover, Level::Explore, Level::Master, Level::Dominate];
-
     public function __construct (
         private UserPasswordHasherInterface $userPasswordHasherInterface,
         private InstructorRepository $instructorRepository,

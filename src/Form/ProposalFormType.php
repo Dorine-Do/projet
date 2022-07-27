@@ -22,7 +22,7 @@ class ProposalFormType extends AbstractType
                 'label'    => 'Intitulé de la réponse',
                 'attr' => ['class' => 'wording'],
             ])
-            ->add('is_correct',CheckboxType::class, [
+            ->add('is_correct_answer',CheckboxType::class, [
                 'label'    => 'Reponse correcte',
                 'required' => false,
                 'attr' => ['class' => 'isCorrect'],
