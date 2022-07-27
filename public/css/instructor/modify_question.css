@@ -108,14 +108,14 @@ tbody{
     border-radius: 25px;
     height: 59px;
     border: 1px solid #ccc;
-    margin: 0;
-    width: 90%;
+    width: 300px;
 }
 #create_question_difficulty label{
-    position: absolute;
-    top: 20%;
-    left: 29%;
+    position: relative;
+    top: 45px;
+    left: 40%;
     color: white;
+    font-size: var(--grand);
 }
 
 input[type="radio"]{
@@ -129,7 +129,8 @@ input[type="radio"]:checked {
     cursor:pointer;
 }
 
-img{
+#create_question_difficulty img{
+    margin-top: 30px;
     width: 50px;
     height: 50px;
 }

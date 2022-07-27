@@ -140,7 +140,7 @@ input[type="radio"]:checked {
     margin: auto;
     padding: 20px 60px;
     border: none;
-    background-color: var(--fond);;
+    background-color: var(--fond);
     font-size: var(--grand);
     -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
     box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
@@ -457,7 +457,7 @@ img{
     #create_question_module, #create_question_difficulty{
         background-color: var(--fond);
         margin-bottom: 20px;
-        font-size: var(--semi_small);
+        font-size: var(--normal);
     }
 
     .numeroForm{
@@ -513,7 +513,6 @@ img{
     }
 
     .removeProposal{
-        width: 80px;
         margin: 15px auto 50px auto;
         display: block;
     }
