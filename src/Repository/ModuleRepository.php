@@ -44,14 +44,14 @@ class ModuleRepository extends ServiceEntityRepository
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            SELECT module.id, module.number_of_weeks, module.title, module.badges, module.created_at, module.updated_at
-            FROM student
-            INNER JOIN result ON result.student_id = student.id
-            INNER JOIN qcm_instance ON result.qcm_instance_id = qcm_instance.id
+            SELECT module.id, module.weeks, module.title, module.created_at, module.updated_at
+            FROM user
+            INNER JOIN qcm_instance ON qcm_instance.student_id = user.id
             INNER JOIN qcm ON qcm_instance.qcm_id = qcm.id
+            INNER JOIN result ON result.qcm_instance_id = qcm_instance.id
             INNER JOIN module ON qcm.module_id = module.id
             INNER JOIN link_session_module ON link_session_module.module_id = module.id
-            WHERE result.total_score >= 50 AND link_session_module.end_date <= now() AND qcm.is_official = true AND student.id = :student_id
+            WHERE result.score >= 50 AND link_session_module.end_date <= now() AND qcm.is_official = true AND user.id = :student_id
         ';
 
         $stmt = $conn->prepare($sql);

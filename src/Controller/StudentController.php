@@ -29,28 +29,35 @@ class StudentController extends AbstractController
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
     public function manageQcms( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
     {
-        $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 20 ); // changer l'id pour l'id de l'etudiant qui est log
 
         // Recupérer l'instance de QCM pour laquelle la date du jour se trouve entre release_date et end_date pour l'etudiant connecté
         $allAvailableQcmInstances = $student->getQcmInstances();
+        /* L'entity ne contient pas le nom du qcm donc dans le template, nous avons dû appeller qcm puis title */
         $officialQcmOfTheWeek  = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
             return
                 $qcmInstance->getQcm()->getIsOfficial() == true
-                && $qcmInstance->getReleaseDate() < new \DateTime()
-                && $qcmInstance->getEndDate() > new \DateTime()
-                && $qcmInstance->getQcm()->getEnabled() == true ;
+                && $qcmInstance->getStartTime() < new \DateTime()
+                && $qcmInstance->getEndTime() > new \DateTime()
+                && $qcmInstance->getQcm()->getIsEnabled() == true ;
         });
 
         // Recupérer les de QCM ayant is_official false/0
         $unofficialQcmInstances = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
             return $qcmInstance->getQcm()->getIsOfficial() == false;
         });
-
         // Recupérer tous les QCM de la table result pour l'id de l'etudiant
-        $qcmResults = $student->getResults();
+        $studentQcmInstances = $student->getQcmInstances();
+        $qcmResults = [];
+        foreach ($studentQcmInstances as $studentQcmInstance){
+            if ($studentQcmInstance->getResult() !== null){
+                $qcmResults[]= $studentQcmInstance->getResult();
+            }
+        }
         $unofficialQcmInstancesDone = [];
         foreach ($qcmResults as $qcmResult)
         {
+
             if( !$qcmResult->getQcmInstance()->getQcm()->getIsOfficial() ) {
                 $unofficialQcmInstancesDone[] = $qcmResult->getQcmInstance();
             }
@@ -73,7 +80,7 @@ class StudentController extends AbstractController
         }
 
         // Recupérer tous les QCM de la table result pour l'id de l'etudiant qui ont un total score < 50
-        $endedLinkSessionModules = $studentSession->getLinkSessionModule()->filter(function(LinkSessionModule $linkSessionModule){
+        $endedLinkSessionModules = $studentSession->getLinksSessionModule()->filter(function(LinkSessionModule $linkSessionModule){
             return $linkSessionModule->getEndDate() < new \DateTime();
         });
 
@@ -84,6 +91,7 @@ class StudentController extends AbstractController
         }
 
         $accomplishedModules = $moduleRepo->getAccomplishedModules( $student->getId() );
+//        dd('stop');
         $accomplishedModulesIds = [];
         foreach($accomplishedModules as $accomplishedModule)
         {
@@ -111,9 +119,15 @@ class StudentController extends AbstractController
     #[Route('student/qcms/Done', name: 'student_qcms_done', methods: ['GET'])]
     public function qcmsDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo )
     {
-        $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 12 ); // changer l'id pour l'id de l'etudiant qui est log
 
-        $studentResults = $student->getResults();
+        $studentQcmInstances = $student->getQcmInstances();
+        $studentResults = [];
+        foreach ($studentQcmInstances as $studentQcmInstance){
+            if ($studentQcmInstance->getResult() !== null){
+                $studentResults[]= $studentQcmInstance->getResult();
+            }
+        }
         $qcmsDone = [];
         foreach($studentResults as $studentResult)
         {
@@ -137,7 +151,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcm/qcmToDo/{qcmInstance}', name: 'student_qcm_to_do', methods: ['GET', 'POST'])]
+    #[Route('student/qcms/qcmToDo/{qcmInstance}', name: 'student_qcm_to_do', methods: ['GET', 'POST'])]
     public function QcmToDo( QcmInstance $qcmInstance, QcmRepository $qcmRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em){
 
         // Récupere le qcm par rapport à l'id du qcmInstance
@@ -152,7 +166,7 @@ class StudentController extends AbstractController
                     $questionsDecode['question']['answers'][$key] =  (array)$value;
                 }
             return $questionsDecode['question'];
-        },$qcm->getQuestionsAnswers());
+        },$qcm->getQuestionsCache());
 
         // Récupere les datas du form
         $result = $request->query->all();
@@ -253,24 +267,23 @@ class StudentController extends AbstractController
             /*TODO A changer quand le système de connection sera opérationnel*/
             $student = $studentRepository->find(2);
             $result = new Result();
-            $result->setStudent($student);
             $result->setQcmInstance($qcmInstance);
-            $result->setTotalScore($totalScore);
+            $result->setScore($totalScore);
             if( $totalScore < 25 )
             {
-                $result->setLevel(Level::Discover);
+                $result->setLevel(Level::Discover->value);
             }
             elseif( $totalScore >= 25 && $totalScore < 50 )
             {
-                $result->setLevel(Level::Explore);
+                $result->setLevel(Level::Explore->value);
             }
             elseif( $totalScore >= 50 && $totalScore < 75 )
             {
-                $result->setLevel(Level::Master);
+                $result->setLevel(Level::Master->value);
             }
             elseif( $totalScore >= 75 && $totalScore <= 100 )
             {
-                $result->setLevel(Level::Dominate);
+                $result->setLevel(Level::Dominate->value);
             }
 
             foreach ($questionAnswersDecode as $questionAnswersKey => $questionAnswersValue){
@@ -289,7 +302,7 @@ class StudentController extends AbstractController
 
         return $this->render('student/qcm_to_do.html.twig', [
             'idQcmInstance' => $qcmInstance->getId(),
-            'nameQcmInstance' => $qcmInstance->getName(),
+            'nameQcmInstance' => $qcmInstance->getQcm()->getTitle(),
             'titleModule'=> $qcm->getModule()->getTitle(),
             'questionsAnswers' => $questionAnswersDecode
         ]);

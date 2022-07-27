@@ -32,13 +32,6 @@ class AppFixtures extends Fixture
 {
     private $faker;
 
-    protected array $arrayModule = [];
-    protected array $arraySession = [];
-    protected array $arrayStudent = [];
-    protected array $arrayInstructor = [];
-    protected array $ChoicesDifficulty = [ Difficulty::Easy, Difficulty::Medium, Difficulty::Difficult];
-    protected array $ChoicesLevel = [ Level::Discover, Level::Explore, Level::Master, Level::Dominate];
-
     public function __construct (
         private UserPasswordHasherInterface $userPasswordHasherInterface,
         private InstructorRepository $instructorRepository,
@@ -56,7 +49,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Module
-//        $this->generateModules( $manager );
+        $this->generateModules( $manager );
 
         //Session
 //        $this->generateSessions( $manager );
@@ -74,7 +67,7 @@ class AppFixtures extends Fixture
 //        $this->generateQuestions( $manager );
 
         //Qcm
-        $this->generateQcm( $manager );
+//        $this->generateQcm( $manager );
 
         //Qcm avec le module de démo (réelles data)
 //        $this->generateQcmWithSpecifyModule($manager);
@@ -86,7 +79,7 @@ class AppFixtures extends Fixture
 //        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
-        $this->generateResults( $manager );
+//        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
