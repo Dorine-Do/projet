@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}QCM à faire{% endblock %}
+{% block title %}{{ 'qcm.todo'|trans }}{% endblock %}
 
 {% block stylesheets %}
     <link href="{{asset('css/student/qcmToDo.css')}}" rel="stylesheet">
@@ -77,11 +77,11 @@
             <div class="overlay"></div>
             <div class="modalContent">
                 <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}">
-                <p>LE QCM EST TERMINÉ</p>
-                <p>Voulez vous vraiment confirmer ce QCM ?</p>
+                <p>{{ 'qcm.finish'|trans }}</p>
+                <p>{{ 'qcm.questionConfirmQcm'|trans }}</p>
                 <div class="buttonPop">
-                    <button type="button" class="confirmBtn" id="confirm-qcm-btn">Valider</button>
-                    <button type="button" class="cancelBtn" id="cancel-qcm-btn">Retour</button>
+                    <button type="button" class="confirmBtn" id="confirm-qcm-btn">{{ 'button.validate'|trans }}</button>
+                    <button type="button" class="cancelBtn" id="cancel-qcm-btn">{{ 'button.back'|trans }}</button>
                 </div>
             </div>
         </div>

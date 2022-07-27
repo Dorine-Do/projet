@@ -8,7 +8,7 @@ use App\Entity\LinkSessionStudent;
 use App\Entity\Qcm;
 use App\Entity\QcmInstance;
 use App\Entity\Result;
-use App\Repository\LinkSessionModuleRepository;
+use App\Repository\LinkInstructorSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\QcmRepository;
@@ -27,18 +27,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class StudentController extends AbstractController
 {
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
-    public function manageQcms( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
+    public function manageQcms( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkInstructorSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
     {
-        $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 23 ); // changer l'id pour l'id de l'etudiant qui est log
 
         // Recupérer l'instance de QCM pour laquelle la date du jour se trouve entre release_date et end_date pour l'etudiant connecté
         $allAvailableQcmInstances = $student->getQcmInstances();
         $officialQcmOfTheWeek  = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
             return
                 $qcmInstance->getQcm()->getIsOfficial() == true
-                && $qcmInstance->getReleaseDate() < new \DateTime()
-                && $qcmInstance->getEndDate() > new \DateTime()
-                && $qcmInstance->getQcm()->getEnabled() == true ;
+                && $qcmInstance->getStartTime() < new \DateTime()
+                && $qcmInstance->getEndTime() > new \DateTime()
+                && $qcmInstance->getQcm()->getIsEnabled() == true ;
         });
 
         // Recupérer les de QCM ayant is_official false/0
@@ -109,7 +109,7 @@ class StudentController extends AbstractController
     }
 
     #[Route('student/qcms/Done', name: 'student_qcms_done', methods: ['GET'])]
-    public function qcmsDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo )
+    public function qcmsDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkInstructorSessionModuleRepository $linkSessionModuleRepo )
     {
         $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
 
@@ -152,7 +152,7 @@ class StudentController extends AbstractController
                     $questionsDecode['question']['answers'][$key] =  (array)$value;
                 }
             return $questionsDecode['question'];
-        },$qcm->getQuestionsAnswers());
+        },$qcm->getQuestionsCache());
 
         // Récupere les datas du form
         $result = $request->query->all();
