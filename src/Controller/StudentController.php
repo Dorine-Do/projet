@@ -33,6 +33,7 @@ class StudentController extends AbstractController
 
         // Recupérer l'instance de QCM pour laquelle la date du jour se trouve entre release_date et end_date pour l'etudiant connecté
         $allAvailableQcmInstances = $student->getQcmInstances();
+        /* L'entity ne contient pas le nom du qcm donc dans le template, nous avons dû appeller qcm puis title */
         $officialQcmOfTheWeek  = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
             return
                 $qcmInstance->getQcm()->getIsOfficial() == true
