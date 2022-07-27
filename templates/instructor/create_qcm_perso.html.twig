@@ -7,13 +7,37 @@
 {% block title %}Hello InstructorController!{% endblock %}
 
 {% block body %}
-
-    <form action="">
-        <select name="" id="">
+    {% set count = 0 %}
+    <form action="{{ path('instructor_create_qcm_perso') }}" method="GET">
+        <select name="module" id="">
             {% for module in modules %}
-                <option value="module.id">module.name</option>
+                <option value="">Veuillez choisir un module</option>
+                <option value="{{ module.id }}">{{ module.title }}</option>
             {% endfor %}
         </select>
+        <input type="submit" value="Générer un qcm">
     </form>
+    {% if generatedQcm is not null %}
+        {{dump('hello')}}
+        <h3>- QCM -</h3>
+        <ul>
+            {{dump(generatedQcm)}}
+            {% for question in generatedQcm.questionsCache %}
+                {% set count = count + 1 %}
+                {{dump(question)}}
+                <li>
+                    <p>
+                        {{ count }}
+                    </p>
+                    <p>
+                        {{question[0].wording}}
+                    </p>
+                    {% for proposal in question[0].proposals %}
+                        {{ proposal.wording }}
+                    {% endfor %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
 {% endblock %}

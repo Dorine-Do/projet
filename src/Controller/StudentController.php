@@ -173,7 +173,7 @@ class StudentController extends AbstractController
 
         $countIsCorrectAnswer = 0;
 
-//      Si pas vide
+        // Si pas vide
         if (count($result) !== 0) {
 
             // Traitement des réponses et ajout d'information dans le tableau pour json ensuite et add db

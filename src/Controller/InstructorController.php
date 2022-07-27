@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Module;
 use App\Entity\Proposal;
 use App\Entity\QcmInstance;
 use App\Entity\Question;
@@ -204,24 +205,29 @@ class InstructorController extends AbstractController
     }
 
     #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
-    public function createQcmPersonalized(InstructorRepository $instructorRepository, ModuleRepository $moduleRepository, QuestionRepository $questionRepository, UserRepository $userRepository, Security $security, EntityManagerInterface $entityManager){
+    public function createQcmPersonalized(Request $request, InstructorRepository $instructorRepository, ModuleRepository $moduleRepository, QuestionRepository $questionRepository, UserRepository $userRepository, Security $security, EntityManagerInterface $entityManager){
 
         $linksInstructorSessionModule = $instructorRepository->find(5)->getLinksInstructorSessionModule();
         $modules = [];
-        $module = null;
         foreach ($linksInstructorSessionModule as $linkInstructorSessionModule){
-            $modules[]=$linkInstructorSessionModule->getModule()->getTitle();
-            $module = $linkInstructorSessionModule->getModule();
+            $modules[]=$linkInstructorSessionModule->getModule();
         }
 
-        $qcmGenerator = new QcmHelper($questionRepository, $userRepository, $security, $entityManager);
-        $generatedQcm = $qcmGenerator->generateRandomQcm($module,true,2);
-//        dd($generatedQcm);
+        if(isset($_GET['module']) && !empty($_GET['module'])){
+            $module = $moduleRepository->find($_GET['module']);
+        }
+        else{
+            $module = null;
+        }
 
-
+        if ($module){
+            $qcmGenerator = new QcmHelper($questionRepository, $userRepository, $security, $entityManager);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module, true, 2);
+        }
 
         return $this->render('instructor/create_qcm_perso.html.twig', [
-            'modules' => $modules
+            'modules' => $modules,
+            'generatedQcm' => $module ? $generatedQcm : null
         ]);
 
     }
