@@ -29,7 +29,7 @@
                         <select name="module" class="selectEntrainement">
                             <option value="">-- {{ 'qcm.choice'|trans }} --</option>
                             {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
-                                <option value="">{{unofficialQcmInstanceNotDone.name}}</option>
+                                <option value="">{{unofficialQcmInstanceNotDone.qcm.title}}</option>
                             {% endfor %}
                         </select>
                         <a class="buttonExercice" href="">{{ 'qcm.todo'|trans }}</a>
@@ -71,7 +71,7 @@
                     <p>
                         {{ 'qcm.donesExplain'|trans }}
                     </p>
-                    <a class="real" href="{{ path('student_qcmsdone') }}">{{ 'qcm.dones'|trans }}</a>
+                    <a class="real" href="{{ path('student_qcms_done') }}">{{ 'qcm.dones'|trans }}</a>
                 </div>
             </section>
             <section>

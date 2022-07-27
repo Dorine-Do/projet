@@ -44,21 +44,21 @@
     </p>
     {% for module in modules %}
         <p class="module" id="module">
-            {{ 'module.name'|viewAnswers }} : {{module.title}}
+            {{ 'module.name'|trans }} : {{module.title}}
         </p>
     {% endfor %}{% for qcmDone in qcmsDone %}
     <div class="realise">
         <div class="nomQcm">
             <p>
-                {{ 'qcm.name'|trans }} : {{qcmDone.qcm.name}}
+                {{ 'qcm.name'|trans }} : {{qcmDone.qcm.title}}
             </p>
         </div>
         <div class="date">
-            {{qcmDone.result.getCreatedAt()|date('d/m/Y')}}
+            {{qcmDone.result.getSubmittedAt()|date('d/m/Y')}}
         </div>
         <div class="divButton">
-            <a class="button" href="">{{ 'qcm.name'|viewAnswers }}</a>
-            <a class="button" href="">{{ 'qcm.doAgain'|viewAnswers }}</a>
+            <a class="button" href="">{{ 'qcm.name'|trans }}</a>
+            <a class="button" href="">{{ 'qcm.doAgain'|trans }}</a>
         </div>
     </div>
 {% endfor %}

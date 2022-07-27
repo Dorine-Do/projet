@@ -60,7 +60,7 @@
                     {% for proposal in form.proposals %}
                         <li class="liProposal">
                             <div class="divProposal">
-                                {{form_row(proposal.wording)}}{{form_row(proposal.is_correct)}}
+                                {{form_row(proposal.wording)}}{{form_row(proposal.is_correct_answer)}}
                             </div>
                             <button type="button" class="removeProposal" >{{ 'button.delete'|trans }}</button>
                         </li>
@@ -79,7 +79,7 @@
                 </p>
             </td>
             <td colspan="2" class="option">
-                {{ form_row(form.enabled) }}
+                {{ form_row(form.is_enabled) }}
             </td>
         </tr>
         <tr>

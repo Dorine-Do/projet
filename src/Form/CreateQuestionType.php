@@ -35,10 +35,13 @@ class CreateQuestionType extends AbstractType
             ->add('wording',TextareaType::class,[
                 'required' => true,
             ])
-            ->add('difficulty', enumType::class,[
-                "class" => Difficulty::class,
-                'choice_label'=> self::DIFFICULTIES['value'],
-                'expanded' => true,
+            ->add('difficulty', choiceType::class,[
+                'choices'  => [
+                    'Facile' => 1,
+                    'Moyen' => 2,
+                    'Difficile' => 3,
+                ],
+                'expanded' => true
             ])
 
             // Imbriquation de formulaire
@@ -58,7 +61,7 @@ class CreateQuestionType extends AbstractType
                     new Assert\Callback(
                         ['callback' => static function ( $data, ExecutionContextInterface $context) {
                             foreach($data as $p){
-                                if($p->getIsCorrect() == true){
+                                if($p->getIsCorrectAnswer() == true){
                                     return;
                                 }
                             }
@@ -72,8 +75,8 @@ class CreateQuestionType extends AbstractType
             ->add('module', EntityType::class, [
                 'class'=> Module::class,
             ])
-            /*TODO A changer quand la refacto de la db sera faite*/
-            ->add('enabled', CheckboxType::class, [
+
+            ->add('is_enabled', CheckboxType::class, [
                 'required' => false,
                 'label' => false,
             ]);

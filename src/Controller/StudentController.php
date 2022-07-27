@@ -29,15 +29,15 @@ class StudentController extends AbstractController
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
     public function manageQcms( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkInstructorSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
     {
-        $student = $studentRepo->find( 23 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 20 ); // changer l'id pour l'id de l'etudiant qui est log
 
         // Recupérer l'instance de QCM pour laquelle la date du jour se trouve entre release_date et end_date pour l'etudiant connecté
         $allAvailableQcmInstances = $student->getQcmInstances();
         $officialQcmOfTheWeek  = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
             return
                 $qcmInstance->getQcm()->getIsOfficial() == true
-                && $qcmInstance->getStartTime() < new \DateTime()
-                && $qcmInstance->getEndTime() > new \DateTime()
+                && $qcmInstance->getReleaseDate() < new \DateTime()
+                && $qcmInstance->getEndDate() > new \DateTime()
                 && $qcmInstance->getQcm()->getIsEnabled() == true ;
         });
 
@@ -45,12 +45,18 @@ class StudentController extends AbstractController
         $unofficialQcmInstances = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
             return $qcmInstance->getQcm()->getIsOfficial() == false;
         });
-
         // Recupérer tous les QCM de la table result pour l'id de l'etudiant
-        $qcmResults = $student->getResults();
+        $studentQcmInstances = $student->getQcmInstances();
+        $qcmResults = [];
+        foreach ($studentQcmInstances as $studentQcmInstance){
+            if ($studentQcmInstance->getResult() !== null){
+                $qcmResults[]= $studentQcmInstance->getResult();
+            }
+        }
         $unofficialQcmInstancesDone = [];
         foreach ($qcmResults as $qcmResult)
         {
+
             if( !$qcmResult->getQcmInstance()->getQcm()->getIsOfficial() ) {
                 $unofficialQcmInstancesDone[] = $qcmResult->getQcmInstance();
             }
@@ -73,7 +79,7 @@ class StudentController extends AbstractController
         }
 
         // Recupérer tous les QCM de la table result pour l'id de l'etudiant qui ont un total score < 50
-        $endedLinkSessionModules = $studentSession->getLinkSessionModule()->filter(function(LinkSessionModule $linkSessionModule){
+        $endedLinkSessionModules = $studentSession->getLinksSessionModule()->filter(function(LinkSessionModule $linkSessionModule){
             return $linkSessionModule->getEndDate() < new \DateTime();
         });
 
@@ -84,6 +90,7 @@ class StudentController extends AbstractController
         }
 
         $accomplishedModules = $moduleRepo->getAccomplishedModules( $student->getId() );
+//        dd('stop');
         $accomplishedModulesIds = [];
         foreach($accomplishedModules as $accomplishedModule)
         {
@@ -111,9 +118,15 @@ class StudentController extends AbstractController
     #[Route('student/qcms/Done', name: 'student_qcms_done', methods: ['GET'])]
     public function qcmsDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkInstructorSessionModuleRepository $linkSessionModuleRepo )
     {
-        $student = $studentRepo->find( 2 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 12 ); // changer l'id pour l'id de l'etudiant qui est log
 
-        $studentResults = $student->getResults();
+        $studentQcmInstances = $student->getQcmInstances();
+        $studentResults = [];
+        foreach ($studentQcmInstances as $studentQcmInstance){
+            if ($studentQcmInstance->getResult() !== null){
+                $studentResults[]= $studentQcmInstance->getResult();
+            }
+        }
         $qcmsDone = [];
         foreach($studentResults as $studentResult)
         {

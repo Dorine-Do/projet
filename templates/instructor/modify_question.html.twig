@@ -77,7 +77,7 @@
                             {% for proposal in form.proposals %}
                                 <li class="liProposal">
                                     <div class="divProposal">
-                                        {{form_row(proposal.wording,{'disabled' : true})}}{{form_row(proposal.is_correct,{'disabled' : true})}}
+                                        {{form_row(proposal.wording,{'disabled' : true})}}{{form_row(proposal.is_correct_answer,{'disabled' : true})}}
                                     </div>
                                     {% if distribute == null %}
                                         <button type="button" class="removeProposal" >{{ 'button.delete'|trans }}</button>
@@ -103,7 +103,7 @@
                         </p>
                     </td>
                     <td colspan="2" class="second">
-                        {{ form_widget(form.enabled) }}
+                        {{ form_widget(form.is_enabled) }}
                     </td>
                 </tr>
                 <tr>
@@ -181,7 +181,7 @@
                             {% for proposal in form.proposals %}
                                 <li class="liProposal">
                                     <div class="divProposal">
-                                        {{form_row(proposal.wording)}}{{form_row(proposal.is_correct)}}
+                                        {{form_row(proposal.wording)}}{{form_row(proposal.is_correct_answer)}}
                                     </div>
                                     <button type="button" class="removeProposal" >{{ 'button.delete'|trans }}</button>
                                 </li>
@@ -202,7 +202,7 @@
                             {{ 'question.desactivateExplain'|trans }}
                     </td>
                     <td colspan="2" class="option">
-                        {{ form_widget(form.enabled) }}
+                        {{ form_widget(form.is_enabled) }}
                     </td>
                 </tr>
                 <tr>

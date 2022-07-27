@@ -44,7 +44,7 @@ class QuestionRepository extends ServiceEntityRepository
     {
         $questionBdd = $this->getEntityManager();
         return $questionBdd->createQuery('
-        SELECT q.id, q.wording, qcmi.release_date
+        SELECT q.id, q.wording, qcmi.startTime
         FROM App\Entity\Question q
         INNER JOIN App\Entity\Qcm qcm
         WITH q.id = qcm.id
@@ -61,7 +61,7 @@ class QuestionRepository extends ServiceEntityRepository
     {
         $sessionBdd = $this->getEntityManager();
         return $sessionBdd->createQuery('
-        SELECT q.id, q.wording, qcmi.release_date, se.name
+        SELECT q.id, q.wording, qcmi.startTime, se.name
         FROM App\Entity\Question q
         INNER JOIN App\Entity\Qcm qcm
         WITH q.id = qcm.id
@@ -70,7 +70,7 @@ class QuestionRepository extends ServiceEntityRepository
         INNER JOIN App\Entity\Result r
         WITH qcmi.id = r.qcmInstance
         INNER JOIN App\Entity\Student s 
-        WITH r.student = s.id
+        WITH qcmi.student = s.id
         INNER JOIN App\Entity\LinkSessionStudent lss 
         WITH s.id = lss.student
         INNER JOIN App\Entity\Session se 
