@@ -150,7 +150,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcm/qcmToDo/{qcmInstance}', name: 'student_qcm_to_do', methods: ['GET', 'POST'])]
+    #[Route('student/qcms/qcmToDo/{qcmInstance}', name: 'student_qcm_to_do', methods: ['GET', 'POST'])]
     public function QcmToDo( QcmInstance $qcmInstance, QcmRepository $qcmRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em){
 
         // Récupere le qcm par rapport à l'id du qcmInstance
