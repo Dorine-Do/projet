@@ -1,21 +1,21 @@
-
-document.addEventListener("DOMContentLoaded", (event) => {
-
-    let div_proposals = document.querySelectorAll('.div_proposals');
-
+console.log('hello')
+document.addEventListener("DOMContentLoaded", () => {
+    console.log('hi')
+    let div_proposals = document.querySelectorAll('.divProposals');
+    console.log(div_proposals)
     div_proposals.forEach(div => {
-        div.classList.add('display_none')
+        div.style.display='none'
     })
 
     let p_prop;
-    let chevrons = document.querySelectorAll('.img_chevron');
+    let chevrons = document.querySelectorAll('.imgChevron');
 
-    chevrons.forEach(chevron=>{
+    chevrons.forEach(chevron => {
 
         chevron.addEventListener('click',(e)=>{
 
             let div_question = e.target.parentElement.parentElement.parentElement
-            let div_js = div_question.querySelector('.div_js');
+            let div_js = div_question.querySelector('.divJs');
             // return false un boolean si status !== 'true' et true si === true
             let status = (e.target.dataset.status === 'true');
 

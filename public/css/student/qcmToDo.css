@@ -1,10 +1,12 @@
-@import url(public/css/main.css);
+@import url('../main.css');
+
+/******************************************************* Difficulté avec badge *****************************************/
 
 img{
     width: 40px;
 }
 
-.premierediv{
+.premiereDiv{
     display: flex;
     justify-content: space-around;
     background-color: var(--fond);
@@ -12,7 +14,10 @@ img{
 }
 
 .diff{
+    display: flex;
+    flex-direction: column;
     align-items: center;
+
 }
 
 .diff p{
@@ -29,13 +34,16 @@ img{
     border-radius: 17px;
 }
 
-.div_name{
+.divName{
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.numeroform{
+/******************************************************* QCM **********************************************/
+
+
+.numeroForm{
     background-color: white;
     padding: 8px 17px;
     border-radius: 50%;
@@ -45,12 +53,39 @@ img{
 .question{
     background-color: var(--pamplemousse);
     padding: 20px 10px;
-    width: 400px;
     text-align: left;
     border-radius: 8px;
+    margin-top: 80px;
+    width: fit-content;
 }
 
-.valid{
+
+.reponse{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    padding: 15px 50px;
+}
+
+.allReponse{
+    background-color: var(--fond);
+    border-radius: 13px;
+    margin-left: 55px;
+}
+
+.imageDiff{
+    display: flex;
+    align-items: flex-start;
+}
+
+.trefle{
+    margin-top: 90px;
+    margin-right: 15px;
+}
+
+/**************************************** BOUTON VALIDE ******************************************/
+
+#valid{
     background-color: var(--grey);
     color: white;
     border-radius: 20px;
@@ -60,4 +95,153 @@ img{
     font-size: var(--normal);
     margin: 50px auto;
     display: block;
+}
+
+#valid:hover{
+    background-color: var(--vert);
+    cursor: pointer;
+}
+
+/***************************************** POP UP *************************************/
+
+#my-modal{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+}
+
+
+.overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #333333d3;
+    backdrop-filter:blur(5px);
+    z-index: -1;
+}
+
+.modalContent{
+    border-radius: 5px;
+    margin-top: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    height: 300px;
+    width: 500px;
+    text-align: center;
+    background-color: var(--fond);
+}
+
+.confirmBtn{
+    border-radius: 8px;
+    background-color: var(--grey);
+    color: white;
+    cursor: pointer;
+    margin: auto;
+    padding: 10px 50px;
+    text-align: center;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: none;
+}
+
+.confirmBtn:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
+.cancelBtn{
+    border-radius: 8px;
+    background-color: var(--grey);
+    color: white;
+    cursor: pointer;
+    margin: 8px auto;
+    padding: 10px 50px;
+    text-align: center;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: none;
+}
+
+.cancelBtn:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
+.buttonPop{
+    display: flex;
+    flex-direction: column;
+}
+
+.logoPop{
+    width: 100px;
+    margin-top: 20px;
+}
+
+
+
+
+@media screen and (max-width: 780px) {
+
+    .diff p{
+        padding: 5px 30px;
+    }
+
+    img{
+        width: 35px;
+    }
+
+    .allReponse{
+        margin-left: 50px;
+    }
+
+    .reponse{
+        padding: 15px 50px 15px 10px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+
+    .container{
+        max-width: 90%;
+    }
+
+    form{
+        width: 350px;
+    }
+
+
+
+    .premiereDiv{
+        width: 300px;
+        margin: auto;
+    }
+
+    .global{
+        width: 400px;
+    }
+
+
+    .diff p{
+        padding: 5px 25px;
+    }
+
+    #valid{
+        padding: 12px 60px;
+    }
+
+    .reponse{
+        padding: 15px 5px 15px 10px;
+    }
+
+    .modalContent{
+        height: 300px;
+        width: 400px;
+    }
 }

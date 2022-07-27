@@ -1,0 +1,70 @@
+qcm:
+  title: QCM
+  name: Nom du qcm
+  do: Faire le qcm
+  todo: Qcm à faire
+  official: QCM officiel
+  inter: QCM intermédiaire
+  choice: Choix du QCM
+  dones: QCM Réalisés
+  donesExplain: En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les qcm que tu as terminés, voir tes réponses fausses et t'entrainer à les refaire.
+  iChance : Je retente ma chance
+  chanceExplain: Si tu as obtenu "découvre" ou "explore" à un des qcm, tu peux tenter d'obtenir à nouveau ton badge et l'ajouter à ta collection en repassant un qcm du module en question.
+  tryAgainExplain: /!\ Repasser le qcm pour obtenir le badge du module ne changera pas le niveau obtenu lors du QCM officiel
+  trainning: QCM d'entrainement
+  iTrainning: Je m'entraîne
+  questionConfirmQcm: Voulez vous vraiment confirmer ce QCM ?
+  finish: LE QCM EST TERMINÉ
+
+difficulty:
+  easy: Facile
+  medium: Moyen
+  difficult: Difficle
+
+module:
+  name: Nom du module
+  choice: Choix du Module
+  filter: Filtre par module
+  plsChoice: Veuillez sélectionner un module
+
+question:
+  plsChoice:
+  wording: Intitulé de la question
+  difficulty: Difficulté de la question
+  desactivate: Désactiver la question
+  desactivateExplain: La question ne sera plus dans la liste des questions pouvant être ajoutée à un qcm
+  iCreate: Je crée ma question
+  listePerso: Liste des questions personalisées
+  iCorrectModify: Je corrige/modifie ma question
+  goal: Cette page a pour but de permettre de corriger les possibles fautes orthoqraphiques dans l'intitulé de la quesiton ou des réponses.
+  warning: Attention
+  warningExplain: une fois créée et distribuée aux élève, la question ne pourra plus être modifiées ou supprimer.
+  infoPublished: Votre question a déjà été diffusée aux élèves, elle ne peut plus être modifiée.
+  infoNoPublished: Votre quesiton n'a pas encore été donnée aux élèves, vous pouvez encore la modifier.
+  firstDatePublished : 1ère date de diffusion
+  session: Classe
+
+
+proposal:
+  create: Créer les réponses
+
+button:
+  validate: Valider
+  delete: Supprimer
+  addProposal: Ajouter une réponse
+  createQuestion: Créer une question
+  tryAgain: J'essaie d'obtenir mon badge
+  viewAnswers: Voir les réponses
+  doAgain: Refaire le qcm
+  back: Retour
+
+header:
+  qcm: QCM
+  dashboard: Tableau de bord
+
+title:
+  done: QCM Réalisé
+  menu: QCM Menu
+  createQuestions: Création de questions
+  listQuestions: Liste des questions
+  modifyQuestions: Modification de mes questions

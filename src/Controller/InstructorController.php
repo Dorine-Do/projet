@@ -7,10 +7,13 @@ use App\Entity\Proposal;
 use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Form\CreateQuestionType;
-use App\Form\QuestionType;
+use App\Repository\InstructorRepository;
+use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
+use App\Repository\StudentRepository;
+use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\Boolean;
@@ -21,14 +24,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class InstructorController extends AbstractController
 {
-    private $repository;
-    private $proposals;
-
-    public function __construct(QuestionRepository $repository, ProposalRepository $proposals){
-        $this->repository = $repository;
-        $this->proposals = $proposals;
-    }
-
 //    TODO future page à implémenter
     #[Route('/instructor', name: 'app_instructor')]
     public function index(): Response
@@ -36,19 +31,16 @@ class InstructorController extends AbstractController
         return $this->render('instructor/index.html.twig', []);
     }
 
-    /**
-     * @Route("/instructor/questions", name="instructor_display_questions")
-     * @return Response
-     */
-    public function displayQuestions(): Response
+    #[Route('instructor/questions', name: 'instructor_display_questions', methods: ['GET'])]
+    public function displayQuestions(QuestionRepository $questionRepository, ProposalRepository $proposalRepository): Response
     {
         $proposals = [];
-        $proposalValues =[];
         $resumeProposal = [];
-        $questions = $this->repository->findBy(['id_author' => 2]);
+
+        $questions = $questionRepository->findBy(['author' => 2]);
         foreach ($questions as $question) {
             $question_id = $question->getId();
-            $proposals[$question_id] = $this->proposals->findBy(['question' => $question_id]);
+            $proposals[$question_id] = $proposalRepository->findBy(['question' => $question_id]);
             foreach ($proposals[$question_id] as $proposal){
                 $proposalValues = [
                     'id'=>$proposal->getId(),
@@ -58,18 +50,13 @@ class InstructorController extends AbstractController
                 array_push($resumeProposal, $proposalValues);
             }
         }
-        return $this->render('instructor/questions.html.twig', [
+        return $this->render('instructor/display_questions.html.twig', [
             'questions' => $questions,
             'proposals' => $resumeProposal,
         ]);
     }
 
-    /**
-     * @Route("instructor/modify_question/{question}", name="instructor_modify_question")
-     * @param Request $request
-     * @param $em
-     * @return Response
-     */
+    #[Route('instructor/questions/modify_question/{question}', name: 'instructor_modify_question', methods: ['GET', 'POST'])]
     public function modifyQuestion(Request $request, $question,QuestionRepository $questionRepository, ProposalRepository $proposalRepository, EntityManagerInterface $em): Response
     {
         $releasedateonsession = $questionRepository -> getSessionWithReleaseDate($question);
@@ -83,7 +70,7 @@ class InstructorController extends AbstractController
         $releasedate = $questionRepository -> getQuestionWithReleaseDate($question);
 
         if($releasedate != null){
-        $date = $releasedate[0]['release_date'];
+        $date = $releasedate[0]['startTime'];
         $distribute = date_format($date, 'd/m/y');
         }else{
             $distribute = null;
@@ -112,7 +99,6 @@ class InstructorController extends AbstractController
                 $bool = in_array($prop->getId(),$arrayBeforeProp);
                 // Si la prop est une déjà créer en db ou si son id est null alors si elle vient d'être créée.
                     if($bool || $prop->getId() == null ){
-
                         // Si l'utilisateur a modifié la reponse
                         $prop->setQuestion($instanceQuestion);;
                         array_push($persitProp,$prop->getId());
@@ -120,19 +106,18 @@ class InstructorController extends AbstractController
                     }
 
                 // Si la reponse est une reponse correcte
-                if($prop->getIsCorrect() === true){
+                if($prop->getIsCorrectAnswer() === true){
                     $count++;
                 }
             }
 
             // Set le champs ResponseType
             if($count > 1){
-                $instanceQuestion->setResponseType("checkbox");
+                $instanceQuestion->setIsMultiple(true);
             }elseif ($count == 1){
-                $instanceQuestion->setResponseType("radio");
+                $instanceQuestion->setIsMultiple(false);
             }
 
-            /*TODO à faire vérifier au chef => remove()*/
             //Supprime le lien entre les proposals et la question que l'utilisateur ne veut plus
             $removeProp = array_diff($arrayBeforeProp,$persitProp);
             foreach ($removeProp as $id){
@@ -155,13 +140,8 @@ class InstructorController extends AbstractController
         ]);
     }
 
-
-    /**
-     * @Route("instructor/create_question", name="instructor_create_question")
-     * @return Response
-     * @param $em
-     */
-    public function createQuestion(Request $request, EntityManagerInterface $em): Response
+    #[Route('instructor/questions/create_question', name: 'instructor_create_question', methods: ['GET', 'POST'])]
+    public function createQuestion(Request $request, EntityManagerInterface $em, InstructorRepository $instructorRepository): Response
     {
         $questionEntity= new Question();
 
@@ -181,7 +161,6 @@ class InstructorController extends AbstractController
 
         // vérification des données soumises
         if($form->isSubmitted() && $form->isValid()){
-//            dd('submited');
             $count = 0;
             $persitPropCount=0;
             foreach ($questionEntity->getProposals() as $proposal){
@@ -191,24 +170,22 @@ class InstructorController extends AbstractController
                 $persitPropCount ++;
 
                 // set le response type
-                if($proposal->getIsCorrect() === true){
+                if($proposal->getIsCorrectAnswer() === true){
                     $count++;
                 }
             }
             if($count > 1){
-                $questionEntity->setResponseType("checkbox");
+                $questionEntity->setIsMultiple("true");
             }elseif ($count == 1){
-                $questionEntity->setResponseType("radio");
+                $questionEntity->setIsMultiple("false");
             }
 
             /*TODO Devra être automatisé avec l'id du user connecté si id appartient à un admin alors Null si appartient à un instructor alors id*/
-            $questionEntity->setIdAuthor(2);
 
-            // $questionData->setCreatedAt($date); Pas necessaire car créer directement dans le construct de l'entity Question
-            // $questionData->setUpdatedAt($date); Pas necessaire car créer directement dans le construct de l'entity Question
-            $questionEntity->setIsOfficial(false);// Toujours false quand c'est un instructor qui créé une question
-
-            $questionEntity->setIsMandatory(false);// Toujours false quand c'est un instructor qui créé une question
+            $questionEntity->setAuthor($instructorRepository->find(2));
+            $questionEntity->setIsOfficial(false);
+            $questionEntity->setIsMandatory(false);
+            $questionEntity->setExplanation('Explication');
 
             //  validation et enregistrement des données du form dans la bdd
             $em->persist($questionEntity);
@@ -221,5 +198,25 @@ class InstructorController extends AbstractController
             'form' => $form->createView(),
             "add"=>true,
         ]);
+    }
+
+    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
+    public function createQcmPersonalized(InstructorRepository $instructorRepository, ModuleRepository $moduleRepository ){
+
+        $linksInstructorSessionModule = $instructorRepository->find(5)->getLinksInstructorSessionModule();
+        $modules = [];
+        foreach ($linksInstructorSessionModule as $linkInstructorSessionModule){
+            $modules[]=$linkInstructorSessionModule->getModule();
+
+        }
+
+        dd($modules);
+
+
+
+        return $this->render('instructor/create_question.html.twig', [
+            'modules' => $modules
+        ]);
+
     }
 }

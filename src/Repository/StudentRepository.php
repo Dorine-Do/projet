@@ -4,11 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\Query\Expr;
-use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,32 +16,26 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class StudentRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry,)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Student::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Student $entity, bool $flush = false): void
     {
-        $this->_em->persist($entity);
+        $this->getEntityManager()->persist($entity);
+
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Student $entity, bool $flush = false): void
     {
-        $this->_em->remove($entity);
+        $this->getEntityManager()->remove($entity);
+
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
         }
     }
 
@@ -61,7 +50,7 @@ class StudentRepository extends ServiceEntityRepository
         FROM App\Entity\Student s
         INNER JOIN App\Entity\LinkSessionStudent lss
         WITH lss.student = s.id
-        WHERE lss.enabled = true
+        WHERE lss.isEnabled = true
         ')
             ->getResult();
     }
@@ -71,18 +60,16 @@ class StudentRepository extends ServiceEntityRepository
      */
     public function AllStudentByQcmInstance($id, $entityManager): array
     {
-            return $this->createQueryBuilder('s')
+        return $this->createQueryBuilder('s')
             ->innerJoin('s.qcmInstances', 'qi')
+            ->innerJoin('qi.resutl', 'r')
             ->where('qi.id = :id')
+            ->andWhere('qi.result === null')
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
-;
-
-
+            ;
     }
-
-
 
 //    /**
 //     * @return Student[] Returns an array of Student objects

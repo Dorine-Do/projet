@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StudentController!{% endblock %}
+{% block title %}{{ 'qcm.todo'|trans }}{% endblock %}
 
 {% block stylesheets %}
     <link href="{{asset('css/student/qcmToDo.css')}}" rel="stylesheet">
@@ -8,50 +8,85 @@
 
 {% block body %}
 
-    <div class="qcm">
-        <h1>QCM A FAIRE</h1>
+    <div class="qcmToDo">
+        <h1>- {{ 'qcm.todo'|trans }} -</h1>
 
-        <div class="div_name">
+        <div class="divName">
             <p class="nom">
-                Nom du module
+                {{ 'module.name'|trans }} :
                 {{ titleModule }}
             </p>
-            <p class="nom">Nom du qcm
+            <p class="nom">
+                {{ 'qcm.name'|trans }} :
                 {{ nameQcmInstance }}
             </p>
         </div>
-        <div class="premierediv">
+        <div class="premiereDiv">
             <div class="diff">
-                <p>Facile</p>
+                <p>{{ 'difficulty.easy'|trans }}</p>
                 <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="facile">
             </div>
             <div class="diff">
-                <p>Moyen</p>
+                <p>{{ 'difficulty.medium'|trans }}</p>
                 <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="moyen">
             </div>
             <div class="diff">
-                <p>Difficile</p>
+                <p>{{ 'difficulty.difficult'|trans }}</p>
                 <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
             </div>
         </div>
 
-        <form action="{{ path('student_qcmToDo', { 'qcmInstance': idQcmInstance }) }}">
+        <form action="{{ path('student_qcm_to_do', { 'qcmInstance': idQcmInstance }) }}" name="formulaire">
             {% for question in questionsAnswers %}
-
-                    <p class="question"><span class="numeroform">1</span>
-                    {{ question.libelle }}
+                <div class="imageDiff">
+                    <div class="trefle">
+                    <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                    </div>
+                    <div>
+                    <p class="question"><span class="numeroForm">1</span>
+                    {{ question.wording }}
                     </p>
-                {% for answer in question.answers %}
-                    {% if question.responce_type == 'radio'%}
-                        <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}"> <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                    </div>
+                </div>
+                <div class="allReponse">
+                {% for answer in question.proposals %}
+                    {% if not question.isMultiple %}
+                        <div class="reponse">
+                            <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}">
+                            <label for="{{ answer.id }}">{{ answer.wording }}</label>
+                        </div>
                     {% else %}
-                        <input type="checkbox" for='{{ answer.id}}' name="{{question.id}}[]" value="{{ answer.id }}"> <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                        <div class="reponse">
+                            <input type="checkbox" for='{{ answer.id}}' name="{{question.id}}[]" value="{{ answer.id }}">
+                            <label for="{{ answer.id }}">{{ answer.wording }}</label>
+                        </div>
                     {% endif %}
 
                 {% endfor %}
-            {% endfor %}
-            <input class="valid" type="submit" value="J'ai fini mon qcm">
-        </form>
+                </div>
 
+
+            {% endfor %}
+            <input type="submit" id="valid" value="J'ai fini mon qcm">
+        </form>
     </div>
+
+
+
+        <div id="my-modal" class="modalContainer">
+            <div class="overlay"></div>
+            <div class="modalContent">
+                <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}">
+                <p>{{ 'qcm.finish'|trans }}</p>
+                <p>{{ 'qcm.questionConfirmQcm'|trans }}</p>
+                <div class="buttonPop">
+                    <button type="button" class="confirmBtn" id="confirm-qcm-btn">{{ 'button.validate'|trans }}</button>
+                    <button type="button" class="cancelBtn" id="cancel-qcm-btn">{{ 'button.back'|trans }}</button>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/qcmToDo.js') }}"></script>
 {% endblock %}

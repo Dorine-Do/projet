@@ -1,4 +1,4 @@
-@import url(public/css/main.css);
+@import url('../main.css');
 
 /*************************************** CSS sur simple balise HTML **********************************/
 .form-question{
@@ -59,7 +59,7 @@ li{
     width: 100%;
 
 }
-.div_input_label{
+.divInputLabel{
     position: relative;
     width: 25%;
     padding-left: 5px;
@@ -83,11 +83,13 @@ li{
 
 input[type="radio"]{
     background-color: var(--grey);
+    cursor:pointer;
 }
 
 input[type="radio"]:checked {
     background-color: var(--vert);
     margin:0;
+    cursor:pointer;
 }
 
 /*input[type="radio"]:checked:before {*/
@@ -98,9 +100,9 @@ input[type="radio"]:checked {
 /*}*/
 
 
-#errorChecked{
+#error_checked{
     display: flex;
-    justify-content: flex-start
+    flex-direction: column;
 }
 
 .option{
@@ -112,11 +114,11 @@ input[type="radio"]:checked {
     text-align: center;
 }
 
-.premierselect{
+.premierSelect{
     margin:auto;
 }
 
-.numeroform{
+.numeroForm{
     background-color: var(--pamplemousse);
     padding: 8px 17px;
     border-radius: 50%;
@@ -138,7 +140,7 @@ input[type="radio"]:checked {
     margin: auto;
     padding: 20px 60px;
     border: none;
-    background-color: var(--fond);;
+    background-color: var(--fond);
     font-size: var(--grand);
     -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
     box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
@@ -174,48 +176,99 @@ input[type="radio"]:checked {
 /********************************************* CE QUI A UN RAPPORT AVEC LA PARTIE PROPOSAL ***************************************************/
 
 
-
 .removeProposal{
     background-color: var(--grey);
     color: white;
     border-radius: 5px;
     font-weight: bold;
     border: none;
-    padding: 1px 3px;
+    padding: 3px 9px;
     font-size: var(--semi_small);
-    height: 30px;
-    margin-left: 10px;
+    margin-bottom: 15px;
 }
 
-#addProposal{
-    color: var(--writing);
-    padding: 1px 14px 6px 14px;
-    border-radius: 50%;
-    border: 4px solid var(--writing);
-    font-size: 2em;
-    background-color: var(--fond);
-    margin: auto;
-
+.removeProposal:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+    padding: 4px 11px;
+    cursor: pointer;
 }
 
-.li_proposal{
-    margin: auto;
-    display: flex;
-    align-items: center;
-    padding: 30px;
-}
-
-.div_proposal{
-    display: flex;
-    align-items: center;
-}
-
-.p_letter{
+.addProposal{
     background-color: var(--grey);
-    padding: 8px 17px;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    border: none;
+    padding: 5px 13px;
+    font-size: var(--semi_small);
+    margin: auto;
+    width: 180px;
+}
+
+.addProposal:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+    padding: 4px 11px;
+    cursor: pointer;
+}
+
+.divProposal{
+    text-align: center;
+}
+
+.divProposal label{
+    padding: .5em;
+}
+
+.divProposal textarea{
+    border-radius: 5px;
+    border: none;
+    color: grey;
+    padding: .5em;
+    background: var(--fond);
+    width: 100%;
+    margin: auto;
+}
+
+
+.divProposal:first-child{
+    display: flex;
+    flex-direction: column;
+    margin: 0 1em;
+}
+.divProposal:nth-child(2) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.liProposal{
+    width: 25%;
+    text-align: center;
+    margin: 1em;
+    /*border: 2px solid var(--pamplemousse);*/
+    padding: .5em;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 0px 10px -2px var(--grey);
+}
+
+
+#list_proposal{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+}
+
+.pLetter{
+    background-color: var(--grey);
+    padding: 8px 15px;
     border-radius: 50%;
     color: white;
-    margin-right: 15px;
+    margin: auto;
     width: 15px;
     text-align: center;
 }
@@ -256,13 +309,13 @@ label{
 
 /******************************************* PARTIE DESACTIVE LA QUESTION ************************************************/
 
-.formoption{
+.formOption{
     background-color: var(--pamplemousse);;
     padding: 12px 30px;
     border-radius: 50%;
 }
 
-.paddingoption{
+.paddingOption{
     padding-left: 25px;
 }
 
@@ -279,6 +332,12 @@ label{
     margin-left: auto;
     margin-right: auto;
     display: block;
+}
+
+.valid:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+    cursor: pointer;
 }
 
 img{
@@ -299,7 +358,7 @@ img{
         font-size: var(--normal);
     }
 
-    .formoption{
+    .formOption{
         padding: 8px 20px;
     }
 
@@ -350,11 +409,11 @@ img{
         height: 45px;
     }
 
-    .div_proposal div{
+    .divProposal div{
         display: flex;
     }
 
-    .div_proposal div label{
+    .divProposal div label{
         margin-right: 20px;
     }
 
@@ -367,7 +426,7 @@ img{
         height: 60px;
     }
 
-    #errorChecked{
+    #error_checked{
         display: flex;
         flex-direction: column;
     }
@@ -398,10 +457,10 @@ img{
     #create_question_module, #create_question_difficulty{
         background-color: var(--fond);
         margin-bottom: 20px;
-        font-size: var(--semi_small);
+        font-size: var(--normal);
     }
 
-    .numeroform{
+    .numeroForm{
         background-color: var(--pamplemousse);
         padding: 4px 16px;
         border-radius: 50%;
@@ -435,20 +494,15 @@ img{
         background-color: white;
     }
 
-    .paddingoption{
+    .paddingOption{
         margin-left: 0;
     }
 
-    .li_proposal, .div_wording, #errorChecked{
+    .liProposal{
         flex-direction: column;
     }
 
     .div_wording{
-        padding: 0;
-    }
-
-    .li_proposal{
-        text-align: center;
         padding: 0;
     }
 
@@ -459,15 +513,8 @@ img{
     }
 
     .removeProposal{
-        width: 80px;
         margin: 15px auto 50px auto;
         display: block;
-    }
-
-    #addProposal{
-        font-size: 1.4em;
-        border: 1px solid;
-        padding: 2px 9px 4px 9px;
     }
 
     #list_proposal{
@@ -500,22 +547,42 @@ img{
         text-align: center;
     }
 
-    .div_proposal{
-        width: 300px;
+    .divProposal{
         flex-direction: column;
-        align-items: center;
     }
 
-    .p_letter{
+    .pLetter{
         margin: 30px auto auto auto;
     }
 
-    .div_proposal div label {
+    .divProposal div label {
         margin: auto;
+    }
+
+    .divProposal div{
+        flex-direction: column;
     }
 
     .wording{
         width: 216px;
         height: 68px;
+    }
+
+    .paddingoption{
+        margin-left: 0;
+    }
+
+    .liProposal{
+        width: 80%;
+    }
+
+    .center{
+        text-align: center;
+    }
+    .addProposal{
+        margin-right: auto;
+        margin-left: auto;
+        display: block;
+        margin-top: 10px;
     }
 }

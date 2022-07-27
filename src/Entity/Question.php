@@ -2,13 +2,10 @@
 
 namespace App\Entity;
 
-use App\Entity\Enum\Difficulty;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -19,77 +16,69 @@ class Question
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $id_author;
-
-    #[Assert\NotBlank]
     #[ORM\Column(type: 'text')]
     private $wording;
 
     #[ORM\Column(type: 'boolean')]
-    private $is_mandatory;
+    private $isMandatory;
 
     #[ORM\Column(type: 'boolean')]
-    private $is_official;
+    private $isOfficial;
 
-    #[ORM\Column(type: "string", enumType: Difficulty::class)]
+    #[ORM\Column(type: 'smallint')]
     private $difficulty;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $response_type;
+    #[ORM\Column(type: 'boolean')]
+    private $isMultiple;
 
     #[ORM\Column(type: 'datetime')]
-    private $created_at;
+    private $createdAt;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private $updated_at;
+    #[ORM\Column(type: 'datetime')]
+    private $updatedAt;
 
-    #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'question')]
+    #[ORM\Column(type: 'boolean')]
+    private $isEnabled;
+
+    #[ORM\Column(type: 'text')]
+    private $explanation;
+
+    #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'questions')]
     #[ORM\JoinColumn(nullable: false)]
     private $module;
 
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class, cascade:["persist", "remove"])]
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Proposal::class, cascade: ['persist', 'remove'])]
     private $proposals;
-
-    #[ORM\Column(type: 'boolean')]
-    private $enabled;
 
     #[ORM\ManyToMany(targetEntity: Qcm::class, mappedBy: 'questions')]
     private $qcms;
 
+    #[ORM\ManyToOne(targetEntity: Instructor::class, inversedBy: 'questions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $author;
+
     public function __construct()
     {
         $this->proposals = new ArrayCollection();
-        $this->difficulty = Difficulty::Medium;
         $this->qcms = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
-    public function setCreatedAtValue(){
-        $this->created_at = new \DateTime();
-        $this->updated_at = new \DateTime();
+    public function setCreatedAtValue():void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     #[ORM\PreUpdate]
-    public function setUpdateAtValue(){
-        $this->updated_at = new \DateTime();
+    public function setUpdateAtValue():void
+    {
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIdAuthor(): ?int
-    {
-        return $this->id_author;
-    }
-
-    public function setIdAuthor(?int $id_author): self
-    {
-        $this->id_author = $id_author;
-
-        return $this;
     }
 
     public function getWording(): ?string
@@ -106,72 +95,96 @@ class Question
 
     public function getIsMandatory(): ?bool
     {
-        return $this->is_mandatory;
+        return $this->isMandatory;
     }
 
-    public function setIsMandatory(bool $is_mandatory): self
+    public function setIsMandatory(bool $isMandatory): self
     {
-        $this->is_mandatory = $is_mandatory;
+        $this->isMandatory = $isMandatory;
 
         return $this;
     }
 
     public function getIsOfficial(): ?bool
     {
-        return $this->is_official;
+        return $this->isOfficial;
     }
 
-    public function setIsOfficial(bool $is_official): self
+    public function setIsOfficial(bool $isOfficial): self
     {
-        $this->is_official = $is_official;
+        $this->isOfficial = $isOfficial;
 
         return $this;
     }
 
-    public function getDifficulty(): Difficulty
+    public function getDifficulty(): ?int
     {
         return $this->difficulty;
     }
 
-    public function setDifficulty(Difficulty $difficulty): self
+    public function setDifficulty(int $difficulty): self
     {
         $this->difficulty = $difficulty;
 
         return $this;
     }
 
-    public function getResponseType(): ?string
+    public function getIsMultiple(): ?bool
     {
-        return $this->response_type;
+        return $this->isMultiple;
     }
 
-    public function setResponseType(string $response_type): self
+    public function setIsMultiple(bool $isMultiple): self
     {
-        $this->response_type = $response_type;
+        $this->isMultiple = $isMultiple;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function isEnabled(): ?bool
+    {
+        return $this->isEnabled;
+    }
+
+    public function setIsEnabled(bool $isEnabled): self
+    {
+        $this->isEnabled = $isEnabled;
+
+        return $this;
+    }
+
+    public function getExplanation(): ?string
+    {
+        return $this->explanation;
+    }
+
+    public function setExplanation(string $explanation): self
+    {
+        $this->explanation = $explanation;
 
         return $this;
     }
@@ -218,18 +231,6 @@ class Question
         return $this;
     }
 
-    public function getEnabled(): ?bool
-    {
-        return $this->enabled;
-    }
-
-    public function setEnabled(bool $enabled): self
-    {
-        $this->enabled = $enabled;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Qcm>
      */
@@ -253,6 +254,18 @@ class Question
         if ($this->qcms->removeElement($qcm)) {
             $qcm->removeQuestion($this);
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?Instructor
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?Instructor $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

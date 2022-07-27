@@ -5,10 +5,10 @@
 <header>
     <img class="logo" src="{{asset('build/images/logo_officiel.png')}}">
     <div class="choix">
-        <a href="" class="qcm">QCM</a>
-        <a href="" class="tab">Tableau de bord</a>
+        <a href="" class="qcm">{{ 'header.qcm'|trans }}</a>
+        <a href="" class="tab">{{ 'header.dashboard'|trans }}</a>
     </div>
     <div class="eleve">
-        <p class="hellostudent">Salut,{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>
+        <p class="helloStudent">Salut,{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>
     </div>
 </header>

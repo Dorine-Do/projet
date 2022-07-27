@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\QcmInstance;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,28 +21,50 @@ class QcmInstanceRepository extends ServiceEntityRepository
         parent::__construct($registry, QcmInstance::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(QcmInstance $entity, bool $flush = false): void
     {
-        $this->_em->persist($entity);
+        $this->getEntityManager()->persist($entity);
+
         if ($flush) {
-            $this->_em->flush();
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(QcmInstance $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
         }
     }
 
     /**
-     * @throws ORMException
-     * @throws OptimisticLockException
+     * @return QcmInstance[] Returns an array of Student objects
      */
-    public function remove(QcmInstance $entity, bool $flush = false): void
+    public function AllQcmInstanceWithoutResult(): array
     {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
+
+        $qcmInstanceBdd = $this->getEntityManager();
+        return $qcmInstanceBdd->createQuery('
+            SELECT qi
+            FROM App\Entity\QcmInstance qi
+            WHERE qi.id NOT IN (
+                SELECT IDENTITY (r.qcmInstance)
+                FROM App\Entity\Result r
+            )
+
+        ')
+//        return $qcmInstanceBdd->createQuery('
+//
+//                SELECT IDENTITY (r.qcmInstance)
+//                FROM App\Entity\Result r
+//
+//        ')
+            ->getResult();
+
+
+
     }
 
 //    /**
