@@ -12,7 +12,9 @@ qcm:
   chanceExplain: Si tu as obtenu "découvre" ou "explore" à un des qcm, tu peux tenter d'obtenir à nouveau ton badge et l'ajouter à ta collection en repassant un qcm du module en question.
   tryAgainExplain: /!\ Repasser le qcm pour obtenir le badge du module ne changera pas le niveau obtenu lors du QCM officiel
   trainning: QCM d'entrainement
-  iTrainning: Je m'entraine
+  iTrainning: Je m'entraîne
+  questionConfirmQcm: Voulez vous vraiment confirmer ce QCM ?
+  finish: LE QCM EST TERMINÉ
 
 difficulty:
   easy: Facile
@@ -54,8 +56,15 @@ button:
   tryAgain: J'essaie d'obtenir mon badge
   viewAnswers: Voir les réponses
   doAgain: Refaire le qcm
+  back: Retour
 
 header:
   qcm: QCM
   dashboard: Tableau de bord
 
+title:
+  done: QCM Réalisé
+  menu: QCM Menu
+  createQuestions: Création de questions
+  listQuestions: Liste des questions
+  modifyQuestions: Modification de mes questions

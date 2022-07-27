@@ -55,6 +55,9 @@ class QcmHelper
         $qcm->setCreatedAtValue();
         $qcm->setUpdateAtValue();
 
+        $this->_manager->persist( $qcm );
+        $this->_manager->flush();
+
         return $qcm;
     }
 
@@ -116,11 +119,12 @@ class QcmHelper
                 ];
             }
             $questionsCache[] = [
-                'id'         => $question->getId(),
-                'wording'    => $question->getWording(),
-                'isMultiple' => $question->getIsMultiple(),
-                'difficulty' => $question->getDifficulty(),
-                'proposals'  => $proposalsCache
+                [
+                    'id'         => $question->getId(),
+                    'wording'    => $question->getWording(),
+                    'isMultiple' => $question->getIsMultiple(),
+                    'proposals'  => $proposalsCache
+                ]
             ];
         }
         return $questionsCache;
