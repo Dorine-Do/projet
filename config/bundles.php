@@ -16,5 +16,4 @@ return [
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     Scheb\TwoFactorBundle\SchebTwoFactorBundle::class => ['all' => true],
-    App\Helpers\QcmHelper::class => ['all' => true],
 ];
