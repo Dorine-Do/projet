@@ -49,7 +49,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Module
-        $this->generateModules( $manager );
+//        $this->generateModules( $manager );
 
         //Session
 //        $this->generateSessions( $manager );
@@ -79,7 +79,7 @@ class AppFixtures extends Fixture
 //        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
-//        $this->generateResults( $manager );
+        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
@@ -340,24 +340,20 @@ class AppFixtures extends Fixture
             $difficulty = $randomQuestion->getDifficulty();
             $arrayDifficulty[] = $difficulty;
             $arrayAnswers = [];
-            foreach ($answers as $answer){
-                $arrayAnswers[] =  ["id" => $answer->getId(), "libelle" => $answer->getWording(), "is_correct" => $answer->getIsCorrectAnswer()];
-            }
-            $questionAnswer =
-                [
-                    [
-                        "question"=>
-                            [
-                                "id"=> $randomQuestion->getId(),
-                                "libelle"=>$randomQuestion->getWording(),
-                                "responce_type"=>$randomQuestion->getIsMultiple(),
-                                "answers"=>
-                                    $arrayAnswers
-                            ],
-                    ]
+            foreach ($answers as $answer)
+            {
+                $arrayAnswers[] =  [
+                    "id"                => $answer->getId(),
+                    "wording"           => $answer->getWording(),
+                    "isCorrectAnswer"   => $answer->getIsCorrectAnswer()
                 ];
-            $questionAnswerJson = json_encode($questionAnswer);
-            array_push($arrayQuestionAnswers,$questionAnswerJson);
+            }
+            $arrayQuestionAnswers[] = [
+                "id"                => $randomQuestion->getId(),
+                "wording"           => $randomQuestion->getWording(),
+                "isMultiple"        => $randomQuestion->getIsMultiple(),
+                "proposals"         => $arrayAnswers
+            ];
         }
         $qcm->setQuestionsCache($arrayQuestionAnswers);
         $nrbValues = array_count_values($arrayDifficulty);
@@ -536,18 +532,28 @@ class AppFixtures extends Fixture
             $result->setStudentComment( $this->faker->sentence() );
 
             $questionAnswers = $dbQcmInstance->getQcm()->getQuestionsCache();
+            $resultAnswers = [];
+            foreach($questionAnswers as $questionAnswer)
+            {
+                $proposalDetails = [];
+                foreach( $questionAnswer['proposals'] as $proposal )
+                {
+                    $proposalDetails[] = [
+                        'id'              => $proposal['id'],
+                        'isStudentAnswer' => rand(0,1),
+                        'isCorrectAnswer' => $proposal['isCorrectAnswer']
+                    ];
+                }
+                $resultAnswers[] = [
+                    "question"   => [
+                        'id'        => $questionAnswer['id'],
+                        'answers'   => $proposalDetails
+                    ],
+                    "totalScore" => $score
+                ];
+            }
 
-            // Transforme les objets à l'interieur de $questionAnswers en des tableaux et rajoute "student_answer"
-            $questionAnswersDecode = array_map(function($questionAnswer){
-                return json_encode(array_map(function($qa){
-                    $qa = (array)$qa;
-                    return array_map(function($qaa){
-                        $qaa = (array)$qaa;
-                        return array_merge($qaa, ['student_answer' => rand(0,1)] );
-                    },$qa['answers']);
-                },(array)json_decode($questionAnswer)[0]));
-            },$questionAnswers);
-            $result->setAnswers($questionAnswersDecode);
+            $result->setAnswers($resultAnswers);
 
             $manager->persist($result);
             $manager->flush();

@@ -44,21 +44,21 @@
                     </div>
                     <div>
                     <p class="question"><span class="numeroForm">1</span>
-                    {{ question.libelle }}
+                    {{ question.wording }}
                     </p>
                     </div>
                 </div>
                 <div class="allReponse">
-                {% for answer in question.answers %}
-                    {% if question.responce_type == 'radio'%}
+                {% for answer in question.proposals %}
+                    {% if not question.isMultiple %}
                         <div class="reponse">
                             <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}">
-                            <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                            <label for="{{ answer.id }}">{{ answer.wording }}</label>
                         </div>
                     {% else %}
                         <div class="reponse">
                             <input type="checkbox" for='{{ answer.id}}' name="{{question.id}}[]" value="{{ answer.id }}">
-                            <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                            <label for="{{ answer.id }}">{{ answer.wording }}</label>
                         </div>
                     {% endif %}
 
