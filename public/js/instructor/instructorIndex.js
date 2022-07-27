@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", (event) => {
+window.onload = function (event) {
   let div_proposals = document.querySelectorAll(".div_proposals");
 
   div_proposals.forEach((div) => {
@@ -36,16 +36,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
     });
   });
 
-  // partie Qcm
-  let liSpanAll = document.querySelectorAll(".list_questions li span ");
+  ////////////////////////////////////////////////////////partie Qcm ////////////////////////////////////////////////
+
   let liSpan = document.querySelector(".list_questions li span ");
   let ulListQuestions = document.querySelector(".list_questions ");
-  //   console.log(ulListQuestions, "la");
-  console.log(liSpan);
-
+  let liAll = document.querySelectorAll(".list_questions li  ");
   let arrayListQuestions = Array.from(ulListQuestions.children);
-  let numQuestion;
-  console.log(window.location.href);
+  let listBtnNav = document.querySelector(".bloc_btns_nav");
+
+  //   test url
   if (window.location.href.includes(location.pathname)) {
     console.log(
       (document.querySelector(
@@ -54,20 +53,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
     );
   }
 
-  let listBtnNav = document.querySelector(".bloc_btns_nav");
-  let btnNav = document.querySelectorAll(".bloc_btns_nav div");
-  console.log(btnNav[1]);
-
-  for (numQuestion = 0; numQuestion <= liSpanAll.length; numQuestion++) {
-    liSpanAll[numQuestion].innerHTML = 1 + numQuestion;
-    // console.log((liSpan.innerHTML = numQuestion));
-    // console.log(numQuestion, "ici");
+  for (let forBtn = 0; forBtn <= btnNav.length; forBtn++) {
+    btnNav[forBtn].addEventListener("click", function (e) {
+      console.log(e.target, "ici");
+    });
+    // btnNav[forBtn].style.border = "1px solid red";
   }
-  btnNav.children.addEventListener("click", function (e) {
-    console.log(e.target);
-  });
-  console.log(liSpan);
-  ulListQuestions.addEventListener("click", function () {
-    console.log(arrayListQuestions, "la");
-  });
-});
+  // boucle span
+
+  for (let numQuestion = 0; numQuestion < liAll.length; numQuestion++) {
+    liSpan[numQuestion].innerHTML = 1 + numQuestion;
+  }
+
+  //   console.log(btnNav, "ici");
+  //   btnNav.children.addEventListener("click", function (e) {
+  //     console.log((e.target.innerHTML = "coucou"));
+  //   });
+  //   console.log(liSpan);
+  //   ulListQuestions.addEventListener("click", function () {
+  //     console.log(arrayListQuestions, "la");
+  //   });
+};

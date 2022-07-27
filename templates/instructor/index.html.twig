@@ -52,7 +52,7 @@
         <ul class="list_questions" >
                 {% for test_test in test %}
                     <li>
-                    <span></span> 
+                    <span class="qcm_question_number"></span> 
                     {{test_test.question }}
                     {# test
                     {{dump(test_test.wording) }} #}
@@ -106,8 +106,7 @@
         </ul>
     </div> #}
 </main>
-
-{% endblock %}
+{# il préférable de placer la balise js avant la balise de fermeture du body  #}
 {% block javascripts %}
     {# {{ encore_entry_script_tags('app') }} #}
     {# // <script> #}
@@ -115,4 +114,5 @@
     // </script> #}
     {# // <script type="text/javascript" src="{{ asset('js/instructorIndex.js') }}"></script> #}
     <script type="text/javascript" src="{{ asset('js/instructor/instructorIndex.js') }}"></script>
+{% endblock %}
 {% endblock %}
