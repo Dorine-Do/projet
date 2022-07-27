@@ -181,7 +181,7 @@ class StudentController extends AbstractController
                 foreach ($result as $studentAnswerKey => $studentAnswerValue) {
                     if ($questionAnswersDecode[$questionDbKey]['id'] == $studentAnswerKey) {
                         // Radio
-                        if ($questionAnswersDecode[$questionDbKey]['responce_type'] === "radio") {
+                        if ($questionAnswersDecode[$questionDbKey]['is_multiple'] === false) {
                             $studentAnswerValue = intval($studentAnswerValue);
                             foreach ($questionAnswersDecode[$questionDbKey]['answers'] as $answerKey => $answerValue) {
                                 //Si case cochée par l'etudiant et bonne réponse

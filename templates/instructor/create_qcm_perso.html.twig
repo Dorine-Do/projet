@@ -20,24 +20,227 @@
     {% if generatedQcm is not null %}
         {{dump('hello')}}
         <h3>- QCM -</h3>
+        <button class="btnCustom">Personaliser</button>
         <ul>
-            {{dump(generatedQcm)}}
             {% for question in generatedQcm.questionsCache %}
                 {% set count = count + 1 %}
-                {{dump(question)}}
                 <li>
-                    <p>
-                        {{ count }}
-                    </p>
-                    <p>
-                        {{question[0].wording}}
-                    </p>
-                    {% for proposal in question[0].proposals %}
-                        {{ proposal.wording }}
-                    {% endfor %}
+                    <div>
+                        <p>
+                            {{ count }}
+                        </p>
+                        <p>
+                            {{question.wording}}
+                        </p>
+                        <p>
+                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant">
+                        </p>
+                    </div>
+                    <div>
+                        {% for proposal in question.proposals %}
+                            <p>
+                                {{ proposal.wording }}
+                            </p>
+                        {% endfor %}
+                    </div>
                 </li>
             {% endfor %}
         </ul>
+        {#*************************************************************************************************#}
+        {#LEGEND#}
+        <div>
+            <button>Explication</button>
+            <p>Le niveau est déterminé automatiquement par la difficulté des questions</p>
+            <div>
+                <div>
+                    <div>
+                        Facile
+                    </div>
+                    <div>
+                        <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                    </div>
+                </div>
+                <div>
+                    : <p class="nbrQuestionEasy" >5</p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <div>
+                        Moyen
+                    </div>
+                    <div>
+                        <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                    </div>
+                </div>
+                <div>
+                    : <p class="nbrQuestionMedium" >5</p>
+                </div>
+            </div>
+
+            <div>
+                <div>
+                    <div>
+                        Difficile
+                    </div>
+                    <div>
+                        <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                    </div>
+                </div>
+                <div>
+                    : <p class="nbrQuestionDifficult" >5</p>
+                </div>
+            </div>
+        </div>
+        {#*************************************************************************************************#}
+        {#DRAG AND DROP#}
+        <div>
+            {#*************************************************************************************************#}
+            {#QCM CHOICED #}
+            <div>
+                <div>
+                    QCM Choici
+                    <div>
+                        Facile
+                    </div>
+                </div>
+                <div>
+                    <ul>
+                        {% for question in generatedQcm.questionsCache %}
+                            <li>
+                                <div>
+                                    {#TODO Remplacer le texte par l'image des trefles en fonction de la difficulté de la question#}
+                                    <p>
+                                        Ici trèfle
+                                    </p>
+                                    <p>
+                                        {{question.wording}}
+                                    </p>
+                                    <p>
+                                        <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant">
+                                    </p>
+                                </div>
+                                <div>
+                                    {% for proposal in question.proposals %}
+                                        <p>
+                                            {{ proposal.wording }}
+                                        </p>
+                                    {% endfor %}
+                                </div>
+                                <div>
+                                    X
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {#*************************************************************************************************#}
+                {#LIST OF QUESTION #}
+                <div>
+                    <div>
+                        <button class="btnQuestionsOfficial"> Questions officielles </button>
+                        <button class="btnQuestionsPerso"> Questions personalisées </button>
+                    </div>
+                    {#*************************************************************************************************#}
+                    {#OFFICIAL #}
+                    <div class="questionOfficial">
+                        <ul>
+                            {% for question in generatedQcm.questionsCache %}
+                                <li>
+                                    <div>
+                                        {#TODO Remplacer le texte par l'image des trefles en fonction de la difficulté de la question#}
+                                        <p>
+                                            Ici trèfle
+                                        </p>
+                                        <p>
+                                            {{question.wording}}
+                                        </p>
+                                        <p>
+                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant">
+                                        </p>
+                                        <div>
+                                            <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            {% for proposal in question.proposals %}
+                                                <p>
+                                                    {{ proposal.wording }}
+                                                </p>
+                                            {% endfor %}
+                                        </div>
+                                        <div>
+                                            <button class="save">Enregistrer</button>
+                                        </div>
+
+                                    </div>
+
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {#*************************************************************************************************#}
+                    {#CUSTOM #}
+                    <div class="questionOfficial">
+                        <ul>
+                            {% for question in generatedQcm.questionsCache %}
+                                <li>
+                                    <div>
+                                        {#TODO Remplacer le texte par l'image des trefles en fonction de la difficulté de la question#}
+                                        <p>
+                                            Ici trèfle
+                                        </p>
+                                        <p>
+                                            {{question.wording}}
+                                        </p>
+                                        <p>
+                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant">
+                                        </p>
+                                        <div>
+                                            <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            {% for proposal in question.proposals %}
+                                                <p>
+                                                    {{ proposal.wording }}
+                                                </p>
+                                            {% endfor %}
+                                        </div>
+                                        <div>
+                                            <button class="save">Enregistrer</button>
+                                        </div>
+
+                                    </div>
+
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {#*************************************************************************************************#}
+            {#BUTTON CREATE QUESTION #}
+            <div>
+                <button>Créer une question</button>
+            </div>
+        </div>
+        {#*************************************************************************************************#}
+        {#NAME#}
+        <div>
+            <input type="text" placeholder="Veuillez indiquer un nom pour le qcm">
+        </div>
+
+        <div>
+            <button>Valider ce qcm personalié</button>
+        </div>
+
     {% endif %}
 
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/instructor/create_qcm_perso.js') }}"></script>
 {% endblock %}
