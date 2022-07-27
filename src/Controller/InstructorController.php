@@ -7,6 +7,7 @@ use App\Entity\Proposal;
 use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Form\CreateQuestionType;
+use App\Helpers\QcmHelper;
 use App\Repository\InstructorRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
@@ -16,11 +17,13 @@ use App\Repository\StudentRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectManager;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class InstructorController extends AbstractController
 {
@@ -201,21 +204,23 @@ class InstructorController extends AbstractController
     }
 
     #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
-    public function createQcmPersonalized(InstructorRepository $instructorRepository, ModuleRepository $moduleRepository ){
+    public function createQcmPersonalized(InstructorRepository $instructorRepository, ModuleRepository $moduleRepository, QuestionRepository $questionRepository, UserRepository $userRepository, Security $security, EntityManagerInterface $entityManager){
 
         $linksInstructorSessionModule = $instructorRepository->find(5)->getLinksInstructorSessionModule();
         $modules = [];
+        $module = null;
         foreach ($linksInstructorSessionModule as $linkInstructorSessionModule){
             $modules[]=$linkInstructorSessionModule->getModule()->getTitle();
+            $module = $linkInstructorSessionModule->getModule();
         }
 
-        $randomTrainningQcm = new Helper();
+        $qcmGenerator = new QcmHelper($questionRepository, $userRepository, $security, $entityManager);
+        $generatedQcm = $qcmGenerator->generateRandomQcm($module,true,2);
+//        dd($generatedQcm);
 
-        dd($modules);
 
 
-
-        return $this->render('instructor/create_question.html.twig', [
+        return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => $modules
         ]);
 
