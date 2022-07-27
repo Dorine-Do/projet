@@ -23,13 +23,14 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class StudentController extends AbstractController
 {
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
-    public function manageQcms( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkInstructorSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
+    public function manageQcms( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkInstructorSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo, Security $security): Response
     {
-        $student = $studentRepo->find( 30 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->findOneBy( ['email' => $security->getUser()->getUserIdentifier()] );
 
         // Recupérer l'instance de QCM pour laquelle la date du jour se trouve entre release_date et end_date pour l'etudiant connecté
         $allAvailableQcmInstances = $student->getQcmInstances();
@@ -117,9 +118,9 @@ class StudentController extends AbstractController
     }
 
     #[Route('student/qcms/Done', name: 'student_qcms_done', methods: ['GET'])]
-    public function qcmsDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkInstructorSessionModuleRepository $linkSessionModuleRepo )
+    public function qcmsDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkInstructorSessionModuleRepository $linkSessionModuleRepo, Security $security )
     {
-        $student = $studentRepo->find( 30 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->findOneBy( ['email' => $security->getUser()->getUserIdentifier()] );
 
         $studentQcmInstances = $student->getQcmInstances();
         $studentResults = [];
@@ -309,9 +310,9 @@ class StudentController extends AbstractController
     }
 
     #[Route('student/qcm/qcmDone/{qcmInstance}', name: 'student_qcm_done', methods: ['GET'])]
-    public function QcmDone( $qcmInstance, QcmRepository $qcmRepository,ResultRepository $resultRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em)
+    public function QcmDone( $qcmInstance, QcmRepository $qcmRepository,ResultRepository $resultRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em, StudentRepository $studentRepo, Security $security)
     {
-        $studentId = 2;
+        $studentId = $studentRepo->findOneBy( ['email' => $security->getUser()->getUserIdentifier()] )->getId();
         $resutl = $resultRepository->findBy(['qcmInstance'=>$qcmInstance, 'student'=>$studentId] );
         dump(gettype($resutl[0]));
 
