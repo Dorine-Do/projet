@@ -206,9 +206,10 @@ class InstructorController extends AbstractController
         $linksInstructorSessionModule = $instructorRepository->find(5)->getLinksInstructorSessionModule();
         $modules = [];
         foreach ($linksInstructorSessionModule as $linkInstructorSessionModule){
-            $modules[]=$linkInstructorSessionModule->getModule();
-
+            $modules[]=$linkInstructorSessionModule->getModule()->getTitle();
         }
+
+        $randomTrainningQcm = new Helper();
 
         dd($modules);
 
