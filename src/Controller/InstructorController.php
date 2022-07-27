@@ -201,10 +201,17 @@ class InstructorController extends AbstractController
     }
 
     #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
-    public function createQcmPersonalized(InstructorRepository $instructorRepository){
+    public function createQcmPersonalized(InstructorRepository $instructorRepository, ModuleRepository $moduleRepository ){
 
-        $modules = $instructorRepository->find(2)->getLinksInstructorSessionModule();
+        $linksInstructorSessionModule = $instructorRepository->find(5)->getLinksInstructorSessionModule();
+        $modules = [];
+        foreach ($linksInstructorSessionModule as $linkInstructorSessionModule){
+            $modules[]=$linkInstructorSessionModule->getModule();
+
+        }
+
         dd($modules);
+
 
 
         return $this->render('instructor/create_question.html.twig', [
