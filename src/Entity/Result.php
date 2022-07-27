@@ -6,6 +6,7 @@ use App\Repository\ResultRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ResultRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Result
 {
     #[ORM\Id]
@@ -34,6 +35,15 @@ class Result
     #[ORM\OneToOne(inversedBy: 'result', targetEntity: QcmInstance::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private $qcmInstance;
+
+    #[ORM\Column(type: 'smallint', nullable: true)]
+    private $level;
+
+    #[ORM\PrePersist]
+    public function setSubmitedAtValue():void
+    {
+        $this->submittedAt = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +130,18 @@ class Result
     public function setQcmInstance(QcmInstance $qcmInstance): self
     {
         $this->qcmInstance = $qcmInstance;
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
+    {
+        return $this->level;
+    }
+
+    public function setLevel(?int $level): self
+    {
+        $this->level = $level;
 
         return $this;
     }
