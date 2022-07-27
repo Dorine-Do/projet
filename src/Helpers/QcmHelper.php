@@ -24,7 +24,7 @@ class QcmHelper
         $this->_manager = $manager;
     }
 
-    public function generateRandomQcm( Module $module, bool $isTraining = true, int $difficulty = 2 )
+    public function generateRandomQcm( Module $module, bool $isTraining = true, int $difficulty = 2 ): void
     {
         if( $isTraining )
         {
