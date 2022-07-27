@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Qcm{% endblock %}
+{% block title %}{{ 'title.menu'|trans }}{% endblock %}
 
 {% block stylesheets %}
     <link href="{{asset('css/student/studentIndex.css')}}" rel="stylesheet">
@@ -18,7 +18,7 @@
                     <div class="inter">
                     <p>
                         <strong>{{ 'qcm.name'|trans }} : </strong>
-                        {% for qcm in qcmOfTheWeek %} {{qcm.name}} {% endfor %}
+                        {% for qcm in qcmOfTheWeek %} {{qcm.qcm.title}} {% endfor %}
                     </p>
                     <a class="button" href="">{{ 'qcm.do'|trans }}</a>
                     </div>

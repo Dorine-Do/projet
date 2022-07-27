@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StudentController!{% endblock %}
+{% block title %}{{ 'title.done'|trans }}{% endblock %}
 
 {% block stylesheets %}
     <link href="{{asset('css/student/qcmsDone.css')}}" rel="stylesheet">
@@ -22,6 +22,12 @@
             </p>
             <img class="badge" src="{{asset('build/images/non-officiel.png')}}">
         </div>
+        <div class="divBadge">
+            <p>
+                {{ 'qcm.trainning'|trans }}
+            </p>
+            <img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">
+        </div>
     </div>
     <div class="officiel">
         <div>
@@ -30,7 +36,7 @@
                 {{ 'module.filter'|trans }} :
             </p>
         </div>
-        <select name="module">
+        <select name="module" id="select_module">
             <option value="">{{ 'module.filter'|trans }}</option>
             {% for module in modules %}
                 <option value="">{{module.title}}</option>
@@ -42,11 +48,9 @@
         <span class="numeroForm">2</span>
         Qcm
     </p>
-    {% for module in modules %}
-        <p class="module">
-            {{ 'module.name'|trans }} : {{module.title}}
-        </p>
-    {% endfor %}{% for qcmDone in qcmsDone %}
+
+    <p id="module"></p>
+{% for qcmDone in qcmsDone %}
     <div class="realise">
         <div class="nomQcm">
             <p>
@@ -62,4 +66,7 @@
         </div>
     </div>
 {% endfor %}
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/qcmsDone.js') }}"></script>
 {% endblock %}

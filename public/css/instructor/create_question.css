@@ -140,7 +140,7 @@ input[type="radio"]:checked {
     margin: auto;
     padding: 20px 60px;
     border: none;
-    background-color: var(--fond);;
+    background-color: var(--fond);
     font-size: var(--grand);
     -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
     box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
@@ -255,7 +255,7 @@ input[type="radio"]:checked {
 }
 
 
-#listProposal{
+#list_proposal{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -263,12 +263,12 @@ input[type="radio"]:checked {
     padding: 0;
 }
 
-.p_letter{
+.pLetter{
     background-color: var(--grey);
-    padding: 8px 17px;
+    padding: 8px 15px;
     border-radius: 50%;
     color: white;
-    margin-right: 15px;
+    margin: auto;
     width: 15px;
     text-align: center;
 }
@@ -457,7 +457,7 @@ img{
     #create_question_module, #create_question_difficulty{
         background-color: var(--fond);
         margin-bottom: 20px;
-        font-size: var(--semi_small);
+        font-size: var(--normal);
     }
 
     .numeroForm{
@@ -498,16 +498,11 @@ img{
         margin-left: 0;
     }
 
-    .liProposal, .div_wording, #error_checked{
+    .liProposal{
         flex-direction: column;
     }
 
     .div_wording{
-        padding: 0;
-    }
-
-    .liProposal{
-        text-align: center;
         padding: 0;
     }
 
@@ -518,18 +513,11 @@ img{
     }
 
     .removeProposal{
-        width: 80px;
         margin: 15px auto 50px auto;
         display: block;
     }
 
-    #add_proposal{
-        font-size: 1.4em;
-        border: 1px solid;
-        padding: 2px 9px 4px 9px;
-    }
-
-    #listProposal{
+    #list_proposal{
         padding-left: 0;
     }
 
@@ -560,12 +548,10 @@ img{
     }
 
     .divProposal{
-        width: 300px;
         flex-direction: column;
-        align-items: center;
     }
 
-    .p_letter{
+    .pLetter{
         margin: 30px auto auto auto;
     }
 
@@ -573,8 +559,30 @@ img{
         margin: auto;
     }
 
+    .divProposal div{
+        flex-direction: column;
+    }
+
     .wording{
         width: 216px;
         height: 68px;
+    }
+
+    .paddingoption{
+        margin-left: 0;
+    }
+
+    .liProposal{
+        width: 80%;
+    }
+
+    .center{
+        text-align: center;
+    }
+    .addProposal{
+        margin-right: auto;
+        margin-left: auto;
+        display: block;
+        margin-top: 10px;
     }
 }

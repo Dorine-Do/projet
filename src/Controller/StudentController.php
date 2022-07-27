@@ -8,7 +8,7 @@ use App\Entity\LinkSessionStudent;
 use App\Entity\Qcm;
 use App\Entity\QcmInstance;
 use App\Entity\Result;
-use App\Repository\LinkSessionModuleRepository;
+use App\Repository\LinkInstructorSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\QcmRepository;
@@ -27,9 +27,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class StudentController extends AbstractController
 {
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
-    public function manageQcms( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
+    public function manageQcms( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkInstructorSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo): Response
     {
-        $student = $studentRepo->find( 20 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 30 ); // changer l'id pour l'id de l'etudiant qui est log
 
         // Recupérer l'instance de QCM pour laquelle la date du jour se trouve entre release_date et end_date pour l'etudiant connecté
         $allAvailableQcmInstances = $student->getQcmInstances();
@@ -117,9 +117,9 @@ class StudentController extends AbstractController
     }
 
     #[Route('student/qcms/Done', name: 'student_qcms_done', methods: ['GET'])]
-    public function qcmsDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkSessionModuleRepository $linkSessionModuleRepo )
+    public function qcmsDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkInstructorSessionModuleRepository $linkSessionModuleRepo )
     {
-        $student = $studentRepo->find( 12 ); // changer l'id pour l'id de l'etudiant qui est log
+        $student = $studentRepo->find( 30 ); // changer l'id pour l'id de l'etudiant qui est log
 
         $studentQcmInstances = $student->getQcmInstances();
         $studentResults = [];
@@ -265,7 +265,7 @@ class StudentController extends AbstractController
             $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
 
             /*TODO A changer quand le système de connection sera opérationnel*/
-            $student = $studentRepository->find(2);
+            $student = $studentRepository->find(30);
             $result = new Result();
             $result->setQcmInstance($qcmInstance);
             $result->setScore($totalScore);

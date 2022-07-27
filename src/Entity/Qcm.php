@@ -127,7 +127,7 @@ class Qcm
         return $this;
     }
 
-    public function isPublic(): ?bool
+    public function getIsPublic(): ?bool
     {
         return $this->isPublic;
     }
