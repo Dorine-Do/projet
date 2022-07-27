@@ -116,12 +116,11 @@ class QcmHelper
                 ];
             }
             $questionsCache[] = [
-                [
-                    'id'         => $question->getId(),
-                    'wording'    => $question->getWording(),
-                    'isMultiple' => $question->getIsMultiple(),
-                    'proposals'  => $proposalsCache
-                ]
+                'id'         => $question->getId(),
+                'wording'    => $question->getWording(),
+                'isMultiple' => $question->getIsMultiple(),
+                'difficulty' => $question->getDifficulty(),
+                'proposals'  => $proposalsCache
             ];
         }
         return $questionsCache;
