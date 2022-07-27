@@ -5,19 +5,21 @@ namespace App\Helpers;
 use App\Entity\Module;
 use App\Entity\Qcm;
 use App\Repository\QuestionRepository;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Repository\UserRepository;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Security;
 
 class QcmHelper
 {
     private QuestionRepository $_questionRepository;
+    private UserRepository $_userRepository;
     private Security $_security;
     private ObjectManager $_manager;
 
-    public function __construct( QuestionRepository $questionRepository, Security $security, ObjectManager $manager )
+    public function __construct( QuestionRepository $questionRepository, UserRepository $userRepository,Security $security, ObjectManager $manager )
     {
         $this->_questionRepository = $questionRepository;
+        $this->_userRepository = $userRepository;
         $this->_security = $security;
         $this->_manager = $manager;
     }
@@ -43,7 +45,7 @@ class QcmHelper
 
         $qcm = new Qcm();
         $qcm->setModule( $module );
-        $qcm->setAuthor( $this->_security->getUser() );
+        $qcm->setAuthor( $this->_userRepository->findOneBy(['email' => $this->_security->getUser()->getUserIdentifier()]) );
         $qcm->setTitle( $title );
         $qcm->setDifficulty( $difficulty );
         $qcm->setIsOfficial( $isOfficial );
@@ -115,7 +117,7 @@ class QcmHelper
                 ];
             }
             $questionsCache[] = [
-                'question' => [
+                [
                     'id'         => $question->getId(),
                     'wording'    => $question->getWording(),
                     'isMultiple' => $question->getIsMultiple(),
