@@ -38,28 +38,28 @@
             </section>
             <h2><img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">{{ 'qcm.trainning'|trans }}</h2>
             <section class="cercle">
-                <div class="training">
+                <div id="training_choices" class="training">
                     <select name="module" class="selectModule">
                         <option value="">-- {{ 'module.choice'|trans }} --</option>
                         {% for sessionModule in sessionModules %}
-                            <option value="">{{sessionModule.title}}</option>
+                            <option value="{{ sessionModule.id }}">{{sessionModule.title}}</option>
                         {% endfor %}
                     </select>
                     <div class="difficult">
                         <div>
-                            <input type="radio" id="Facile" name="Difficulty" value="Easy"checked>
+                            <input type="radio" id="Facile" name="Difficulty" value="1"checked>
                             <label for="Easy">{{ 'difficulty.easy'|trans }}</label>
                         </div>
                         <div>
-                            <input type="radio" id="Moyen" name="Difficulty" value="Medium">
+                            <input type="radio" id="Moyen" name="Difficulty" value="2">
                             <label for="Medium">{{ 'difficulty.medium'|trans }}</label>
                         </div>
                         <div>
-                            <input type="radio" id="Difficile" name="Difficulty" value="Difficult">
+                            <input type="radio" id="Difficile" name="Difficulty" value="3">
                             <label for="Difficult">{{ 'difficulty.difficult'|trans }}</label>
                         </div>
                     </div>
-                    <a class="buttonValid" href="">{{ 'qcm.trainning'|trans }}</a>
+                    <button class="buttonValid" >{{ 'qcm.trainning'|trans }}</button>
                 </div>
             </section>
         </article>
@@ -100,4 +100,6 @@
     </div>
 {% endblock %}
 
-
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/studentQcms.js') }}"></script>
+{% endblock %}
