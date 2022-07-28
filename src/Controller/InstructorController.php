@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 
+use App\Entity\Module;
 use App\Entity\Proposal;
 use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Form\CreateQuestionType;
+use App\Helpers\QcmHelper;
 use App\Repository\InstructorRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
@@ -16,11 +18,13 @@ use App\Repository\StudentRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectManager;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class InstructorController extends AbstractController
 {
@@ -200,22 +204,35 @@ class InstructorController extends AbstractController
         ]);
     }
 
-    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
-    public function createQcmPersonalized(InstructorRepository $instructorRepository, ModuleRepository $moduleRepository ){
+    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET'])]
+    public function createQcmPersonalized(Request $request, InstructorRepository $instructorRepository, ModuleRepository $moduleRepository, QuestionRepository $questionRepository, UserRepository $userRepository, Security $security){
 
-        $linksInstructorSessionModule = $instructorRepository->find(5)->getLinksInstructorSessionModule();
+        $userId = $this->getUser()->getId();
+        $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+
         $modules = [];
         foreach ($linksInstructorSessionModule as $linkInstructorSessionModule){
             $modules[]=$linkInstructorSessionModule->getModule();
-
+        }
+        $module = null;
+        if( $request->get('module') ){
+            $module = $moduleRepository->find($request->get('module'));
         }
 
-        dd($modules);
+        if ($module){
+            dump($module);
+            $qcmGenerator = new QcmHelper($questionRepository, $userRepository, $security);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module);
+            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
+            $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
 
-
-
-        return $this->render('instructor/create_question.html.twig', [
-            'modules' => $modules
+//            dd($customQuestions);
+        }
+        return $this->render('instructor/create_qcm_perso.html.twig', [
+            'modules' => $modules,
+            'generatedQcm' => $module ? $generatedQcm : null,
+            'customQuestions' => $module ? $customQuestions : null,
+            'officialQuestions' => $module ? $officialQuestions : null
         ]);
 
     }
