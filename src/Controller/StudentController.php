@@ -315,20 +315,18 @@ class StudentController extends AbstractController
     public function QcmDone( $qcmInstance, QcmRepository $qcmRepository,ResultRepository $resultRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em, StudentRepository $studentRepo, Security $security)
     {
         $studentId = $studentRepo->findOneBy( ['email' => $security->getUser()->getUserIdentifier()] )->getId();
-        $resutl = $resultRepository->findBy(['qcmInstance'=>$qcmInstance, 'student'=>$studentId] );
-        dump(gettype($resutl[0]));
+        $result = $resultRepository->findBy(['qcmInstance'=>$qcmInstance, 'student'=>$studentId] );
+        dump(gettype($result[0]));
 
-        dump($resutl[0]->getAnswers());
-        dump(json_decode($resutl[0]->getAnswers()[0]));
+        dump($result[0]->getAnswers());
+        dump(json_decode($result[0]->getAnswers()[0]));
         $questionsAnswersDecode = [];
-        foreach ($resutl[0]->getAnswers() as $result){
-            $questionsAnswersDecode[] = json_decode($result);
+        foreach ($result[0]->getAnswers() as $answer){
+            $questionsAnswersDecode[] = json_decode($answer);
         }
 
         return $this->render('student/qcmDone.twig', [
             'questionsAnswers' => $questionsAnswersDecode
         ]);
     }
-
-
-    }
+}

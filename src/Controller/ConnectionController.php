@@ -33,17 +33,17 @@ class ConnectionController extends AbstractController
             $dashboardRouteName = 'home';
         }
 
-        if( in_array('student', $userRoles) )
+        if( in_array('ROLE_STUDENT', $userRoles) )
         {
-            $dashboardRouteName = 'app_student';
+            $dashboardRouteName = 'student_qcms';
         }
 
-        if( in_array('instructor', $userRoles) )
+        if( in_array('ROLE_INSTRUCTOR', $userRoles) )
         {
             $dashboardRouteName = 'app_instructor';
         }
 
-        if( in_array('admin', $userRoles) )
+        if( in_array('ROLE_ADMIN', $userRoles) )
         {
             $dashboardRouteName = 'app_admin';
         }
