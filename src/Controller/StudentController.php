@@ -8,13 +8,16 @@ use App\Entity\LinkSessionStudent;
 use App\Entity\Qcm;
 use App\Entity\QcmInstance;
 use App\Entity\Result;
+use App\Helpers\QcmHelper;
 use App\Repository\LinkInstructorSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\QcmInstanceRepository;
 use App\Repository\QcmRepository;
+use App\Repository\QuestionRepository;
 use App\Repository\ResultRepository;
 use App\Repository\StudentRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -312,14 +315,11 @@ class StudentController extends AbstractController
     }
 
     #[Route('student/qcm/qcmDone/{qcmInstance}', name: 'student_qcm_done', methods: ['GET'])]
-    public function QcmDone( $qcmInstance, QcmRepository $qcmRepository,ResultRepository $resultRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em, StudentRepository $studentRepo, Security $security)
+    public function qcmDone( $qcmInstance, QcmRepository $qcmRepository,ResultRepository $resultRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em, StudentRepository $studentRepo, Security $security)
     {
         $studentId = $studentRepo->findOneBy( ['email' => $security->getUser()->getUserIdentifier()] )->getId();
         $result = $resultRepository->findBy(['qcmInstance'=>$qcmInstance, 'student'=>$studentId] );
-        dump(gettype($result[0]));
 
-        dump($result[0]->getAnswers());
-        dump(json_decode($result[0]->getAnswers()[0]));
         $questionsAnswersDecode = [];
         foreach ($result[0]->getAnswers() as $answer){
             $questionsAnswersDecode[] = json_decode($answer);
@@ -327,6 +327,36 @@ class StudentController extends AbstractController
 
         return $this->render('student/qcmDone.twig', [
             'questionsAnswers' => $questionsAnswersDecode
+        ]);
+    }
+
+    #[Route('student/qcm/training', name: 'student_qcm_training', methods: ['GET']) ]
+    public function qcmTraining( Request $request, ModuleRepository $moduleRepo, StudentRepository $studentRepo, QuestionRepository $questionRepo, UserRepository $userRepo, Security $security, EntityManagerInterface $manager ): Response
+    {
+        $module = $moduleRepo->find( $request->get('module') );
+        $difficulty = (int) $request->get('difficulty');
+        $student = $studentRepo->findOneBy( ['email' => $security->getUser()->getUserIdentifier()] );
+
+        $qcmGenerator = new QcmHelper( $questionRepo, $userRepo, $security);
+        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, true, $difficulty );
+
+        $manager->persist( $trainingQcm );
+        $manager->flush();
+
+        $trainingQcmInstance = new QcmInstance();
+        $trainingQcmInstance->setStudent( $student );
+        $trainingQcmInstance->setQcm( $trainingQcm );
+        $trainingQcmInstance->setStartTime( new \DateTime() );
+        $endTime = new \DateTime();
+        $trainingQcmInstance->setEndTime( $endTime->add( new \DateInterval('P1D') ) );
+        $trainingQcmInstance->setCreatedAtValue();
+        $trainingQcmInstance->setUpdateAtValue();
+
+        $manager->persist( $trainingQcm );
+        $manager->flush();
+
+        $this->redirectToRoute('student_qcm_to_do', [
+            'qcmInstance' => $trainingQcmInstance->getId()
         ]);
     }
 }
