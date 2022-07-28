@@ -1,0 +1,34 @@
+@import url('../main.css');
+p{
+    margin: 0;
+}
+
+.questionLi{
+    margin: 1em;
+}
+
+.questionWordingDiv{
+    display: flex;
+}
+
+.proposalWordingDiv{
+    display: flex;
+    justify-content: space-around;
+}
+
+.questionWordingP{
+
+}
+
+.proposalWordingP{
+
+}
+
+.chrevronBasP{
+    width: 5%;
+}
+
+.chrevronBasImg{
+    width: 100%;
+}
+

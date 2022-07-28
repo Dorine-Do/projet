@@ -204,36 +204,33 @@ class InstructorController extends AbstractController
         ]);
     }
 
-    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
+    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET'])]
     public function createQcmPersonalized(Request $request, InstructorRepository $instructorRepository, ModuleRepository $moduleRepository, QuestionRepository $questionRepository, UserRepository $userRepository, Security $security){
-        $user = $this->getUser();
-        $linksInstructorSessionModule = $instructorRepository->find($user->getUserIdentifier())->getLinksInstructorSessionModule();
+
+        $userId = $this->getUser()->getId();
+        $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+
         $modules = [];
         foreach ($linksInstructorSessionModule as $linkInstructorSessionModule){
             $modules[]=$linkInstructorSessionModule->getModule();
         }
-
-        if(isset($_GET['module']) && !empty($_GET['module'])){
-            $module = $moduleRepository->find($_GET['module']);
-        }
-        else{
-            $module = null;
+        $module = null;
+        if( $request->get('module') ){
+            $module = $moduleRepository->find($request->get('module'));
         }
 
         if ($module){
+            dump($module);
             $qcmGenerator = new QcmHelper($questionRepository, $userRepository, $security);
-            $generatedQcm = $qcmGenerator->generateRandomQcm($module, true, 2);
-
-            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> 21 ]);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module);
+            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
         }
-
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => $modules,
             'generatedQcm' => $module ? $generatedQcm : null,
             'customQuestions' => $module ? $customQuestions : null,
             'officialQuestions' => $module ? $officialQuestions : null
-
         ]);
 
     }

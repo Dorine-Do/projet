@@ -1,7 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/instructor/instructorIndex.css') }}">
+    <link href="{{asset('build/app.css')}}" rel="stylesheet">
+    <link href="{{asset('css/instructor/create_qcm_perso.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block title %}Hello InstructorController!{% endblock %}
@@ -9,36 +10,35 @@
 {% block body %}
     {% set count = 0 %}
     <form action="{{ path('instructor_create_qcm_perso') }}" method="GET">
-        <select name="module" id="">
+        <select name="module">
             {% for module in modules %}
-                <option value="">Veuillez choisir un module</option>
+                <option value="null">Veuillez choisir un module</option>
                 <option value="{{ module.id }}">{{ module.title }}</option>
             {% endfor %}
         </select>
-        <input type="submit" value="Générer un qcm">
+        <button type="submit" >Générer le qcm</button>
     </form>
     {% if generatedQcm is not null %}
-        {{dump('hello')}}
         <h3>- QCM -</h3>
         <button class="btnCustom">Personaliser</button>
         <ul>
             {% for question in generatedQcm.questionsCache %}
                 {% set count = count + 1 %}
-                <li>
-                    <div>
+                <li class="questionLi">
+                    <div class="questionWordingDiv">
                         <p>
                             {{ count }}
                         </p>
-                        <p>
+                        <p class="questionWordingP">
                             {{question.wording}}
                         </p>
-                        <p>
-                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant">
+                        <p class="chrevronBasP">
+                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chrevronBasImg">
                         </p>
                     </div>
-                    <div>
+                    <div class="proposalWordingDiv">
                         {% for proposal in question.proposals %}
-                            <p>
+                            <p class="proposalWordingP">
                                 {{ proposal.wording }}
                             </p>
                         {% endfor %}

@@ -114,14 +114,14 @@ class QcmHelper
                     'isCorrectAnswer'   => $questionProposal->getIsCorrectAnswer(),
                 ];
             }
-            $questionsCache[] = [
+            $questionsCache[] =
                 [
                     'id'         => $question->getId(),
                     'wording'    => $question->getWording(),
                     'isMultiple' => $question->getIsMultiple(),
                     'proposals'  => $proposalsCache
                 ]
-            ];
+            ;
         }
         return $questionsCache;
     }
