@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StudentController!{% endblock %}
+{% block title %}{{ 'qcm.todo'|trans }}{% endblock %}
 
 {% block stylesheets %}
     <link href="{{asset('css/student/qcmToDo.css')}}" rel="stylesheet">
@@ -8,7 +8,7 @@
 
 {% block body %}
 
-    <div class="qcm">
+    <div class="qcmToDo">
         <h1>- {{ 'qcm.todo'|trans }} -</h1>
 
         <div class="divName">
@@ -44,21 +44,21 @@
                     </div>
                     <div>
                     <p class="question"><span class="numeroForm">1</span>
-                    {{ question.libelle }}
+                    {{ question.wording }}
                     </p>
                     </div>
                 </div>
                 <div class="allReponse">
-                {% for answer in question.answers %}
-                    {% if question.responce_type == 'radio'%}
+                {% for answer in question.proposals %}
+                    {% if not question.isMultiple %}
                         <div class="reponse">
                             <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}">
-                            <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                            <label for="{{ answer.id }}">{{ answer.wording }}</label>
                         </div>
                     {% else %}
                         <div class="reponse">
                             <input type="checkbox" for='{{ answer.id}}' name="{{question.id}}[]" value="{{ answer.id }}">
-                            <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                            <label for="{{ answer.id }}">{{ answer.wording }}</label>
                         </div>
                     {% endif %}
 
@@ -67,11 +67,26 @@
 
 
             {% endfor %}
-            <input class="valid" type="submit" value="J'ai fini mon qcm" onclick="checker()">
+            <input type="submit" id="valid" value="J'ai fini mon qcm">
         </form>
-
     </div>
+
+
+
+        <div id="my-modal" class="modalContainer">
+            <div class="overlay"></div>
+            <div class="modalContent">
+                <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}">
+                <p>{{ 'qcm.finish'|trans }}</p>
+                <p>{{ 'qcm.questionConfirmQcm'|trans }}</p>
+                <div class="buttonPop">
+                    <button type="button" class="confirmBtn" id="confirm-qcm-btn">{{ 'button.validate'|trans }}</button>
+                    <button type="button" class="cancelBtn" id="cancel-qcm-btn">{{ 'button.back'|trans }}</button>
+                </div>
+            </div>
+        </div>
+
 {% endblock %}
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('js/qcmToDo.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/student/qcmToDo.js') }}"></script>
 {% endblock %}

@@ -56,22 +56,22 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Module
-    //    $this->generateModules( $manager );
+//        $this->generateModules( $manager );
 
         //Session
-    //    $this->generateSessions( $manager );
+//        $this->generateSessions( $manager );
 
         //LinkSessionModule
-    //    $this->generateLinksSessionModule( $manager );
+//        $this->generateLinksSessionModule( $manager );
 
         //Instructeur
-    //    $this->generateInstructors( $manager );
+//        $this->generateInstructors( $manager );
 
         //Student
-    //    $this->generateStudents( $manager );
+//        $this->generateStudents( $manager );
 
         //Question + Proposal
-       $this->generateQuestions( $manager );
+//        $this->generateQuestions( $manager );
 
         //Qcm
         $this->generateQcm( $manager );
@@ -80,13 +80,13 @@ class AppFixtures extends Fixture
 //        $this->generateQcmWithSpecifyModule($manager);
 
         // QcmInstances
-    //    $this->generateQcmInstances( $manager );
+//        $this->generateQcmInstances( $manager );
 
         //QcmInstance avec le module de démo (réelles data)
 //        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
-        // $this->generateResults( $manager );
+        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
@@ -347,24 +347,21 @@ class AppFixtures extends Fixture
             $difficulty = $randomQuestion->getDifficulty();
             $arrayDifficulty[] = $difficulty;
             $arrayAnswers = [];
-            foreach ($answers as $answer){
-                $arrayAnswers[] =  ["id" => $answer->getId(), "libelle" => $answer->getWording(), "is_correct" => $answer->getIsCorrectAnswer()];
-            }
-            $questionAnswer =
-                [
-                    [
-                        "question"=>
-                            [
-                                "id"=> $randomQuestion->getId(),
-                                "libelle"=>$randomQuestion->getWording(),
-                                "responce_type"=>$randomQuestion->getIsMultiple(),
-                                "answers"=>
-                                    $arrayAnswers
-                            ],
-                    ]
+
+            foreach ($answers as $answer)
+            {
+                $arrayAnswers[] =  [
+                    "id"                => $answer->getId(),
+                    "wording"           => $answer->getWording(),
+                    "isCorrectAnswer"   => $answer->getIsCorrectAnswer()
                 ];
-            $questionAnswerJson = json_encode($questionAnswer);
-            array_push($arrayQuestionAnswers,$questionAnswerJson);
+            }
+            $arrayQuestionAnswers[] = [
+                "id"                => $randomQuestion->getId(),
+                "wording"           => $randomQuestion->getWording(),
+                "isMultiple"        => $randomQuestion->getIsMultiple(),
+                "proposals"         => $arrayAnswers
+            ];
         }
         $qcm->setQuestionsCache($arrayQuestionAnswers);
         $nrbValues = array_count_values($arrayDifficulty);
@@ -543,6 +540,26 @@ class AppFixtures extends Fixture
             $result->setStudentComment( $this->faker->sentence() );
 
             $questionAnswers = $dbQcmInstance->getQcm()->getQuestionsCache();
+            $resultAnswers = [];
+            foreach($questionAnswers as $questionAnswer)
+            {
+                $proposalDetails = [];
+                foreach( $questionAnswer['proposals'] as $proposal )
+                {
+                    $proposalDetails[] = [
+                        'id'              => $proposal['id'],
+                        'isStudentAnswer' => rand(0,1),
+                        'isCorrectAnswer' => $proposal['isCorrectAnswer']
+                    ];
+                }
+                $resultAnswers[] = [
+                    "question"   => [
+                        'id'        => $questionAnswer['id'],
+                        'answers'   => $proposalDetails
+                    ],
+                    "totalScore" => $score
+                ];
+            }
 
             // Transforme les objets à l'interieur de $questionAnswers en des tableaux et rajoute "student_answer"
             $questionAnswersDecode = array_map(function($questionAnswer){

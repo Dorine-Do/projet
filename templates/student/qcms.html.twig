@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Qcm{% endblock %}
+{% block title %}{{ 'title.menu'|trans }}{% endblock %}
 
 {% block stylesheets %}
     <link href="{{asset('css/student/studentIndex.css')}}" rel="stylesheet">
@@ -18,7 +18,7 @@
                     <div class="inter">
                     <p>
                         <strong>{{ 'qcm.name'|trans }} : </strong>
-                        {% for qcm in qcmOfTheWeek %} {{qcm.name}} {% endfor %}
+                        {% for qcm in qcmOfTheWeek %} {{qcm.qcm.title}} {% endfor %}
                     </p>
                     <a class="button" href="">{{ 'qcm.do'|trans }}</a>
                     </div>
@@ -29,7 +29,7 @@
                         <select name="module" class="selectEntrainement">
                             <option value="">-- {{ 'qcm.choice'|trans }} --</option>
                             {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
-                                <option value="">{{unofficialQcmInstanceNotDone.name}}</option>
+                                <option value="">{{unofficialQcmInstanceNotDone.qcm.title}}</option>
                             {% endfor %}
                         </select>
                         <a class="buttonExercice" href="">{{ 'qcm.todo'|trans }}</a>
@@ -38,28 +38,28 @@
             </section>
             <h2><img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">{{ 'qcm.trainning'|trans }}</h2>
             <section class="cercle">
-                <div class="training">
+                <div id="training_choices" class="training">
                     <select name="module" class="selectModule">
                         <option value="">-- {{ 'module.choice'|trans }} --</option>
                         {% for sessionModule in sessionModules %}
-                            <option value="">{{sessionModule.title}}</option>
+                            <option value="{{ sessionModule.id }}">{{sessionModule.title}}</option>
                         {% endfor %}
                     </select>
                     <div class="difficult">
                         <div>
-                            <input type="radio" id="Facile" name="Difficulty" value="Easy"checked>
+                            <input type="radio" id="Facile" name="Difficulty" value="1"checked>
                             <label for="Easy">{{ 'difficulty.easy'|trans }}</label>
                         </div>
                         <div>
-                            <input type="radio" id="Moyen" name="Difficulty" value="Medium">
+                            <input type="radio" id="Moyen" name="Difficulty" value="2">
                             <label for="Medium">{{ 'difficulty.medium'|trans }}</label>
                         </div>
                         <div>
-                            <input type="radio" id="Difficile" name="Difficulty" value="Difficult">
+                            <input type="radio" id="Difficile" name="Difficulty" value="3">
                             <label for="Difficult">{{ 'difficulty.difficult'|trans }}</label>
                         </div>
                     </div>
-                    <a class="buttonValid" href="">{{ 'qcm.trainning'|trans }}</a>
+                    <button class="buttonValid" >{{ 'qcm.trainning'|trans }}</button>
                 </div>
             </section>
         </article>
@@ -71,14 +71,14 @@
                     <p>
                         {{ 'qcm.donesExplain'|trans }}
                     </p>
-                    <a class="real" href="{{ path('student_qcmsdone') }}">{{ 'qcm.dones'|trans }}</a>
+                    <a class="real" href="{{ path('student_qcms_done') }}">{{ 'qcm.dones'|trans }}</a>
                 </div>
             </section>
             <section>
                 <h2>{{ 'qcm.iChance'|trans }}</h2>
                 <div class="centreChance">
                     <p>
-                        {{ 'qcm.chanceexplain'|trans }}
+                        {{ 'qcm.chanceExplain'|trans }}
                     </p>
                 </div>
                 <div class="divBadge">
@@ -90,14 +90,16 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <a class="buttonBadge" href="">{{ 'module.tryAgain'|trans }}</a>
+                    <a class="buttonBadge" href="">{{ 'button.tryAgain'|trans }}</a>
                 </div>
             </section>
             <p class="lastP">
-                {{ 'module.tryAgainExplain'|trans }}
+                {{ 'qcm.tryAgainExplain'|trans }}
             </p>
         </article>
     </div>
 {% endblock %}
 
-
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/studentQcms.js') }}"></script>
+{% endblock %}

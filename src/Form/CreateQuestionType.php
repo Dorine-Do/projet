@@ -59,7 +59,7 @@ class CreateQuestionType extends AbstractType
                     new Assert\Callback(
                         ['callback' => static function ( $data, ExecutionContextInterface $context) {
                             foreach($data as $p){
-                                if($p->getIsCorrect() == true){
+                                if($p->getIsCorrectAnswer() == true){
                                     return;
                                 }
                             }
@@ -73,8 +73,8 @@ class CreateQuestionType extends AbstractType
             ->add('module', EntityType::class, [
                 'class'=> Module::class,
             ])
-            /*TODO A changer quand la refacto de la db sera faite*/
-            ->add('enabled', CheckboxType::class, [
+
+            ->add('is_enabled', CheckboxType::class, [
                 'required' => false,
                 'label' => false,
             ]);

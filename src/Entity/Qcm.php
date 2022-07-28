@@ -103,7 +103,7 @@ class Qcm
         return $this;
     }
 
-    public function isOfficial(): ?bool
+    public function getIsOfficial(): ?bool
     {
         return $this->isOfficial;
     }
@@ -115,7 +115,7 @@ class Qcm
         return $this;
     }
 
-    public function isEnabled(): ?bool
+    public function getIsEnabled(): ?bool
     {
         return $this->isEnabled;
     }
@@ -127,7 +127,7 @@ class Qcm
         return $this;
     }
 
-    public function isPublic(): ?bool
+    public function getIsPublic(): ?bool
     {
         return $this->isPublic;
     }

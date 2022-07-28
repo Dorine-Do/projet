@@ -28,24 +28,21 @@ class ConnectionController extends AbstractController
 
         $userRoles = $user->getRoles();
 
-        if( in_array('ROLE_USER', $userRoles) )
+        if( in_array('ROLE_ADMIN', $userRoles) )
         {
-            $dashboardRouteName = 'home';
+            $dashboardRouteName = 'app_admin';
         }
-
-        if( in_array('student', $userRoles) )
-        {
-            $dashboardRouteName = 'app_student';
-        }
-
-        if( in_array('instructor', $userRoles) )
+        elseif( in_array('ROLE_INSTRUCTOR', $userRoles) )
         {
             $dashboardRouteName = 'app_instructor';
         }
-
-        if( in_array('admin', $userRoles) )
+        elseif( in_array('ROLE_STUDENT', $userRoles) )
         {
-            $dashboardRouteName = 'app_admin';
+            $dashboardRouteName = 'student_qcms';
+        }
+        elseif( in_array('ROLE_USER', $userRoles) )
+        {
+            $dashboardRouteName = 'home';
         }
 
         return $this->redirectToRoute( $dashboardRouteName );

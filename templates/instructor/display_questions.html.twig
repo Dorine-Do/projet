@@ -4,7 +4,9 @@
     <link rel="stylesheet" href="{{ asset('css/instructor/instructorIndex.css') }}">
 {% endblock %}
 
-{% block title %}Hello InstructorController!{% endblock %}
+
+
+{% block title %}{{ 'title.listQuestions'|trans }}{% endblock %}
 
 {% block body %}
     <h1>- {{ 'question.listePerso'|trans }} -</h1>
@@ -40,7 +42,7 @@
                             {% endif %}
                         {% endfor %}
                     </div>
-                    <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/Modify.png') }}" alt="bouton de modification de la question"></a>
+                    <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/modify.png') }}" alt="bouton de modification de la question"></a>
                 </div>
             {%endfor%}
             <div class="divAdd">
