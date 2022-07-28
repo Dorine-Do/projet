@@ -37,7 +37,8 @@ class CreateQuestionType extends AbstractType
             ])
             ->add('difficulty', enumType::class,[
                 "class" => Difficulty::class,
-                'choice_label'=> self::DIFFICULTIES['value'],
+                'choice_label'=>static function (\UnitEnum $choice): string {
+                    return $choice->value;} ,
                 'expanded' => true,
             ])
 

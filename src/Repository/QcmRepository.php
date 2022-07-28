@@ -43,7 +43,7 @@ class QcmRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function getQcmByDifficulty()
+    public function getTestQuestion()
        {
         $qcmBdd = $this->getEntityManager();
         return $qcmBdd->createQuery('
@@ -88,6 +88,26 @@ class QcmRepository extends ServiceEntityRepository
           
             ->getResult();
        }
+       /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+       public function findByQcmId(int $qcmId): ?Qcm
+       {
+           $entityManager = $this->getEntityManager();
+   
+           $query = $entityManager->createQuery(
+               'SELECT q, qu
+               FROM App\Entity\Qcm q
+               INNER JOIN q.questions qu
+               WHERE q.id = :id'
+           )->setParameter('id', $qcmId);
+   
+           return $query->getOneOrNullResult();
+       }
+
+
+   
 //    /**
 //     * @return Qcm[] Returns an array of Qcm objects
 //     */

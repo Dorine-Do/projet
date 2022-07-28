@@ -186,15 +186,16 @@
   background-color: var(--vert);
 }
 
-.bloc_btn_selected_qcm > button {
+/* temporaire sinon m$remplacer par btn */
+.bloc_btn_selected_qcm > a {
   text-align: center;
   border-radius: 50px;
-  border: none;
-  padding: 22px 0;
+  /* border: 1px solid; */
+  padding: 22px 41%;
   font-family: "Alumni Sans", sans-serif;
   color: white;
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
-  width: 100%;
+  /* width: 100%; */
   font-size: var(--normal);
   background: var(--pamplemousse);
 }
@@ -207,22 +208,21 @@
   text-align: center;
   margin: 0;
   padding: 15px;
-  display: grid;
-  grid-gap: 10px;
   overflow: hidden;
   height: 400px;
   background: white;
   border-radius: 5px;
 }
 .list_btn_qcm > li {
-  padding: 15px 0;
-
+  padding: 20px 0;
+  margin: 0 0 15px;
   background: #616161;
   color: white;
   height: 30px;
   border-radius: 5px;
   position: relative;
   width: 70%;
+  cursor: pointer;
 }
 /* temporaire */
 .list_btn_qcm > li::after {
@@ -268,7 +268,7 @@
 
 /* Handle */
 .list_questions::-webkit-scrollbar-thumb {
-  background: var(--grey);
+  background: grey;
   border-radius: 10px;
 }
 

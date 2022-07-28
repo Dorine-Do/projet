@@ -12,19 +12,21 @@
 
 {% block title %}Hello InstructorController!{% endblock %}
 
+
 {% block body %}
     <h1>- Liste des questions personalisées -</h1>
 
-{# {{dump(qcms_rep) }}
-{{dump(test) }} #}
-{# displayQCM test fonction imbriquée #}
-{{dump(qcms_rep)}}
-{{dump(implode(explode('voici mon etoile doré')))}} 
-{{dump(numberOfWord('doremi fa sol la si do'))}}
-{% if numberOfWord('doremi fa sol la si do') == 6 %}
-   {{dump('true')}}
-   {{implode(explode('voici mon etoile doré') )}}
-{% endif %}
+{# {{dump(qcmById.title)}}
+{{dump(questionByQcm)}} #}
+{# {% for list in test %}
+                <li>
+               
+                {{dump(list.wording)}}
+                </li>
+ {% endfor %} #}
+{# {{dump(qcm)}}
+
+{{dump(ok)}} #}
 
 
 <main class="container_qcm_and_questions_management">
@@ -37,30 +39,32 @@
     <div class="bloc_display_question_by_qcm">
         <div class="bloc_qcm">
             <ul class="list_btn_qcm">
-            {# {% for qcms_rep_test in qcms_rep %} #}
-                <li>
+           
+            {% for btn_qcm in qcm %}
+                <li id='{{btn_qcm.id}}'>
                 QCM-test1
-                {# {{qcms_rep_test.title }} #}
+                {{btn_qcm.title }}
                 </li>
-            {# {% endfor %} #}
+            {% endfor %}
             </ul>
             <div class="bloc_btn_selected_qcm">
-                <button>Selectionner</button>
+                <a href="" >Selectionner</a>
             </div>
         </div>
 
         <ul class="list_questions" >
-                {% for test_test in test %}
+                {% for list in questionByQcm %}
                     <li>
                     <span class="qcm_question_number"></span> 
-                    {{test_test.question }}
-                    {# test
-                    {{dump(test_test.wording) }} #}
+                    {{list.wording }}
                     </li> 
-                    {# {{dump(numberOfWord(test_test.wording ))}}
-                    {{dump(implode(explode('voici mon etoile doré')))}}    #}
-                    {# {{dump(implode(' ', explode(' ', $phrase, $nbre_mots)).'...')}}    #}
                 {% endfor %}
+                {# {% for ok_ok in ok %}
+                    <li>
+                    <span class="qcm_question_number"></span> 
+                    {{ok_ok.wording }}
+                    </li> 
+                {% endfor %} #}
          </ul>
         
     </div>

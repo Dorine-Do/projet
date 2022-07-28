@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\Proposal;
+use App\Entity\Qcm;
 use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Form\CreateQuestionType;
@@ -14,11 +15,13 @@ use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Length;
 
 class InstructorController extends AbstractController
 {
@@ -33,11 +36,38 @@ class InstructorController extends AbstractController
     }
 
     /**
-     * @Route("instructor/questions", name="instructor_display_questions")
+     * @Route("instructor/questions/{id}/", name="instructor_display_questions")
      * @return Response
      */
-    public function displayQuestions(): Response
+    public function displayQuestions(ManagerRegistry $doctrine,int $id): Response
     {
+
+
+        //  // Test Display Questions By Qcm
+
+        $qcms= $doctrine->getRepository(Qcm::class)->findAll();
+        $questionEssaie1=count( $qcms[0]->getQuestions());
+        $arrayQuestion=$qcms[0]->getQuestions();
+        $lengthQcm=count($qcms);
+        dump($lengthQcm,'ici');
+        dump($doctrine->getRepository(Qcm::class));
+
+        // Version correct
+        $qcmById = $this->qcm->findByQcmId($id);
+        $d = $qcmById->getQuestions()[0]->getWording();
+        $questionByQcm=$qcmById->getQuestions();
+        // dump($d);
+
+        for($essaie = 0; $essaie < $questionEssaie1;$essaie++){
+              $youpiTest=$arrayQuestion[$essaie];
+              $questionList=$arrayQuestion;
+        //    dump($youpiTest);
+        }
+
+        // dd('la');
+
+        // Display Questions and Answers //
+
         $proposals = [];
         $proposalValues =[];
         $resumeProposal = [];
@@ -53,37 +83,23 @@ class InstructorController extends AbstractController
         //         ];
         //         array_push($resumeProposal, $proposalValues);
         //     }
-        //    dd( $test=$this->DisplayQcm()[0]);
-        // $test=$this->DisplayQcm()[1];
-         $test=$this->DisplayQcm()[1];
+
          
-         $test2=$this->DisplayQcm()[0];
-         $test3=$this->DisplayQcm()[2];
-        //  dd($test3=$this->DisplayQcm()[2]);
-        // dd($test3);//voir appfixtures
-        // }
-        return $this->render('instructor/index.html.twig', [
+
+       
+
+        return $this->render('instructor/index.html.twig', [ 
             // 'questions' => $questions,
             // 'proposals' => $resumeProposal,
-            'test'=> $test,
-            'qcms'=> $test2,
-            'qcms_rep'=> $test3
-
+            'qcm'=>$qcms,
+            'ok'=>$questionList,
+            'questionByQcm'=>$questionByQcm,
+            'qcmById'=>$qcmById
         ]);
     }
 
 
-    // temporaire en attente de la new bdd
-    public function  DisplayQcm()
-    {
-        // $test = 'la';
-        // return $test;
-        $qcm = $this->qcm->getQcmByDifficulty();
-        $question_test = $this->repository->getQuestionByQcm();
-        $qcm_rep = $this->qcm->testQcm();
-
-        return array($qcm,$question_test,$qcm_rep);
-    }
+ 
 
     /**
      * @Route("instructor/modify_question/{question}", name="instructor_modify_question")
@@ -244,3 +260,5 @@ class InstructorController extends AbstractController
         ]);
     }
 }
+
+
