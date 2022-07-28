@@ -70,7 +70,7 @@ class InstructorController extends AbstractController
         $releasedate = $questionRepository -> getQuestionWithReleaseDate($question);
 
         if($releasedate != null){
-        $date = $releasedate[0]['release_date'];
+        $date = $releasedate[0]['startTime'];
         $distribute = date_format($date, 'd/m/y');
         }else{
             $distribute = null;
