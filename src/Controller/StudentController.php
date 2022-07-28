@@ -118,7 +118,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcms/Done', name: 'student_qcms_done', methods: ['GET'])]
+    #[Route('student/qcms/done', name: 'student_qcms_done', methods: ['GET'])]
     public function qcmsDone( StudentRepository $studentRepo, LinkSessionStudentRepository $linkSessionStudentRepo, LinkInstructorSessionModuleRepository $linkSessionModuleRepo, Security $security )
     {
         $student = $studentRepo->findOneBy( ['email' => $security->getUser()->getUserIdentifier()] );

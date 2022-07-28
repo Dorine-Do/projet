@@ -207,7 +207,7 @@ class InstructorController extends AbstractController
     #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
     public function createQcmPersonalized(Request $request, InstructorRepository $instructorRepository, ModuleRepository $moduleRepository, QuestionRepository $questionRepository, UserRepository $userRepository, Security $security, EntityManagerInterface $entityManager){
 
-        $linksInstructorSessionModule = $instructorRepository->find(5)->getLinksInstructorSessionModule();
+        $linksInstructorSessionModule = $instructorRepository->find(21)->getLinksInstructorSessionModule();
         $modules = [];
         foreach ($linksInstructorSessionModule as $linkInstructorSessionModule){
             $modules[]=$linkInstructorSessionModule->getModule();
@@ -224,8 +224,8 @@ class InstructorController extends AbstractController
             $qcmGenerator = new QcmHelper($questionRepository, $userRepository, $security, $entityManager);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module, true, 2);
 
-            $customQuestions = null;
-            $officialQuestions = null;
+            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> 21 ]);
+            $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
         }
 
         return $this->render('instructor/create_qcm_perso.html.twig', [

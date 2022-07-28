@@ -79,7 +79,7 @@ class AppFixtures extends Fixture
 //        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
-        $this->generateResults( $manager );
+//        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
@@ -325,7 +325,6 @@ class AppFixtures extends Fixture
         {
             $isInArray = true;
             $randomQuestion = $questions[array_rand($questions)];
-
             while ($isInArray){
                 if(in_array($randomQuestion->getId(), $pickedQuestions)){
                     $randomQuestion = $questions[array_rand($questions)];
@@ -340,6 +339,7 @@ class AppFixtures extends Fixture
             $difficulty = $randomQuestion->getDifficulty();
             $arrayDifficulty[] = $difficulty;
             $arrayAnswers = [];
+
             foreach ($answers as $answer)
             {
                 $arrayAnswers[] =  [
