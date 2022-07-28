@@ -225,6 +225,8 @@ class InstructorController extends AbstractController
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
+
+//            dd($customQuestions);
         }
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => $modules,

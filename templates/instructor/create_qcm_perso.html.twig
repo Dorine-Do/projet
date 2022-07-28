@@ -51,82 +51,87 @@
         <div>
             <button>Explication</button>
             <p>Le niveau est déterminé automatiquement par la difficulté des questions</p>
-            <div>
+            <div class="legendDifficultyDiv">
                 <div>
                     <div>
-                        Facile
+                        <div>
+                            Facile
+                        </div>
+                        <div class="legendDifficultyImageDiv">
+                            <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                        </div>
                     </div>
                     <div>
-                        <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                        : <p class="nbrQuestionEasy" >5</p>
                     </div>
                 </div>
-                <div>
-                    : <p class="nbrQuestionEasy" >5</p>
-                </div>
-            </div>
 
-            <div>
                 <div>
                     <div>
-                        Moyen
+                        <div>
+                            Moyen
+                        </div>
+                        <div class="legendDifficultyImageDiv">
+                            <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                        </div>
                     </div>
                     <div>
-                        <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                        : <p class="nbrQuestionMedium" >5</p>
                     </div>
                 </div>
-                <div>
-                    : <p class="nbrQuestionMedium" >5</p>
-                </div>
-            </div>
 
-            <div>
                 <div>
                     <div>
-                        Difficile
+                        <div>
+                            Difficile
+                        </div>
+                        <div class="legendDifficultyImageDiv">
+                            <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                        </div>
                     </div>
                     <div>
-                        <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                        : <p class="nbrQuestionDifficult" >5</p>
                     </div>
-                </div>
-                <div>
-                    : <p class="nbrQuestionDifficult" >5</p>
                 </div>
             </div>
         </div>
+
         {#*************************************************************************************************#}
         {#DRAG AND DROP#}
-        <div>
+        <div class="dragAndDrop">
             {#*************************************************************************************************#}
             {#QCM CHOICED #}
             <div>
-                <div>
+                <div class="qcmChoisedLegend">
                     QCM Choici
                     <div>
                         Facile
                     </div>
                 </div>
-                <div>
+                <div class="qcmChoisedMain">
                     <ul>
                         {% for question in generatedQcm.questionsCache %}
-                            <li>
+                            <li class="qcmChoisedLi">
                                 <div>
-                                    {#TODO Remplacer le texte par l'image des trefles en fonction de la difficulté de la question#}
-                                    <p>
-                                        Ici trèfle
-                                    </p>
-                                    <p>
-                                        {{question.wording}}
-                                    </p>
-                                    <p>
-                                        <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant">
-                                    </p>
-                                </div>
-                                <div>
-                                    {% for proposal in question.proposals %}
+                                    <div class="questionWordingDiv">
+                                        {#TODO Remplacer le texte par l'image des trefles en fonction de la difficulté de la question#}
                                         <p>
-                                            {{ proposal.wording }}
+                                            Ici trèfle
                                         </p>
-                                    {% endfor %}
+                                        <p class="questionWordingP" >
+                                            {{question.wording}}
+                                        </p>
+                                        <p class="chrevronBasP">
+                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chrevronBasImg">
+                                        </p>
+                                    </div>
+                                    <div class="proposalWordingDiv">
+                                        {% for proposal in question.proposals %}
+                                            <p class="proposalWordingP">
+                                                {{ proposal.wording }}
+                                            </p>
+                                        {% endfor %}
+                                    </div>
                                 </div>
                                 <div>
                                     X
@@ -137,36 +142,37 @@
                 </div>
                 {#*************************************************************************************************#}
                 {#LIST OF QUESTION #}
-                <div>
-                    <div>
+                <div class="listQuestionTypedDiv">
+                    <div class="btnChoiseQuestionType">
                         <button class="btnQuestionsOfficial"> Questions officielles </button>
                         <button class="btnQuestionsPerso"> Questions personalisées </button>
                     </div>
                     {#*************************************************************************************************#}
                     {#OFFICIAL #}
-                    <div class="questionOfficial">
+                    <div class="questionsOfficial">
+                        <h4>Questions officielles</h4>
                         <ul>
-                            {% for question in generatedQcm.questionsCache %}
+                            {% for question in customQuestions %}
                                 <li>
-                                    <div>
+                                    <div class="questionWordingDiv">
                                         {#TODO Remplacer le texte par l'image des trefles en fonction de la difficulté de la question#}
                                         <p>
                                             Ici trèfle
                                         </p>
-                                        <p>
+                                        <p class="questionWordingP">
                                             {{question.wording}}
                                         </p>
-                                        <p>
-                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant">
+                                        <p class="chrevronBasP">
+                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chrevronBasImg">
                                         </p>
-                                        <div>
-                                            <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier">
+                                        <div class="modifyQuestionImgDiv">
+                                            <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier" class="modifyQuestionImg">
                                         </div>
                                     </div>
                                     <div>
-                                        <div>
+                                        <div class="proposalWordingDiv">
                                             {% for proposal in question.proposals %}
-                                                <p>
+                                                <p class="proposalWordingP">
                                                     {{ proposal.wording }}
                                                 </p>
                                             {% endfor %}
@@ -183,29 +189,30 @@
                     </div>
                     {#*************************************************************************************************#}
                     {#CUSTOM #}
-                    <div class="questionOfficial">
+                    <div class="questionsCustom">
+                        <h4>Questions personalisées</h4>
                         <ul>
-                            {% for question in generatedQcm.questionsCache %}
+                            {% for question in officialQuestions %}
                                 <li>
-                                    <div>
+                                    <div class="questionWordingDiv">
                                         {#TODO Remplacer le texte par l'image des trefles en fonction de la difficulté de la question#}
                                         <p>
                                             Ici trèfle
                                         </p>
-                                        <p>
+                                        <p class="questionWordingP">
                                             {{question.wording}}
                                         </p>
-                                        <p>
-                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant">
+                                        <p class="chrevronBasP">
+                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chrevronBasImg">
                                         </p>
-                                        <div>
-                                            <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier">
+                                        <div class="modifyQuestionImgDiv">
+                                            <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier" class="modifyQuestionImg">
                                         </div>
                                     </div>
                                     <div>
-                                        <div>
+                                        <div class="proposalWordingDiv">
                                             {% for proposal in question.proposals %}
-                                                <p>
+                                                <p class="proposalWordingP">
                                                     {{ proposal.wording }}
                                                 </p>
                                             {% endfor %}
@@ -224,7 +231,7 @@
             </div>
             {#*************************************************************************************************#}
             {#BUTTON CREATE QUESTION #}
-            <div>
+            <div class="createQuestion">
                 <button>Créer une question</button>
             </div>
         </div>
