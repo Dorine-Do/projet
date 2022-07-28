@@ -330,7 +330,7 @@ label{
     font-size: var(--normal);
     margin-left: auto;
     margin-right: auto;
-    margin-top: 60 adpx;
+    margin-top: 60px;
     display: block;
 }
 
@@ -432,6 +432,17 @@ img{
 
     .liProposal{
         width: 40%;
+    }
+
+    .difficulty{
+        width: 68%;
+    }
+
+    #create_question_difficulty label{
+        position: absolute;
+        top: 20%;
+        left: 37%;
+        color: white;
     }
 }
 
@@ -582,10 +593,18 @@ img{
     .center{
         text-align: center;
     }
+
     .addProposal{
         margin-right: auto;
         margin-left: auto;
         display: block;
         margin-top: 10px;
+    }
+
+    #create_question_difficulty label{
+        position: absolute;
+        top: 13%;
+        left: 28%;
+        color: white;
     }
 }
