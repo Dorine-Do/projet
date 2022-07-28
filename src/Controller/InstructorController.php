@@ -18,8 +18,10 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Length;
 
@@ -36,13 +38,14 @@ class InstructorController extends AbstractController
     }
 
     /**
-     * @Route("instructor/questions/{id}/", name="instructor_display_questions")
+     * @Route("instructor{idAuthor}/questions/{id}/", name="instructor_display_questions")
      * @return Response
      */
-    public function displayQuestions(ManagerRegistry $doctrine,int $id): Response
+    public function displayQuestions(ManagerRegistry $doctrine,int $id,int $idAuthor): Response
     {
 
 
+        
         //  // Test Display Questions By Qcm
 
         $qcms= $doctrine->getRepository(Qcm::class)->findAll();
@@ -54,10 +57,24 @@ class InstructorController extends AbstractController
 
         // Version correct
         $qcmById = $this->qcm->findByQcmId($id);
-        $d = $qcmById->getQuestions()[0]->getWording();
-        $questionByQcm=$qcmById->getQuestions();
+        // $d = $qcmById->getQuestions()[0]->getWording();//test
+        // $questionByQcm=$qcmById->getQuestions();
         // dump($d);
+        
+        $id_author=$this->qcm->findByQcmIdAuthor($idAuthor);
 
+        if($id_author->getId() == $id){
+            $questionByQcm=$qcmById->getQuestions();
+            
+               
+        }
+        else{
+            throw new NotFoundHttpException('Erreuuuuuuuuuuuuur');
+        }
+        //  dd($qcmById->getQuestions());
+        // dump($id_author->getId());
+        //  dd($qcmById);
+        //test for pour afficher dans le dump les questions
         for($essaie = 0; $essaie < $questionEssaie1;$essaie++){
               $youpiTest=$arrayQuestion[$essaie];
               $questionList=$arrayQuestion;
@@ -94,7 +111,8 @@ class InstructorController extends AbstractController
             'qcm'=>$qcms,
             'ok'=>$questionList,
             'questionByQcm'=>$questionByQcm,
-            'qcmById'=>$qcmById
+            'qcmById'=>$qcmById,
+            'idAuthor'=>$id_author
         ]);
     }
 

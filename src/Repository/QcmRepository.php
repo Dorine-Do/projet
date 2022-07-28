@@ -88,6 +88,8 @@ class QcmRepository extends ServiceEntityRepository
           
             ->getResult();
        }
+
+
        /**
      * @throws ORMException
      * @throws OptimisticLockException
@@ -100,12 +102,70 @@ class QcmRepository extends ServiceEntityRepository
                'SELECT q, qu
                FROM App\Entity\Qcm q
                INNER JOIN q.questions qu
-               WHERE q.id = :id'
-           )->setParameter('id', $qcmId);
+
+               WHERE  q.id = :id
+               
+              '
+               
+           )
+           ->setParameter('id', $qcmId)
+          ;
    
            return $query->getOneOrNullResult();
        }
 
+       /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+       public function findByQcmIdAuthor(int $id_author): ?Qcm
+       {
+           $entityManager = $this->getEntityManager();
+   
+           $query = $entityManager->createQuery(
+               'SELECT q, qu
+               FROM App\Entity\Qcm q
+               INNER JOIN q.questions qu
+               WHERE q.author = :id_author
+
+               
+              '
+               
+           )
+           ->setParameter('id_author', $id_author)
+  
+          ;
+   
+          return $query->getOneOrNullResult();
+           
+       }
+
+  /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function test(int $id_author,int  $qcmId): ?Qcm
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT q, qu
+            FROM App\Entity\Qcm q
+            INNER JOIN q.questions qu
+            WHERE q.author = :id_author
+            AND  q.id = :id
+            
+           '
+            
+        )
+        ->setParameter('id', $qcmId)
+        ->setParameter('id_author', $id_author)
+
+       ;
+
+       return $query->getResult();
+        
+    }
 
    
 //    /**

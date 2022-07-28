@@ -16,17 +16,7 @@
 {% block body %}
     <h1>- Liste des questions personalisées -</h1>
 
-{# {{dump(qcmById.title)}}
-{{dump(questionByQcm)}} #}
-{# {% for list in test %}
-                <li>
-               
-                {{dump(list.wording)}}
-                </li>
- {% endfor %} #}
-{# {{dump(qcm)}}
 
-{{dump(ok)}} #}
 
 
 <main class="container_qcm_and_questions_management">
@@ -39,12 +29,21 @@
     <div class="bloc_display_question_by_qcm">
         <div class="bloc_qcm">
             <ul class="list_btn_qcm">
-           
-            {% for btn_qcm in qcm %}
-                <li id='{{btn_qcm.id}}'>
+           {# <input id='{{idAuthor.id}}' type="text"  value='{{idAuthor.title}}'>
+             <li id='{{idAuthor.id}}'>
                 QCM-test1
-                {{btn_qcm.title }}
-                </li>
+                {{idAuthor.title }}
+                </li> #}
+        
+    
+    
+            {% for btn_qcm in qcm %}
+                {% if idAuthor.id == btn_qcm.id %}
+                    <li id='{{btn_qcm.id}}'>
+                    QCM-test1
+                    {{btn_qcm.title }}
+                    </li>
+                {% endif %}
             {% endfor %}
             </ul>
             <div class="bloc_btn_selected_qcm">
@@ -59,12 +58,7 @@
                     {{list.wording }}
                     </li> 
                 {% endfor %}
-                {# {% for ok_ok in ok %}
-                    <li>
-                    <span class="qcm_question_number"></span> 
-                    {{ok_ok.wording }}
-                    </li> 
-                {% endfor %} #}
+ 
          </ul>
         
     </div>

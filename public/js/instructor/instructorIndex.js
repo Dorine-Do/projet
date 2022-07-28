@@ -90,13 +90,20 @@ window.onload = function (event) {
       let idBtnQcm = e.target.id;
       btnQcmSelected.setAttribute("id", `${idBtnQcm}`);
       //   temporaire
-      btnQcmSelected.href = `https://127.0.0.1:8000/instructor/questions/${idBtnQcm}/`;
+    //   si id author est de l'url est = a l'id author de la table question alors 
+      btnQcmSelected.href = `https://127.0.0.1:8000/instructor86/questions/${idBtnQcm}/`;
       //   remplacer le btn par le a pour le href etdans l 'url faire de l'injectiond e varaiable
     });
   }
 
-  let after = document.querySelector(".list_btn_qcm li::after");
+  let after = document.querySelector(".list_btn_qcm li");
   console.log(after);
+  let test = window.getComputedStyle(
+    document.querySelector(".list_btn_qcm li"),
+    "::after"
+  );
+  //   changer le speudo element after par des spans car on ne peut pas modifier les propriété on peut ques les lire
+  console.log(test);
 
   // boucle span
 
