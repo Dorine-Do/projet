@@ -8,13 +8,16 @@ use App\Entity\LinkSessionStudent;
 use App\Entity\Qcm;
 use App\Entity\QcmInstance;
 use App\Entity\Result;
+use App\Helpers\QcmHelper;
 use App\Repository\LinkInstructorSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\QcmInstanceRepository;
 use App\Repository\QcmRepository;
+use App\Repository\QuestionRepository;
 use App\Repository\ResultRepository;
 use App\Repository\StudentRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -312,7 +315,7 @@ class StudentController extends AbstractController
     }
 
     #[Route('student/qcm/qcmDone/{qcmInstance}', name: 'student_qcm_done', methods: ['GET'])]
-    public function QcmDone( $qcmInstance, QcmRepository $qcmRepository,ResultRepository $resultRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em, StudentRepository $studentRepo, Security $security)
+    public function qcmDone( $qcmInstance, QcmRepository $qcmRepository,ResultRepository $resultRepository,StudentRepository $studentRepository, Request $request,  EntityManagerInterface $em, StudentRepository $studentRepo, Security $security)
     {
         $studentId = $studentRepo->findOneBy( ['email' => $security->getUser()->getUserIdentifier()] )->getId();
         $result = $resultRepository->findBy(['qcmInstance'=>$qcmInstance, 'student'=>$studentId] );
@@ -327,6 +330,18 @@ class StudentController extends AbstractController
 
         return $this->render('student/qcmDone.twig', [
             'questionsAnswers' => $questionsAnswersDecode
+        ]);
+    }
+
+    #[Route('student/qcm/training', name: 'student_qcm_training')]
+    public function qcmTraining( QuestionRepository $questionRepo, UserRepository $userRepo, Security $security ): Response
+    {
+        $qcmGenerator = new QcmHelper( $questionRepo, $userRepo, $security);
+
+        $qcmInstanceId = null;
+
+        $this->redirectToRoute('student_qcm_to_do', [
+            'qcmInstance' => $qcmInstanceId
         ]);
     }
 }

@@ -16,12 +16,11 @@ class QcmHelper
     private Security $_security;
     private ObjectManager $_manager;
 
-    public function __construct( QuestionRepository $questionRepository, UserRepository $userRepository,Security $security, ObjectManager $manager )
+    public function __construct( QuestionRepository $questionRepository, UserRepository $userRepository,Security $security )
     {
         $this->_questionRepository = $questionRepository;
         $this->_userRepository = $userRepository;
         $this->_security = $security;
-        $this->_manager = $manager;
     }
 
     public function generateRandomQcm( Module $module, bool $isTraining = true, int $difficulty = 2 ): Qcm
@@ -54,9 +53,6 @@ class QcmHelper
         $qcm->setQuestionsCache( $questionCache );
         $qcm->setCreatedAtValue();
         $qcm->setUpdateAtValue();
-
-        $this->_manager->persist( $qcm );
-        $this->_manager->flush();
 
         return $qcm;
     }
