@@ -319,10 +319,7 @@ class StudentController extends AbstractController
     {
         $studentId = $studentRepo->findOneBy( ['email' => $security->getUser()->getUserIdentifier()] )->getId();
         $result = $resultRepository->findBy(['qcmInstance'=>$qcmInstance, 'student'=>$studentId] );
-        dump(gettype($result[0]));
 
-        dump($result[0]->getAnswers());
-        dump(json_decode($result[0]->getAnswers()[0]));
         $questionsAnswersDecode = [];
         foreach ($result[0]->getAnswers() as $answer){
             $questionsAnswersDecode[] = json_decode($answer);
@@ -333,15 +330,33 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcm/training', name: 'student_qcm_training')]
-    public function qcmTraining( QuestionRepository $questionRepo, UserRepository $userRepo, Security $security ): Response
+    #[Route('student/qcm/training', name: 'student_qcm_training', methods: ['GET']) ]
+    public function qcmTraining( Request $request, ModuleRepository $moduleRepo, StudentRepository $studentRepo, QuestionRepository $questionRepo, UserRepository $userRepo, Security $security, EntityManagerInterface $manager ): Response
     {
-        $qcmGenerator = new QcmHelper( $questionRepo, $userRepo, $security);
+        $module = $moduleRepo->find( $request->get('module') );
+        $difficulty = (int) $request->get('difficulty');
+        $student = $studentRepo->findOneBy( ['email' => $security->getUser()->getUserIdentifier()] );
 
-        $qcmInstanceId = null;
+        $qcmGenerator = new QcmHelper( $questionRepo, $userRepo, $security);
+        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, true, $difficulty );
+
+        $manager->persist( $trainingQcm );
+        $manager->flush();
+
+        $trainingQcmInstance = new QcmInstance();
+        $trainingQcmInstance->setStudent( $student );
+        $trainingQcmInstance->setQcm( $trainingQcm );
+        $trainingQcmInstance->setStartTime( new \DateTime() );
+        $endTime = new \DateTime();
+        $trainingQcmInstance->setEndTime( $endTime->add( new \DateInterval('P1D') ) );
+        $trainingQcmInstance->setCreatedAtValue();
+        $trainingQcmInstance->setUpdateAtValue();
+
+        $manager->persist( $trainingQcm );
+        $manager->flush();
 
         $this->redirectToRoute('student_qcm_to_do', [
-            'qcmInstance' => $qcmInstanceId
+            'qcmInstance' => $trainingQcmInstance->getId()
         ]);
     }
 }
