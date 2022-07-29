@@ -56,7 +56,12 @@ class QcmGeneratorHelper
 
     private function generateTrainingQcmQuestions( Module $module ): array
     {
-        $questionsPool = $this->_questionRepo->findBy( ['isMandatory' => false, 'isOfficial' => true, 'isEnabled' => true, 'module' => $module] );
+        $questionsPool = $this->_questionRepo->findBy([
+            'isMandatory' => false,
+            'isOfficial' => true,
+            'isEnabled' => true,
+            'module' => $module
+        ]);
 
         $pickedQuestions = [];
         for( $q = 0; $q < $this->_trainingQcmQuestionQuantity; $q++ )
@@ -83,7 +88,12 @@ class QcmGeneratorHelper
             'isEnabled' => true,
             'module' => $module
         ]);
-        $nonMandatoryQuestionsPool = $this->_questionRepo->findBy( ['isMandatory' => false, 'isOfficial' => true, 'isEnabled' => true, 'module' => $module] );
+        $nonMandatoryQuestionsPool = $this->_questionRepo->findBy([
+            'isMandatory' => false,
+            'isOfficial' => true,
+            'isEnabled' => true,
+            'module' => $module
+        ]);
 
         $mandatoryQuestionsToPickNbr = min( count( $mandatoryQuestionsPool ), $this->_officialQcmQuestionQuantity);
         $nonMandatoryQuestionsToPickNbr = $this->_officialQcmQuestionQuantity - $mandatoryQuestionsToPickNbr;
@@ -91,12 +101,28 @@ class QcmGeneratorHelper
         $pickedQuestions = [];
         for( $mq = 0; $mq < $mandatoryQuestionsToPickNbr; $mq++ )
         {
-            $recalcMandatoryPool = array_diff( $mandatoryQuestionsPool, $pickedQuestions );
+            if( count($pickedQuestions) > 0 )
+            {
+                foreach( $pickedQuestions as $alreadyPickedQuestion )
+                {
+                    $questionToNotReuseIndex = array_search( $alreadyPickedQuestion, $mandatoryQuestionsPool );
+                    unset( $mandatoryQuestionsPool[$questionToNotReuseIndex] );
+                }
+            }
+            $recalcMandatoryPool = $mandatoryQuestionsPool;
             $pickedQuestions[] = $recalcMandatoryPool[ array_rand( $recalcMandatoryPool ) ];
         }
         for( $nmq = 0; $nmq < $nonMandatoryQuestionsToPickNbr; $nmq++ )
         {
-            $recalcNonMandatoryPool = array_diff( $nonMandatoryQuestionsPool ,$pickedQuestions );
+            if( count($pickedQuestions) > 0 )
+            {
+                foreach( $pickedQuestions as $alreadyPickedQuestion )
+                {
+                    $questionToNotReuseIndex = array_search( $alreadyPickedQuestion, $nonMandatoryQuestionsPool );
+                    unset( $nonMandatoryQuestionsPool[$questionToNotReuseIndex] );
+                }
+            }
+            $recalcNonMandatoryPool = $nonMandatoryQuestionsPool;
             $pickedQuestions[] = $recalcNonMandatoryPool[ array_rand( $recalcNonMandatoryPool ) ];
         }
         return $pickedQuestions;
