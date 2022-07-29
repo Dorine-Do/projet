@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function(){
     let validDrillQcm = drillChoicesContainer.querySelector('button');
 
     validDrillQcm.addEventListener('click', function(){
-        let qcm = trainingChoicesContainer.querySelector('select').value;
+        let qcm = drillChoicesContainer.querySelector('select').value;
 
-        window.location.href = "student/qcm/qcmDone/"+qcm;
+        window.location.href = "qcms/qcmToDo/"+qcm;
     });
 });
