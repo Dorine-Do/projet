@@ -15,13 +15,13 @@ class QcmInstance
     private $id;
 
     #[ORM\Column(type: 'datetime')]
-    private $startTime;
+    private readonly \DateTime $startTime;
 
     #[ORM\Column(type: 'datetime')]
-    private $endTime;
+    private readonly \DateTime $endTime;
 
     #[ORM\Column(type: 'datetime')]
-    private $createdAt;
+    private readonly \DateTime $createdAt;
 
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;

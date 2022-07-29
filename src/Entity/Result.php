@@ -15,7 +15,7 @@ class Result
     private $id;
 
     #[ORM\Column(type: 'datetime')]
-    private $submittedAt;
+    private readonly \DateTime $submittedAt;
 
     #[ORM\Column(type: 'json')]
     private $answers = [];
@@ -30,7 +30,7 @@ class Result
     private $instructorComment;
 
     #[ORM\Column(type: 'boolean')]
-    private $isFirstTry;
+    private readonly bool $isFirstTry;
 
     #[ORM\OneToOne(inversedBy: 'result', targetEntity: QcmInstance::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]

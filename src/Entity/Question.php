@@ -32,7 +32,7 @@ class Question
     private $isMultiple;
 
     #[ORM\Column(type: 'datetime')]
-    private $createdAt;
+    private readonly \DateTime $createdAt;
 
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;

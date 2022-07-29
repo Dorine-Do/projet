@@ -23,7 +23,7 @@ class Module
     private $title;
 
     #[ORM\Column(type: 'datetime')]
-    private $createdAt;
+    private readonly \DateTime $createdAt;
 
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;

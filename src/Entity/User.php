@@ -22,7 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    private $email;
+    private readonly string $email;
 
     #[ORM\Column(type: 'json')]
     private $roles = [];
@@ -49,7 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $moodleId;
 
     #[ORM\Column(type: 'datetime')]
-    private $createdAt;
+    private readonly \DateTime $createdAt;
 
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
