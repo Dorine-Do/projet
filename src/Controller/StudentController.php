@@ -105,7 +105,7 @@ class StudentController extends AbstractController
                 $retryableModules[] = $endedModule;
             }
         }
-
+//        dd($unofficialQcmNotDone);
         return $this->render('student/qcms.html.twig', [
             'student'                       => $student,
             'qcmOfTheWeek'                  => $officialQcmOfTheWeek,

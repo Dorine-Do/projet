@@ -29,7 +29,7 @@
                         <select name="qcm" class="selectEntrainement">
                             <option value="">-- {{ 'qcm.choice'|trans }} --</option>
                             {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
-                                <option value="{{ unofficialQcmInstanceNotDone.qcm.id }}">{{unofficialQcmInstanceNotDone.qcm.title}}</option>
+                                <option value="{{ unofficialQcmInstanceNotDone.id }}">{{unofficialQcmInstanceNotDone.qcm.title}}</option>
                             {% endfor %}
                         </select>
                         <button class="buttonExercice">{{ 'qcm.todo'|trans }}</button>
