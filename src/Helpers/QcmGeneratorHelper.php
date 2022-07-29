@@ -5,21 +5,18 @@ namespace App\Helpers;
 use App\Entity\Module;
 use App\Entity\Qcm;
 use App\Repository\QuestionRepository;
-use App\Repository\UserRepository;
-use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Security;
 
-class QcmHelper
+class QcmGeneratorHelper
 {
-    private QuestionRepository $_questionRepository;
-    private UserRepository $_userRepository;
+    private QuestionRepository $_questionRepo;
     private Security $_security;
-    private ObjectManager $_manager;
+    private int $_trainingQcmQuestionQuantity = 20;
+    private int $_officialQcmQuestionQuantity = 42;
 
-    public function __construct( QuestionRepository $questionRepository, UserRepository $userRepository,Security $security )
+    public function __construct( QuestionRepository $questionRepo, Security $security )
     {
-        $this->_questionRepository = $questionRepository;
-        $this->_userRepository = $userRepository;
+        $this->_questionRepo = $questionRepo;
         $this->_security = $security;
     }
 
@@ -44,7 +41,7 @@ class QcmHelper
 
         $qcm = new Qcm();
         $qcm->setModule( $module );
-        $qcm->setAuthor( $this->_userRepository->findOneBy( ['email' => $this->_security->getUser()->getUserIdentifier()] ) );
+        $qcm->setAuthor( $this->_security->getUser() );
         $qcm->setTitle( $title );
         $qcm->setDifficulty( $difficulty );
         $qcm->setIsOfficial( $isOfficial );
@@ -59,42 +56,34 @@ class QcmHelper
 
     private function generateTrainingQcmQuestions( Module $module ): array
     {
-        $questionsPool = $this->_questionRepository->findBy( ['isMandatory' => false, 'isOfficial' => true, 'isEnabled' => true, 'module' => $module] );
+        $questionsPool = $this->_questionRepo->findBy( ['isMandatory' => false, 'isOfficial' => true, 'isEnabled' => true, 'module' => $module] );
         $pickedQuestions = [];
-        for( $q = 0; $q < 20; $q++ )
+        for( $q = 0; $q < $this->_trainingQcmQuestionQuantity; $q++ )
         {
-            $pickedQuestion = $questionsPool[ array_rand($questionsPool) ];
-            while( in_array( $pickedQuestion, $pickedQuestions ) )
-            {
-                $pickedQuestion = $questionsPool[ array_rand($questionsPool) ];
-            }
-            $pickedQuestions[] = $pickedQuestion;
+            $recalcPool = array_diff( $questionsPool, $pickedQuestions );
+            $pickedQuestions[] = $recalcPool[ array_rand($recalcPool) ];
         }
         return $pickedQuestions;
     }
 
     private function generateOfficialQcmQuestions( Module $module ): array
     {
-        $mandatoryQuestionsPool = $this->_questionRepository->findBy( ['isMandatory' => true, 'isOfficial' => true, 'isEnabled' => true, 'module' => $module] );
-        $nonMandatoryQuestionsPool = $this->_questionRepository->findBy( ['isMandatory' => false, 'isOfficial' => true, 'isEnabled' => true, 'module' => $module] );
+        $mandatoryQuestionsPool = $this->_questionRepo->findBy( ['isMandatory' => true, 'isOfficial' => true, 'isEnabled' => true, 'module' => $module] );
+        $nonMandatoryQuestionsPool = $this->_questionRepo->findBy( ['isMandatory' => false, 'isOfficial' => true, 'isEnabled' => true, 'module' => $module] );
+
+        $mandatoryQuestionsToPickNbr = min( count( $mandatoryQuestionsPool ), $this->_officialQcmQuestionQuantity);
+        $nonMandatoryQuestionsToPickNbr = $this->_officialQcmQuestionQuantity - $mandatoryQuestionsToPickNbr;
+
         $pickedQuestions = [];
-        for( $mq = 0; $mq < 10; $mq++ )
+        for( $mq = 0; $mq < $mandatoryQuestionsToPickNbr; $mq++ )
         {
-            $pickedQuestion = $mandatoryQuestionsPool[ array_rand( $mandatoryQuestionsPool ) ];
-            while( in_array( $pickedQuestion, $pickedQuestions ) )
-            {
-                $pickedQuestion = $mandatoryQuestionsPool[ array_rand( $mandatoryQuestionsPool ) ];
-            }
-            $pickedQuestions[] = $pickedQuestion;
+            $recalcMandatoryPool = array_diff( $mandatoryQuestionsPool, $pickedQuestions );
+            $pickedQuestions[] = $recalcMandatoryPool[ array_rand( $recalcMandatoryPool ) ];
         }
-        for( $nmq = 0; $nmq < 32; $nmq++ )
+        for( $nmq = 0; $nmq < $nonMandatoryQuestionsToPickNbr; $nmq++ )
         {
-            $pickedQuestion = $nonMandatoryQuestionsPool[ array_rand( $nonMandatoryQuestionsPool ) ];
-            while( in_array( $pickedQuestion, $pickedQuestions ) )
-            {
-                $pickedQuestion = $nonMandatoryQuestionsPool[ array_rand( $nonMandatoryQuestionsPool ) ];
-            }
-            $pickedQuestions[] = $pickedQuestion;
+            $recalcNonMandatoryPool = array_diff( $nonMandatoryQuestionsPool ,$pickedQuestions );
+            $pickedQuestions[] = $recalcNonMandatoryPool[ array_rand( $recalcNonMandatoryPool ) ];
         }
         return $pickedQuestions;
     }
