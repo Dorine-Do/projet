@@ -36,7 +36,7 @@ class StudentController extends AbstractController
 
         $allAvailableQcmInstances = $student->getQcmInstances();
 
-        $officialQcmOfTheWeek  = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
+        $officialQcmOfTheWeek = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
             return
                 $qcmInstance->getQcm()->getIsOfficial() == true
                 && $qcmInstance->getStartTime() < new \DateTime()
