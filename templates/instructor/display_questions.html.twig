@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/instructor/instructorIndex.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/instructor/display_question.css') }}">
 {% endblock %}
 
 
@@ -48,7 +48,7 @@
             <div class="divAdd">
                 <a href="{{ path('instructor_create_question') }}" class="linkCreate">
                     <button class="buttonAdd">
-                        {{ 'question.addProposal'|trans }}
+                        {{ 'button.addProposal'|trans }}
                     </button>
                 </a>
             </div>

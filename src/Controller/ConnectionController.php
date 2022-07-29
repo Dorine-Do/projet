@@ -34,7 +34,7 @@ class ConnectionController extends AbstractController
         }
         elseif( in_array('ROLE_INSTRUCTOR', $userRoles) )
         {
-            $dashboardRouteName = 'app_instructor';
+            $dashboardRouteName = 'welcome_instructor';
         }
         elseif( in_array('ROLE_STUDENT', $userRoles) )
         {
