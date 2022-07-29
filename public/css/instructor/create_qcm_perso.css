@@ -26,12 +26,36 @@ p{
 
 }
 
-.chrevronBasP{
+.chevronBasP{
     width: 5%;
 }
 
-.chrevronBasImg{
-    width: 100%;
+.chevronBasImg{
+    width: 5%;
+}
+
+.selectModule{
+    padding: 20px 130px;
+    border: none;
+    background-color: var(--fond);
+    font-size: var(--semi_small);
+    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    display: block;
+    margin: 30px auto;
+}
+
+.buttonGenerate{
+    background-color: var(--grey);
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    border: none;
+    padding: 15px 140px;
+    font-size: var(--semi_small);
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
 }
 
 /***************************************************************************************************/
