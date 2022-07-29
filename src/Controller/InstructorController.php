@@ -230,7 +230,7 @@ class InstructorController extends AbstractController
     #[Route('instructor/qcms', name: 'instructor_qcms', methods: ['GET'])]
     public function displayQcms( QcmRepository $qcmRepo, Security $security): Response
     {
-        $qcms = $qcmRepo->finBy([
+        $qcms = $qcmRepo->findBy([
             'author' => $security->getUser(),
         ]);
 
