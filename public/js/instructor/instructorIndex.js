@@ -1,17 +1,19 @@
-window.onload = function (event) {
-  let div_proposals = document.querySelectorAll(".div_proposals");
-
+console.log("hello");
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("hi");
+  let div_proposals = document.querySelectorAll(".divProposals");
+  console.log(div_proposals);
   div_proposals.forEach((div) => {
-    div.classList.add("display_none");
+    div.style.display = "none";
   });
 
   let p_prop;
-  let chevrons = document.querySelectorAll(".img_chevron");
+  let chevrons = document.querySelectorAll(".imgChevron");
 
   chevrons.forEach((chevron) => {
     chevron.addEventListener("click", (e) => {
       let div_question = e.target.parentElement.parentElement.parentElement;
-      let div_js = div_question.querySelector(".div_js");
+      let div_js = div_question.querySelector(".divJs");
       // return false un boolean si status !== 'true' et true si === true
       let status = e.target.dataset.status === "true";
 
@@ -36,81 +38,17 @@ window.onload = function (event) {
     });
   });
 
-  ////////////////////////////////////////////////////////partie Qcm ////////////////////////////////////////////////
+  ////////////////////
 
-  let liSpan = document.querySelector(".list_questions li  ");
-  let ulListQuestions = document.querySelector(".list_questions ");
-  let liAll = document.querySelectorAll(".list_questions li span ");
-  let arrayListQuestions = Array.from(ulListQuestions.children);
-  let listBtnNav = document.querySelector(".bloc_btns_nav");
+  let inputQcm = document.querySelectorAll(".li_btn_qcm input");
+  //   let questions = document.querySelectorAll(".list_questions li");
+  let forBtnQcm;
+  console.log(questions);
 
-  //   test url
-  if (window.location.href.includes(location.pathname)) {
-    console.log(
-      (document.querySelector(
-        ".bloc_link_btn_my_creations button"
-      ).style.background = "#93AD6E")
-    );
-  }
-
-  let btnNav = document.querySelectorAll(".bloc_btns_nav div button");
-  console.log(btnNav);
-
-  //a revoir////////////////////////////
-
-  //   for (let forBtn = 0; forBtn < btnNav.length; forBtn++) {
-  //     btnNav[forBtn].addEventListener("click", function (e) {
-  //       e.target.style.background = "#93AD6E";
-  //       //   for (let i = 0; i < e.target.length; i - 1) {
-  //       //     e.target[i].style.background = "#93AD6E";
-
-  //       //     // if (window.location.href.includes(location.pathname)) {
-  //       //     //   e.target[i].style.background = "#93AD6E";
-  //       //     //   console.log(e.target, "hi");
-  //       //     // }
-  //       //   }
-  //     });
-
-  // btn vert en fonction de l' url
-  if (location.pathname.includes("2")) {
-    console.log("yes");
-  } else {
-    console.log("false");
-  }
-
-  //Affichage d'une liste en fonction de l'id
-
-  let liQcm = document.querySelectorAll(".list_btn_qcm li");
-  let btnQcmSelected = document.querySelector(".bloc_btn_selected_qcm a");
-  let href = window.location.href;
-  for (let numBtnQcm = 0; numBtnQcm < liQcm.length; numBtnQcm++) {
-    console.log(liQcm[numBtnQcm]);
-
-    liQcm[numBtnQcm].addEventListener("click", function (e) {
-      let idBtnQcm = e.target.id;
-      btnQcmSelected.setAttribute("id", `${idBtnQcm}`);
-      //   temporaire
-    //   si id author est de l'url est = a l'id author de la table question alors 
-      btnQcmSelected.href = `https://127.0.0.1:8000/instructor86/questions/${idBtnQcm}/`;
-      //   remplacer le btn par le a pour le href etdans l 'url faire de l'injectiond e varaiable
+  for (forBtnQcm = 0; forBtnQcm < inputQcm.length; forBtnQcm++) {
+    console.log(inputQcm[forBtnQcm]);
+    inputQcm[forBtnQcm].addEventListener("click", function (e) {
+      console.log(e.target);
     });
   }
-
-  let after = document.querySelector(".list_btn_qcm li");
-  console.log(after);
-  let test = window.getComputedStyle(
-    document.querySelector(".list_btn_qcm li"),
-    "::after"
-  );
-  //   changer le speudo element after par des spans car on ne peut pas modifier les propriété on peut ques les lire
-  console.log(test);
-
-  // boucle span
-
-  for (let numQuestion = 0; numQuestion < liAll.length; numQuestion++) {
-    liAll[numQuestion].innerHTML = 1 + numQuestion;
-  }
-
-  //   voir pour remplacer les li par des imnput car c'est a partir des input qu'on passe des infos tel que le id ou le name
-  //   donc au clic des btnqcm il faut que le etarget.id du btnqcm soit egale a l'id qcm posé sur les li alias input
-};
+});
