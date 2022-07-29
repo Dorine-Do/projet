@@ -118,40 +118,70 @@ p{
 /***************************************************************************************************/
 /*LEGEND*/
 
+.legends{
+    text-align: center;
+}
+
+.legends > button{
+    padding: 1em;
+    border: none;
+    border-radius: 50px;
+    background-color: #93AD6E;
+    color: white;
+    text-align: center;
+    width: 15%;
+    margin: 1em 0;
+}
+
+.legends > p {
+    margin: .5em;
+    font-weight: bold;
+}
+
 .legendDifficultyDiv{
     display: flex;
     border: 2px solid #FFAC8F;
-    border-radius: 5px;
+    border-radius: 50px;
     padding: 1em;
     background-color: #FFF4E4;
+    justify-content: space-around;
+    width: 70%;
+    margin: auto;
+}
+
+.legendDifficultyContainerDiv{
+    display: flex;
+    justify-content: space-around;
+    background: white;
+    padding: .5em;
 }
 
 .legendDifficultyDecoDiv{
     display: flex;
+    align-items: center;
+    width: 20%;
 }
 
 .legendDifficultyDecoSubDiv{
     display: flex;
     background-color: #616161;
-    border-radius: 50%;
+    border-radius: 30%;
     justify-content: center;
-    padding: .5em;
+    padding: .2em;
     width: 50%;
 }
 
 .legendDifficultyDecoSubDiv div{
     color: white;
+    margin-right: 5px;
 }
 
-.legendDifficultyImageDiv{
-    width: 20%;
-}
 
 .legendDifficultyDecoSubDiv img{
-    width: 55%;
     padding: 5px;
     background-color: #FFF4E4;
     border-radius: 50px;
+    width: 25%;
 }
 
 .legendDifficultyNbr{

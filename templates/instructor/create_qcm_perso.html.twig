@@ -49,49 +49,51 @@
         </div>
         {#*************************************************************************************************#}
         {#LEGEND#}
-        <div>
+        <div class="legends">
             <button>Explication</button>
             <p>Le niveau est déterminé automatiquement par la difficulté des questions</p>
             <div class="legendDifficultyDiv">
-                <div class="legendDifficultyDecoDiv">
-                    <div class="legendDifficultyDecoSubDiv">
-                        <div>
-                            Facile
+                <div class="legendDifficultyContainerDiv">
+                    <div class="legendDifficultyDecoDiv">
+                        <div class="legendDifficultyDecoSubDiv">
+                            <div>
+                                Facile
+                            </div>
+
+                                <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+
                         </div>
-
-                            <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
-
-                    </div>
-                    <div class="legendDifficultyNbr">
-                        : <p class="nbrQuestionEasy" >5</p>
-                    </div>
-                </div>
-
-                <div class="legendDifficultyDecoDiv">
-                    <div class="legendDifficultyDecoSubDiv">
-                        <div>
-                            Moyen
+                        <div class="legendDifficultyNbr">
+                            : <p class="nbrQuestion" >5</p>
                         </div>
-
-                            <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à trois feuilles">
-
                     </div>
-                    <div>
-                        : <p class="nbrQuestionMedium" >5</p>
-                    </div>
-                </div>
 
-                <div class="legendDifficultyDecoDiv">
-                    <div class="legendDifficultyDecoSubDiv">
-                        <div>
-                            Difficile
+                    <div class="legendDifficultyDecoDiv">
+                        <div class="legendDifficultyDecoSubDiv">
+                            <div>
+                                Moyen
+                            </div>
+
+                                <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+
                         </div>
-
-                            <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
-
+                        <div class="legendDifficultyNbr" >
+                            : <p class="nbrQuestion" >5</p>
+                        </div>
                     </div>
-                    <div>
-                        : <p class="nbrQuestionDifficult" >5</p>
+
+                    <div class="legendDifficultyDecoDiv">
+                        <div class="legendDifficultyDecoSubDiv">
+                            <div>
+                                Difficile
+                            </div>
+
+                                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+
+                        </div>
+                        <div class="legendDifficultyNbr" >
+                            : <p class="nbrQuestion" >5</p>
+                        </div>
                     </div>
                 </div>
             </div>
