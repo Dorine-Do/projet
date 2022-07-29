@@ -35,13 +35,11 @@ class CreateQuestionType extends AbstractType
             ->add('wording',TextareaType::class,[
                 'required' => true,
             ])
-            ->add('difficulty', choiceType::class,[
-                'choices'  => [
-                    'Facile' => 1,
-                    'Moyen' => 2,
-                    'Difficile' => 3,
-                ],
-                'expanded' => true
+            ->add('difficulty', enumType::class,[
+                "class" => Difficulty::class,
+                'choice_label'=>static function (\UnitEnum $choice): string {
+                    return $choice->value;} ,
+                'expanded' => true,
             ])
 
             // Imbriquation de formulaire

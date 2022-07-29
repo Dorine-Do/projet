@@ -9,14 +9,15 @@
 
 {% block body %}
     {% set count = 0 %}
+    <h1>- CRÉER UN QCM PERSONNALISÉ -</h1>
     <form action="{{ path('instructor_create_qcm_perso') }}" method="GET">
-        <select name="module">
+        <select class="selectModule" name="module">
             {% for module in modules %}
                 <option value="null">Veuillez choisir un module</option>
                 <option value="{{ module.id }}">{{ module.title }}</option>
             {% endfor %}
         </select>
-        <button type="submit" >Générer le qcm</button>
+        <button class="buttonGenerate" type="submit" >Générer le qcm</button>
     </form>
     {% if generatedQcm is not null %}
         <h3>- QCM -</h3>
@@ -32,8 +33,8 @@
                         <p class="questionWordingP">
                             {{question.wording}}
                         </p>
-                        <p class="chrevronBasP">
-                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chrevronBasImg">
+                        <p class="chevronBasP">
+                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg">
                         </p>
                     </div>
                     <div class="proposalWordingDiv">
@@ -121,8 +122,8 @@
                                         <p class="questionWordingP" >
                                             {{question.wording}}
                                         </p>
-                                        <p class="chrevronBasP">
-                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chrevronBasImg">
+                                        <p class="chevronBasP">
+                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg">
                                         </p>
                                     </div>
                                     <div class="proposalWordingDiv">
@@ -162,8 +163,8 @@
                                         <p class="questionWordingP">
                                             {{question.wording}}
                                         </p>
-                                        <p class="chrevronBasP">
-                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chrevronBasImg">
+                                        <p class="chevronBasP">
+                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg">
                                         </p>
                                         <div class="modifyQuestionImgDiv">
                                             <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier" class="modifyQuestionImg">
@@ -202,8 +203,8 @@
                                         <p class="questionWordingP">
                                             {{question.wording}}
                                         </p>
-                                        <p class="chrevronBasP">
-                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chrevronBasImg">
+                                        <p class="chevronBasP">
+                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg">
                                         </p>
                                         <div class="modifyQuestionImgDiv">
                                             <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier" class="modifyQuestionImg">

@@ -1,0 +1,41 @@
+@import url(public/css/main.css);
+
+html,
+body {
+  margin: 0;
+}
+
+.container_create_qcm {
+  padding: 10px;
+}
+
+/*******GENERAL*******/
+
+ul {
+  list-style: none;
+  margin: 0;
+}
+
+/* **************** */
+
+/* .list_buttons_nav,
+.content_qcm_creation {
+  margin: auto;
+} */
+
+/* ************ NAV ***********/
+
+.list_buttons_nav {
+  padding: 10px;
+  background: #ffac8f;
+  display: grid;
+  grid-gap: 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.list_buttons_nav > li {
+  padding: 20px;
+  border: 2px solid white;
+  border-radius: 5px;
+}
