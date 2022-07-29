@@ -335,16 +335,17 @@ class StudentController extends AbstractController
         ModuleRepository $moduleRepo,
         StudentRepository $studentRepo,
         QuestionRepository $questionRepo,
-        UserRepository $userRepo,
+        QcmInstanceRepository $qcmInstanceRepo,
         Security $security,
         EntityManagerInterface $manager
     ): Response
     {
         $module = $moduleRepo->find( $request->get('module') );
         $difficulty = (int) $request->get('difficulty');
+
         $student = $studentRepo->findOneBy( ['email' => $security->getUser()->getUserIdentifier()] );
 
-        $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $userRepo, $security);
+        $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $trainingQcm = $qcmGenerator->generateRandomQcm( $module, true, $difficulty );
 
         $manager->persist( $trainingQcm );
@@ -359,7 +360,7 @@ class StudentController extends AbstractController
         $trainingQcmInstance->setCreatedAtValue();
         $trainingQcmInstance->setUpdateAtValue();
 
-        $manager->persist( $trainingQcm );
+        $manager->persist( $trainingQcmInstance );
         $manager->flush();
 
         return $this->redirectToRoute('student_qcm_to_do', [
