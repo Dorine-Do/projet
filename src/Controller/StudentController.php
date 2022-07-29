@@ -15,7 +15,6 @@ use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\ResultRepository;
 use App\Repository\StudentRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -335,7 +334,6 @@ class StudentController extends AbstractController
         ModuleRepository $moduleRepo,
         StudentRepository $studentRepo,
         QuestionRepository $questionRepo,
-        QcmInstanceRepository $qcmInstanceRepo,
         Security $security,
         EntityManagerInterface $manager
     ): Response
