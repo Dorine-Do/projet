@@ -10,6 +10,7 @@ use App\Helpers\QcmGeneratorHelper;
 use App\Repository\InstructorRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
+use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -224,5 +225,17 @@ class InstructorController extends AbstractController
             'officialQuestions' => $module ? $officialQuestions : null
         ]);
 
+    }
+
+    #[Route('instructor/qcms', name: 'instructor_qcms', methods: ['GET'])]
+    public function displayQcms( QcmRepository $qcmRepo, Security $security): Response
+    {
+        $qcms = $qcmRepo->finBy([
+            'author' => $security->getUser(),
+        ]);
+
+        return $this->render('instructor/display_qcms.html.twig', [
+            'qcms' => $qcms
+        ]);
     }
 }
