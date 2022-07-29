@@ -18,19 +18,6 @@ p{
     display: flex;
 }
 
-.proposalWordingDiv{
-    display: flex;
-    justify-content: space-around;
-}
-
-.questionWordingP{
-    background-color: var(--pamplemousse);
-    padding: 20px 10px;
-    text-align: left;
-    border-radius: 8px;
-    margin-top: 80px;
-    width: 100%;
-}
 
 .proposalWordingP{
 
@@ -40,9 +27,8 @@ p{
     width: 5%;
 }
 
-.chevronBasImg{
-    width: 5%;
-}
+
+/*********************************************** BOUTON DEBUT DE PAGE (MODULE + GENERATE) *************************************/
 
 .selectModule{
     padding: 25px 200px;
@@ -81,15 +67,17 @@ p{
     border-radius: 20px;
 }
 
+/***************************************************************************************************/
+/*GENERATE QCM*/
+
 .btnCustom{
     background-color: var(--grey);
     color: white;
-    border-radius: 20px;
+    border-radius: 25px;
     border: none;
-    padding: 15px 120px;
+    padding: 20px 150px;
     font-size: var(--semi_small);
-    margin-left: auto;
-    margin-right: auto;
+    margin: 35px auto;
     display: block;
     cursor: pointer;
 }
@@ -110,10 +98,50 @@ p{
     border-radius: 50%;
     margin-right: 8px;
 }
-/***************************************************************************************************/
-/*GENERATE QCM*/
 
+.numeroProp{
+    background-color: var(--grey);
+    padding: 8px 17px;
+    border-radius: 50%;
+    margin-right: 8px;
+    color: white;
+    font-size: var(--grand);
+}
 
+.chevronBasImg{
+    width: 50%;
+    position: relative;
+    top: 50%;
+    right: 100%;
+}
+
+.backWhite{
+    background-color: white;
+    padding: 20px;
+    overflow: scroll;
+    height: 1000px;
+    border: 2px solid var(--grey);
+    border-radius: 10px;
+}
+
+.proposalWordingDiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: var(--fond);
+    padding: 15px;
+    width: 93%;
+    margin-top: 7px;
+}
+
+.questionWordingP{
+    background-color: var(--pamplemousse);
+    padding: 20px 10px;
+    text-align: left;
+    border-radius: 8px;
+    margin-top: 8px;
+    width: 100%;
+}
 
 /***************************************************************************************************/
 /*LEGEND*/

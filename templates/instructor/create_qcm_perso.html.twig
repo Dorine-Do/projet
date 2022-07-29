@@ -25,27 +25,28 @@
         <h3>- QCM -</h3>
         <div class="showQcm">
             <button class="btnCustom">Personnaliser</button>
-            <ul>
-                {% for question in generatedQcm.questionsCache %}
-                    {% set count = count + 1 %}
-                    <li class="questionLi">
-                        <div class="questionWordingDiv">
-                            <p class="questionWordingP"><span class="numeroForm">{{ count }}</span>{{question.wording}}</p>
-
-                            <p class="chevronBasP">
-                                <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg">
-                            </p>
-                        </div>
-                        <div class="proposalWordingDiv">
-                            {% for proposal in question.proposals %}
-                                <p class="proposalWordingP">
-                                    {{ proposal.wording }}
+            <div class="backWhite">
+                <ul>
+                    {% for question in generatedQcm.questionsCache %}
+                        {% set count = count + 1 %}
+                        <li class="questionLi">
+                            <div class="questionWordingDiv">
+                                <p class="questionWordingP"><span class="numeroForm">{{ count }}</span>{{question.wording}}</p>
+                                <p class="chevronBasP">
+                                    <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg">
                                 </p>
-                            {% endfor %}
-                        </div>
-                    </li>
-                {% endfor %}
-            </ul>
+                            </div>
+                            <div class="proposalWordingDiv">
+                                {% for proposal in question.proposals %}
+                                    <p class="proposalWordingP"><span class="numeroProp">A</span>
+                                        {{ proposal.wording }}
+                                    </p>
+                                {% endfor %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
         {#*************************************************************************************************#}
         {#LEGEND#}
