@@ -4,7 +4,7 @@ qcm:
   do: Faire le qcm
   todo: Qcm à faire
   official: QCM officiel
-  inter: QCM intermédiaire
+  inter: QCM d'exercice
   choice: Choix du QCM
   dones: QCM Réalisés
   donesExplain: En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les qcm que tu as terminés, voir tes réponses fausses et t'entrainer à les refaire.
@@ -43,6 +43,7 @@ question:
   infoNoPublished: Votre quesiton n'a pas encore été donnée aux élèves, vous pouvez encore la modifier.
   firstDatePublished : 1ère date de diffusion
   session: Classe
+  create: Créer une question
 
 
 proposal:
@@ -68,3 +69,4 @@ title:
   createQuestions: Création de questions
   listQuestions: Liste des questions
   modifyQuestions: Modification de mes questions
+  creations: Mes créations

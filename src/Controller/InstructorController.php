@@ -29,10 +29,10 @@ use Symfony\Component\Security\Core\Security;
 class InstructorController extends AbstractController
 {
 //    TODO future page à implémenter
-    #[Route('/instructor', name: 'app_instructor')]
-    public function index(): Response
+    #[Route('/instructor', name: 'instructor')]
+    public function welcome(): Response
     {
-        return $this->render('instructor/index.html.twig', []);
+        return $this->render('instructor/welcome_instructor.html.twig', []);
     }
 
     #[Route('instructor/questions', name: 'instructor_display_questions', methods: ['GET'])]
@@ -41,7 +41,7 @@ class InstructorController extends AbstractController
         $proposals = [];
         $resumeProposal = [];
 
-        $questions = $questionRepository->findBy(['author' => 2]);
+        $questions = $questionRepository->findBy(['author' => $this->getUser()->getId()]);
         foreach ($questions as $question) {
             $question_id = $question->getId();
             $proposals[$question_id] = $proposalRepository->findBy(['question' => $question_id]);
@@ -184,9 +184,7 @@ class InstructorController extends AbstractController
                 $questionEntity->setIsMultiple("false");
             }
 
-            /*TODO Devra être automatisé avec l'id du user connecté si id appartient à un admin alors Null si appartient à un instructor alors id*/
-
-            $questionEntity->setAuthor($instructorRepository->find(2));
+            $questionEntity->setAuthor($instructorRepository->find($this->getUser()->getId()));
             $questionEntity->setIsOfficial(false);
             $questionEntity->setIsMandatory(false);
             $questionEntity->setExplanation('Explication');
@@ -220,7 +218,7 @@ class InstructorController extends AbstractController
         }
 
         if ($module){
-            dump($module);
+            /*TODO changer le nom QcmHelper en QcmGeneratorHelper quand pull dev*/
             $qcmGenerator = new QcmHelper($questionRepository, $userRepository, $security);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
