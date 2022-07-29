@@ -1,18 +1,43 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/instructor/instructorIndex.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/instructor/welcome_instructor.css') }}">
 {% endblock %}
 
 
 
-{% block title %}{{ 'title.listQuestions'|trans }}{% endblock %}
+{% block title %}{{ 'head.dashboard'|trans }}{% endblock %}
 
 {% block body %}
-    <h1>Instructor</h1>
 
-{% endblock %}
+    <h1> - Accueil - </h1>
+    <div class="accueilDiv">
+        <div class="hrefDiv">
+            <div class="hrefDecorationDiv">
+                <a href="{{ path('instructor_display_questions')}}" class="accueilA">{{ 'title.creations'|trans }}</a>
+            </div>
+        </div>
+        <div class="hrefDiv">
+            <div class="hrefDecorationDiv">
+                <a href="{{ path('instructor_create_question') }}" class="accueilA">{{ 'title.create'|trans }}</a>
+            </div>
+        </div>
+        <div class="hrefDiv">
+            <div class="hrefDecorationDiv">
+                <a href="{{ path('instructor_create_qcm_perso') }}" class="accueilA">Créer un qcm d'exercice</a>
+            </div>
+        </div>
+        <div class="hrefDiv">
+            <div class="hrefDecorationDiv">
+                <a href="#" class="accueilA">Créer un qcm officiel</a>
+            </div>
+        </div>
+        <div class="hrefDiv">
+            <div class="hrefDecorationDiv">
+                <a href="#" class="accueilA">Plannifier la distribution d'un qcm</a>
+            </div>
+        </div>
+    </div>
 
-{% block javascripts %}
 
 {% endblock %}

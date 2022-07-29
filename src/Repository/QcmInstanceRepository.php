@@ -55,12 +55,6 @@ class QcmInstanceRepository extends ServiceEntityRepository
             )
 
         ')
-//        return $qcmInstanceBdd->createQuery('
-//
-//                SELECT IDENTITY (r.qcmInstance)
-//                FROM App\Entity\Result r
-//
-//        ')
             ->getResult();
 
 
