@@ -5,7 +5,6 @@ namespace App\Controller;
 
 use App\Entity\Module;
 use App\Entity\Proposal;
-use App\Entity\Qcm;
 use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Form\CreateQuestionType;
@@ -13,123 +12,55 @@ use App\Helpers\QcmHelper;
 use App\Repository\InstructorRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
-use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
 use App\Repository\StudentRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Security\Core\Security;
 
 class InstructorController extends AbstractController
 {
-    private $repository;
-    private $proposals;
-    private $qcm;
-
-    public function __construct(QuestionRepository $repository, ProposalRepository $proposals,QcmRepository $qcm){
-        $this->repository = $repository;
-        $this->proposals = $proposals;
-        $this->qcm =$qcm;
+//    TODO future page à implémenter
+    #[Route('/instructor', name: 'instructor')]
+    public function welcome(): Response
+    {
+        return $this->render('instructor/welcome_instructor.html.twig', []);
     }
 
-    /**
-     * @Route("instructor{idAuthor}/questions/{id}/", name="instructor_display_questions")
-     * @return Response
-     */
-    public function displayQuestions(ManagerRegistry $doctrine,int $id,int $idAuthor): Response
+    #[Route('instructor/questions', name: 'instructor_display_questions', methods: ['GET'])]
+    public function displayQuestions(QuestionRepository $questionRepository, ProposalRepository $proposalRepository): Response
     {
-
-
-
-        //  // Test Display Questions By Qcm
-
-        $qcms= $doctrine->getRepository(Qcm::class)->findAll();
-        $questionEssaie1=count( $qcms[0]->getQuestions());
-        $arrayQuestion=$qcms[0]->getQuestions();
-        $lengthQcm=count($qcms);
-        dump($lengthQcm,'ici');
-        dump($doctrine->getRepository(Qcm::class));
-
-        // Version correct
-        $qcmById = $this->qcm->findByQcmId($id);
-        // $d = $qcmById->getQuestions()[0]->getWording();//test
-        // $questionByQcm=$qcmById->getQuestions();
-        // dump($d);
-
-        $id_author=$this->qcm->findByQcmIdAuthor($idAuthor);
-
-        if($id_author->getId() == $id){
-            $questionByQcm=$qcmById->getQuestions();
-
-
-        }
-        else{
-            throw new NotFoundHttpException('Erreuuuuuuuuuuuuur');
-        }
-        //  dd($qcmById->getQuestions());
-        // dump($id_author->getId());
-        //  dd($qcmById);
-        //test for pour afficher dans le dump les questions
-        for($essaie = 0; $essaie < $questionEssaie1;$essaie++){
-              $youpiTest=$arrayQuestion[$essaie];
-              $questionList=$arrayQuestion;
-        //    dump($youpiTest);
-        }
-
-        // dd('la');
-
-        // Display Questions and Answers //
-
         $proposals = [];
-        $proposalValues =[];
         $resumeProposal = [];
-        // $questions = $this->repository->findBy(['id_author' => 2]);
-        // foreach ($questions as $question) {
-        //     $question_id = $question->getId();
-        //     $proposals[$question_id] = $this->proposals->findBy(['question' => $question_id]);
-        //     foreach ($proposals[$question_id] as $proposal){
-        //         $proposalValues = [
-        //             'id'=>$proposal->getId(),
-        //             'wording'=>$proposal->getWording(),
-        //             'id_question'=>$proposal->getQuestion()->getId()
-        //         ];
-        //         array_push($resumeProposal, $proposalValues);
-        //     }
 
-
-
-
-
-        return $this->render('instructor/index.html.twig', [
-            // 'questions' => $questions,
-            // 'proposals' => $resumeProposal,
-            'qcm'=>$qcms,
-            'ok'=>$questionList,
-            'questionByQcm'=>$questionByQcm,
-            'qcmById'=>$qcmById,
-            'idAuthor'=>$id_author
+        $questions = $questionRepository->findBy(['author' => $this->getUser()->getId()]);
+        foreach ($questions as $question) {
+            $question_id = $question->getId();
+            $proposals[$question_id] = $proposalRepository->findBy(['question' => $question_id]);
+            foreach ($proposals[$question_id] as $proposal){
+                $proposalValues = [
+                    'id'=>$proposal->getId(),
+                    'wording'=>$proposal->getWording(),
+                    'id_question'=>$proposal->getQuestion()->getId()
+                ];
+                array_push($resumeProposal, $proposalValues);
+            }
+        }
+        return $this->render('instructor/display_questions.html.twig', [
+            'questions' => $questions,
+            'proposals' => $resumeProposal,
         ]);
     }
 
-
-
-
-    /**
-     * @Route("instructor/modify_question/{question}", name="instructor_modify_question")
-     * @param Request $request
-     * @param $em
-     * @return Response
-     */
+    #[Route('instructor/questions/modify_question/{question}', name: 'instructor_modify_question', methods: ['GET', 'POST'])]
     public function modifyQuestion(Request $request, $question,QuestionRepository $questionRepository, ProposalRepository $proposalRepository, EntityManagerInterface $em): Response
     {
         $releasedateonsession = $questionRepository -> getSessionWithReleaseDate($question);
@@ -143,7 +74,7 @@ class InstructorController extends AbstractController
         $releasedate = $questionRepository -> getQuestionWithReleaseDate($question);
 
         if($releasedate != null){
-        $date = $releasedate[0]['release_date'];
+        $date = $releasedate[0]['startTime'];
         $distribute = date_format($date, 'd/m/y');
         }else{
             $distribute = null;
@@ -191,7 +122,6 @@ class InstructorController extends AbstractController
                 $instanceQuestion->setIsMultiple(false);
             }
 
-            /*TODO à faire vérifier au chef => remove()*/
             //Supprime le lien entre les proposals et la question que l'utilisateur ne veut plus
             $removeProp = array_diff($arrayBeforeProp,$persitProp);
             foreach ($removeProp as $id){
@@ -214,13 +144,8 @@ class InstructorController extends AbstractController
         ]);
     }
 
-
-    /**
-     * @Route("instructor/create_question", name="instructor_create_question")
-     * @return Response
-     * @param $em
-     */
-    public function createQuestion(Request $request, EntityManagerInterface $em): Response
+    #[Route('instructor/questions/create_question', name: 'instructor_create_question', methods: ['GET', 'POST'])]
+    public function createQuestion(Request $request, EntityManagerInterface $em, InstructorRepository $instructorRepository): Response
     {
         $questionEntity= new Question();
 
@@ -259,9 +184,7 @@ class InstructorController extends AbstractController
                 $questionEntity->setIsMultiple("false");
             }
 
-            /*TODO Devra être automatisé avec l'id du user connecté si id appartient à un admin alors Null si appartient à un instructor alors id*/
-
-            $questionEntity->setAuthor($instructorRepository->find(2));
+            $questionEntity->setAuthor($instructorRepository->find($this->getUser()->getId()));
             $questionEntity->setIsOfficial(false);
             $questionEntity->setIsMandatory(false);
             $questionEntity->setExplanation('Explication');
@@ -295,7 +218,7 @@ class InstructorController extends AbstractController
         }
 
         if ($module){
-            dump($module);
+            /*TODO changer le nom QcmHelper en QcmGeneratorHelper quand pull dev*/
             $qcmGenerator = new QcmHelper($questionRepository, $userRepository, $security);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
