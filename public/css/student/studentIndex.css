@@ -152,9 +152,11 @@ span{
     border-radius: 25px;
     background-color: var(--grey);
     color: white;
-    padding: 10px 65px;
+    padding: 9px 28px;
     text-align: center;
-    font-size: var(--normal);
+    font-size: var(--semi_normal);
+    border: none;
+    cursor: pointer;
 }
 
 .buttonValid:hover{

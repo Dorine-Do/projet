@@ -1,0 +1,111 @@
+@import url('../main.css');
+/***************************************************************************************************/
+/*GENERAL*/
+p{
+    margin: 0;
+}
+
+.questionLi{
+    margin: 1em;
+}
+
+.questionWordingDiv{
+    display: flex;
+}
+
+.proposalWordingDiv{
+    display: flex;
+    justify-content: space-around;
+}
+
+.questionWordingP{
+
+}
+
+.proposalWordingP{
+
+}
+
+.chrevronBasP{
+    width: 5%;
+}
+
+.chrevronBasImg{
+    width: 100%;
+}
+
+/***************************************************************************************************/
+/*GENERATE QCM*/
+
+
+
+/***************************************************************************************************/
+/*LEGEND*/
+
+.legendDifficultyDiv{
+    display: flex;
+}
+
+.legendDifficultyImageDiv{
+    width: 20%;
+}
+
+.legendDifficultyImageDiv img{
+    width: 100%;
+}
+
+/***************************************************************************************************/
+/*DRAG AND DROP*/
+
+.dragAndDrop{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.qcmChoisedLegend{
+    width: 100%;
+}
+
+.qcmChoisedMain{
+    width: 37%;
+}
+
+.createQuestion{
+    width: 100%;
+}
+
+/***************************************************************************************************/
+/*QCM CHOISED*/
+
+.qcmChoisedLi{
+    display: flex;
+    margin: 1em;
+}
+
+.modifyQuestionImgDiv{
+    width: 5%;
+}
+
+.modifyQuestionImg{
+    width: 100%;
+}
+
+/***************************************************************************************************/
+/*LIST QUESTON*/
+
+.listQuestionTypedDiv{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.btnChoiseQuestionType{
+    width: 100%;
+}
+
+.questionsCustom,
+.questionsOfficial{
+    width: 47%;
+}
+
+
+

@@ -112,8 +112,8 @@ tbody{
 }
 #create_question_difficulty label{
     position: relative;
-    top: 45px;
-    left: 40%;
+    top: 48px;
+    left: 38%;
     color: white;
     font-size: var(--grand);
 }
@@ -125,7 +125,6 @@ input[type="radio"]{
 
 input[type="radio"]:checked {
     background-color: var(--vert);
-    margin:0;
     cursor:pointer;
 }
 
@@ -288,6 +287,10 @@ input[type="radio"]:checked {
 
 @media screen and (max-width: 1200px) {
 
+    table{
+        margin: 0;
+    }
+
     .buttondiff{
         padding: 5px 35px;;
         font-size: var(--normal);
@@ -315,12 +318,30 @@ input[type="radio"]:checked {
     .div_input_label label.required{
         margin-left: -10px;
     }
+
+
+    #create_question_difficulty input[type="radio"]{
+        width: 150px;
+    }
+
+    #create_question_difficulty label{
+        position: relative;
+        top: 47px;
+        left: 30%;
+        color: white;
+        font-size: var(--grand);
+    }
+
+    .liProposal{
+        width: 40%
+    }
 }
 
 @media screen and (max-width: 780px) {
 
     table{
         width: 100%;
+        margin: 0;
     }
 
     .buttondesac{
@@ -369,9 +390,17 @@ input[type="radio"]:checked {
         width: 700px;
     }
 
-    img{
+    #create_question_difficulty img{
         width: 40px;
         height: 40px;
+    }
+
+    #create_question_difficulty label{
+        position: relative;
+        top: 42px;
+        left: 26%;
+        color: white;
+        font-size: var(--grand);
     }
 }
 
@@ -393,11 +422,14 @@ input[type="radio"]:checked {
         max-width: 400px;
     }
 
+    td{
+        max-width: 360px;
+    }
+
     #create_question_module, #create_question_difficulty{
         background-color: var(--fond);
         margin-bottom: 20px;
         font-size: var(--semi_small);
-        width: 240px;
     }
 
     .numeroForm{
@@ -440,7 +472,7 @@ input[type="radio"]:checked {
     }
 
     .liProposal{
-        width: 80%;
+        width: 85%;
     }
 
     .center{
@@ -470,13 +502,29 @@ input[type="radio"]:checked {
         box-shadow: none;
     }
 
-    img{
+    #create_question_difficulty img{
         width: 25px;
         height: 25px;
+        margin-top: 27px;
     }
 
     .div_input_label label.required{
         margin-left: -4px;
     }
 
+    #create_question_difficulty label{
+        position: relative;
+        top: 29px;
+        left: 27%;
+        color: white;
+        font-size: var(--semi_normal);
+    }
+
+    .second #error_checked{
+        width: 411px;
+    }
+
+    .valid {
+        margin-left: 10px;
+    }
 }

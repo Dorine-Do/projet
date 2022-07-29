@@ -6,7 +6,6 @@
 }
 
 table{
-    margin-left: 5%;
     width: 100%;
 }
 
@@ -331,6 +330,7 @@ label{
     font-size: var(--normal);
     margin-left: auto;
     margin-right: auto;
+    margin-top: 60px;
     display: block;
 }
 
@@ -409,16 +409,15 @@ img{
         height: 45px;
     }
 
-    .divProposal div{
+    .divProposal :first-child div{
         display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .divProposal div label{
-        margin-right: 20px;
-    }
-
-    .removeProposal{
-        margin-left: 20px;
+        width: 100%;
+        text-align: center;
     }
 
     .wording{
@@ -429,6 +428,21 @@ img{
     #error_checked{
         display: flex;
         flex-direction: column;
+    }
+
+    .liProposal{
+        width: 40%;
+    }
+
+    .difficulty{
+        width: 68%;
+    }
+
+    #create_question_difficulty label{
+        position: absolute;
+        top: 20%;
+        left: 37%;
+        color: white;
     }
 }
 
@@ -579,10 +593,18 @@ img{
     .center{
         text-align: center;
     }
+
     .addProposal{
         margin-right: auto;
         margin-left: auto;
         display: block;
         margin-top: 10px;
+    }
+
+    #create_question_difficulty label{
+        position: absolute;
+        top: 13%;
+        left: 28%;
+        color: white;
     }
 }
