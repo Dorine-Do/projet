@@ -10,6 +10,8 @@
 {% block body %}
     {% set count = 0 %}
     <h1>- CRÉER UN QCM PERSONNALISÉ -</h1>
+
+    <p><span class="etape">Etape 1</span> Choix du qcm par module et par niveau</p>
     <form action="{{ path('instructor_create_qcm_perso') }}" method="GET">
         <select class="selectModule" name="module">
             {% for module in modules %}
@@ -21,32 +23,30 @@
     </form>
     {% if generatedQcm is not null %}
         <h3>- QCM -</h3>
-        <button class="btnCustom">Personaliser</button>
-        <ul>
-            {% for question in generatedQcm.questionsCache %}
-                {% set count = count + 1 %}
-                <li class="questionLi">
-                    <div class="questionWordingDiv">
-                        <p>
-                            {{ count }}
-                        </p>
-                        <p class="questionWordingP">
-                            {{question.wording}}
-                        </p>
-                        <p class="chevronBasP">
-                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg">
-                        </p>
-                    </div>
-                    <div class="proposalWordingDiv">
-                        {% for proposal in question.proposals %}
-                            <p class="proposalWordingP">
-                                {{ proposal.wording }}
+        <div class="showQcm">
+            <button class="btnCustom">Personnaliser</button>
+            <ul>
+                {% for question in generatedQcm.questionsCache %}
+                    {% set count = count + 1 %}
+                    <li class="questionLi">
+                        <div class="questionWordingDiv">
+                            <p class="questionWordingP"><span class="numeroForm">{{ count }}</span>{{question.wording}}</p>
+
+                            <p class="chevronBasP">
+                                <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg">
                             </p>
-                        {% endfor %}
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
+                        </div>
+                        <div class="proposalWordingDiv">
+                            {% for proposal in question.proposals %}
+                                <p class="proposalWordingP">
+                                    {{ proposal.wording }}
+                                </p>
+                            {% endfor %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
         {#*************************************************************************************************#}
         {#LEGEND#}
         <div>

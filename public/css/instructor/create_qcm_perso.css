@@ -1,6 +1,11 @@
 @import url('../main.css');
 /***************************************************************************************************/
 /*GENERAL*/
+h3{
+    text-align: center;
+    font-weight: normal;
+}
+
 p{
     margin: 0;
 }
@@ -19,7 +24,12 @@ p{
 }
 
 .questionWordingP{
-
+    background-color: var(--pamplemousse);
+    padding: 20px 10px;
+    text-align: left;
+    border-radius: 8px;
+    margin-top: 80px;
+    width: 100%;
 }
 
 .proposalWordingP{
@@ -35,7 +45,7 @@ p{
 }
 
 .selectModule{
-    padding: 20px 130px;
+    padding: 25px 200px;
     border: none;
     background-color: var(--fond);
     font-size: var(--semi_small);
@@ -49,15 +59,57 @@ p{
     background-color: var(--grey);
     color: white;
     border-radius: 20px;
-    font-weight: bold;
     border: none;
-    padding: 15px 140px;
+    padding: 15px 180px;
     font-size: var(--semi_small);
     margin-left: auto;
     margin-right: auto;
     display: block;
+    cursor: pointer;
 }
 
+.buttonGenerate:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
+.etape{
+    background-color: var(--pamplemousse);
+    font-weight: bold;
+    color: var(--fond);
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.btnCustom{
+    background-color: var(--grey);
+    color: white;
+    border-radius: 20px;
+    border: none;
+    padding: 15px 120px;
+    font-size: var(--semi_small);
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    cursor: pointer;
+}
+
+.btnCustom:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+}
+
+.showQcm{
+    background-color: var(--fond);
+    padding: 20px 40px 10px 40px;
+}
+
+.numeroForm{
+    background-color: white;
+    padding: 8px 17px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
 /***************************************************************************************************/
 /*GENERATE QCM*/
 
