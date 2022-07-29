@@ -32,6 +32,13 @@ class AppFixtures extends Fixture
 {
     private $faker;
 
+    protected array $arrayModule = [];
+    protected array $arraySession = [];
+    protected array $arrayStudent = [];
+    protected array $arrayInstructor = [];
+    protected array $ChoicesDifficulty = [ Difficulty::Easy, Difficulty::Medium, Difficulty::Difficult];
+    protected array $ChoicesLevel = [ Level::Discover, Level::Explore, Level::Master, Level::Dominate];
+
     public function __construct (
         private UserPasswordHasherInterface $userPasswordHasherInterface,
         private InstructorRepository $instructorRepository,
@@ -67,7 +74,7 @@ class AppFixtures extends Fixture
 //        $this->generateQuestions( $manager );
 
         //Qcm
-//        $this->generateQcm( $manager );
+        $this->generateQcm( $manager );
 
         //Qcm avec le module de démo (réelles data)
 //        $this->generateQcmWithSpecifyModule($manager);
@@ -79,9 +86,44 @@ class AppFixtures extends Fixture
 //        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
-//        $this->generateResults( $manager );
+        $this->generateResults( $manager );
 
 //        $this->generateJson();
+    }
+
+    public function generateJson(){
+       $res =
+           [
+                "question"=> [
+                    "id"=> 4,
+                    "difficulty_points"=> 5,
+                    "answers"=> [
+                      [
+                        "id"=>1,
+                        "student_answer"=> 0,
+                        "is_the_correct_answer"=> 0,
+                      ],
+                      [
+                        "id"=> 2,
+                        "student_answer"=> 0,
+                        "is_the_correct_answer"=> 0,
+                      ],
+                      [
+                        "id"=> 3,
+                        "student_answer"=> 0,
+                        "is_the_correct_answer"=> 1,
+                      ],
+                      [
+                          "id"=> 4,
+                        "student_answer"=> 1,
+                        "is_the_correct_answer"=> 0,
+                      ]
+                    ],
+                ],
+              "total_score"=> 75
+           ];
+        $resJson = json_encode($res);
+        dd($resJson);
     }
 
     public function generateModules( $manager ) :void
@@ -290,6 +332,7 @@ class AppFixtures extends Fixture
         {
             $isInArray = true;
             $randomQuestion = $questions[array_rand($questions)];
+
             while ($isInArray){
                 if(in_array($randomQuestion->getId(), $pickedQuestions)){
                     $randomQuestion = $questions[array_rand($questions)];
@@ -518,7 +561,17 @@ class AppFixtures extends Fixture
                 ];
             }
 
-            $result->setAnswers($resultAnswers);
+            // Transforme les objets à l'interieur de $questionAnswers en des tableaux et rajoute "student_answer"
+            $questionAnswersDecode = array_map(function($questionAnswer){
+                return json_encode(array_map(function($qa){
+                    $qa = (array)$qa;
+                    return array_map(function($qaa){
+                        $qaa = (array)$qaa;
+                        return array_merge($qaa, ['student_answer' => rand(0,1)] );
+                    },$qa['answers']);
+                },(array)json_decode($questionAnswer)[0]));
+            },$questionAnswers);
+            $result->setAnswers($questionAnswersDecode);
 
             $manager->persist($result);
             $manager->flush();

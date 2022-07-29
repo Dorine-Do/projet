@@ -120,14 +120,42 @@ p{
 
 .legendDifficultyDiv{
     display: flex;
+    border: 2px solid #FFAC8F;
+    border-radius: 5px;
+    padding: 1em;
+    background-color: #FFF4E4;
+}
+
+.legendDifficultyDecoDiv{
+    display: flex;
+}
+
+.legendDifficultyDecoSubDiv{
+    display: flex;
+    background-color: #616161;
+    border-radius: 50%;
+    justify-content: center;
+    padding: .5em;
+    width: 50%;
+}
+
+.legendDifficultyDecoSubDiv div{
+    color: white;
 }
 
 .legendDifficultyImageDiv{
     width: 20%;
 }
 
-.legendDifficultyImageDiv img{
-    width: 100%;
+.legendDifficultyDecoSubDiv img{
+    width: 55%;
+    padding: 5px;
+    background-color: #FFF4E4;
+    border-radius: 50px;
+}
+
+.legendDifficultyNbr{
+    display: flex;
 }
 
 /***************************************************************************************************/
