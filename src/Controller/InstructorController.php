@@ -3,23 +3,16 @@
 namespace App\Controller;
 
 
-use App\Entity\Module;
 use App\Entity\Proposal;
-use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Form\CreateQuestionType;
-use App\Helpers\QcmHelper;
+use App\Helpers\QcmGeneratorHelper;
 use App\Repository\InstructorRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
 use App\Repository\QuestionRepository;
-use App\Repository\SessionRepository;
-use App\Repository\StudentRepository;
 use App\Repository\UserRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ObjectManager;
-use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -218,13 +211,11 @@ class InstructorController extends AbstractController
         }
 
         if ($module){
-            /*TODO changer le nom QcmHelper en QcmGeneratorHelper quand pull dev*/
-            $qcmGenerator = new QcmHelper($questionRepository, $userRepository, $security);
+            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
 
-//            dd($customQuestions);
         }
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => $modules,
