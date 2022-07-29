@@ -25,14 +25,14 @@
                 </div>
                 <div class="divQcm">
                     <h2><img class="badge" src="{{asset('build/images/non-officiel.png')}}">{{ 'qcm.inter'|trans }}</h2>
-                    <div class="inter">
-                        <select name="module" class="selectEntrainement">
+                    <div id="drill_choices" class="inter">
+                        <select name="qcm" class="selectEntrainement">
                             <option value="">-- {{ 'qcm.choice'|trans }} --</option>
                             {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
-                                <option value="">{{unofficialQcmInstanceNotDone.qcm.title}}</option>
+                                <option value="{{ unofficialQcmInstanceNotDone.qcm.id }}">{{unofficialQcmInstanceNotDone.qcm.title}}</option>
                             {% endfor %}
                         </select>
-                        <a class="buttonExercice" href="">{{ 'qcm.todo'|trans }}</a>
+                        <button class="buttonExercice">{{ 'qcm.todo'|trans }}</button>
                     </div>
                 </div>
             </section>

@@ -8,6 +8,15 @@ document.addEventListener('DOMContentLoaded', function(){
         let difficulty = trainingChoicesContainer.querySelector('input[name="Difficulty"]').value;
 
         window.location.href = "qcm/training?module="+module+"&difficulty="+difficulty;
+    });
 
+    // DRILL QCM
+    let drillChoicesContainer = document.querySelector('#drill_choices');
+    let validDrillQcm = drillChoicesContainer.querySelector('button');
+
+    validDrillQcm.addEventListener('click', function(){
+        let qcm = trainingChoicesContainer.querySelector('select').value;
+
+        window.location.href = "student/qcm/qcmDone/"+qcm;
     });
 });
