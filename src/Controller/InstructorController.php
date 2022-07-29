@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Security;
 class InstructorController extends AbstractController
 {
 //    TODO future page à implémenter
-    #[Route('/instructor', name: 'instructor')]
+    #[Route('/instructor', name: 'welcome_instructor')]
     public function welcome(): Response
     {
         return $this->render('instructor/welcome_instructor.html.twig', []);
