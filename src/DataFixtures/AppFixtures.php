@@ -74,7 +74,7 @@ class AppFixtures extends Fixture
 //        $this->generateQuestions( $manager );
 
         //Qcm
-        $this->generateQcm( $manager );
+//        $this->generateQcm( $manager );
 
         //Qcm avec le module de démo (réelles data)
 //        $this->generateQcmWithSpecifyModule($manager);
@@ -561,17 +561,7 @@ class AppFixtures extends Fixture
                 ];
             }
 
-            // Transforme les objets à l'interieur de $questionAnswers en des tableaux et rajoute "student_answer"
-            $questionAnswersDecode = array_map(function($questionAnswer){
-                return json_encode(array_map(function($qa){
-                    $qa = (array)$qa;
-                    return array_map(function($qaa){
-                        $qaa = (array)$qaa;
-                        return array_merge($qaa, ['student_answer' => rand(0,1)] );
-                    },$qa['answers']);
-                },(array)json_decode($questionAnswer)[0]));
-            },$questionAnswers);
-            $result->setAnswers($questionAnswersDecode);
+            $result->setAnswers($resultAnswers);
 
             $manager->persist($result);
             $manager->flush();
