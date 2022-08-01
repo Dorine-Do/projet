@@ -17,7 +17,8 @@
         <div class="bloc_qcm">
             <ul class="list_btn_qcm">
             {% for qcm in qcms %}
-                    <li class="li_btn_qcm" data-id='{{qcm.id}}'>
+            {# data-parent voir css ::after #}
+                    <li class="li_btn_qcm" data-id="{{qcm.id}}" data-parent="{{ qcm.difficulty == 1 ? 'facile'}}{{ qcm.difficulty == 2 ? 'moyen'}}{{ qcm.difficulty == 3 ? 'difficile'}}">
                         {{qcm.title }}
                     </li> 
 
@@ -29,7 +30,8 @@
    
      {# {% for qcm in qcms %} for temporaire #}
         {# <ul class="list_questions" data-id='{{qcm.id}}'  data-prototype='{{qcm.title}}' > #}
-         <ul class="list_questions">
+       
+         <ul class="list_questions" data-qcms="{{ qcms|json_encode|e('html_attr')}}">
            {% for qcm in qcms %}
                 {% for question in qcm.getQuestions() %}
                  
@@ -51,6 +53,7 @@
          
  
          </ul>
+         
           {# {% endfor %} #}
      </div>
         

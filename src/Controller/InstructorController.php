@@ -238,4 +238,9 @@ class InstructorController extends AbstractController
             'qcms' => $qcms
         ]);
     }
+    #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
+    public function createOfficialQcm(): Response
+    {
+       return $this->render('instructor/create_official_qcm.html.twig');
+    }
 }

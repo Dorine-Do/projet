@@ -10,32 +10,59 @@
      
 <div class="container_create_qcm">
   <nav class="create_qcm">
+    <div>ici logo</div>
     <ul class="list_buttons_nav">
       <Li>Créer un qcm</Li>
       <Li>Mon planning</Li>
       <Li>Tableau de bord</Li>
       <Li>Gestion qcm</Li>
     </ul>
+    
   </nav>
   <main class="content_qcm_creation">
     <div class="bloc_step_one">
-      <p class="step_one"></p>
-      <div class="bloc_choices_btn_step_one">
-        <div class="choice_module">Module</div>
+      <p class="step_one"><span>Etape 1</span>Choix du qcm par module et par niveau</p>
+      <form class="form_choices_btn_step_one" method="GET">
+        <div class="select_option_choice_module"><select><option value="">Module</option></select></div>
         <div class="choice_difficulties_and_type_of_qcm">
-           <div class="choice_difficulties">
-             <ul class="list_choice_difficulties">
-               <li>facile</li>
-             </ul>
+           <div class="bloc_choice_difficulties">
+                <div class="bloc_border_choice_difficulties">
+                  <ul class="list_choice_difficulties">
+                    <li>Facile</li>
+                    <li>Moyen</li>
+                    <li>Difficile</li>
+                  </ul>
+                </div>
            </div>
            <div class="choice_type_of_qcm">
              <ul class="list_type_of_qcm">
-                <li>Qcm officiel </li>
-                <li>Qcm Personnalisé</li>
+                <li><input type="button" value="Qcm officiel"> </li>
+                <li><input type="button" value="Qcm Personnalisé"></li>
              </ul>
            </div>
         </div>
+      </form>
+    </div>
+    <p class="bloc_part_qcm"> - Personnalisation des questions du QCM choisi -</p>
+    <div class="bloc_display_questions_to_personalise"></div>
+   
+    <div class="bloc_create_qcm_with_drag_and_drop">
+     <p class="bloc_part_create_qcm"> - Creation du Qcm -</p>
+      <div class="bloc_explanation">
+        <button>Explication</button>
       </div>
+      
+      <fieldset class="bloc_number_of_difficulties">
+      <legend>Le niveau est déterminé automatiquement par la difficulté des questions</legend>
+          <div class="bloc_border_number_of_difficulties">
+              <ul class="list_number_of_difficulties">
+                  <li>Facile</li>
+                  <li>Moyen</li>
+                  <li>Difficile</li>
+              </ul>
+          </div>
+      </fieldset>
+      <div class="bloc_drag_and_drop"></div>
     </div>
   </main>
 </div>

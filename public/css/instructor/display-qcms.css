@@ -85,7 +85,7 @@ ul {
 }
 /* temporaire */
 .list_btn_qcm > li::after {
-  content: "facile";
+  content: attr(data-parent); /*voir html*/
   position: absolute;
   /* right: -108px; */
   right: -44%;

@@ -94,6 +94,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+  for (const qcm in questionslist.dataset.qcms) {
+    console.log(questionslist.dataset.qcm);
+  }
 
   // let test = fetch(location.href);
   // console.log(test);
