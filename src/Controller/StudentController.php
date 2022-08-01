@@ -13,7 +13,6 @@ use App\Repository\LinkInstructorSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
-use App\Repository\QcmInstanceRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\ResultRepository;
@@ -167,37 +166,47 @@ class StudentController extends AbstractController
         $student = $security->getUser();
         $qcm = $qcmRepository->find(['id' => ($qcmInstance->getQcm()->getId())]);
 
-        $questionAnswersDecode = $qcm->getQuestionsCache();
+        $questionsCache = $qcm->getQuestionsCache();
 
         $result = $request->query->all();
 
         $countIsCorrectAnswer = 0;
 
-        if ( count($result) !== 0 ) {
+        if( count($result) !== 0 ) {
 
-            foreach ($questionAnswersDecode as $questionDbKey => $questionDbValue) {
-                foreach ($result as $studentAnswerKey => $studentAnswerValue) {
-                    if ($questionAnswersDecode[$questionDbKey]['id'] == $studentAnswerKey) {
+            foreach ( $questionsCache as $questionCacheKey => $questionCache )
+            {
+                foreach ( $result as $studentAnswerKey => $studentAnswerValue )
+                {
+                    if( $questionsCache[$questionCacheKey]['id'] == $studentAnswerKey )
+                    {
                         // Radio
-                        if ( !$questionAnswersDecode[$questionDbKey]['isMultiple'] ) {
+                        if ( !$questionsCache[$questionCacheKey]['isMultiple'] )
+                        {
                             $studentAnswerValue = intval($studentAnswerValue);
-                            foreach ($questionAnswersDecode[$questionDbKey]['proposals'] as $answerKey => $answerValue) {
+                            foreach ($questionsCache[$questionCacheKey]['proposals'] as $proposalKey => $proposal)
+                            {
                                 //Si case cochée par l'etudiant et bonne réponse
-                                if (
-                                    $questionAnswersDecode[$questionDbKey]['proposals'][$answerKey]['isCorrectAnswer']
+                                if(
+                                    $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isCorrectAnswer']
                                     &&
-                                    $studentAnswerValue === $questionAnswersDecode[$questionDbKey]['proposals'][$answerKey]['id']
-                                ) {
+                                    $studentAnswerValue === $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id']
+                                )
+                                {
                                     $countIsCorrectAnswer++;
-                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['isStudentAnswer'] = 1;
+                                    $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 1;
+                                    $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
                                 }
                                 // Si case cochée par l'etudiant
-                                elseif ($studentAnswerValue === $questionAnswersDecode[$questionDbKey]['proposals'][$answerKey]['id']) {
-                                    $questionAnswersDecode['answers'][$answerKey]['isStudentAnswer'] = 1;
+                                elseif( $studentAnswerValue === $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id'] )
+                                {
+                                    $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 1;
+                                    $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                                 }
                                 // Si pas case cochée par l'etudiant
                                 else {
-                                    $questionAnswersDecode['answers'][$answerKey]['isStudentAnswer'] = 0;
+                                    $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 0;
+                                    $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                                 }
                             }
                         } // CheckBox
@@ -207,42 +216,42 @@ class StudentController extends AbstractController
                                 'good' => [],
                                 'bad' => []
                             ];
-                            foreach ($questionAnswersDecode[$questionDbKey]['proposals'] as $answerDbKey => $answerDbValue)
+                            foreach( $questionsCache[$questionCacheKey]['proposals'] as $proposalKey => $proposal )
                             {
-                                if( $questionAnswersDecode[$questionDbKey]['proposals'][$answerDbKey]['isCorrectAnswer'] )
+                                if( $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isCorrectAnswer'] )
                                 {
-                                    $dbAnswersCheck['good'][] = $questionAnswersDecode[$questionDbKey]['proposals'][$answerDbKey]['id'];
+                                    $dbAnswersCheck['good'][] = $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id'];
                                 }
                                 else
                                 {
-                                    $dbAnswersCheck['bad'][] = $questionAnswersDecode[$questionDbKey]['proposals'][$answerDbKey]['id'];
+                                    $dbAnswersCheck['bad'][] = $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id'];
                                 }
                             }
                             $goodAnswersCount = 0;
                             $badAnswersCount = 0;
                             foreach ($studentAnswerValue as $studentAnswer)
                             {
-                                if( in_array($studentAnswer, $dbAnswersCheck['good']) )
+                                if( in_array( $studentAnswer, $dbAnswersCheck['good'] ) )
                                 {
                                     $goodAnswersCount++;
-                                    $questionAnswersDecode[$questionDbKey]['student_answer_correct'] = 1;
+                                    $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
                                 }
                                 elseif( in_array($studentAnswer, $dbAnswersCheck['bad']) )
                                 {
                                     $badAnswersCount++;
-                                    $questionAnswersDecode[$questionDbKey]['student_answer_correct'] = 0;
+                                    $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                                 }
                             }
 
-                            foreach ($questionAnswersDecode[$questionDbKey]['proposals'] as $answerDbKey => $answerDbValue)
+                            foreach ($questionsCache[$questionCacheKey]['proposals'] as $answerDbKey => $answerDbValue)
                             {
                                 if( in_array($answerDbValue['id'], $studentAnswerValue) )
                                 {
-                                    $questionAnswersDecode[$questionDbKey]['proposals'][$answerDbKey]['isStudentAnswer'] = 1;
+                                    $questionsCache[$questionCacheKey]['proposals'][$answerDbKey]['isStudentAnswer'] = 1;
                                 }
                                 else
                                 {
-                                    $questionAnswersDecode[$questionDbKey]['proposals'][$answerDbKey]['isStudentAnswer'] = 0;
+                                    $questionsCache[$questionCacheKey]['proposals'][$answerDbKey]['isStudentAnswer'] = 0;
                                 }
                             }
 
@@ -255,7 +264,7 @@ class StudentController extends AbstractController
                 }
             }
 
-            $nbQuestions = count($questionAnswersDecode);
+            $nbQuestions = count($questionsCache);
             $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
 
             $result = new Result();
@@ -278,10 +287,6 @@ class StudentController extends AbstractController
                 $result->setLevel(Level::Dominate->value);
             }
 
-//            foreach ($questionAnswersDecode as $questionAnswersKey => $questionAnswersValue){
-//                $questionAnswersDecode[$questionAnswersKey] = json_encode($questionAnswersDecode[$questionAnswersKey]);
-//            }
-
             $qcmInstances = $qcm->getQcmInstances()->filter( function( $qcmInstance ) use ($student) {
                 return $qcmInstance->getStudent() === $student;
             });
@@ -296,7 +301,7 @@ class StudentController extends AbstractController
 
             $result->setIsFirstTry($isFirstTry);
 
-            $result->setAnswers($questionAnswersDecode);
+            $result->setAnswers($questionsCache);
             $result->setInstructorComment(null);
 
             $em->persist($result);
@@ -310,7 +315,7 @@ class StudentController extends AbstractController
             'idQcmInstance' => $qcmInstance->getId(),
             'nameQcmInstance' => $qcmInstance->getQcm()->getTitle(),
             'titleModule'=> $qcm->getModule()->getTitle(),
-            'questionsAnswers' => $questionAnswersDecode
+            'questionsAnswers' => $questionsCache
         ]);
     }
 
@@ -448,7 +453,6 @@ class StudentController extends AbstractController
             $proposals = [];
             foreach( $dbAnswer['proposals'] as $answer )
             {
-                dd($answer);
                 $proposal = $proposalRepo->find( $answer['id'] );
                 $proposals[] = [
                     'id'              => $answer['id'],
