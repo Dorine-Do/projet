@@ -29,11 +29,10 @@ class StudentController extends AbstractController
     public function manageQcms(
         LinkSessionStudentRepository $linkSessionStudentRepo,
         LinkInstructorSessionModuleRepository $linkSessionModuleRepo,
-        ModuleRepository $moduleRepo,
-        Security $security
+        ModuleRepository $moduleRepo
     ): Response
     {
-        $student = $security->getUser();
+        $student = $this->getUser();
 
         $allAvailableQcmInstances = $student->getQcmInstances();
 
@@ -118,11 +117,10 @@ class StudentController extends AbstractController
     #[Route('student/qcms/done', name: 'student_qcms_done', methods: ['GET'])]
     public function qcmsDone(
         LinkSessionStudentRepository $linkSessionStudentRepo,
-        LinkInstructorSessionModuleRepository $linkSessionModuleRepo,
-        Security $security
+        LinkInstructorSessionModuleRepository $linkSessionModuleRepo
     ): Response
     {
-        $student = $security->getUser();
+        $student = $this->getUser();
 
         $studentQcmInstances = $student->getQcmInstances();
         $studentResults = [];
@@ -159,11 +157,10 @@ class StudentController extends AbstractController
         QcmInstance $qcmInstance,
         QcmRepository $qcmRepository,
         Request $request,
-        EntityManagerInterface $em,
-        Security $security
+        EntityManagerInterface $em
     ): Response
     {
-        $student = $security->getUser();
+        $student = $this->getUser();
         $qcm = $qcmRepository->find(['id' => ($qcmInstance->getQcm()->getId())]);
 
         $questionsCache = $qcm->getQuestionsCache();
@@ -172,8 +169,8 @@ class StudentController extends AbstractController
 
         $countIsCorrectAnswer = 0;
 
-        if( count($result) !== 0 ) {
-
+        if( count($result) !== 0 )
+        {
             foreach ( $questionsCache as $questionCacheKey => $questionCache )
             {
                 foreach ( $result as $studentAnswerKey => $studentAnswerValue )
@@ -204,7 +201,8 @@ class StudentController extends AbstractController
                                     $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                                 }
                                 // Si pas case cochée par l'etudiant
-                                else {
+                                else
+                                {
                                     $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 0;
                                     $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                                 }
@@ -322,11 +320,10 @@ class StudentController extends AbstractController
     #[Route('student/qcm/qcmDone/{qcmInstance}', name: 'student_qcm_done', methods: ['GET'])]
     public function qcmDone(
         QcmInstance $qcmInstance,
-        ResultRepository $resultRepository,
-        Security $security
+        ResultRepository $resultRepository
     ): Response
     {
-        $result = $resultRepository->findOneBy( [ 'qcmInstance' => $qcmInstance, 'student'=> $security->getUser() ] );
+        $result = $resultRepository->findOneBy( [ 'qcmInstance' => $qcmInstance, 'student'=> $this->getUser() ] );
 
         $questionsAnswersDecode = [];
         foreach ($result->getAnswers() as $answer){
@@ -350,7 +347,7 @@ class StudentController extends AbstractController
         $module = $moduleRepo->find( $request->get('module') );
         $difficulty = (int) $request->get('difficulty');
 
-        $student = $security->getUser();
+        $student = $this->getUser();
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $trainingQcm = $qcmGenerator->generateRandomQcm( $module, true, $difficulty );
@@ -383,7 +380,7 @@ class StudentController extends AbstractController
         EntityManagerInterface $manager
     ): Response
     {
-        $student = $security->getUser();
+        $student = $this->getUser();
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $retryQcm = $qcmGenerator->generateRandomQcm( $module );
@@ -414,12 +411,11 @@ class StudentController extends AbstractController
     #[Route('student/qcm/retry_same_qcm/{qcm}', name: 'student_retry_same_qcm', methods: ['GET'])]
     public function retrySameQcm(
         Qcm $qcm,
-        Security $security,
         EntityManagerInterface $manager
     ): Response
     {
         $qcmInstance = new QcmInstance();
-        $qcmInstance->setStudent( $security->getUser() );
+        $qcmInstance->setStudent( $this->getUser() );
         $qcmInstance->setQcm( $qcm );
         $qcmInstance->setStartTime( new \DateTime() );
         $endTime = new \DateTime();
@@ -443,6 +439,7 @@ class StudentController extends AbstractController
     ): Response
     {
         $dbAnswers = $result->getAnswers();
+        dd($dbAnswers);
         $qcmInstance = $result->getQcmInstance();
         $qcm = $qcmInstance->getQcm();
         $qcmQuestions = [];
