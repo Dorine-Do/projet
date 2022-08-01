@@ -189,15 +189,15 @@ class StudentController extends AbstractController
                                     $studentAnswerValue === $questionAnswersDecode[$questionDbKey]['proposals'][$answerKey]['id']
                                 ) {
                                     $countIsCorrectAnswer++;
-                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['student_answer'] = 1;
+                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerKey]['isStudentAnswer'] = 1;
                                 }
                                 // Si case cochée par l'etudiant
                                 elseif ($studentAnswerValue === $questionAnswersDecode[$questionDbKey]['proposals'][$answerKey]['id']) {
-                                    $questionAnswersDecode['answers'][$answerKey]['student_answer'] = 1;
+                                    $questionAnswersDecode['answers'][$answerKey]['isStudentAnswer'] = 1;
                                 }
                                 // Si pas case cochée par l'etudiant
                                 else {
-                                    $questionAnswersDecode['answers'][$answerKey]['student_answer'] = 0;
+                                    $questionAnswersDecode['answers'][$answerKey]['isStudentAnswer'] = 0;
                                 }
                             }
                         } // CheckBox
@@ -238,11 +238,11 @@ class StudentController extends AbstractController
                             {
                                 if( in_array($answerDbValue['id'], $studentAnswerValue) )
                                 {
-                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 1;
+                                    $questionAnswersDecode[$questionDbKey]['proposals'][$answerDbKey]['isStudentAnswer'] = 1;
                                 }
                                 else
                                 {
-                                    $questionAnswersDecode[$questionDbKey]['answers'][$answerDbKey]['student_answer'] = 0;
+                                    $questionAnswersDecode[$questionDbKey]['proposals'][$answerDbKey]['isStudentAnswer'] = 0;
                                 }
                             }
 
@@ -278,9 +278,9 @@ class StudentController extends AbstractController
                 $result->setLevel(Level::Dominate->value);
             }
 
-            foreach ($questionAnswersDecode as $questionAnswersKey => $questionAnswersValue){
-                $questionAnswersDecode[$questionAnswersKey] = json_encode($questionAnswersDecode[$questionAnswersKey]);
-            }
+//            foreach ($questionAnswersDecode as $questionAnswersKey => $questionAnswersValue){
+//                $questionAnswersDecode[$questionAnswersKey] = json_encode($questionAnswersDecode[$questionAnswersKey]);
+//            }
 
             $qcmInstances = $qcm->getQcmInstances()->filter( function( $qcmInstance ) use ($student) {
                 return $qcmInstance->getStudent() === $student;
@@ -440,15 +440,15 @@ class StudentController extends AbstractController
         $dbAnswers = $result->getAnswers();
         $qcmInstance = $result->getQcmInstance();
         $qcm = $qcmInstance->getQcm();
-
         $qcmQuestions = [];
 
         foreach( $dbAnswers as $dbAnswer )
         {
-            $question = $questionRepo->find( $dbAnswer['question']['id'] );
+            $question = $questionRepo->find( $dbAnswer['id'] );
             $proposals = [];
-            foreach( $dbAnswer['question']['answers'] as $answer )
+            foreach( $dbAnswer['proposals'] as $answer )
             {
+                dd($answer);
                 $proposal = $proposalRepo->find( $answer['id'] );
                 $proposals[] = [
                     'id'              => $answer['id'],
@@ -458,13 +458,11 @@ class StudentController extends AbstractController
                 ];
             }
             $qcmQuestions[] = [
-                'question'  => $dbAnswer['question']['id'],
-                'wording'   => $question->getWording(),
+                'questionId'  => $dbAnswer['id'],
+                'wording'     => $question->getWording(),
                 'answers'   => $proposals
             ];
         }
-
-//        dd($qcmQuestions);
 
         return $this->render('student/qcm_correction.html.twig', [
             'qcmQuestions' => $qcmQuestions,
