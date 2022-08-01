@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'qcm.todo'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{asset('css/student/qcmToDo.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    <div class="qcmToDo">
+        <h1>- {{ 'qcm.todo'|trans }} -</h1>
+
+        <div class="divName">
+            <p class="nom">
+                {{ 'module.name'|trans }} :
+                {{ titleModule }}
+            </p>
+            <p class="nom">
+                {{ 'qcm.name'|trans }} :
+                {{ nameQcmInstance }}
+            </p>
+        </div>
+        <div class="premiereDiv">
+            <div class="diff">
+                <p>{{ 'difficulty.easy'|trans }}</p>
+                <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="facile">
+            </div>
+            <div class="diff">
+                <p>{{ 'difficulty.medium'|trans }}</p>
+                <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="moyen">
+            </div>
+            <div class="diff">
+                <p>{{ 'difficulty.difficult'|trans }}</p>
+                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+            </div>
+        </div>
+
+        <section>
+            {% for question in qcmQuestions %}
+                <div class="imageDiff">
+                    <div class="trefle">
+                        <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                    </div>
+                    <div>
+                        <p class="question"><span class="numeroForm">1</span>
+
+                            {{ question.wording }}
+                        </p>
+                    </div>
+                </div>
+                <div class="allReponse">
+                    {% for answer in question.answers %}
+                        <p>
+                            {% if answer.isCorrectAnswer %}
+                                <h4 style="color: forestgreen">{{ answer.wording }}</h4>
+                            {% elseif answer.isStudentAnswer and answer.isCorrectAnswer == false %}
+                                <h4 style="color: tomato">{{ answer.wording }}</h4>
+                            {% else %}
+                                <h4>{{ answer.wording }}</h4>
+                            {% endif %}
+                        </p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </section>
+    </div>
+
+{% endblock %}

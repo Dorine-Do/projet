@@ -5,17 +5,18 @@ namespace App\Controller;
 use App\Entity\Enum\Level;
 use App\Entity\LinkSessionModule;
 use App\Entity\Module;
+use App\Entity\Qcm;
 use App\Entity\QcmInstance;
 use App\Entity\Result;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\LinkInstructorSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
+use App\Repository\ProposalRepository;
 use App\Repository\QcmInstanceRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\ResultRepository;
-use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -137,7 +138,7 @@ class StudentController extends AbstractController
             $qcmInstance = $studentResult->getQcmInstance();
             $qcmsDone[] = [
                 'qcm'    => $qcmInstance->getQcm(),
-                'result' => $studentResult
+                'result' => $studentResult,
             ];
         }
 
@@ -370,7 +371,7 @@ class StudentController extends AbstractController
     }
 
     #[Route('student/qcm/retry_official_qcm/{module}', name: 'student_official_qcm_retry', methods: ['GET'])]
-    public function retryOfficialQcm(
+    public function retryQcmToGetBadge(
         QuestionRepository $questionRepo,
         Module $module,
         Security $security,
@@ -402,6 +403,73 @@ class StudentController extends AbstractController
 
         return $this->redirectToRoute('student_qcm_to_do', [
             'qcmInstance'    => $qcmInstanceRetry->getId(),
+        ]);
+    }
+
+    #[Route('student/qcm/retry_same_qcm/{qcm}', name: 'student_retry_same_qcm', methods: ['GET'])]
+    public function retrySameQcm(
+        Qcm $qcm,
+        Security $security,
+        EntityManagerInterface $manager
+    ): Response
+    {
+        $qcmInstance = new QcmInstance();
+        $qcmInstance->setStudent( $security->getUser() );
+        $qcmInstance->setQcm( $qcm );
+        $qcmInstance->setStartTime( new \DateTime() );
+        $endTime = new \DateTime();
+        $qcmInstance->setEndTime( $endTime->add( new \DateInterval('P1D') ) );
+        $qcmInstance->setCreatedAtValue();
+        $qcmInstance->setUpdateAtValue();
+
+        $manager->persist( $qcmInstance );
+        $manager->flush();
+
+        return $this->redirectToRoute('student_qcm_to_do', [
+            'qcmInstance'    => $qcmInstance->getId(),
+        ]);
+    }
+
+    #[Route('student/qcm/correction/{result}', name: 'student_qcm_correction', methods: ['GET'])]
+    public function qcmCorrection(
+        Result $result,
+        QuestionRepository $questionRepo,
+        ProposalRepository $proposalRepo
+    ): Response
+    {
+        $dbAnswers = $result->getAnswers();
+        $qcmInstance = $result->getQcmInstance();
+        $qcm = $qcmInstance->getQcm();
+
+        $qcmQuestions = [];
+
+        foreach( $dbAnswers as $dbAnswer )
+        {
+            $question = $questionRepo->find( $dbAnswer['question']['id'] );
+            $proposals = [];
+            foreach( $dbAnswer['question']['answers'] as $answer )
+            {
+                $proposal = $proposalRepo->find( $answer['id'] );
+                $proposals[] = [
+                    'id'              => $answer['id'],
+                    'wording'         => $proposal->getWording(),
+                    'isStudentAnswer' => $answer['isStudentAnswer'],
+                    'isCorrectAnswer' => $answer['isCorrectAnswer'],
+                ];
+            }
+            $qcmQuestions[] = [
+                'question'  => $dbAnswer['question']['id'],
+                'wording'   => $question->getWording(),
+                'answers'   => $proposals
+            ];
+        }
+
+//        dd($qcmQuestions);
+
+        return $this->render('student/qcm_correction.html.twig', [
+            'qcmQuestions' => $qcmQuestions,
+            'nameQcmInstance' => $qcmInstance->getQcm()->getTitle(),
+            'titleModule'=> $qcm->getModule()->getTitle(),
         ]);
     }
 }
