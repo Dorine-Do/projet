@@ -253,6 +253,8 @@ class StudentController extends AbstractController
                                 }
                             }
 
+
+
                             if( $goodAnswersCount === count($dbAnswersCheck['good']) && $badAnswersCount === 0 )
                             {
                                 $countIsCorrectAnswer ++;
@@ -439,7 +441,6 @@ class StudentController extends AbstractController
     ): Response
     {
         $dbAnswers = $result->getAnswers();
-        dd($dbAnswers);
         $qcmInstance = $result->getQcmInstance();
         $qcm = $qcmInstance->getQcm();
         $qcmQuestions = [];

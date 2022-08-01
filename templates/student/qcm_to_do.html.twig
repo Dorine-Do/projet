@@ -71,7 +71,16 @@
         </form>
     </div>
 
-
+        <div id="error-modal" style="display: none">
+            <div class="overlay"></div>
+            <div class="modalContent">
+                <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}">
+                <p>
+                    Merci de répondre à toutes les questions pour valider le QCM...
+                </p>
+                <button type="button" class="cancelBtn" id="cancel-error-qcm-btn">{{ 'button.back'|trans }}</button>
+            </div>
+        </div>
 
         <div id="my-modal" class="modalContainer">
             <div class="overlay"></div>

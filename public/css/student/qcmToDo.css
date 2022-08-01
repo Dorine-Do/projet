@@ -104,7 +104,7 @@ img{
 
 /***************************************** POP UP *************************************/
 
-#my-modal{
+#my-modal, #error-modal{
     display: none;
     position: fixed;
     top: 0;
