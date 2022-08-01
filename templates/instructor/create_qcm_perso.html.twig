@@ -105,44 +105,53 @@
         <div class="dragAndDrop">
             {#*************************************************************************************************#}
             {#QCM CHOICED #}
-            <div>
-                <div class="qcmChoisedLegend">
-                    QCM Choici
-                    <div>
-                        Facile
+            <div class="qcmChoised">
+                <div class="qcmChoisedSubDiv">
+                    <div class="qcmChoisedLegend">
+                        QCM Choici
+                        <div class="qcmChoisedLevel">
+                            Facile
+                        </div>
                     </div>
-                </div>
-                <div class="qcmChoisedMain">
-                    <ul>
-                        {% for question in generatedQcm.questionsCache %}
-                            <li class="qcmChoisedLi">
-                                <div>
-                                    <div class="questionWordingDiv">
-                                        {#TODO Remplacer le texte par l'image des trefles en fonction de la difficulté de la question#}
-                                        <p>
-                                            Ici trèfle
-                                        </p>
-                                        <p class="questionWordingP" >
-                                            {{question.wording}}
-                                        </p>
-                                        <p class="chevronBasP">
-                                            <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg">
-                                        </p>
-                                    </div>
-                                    <div class="proposalWordingDiv">
-                                        {% for proposal in question.proposals %}
-                                            <p class="proposalWordingP">
-                                                {{ proposal.wording }}
+                    <div class="qcmChoisedMain">
+                        <ul>
+                            {% for question in generatedQcm.questionsCache %}
+                                <li class="qcmChoisedLi">
+                                    <div>
+                                        <div class="qcmChoisedQuestionWordingDiv">
+                                            {#TODO Modifier les app fixture pour ajouter la difficulté de la question#}
+{#                                            {% if question.difficulty is same as 1 %}#}
+{#                                                <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle">#}
+{#                                            {% elseif question.difficulty is same as 2 %}#}
+{#                                                <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle">#}
+{#                                            {% else %}#}
+{#                                                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle">#}
+{#                                            {% endif %}#}
+                                            <p>
+                                                trèfle
                                             </p>
-                                        {% endfor %}
+                                            <p class="qcmChoisedQuestionWordingP" >
+                                                {{question.wording}}
+                                            </p>
+                                            <p class="qcmChoisedchevronBasP">
+                                                <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="qcmChoisedchevronBasImg">
+                                            </p>
+                                        </div>
+                                        <div class="qcmChoisedProposalWordingDiv proposalWordingDiv">
+                                            {% for proposal in question.proposals %}
+                                                <p class="proposalWordingP">
+                                                    {{ proposal.wording }}
+                                                </p>
+                                            {% endfor %}
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    X
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                                    <div>
+                                        X
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
                 {#*************************************************************************************************#}
                 {#LIST OF QUESTION #}

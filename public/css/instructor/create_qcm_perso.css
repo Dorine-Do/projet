@@ -16,19 +16,23 @@ p{
 
 .questionWordingDiv{
     display: flex;
+    align-items: center;
 }
 
 
 .proposalWordingP{
 
 }
-
+ul{
+    margin: 0;
+    padding: 0;
+}
 .chevronBasP{
     width: 5%;
 }
 
 
-/*********************************************** BOUTON DEBUT DE PAGE (MODULE + GENERATE) *************************************/
+/*********************************************** BOUTON DEBUT DE PAGE (MODULE + GENERATE) ************************************/
 
 .selectModule{
     padding: 25px 200px;
@@ -220,24 +224,77 @@ p{
 /*DRAG AND DROP*/
 
 .dragAndDrop{
-    display: flex;
-    flex-wrap: wrap;
+    margin-top: 4em;
+    background-color: #FFF4E4;
+    padding: 1em;
+    border-radius: 5px;
 }
 
-.qcmChoisedLegend{
-    width: 100%;
-}
 
-.qcmChoisedMain{
-    width: 37%;
-}
 
 .createQuestion{
-    width: 100%;
+    /*width: 47%;*/
 }
 
 /***************************************************************************************************/
 /*QCM CHOISED*/
+
+.qcmChoised{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.qcmChoisedLegend{
+    width: 100%;
+}
+
+.qqq
+
+.qcmChoisedSubDiv{
+    width: 47%;
+    height: 40%;
+    background-color: white;
+}
+
+.qcmChoisedMain{
+    height: 40%;
+    overflow: scroll;
+}
+
+/*Une question*/
+.qcmChoisedQuestionWordingDiv{
+    background-color: var(--pamplemousse);
+    border-radius: 5px;
+    padding: .1em;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.qcmChoisedQuestionWordingP{
+    margin: 0;
+    text-align: center;
+    padding: 20px 10px;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.qcmChoisedchevronBasP{
+    width: 15%;
+}
+.qcmChoisedchevronBasImg{
+    width: 50%;
+}
+
+.qcmChoisedProposalWordingDiv{
+    width: 90%;
+}
+
+/*************************************/
+
+.listQuestionTypedDiv{
+    width: 47%;
+}
 
 .qcmChoisedLi{
     display: flex;
@@ -256,8 +313,8 @@ p{
 /*LIST QUESTON*/
 
 .listQuestionTypedDiv{
-    display: flex;
-    flex-wrap: wrap;
+    /*display: flex;*/
+    /*flex-wrap: wrap;*/
 }
 
 .btnChoiseQuestionType{
