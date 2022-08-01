@@ -1,3 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/instructor/display-qcms.css') }}">
+{% endblock %}
+
+
+{% block body %}
 {{dump(qcms)}}
 <main class="container_qcm_and_questions_management">
  <div class="bloc_btns_nav">
@@ -9,37 +17,47 @@
         <div class="bloc_qcm">
             <ul class="list_btn_qcm">
             {% for qcm in qcms %}
-                    <li class="li_btn_qcm">
-                        <input type='button' value='{{qcm.title }}'id='{{qcm.id}}'> 
+                    <li class="li_btn_qcm" data-id='{{qcm.id}}'>
+                        {{qcm.title }}
                     </li> 
 
             {% endfor %}
             </ul>
-            <div class="bloc_btn_selected_qcm">
-                <a href="" >Selectionner</a>
-            </div>
+           
         </div>
    <div class="bloc-toggle-ul-question">
    
-        <ul class="list_questions"  >
-         {% for qcm in qcms %}
+     {# {% for qcm in qcms %} for temporaire #}
+        {# <ul class="list_questions" data-id='{{qcm.id}}'  data-prototype='{{qcm.title}}' > #}
+         <ul class="list_questions">
+           {% for qcm in qcms %}
                 {% for question in qcm.getQuestions() %}
-                    <li >
+                 
+                    <li data-id='{{question.id}}'> {#  data-id temporaire#}
 
                     <span class="qcm_question_number"></span> 
                     {{question.wording }}
                    
                     </li> 
+                    
 
                 {% endfor %}
+            
          {% endfor %}
+
+         {# pour afficher les question en fonction de l'id des qcm
+         dans le js deplacer les li dans le ul avec l'id corespondant au clic  et cacher l'autre
+         sino au clic du bouton cacher l'ul ne corespondant pas a l'id du bouton cliqué #}
+         
  
          </ul>
+          {# {% endfor %} #}
      </div>
         
     </div>
 <main>
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/instructor/instructorIndex.js') }}"></script>
-    
+ 
+{% endblock %}
 {% endblock %}

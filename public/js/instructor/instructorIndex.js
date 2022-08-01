@@ -39,16 +39,62 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   ////////////////////
+  // DECLARATION DE VARIABLE
 
-  let inputQcm = document.querySelectorAll(".li_btn_qcm input");
-  //   let questions = document.querySelectorAll(".list_questions li");
+  let inputQcm = document.querySelectorAll(".li_btn_qcm ");
+  let questions = document.querySelectorAll(".list_questions li");
+  let questionsSpans = document.querySelectorAll(".qcm_question_number");
+  // let questionsLi = document.querySelector(".list_questions li");
+  let questionslist = document.querySelector(".list_questions ");
   let forBtnQcm;
-  console.log(questions);
+
+  ////////////////////
+  //  NUMEROTATION DES QUESTION
+  for (
+    let numQuestion = 0;
+    numQuestion < questionsSpans.length;
+    numQuestion++
+  ) {
+    questionsSpans[numQuestion].innerHTML = 1 + numQuestion;
+  }
+
+  /////////////////////
+  //  TEST url
+  if (window.location.href.includes(location.pathname)) {
+    console.log(
+      (document.querySelector(
+        ".bloc_link_btn_my_creations button"
+      ).style.background = "#93AD6E")
+    );
+  }
+
+  ///////////////////
+  // SELECTION UNIQUE DES BOUTONS QCMS ET DISPLAY DE LA LISTE DES QUESTIONS LIEES
 
   for (forBtnQcm = 0; forBtnQcm < inputQcm.length; forBtnQcm++) {
-    console.log(inputQcm[forBtnQcm]);
     inputQcm[forBtnQcm].addEventListener("click", function (e) {
-      console.log(e.target);
+      let eTarget = e.target.dataset.id;
+
+      for (forBtnQcm = 0; forBtnQcm < inputQcm.length; forBtnQcm++) {
+        if (e.target.dataset.id == inputQcm[forBtnQcm].dataset.id) {
+          console.log("yes");
+          questionslist.dataset.id = `${eTarget}`;
+          inputQcm[forBtnQcm].classList.add("active_li");
+        } else {
+          inputQcm[forBtnQcm].classList.remove("active_li");
+          console.log("no");
+
+          // questionslist.style.display = "none";
+
+          // if (e.target.dataset.id !== questionslist.dataset.id) {
+          //   questionslist.style.background = "blue";
+          //   questionslist.style.display = "none";
+          // }
+        }
+      }
     });
   }
+
+  // let test = fetch(location.href);
+  // console.log(test);
 });
