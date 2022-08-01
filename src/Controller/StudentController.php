@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Enum\Level;
 use App\Entity\LinkSessionModule;
+use App\Entity\Module;
 use App\Entity\QcmInstance;
 use App\Entity\Result;
 use App\Helpers\QcmGeneratorHelper;
@@ -58,7 +59,6 @@ class StudentController extends AbstractController
         $unofficialQcmInstancesDone = [];
         foreach ($qcmResults as $qcmResult)
         {
-
             if( !$qcmResult->getQcmInstance()->getQcm()->getIsOfficial() ) {
                 $unofficialQcmInstancesDone[] = $qcmResult->getQcmInstance();
             }
@@ -105,7 +105,7 @@ class StudentController extends AbstractController
                 $retryableModules[] = $endedModule;
             }
         }
-//        dd($unofficialQcmNotDone);
+
         return $this->render('student/qcms.html.twig', [
             'student'                       => $student,
             'qcmOfTheWeek'                  => $officialQcmOfTheWeek,
@@ -157,12 +157,13 @@ class StudentController extends AbstractController
     #[Route('student/qcms/qcmToDo/{qcmInstance}', name: 'student_qcm_to_do', methods: ['GET', 'POST'])]
     public function QcmToDo(
         QcmInstance $qcmInstance,
-        QcmInstanceRepository $qcmInstanceRepository,
         QcmRepository $qcmRepository,
         Request $request,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        Security $security
     ): Response
     {
+        $student = $security->getUser();
         $qcm = $qcmRepository->find(['id' => ($qcmInstance->getQcm()->getId())]);
 
         $questionAnswersDecode = $qcm->getQuestionsCache();
@@ -171,7 +172,7 @@ class StudentController extends AbstractController
 
         $countIsCorrectAnswer = 0;
 
-        if (count($result) !== 0) {
+        if ( count($result) !== 0 ) {
 
             foreach ($questionAnswersDecode as $questionDbKey => $questionDbValue) {
                 foreach ($result as $studentAnswerKey => $studentAnswerValue) {
@@ -280,15 +281,18 @@ class StudentController extends AbstractController
                 $questionAnswersDecode[$questionAnswersKey] = json_encode($questionAnswersDecode[$questionAnswersKey]);
             }
 
-            $isAlreadyTryed = $qcmInstanceRepository->findBy( ['id' => $qcmInstance->getQcm()->getId()] );
-            if( $isAlreadyTryed )
+            $qcmInstances = $qcm->getQcmInstances()->filter( function( $qcmInstance ) use ($student) {
+                return $qcmInstance->getStudent() === $student;
+            });
+            if( $qcmInstances && $qcm->getIsOfficial() )
             {
                 $isFirstTry = false;
             }
             else
             {
-                $isFirstTry = false;
+                $isFirstTry = true;
             }
+
             $result->setIsFirstTry($isFirstTry);
 
             $result->setAnswers($questionAnswersDecode);
@@ -332,7 +336,6 @@ class StudentController extends AbstractController
     public function qcmTraining(
         Request $request,
         ModuleRepository $moduleRepo,
-        StudentRepository $studentRepo,
         QuestionRepository $questionRepo,
         Security $security,
         EntityManagerInterface $manager
@@ -341,7 +344,7 @@ class StudentController extends AbstractController
         $module = $moduleRepo->find( $request->get('module') );
         $difficulty = (int) $request->get('difficulty');
 
-        $student = $studentRepo->findOneBy( ['email' => $security->getUser()->getUserIdentifier()] );
+        $student = $security->getUser();
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $trainingQcm = $qcmGenerator->generateRandomQcm( $module, true, $difficulty );
@@ -363,6 +366,42 @@ class StudentController extends AbstractController
 
         return $this->redirectToRoute('student_qcm_to_do', [
             'qcmInstance' => $trainingQcmInstance->getId()
+        ]);
+    }
+
+    #[Route('student/qcm/retry_official_qcm/{module}', name: 'student_official_qcm_retry', methods: ['GET'])]
+    public function retryOfficialQcm(
+        QuestionRepository $questionRepo,
+        Module $module,
+        Security $security,
+        EntityManagerInterface $manager
+    ): Response
+    {
+        $student = $security->getUser();
+
+        $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
+        $retryQcm = $qcmGenerator->generateRandomQcm( $module );
+
+        $manager->persist( $retryQcm );
+        $manager->flush();
+
+        $qcmInstanceRetry = new QcmInstance();
+        $qcmInstanceRetry->setStudent( $student );
+        $qcmInstanceRetry->setQcm( $retryQcm );
+        $qcmInstanceRetry->setStartTime( new \DateTime() );
+        $endTime = new \DateTime();
+        $qcmInstanceRetry->setEndTime( $endTime->add( new \DateInterval('P1D') ) );
+        $qcmInstanceRetry->setCreatedAtValue();
+        $qcmInstanceRetry->setUpdateAtValue();
+
+        $manager->persist( $qcmInstanceRetry );
+        $manager->flush();
+
+        $manager->persist( $qcmInstanceRetry );
+        $manager->flush();
+
+        return $this->redirectToRoute('student_qcm_to_do', [
+            'qcmInstance'    => $qcmInstanceRetry->getId(),
         ]);
     }
 }

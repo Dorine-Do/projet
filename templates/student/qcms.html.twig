@@ -84,16 +84,16 @@
                         {{ 'qcm.chanceExplain'|trans }}
                     </p>
                 </div>
-                <div class="divBadge">
+                <div id="retry_for_badges" class="divBadge">
                     <div class="lastDiv">
                         <select name="module" class="selectEntrainement">
                             <option value="">-- {{ 'module.choice'|trans }} --</option>
                             {% for retryableModule in retryableModules %}
-                                <option value="">{{retryableModule.title}}</option>
+                                <option value="{{ retryableModule.id }}">{{retryableModule.title}}</option>
                             {% endfor %}
                         </select>
                     </div>
-                    <a class="buttonBadge" href="">{{ 'button.tryAgain'|trans }}</a>
+                    <button class="buttonBadge">{{ 'button.tryAgain'|trans }}</button>
                 </div>
             </section>
             <p class="lastP">
