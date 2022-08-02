@@ -91,41 +91,6 @@ class AppFixtures extends Fixture
 //        $this->generateJson();
     }
 
-    public function generateJson(){
-       $res =
-           [
-                "question"=> [
-                    "id"=> 4,
-                    "difficulty_points"=> 5,
-                    "answers"=> [
-                      [
-                        "id"=>1,
-                        "student_answer"=> 0,
-                        "is_the_correct_answer"=> 0,
-                      ],
-                      [
-                        "id"=> 2,
-                        "student_answer"=> 0,
-                        "is_the_correct_answer"=> 0,
-                      ],
-                      [
-                        "id"=> 3,
-                        "student_answer"=> 0,
-                        "is_the_correct_answer"=> 1,
-                      ],
-                      [
-                          "id"=> 4,
-                        "student_answer"=> 1,
-                        "is_the_correct_answer"=> 0,
-                      ]
-                    ],
-                ],
-              "total_score"=> 75
-           ];
-        $resJson = json_encode($res);
-        dd($resJson);
-    }
-
     public function generateModules( $manager ) :void
     {
         for ($i=0; $i < 10; $i++)
@@ -483,7 +448,7 @@ class AppFixtures extends Fixture
     public function generateQcmInstancesWithSpecifyModule( $manager ) :void
     {
         $dbQcms = $this->qcmRepository->findBy(['module' => 11]);
-//        dd($dbQcm);
+
         $dbStudents = $this->studentRepository->findByEnabled();
         for( $i = 0; $i < 3; $i++ )
         {
@@ -501,19 +466,12 @@ class AppFixtures extends Fixture
 
     public function generateResults( $manager ) :void
     {
-        $dbQcmInstances = $this->qcmInstanceRepository->findAll();
-
-        $dbQcmInstanceUsed = [];
-
         for( $i = 0; $i < 5; $i++ )
         {
+            $dbQcmInstancesWithoutResult = $this->qcmInstanceRepository->AllQcmInstanceWithoutResult();
+            $dbQcmInstance = $dbQcmInstancesWithoutResult[ array_rand( $dbQcmInstancesWithoutResult ) ];
+
             $result = new Result();
-
-            $dbQcmInstanceWithoutResult = $this->qcmInstanceRepository->AllQcmInstanceWithoutResult();
-            $dbQcmInstance = $dbQcmInstanceWithoutResult[array_rand($dbQcmInstanceWithoutResult)];
-
-            $dbQcmInstanceUsed[] = $dbQcmInstance->getId();
-
             $result->setQcmInstance( $dbQcmInstance );
             $score = $this->faker->numberBetween(0,100);
             $result->setIsFirstTry(rand(0,1));
@@ -548,16 +506,16 @@ class AppFixtures extends Fixture
                 {
                     $proposalDetails[] = [
                         'id'              => $proposal['id'],
+                        'wording'         => $proposal['wording'],
+                        'isCorrectAnswer' => $proposal['isCorrectAnswer'],
                         'isStudentAnswer' => rand(0,1),
-                        'isCorrectAnswer' => $proposal['isCorrectAnswer']
                     ];
                 }
                 $resultAnswers[] = [
-                    "question"   => [
-                        'id'        => $questionAnswer['id'],
-                        'answers'   => $proposalDetails
-                    ],
-                    "totalScore" => $score
+                    'id'          => $questionAnswer['id'],
+                    'wording'     => $questionAnswer['wording'],
+                    'isMultiple'  => $questionAnswer['isMultiple'],
+                    'proposals'   => $proposalDetails
                 ];
             }
 
