@@ -10,48 +10,46 @@ p{
     margin: 0;
 }
 
-.questionLi{
-    margin: 1em;
-}
 
-.questionWordingDiv{
-    display: flex;
-    align-items: center;
-}
-
-
-.proposalWordingP{
-
-}
 ul{
     margin: 0;
     padding: 0;
 }
-.chevronBasP{
-    width: 5%;
+
+/*PARTIE 1*/
+
+.partOne{
+    width: 80%;
+    margin: auto;
 }
 
+/*********************************************** BOUTON DEBUT DE PAGE (MODULE + GENERATE)***********************************/
 
-/*********************************************** BOUTON DEBUT DE PAGE (MODULE + GENERATE) ************************************/
+.partOne > form {
+    margin: 2em 0 2em 0;
+    padding-bottom: 2em;
+    border-bottom: 2px solid #c7c7c7;
+}
 
 .selectModule{
-    padding: 25px 200px;
-    border: none;
-    background-color: var(--fond);
-    font-size: var(--semi_small);
-    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
-    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
     display: block;
     margin: 30px auto;
+    padding: .7em 11em;
+    background-color: var(--fond);
+    font-size: var(--semi_normal);
+    color: var(--grey);
+    border: none;
+    border-radius: 5px;
+    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
 }
-
 .buttonGenerate{
     background-color: var(--grey);
     color: white;
     border-radius: 20px;
     border: none;
     padding: 15px 180px;
-    font-size: var(--semi_small);
+    font-size: var(--semi_normal);
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -71,6 +69,7 @@ ul{
     border-radius: 20px;
 }
 
+
 /***************************************************************************************************/
 /*GENERATE QCM*/
 
@@ -80,7 +79,7 @@ ul{
     border-radius: 25px;
     border: none;
     padding: 20px 150px;
-    font-size: var(--semi_small);
+    font-size: var(--semi_normal);
     margin: 35px auto;
     display: block;
     cursor: pointer;
@@ -96,6 +95,44 @@ ul{
     padding: 20px 40px 10px 40px;
 }
 
+/************************************************************************/
+/*CUSTOM SCROLL*/
+.backWhite,
+.qcmChoisedMain{
+    background-color: white;
+    padding: 20px;
+    overflow: scroll;
+    height: 900px;
+    border-radius: 10px;
+    border-style: none;
+}
+
+/* Works on Firefox */
+.backWhite,
+.qcmChoisedMain {
+    scrollbar-width: thin;
+    scrollbar-color: var(--pamplemousse) var(--grey);
+}
+
+/* Works on Chrome, Edge, and Safari */
+.backWhite::-webkit-scrollbar,
+.qcmChoisedMain::-webkit-scrollbar{
+    width: 12px;
+}
+
+.backWhite::-webkit-scrollbar-track,
+.qcmChoisedMain::-webkit-scrollbar-track{
+    background: var(--grey);
+    border-radius: 5px;
+}
+
+.backWhite::-webkit-scrollbar-thumb,
+.qcmChoisedMain::-webkit-scrollbar-thumb{
+    background-color: var(--fond);
+    border-radius: 20px;
+    border: 3px solid var(--grey);
+}
+
 .numeroForm{
     background-color: white;
     padding: 8px 17px;
@@ -105,53 +142,67 @@ ul{
 
 .numeroProp{
     background-color: var(--grey);
-    padding: 8px 17px;
+    padding: 4px 12px;
     border-radius: 50%;
     margin-right: 8px;
     color: white;
     font-size: var(--grand);
 }
 
-.chevronBasImg{
-    width: 50%;
-    position: relative;
-    top: 50%;
-    right: 100%;
+/************************************************************************/
+/*question li*/
+.questionLi{
+    margin: 1em 0;
 }
 
-.backWhite{
-    background-color: white;
-    padding: 20px;
-    overflow: scroll;
-    height: 1000px;
-    border: 2px solid var(--grey);
-    border-radius: 10px;
+.questionWordingDiv{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+    background-color: var(--pamplemousse);
+}
+
+
+.proposalWordingP{
+
 }
 
 .proposalWordingDiv{
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: flex-start;
     background-color: var(--fond);
-    padding: 15px;
-    width: 93%;
+    padding: 11px 0;
+    width: 100%;
     margin-top: 7px;
+    border-radius: 0 0 5px 5px;
 }
 
 .questionWordingP{
-    background-color: var(--pamplemousse);
     padding: 20px 10px;
     text-align: left;
     border-radius: 8px;
     margin-top: 8px;
     width: 100%;
 }
+.chevronBasP{
+    width: 5%;
+}
 
+.chevronBasImg{
+    width: 50%;
+}
+/************************************************************************/
+
+
+/*PARTIE 2*/
 /***************************************************************************************************/
 /*LEGEND*/
 
 .legends{
     text-align: center;
+    margin: 5em 0;
 }
 
 .legends > button{
@@ -186,6 +237,7 @@ ul{
     justify-content: space-around;
     background: white;
     padding: .5em;
+    border-radius: 30px;
 }
 
 .legendDifficultyDecoDiv{
@@ -245,23 +297,56 @@ ul{
     justify-content: space-around;
 }
 .qcmChoisedLegend{
-    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    background-color: #FFAC8F;
+    border-radius: 30px;
+    margin: .3em;
+    color: white;
+    padding: .4em 0;
+    margin-bottom: 1em;
+    margin-top: 0;
 }
 
-.qqq
+.qcmChoisedLevel{
+    padding: .2em;
+    background: grey;
+    width: 15%;
+    text-align: center;
+    border-radius: 50px;
+    color: white;
+    margin-left: 4em;
+    margin-right: 1em;
+    font-weight: var(--semi_bold);
+}
+
+/***************************************************************************************************/
+/* qcmChoisedSubDiv*/
 
 .qcmChoisedSubDiv{
-    width: 47%;
+    width: 45%;
     height: 40%;
-    background-color: white;
 }
 
 .qcmChoisedMain{
-    height: 40%;
-    overflow: scroll;
+    height: 50em;
+    padding: 20px 7px 5px 20px;
 }
 
+.listQuestionTypedDiv{
+    width: 47%;
+    text-align: center;
+}
+
+.qcmChoisedLi{
+    display: flex;
+    margin: .5em;
+}
+
+/***********************************************************************/
 /*Une question*/
+
 .qcmChoisedQuestionWordingDiv{
     background-color: var(--pamplemousse);
     border-radius: 5px;
@@ -277,6 +362,7 @@ ul{
     padding: 20px 10px;
     border-radius: 8px;
     width: 100%;
+    font-weight: var(--semi_bold);
 }
 
 .qcmChoisedchevronBasP{
@@ -290,16 +376,18 @@ ul{
     width: 90%;
 }
 
-/*************************************/
-
-.listQuestionTypedDiv{
-    width: 47%;
+.x{
+    height: 20%;
+    width: 10%;
+    text-align: center;
+    background-color: gray;
+    border-radius: 50%;
+    color: white;
+    padding: 0.2em;
+    margin-left: .2em;
 }
 
-.qcmChoisedLi{
-    display: flex;
-    margin: 1em;
-}
+/***********************************************************************/
 
 .modifyQuestionImgDiv{
     width: 5%;
@@ -310,20 +398,41 @@ ul{
 }
 
 /***************************************************************************************************/
+/*IMAGE*/
+.imageDragAndDrop{
+    width: 5%;
+    text-align: center;
+}
+
+.imageDragAndDrop img{
+    transform: rotate(-31deg);
+    width: 50%;
+}
+
+/***************************************************************************************************/
 /*LIST QUESTON*/
 
 .listQuestionTypedDiv{
-    /*display: flex;*/
-    /*flex-wrap: wrap;*/
+    width: 45%;
 }
 
 .btnChoiseQuestionType{
     width: 100%;
 }
 
+.btnChoiseQuestionType button{
+    border: none;
+    padding: 1em;
+    border-radius: 30px;
+    background: var(--pamplemousse);
+    color: white;
+    font-weight: var(--semi_bold);
+}
+
 .questionsCustom,
 .questionsOfficial{
-    width: 47%;
+    height: 50em;
+    overflow: scroll;
 }
 
 
