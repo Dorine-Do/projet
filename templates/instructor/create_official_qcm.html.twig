@@ -22,79 +22,26 @@
   <main class="content_qcm_creation">
     <div class="bloc_step_one">
       <p class="step_one"><span>Etape 1</span>Choix du qcm par module et par niveau</p>
-      <form class="form_choices_btn_step_one" method="GET">
-        <div class="select_option_choice_module"><select><option value="">Module</option></select></div>
-        <div class="choice_difficulties_and_type_of_qcm">
-           <div class="bloc_choice_difficulties">
-                <div class="bloc_border_choice_difficulties">
-                  <ul class="list_choice_difficulties">
-                    <li>Facile</li>
-                    <li>Moyen</li>
-                    <li>Difficile</li>
-                  </ul>
-                </div>
-           </div>
-           <div class="choice_type_of_qcm">
-             <ul class="list_type_of_qcm">
-                <li><input type="button" value="Qcm officiel"> </li>
-                <li><input type="button" value="Qcm Personnalisé"></li>
-             </ul>
-           </div>
-        </div>
-      </form>
     </div>
-    <p class="bloc_part_qcm"> - Personnalisation des questions du QCM choisi -</p>
-    <div class="bloc_display_questions_to_personalise"></div>
-   
-    <div class="bloc_create_qcm_with_drag_and_drop">
-     <p class="bloc_part_create_qcm"> - Creation du Qcm -</p>
-      <div class="bloc_explanation">
-        <button>Explication</button>
-      </div>
-      
-      <fieldset class="bloc_number_of_difficulties">
-      <p class='legend'>Le niveau est déterminé automatiquement par la difficulté des questions</p>
-          <div class="bloc_border_number_of_difficulties">
-              <ul class="list_number_of_difficulties">
-                  <li>Facile</li>
-                  <li>Moyen</li>
-                  <li>Difficile</li>
-              </ul>
-          </div>
-      </fieldset>
-     <div class="type_of_qcms">
-        <p class="chosen_qcm">Qcm choisi</p>
-        <div class="bloc_official_or_personalized_questions">
-                <p>Questions officielles</p>
-                <p>Questions personnalisées</p>
-        </div>
-     </div>
-      <div class="bloc_drag_and_drop">
-          <div class="bloc_chosen_qcm">
-              <div class="bloc_list_questions_chosen_qcm">
-                  <ul class="list_chosen_qcm">
-                      <li></li>
-                  </ul>
-              </div>
-          </div>
-          <div class="bloc_img_drag_and_drop">
-              <img src="" alt="">
-          </div>
-          <div class="bloc_questions">
-            <div class="bloc_list_official_or_personalized_questions">
-              <ul class="list_official_or_personalized_questions">
-                <li></li>
-              </ul>
-            </div>
-          </div>
+    <div class="bloc_choice_session_and_module">
+      <ul class="list_sessions"></ul>
+      <div class="select_module">
+        <select name="" id="">
+          <option value=""></option>
+        </select>
       </div>
     </div>
-    <form action="" method="post" class="form_create_qcm">
-      <div class="create_qcm_title">
-        <input type="text" placeholder="Veuillez indiquer un nom pour votre qcm">
-      </div>
-      <div class="btn_create_qcm"><input type="button" value="valider ce qcm"></div>
-    </form>
+    <div class="bloc_step_two">
+      <p class="step_two"><span>Etape 2</span>Choix du qcm par module et par niveau</p>
+    </div>
+    <div class="bloc_generate_qcm">
+      <button>Générer un qcm</button>
+    </div>
+    <div class="bloc_step_three">
+      <p class="step_three"><span>Etape 3</span>Choix du qcm par module et par niveau</p>
+    </div>
+    <div class="bloc_date_qcm_given"><input type="text" name="" id=""></div>
+    <div class="bloc_btn_validate"><button></button></div>
   </main>
 </div>
 {% endblock %}

@@ -50,178 +50,13 @@ ul {
 }
 
 .bloc_step_one {
-  width: 98%;
-  margin: auto;
 }
 .step_one {
   padding: 5px 15px;
 }
-/* **************FORM CHOICE MODULE ************** */
-
-.form_choices_btn_step_one {
-  display: block;
-  background: #fff4e4;
-  height: 250px;
-  margin: 0;
-  border-radius: 5px;
-}
-
-.select_option_choice_module {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-content: center;
-}
-.select_option_choice_module > select {
-  align-self: center;
-  width: 70%;
-  padding: 20px;
-  outline: none;
-  border: none;
-  border-radius: 5px;
-}
 .content_qcm_creation {
-  padding-top: 50px;
-}
-.bloc_choice_difficulties,
-.choice_type_of_qcm {
-  height: 50%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-content: center;
-}
-.bloc_border_choice_difficulties {
-  border: 2px solid #ffac8f;
-  border-radius: 50px;
-  padding: 10px;
-  width: 80%;
-  align-self: center;
-}
-.list_choice_difficulties {
-  display: flex;
-  padding: 10px 30px;
-  border-radius: 50px;
-  background: white;
-  justify-content: space-between;
-}
-.list_choice_difficulties > li {
-  padding: 15px;
-  width: 150px;
-  background: grey;
-  color: white;
-  text-align: center;
-  border-radius: 50px;
-  cursor: pointer;
-}
-.list_type_of_qcm {
-  margin: 0;
-}
-.list_type_of_qcm > li > input {
-  outline: none;
-  background: grey;
-  border: 1px solid white;
-  border-radius: 5px;
-  color: white;
-}
-/* ************Questions to personalise************ */
-.bloc_part_qcm {
-  width: 79%;
-  margin: auto;
-  padding: 40px 0 30px;
-  text-align: center;
-}
-.bloc_display_questions_to_personalise {
-  background: #fff4e4;
-  border-radius: 5px;
-}
-.bloc_explanation {
-  text-align: center;
-  padding: 20px 0;
-}
-.bloc_explanation > button {
-  padding: 20px;
-  width: 25%;
-  border-radius: 50px;
-  outline: none;
-  border: none;
 }
 
-/* hr {
-  margin-top: 50px;
-  border: 2px dashed;
-} */
-/* ****************drag and drop********** */
-.bloc_number_of_difficulties,
-.bloc_legend {
-  padding: 0 0 20px;
-}
-.bloc_number_of_difficulties {
-  border: none;
-  background: #fff4e4;
-  border-radius: 20px;
-}
-.bloc_border_number_of_difficulties {
-  border: 2px solid #ffac8f;
-  border-radius: 50px;
-  padding: 10px;
-}
-
-.list_number_of_difficulties {
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-  background: white;
-  border-radius: 50px;
-  padding: 0;
-}
-.list_number_of_difficulties > li {
-  padding: 20px;
-  width: 150px;
-}
-.bloc_part_create_qcm {
-  padding: 50px 0 20px;
-  text-align: center;
-  margin: 0;
-}
-
-.bloc_drag_and_drop {
-  display: block;
-  background: #fff4e4;
-  border-radius: 5px;
-}
-.bloc_list_questions_chosen_qcm,
-.bloc_list_official_or_personalized_questions {
-  background: white;
-}
-.bloc_official_or_personalized_questions {
-  display: block;
-}
-.type_of_qcms {
-  display: block;
-}
-.chosen_qcm,
-.bloc_official_or_personalized_questions > p {
-  background: #ffac8f;
-  padding: 25px;
-  border-radius: 50px;
-}
-.create_qcm_title,
-.btn_create_qcm {
-  background: #fff4e4;
-}
-.btn_create_qcm > input {
-  background: #ffac8f;
-  border-radius: 50px;
-  outline: none;
-  border: none;
-  color: white;
-}
-.create_qcm_title > input {
-  border: none;
-  border-radius: 5px;
-  text-align: center;
-}
 @media screen and (min-width: 650px) {
   .list_buttons_nav {
     border-radius: 20px;
@@ -233,8 +68,6 @@ ul {
     padding: 10px;
   }
   .bloc_step_one {
-    width: 79%;
-    margin: auto;
   }
   .list_buttons_nav {
     grid-template-columns: repeat(4, 1fr);
@@ -245,100 +78,8 @@ ul {
       10% [col-start] 80% [col-middle] 10%[col-end]
     );
   }
-
-  /* **************FORM CHOICE MODULE   partie mobile************** */
-  .form_choices_btn_step_one {
-    display: grid;
-    grid-template-columns: repeat(2, 25% [col-start] 75%[col-end]);
-  }
-  .list_type_of_qcm {
+  .content_qcm_creation {
     width: 80%;
-    align-self: center;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-  }
-  .list_type_of_qcm > li {
-    width: 400px;
-  }
-  .list_type_of_qcm > li > input {
-    padding: 25px;
-    width: 100%;
-  }
-
-  /* hr {
-    width: 79%;
-    margin: 50px;
-  } */
-
-  .bloc_display_questions_to_personalise {
-    width: 79%;
-    height: 500px; /*temporaire*/
     margin: auto;
-  }
-  .bloc_explanation,
-  .bloc_number_of_difficulties,
-  .bloc_legend {
-    width: 79%;
-    margin: auto;
-  }
-
-  .bloc_border_number_of_difficulties {
-    width: 70%;
-    margin: auto;
-  }
-  .legend {
-    text-align: center;
-    padding: 10px 0;
-  }
-  .bloc_drag_and_drop {
-    width: 70%;
-    padding: 4em 5.3em;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(
-      3,
-      45% [col-start] 10% [col-middle] 45%[col-end]
-    );
-  }
-  .bloc_list_questions_chosen_qcm,
-  .bloc_list_official_or_personalized_questions {
-    height: 600px;
-  }
-  .bloc_official_or_personalized_questions {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 6em 0 4.3em;
-  }
-  .bloc_official_or_personalized_questions > p {
-    width: 200px;
-  }
-  .type_of_qcms {
-    display: grid;
-    width: 79%;
-    padding: 25px 0;
-    margin: auto;
-    grid-template-columns: repeat(2, 1fr);
-    color: white;
-    text-align: center;
-  }
-  .chosen_qcm {
-    width: 74%;
-    margin: auto;
-  }
-  .form_create_qcm {
-    width: 79%;
-    padding: 50px 0;
-    margin: auto;
-  }
-  .create_qcm_title,
-  .btn_create_qcm {
-    padding: 20px 0;
-    text-align: center;
-  }
-  .create_qcm_title > input,
-  .btn_create_qcm > input {
-    padding: 25px;
-    width: 50%;
   }
 }
