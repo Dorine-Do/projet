@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-
+use App\Entity\Module;
 use App\Entity\Proposal;
 use App\Entity\Question;
+use App\Entity\Session;
 use App\Form\CreateQuestionType;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\InstructorRepository;
@@ -12,6 +13,7 @@ use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
+use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -238,9 +240,19 @@ class InstructorController extends AbstractController
             'qcms' => $qcms
         ]);
     }
-    #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
-    public function createOfficialQcm(): Response
+    #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET'])]
+    public function createOfficialQcm(Security $security,SessionRepository $sessionRepository,InstructorRepository $instructorRepository,Request $request): Response
     {
+        $userId=$security->getUser();
+        $sessionAndModuleByInstructor= $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+
+        foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor){
+            // $modules=array($sessionAndModuleByInstructor->getModule());
+            // $sessions=array($sessionAndModuleByInstructor->getSession());
+            // dd($modules);
+        }
+      
+      
        return $this->render('instructor/create_official_qcm.html.twig');
     }
 }

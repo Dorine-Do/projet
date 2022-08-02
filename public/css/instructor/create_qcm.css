@@ -26,7 +26,7 @@ ul {
 /* ************ NAV ***********/
 
 .list_buttons_nav {
-  padding: 20px;
+  padding: 15px;
   background: #ffac8f;
   display: grid;
   grid-gap: 20px;
@@ -35,8 +35,8 @@ ul {
 }
 
 .list_buttons_nav > li {
-  padding: 30px;
-  border: 2px solid white;
+  padding: 25px;
+  border: 1px solid white;
   border-radius: 5px;
   /* box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.25),
     inset 3px 3px 3px rgba(250, 250, 250, 0.25); */
@@ -55,8 +55,97 @@ ul {
   padding: 5px 15px;
 }
 .content_qcm_creation {
+  padding: 6em 0;
+}
+.bloc_choice_session_and_module,
+.bloc_date_qcm_given,
+.bloc_generate_qcm {
+  background: #fff4e4;
+  border-radius: 5px;
+  text-align: center;
 }
 
+.list_sessions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 5px;
+  grid-gap: 10px;
+}
+
+.list_sessions > li {
+  background: grey;
+  color: white;
+  padding: 25px;
+  width: 80%;
+  margin: auto;
+  border-radius: 5px;
+}
+.list_sessions,
+.select_module {
+  height: 50%;
+}
+.select_module {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.select_module > select {
+  align-self: center;
+  padding: 25px;
+  width: 48%;
+  border: none;
+  box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  text-align: center;
+  outline: none;
+}
+.bloc_date_qcm_given,
+.bloc_generate_qcm {
+  padding: 60px 0;
+}
+.bloc_date_qcm_given > input {
+  padding: 25px;
+  border-radius: 5px;
+  border: none;
+  width: 48%;
+}
+.bloc_generate_qcm > button {
+  width: 48%;
+  padding: 25px;
+  outline: none;
+  background: grey;
+  border: none;
+  border-radius: 50px;
+  color: white;
+  box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.3);
+}
+.step_one,
+.step_two,
+.step_three {
+  padding: 40px 5px 20px;
+}
+
+span {
+  background: #ffac8f;
+  padding: 15px 25px;
+  border-radius: 50px;
+  margin-right: 10px;
+  color: white;
+}
+.bloc_btn_validate {
+  padding: 20px 0;
+  text-align: center;
+}
+.bloc_btn_validate > button {
+  padding: 25px;
+  width: 48%;
+  background: #ffac8f;
+  border-radius: 50px;
+  outline: none;
+  color: white;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  border: none;
+}
 @media screen and (min-width: 650px) {
   .list_buttons_nav {
     border-radius: 20px;
@@ -79,7 +168,16 @@ ul {
     );
   }
   .content_qcm_creation {
-    width: 80%;
+    width: 79%;
     margin: auto;
+  }
+  .bloc_choice_session_and_module,
+  .bloc_date_qcm_given,
+  .bloc_generate_qcm {
+    background: #fff4e4;
+  }
+  .bloc_choice_session_and_module {
+    height: 280px;
+    padding: 10px;
   }
 }
