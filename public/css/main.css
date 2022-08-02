@@ -32,6 +32,12 @@ h1{
     margin: 2em 0;
 }
 
+pre  {
+    background-color: #2d3336 !important;
+    color: #d2ccc9 !important;
+    padding: 16px;
+    border-radius: 8px;
+}
 
 :root {
     /*COLOR*/
