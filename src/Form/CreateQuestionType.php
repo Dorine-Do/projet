@@ -7,6 +7,7 @@ use App\Entity\Enum\Difficulty;
 use App\Entity\Module;
 use App\Entity\Question;
 use Doctrine\Common\Annotations\Annotation\Enum;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -32,8 +33,13 @@ class CreateQuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('wording',TextareaType::class,[
-                'required' => true,
+            ->add('wording',CKEditorType::class,[
+                'config' => [
+                    'uiColor' => '#FFAC8F',
+                    'toolbar' => [['Bold', 'Italic', 'Underline', 'JustifyLeft', 'JustifyCenter','JustifyRight', 'JustifyBlock', 'CodeSnippet', 'Blockquote', 'Indent', 'Outdent', 'Image']],
+                    'extraPlugins' => ['codesnippet'],
+                    'codeSnippet_theme' => 'monokai'
+                ],
             ])
             ->add('difficulty', enumType::class,[
                 "class" => Difficulty::class,

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Proposal;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use PhpParser\Node\Stmt\Foreach_;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -18,10 +19,14 @@ class ProposalFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('wording',TextareaType::class, [
-                'label'    => 'Intitulé de la réponse',
-                'attr' => ['class' => 'wording'],
-            ])
+            ->add('wording',CKEditorType::class, [
+                'config' => [
+                    'uiColor' => '#FFAC8F',
+                    'toolbar' => [['Bold', 'Italic', 'Underline', 'JustifyLeft', 'JustifyCenter','JustifyRight', 'JustifyBlock', 'CodeSnippet', 'Blockquote', 'Indent', 'Outdent']],
+                    'extraPlugins' => ['codesnippet'],
+                    'codeSnippet_theme' => 'monokai'
+                ]]
+            )
             ->add('is_correct_answer',CheckboxType::class, [
                 'label'    => 'Reponse correcte',
                 'required' => false,

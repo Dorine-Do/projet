@@ -12,6 +12,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.12",
         "fakerphp/faker": "^1.19",
+        "friendsofsymfony/ckeditor-bundle": "^2.4",
         "knpuniversity/oauth2-client-bundle": "^2.10",
         "nelmio/cors-bundle": "^2.2",
         "phpdocumentor/reflection-docblock": "^5.3",
