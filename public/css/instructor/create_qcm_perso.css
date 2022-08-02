@@ -57,6 +57,7 @@ ul{
 }
 
 .buttonGenerate:hover{
+    cursor: pointer;
     background-color: var(--vert);
     font-weight: bold;
 }
@@ -87,6 +88,7 @@ ul{
 }
 
 .btnCustom:hover{
+    cursor: pointer;
     background-color: var(--vert);
     font-weight: bold;
 }
@@ -518,16 +520,73 @@ ul{
 }
 
 .modifyQuestionImgDiv:hover{
+    cursor: pointer;
     background-color: var(--vert);
 }
-
 
 .modifyQuestionImg{
     width: 100%;
 }
 
+/***************************************************************************************************/
+/*CREATE QUESTION*/
+/***************************************************************************************************/
+
+.createQuestion button{
+    padding: .5em 5em;
+    border: none;
+    border-radius: 30px;
+    background: var(--grey);
+    color: white;
+    font-weight: var(--semi_bold);
+}
+
+.createQuestion{
+    text-align: center;
+    margin: 2em 0;
+}
+
+.createQuestion button:hover{
+    cursor: pointer;
+    background-color: var(--vert);
+}
 
 
+/***************************************************************************************************/
+/*QCM NAME*/
+/***************************************************************************************************/
 
+.qcmName{
+    margin: 3em auto;
+    width: 30%;
+    text-align: center;
+    background: var(--fond);
+    padding: 2em 3em;
+    border-radius: 5px;
+}
 
+.qcmName input{
+    width: 90%;
+    border: 2px solid var(--grey);
+    border-radius: 5px;
+    padding: .2em;
+    text-align: center;
+}
 
+/***************************************************************************************************/
+/*QCM NAME*/
+/***************************************************************************************************/
+
+.qcmValidation{
+    margin: 3em auto;
+    width: 30%;
+    text-align: center;
+}
+
+.qcmValidation button{
+    padding: .7em 5em;
+    border-radius: 30px;
+    border: none;
+    background: var(--pamplemousse);
+    color: white;
+}
