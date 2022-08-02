@@ -122,8 +122,8 @@
                             <ul>
                                 {% for question in generatedQcm.questionsCache %}
                                     <li class="qcmChoisedLi">
-                                        <div>
-                                            <div class="qcmChoisedQuestionWordingDiv">
+                                        <div class="qcmChoisedLiDiv">
+                                            <div class="questionWordingDiv qcmChoisedQuestionWordingDiv">
                                                 {#TODO Modifier les app fixture pour ajouter la difficulté de la question#}
                                                 {#                                            {% if question.difficulty is same as 1 %}#}
                                                 {#                                                <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle">#}
@@ -132,10 +132,10 @@
                                                 {#                                            {% else %}#}
                                                 {#                                                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle">#}
                                                 {#                                            {% endif %}#}
-                                                <p>
-                                                    trèfle
+                                                <p class="qcmChoisedTreffleP">
+                                                    <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle">
                                                 </p>
-                                                <p class="qcmChoisedQuestionWordingP" >
+                                                <p class="qcmChoisedQuestionWordingP questionWordingP" >
                                                     {{question.wording}}
                                                 </p>
                                                 <p class="qcmChoisedchevronBasP">
@@ -144,7 +144,7 @@
                                             </div>
                                             <div class="qcmChoisedProposalWordingDiv proposalWordingDiv">
                                                 {% for proposal in question.proposals %}
-                                                    <p class="proposalWordingP">
+                                                    <p class="qcmChoisedProposalWordingP proposalWordingP">
                                                         {{ proposal.wording }}
                                                     </p>
                                                 {% endfor %}
@@ -175,35 +175,34 @@
                         {#*************************************************************************************************#}
                         {#OFFICIAL #}
                         <div class="questionsOfficial">
-                            <h4>Questions officielles</h4>
                             <ul>
-                                {% for question in customQuestions %}
-                                    <li>
-                                        <div class="questionWordingDiv">
+                                {% for question in officialQuestions %}
+                                    <li class="officialQuestionLi">
+                                        <div class="OfficialQuestionWordingDiv questionWordingDiv">
                                             {#TODO Remplacer le texte par l'image des trefles en fonction de la difficulté de la question#}
-                                            <p>
-                                                Ici trèfle
+                                            <p class="qcmChoisedTreffleP">
+                                                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle">
                                             </p>
-                                            <p class="questionWordingP">
+                                            <p class="officialQuestionWordingP questionWordingP">
                                                 {{question.wording}}
                                             </p>
-                                            <p class="chevronBasP">
-                                                <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg">
+                                            <p class="officialChevronBasP chevronBasP">
+                                                <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg">
                                             </p>
                                             <div class="modifyQuestionImgDiv">
                                                 <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier" class="modifyQuestionImg">
                                             </div>
                                         </div>
                                         <div>
-                                            <div class="proposalWordingDiv">
+                                            <div class="OfficialProposalWordingDiv proposalWordingDiv">
                                                 {% for proposal in question.proposals %}
-                                                    <p class="proposalWordingP">
+                                                    <p class="officialProposalWordingP proposalWordingP">
                                                         {{ proposal.wording }}
                                                     </p>
                                                 {% endfor %}
-                                            </div>
-                                            <div>
-                                                <button class="save">Enregistrer</button>
+                                                <div class="questionModify">
+                                                    <button class="save">Enregistrer</button>
+                                                </div>
                                             </div>
 
                                         </div>
