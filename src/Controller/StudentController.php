@@ -374,7 +374,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcm/retry_official_qcm/{module}', name: 'student_official_qcm_retry', methods: ['GET'])]
+    #[Route('student/qcm/retry_for_badges/{module}', name: 'student_retry_for_badges', methods: ['GET'])]
     public function retryQcmToGetBadge(
         QuestionRepository $questionRepo,
         Module $module,

@@ -21,6 +21,6 @@ document.addEventListener('DOMContentLoaded', function(){
     let validRetryForBadge = retryForBadgesContainer.querySelector('button');
     validRetryForBadge.addEventListener('click', function(){
         let module = retryForBadgesContainer.querySelector('select').value;
-        window.location.href = "qcm/retry_official_qcm/"+module;
+        window.location.href = "qcm/retry_for_badges/"+module;
     });
 });
