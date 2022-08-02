@@ -17,10 +17,10 @@ class Qcm
     private $id;
 
     #[ORM\Column(type: 'string', length: 75)]
-    private readonly string $title;
+    private string $title;
 
     #[ORM\Column(type: 'smallint')]
-    private readonly int $difficulty;
+    private int $difficulty;
 
     #[ORM\Column(type: 'boolean')]
     private $isOfficial;
@@ -35,7 +35,7 @@ class Qcm
     private $questionsCache = [];
 
     #[ORM\Column(type: 'datetime')]
-    private readonly \DateTime $createdAt;
+    private \DateTime $createdAt;
 
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
