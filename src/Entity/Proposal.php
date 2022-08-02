@@ -22,7 +22,7 @@ class Proposal
     private $isCorrectAnswer;
 
     #[ORM\Column(type: 'datetime')]
-    private readonly \DateTime $createdAt;
+    private \DateTime $createdAt;
 
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
