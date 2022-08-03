@@ -18,9 +18,9 @@
                     <div class="divQuestionChevron">
                         <li class="liWording">
                             <p class="difficulty">
-                                {% if question.difficulty == 'Facile' %}
+                                {% if question.difficulty == 1 %}
                                     <img class="difficultyIcone" src="{{ asset('build/images/trefle_facile_bon_vert.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
-                                {% elseif question.difficulty == 'Moyen' %}
+                                {% elseif question.difficulty == 2 %}
                                     <img class="difficultyIcone" src="{{ asset('build/images/trefle_moyen_bon_vert.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
                                 {% else %}
                                     <img class="difficultyIcone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
@@ -48,7 +48,7 @@
             <div class="divAdd">
                 <a href="{{ path('instructor_create_question') }}" class="linkCreate">
                     <button class="buttonAdd">
-                        {{ 'button.addProposal'|trans }}
+                        {{ 'button.createQuestion'|trans }}
                     </button>
                 </a>
             </div>
