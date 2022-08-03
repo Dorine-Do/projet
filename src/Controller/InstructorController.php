@@ -158,27 +158,32 @@ class InstructorController extends AbstractController
         $form->handleRequest($request);
 
         // vérification des données soumises
-        if($form->isSubmitted() && $form->isValid()){
+        if($form->isSubmitted() && $form->isValid())
+        {
             $count = 0;
             $persitPropCount=0;
-            foreach ($questionEntity->getProposals() as $proposal){
-
+            foreach ($questionEntity->getProposals() as $proposal)
+            {
                 // set les proposals
                 $proposal->setQuestion($questionEntity);
                 $persitPropCount ++;
 
                 // set le response type
-                if($proposal->getIsCorrectAnswer() === true){
+                if($proposal->getIsCorrectAnswer() === true)
+                {
                     $count++;
                 }
             }
-            if($count > 1){
+            if($count > 1)
+            {
                 $questionEntity->setIsMultiple("true");
-            }elseif ($count == 1){
+            }
+            elseif ($count == 1)
+            {
                 $questionEntity->setIsMultiple("false");
             }
 
-            $questionEntity->setAuthor($instructorRepository->find($this->getUser()->getId()));
+            $questionEntity->setAuthor( $this->getUser() );
             $questionEntity->setIsOfficial(false);
             $questionEntity->setIsMandatory(false);
             $questionEntity->setExplanation('Explication');

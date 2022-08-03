@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Enum\Difficulty;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -40,7 +41,7 @@ class Question
     #[ORM\Column(type: 'boolean')]
     private $isEnabled;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $explanation;
 
     #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'questions')]
@@ -122,9 +123,14 @@ class Question
         return $this->difficulty;
     }
 
-    public function setDifficulty(int $difficulty): self
+    /**
+     * Difficulty MUST be of type Entity\Enum\Difficulty because of CreateQuestionType.php
+     * @param Difficulty $difficulty
+     * @return $this
+     */
+    public function setDifficulty(Difficulty $difficulty): self
     {
-        $this->difficulty = $difficulty;
+        $this->difficulty = $difficulty->value;
 
         return $this;
     }
