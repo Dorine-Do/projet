@@ -214,6 +214,8 @@ class InstructorController extends AbstractController
             $questionEntity->setIsOfficial(false);
             $questionEntity->setIsMandatory(false);
             $questionEntity->setExplanation('Explication');
+//            dd();
+            $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
 
             //  validation et enregistrement des données du form dans la bdd
             $manager->persist($questionEntity);
