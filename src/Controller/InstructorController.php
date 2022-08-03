@@ -245,13 +245,16 @@ class InstructorController extends AbstractController
     {
         $userId=$security->getUser();
         $sessionAndModuleByInstructor= $instructorRepository->find($userId)->getLinksInstructorSessionModule();
-
+        // dump($sessionAndModuleByInstructor->getModule());
+        
+        $modules=[];
+        dd($instructorRepository->find($userId));
         foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor){
-            // $modules=array($sessionAndModuleByInstructor->getModule());
+            $modules[]=array($sessionAndModuleByInstructor->getModule());
             // $sessions=array($sessionAndModuleByInstructor->getSession());
-            // dd($modules);
+           
         }
-      
+       dd($modules);
       
        return $this->render('instructor/create_official_qcm.html.twig');
     }

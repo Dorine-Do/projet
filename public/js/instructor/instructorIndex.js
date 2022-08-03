@@ -1,8 +1,8 @@
 console.log("hello");
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("hi");
+  // console.log("hi");
   let div_proposals = document.querySelectorAll(".divProposals");
-  console.log(div_proposals);
+  // console.log(div_proposals);
   div_proposals.forEach((div) => {
     div.style.display = "none";
   });
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let forBtnQcm;
 
   ////////////////////
-  //  NUMEROTATION DES QUESTION
+  //  NUMEROTATION DES QUESTIONS
   for (
     let numQuestion = 0;
     numQuestion < questionsSpans.length;
@@ -61,11 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
   /////////////////////
   //  TEST url
   if (window.location.href.includes(location.pathname)) {
-    console.log(
-      (document.querySelector(
-        ".bloc_link_btn_my_creations button"
-      ).style.background = "#93AD6E")
-    );
+    document.querySelector(
+      ".bloc_link_btn_my_creations button"
+    ).style.background = "#93AD6E";
   }
 
   ///////////////////
@@ -73,30 +71,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   for (forBtnQcm = 0; forBtnQcm < inputQcm.length; forBtnQcm++) {
     inputQcm[forBtnQcm].addEventListener("click", function (e) {
-      let eTarget = e.target.dataset.id;
-
+      let eTarget = this.dataset.id;
+      let questionsCache = JSON.parse(this.dataset.questionsCache);
+      console.log(questionsCache[0].wording, "salut");
+      console.log(questionsCache.length);
+      let questions = [];
+      for (let test of questionsCache) {
+        questions.push(test.wording);
+      }
+      console.log(questions, "Top");
+      // FAIRE UNE BOUCLE DE MON JSON ? PARSER LA VALEUR ET REMPLACER EN JS LES VALEURS DU LI DU TEMPLATE PAR CELLE CORRESPONDANTE DANS LE CACHE
+      console.log(questionsCache, "la");
       for (forBtnQcm = 0; forBtnQcm < inputQcm.length; forBtnQcm++) {
-        if (e.target.dataset.id == inputQcm[forBtnQcm].dataset.id) {
-          console.log("yes");
-          questionslist.dataset.id = `${eTarget}`;
+        if (this.dataset.id == inputQcm[forBtnQcm].dataset.id) {
+          // questionslist.dataset.id = `${eTarget}`;
           inputQcm[forBtnQcm].classList.add("active_li");
         } else {
           inputQcm[forBtnQcm].classList.remove("active_li");
-          console.log("no");
-
-          // questionslist.style.display = "none";
-
-          // if (e.target.dataset.id !== questionslist.dataset.id) {
-          //   questionslist.style.background = "blue";
-          //   questionslist.style.display = "none";
-          // }
         }
       }
     });
   }
-  for (const qcm in questionslist.dataset.qcms) {
-    console.log(questionslist.dataset.qcm);
-  }
+  // for (const qcm in questionslist.dataset.qcms) {
+  //   console.log(questionslist.dataset.qcm);
+  // }
 
   // let test = fetch(location.href);
   // console.log(test);
