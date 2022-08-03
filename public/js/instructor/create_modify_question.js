@@ -30,30 +30,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         indexData --
     }
 
-// *******************************************************************************************************
-// isChecked Function
-    function isChecked(e){
-        e.preventDefault()
-        let checkbox = document.querySelectorAll('.isCorrect')
-        let check = []
-        checkbox.forEach(box => {
-            if(box.checked === true){
-                check.push(true)
-            }else{
-                check.push(false)
-            }
-        })
-        let bool = check.indexOf(true)
-        if(bool !== -1){
-            document.forms[0].submit()
-        }else{
-            let p = document.createElement('p')
-            p.innerHTML = 'Veuillez cocher au moins une réponse correcte pour cette question'
-            let td_proposals = document.getElementById('error_checked')
-            td_proposals.append(p)
-            p.className = 'errorP'
-        }
-    }
 
 // *******************************************************************************************************
 // li_form Function
@@ -123,7 +99,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
 // *******************************************************************************************************
-// AFFICHE LA LETTRE DE LA REPONSE EN DEHORS DU TEXTEAREA
+// AFFICHE LA LETTRE DE LA REPONSE
     let div_proposal = document.querySelectorAll('.divProposal')
     Object.entries(div_proposal).forEach(([index, div])=>{
         letterProposal(div, indexData)

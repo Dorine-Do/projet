@@ -9,6 +9,8 @@
 
 {% block body %}
     {% set count = 0 %}
+    {% set letters = ["A", "B", "C", "D", "E", "F"] %}
+
     <h1>- CRÉER UN QCM PERSONNALISÉ -</h1>
 
     <div class="partOne">
@@ -22,6 +24,7 @@
             </select>
             <button class="buttonGenerate" type="submit" >Générer le qcm</button>
         </form>
+
         {% if generatedQcm is not null %}
         <h3>- QCM -</h3>
         <div class="showQcm">
@@ -34,17 +37,18 @@
                             <div class="questionWordingDiv">
                                 <p class="questionWordingP">
                                     <span class="numeroForm">{{ count }}</span>{{question.wording}}
-
                                 </p>
                                 <p class="chevronBasP">
-                                    <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg">
+                                    <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg chevron">
                                 </p>
                             </div>
                             <div class="proposalWordingDiv">
+                                {% set countLetter = 0 %}
                                 {% for proposal in question.proposals %}
-                                    <p class="proposalWordingP"><span class="numeroProp">A</span>
+                                    <p class="proposalWordingP"><span class="numeroProp">{{ letters[countLetter] }}</span>
                                         {{ proposal.wording }}
                                     </p>
+                                    {% set countLetter = countLetter + 1 %}
                                 {% endfor %}
                             </div>
                         </li>
@@ -139,14 +143,17 @@
                                                     {{question.wording}}
                                                 </p>
                                                 <p class="qcmChoisedchevronBasP">
-                                                    <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="qcmChoisedchevronBasImg">
+                                                    <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="qcmChoisedchevronBasImg chevron">
                                                 </p>
                                             </div>
                                             <div class="qcmChoisedProposalWordingDiv proposalWordingDiv">
+                                                {% set countLetter = 0 %}
                                                 {% for proposal in question.proposals %}
                                                     <p class="qcmChoisedProposalWordingP proposalWordingP">
+                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span>
                                                         {{ proposal.wording }}
                                                     </p>
+                                                    {% set countLetter = countLetter + 1 %}
                                                 {% endfor %}
                                             </div>
                                         </div>
@@ -183,11 +190,11 @@
                                             <p class="qcmChoisedTreffleP">
                                                 <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle">
                                             </p>
-                                            <p class="officialQuestionWordingP questionWordingP">
+                                            <p class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
                                                 {{question.wording}}
                                             </p>
                                             <p class="officialChevronBasP chevronBasP">
-                                                <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg">
+                                                <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
                                             </p>
                                             <div class="modifyQuestionImgDiv">
                                                 <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier" class="modifyQuestionImg">
@@ -195,10 +202,13 @@
                                         </div>
                                         <div>
                                             <div class="OfficialProposalWordingDiv proposalWordingDiv">
+                                                {% set countLetter = 0 %}
                                                 {% for proposal in question.proposals %}
-                                                    <p class="officialProposalWordingP proposalWordingP">
+                                                    <p class="officialProposalWordingP proposalWordingP" data-id="{{proposal.id}}">
+                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span>
                                                         {{ proposal.wording }}
                                                     </p>
+                                                    {% set countLetter = countLetter + 1 %}
                                                 {% endfor %}
                                                 <div class="questionModify">
                                                     <button class="save">Enregistrer</button>
@@ -227,7 +237,7 @@
                                                 {{question.wording}}
                                             </p>
                                             <p class="chevronBasP">
-                                                <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg">
+                                                <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg chevron">
                                             </p>
                                             <div class="modifyQuestionImgDiv">
                                                 <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier" class="modifyQuestionImg">
@@ -275,5 +285,11 @@
 
 {% endblock %}
 {% block javascripts %}
+    <script>
+        let chevronHaut = "{{asset('build/images/chevron_haut.png')}}"
+        let chevronBas = "{{asset('build/images/chevron_bas.png')}}"
+        let deleteImg = "{{asset('build/images/delete_close.png')}}"
+
+    </script>
     <script type="text/javascript" src="{{ asset('js/instructor/create_qcm_perso.js') }}"></script>
 {% endblock %}
