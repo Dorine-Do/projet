@@ -200,7 +200,7 @@ ul{
     width: 100%;
     margin-top: 7px;
     border-radius: 0 0 5px 5px;
-    flex-wrap: wrap;
+    flex-direction: row;
 }
 
 .questionWordingP{
@@ -313,10 +313,9 @@ ul{
 }
 
 .nPropPartTwo{
-    padding: 2px 11px;
+    padding: 2px 12px;
     font-size: 23px;
     margin-right: 2px;
-    width: 5%;
 }
 
 /***************************************************************************************************/
@@ -436,6 +435,11 @@ ul{
     margin-left: .2em;
 }
 
+.x:hover{
+    cursor: pointer;
+    background-color: red;
+}
+
 /***********************************************************************/
 
 /***************************************************************************************************/
@@ -516,7 +520,7 @@ ul{
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 45%;
+    width: 100%;
     margin-bottom: .2em;
 }
 
@@ -532,7 +536,7 @@ ul{
     border: none;
     background: var(--pamplemousse);
     border-radius: 5px;
-    margin-top: 1em;
+    margin: 1em auto;
     color: white;
 }
 
@@ -542,7 +546,7 @@ ul{
 }
 
 .deleteProp{
-    width: 7%;
+    width: 2%;
     padding: .2em;
     border: 1px solid gray;
     border-radius: 5px;
@@ -552,6 +556,15 @@ ul{
 .deleteProp:hover{
     background-color: var(--pamplemousse);
     cursor: pointer;
+}
+
+.cancel{
+    margin: 1em auto;
+}
+
+.cancel:hover{
+    cursor: pointer;
+    color: red;
 }
 
 /***************************************************************************/

@@ -15,10 +15,12 @@ use App\Repository\QuestionRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class InstructorController extends AbstractController
 {
@@ -201,7 +203,7 @@ class InstructorController extends AbstractController
         ]);
     }
 
-    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET'])]
+    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET','POST'])]
     public function createQcmPersonalized(Request $request, InstructorRepository $instructorRepository, ModuleRepository $moduleRepository, QuestionRepository $questionRepository, UserRepository $userRepository, Security $security){
 
         $userId = $this->getUser()->getId();
@@ -211,18 +213,23 @@ class InstructorController extends AbstractController
         foreach ($linksInstructorSessionModule as $linkInstructorSessionModule){
             $modules[]=$linkInstructorSessionModule->getModule();
         }
+
+        /**************************************************************************************************************/
+        // Get module choised
         $module = null;
         if( $request->get('module') ){
             $module = $moduleRepository->find($request->get('module'));
         }
 
+        // Get questions's module
         if ($module){
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
-//            dd($generatedQcm);
         }
+
+
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => $modules,
             'generatedQcm' => $module ? $generatedQcm : null,
@@ -230,6 +237,19 @@ class InstructorController extends AbstractController
             'officialQuestions' => $module ? $officialQuestions : null
         ]);
 
+    }
+
+    #[Route('instructor/questions/upDateFetch', name: 'instructor_questions_upDateFetch', methods: ['POST'])]
+    public function upDateQuestionFetch(ValidatorInterface $validator): Response
+    {
+        $values = $_POST;
+//        dump($request);
+//        dd($values);
+        $question = new Question();
+//        $question->set
+
+
+        return new JsonResponse('ok');
     }
 
     #[Route('instructor/qcms', name: 'instructor_qcms', methods: ['GET'])]
