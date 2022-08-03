@@ -3,6 +3,28 @@
 /*FONTS*/
 @import url('https://fonts.googleapis.com/css2?family=Alumni+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 
+:root {
+    /*COLOR*/
+    --fond: #FFF4E4;
+    --pamplemousse: #FFAC8F;
+    --grey:#616161;
+    --writing:#414141;
+    --vert:#93AD6E;
+    --rose:#FFD2C2;
+
+    /*FONT-SIZE*/
+    --grand: 24px;
+    --normal: 20px;
+    --semi_normal: 18px;
+    --semi_small: 14px;
+    --small: 10px;
+
+
+
+    /*FONT-WEIGHT*/
+    --semi_bold: 600;
+}
+
 body {
     background-color: white;
     color: var(--grey);
@@ -39,28 +61,6 @@ pre  {
     color: #d2ccc9;
     padding: 16px;
     border-radius: 8px;
-}
-
-:root {
-    /*COLOR*/
-    --fond: #FFF4E4;
-    --pamplemousse: #FFAC8F;
-    --grey:#616161;
-    --writing:#414141;
-    --vert:#93AD6E;
-    --rose:#FFD2C2;
-
-    /*FONT-SIZE*/
-    --grand: 24px;
-    --normal: 20px;
-    --semi_normal: 18px;
-    --semi_small: 14px;
-    --small: 10px;
-
-
-
-    /*FONT-WEIGHT*/
-    --semi_bold: 600;
 }
 
 @media screen and (max-width: 450px) {
