@@ -31,7 +31,7 @@
      {# {% for qcm in qcms %} for temporaire #}
         {# <ul class="list_questions" data-id='{{qcm.id}}'  data-prototype='{{qcm.title}}' > #}
        
-         <ul class="list_questions" data-qcms="{{ qcms|json_encode|e('html_attr')}}">
+         <ul class="list_questions"  data-qcms="{{ qcms|json_encode|e('html_attr')}}">
            {% for qcm in qcms %}
                 {% for question in qcm.getQuestions() %}
                  

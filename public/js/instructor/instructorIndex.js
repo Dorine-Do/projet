@@ -42,8 +42,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // DECLARATION DE VARIABLE
 
   let inputQcm = document.querySelectorAll(".li_btn_qcm ");
-  let questions = document.querySelectorAll(".list_questions li");
-  let questionsSpans = document.querySelectorAll(".qcm_question_number");
+  // let questionsLi = document.querySelector(".list_questions li");
+  let questionsLi = document.querySelectorAll(".list_questions li");
+  let questionsSpans = document.querySelectorAll(".list_questions li span");
   // let questionsLi = document.querySelector(".list_questions li");
   let questionslist = document.querySelector(".list_questions ");
   let forBtnQcm;
@@ -71,17 +72,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
   for (forBtnQcm = 0; forBtnQcm < inputQcm.length; forBtnQcm++) {
     inputQcm[forBtnQcm].addEventListener("click", function (e) {
-      let eTarget = this.dataset.id;
+      // let eTarget = this.dataset.id;
       let questionsCache = JSON.parse(this.dataset.questionsCache);
-      console.log(questionsCache[0].wording, "salut");
-      console.log(questionsCache.length);
-      let questions = [];
-      for (let test of questionsCache) {
-        questions.push(test.wording);
+
+      for (
+        let forWording = 0;
+        forWording < questionsCache.length;
+        forWording++
+      ) {
+        console.log(
+          (questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
+            questionsCache[forWording].wording
+          }`)
+        );
       }
-      console.log(questions, "Top");
+
+      //TEST 2  à revoir
+      // let questions = [];
+      // for (let test of questionsCache) {
+      //   // let idQcm = parseInt(eTarget);
+      //   questions.push(test.wording);
+
+      //   // if (idQcm == questionsLi.dataset.id) {
+      //   //   console.log(questionsLi);
+      //   // }
+      // }
+      // console.log(questions, "Top");
+
       // FAIRE UNE BOUCLE DE MON JSON ? PARSER LA VALEUR ET REMPLACER EN JS LES VALEURS DU LI DU TEMPLATE PAR CELLE CORRESPONDANTE DANS LE CACHE
-      console.log(questionsCache, "la");
+
       for (forBtnQcm = 0; forBtnQcm < inputQcm.length; forBtnQcm++) {
         if (this.dataset.id == inputQcm[forBtnQcm].dataset.id) {
           // questionslist.dataset.id = `${eTarget}`;
@@ -92,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
   // for (const qcm in questionslist.dataset.qcms) {
   //   console.log(questionslist.dataset.qcm);
   // }

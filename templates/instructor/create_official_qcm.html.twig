@@ -21,26 +21,32 @@
   </nav>
   <main class="content_qcm_creation">
     <p class="step_one"><span>Etape 1</span>Choix du qcm par module et par niveau</p>
+    <form method="GET" action="{{path('instructor_create_qcm')}}">
     <div class="bloc_choice_session_and_module">
+    
       <ul class="list_sessions">
-        <li>FSD01</li>
-        <li>FSD02</li>
-        <li>FSD03</li>
-        <li>FSD04</li>
+        <input type="hidden" value="{{sessions[0].id}}"  name="session">
+      {% for session in sessions %}
+    
+        <li data-session-id="{{session.id}}">{{session.name}}</li>
+ 
+        {% endfor %}
       </ul>
-      <div class="select_module">
-        <select name="" id="">
-          <option value="">Module</option>
+      
+    </div>
+    <p class="step_two"><span>Etape 2</span>choix du module</p>
+    <div class="select_module">
+        <select name="module" id="module">
+         {% for module in modules %}
+          <option value="{{module.id}}">{{module.name}}</option>
+          {% endfor %}
         </select>
       </div>
-    </div>
-    <p class="step_two"><span>Etape 2</span>Choix du qcm par module et par niveau</p>
+    <p class="step_three"><span>Etape 3</span>valider</p>
     <div class="bloc_generate_qcm">
-      <button>Générer un qcm</button>
+      <button type="submit">Générer un qcm</button>
     </div>
-    <p class="step_three"><span>Etape 3</span>Choix du qcm par module et par niveau</p>
-    <div class="bloc_date_qcm_given"><input type="text" name="" id=""></div>
-    <div class="bloc_btn_validate"><button>Valider</button></div>
+    </form>
   </main>
 </div>
 {% endblock %}

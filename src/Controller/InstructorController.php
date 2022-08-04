@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Module;
 use App\Entity\Proposal;
+use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Entity\Session;
 use App\Form\CreateQuestionType;
@@ -24,6 +25,31 @@ use Symfony\Component\Security\Core\Security;
 
 class InstructorController extends AbstractController
 {
+// voir create qcm
+    Const dayOfWeek = [
+        0 => 'Monday',
+        1 => 'Thuesday',
+        2 => 'Wednesday',
+        3 => 'Thusday',
+        4 => 'Friday',
+        5 => 'Saturday',
+        6 => 'Sunday'
+    ];
+    const monthOfYear =[
+        0 => 'January',
+        1 => 'February',
+        2 => 'March',
+        3 => 'April',
+        4 => 'May',
+        5 => 'June',
+        6 => 'July',
+        7 => 'August',
+        8 => 'September',
+        9 => 'October',
+        10 => 'November',
+        11 => 'December',
+        
+    ];
 //    TODO future page à implémenter
     #[Route('/instructor', name: 'welcome_instructor')]
     public function welcome(): Response
@@ -245,22 +271,123 @@ class InstructorController extends AbstractController
             'qcms' => $qcms
         ]);
     }
-    #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET'])]
-    public function createOfficialQcm(Security $security,SessionRepository $sessionRepository,InstructorRepository $instructorRepository,Request $request): Response
+
+    /**TODO
+     * à l'aide du generatorHelper generer un qcm qui sera enregistrer dans la bdd table qcm puis 
+     * qui génera un instance de qcm automatique pour chaque élève en recupérant le start time et le end time dans linksessionmodule
+     * 
+     * Déclencher la fonction du générateur au clic
+     */
+    #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
+    public function createOfficialQcm(Security $security,SessionRepository $sessionRepository,InstructorRepository $instructorRepository,Request $request,QuestionRepository $questionRepository,ModuleRepository $moduleRepository,EntityManagerInterface $manager): Response
     {
+
+      
         $userId=$security->getUser();
         $sessionAndModuleByInstructor= $instructorRepository->find($userId)->getLinksInstructorSessionModule();
-        // dump($sessionAndModuleByInstructor->getModule());
+          // ///////////////////////////////////////TEST DATE
+
+          $dateTimeCreatedValue= new \DateTime();
+          dd($dateTimeCreatedValue);
+          $format=date_format($dateTimeCreatedValue, '\o\n l jS F Y');
+          if(strpos($format, "Wednesday"  )){
+                  dd( $format);
+              }
+       
         
-        $modules=[];
-        dd($instructorRepository->find($userId));
         foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor){
-            $modules[]=array($sessionAndModuleByInstructor->getModule());
+            $sessionId=$sessionAndModuleByInstructor->getSession()->getId();
+            $moduleId=$sessionAndModuleByInstructor->getModule()->getId();
+            $sessions=$sessionRepository->findBy(['id'=>$sessionId]);
+            $modules=$sessionRepository->findBy(['id'=>$moduleId]);
             // $sessions=array($sessionAndModuleByInstructor->getSession());
            
         }
-       dd($modules);
+       
+       
+        $formData= $request->query->all();
+        if(count($formData) != 0 ){
+
+        $module=$moduleRepository->find($formData["module"]);
+        $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
+        $qcm=$qcmGenerator->generateRandomQcm($module,false);
+        $manager->persist($qcm);
+        $manager->flush();
+
+        // dd($qcm);
+
+        $linksSessionStudent=$sessionRepository->find($formData["session"])->getLinksSessionStudent();
+        $students=[];
+        foreach($linksSessionStudent as $linkSessionStudent){
+            // dd($linkSessionStudent);
+
+            $students[]=$linkSessionStudent->getStudent();
+        }
+        foreach($students as $student){
+            $qcmInstance= new QcmInstance();
+            $qcmInstance->setStudent($student) ;
+            $qcmInstance->setQcm($qcm);
+            $qcmInstance->setCreatedAtValue();
+           $qcmInstance->setUpdateAtValue();
+         
+          
+        //calcule start time =vendredi de la semaine actuelle 13h
+        //calcule end time =vendredi actuelle 18h
+            $manager->persist($qcmInstance);
+            $manager->flush();
+
+
+
+
+            
+        }
+    //  redirect to route avec flash vers welcome instructor
+        }
+
       
-       return $this->render('instructor/create_official_qcm.html.twig');
+       return $this->render('instructor/create_official_qcm.html.twig',[
+           'sessions'=>$sessions,
+           'modules'=>$modules
+       ]);
     }
 }
+
+
+ // // $date= date("w");
+        // $date=new \DateTime();
+        // // date("Y-m-d H:i:s")
+        // // dd($date);
+        // // $monday= date("l j F Y"); 
+        // // $jour=getDate()["weekday"];
+        // // $testDate=date_format($date, '\o\n l jS F Y');
+        // // $testDateFormatBdd=date_format($date, 'H:i:s');
+        // // setlocale(LC_TIME, "fr_FR");
+        // // $week = sprintf('%02d',$week);
+		// // $start = strtotime($year.'W'.$week);
+        // // dd( $testDateFormatBdd );
+        // // if(strpos($testDate, "Wednesday"  )){
+        // //     dd( $monday);
+        // // }
+
+        // $date_test= date_format($date, 'Y-m-d');
+        // $W=date('W', $date_test);
+        // dd($W);
+        // $date_test= date_format($date, 'Y-m-d');
+        // $W=date('W', $date_test);
+        // dd($W);
+        //  //    tableau avec lundi a l'index 0 
+        // //    se servir des index comme dans js 
+        // // lundi + 4 jour 
+        // // ca doit etre le 5 eme jour  de la semaine de cours ...ex: si mardi debut sem actuelle lundi fin sem d'après
+        
+        // //stocker les jours fériés a voir
+        // // dd($qcm);
+        // $dateTime= new \DateTime();
+        // $formatDate=date_format($dateTime,'Y-d-m H-i-s');
+        // $endTime= new \DateTime();
+        // $min=60;//TODO variable d'environnement
+        // $dateTest=$endTime->add(new \DateInterval("PT{$min}M"));
+        // $dateTest2=$qcmInstance->setStartTime($dateTime);
+        // $qcmInstance->setEndTime($dateTime);
+        // dd($dateTest, $dateTest2);
+        //     // le jour du commencement du module +5 jour  si c un samedi + 2
