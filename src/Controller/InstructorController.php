@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Proposal;
+use App\Entity\Qcm;
 use App\Entity\Question;
 use App\Form\CreateQuestionType;
 use App\Helpers\QcmGeneratorHelper;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class InstructorController extends AbstractController
 {
@@ -266,7 +268,7 @@ class InstructorController extends AbstractController
             'customQuestions' => $module ? $customQuestions : null,
             'officialQuestions' => $module ? $officialQuestions : null,
             'generatedQcm' => $module ? $generatedQcm : null,
-            'questions' => $generatedQcm->getQuestionsCache() ? $generatedQcm : null,
+//            'questions' => $generatedQcm->getQuestionsCache() ? $generatedQcm : null,
         ]);
 
     }
@@ -277,16 +279,24 @@ class InstructorController extends AbstractController
         Request $request,
         InstructorRepository $instructorRepository): Response
     {
-      $data = $request->request->all();
-      dump(gettype($data));
-      dump(json_decode($request->getContent()));
+      $data = (array)json_decode($request->getContent());
         $question = new Question();
+        $question->setWording($data['wording']);
         $question->setIsMultiple($data['isMultiple']);
         $question->setDifficulty(1);
         $question->setExplanation(null);
         $author = $instructorRepository->find($this->getUser()->getId());
         $question->setAuthor($author);
-//        $question->set
+
+        foreach ($data['proposals'] as $proposal){
+           $newProposal = new Proposal();
+           $newProposal->setWording($proposal['wording']);
+           $newProposal->setIsCorrectAnswer($proposal['isCorrectAnswer']);
+           $validator->validate($newProposal);
+           $question->addProposal($newProposal);
+        };
+
+        $validator->validate($question);
         dd($data);
 
         return new JsonResponse($values);
@@ -296,10 +306,63 @@ class InstructorController extends AbstractController
     public function createQcmFetch(
         ValidatorInterface $validator,
         Request $request,
-        InstructorRepository $instructorRepository): Response
+        InstructorRepository $instructorRepository,
+        QuestionRepository $questionRepository,
+        EntityManagerInterface $entityManager
+    ): Response
+
     {
-        $data = $request->request->all();
-        dd($data);
+        $data = (array)json_decode($request->getContent());
+//      dd($data);
+        $qcm = new Qcm();
+        $author = $instructorRepository->find($this->getUser()->getId());
+        $qcm->setAuthor($author);
+        $qcm->setTitle($data['name']);
+        if ($data['level'] === 'Difficile'){
+            $level = 1;
+        }elseif ($data['level'] === 'Moyen'){
+            $level = 2;
+        }else{
+            $level = 3;
+        }
+        $qcm->setDifficulty($level);
+        $qcm->setIsEnabled(1);
+        $qcm->setIsOfficial(0);
+        $qcm->setIsPublic($data['isPublic']);
+
+        $questionsCache = [];
+        foreach( $data['questions'] as $question )
+        {
+//            dd($question->id);
+            $question = $questionRepository->find($question->id);
+            $questionProposals = $question->getProposals();
+            $proposalsCache = [];
+            foreach( $questionProposals as $questionProposal )
+            {
+                $proposalsCache[] = [
+                    'id'                => $questionProposal->getId(),
+                    'wording'           => $questionProposal->getWording(),
+                    'isCorrectAnswer'   => $questionProposal->getIsCorrectAnswer(),
+                ];
+            }
+            $questionsCache[] = [
+                'id'         => $question->getId(),
+                'wording'    => $question->getWording(),
+                'isMultiple' => $question->getIsMultiple(),
+                'difficulty' => $question->getDifficulty(),
+                'proposals'  => $proposalsCache
+            ];
+        }
+
+        $qcm->setQuestionsCache($questionsCache);
+
+        $validator->validate($qcm);
+
+
+
+
+        dd($qcm);
+
     }
 
 

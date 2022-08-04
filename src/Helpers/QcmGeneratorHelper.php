@@ -147,6 +147,7 @@ class QcmGeneratorHelper
                 'id'         => $question->getId(),
                 'wording'    => $question->getWording(),
                 'isMultiple' => $question->getIsMultiple(),
+                'difficulty' => $question->getDifficulty(),
                 'proposals'  => $proposalsCache
             ];
         }

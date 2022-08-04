@@ -6,8 +6,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     addbutton.dataset.index = li_proposal_v1.length
     let indexData = 0
     let form = addbutton.dataset.form
-    let ul = document.querySelector('#list_proposal')
-
+    let ul = document.querySelector('#listProposal')
 // *******************************************************************************************************
 // Add function
     function clickAdd(e) {
@@ -34,6 +33,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // *******************************************************************************************************
 // li_form Function
     function li_form(ul){
+        console.log(ul)
         let li = document.createElement("li")
 
         // Replace

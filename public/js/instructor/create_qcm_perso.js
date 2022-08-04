@@ -17,6 +17,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let partTwo = document.querySelector('.partTwo')
     partTwo.classList.add('displayNone')
 
+    /***************************************************************************/
+    let qcmChoisedMainSide = document.querySelector('.qcmChoisedMain')
+    calcNbrQuestionByLevel(qcmChoisedMainSide)
+
+
     let questionsOfficial = document.querySelector(".questionsOfficial")
     let buttonQuestionType = document.querySelectorAll('.btnChoiseQuestionType button')
 
@@ -190,11 +195,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
             let countCorrectAnswer = 0;
             modifyP.forEach( p =>{
                 values.proposals.push({
-                    'value' : p.children[2].textContent,
-                    'id': p.children[2].parentNode.dataset.id,
-                    'isCorrectAnswer': p.children[3].checked
+                    'wording' : p.children[1].textContent.trim(),
+                    'id': p.children[1].parentNode.dataset.id,
+                    'isCorrectAnswer': p.children[2].checked
                 })
-                if (p.children[3].checked){
+                if (p.children[2].checked){
                     countCorrectAnswer++
                 }
             })
@@ -204,6 +209,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 values['isMultiple'] = false
 
             }
+
 
             fetch( route, {
                 method: 'POST',
@@ -224,7 +230,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     //         e.target.parentNode.remove()
     //     })
     // })
-
 
 
     //Event select li to move*******************************************************************************************
@@ -276,6 +281,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         elementSelect.forEach(el => {
             el.classList.remove('borderColor')
         })
+
+        calcNbrQuestionByLevel(qcmChoisedMain)
     })
 
     //arrowRight qcmChoised <- question
@@ -306,6 +313,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         elementSelect.forEach(el => {
             el.classList.remove('borderColor')
         })
+
+        calcNbrQuestionByLevel(qcmChoisedMain)
     })
 
 
@@ -314,8 +323,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
     qcmValidationBtn.addEventListener('click', (e)=>{
         let questionsSelect = {};
         let qcmNameInput = document.querySelector('.qcmNameInput').value
+        let module = document.querySelector('.qcmNameInput').dataset.module
+        let isPublic = document.getElementById('isPublicInput').checked
+        let qcmChoisedLevel = document.getElementById('qcmChoisedLevel').textContent.trim()
         questionsSelect = {
             'name' : qcmNameInput,
+            'level' : qcmChoisedLevel,
+            'module' : module,
+            'isPublic' : isPublic,
             'questions' : []
         }
         let questions = document.querySelectorAll('.qcmChoisedQuestionWordingDiv')
@@ -338,9 +353,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
         })
 
-
-
     })
+
 
 /**********************************************************************************************************************/
     function addProposal(e,parent, lengthProp){
@@ -461,6 +475,45 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     }
 
+    function calcNbrQuestionByLevel(side){
+
+        let easyLevel = 0;
+        let mediumLevel = 0;
+        let difficultyLevel = 0;
+
+        let questions = side.querySelectorAll( '.qcmChoisedTrefle' )
+        console.log(questions)
+        questions.forEach(question => {
+            if (question.dataset.level === 'easy'){
+                easyLevel ++
+            }else if(question.dataset.level === 'medium'){
+                mediumLevel ++
+            }else{
+                difficultyLevel ++
+            }
+        })
+
+        let pEasy = document.getElementById('easy')
+        console.log(pEasy)
+        pEasy.innerHTML = easyLevel
+        let pMedium = document.getElementById('medium')
+        console.log(pMedium)
+        pMedium.innerHTML = mediumLevel
+        let pDifficult = document.getElementById('difficulty')
+        console.log(pDifficult)
+        pDifficult.innerHTML = difficultyLevel
+
+
+        let qcmChoisedLevel = document.getElementById('qcmChoisedLevel')
+        if (difficultyLevel > mediumLevel && difficultyLevel > mediumLevel){
+            qcmChoisedLevel.innerHTML = 'Difficile'
+        }else if(mediumLevel > difficultyLevel && mediumLevel > easyLevel){
+            qcmChoisedLevel.innerHTML = 'Moyen'
+        }else{
+            qcmChoisedLevel.innerHTML = 'Facile'
+        }
+
+    }
 })
 
 
