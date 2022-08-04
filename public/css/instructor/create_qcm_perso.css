@@ -15,6 +15,15 @@ ul{
     padding: 0;
 }
 
+.chevron:hover{
+    cursor: pointer;
+}
+
+.borderColor{
+    border: 2px solid var(--grey);
+    border-radius: 5px;
+}
+
 /*JS*/
 .displayNone{
     display: none;
@@ -24,10 +33,6 @@ ul{
 .questionLi .displayNone,
 .officialQuestionLi .displayNone{
     display: none;
-}
-
-.chevron:hover{
-    cursor: pointer;
 }
 
 /*PARTIE 1*/
@@ -68,7 +73,6 @@ ul{
     margin-left: auto;
     margin-right: auto;
     display: block;
-    cursor: pointer;
 }
 
 .buttonGenerate:hover{
@@ -99,7 +103,6 @@ ul{
     font-size: var(--semi_normal);
     margin: 35px auto;
     display: block;
-    cursor: pointer;
 }
 
 .btnCustom:hover{
@@ -184,6 +187,11 @@ ul{
     width: 100%;
     border-radius: 5px 5px 0 0;
     background-color: var(--pamplemousse);
+}
+
+.qcmChoisedQuestionWordingP:hover,
+.officialQuestionWordingP:hover{
+    cursor: pointer;
 }
 
 
@@ -326,6 +334,7 @@ ul{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    align-items: center;
 }
 .qcmChoisedLegend{
     display: flex;
@@ -452,7 +461,25 @@ ul{
 }
 
 .imageDragAndDrop img{
+    padding: .2em;
+    border: 1px solid gray;
+    border-radius: 14px;
+    box-shadow: 0 0 3px 0 var(--grey);
+    margin: 1em;
+}
+
+.imageDragAndDrop img:hover{
+    cursor : pointer;
+    background-color: var(--pamplemousse);
+}
+
+.arrowRight{
     transform: rotate(-31deg);
+    width: 50%;
+}
+
+.arrowLeft{
+    transform: rotate(131deg);
     width: 50%;
 }
 

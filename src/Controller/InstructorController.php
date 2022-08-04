@@ -214,7 +214,7 @@ class InstructorController extends AbstractController
             $modules[]=$linkInstructorSessionModule->getModule();
         }
 
-        /**************************************************************************************************************/
+        /**********************************************************************************/
         // Get module choised
         $module = null;
         if( $request->get('module') ){
@@ -227,30 +227,53 @@ class InstructorController extends AbstractController
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
+//            dd($generatedQcm);
         }
 
+        /********************************************************************************/
 
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => $modules,
-            'generatedQcm' => $module ? $generatedQcm : null,
             'customQuestions' => $module ? $customQuestions : null,
-            'officialQuestions' => $module ? $officialQuestions : null
+            'officialQuestions' => $module ? $officialQuestions : null,
+            'generatedQcm' => $module ? $generatedQcm : null,
+            'questions' => $generatedQcm->getQuestionsCache() ? $generatedQcm : null,
         ]);
 
     }
 
-    #[Route('instructor/questions/upDateFetch', name: 'instructor_questions_upDateFetch', methods: ['POST'])]
-    public function upDateQuestionFetch(ValidatorInterface $validator): Response
+    #[Route('instructor/questions/upDateFetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
+    public function upDateQuestionFetch(
+        ValidatorInterface $validator,
+        Request $request,
+        InstructorRepository $instructorRepository): Response
     {
-        $values = $_POST;
-//        dump($request);
-//        dd($values);
+      $data = $request->request->all();
+      dump(gettype($data));
+      dump(json_decode($request->getContent()));
         $question = new Question();
+        $question->setIsMultiple($data['isMultiple']);
+        $question->setDifficulty(1);
+        $question->setExplanation(null);
+        $author = $instructorRepository->find($this->getUser()->getId());
+        $question->setAuthor($author);
 //        $question->set
+        dd($data);
 
-
-        return new JsonResponse('ok');
+        return new JsonResponse($values);
     }
+
+    #[Route('instructor/qcm/createFetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
+    public function createQcmFetch(
+        ValidatorInterface $validator,
+        Request $request,
+        InstructorRepository $instructorRepository): Response
+    {
+        $data = $request->request->all();
+        dd($data);
+    }
+
+
 
     #[Route('instructor/qcms', name: 'instructor_qcms', methods: ['GET'])]
     public function displayQcms( QcmRepository $qcmRepo, Security $security): Response

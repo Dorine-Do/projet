@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", (event) => {
+
     // display none
     let questionsCustom = document.querySelector(".questionsCustom")
     questionsCustom.classList.add('displayNone')
@@ -20,7 +21,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let buttonQuestionType = document.querySelectorAll('.btnChoiseQuestionType button')
 
 
-    //Event faire apparaitre la partie 2
+    //Event faire apparaitre la partie 2********************************************************************************
     let btnCustom = document.querySelector('.btnCustom')
     btnCustom.addEventListener('click',(e)=>{
         let partTwo  = document.querySelector('.partTwo')
@@ -28,7 +29,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     })
 
 
-    // Event sur les button de choix du type de question
+    // Event sur les button de choix du type de question****************************************************************
     buttonQuestionType.forEach(button=>{
         button.addEventListener('click',(e)=>{
             let choiceBtn = e.target
@@ -53,7 +54,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         })
     })
 
-    // Event sur les chevrons
+    // Event sur les chevrons*******************************************************************************************
     let chevrons = document.querySelectorAll('.chevron');
 
     chevrons.forEach( chevron => {
@@ -77,16 +78,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let dbValues = [] ;
 
-    // event pour modifier une question
+    // event pour modifier une question*********************************************************************************
     let modifyQuestionImgDiv = document.querySelectorAll('.modifyQuestionImgDiv')
     modifyQuestionImgDiv.forEach(div => {
         div.addEventListener('click', (e)=>{
-            let target = e.target
-            let divParent = e.target.parentNode.parentNode
-            console.log(divParent)
+            let img = e.target
+            img.parentNode.previousElementSibling.firstElementChild.setAttribute('src', chevronHaut)
+            img.parentNode.classList.add('displayNone')
+
+            let divParent = img.parentNode.parentNode
             let question = divParent.querySelector('.questionWordingP')
-            let proposalWordingDiv  = e.target.parentNode.parentNode.parentNode.lastElementChild.lastElementChild
-            let questionModify = e.target.parentNode.parentNode.parentNode.lastElementChild.lastElementChild.lastElementChild
+            let proposalWordingDiv  = img.parentNode.parentNode.parentNode.lastElementChild.lastElementChild
+            let questionModify = img.parentNode.parentNode.parentNode.lastElementChild.lastElementChild.lastElementChild
 
             //Css
             proposalWordingDiv.style.flexDirection = 'column'
@@ -157,7 +160,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 //Save former values of question
 
                 dbValues.forEach(cel=>{
-                    console.log(cel)
                     if(cel.idQuestion === questionId){
                         cel.proposals.push({
                             'id' : id,
@@ -169,7 +171,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         })
     })
 
-    // Event Enregistrer une question
+    // Event Enregistrer une question***********************************************************************************
     let saveBtns = document.querySelectorAll('.save')
     saveBtns.forEach(btn =>{
         btn.addEventListener('click',(e)=>{
@@ -177,24 +179,35 @@ document.addEventListener("DOMContentLoaded", (event) => {
             let question = officialQuestionLi.querySelector('.officialQuestionWordingP ')
             let questionId = question.dataset.id
             let div = e.target.parentNode.parentNode
-            let inputs = div.querySelectorAll('.modifyP textarea')
+            let modifyP = div.querySelectorAll('.modifyP')
 
-            let values = [
-                {'keyWord' : 'update'},
-                {'questionId' : questionId}
-            ];
-            inputs.forEach(input =>{
-                values.push({
-                    'value' : input.value,
-                    'id': input.parentNode.dataset.id
+            let values =
+                {
+                    'questionId' : questionId,
+                    'wording' : question.textContent,
+                    'proposals' : []
+                }
+            let countCorrectAnswer = 0;
+            modifyP.forEach( p =>{
+                values.proposals.push({
+                    'value' : p.children[2].textContent,
+                    'id': p.children[2].parentNode.dataset.id,
+                    'isCorrectAnswer': p.children[3].checked
                 })
-
-
+                if (p.children[3].checked){
+                    countCorrectAnswer++
+                }
             })
+            if (countCorrectAnswer > 1){
+                values.isMultiple = true
+            }else{
+                values['isMultiple'] = false
+
+            }
 
             fetch( route, {
                 method: 'POST',
-                body: values, // The data
+                body:  JSON.stringify(values), // The data
                 headers: {
                     'Content-type': 'application/json' // The type of data you're sending
                 }
@@ -205,16 +218,131 @@ document.addEventListener("DOMContentLoaded", (event) => {
     })
 
     // Event pour supprimer une question côté qcm choisi
-    let btnDeleteQuestion = document.querySelectorAll('.x')
-    btnDeleteQuestion.forEach(btn =>{
-        btn.addEventListener('click',(e)=>{
-            e.target.parentNode.remove()
+    // let btnDeleteQuestion = document.querySelectorAll('.x')
+    // btnDeleteQuestion.forEach(btn =>{
+    //     btn.addEventListener('click',(e)=>{
+    //         e.target.parentNode.remove()
+    //     })
+    // })
+
+
+
+    //Event select li to move*******************************************************************************************
+    let liDiv = document.querySelectorAll('.officialQuestionLi , .qcmChoisedLi ')
+    liDiv.forEach(li => {
+        li.addEventListener('click', (e)=>{
+            if(e.target.tagName !== 'IMG'){
+                li.classList.toggle('borderColor')
+            }
+        })
+    })
+
+    // Event arrow right and left************************************************************************
+    /*
+        Les questions dans la partie qcm choisie sont aussi dans la liste des questions que se soit custom ou officielle
+        Quand l'utilisateur déplace un question du qcm vers la liste de question est supprimer pour pas avoir de doublons
+     */
+    let arrowRight = document.querySelector('.arrowRight')
+    let arrowLeft = document.querySelector('.arrowLeft')
+
+    let questionsOfficialSide = document.querySelector('.questionsOfficial')
+    let qcmChoisedMain = document.querySelector('.qcmChoisedMain')
+
+    //arrowLeft QcmChoised -> questions
+    arrowLeft.addEventListener('click', (e)=>{
+        let firstLi = questionsOfficialSide.firstElementChild.firstElementChild
+        let ulQuestionsOfficialSide = questionsOfficialSide.firstElementChild
+
+        let qcmChoisedLis = qcmChoisedMain.querySelectorAll('.borderColor')
+        qcmChoisedLis .forEach(li => {
+
+            //questions officelles
+            if (li.classList.contains('officialQuestionLi')){
+                let allP = li.firstElementChild.children
+                // Bouton modifier la question
+                for (let i = 0 ; i < allP.length ; i++){
+                    if(allP[i].tagName === 'DIV'){
+                        allP[i].classList.remove('displayNone')
+                    }
+                }
+                let qcmChoisedLi = li
+                li.remove()
+                ulQuestionsOfficialSide.insertBefore(qcmChoisedLi, firstLi)
+            }else{
+                li.remove()
+            }
+        })
+        let elementSelect = document.querySelectorAll('.borderColor')
+        elementSelect.forEach(el => {
+            el.classList.remove('borderColor')
+        })
+    })
+
+    //arrowRight qcmChoised <- question
+    arrowRight.addEventListener('click', (e)=>{
+
+        let firstLi = qcmChoisedMain.firstElementChild.firstElementChild
+        let ulQcmChoisedSide = qcmChoisedMain.firstElementChild
+
+        let officialLis = questionsOfficialSide.querySelectorAll('.borderColor')
+        officialLis.forEach(li =>{
+
+            //questions officelles
+            if (li.classList.contains('officialQuestionLi')){
+                let allP = li.firstElementChild.children
+                // Bouton modifier la question
+                for (let i = 0 ; i < allP.length ; i++){
+                    if(allP[i].tagName === 'DIV'){
+                        allP[i].classList.add('displayNone')
+                    }
+                }
+                let officialLi = li
+                li.remove()
+                ulQcmChoisedSide.insertBefore(officialLi, firstLi)
+            }
+        })
+
+        let elementSelect = document.querySelectorAll('.borderColor')
+        elementSelect.forEach(el => {
+            el.classList.remove('borderColor')
         })
     })
 
 
+    // Event Validation qcm
+    let qcmValidationBtn = document.querySelector('.qcmValidation')
+    qcmValidationBtn.addEventListener('click', (e)=>{
+        let questionsSelect = {};
+        let qcmNameInput = document.querySelector('.qcmNameInput').value
+        questionsSelect = {
+            'name' : qcmNameInput,
+            'questions' : []
+        }
+        let questions = document.querySelectorAll('.qcmChoisedQuestionWordingDiv')
+        questions.forEach(question => {
+            let level = question.firstElementChild.firstElementChild.dataset.level
+            let wording = question.children[1].textContent.trim()
+            let id = question.children[1].dataset.id
+            questionsSelect['questions'].push({
+                'id': id,
+                'level' : level,
+                'wording' : wording
+            })
+        })
 
-/*****************************************************************************************************************/
+        fetch( routeInstructorQcmFetch, {
+            method: 'POST',
+            body:  JSON.stringify(questionsSelect), // The data
+            headers: {
+                'Content-type': 'application/json' // The type of data you're sending
+            }
+        })
+
+
+
+    })
+
+/**********************************************************************************************************************/
     function addProposal(e,parent, lengthProp){
 
         let pProp = document.createElement('p')
@@ -283,8 +411,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     function cancelModifyQuestion(e){
+
         let parent =  e.target.parentNode.parentNode
-        let question = document.querySelector('.questionWordingP')
+        let parentQuestion = e.target.parentNode.parentNode.parentNode
+        let question = parentQuestion.querySelector('.questionWordingP')
         let proposalWordingDiv = parent.querySelector('.proposalWordingDiv')
         let divParentP = proposalWordingDiv.parentNode
 
@@ -294,6 +424,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         nPropPartTwo.forEach(nbr => {
             nbr.style.padding = '2px 12px'
         })
+        parentQuestion.firstElementChild.lastElementChild.classList.remove('displayNone')
 
         proposalWordingDiv.remove()
 
@@ -302,8 +433,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
         divParentP.append(div)
 
         let id = question.dataset.id
-        let questionToEdit = dbValues.filter( question => question.id === id);
-
+        let questionToEdit = dbValues.filter( question => {
+            return question.idQuestion === id
+        });
         questionToEdit[0].proposals.forEach(function callback(value, index) {
             let span = document.createElement('span')
             span.classList.add('numeroProp', 'nPropPartTwo')
@@ -328,7 +460,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 
     }
-
 
 })
 
