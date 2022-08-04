@@ -267,17 +267,17 @@ class InstructorController extends AbstractController
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
+         }
 
         /********************************************************************************/
-
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => $modules,
             'customQuestions' => $module ? $customQuestions : null,
             'officialQuestions' => $module ? $officialQuestions : null,
             'generatedQcm' => $module ? $generatedQcm : null,
         ]);
-
     }
+
 
     #[Route('instructor/questions/upDateFetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
     public function upDateQuestionFetch(
@@ -291,7 +291,6 @@ class InstructorController extends AbstractController
     {
       $data = (array)json_decode($request->getContent());
         $question = new Question();
-//        dd($data['module']);
         $module = $moduleRepository->find($data['module']);
         $question->setModule($module);
         $question->setWording($data['wording']);
@@ -319,8 +318,6 @@ class InstructorController extends AbstractController
         $entityManager->flush();
 
         $questionResponse = $questionRepository->find($question->getId());
-//        dd($questionResponse);
-
 
         return new JsonResponse($questionResponse);
     }
@@ -358,7 +355,6 @@ class InstructorController extends AbstractController
         $questionsCache = [];
         foreach( $data['questions'] as $question )
         {
-//            dd($question->id);
             $question = $questionRepository->find($question->id);
             $questionProposals = $question->getProposals();
             $proposalsCache = [];
