@@ -1,3 +1,8 @@
+body {
+  position: relative;
+  margin: 0;
+}
+
 .accueilDiv {
   display: flex;
   flex-direction: column;
@@ -31,11 +36,37 @@
   background-color: var(--fond);
   font-weight: var(--semi_bold);
 }
-.flash-notice {
-  background: green;
+.flash-notice > div {
+  background: var(--pamplemousse);
   padding: 20px 0;
-  border-radius: 10px;
-  color:white;
+  border-radius: 5px;
+  color: white;
   font-weight: bold;
+  align-self: center;
+  width: 30%;
+  padding: 20px 0;
+  text-align: center;
+}
+/* .flash-notice > div:active {
+  display: none;
+} */
+
+.flash-notice span {
+  font-size: 15px;
+  color: grey;
 }
 
+.flash-notice {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%);
+  left: 50%;
+  right: 50%;
+  bottom: 50%;
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}

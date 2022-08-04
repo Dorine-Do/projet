@@ -408,37 +408,15 @@ class InstructorController extends AbstractController
         ]);
     }
 
-    /**TODO
-     * à l'aide du generatorHelper generer un qcm qui sera enregistrer dans la bdd table qcm puis
-     * qui génera un instance de qcm automatique pour chaque élève en recupérant le start time et le end time dans linksessionmodule
-     *
-     * Déclencher la fonction du générateur au clic
-     */
-    #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
+
+    #[Route('instructor/qcms/create_official_qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
     public function createOfficialQcm(Security $security,SessionRepository $sessionRepository,InstructorRepository $instructorRepository,Request $request,QuestionRepository $questionRepository,ModuleRepository $moduleRepository,EntityManagerInterface $manager): Response
     {
 
-
+        
         $userId=$security->getUser();
         $sessionAndModuleByInstructor= $instructorRepository->find($userId)->getLinksInstructorSessionModule();
-
-
-        //   $dateToday = new \DateTime();
-        //   $dateFormat = date_format($dateToday,'Y-m-d H:i:s');
-        //   if($dateFormat){
-        //       //date(h:i:s)
-        //       // après avoir fait le date interval
-        //       // recupérer le valeur et le format precis et remplacer l'heure
-        //       //datetime(17:00:00)metrre en format his et comparer avec la date de l'inetrvale
-        //       $endDate=$dateToday->add(new DateInterval("P5D"));
-        //       $endDateFormat=date_format($endDate,'Y-m-d 17:00:00');
-        //       $format= $endDateFormat;
-        //     //   dd($endDateFormat);
-        //     dump($endDateFormat);
-        //       $date1 = date("Y-m-d 17:00:00", strtotime($endDateFormat.'+ 1 days'));
-
-        //       dd($date1);
-        //   }
+        
 
 
 
@@ -446,9 +424,9 @@ class InstructorController extends AbstractController
             $sessionId=$sessionAndModuleByInstructor->getSession()->getId();
             $moduleId=$sessionAndModuleByInstructor->getModule()->getId();
             $sessions=$sessionRepository->findBy(['id'=>$sessionId]);
-            $modules=$sessionRepository->findBy(['id'=>$moduleId]);
+            $modules=$moduleRepository->findBy(['id'=>$moduleId]);
             // $sessions=array($sessionAndModuleByInstructor->getSession());
-
+            // dd($sessionAndModuleByInstructor);
         }
 
 

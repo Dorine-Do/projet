@@ -1,8 +1,8 @@
 console.log("hello");
 document.addEventListener("DOMContentLoaded", () => {
-  // console.log("hi");
+  console.log("hi");
   let div_proposals = document.querySelectorAll(".divProposals");
-  // console.log(div_proposals);
+  console.log(div_proposals);
   div_proposals.forEach((div) => {
     div.style.display = "none";
   });
@@ -61,7 +61,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // let questionsLi = document.querySelector(".list_questions li");
   let questionslist = document.querySelector(".list_questions ");
   let forBtnQcm;
-<<<<<<< HEAD
 
   ////////////////////
   //  NUMEROTATION DES QUESTIONS
@@ -83,10 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ///////////////////
   // SELECTION UNIQUE DES BOUTONS QCMS ET DISPLAY DE LA LISTE DES QUESTIONS LIEES
-=======
->>>>>>> 71c981c24b4182c23aec0d07b0e4e2a4f58dbca6
 
   for (forBtnQcm = 0; forBtnQcm < inputQcm.length; forBtnQcm++) {
+    console.log(inputQcm[forBtnQcm]);
     inputQcm[forBtnQcm].addEventListener("click", function (e) {
       // let eTarget = this.dataset.id;
       let questionsCache = JSON.parse(this.dataset.questionsCache);
@@ -103,8 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       }
 
-     
-
       // FAIRE UNE BOUCLE DE MON JSON ? PARSER LA VALEUR ET REMPLACER EN JS LES VALEURS DU LI DU TEMPLATE PAR CELLE CORRESPONDANTE DANS LE CACHE
 
       for (forBtnQcm = 0; forBtnQcm < inputQcm.length; forBtnQcm++) {
@@ -117,21 +113,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-
-<<<<<<< HEAD
-  // for (const qcm in questionslist.dataset.qcms) {
-  //   console.log(questionslist.dataset.qcm);
-  // }
-
-  // let test = fetch(location.href);
-  // console.log(test);
-=======
-  ////////////////////
-
-
-
-
-
-
->>>>>>> 71c981c24b4182c23aec0d07b0e4e2a4f58dbca6
 });

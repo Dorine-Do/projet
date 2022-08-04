@@ -25,8 +25,11 @@
     <div class="bloc_choice_session_and_module">
     
       <ul class="list_sessions">
-        <input type="hidden" value="{{sessions[0].id}}"  name="session">
-      {% for session in sessions %}
+      {# Input caché pour permettre d'envoyer les données du li dans le form au clic  voir script
+         au clic id est envoyé dans le value du input 
+       #}
+        <input type="hidden" value="{{sessions[0].id}}"  name="session" >
+        {% for session in sessions %}
     
         <li data-session-id="{{session.id}}">{{session.name}}</li>
  
@@ -38,7 +41,7 @@
     <div class="select_module">
         <select name="module" id="module">
          {% for module in modules %}
-          <option value="{{module.id}}">{{module.name}}</option>
+          <option value="{{module.id}}">{{module.title}}</option>
           {% endfor %}
         </select>
       </div>
@@ -49,4 +52,25 @@
     </form>
   </main>
 </div>
+{% block javascripts %}
+{# temporaire #}
+    <script>
+    window.onload = function (event) {
+      // querySelectorAll -> si plusieurs input
+         let sessionInput = document.querySelector(".list_sessions input");
+         let sessionLiAll = document.querySelectorAll(".list_sessions li ");
+
+         for(let forSessionLi = 0; forSessionLi < sessionLiAll.length ; forSessionLi++){
+           sessionLiAll[forSessionLi].addEventListener("click",function(e){
+             let sessionLiId= this.dataset.sessionId;
+             sessionInput.value=`${sessionLiId}`
+           })
+         }
+       
+
+      
+    }
+    </script>
+ 
+{% endblock %}
 {% endblock %}
