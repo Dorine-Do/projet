@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Module;
 use App\Entity\Proposal;
-use App\Entity\QcmInstance;
 use App\Entity\Qcm;
+use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Entity\Session;
 use App\Form\CreateQuestionType;
@@ -19,6 +19,7 @@ use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Expr\Cast\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -221,7 +222,6 @@ class InstructorController extends AbstractController
             $questionEntity->setIsOfficial(false);
             $questionEntity->setIsMandatory(false);
             $questionEntity->setExplanation('Explication');
-//            dd();
             $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
 
             //  validation et enregistrement des données du form dans la bdd
@@ -256,7 +256,7 @@ class InstructorController extends AbstractController
         }
 
         /**********************************************************************************/
-        // Get module choised
+        // Get module choiced
         $module = null;
         if( $request->get('module') ){
             $module = $moduleRepository->find($request->get('module'));
@@ -267,8 +267,6 @@ class InstructorController extends AbstractController
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
-//            dd($generatedQcm);
-        }
 
         /********************************************************************************/
 
@@ -277,7 +275,6 @@ class InstructorController extends AbstractController
             'customQuestions' => $module ? $customQuestions : null,
             'officialQuestions' => $module ? $officialQuestions : null,
             'generatedQcm' => $module ? $generatedQcm : null,
-//            'questions' => $generatedQcm->getQuestionsCache() ? $generatedQcm : null,
         ]);
 
     }
@@ -408,26 +405,18 @@ class InstructorController extends AbstractController
         ]);
     }
 
-
-    #[Route('instructor/qcms/create_official_qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
+    #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
     public function createOfficialQcm(Security $security,SessionRepository $sessionRepository,InstructorRepository $instructorRepository,Request $request,QuestionRepository $questionRepository,ModuleRepository $moduleRepository,EntityManagerInterface $manager): Response
     {
-
-        
         $userId=$security->getUser();
         $sessionAndModuleByInstructor= $instructorRepository->find($userId)->getLinksInstructorSessionModule();
-        
-
-
 
         foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor){
             $sessionId=$sessionAndModuleByInstructor->getSession()->getId();
             $moduleId=$sessionAndModuleByInstructor->getModule()->getId();
             $sessions=$sessionRepository->findBy(['id'=>$sessionId]);
-            $modules=$moduleRepository->findBy(['id'=>$moduleId]);
-           
+            $modules=$sessionRepository->findBy(['id'=>$moduleId]);
         }
-
 
         $formData= $request->query->all();
         if(count($formData) != 0 ){
@@ -441,7 +430,6 @@ class InstructorController extends AbstractController
         $linksSessionStudent=$sessionRepository->find($formData["session"])->getLinksSessionStudent();
         $students=[];
         foreach($linksSessionStudent as $linkSessionStudent){
-           
 
             $students[]=$linkSessionStudent->getStudent();
         }
@@ -467,12 +455,8 @@ class InstructorController extends AbstractController
               //puis on place la varible dans datetime puis on lei donne un format et ainsi de suite
             }
 
-          
-
             $manager->persist($qcmInstance);
             $manager->flush();
-
-
 
             $this->addFlash(
                 'instructorAddQcm',
@@ -482,7 +466,6 @@ class InstructorController extends AbstractController
 
         }
     //  redirect to route avec flash vers welcome instructor
-
         }
 
 

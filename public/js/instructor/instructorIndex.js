@@ -1,8 +1,6 @@
 console.log("hello");
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("hi");
   let div_proposals = document.querySelectorAll(".divProposals");
-  console.log(div_proposals);
   div_proposals.forEach((div) => {
     div.style.display = "none";
   });
@@ -84,7 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // SELECTION UNIQUE DES BOUTONS QCMS ET DISPLAY DE LA LISTE DES QUESTIONS LIEES
 
   for (forBtnQcm = 0; forBtnQcm < inputQcm.length; forBtnQcm++) {
-    console.log(inputQcm[forBtnQcm]);
     inputQcm[forBtnQcm].addEventListener("click", function (e) {
       // let eTarget = this.dataset.id;
       let questionsCache = JSON.parse(this.dataset.questionsCache);
