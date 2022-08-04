@@ -402,7 +402,15 @@ class InstructorController extends AbstractController
     }
 
     #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
-    public function createOfficialQcm(Security $security,SessionRepository $sessionRepository,InstructorRepository $instructorRepository,Request $request,QuestionRepository $questionRepository,ModuleRepository $moduleRepository,EntityManagerInterface $manager): Response
+    public function createOfficialQcm(
+        Security $security,
+        SessionRepository $sessionRepository,
+        InstructorRepository $instructorRepository,
+        Request $request,
+        QuestionRepository $questionRepository,
+        ModuleRepository $moduleRepository,
+        EntityManagerInterface $manager
+    ): Response
     {
         $userId=$security->getUser();
         $sessionAndModuleByInstructor= $instructorRepository->find($userId)->getLinksInstructorSessionModule();
@@ -415,6 +423,7 @@ class InstructorController extends AbstractController
         }
 
         $formData= $request->query->all();
+
         if(count($formData) != 0 ){
 
         $module=$moduleRepository->find($formData["module"]);
@@ -425,6 +434,7 @@ class InstructorController extends AbstractController
 
         $linksSessionStudent=$sessionRepository->find($formData["session"])->getLinksSessionStudent();
         $students=[];
+
         foreach($linksSessionStudent as $linkSessionStudent){
 
             $students[]=$linkSessionStudent->getStudent();
