@@ -267,7 +267,7 @@ class InstructorController extends AbstractController
 
     }
 
-#[Route('instructor/questions/upDateFetch', name: 'instructor_questions_upDateFetch', methods: ['POST'])]
+    #[Route('instructor/questions/upDateFetch', name: 'instructor_questions_upDateFetch', methods: ['POST'])]
     public function upDateQuestionFetch(ValidatorInterface $validator): Response
     {
         $values = $_POST;
@@ -289,5 +289,13 @@ class InstructorController extends AbstractController
         return $this->render('instructor/display_qcms.html.twig', [
             'qcms' => $qcms
         ]);
+    }
+
+    #[Route('instructor/plan_qcm/', name: 'instructor_plan_qcm')]
+    public function planQcm()
+    {
+        $instructor = $this->getUser();
+
+        return $this->render( 'instructor/plan_qcm.html.twig', []);
     }
 }
