@@ -11,20 +11,15 @@
 {% block body %}
 
   
-    <div class="flash-notice">
-       <div>
-        test message </br>
-        <span>clic sur le cadre pour fermer l'onglet</span>
-       </div>
-    </div>
 {# read and display just one flash message type #}
 {% for message in app.flashes('instructorAddQcm') %}
    
-    {# <div class="flash-notice">
+    <div class="flash-notice">
        <div>
-        {{ message }}
+        {{message}} </br>
+        <span>clic sur le cadre pour fermer l'onglet</span>
        </div>
-    </div> #}
+    </div>
 {% endfor %}
 
     <h1> - Accueil - </h1>

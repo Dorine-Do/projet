@@ -269,7 +269,7 @@ class InstructorController extends AbstractController
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
 
         /********************************************************************************/
-
+        }
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => $modules,
             'customQuestions' => $module ? $customQuestions : null,
@@ -405,7 +405,7 @@ class InstructorController extends AbstractController
         ]);
     }
 
-    #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
+    #[Route('instructor/qcms/create_official_qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
     public function createOfficialQcm(Security $security,SessionRepository $sessionRepository,InstructorRepository $instructorRepository,Request $request,QuestionRepository $questionRepository,ModuleRepository $moduleRepository,EntityManagerInterface $manager): Response
     {
         $userId=$security->getUser();
@@ -415,7 +415,7 @@ class InstructorController extends AbstractController
             $sessionId=$sessionAndModuleByInstructor->getSession()->getId();
             $moduleId=$sessionAndModuleByInstructor->getModule()->getId();
             $sessions=$sessionRepository->findBy(['id'=>$sessionId]);
-            $modules=$sessionRepository->findBy(['id'=>$moduleId]);
+            $modules=$moduleRepository->findBy(['id'=>$moduleId]);
         }
 
         $formData= $request->query->all();
