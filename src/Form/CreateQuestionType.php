@@ -45,6 +45,7 @@ class CreateQuestionType extends AbstractType
                         return self::DIFFICULTIES[$choice->value];
                     },
                 'expanded' => true,
+                'empty_data' => self::DIFFICULTIES[2],
             ])
 
             // Imbriquation de formulaire

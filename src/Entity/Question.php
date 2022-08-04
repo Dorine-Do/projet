@@ -122,8 +122,9 @@ class Question
     {
         return match($this->difficulty) {
             1 => Difficulty::Easy,
+            2 => Difficulty::Medium,
             3 => Difficulty::Difficult,
-            default => Difficulty::Medium,
+            default => Difficulty::Medium
         };
     }
 
@@ -134,7 +135,10 @@ class Question
      */
     public function setDifficulty(Difficulty|int $difficulty): self
     {
-        $this->difficulty = $difficulty->value;
+        if (gettype($difficulty) == 'integer' )
+            $this->difficulty = $difficulty;
+        else
+            $this->difficulty = $difficulty->value;
 
         return $this;
     }

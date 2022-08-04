@@ -14,6 +14,7 @@ use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -214,6 +215,8 @@ class InstructorController extends AbstractController
             $questionEntity->setIsOfficial(false);
             $questionEntity->setIsMandatory(false);
             $questionEntity->setExplanation('Explication');
+//            dd();
+            $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
 
             //  validation et enregistrement des données du form dans la bdd
             $manager->persist($questionEntity);
@@ -228,7 +231,7 @@ class InstructorController extends AbstractController
         ]);
     }
 
-    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET'])]
+    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET','POST'])]
     public function createQcmPersonalized(
         Request $request,
         InstructorRepository $instructorRepository,
@@ -366,6 +369,15 @@ class InstructorController extends AbstractController
     }
 
 
+
+#[Route('instructor/questions/upDateFetch', name: 'instructor_questions_upDateFetch', methods: ['POST'])]
+    public function upDateQuestionFetch(ValidatorInterface $validator): Response
+    {
+        $values = $_POST;
+        $question = new Question();
+
+        return new JsonResponse('ok');
+    }
 
     #[Route('instructor/qcms', name: 'instructor_qcms', methods: ['GET'])]
     public function displayQcms(
