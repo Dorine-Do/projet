@@ -185,11 +185,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
             let questionId = question.dataset.id
             let div = e.target.parentNode.parentNode
             let modifyP = div.querySelectorAll('.modifyP')
+            let module = document.querySelector('.qcmNameInput').dataset.module
 
             let values =
                 {
                     'questionId' : questionId,
-                    'wording' : question.textContent,
+                    'module' : module,
+                    'wording' : question.textContent.trim(),
                     'proposals' : []
                 }
             let countCorrectAnswer = 0;
@@ -218,8 +220,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     'Content-type': 'application/json' // The type of data you're sending
                 }
             })
-                .then(response=>response.json())
-                .then(data=>console.log(data))
+                .then( response => response.json() )
+                .then( data => console.log(data) )
         })
     })
 

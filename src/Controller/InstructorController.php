@@ -280,29 +280,46 @@ class InstructorController extends AbstractController
     public function upDateQuestionFetch(
         ValidatorInterface $validator,
         Request $request,
-        InstructorRepository $instructorRepository): Response
+        InstructorRepository $instructorRepository,
+        ModuleRepository $moduleRepository,
+        QuestionRepository $questionRepository,
+        EntityManagerInterface $entityManager
+    ): Response
     {
       $data = (array)json_decode($request->getContent());
         $question = new Question();
+//        dd($data['module']);
+        $module = $moduleRepository->find($data['module']);
+        $question->setModule($module);
         $question->setWording($data['wording']);
         $question->setIsMultiple($data['isMultiple']);
         $question->setDifficulty(1);
-        $question->setExplanation(null);
+        $question->setExplanation('null');
         $author = $instructorRepository->find($this->getUser()->getId());
         $question->setAuthor($author);
+        $question->setIsMandatory(0);
+        $question->setIsOfficial(0);
+        $question->setIsEnabled(0);
 
         foreach ($data['proposals'] as $proposal){
            $newProposal = new Proposal();
-           $newProposal->setWording($proposal['wording']);
-           $newProposal->setIsCorrectAnswer($proposal['isCorrectAnswer']);
+           $newProposal->setWording($proposal->wording);
+           $newProposal->setIsCorrectAnswer($proposal->isCorrectAnswer);
            $validator->validate($newProposal);
            $question->addProposal($newProposal);
         };
 
         $validator->validate($question);
-        dd($data);
+        $questionJson = json_encode($question);
 
-        return new JsonResponse($values);
+        $entityManager->persist($question);
+        $entityManager->flush();
+
+        $questionResponse = $questionRepository->find($question->getId());
+//        dd($questionResponse);
+
+
+        return new JsonResponse($questionResponse);
     }
 
     #[Route('instructor/qcm/createFetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
@@ -311,12 +328,12 @@ class InstructorController extends AbstractController
         Request $request,
         InstructorRepository $instructorRepository,
         QuestionRepository $questionRepository,
+        ModuleRepository $moduleRepository,
         EntityManagerInterface $entityManager
     ): Response
 
     {
         $data = (array)json_decode($request->getContent());
-//      dd($data);
         $qcm = new Qcm();
         $author = $instructorRepository->find($this->getUser()->getId());
         $qcm->setAuthor($author);
@@ -332,6 +349,8 @@ class InstructorController extends AbstractController
         $qcm->setIsEnabled(1);
         $qcm->setIsOfficial(0);
         $qcm->setIsPublic($data['isPublic']);
+        $module = $moduleRepository->find($data['module']);
+        $qcm->setModule($module);
 
         $questionsCache = [];
         foreach( $data['questions'] as $question )
@@ -360,23 +379,12 @@ class InstructorController extends AbstractController
         $qcm->setQuestionsCache($questionsCache);
 
         $validator->validate($qcm);
+        $entityManager->persist($qcm);
+        $entityManager->flush();
 
+        $this->addFlash('success', 'Le qcm a bien été modifiée.');
+        return $this->redirectToRoute('instructor_display_questions');
 
-
-
-        dd($qcm);
-
-    }
-
-
-
-#[Route('instructor/questions/upDateFetch', name: 'instructor_questions_upDateFetch', methods: ['POST'])]
-    public function upDateQuestionFetch(ValidatorInterface $validator): Response
-    {
-        $values = $_POST;
-        $question = new Question();
-
-        return new JsonResponse('ok');
     }
 
     #[Route('instructor/qcms', name: 'instructor_qcms', methods: ['GET'])]
