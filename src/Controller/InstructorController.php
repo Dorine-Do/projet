@@ -299,7 +299,7 @@ class InstructorController extends AbstractController
         $question->setAuthor($author);
         $question->setIsMandatory(0);
         $question->setIsOfficial(0);
-        $question->setIsEnabled(0);
+        $question->setIsEnabled(1);
 
         foreach ($data['proposals'] as $proposal){
            $newProposal = new Proposal();

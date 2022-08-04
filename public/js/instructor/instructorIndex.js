@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   chevrons.forEach((chevron) => {
     chevron.addEventListener("click", (e) => {
+
       let div_question = e.target.parentElement.parentElement.parentElement;
       let div_js = div_question.querySelector(".divJs");
       // return false un boolean si status !== 'true' et true si === true
@@ -19,14 +20,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (status === false) {
         // Si fermé alors
-
+        let count = 0
         for (const proposal of proposals) {
           let id = parseInt(e.target.dataset.id);
 
           if (id === proposal.id_question) {
+
+            let alphabet = ['A','B','C','D','E','F','G','H']
+
+            let end = parseInt(count,10) + 1 // 4 +1 = 5    '4' + 1 = 41
+            let begin = count
+            let letter = alphabet.slice(begin, end)
+            let p = document.createElement('p')
+            p.className = 'pLetter'
+            p.innerHTML = letter
+
             p_prop = document.createElement("p");
             p_prop.innerHTML = proposal.wording;
-            div_js.append(p_prop);
+            div_js.append(p,p_prop);
+            count++
+
           }
         }
         e.target.dataset.status = true; // Chevron ouvert
@@ -43,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let inputQcm = document.querySelectorAll(".li_btn_qcm input");
   //   let questions = document.querySelectorAll(".list_questions li");
   let forBtnQcm;
-  console.log(questions);
 
   for (forBtnQcm = 0; forBtnQcm < inputQcm.length; forBtnQcm++) {
     console.log(inputQcm[forBtnQcm]);
@@ -51,4 +63,12 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log(e.target);
     });
   }
+
+  ////////////////////
+
+
+
+
+
+
 });
