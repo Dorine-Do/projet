@@ -118,17 +118,21 @@ class Question
         return $this;
     }
 
-    public function getDifficulty(): ?int
+    public function getDifficulty(): int|Difficulty
     {
-        return $this->difficulty;
+        return match($this->difficulty) {
+            1 => Difficulty::Easy,
+            3 => Difficulty::Difficult,
+            default => Difficulty::Medium,
+        };
     }
 
     /**
      * Difficulty MUST be of type Entity\Enum\Difficulty because of CreateQuestionType.php
-     * @param Difficulty $difficulty
+     * @param Difficulty|int $difficulty
      * @return $this
      */
-    public function setDifficulty(Difficulty $difficulty): self
+    public function setDifficulty(Difficulty|int $difficulty): self
     {
         $this->difficulty = $difficulty->value;
 
