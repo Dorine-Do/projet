@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   chevrons.forEach((chevron) => {
     chevron.addEventListener("click", (e) => {
+
       let div_question = e.target.parentElement.parentElement.parentElement;
       let div_js = div_question.querySelector(".divJs");
       // return false un boolean si status !== 'true' et true si === true
@@ -19,14 +20,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (status === false) {
         // Si fermé alors
-
+        let count = 0
         for (const proposal of proposals) {
           let id = parseInt(e.target.dataset.id);
 
           if (id === proposal.id_question) {
+
+            let alphabet = ['A','B','C','D','E','F','G','H']
+
+            let end = parseInt(count,10) + 1 // 4 +1 = 5    '4' + 1 = 41
+            let begin = count
+            let letter = alphabet.slice(begin, end)
+            let p = document.createElement('p')
+            p.className = 'pLetter'
+            p.innerHTML = letter
+
             p_prop = document.createElement("p");
             p_prop.innerHTML = proposal.wording;
-            div_js.append(p_prop);
+            div_js.append(p,p_prop);
+            count++
+
           }
         }
         e.target.dataset.status = true; // Chevron ouvert
@@ -48,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // let questionsLi = document.querySelector(".list_questions li");
   let questionslist = document.querySelector(".list_questions ");
   let forBtnQcm;
+<<<<<<< HEAD
 
   ////////////////////
   //  NUMEROTATION DES QUESTIONS
@@ -69,6 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   ///////////////////
   // SELECTION UNIQUE DES BOUTONS QCMS ET DISPLAY DE LA LISTE DES QUESTIONS LIEES
+=======
+>>>>>>> 71c981c24b4182c23aec0d07b0e4e2a4f58dbca6
 
   for (forBtnQcm = 0; forBtnQcm < inputQcm.length; forBtnQcm++) {
     inputQcm[forBtnQcm].addEventListener("click", function (e) {
@@ -87,17 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       }
 
-      //TEST 2  à revoir
-      // let questions = [];
-      // for (let test of questionsCache) {
-      //   // let idQcm = parseInt(eTarget);
-      //   questions.push(test.wording);
-
-      //   // if (idQcm == questionsLi.dataset.id) {
-      //   //   console.log(questionsLi);
-      //   // }
-      // }
-      // console.log(questions, "Top");
+     
 
       // FAIRE UNE BOUCLE DE MON JSON ? PARSER LA VALEUR ET REMPLACER EN JS LES VALEURS DU LI DU TEMPLATE PAR CELLE CORRESPONDANTE DANS LE CACHE
 
@@ -112,10 +118,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+<<<<<<< HEAD
   // for (const qcm in questionslist.dataset.qcms) {
   //   console.log(questionslist.dataset.qcm);
   // }
 
   // let test = fetch(location.href);
   // console.log(test);
+=======
+  ////////////////////
+
+
+
+
+
+
+>>>>>>> 71c981c24b4182c23aec0d07b0e4e2a4f58dbca6
 });

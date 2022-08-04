@@ -22,11 +22,12 @@ class ProposalFormType extends AbstractType
             ->add('wording',CKEditorType::class, [
                 'config' => [
                     'uiColor' => '#FFAC8F',
-                    'toolbar' => [['Bold', 'Italic', 'Underline', 'JustifyLeft', 'JustifyCenter','JustifyRight', 'JustifyBlock', 'CodeSnippet', 'Blockquote', 'Indent', 'Outdent']],
+                    'toolbar' => [['Source', 'Bold', 'Italic', 'Underline', 'JustifyLeft', 'JustifyCenter','JustifyRight', 'JustifyBlock', 'CodeSnippet', 'Blockquote', 'Indent', 'Outdent']],
                     'extraPlugins' => ['codesnippet'],
                     'codeSnippet_theme' => 'monokai'
-                ]]
-            )
+                ],
+                'label' => 'Intitulé'
+            ])
             ->add('is_correct_answer',CheckboxType::class, [
                 'label'    => 'Reponse correcte',
                 'required' => false,

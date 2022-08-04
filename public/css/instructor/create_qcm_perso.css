@@ -10,65 +10,73 @@ p{
     margin: 0;
 }
 
-.questionLi{
-    margin: 1em;
+ul{
+    margin: 0;
+    padding: 0;
 }
 
-.questionWordingDiv{
-    display: flex;
+.chevron:hover{
+    cursor: pointer;
 }
 
-.proposalWordingDiv{
-    display: flex;
-    justify-content: space-around;
+.borderColor{
+    border: 2px solid var(--grey);
+    border-radius: 5px;
 }
 
-.questionWordingP{
-    background-color: var(--pamplemousse);
-    padding: 20px 10px;
-    text-align: left;
-    border-radius: 8px;
-    margin-top: 80px;
-    width: 100%;
+/*JS*/
+.displayNone{
+    display: none;
 }
 
-.proposalWordingP{
-
+.qcmChoisedLi .displayNone,
+.questionLi .displayNone,
+.officialQuestionLi .displayNone{
+    display: none;
 }
 
-.chevronBasP{
-    width: 5%;
+/*PARTIE 1*/
+
+.partOne{
+    width: 80%;
+    margin: auto;
 }
 
-.chevronBasImg{
-    width: 5%;
+/*********************************************** BOUTON DEBUT DE PAGE (MODULE + GENERATE)***********************************/
+
+.partOne > form {
+    margin: 2em 0 2em 0;
+    padding-bottom: 2em;
+    border-bottom: 2px solid #c7c7c7;
 }
 
 .selectModule{
-    padding: 25px 200px;
-    border: none;
-    background-color: var(--fond);
-    font-size: var(--semi_small);
-    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
-    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
     display: block;
     margin: 30px auto;
+    padding: .7em 11em;
+    background-color: var(--fond);
+    font-size: var(--semi_normal);
+    color: var(--grey);
+    border: none;
+    border-radius: 5px;
+    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
+    text-align: center;
 }
-
 .buttonGenerate{
     background-color: var(--grey);
     color: white;
     border-radius: 20px;
     border: none;
     padding: 15px 180px;
-    font-size: var(--semi_small);
+    font-size: var(--semi_normal);
     margin-left: auto;
     margin-right: auto;
     display: block;
-    cursor: pointer;
 }
 
 .buttonGenerate:hover{
+    cursor: pointer;
     background-color: var(--vert);
     font-weight: bold;
 }
@@ -81,20 +89,24 @@ p{
     border-radius: 20px;
 }
 
+
+/***************************************************************************************************/
+/*GENERATE QCM*/
+/***************************************************************************************************/
+
 .btnCustom{
     background-color: var(--grey);
     color: white;
-    border-radius: 20px;
+    border-radius: 25px;
     border: none;
-    padding: 15px 120px;
-    font-size: var(--semi_small);
-    margin-left: auto;
-    margin-right: auto;
+    padding: 20px 150px;
+    font-size: var(--semi_normal);
+    margin: 35px auto;
     display: block;
-    cursor: pointer;
 }
 
 .btnCustom:hover{
+    cursor: pointer;
     background-color: var(--vert);
     font-weight: bold;
 }
@@ -104,54 +116,189 @@ p{
     padding: 20px 40px 10px 40px;
 }
 
+/************************************************************************/
+/*CUSTOM SCROLL*/
+.backWhite,
+.qcmChoisedMain,
+.questionsOfficial{
+    background-color: white;
+    padding: 20px;
+    overflow: scroll;
+    height: 900px;
+    border-radius: 10px;
+    border-style: none;
+}
+
+/* Works on Firefox */
+.backWhite,
+.qcmChoisedMain,
+.questionsOfficial{
+    scrollbar-width: thin;
+    scrollbar-color: var(--grey) var(--fond);
+}
+
+/* Works on Chrome, Edge, and Safari */
+.backWhite::-webkit-scrollbar,
+.qcmChoisedMain::-webkit-scrollbar,
+.questionsOfficial::-webkit-scrollbar{
+    width: 12px;
+}
+
+.backWhite::-webkit-scrollbar-track,
+.qcmChoisedMain::-webkit-scrollbar-track,
+.questionsOfficial::-webkit-scrollbar-track{
+    background: var(--grey);
+    border-radius: 5px;
+}
+
+.backWhite::-webkit-scrollbar-thumb,
+.qcmChoisedMain::-webkit-scrollbar-thumb,
+.questionsOfficial::-webkit-scrollbar-thumb{
+    background-color: var(--fond);
+    border-radius: 20px;
+    border: 3px solid var(--grey);
+}
+
 .numeroForm{
     background-color: white;
     padding: 8px 17px;
-    border-radius: 50%;
+    border-radius: 50px;
     margin-right: 8px;
 }
-/***************************************************************************************************/
-/*GENERATE QCM*/
+
+.numeroProp{
+    background-color: var(--grey);
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin-right: 8px;
+    color: white;
+    font-size: var(--grand);
+}
+
+/************************************************************************/
+/*question li*/
+.questionLi{
+    margin: 1em 0;
+}
+
+.questionWordingDiv{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+    background-color: var(--pamplemousse);
+}
+
+.qcmChoisedQuestionWordingP:hover,
+.officialQuestionWordingP:hover{
+    cursor: pointer;
+}
 
 
+.proposalWordingP{
 
+}
+
+.proposalWordingDiv{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    background-color: var(--fond);
+    padding: 11px 0;
+    width: 100%;
+    margin-top: 7px;
+    border-radius: 0 0 5px 5px;
+    flex-direction: row;
+}
+
+.questionWordingP{
+    padding: 20px 10px;
+    text-align: left;
+    border-radius: 8px;
+    margin-top: 8px;
+    width: 100%;
+}
+.chevronBasP{
+    width: 5%;
+}
+
+.chevronBasImg{
+    width: 50%;
+}
+/************************************************************************/
+
+
+/*PARTIE 2*/
 /***************************************************************************************************/
 /*LEGEND*/
+
+.legends{
+    text-align: center;
+    margin: 5em 0;
+}
+
+.legends > button{
+    padding: 1em;
+    border: none;
+    border-radius: 50px;
+    background-color: #93AD6E;
+    color: white;
+    text-align: center;
+    width: 15%;
+    margin: 1em 0;
+}
+
+.legends > p {
+    margin: .5em;
+    font-weight: bold;
+}
 
 .legendDifficultyDiv{
     display: flex;
     border: 2px solid #FFAC8F;
-    border-radius: 5px;
+    border-radius: 50px;
     padding: 1em;
     background-color: #FFF4E4;
+    justify-content: space-around;
+    width: 70%;
+    margin: auto;
+}
+
+.legendDifficultyContainerDiv{
+    display: flex;
+    justify-content: space-around;
+    background: white;
+    padding: .5em;
+    border-radius: 30px;
 }
 
 .legendDifficultyDecoDiv{
     display: flex;
+    align-items: center;
+    width: 20%;
 }
 
 .legendDifficultyDecoSubDiv{
     display: flex;
     background-color: #616161;
-    border-radius: 50%;
+    border-radius: 30px;
     justify-content: center;
-    padding: .5em;
+    padding: .2em;
     width: 50%;
+    align-items: center;
 }
 
 .legendDifficultyDecoSubDiv div{
     color: white;
+    margin-right: 5px;
 }
 
-.legendDifficultyImageDiv{
-    width: 20%;
-}
 
 .legendDifficultyDecoSubDiv img{
-    width: 55%;
     padding: 5px;
     background-color: #FFF4E4;
     border-radius: 50px;
+    width: 25%;
 }
 
 .legendDifficultyNbr{
@@ -160,34 +307,347 @@ p{
 
 /***************************************************************************************************/
 /*DRAG AND DROP*/
+/***************************************************************************************************/
 
 .dragAndDrop{
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.qcmChoisedLegend{
-    width: 100%;
-}
-
-.qcmChoisedMain{
-    width: 37%;
+    margin-top: 4em;
+    background-color: #FFF4E4;
+    padding: 1em;
+    border-radius: 5px;
 }
 
 .createQuestion{
-    width: 100%;
+    /*width: 47%;*/
+}
+
+.nPropPartTwo{
+    padding: 2px 12px;
+    font-size: 23px;
+    margin-right: 2px;
 }
 
 /***************************************************************************************************/
 /*QCM CHOISED*/
+/***************************************************************************************************/
+
+.qcmChoised{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+.qcmChoisedLegend{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    background-color: #FFAC8F;
+    border-radius: 30px;
+    margin: .3em;
+    color: white;
+    padding: .4em 0;
+    margin-bottom: 1em;
+    margin-top: 0;
+}
+
+.qcmChoisedLevel{
+    padding: .2em;
+    background: grey;
+    width: 15%;
+    text-align: center;
+    border-radius: 50px;
+    color: white;
+    margin-left: 4em;
+    margin-right: 1em;
+    font-weight: var(--semi_bold);
+}
+
+/***************************************************************************************************/
+/* qcmChoisedSubDiv*/
+
+.qcmChoisedSubDiv{
+    width: 45%;
+    height: 40%;
+}
+
+.qcmChoisedMain,
+.questionsOfficial{
+    height: 50em;
+    padding: 20px 7px 5px 20px;
+}
+
+.listQuestionTypedDiv{
+    width: 47%;
+    text-align: center;
+}
 
 .qcmChoisedLi{
     display: flex;
+    margin: .5em;
+    justify-content: space-between;
+}
+.qcmChoisedLiDiv{
+    width: 90%;
+}
+
+/***********************************************************************/
+/*Une question*/
+
+.qcmChoisedQuestionWordingDiv{
+    border-radius: 5px;
+    text-align: center;
+    justify-content: center;
+}
+.qcmChoisedTreffleP{
+    width: 5%;
+    padding: .2em;
+    background: aliceblue;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.qcmChoisedTrefle{
+    width: 100%;
+}
+
+.qcmChoisedQuestionWordingP{
+    margin: 0;
+    text-align: center;
+    font-weight: var(--semi_bold);
+    width: 84%;
+    padding: 1em .2em;
+}
+
+.qcmChoisedchevronBasP{
+    width: 4%;
+}
+.qcmChoisedchevronBasImg{
+    width: 100%;
+}
+
+.qcmChoisedProposalWordingDiv{
+    margin-top: 0;
+}
+
+.qcmChoisedProposalWordingP{
+
+}
+
+.x{
+    height: 20%;
+    width: 5%;
+    text-align: center;
+    background-color: gray;
+    border-radius: 50px;
+    color: white;
+    padding: 0.2em;
+    margin-left: .2em;
+}
+
+.x:hover{
+    cursor: pointer;
+    background-color: red;
+}
+
+/***********************************************************************/
+
+/***************************************************************************************************/
+/*IMAGE*/
+/***************************************************************************************************/
+
+.imageDragAndDrop{
+    width: 9%;
+    text-align: center;
+}
+
+.imageDragAndDrop img{
+    padding: .2em;
+    border: 1px solid gray;
+    border-radius: 14px;
+    box-shadow: 0 0 3px 0 var(--grey);
     margin: 1em;
+}
+
+.imageDragAndDrop img:hover{
+    cursor : pointer;
+    background-color: var(--pamplemousse);
+}
+
+.arrowRight{
+    transform: rotate(-31deg);
+    width: 50%;
+}
+
+.arrowLeft{
+    transform: rotate(131deg);
+    width: 50%;
+}
+
+/***************************************************************************************************/
+/*LIST QUESTON*/
+/***************************************************************************************************/
+
+.listQuestionTypedDiv{
+    width: 45%;
+}
+
+.btnChoiseQuestionType{
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+.btnChoiseQuestionType button{
+    border: none;
+    padding: .5em;
+    border-radius: 30px;
+    color: white;
+    font-weight: var(--semi_bold);
+}
+
+.btnChoiseQuestionType button:hover{
+    background-color: var(--vert);
+    cursor: pointer;
+}
+
+.btnQuestionsOfficial{
+    background-color: var(--vert) ;
+}
+.btnQuestionsPerso{
+    background-color: var(--pamplemousse);
+}
+
+/***************************************************************************************************/
+/*List questions*/
+.questionsCustom,
+.questionsOfficial{
+    height: 50em;
+    overflow: scroll;
+}
+
+/*Modify*/
+.questionModify{
+    width: 100%;
+    margin-top: 1em;
+}
+
+.questionModify button{
+    padding: .2em 2em;
+    border: none;
+    border-radius: 30px;
+    background: gray;
+    color: white;
+}
+
+.questionModify button:hover{
+    background-color: var(--vert);
+    cursor: pointer;
+}
+
+.modifyP{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin-bottom: .2em;
+}
+
+.modifyP textarea{
+    width: 54%;
+    border-radius: 5px;
+    border: 1px solid gray;
+    height: 2em;
+}
+
+.buttonAddProp{
+    padding: .1em 1em;
+    border: none;
+    background: var(--pamplemousse);
+    border-radius: 5px;
+    margin: 1em auto;
+    color: white;
+}
+
+.buttonAddProp:hover{
+    background-color: var(--grey);
+    cursor: pointer;
+}
+
+.deleteProp{
+    width: 2%;
+    padding: .2em;
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-shadow: 0 0 3px gray;
+}
+
+.deleteProp:hover{
+    background-color: var(--pamplemousse);
+    cursor: pointer;
+}
+
+.cancel{
+    margin: 1em auto;
+}
+
+.cancel:hover{
+    cursor: pointer;
+    color: red;
+}
+
+/***************************************************************************/
+
+.officialQuestionLi{
+    margin-bottom: 1em ;
+}
+
+.OfficialQuestionWordingDiv{
+    border-radius: 5px;
+    text-align: center;
+    justify-content: space-around;
+}
+.qcmChoisedTreffleP{
+    width: 5%;
+    padding: .2em;
+    background: aliceblue;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+.qcmChoisedTrefle{
+    width: 100%;
+}
+
+.officialQuestionWordingP{
+    margin: 0;
+    text-align: center;
+    font-weight: var(--semi_bold);
+    width: 75%;
+    padding: .1em .2em;
+}
+
+.officialChevronBasP{
+    width: 4%;
+}
+.officialChevronBasImg{
+    width: 100%;
+}
+
+.OfficialProposalWordingDiv{
+    margin-top: 0;
 }
 
 .modifyQuestionImgDiv{
     width: 5%;
+    padding: .1em .2em;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 5px var(--grey);
+}
+
+.modifyQuestionImgDiv:hover{
+    cursor: pointer;
+    background-color: var(--vert);
 }
 
 .modifyQuestionImg{
@@ -195,21 +655,64 @@ p{
 }
 
 /***************************************************************************************************/
-/*LIST QUESTON*/
+/*CREATE QUESTION*/
+/***************************************************************************************************/
 
-.listQuestionTypedDiv{
-    display: flex;
-    flex-wrap: wrap;
+.createQuestion button{
+    padding: .5em 5em;
+    border: none;
+    border-radius: 30px;
+    background: var(--grey);
+    color: white;
+    font-weight: var(--semi_bold);
 }
 
-.btnChoiseQuestionType{
-    width: 100%;
+.createQuestion{
+    text-align: center;
+    margin: 2em 0;
 }
 
-.questionsCustom,
-.questionsOfficial{
-    width: 47%;
+.createQuestion button:hover{
+    cursor: pointer;
+    background-color: var(--vert);
 }
 
 
+/***************************************************************************************************/
+/*QCM NAME*/
+/***************************************************************************************************/
 
+.qcmName{
+    margin: 3em auto;
+    width: 30%;
+    text-align: center;
+    background: var(--fond);
+    padding: 2em 3em;
+    border-radius: 5px;
+}
+
+.qcmName input{
+    width: 90%;
+    border: 2px solid var(--grey);
+    border-radius: 5px;
+    padding: .2em;
+    text-align: center;
+}
+
+/***************************************************************************************************/
+/*VALIDATION*/
+/***************************************************************************************************/
+
+.qcmValidation{
+    margin: 3em auto;
+    width: 30%;
+    text-align: center;
+}
+
+.qcmValidation button{
+    padding: .7em 5em;
+    border-radius: 30px;
+    border: none;
+    background: var(--pamplemousse);
+    color: white;
+}

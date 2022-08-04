@@ -16,8 +16,10 @@ class Proposal
     private $id;
 
     #[ORM\Column(type: 'text')]
+    /*TODO mettre les constraint de longueur min et max type text*/
     private $wording;
 
+    /*TODO mettre les constraint boolean*/
     #[ORM\Column(type: 'boolean')]
     private $isCorrectAnswer;
 
