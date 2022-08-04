@@ -425,8 +425,7 @@ class InstructorController extends AbstractController
             $moduleId=$sessionAndModuleByInstructor->getModule()->getId();
             $sessions=$sessionRepository->findBy(['id'=>$sessionId]);
             $modules=$moduleRepository->findBy(['id'=>$moduleId]);
-            // $sessions=array($sessionAndModuleByInstructor->getSession());
-            // dd($sessionAndModuleByInstructor);
+           
         }
 
 
@@ -439,12 +438,10 @@ class InstructorController extends AbstractController
         $manager->persist($qcm);
         $manager->flush();
 
-        // dd($qcm);
-
         $linksSessionStudent=$sessionRepository->find($formData["session"])->getLinksSessionStudent();
         $students=[];
         foreach($linksSessionStudent as $linkSessionStudent){
-            // dd($linkSessionStudent);
+           
 
             $students[]=$linkSessionStudent->getStudent();
         }
@@ -470,7 +467,7 @@ class InstructorController extends AbstractController
               //puis on place la varible dans datetime puis on lei donne un format et ainsi de suite
             }
 
-            // dd($qcmInstance);
+          
 
             $manager->persist($qcmInstance);
             $manager->flush();
