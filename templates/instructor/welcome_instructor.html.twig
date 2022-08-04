@@ -9,6 +9,12 @@
 {% block title %}{{ 'head.dashboard'|trans }}{% endblock %}
 
 {% block body %}
+{% for message in app.flashes('instructoAddQcm') %}
+    <div class="flash-notice">
+        {{ message }}
+    </div>
+{% endfor %}
+
 
     <h1> - Accueil - </h1>
     <div class="accueilDiv">

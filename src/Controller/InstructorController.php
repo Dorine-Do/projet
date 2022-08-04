@@ -16,7 +16,9 @@ use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Expr\Cast\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -285,14 +287,25 @@ class InstructorController extends AbstractController
       
         $userId=$security->getUser();
         $sessionAndModuleByInstructor= $instructorRepository->find($userId)->getLinksInstructorSessionModule();
-          // ///////////////////////////////////////TEST DATE
+       
 
-          $dateTimeCreatedValue= new \DateTime();
-          dd($dateTimeCreatedValue);
-          $format=date_format($dateTimeCreatedValue, '\o\n l jS F Y');
-          if(strpos($format, "Wednesday"  )){
-                  dd( $format);
-              }
+        //   $dateToday = new \DateTime();
+        //   $dateFormat = date_format($dateToday,'Y-m-d H:i:s');
+        //   if($dateFormat){
+        //       //date(h:i:s)
+        //       // après avoir fait le date interval 
+        //       // recupérer le valeur et le format precis et remplacer l'heure
+        //       //datetime(17:00:00)metrre en format his et comparer avec la date de l'inetrvale
+        //       $endDate=$dateToday->add(new DateInterval("P5D"));
+        //       $endDateFormat=date_format($endDate,'Y-m-d 17:00:00');
+        //       $format= $endDateFormat;
+        //     //   dd($endDateFormat);
+        //     dump($endDateFormat);
+        //       $date1 = date("Y-m-d 17:00:00", strtotime($endDateFormat.'+ 1 days'));
+             
+        //       dd($date1);
+        //   }
+       
        
         
         foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor){
@@ -328,20 +341,39 @@ class InstructorController extends AbstractController
             $qcmInstance->setStudent($student) ;
             $qcmInstance->setQcm($qcm);
             $qcmInstance->setCreatedAtValue();
-           $qcmInstance->setUpdateAtValue();
+            $qcmInstance->setUpdateAtValue();
+
+            //START TIME AND END TIME 
+            $dayOfCreationOfQcmInstance=$qcmInstance->getCreatedAt();
+            if($dayOfCreationOfQcmInstance){
+             $dateOfCreationFormat=date_format($dayOfCreationOfQcmInstance, "Y-m-d H:i:s");
+             $newDateTimeForStartTime=date("Y-m-d 13:00:00", strtotime($dateOfCreationFormat.'+ 5 days'));
+             $startTime=new \DateTime($newDateTimeForStartTime);
+             $qcmInstance->setStartTime($startTime);
+             $newDateTimeForEndTime=date("Y-m-d H:i:s",strtotime($newDateTimeForStartTime.'+ 4hours'));
+             $endTime=new \Datetime($newDateTimeForEndTime);
+             $qcmInstance->setEndTime($endTime);
+            
+              //on recupère on crée une variable dans lequel on met le string de getcreatedat ,
+              //puis on place la varible dans datetime puis on lei donne un format et ainsi de suite  
+            }
+           
+            // dd($qcmInstance);
          
-          
-        //calcule start time =vendredi de la semaine actuelle 13h
-        //calcule end time =vendredi actuelle 18h
             $manager->persist($qcmInstance);
             $manager->flush();
 
+       
 
-
-
+            $this->addFlash(
+                'instructorAddQcm',
+                'Le qcm a été généré avec succès'
+            );
+            return $this->redirectToRoute('welcome_instructor');
             
         }
     //  redirect to route avec flash vers welcome instructor
+           
         }
 
       
@@ -350,44 +382,10 @@ class InstructorController extends AbstractController
            'modules'=>$modules
        ]);
     }
+    #[Route('instructor/qcms/test',name:'test',methods:['GET','POST'])]
+    public function test():Response
+    {
+        return $this->render('instructor/test.html.twig');
+    }
 }
 
-
- // // $date= date("w");
-        // $date=new \DateTime();
-        // // date("Y-m-d H:i:s")
-        // // dd($date);
-        // // $monday= date("l j F Y"); 
-        // // $jour=getDate()["weekday"];
-        // // $testDate=date_format($date, '\o\n l jS F Y');
-        // // $testDateFormatBdd=date_format($date, 'H:i:s');
-        // // setlocale(LC_TIME, "fr_FR");
-        // // $week = sprintf('%02d',$week);
-		// // $start = strtotime($year.'W'.$week);
-        // // dd( $testDateFormatBdd );
-        // // if(strpos($testDate, "Wednesday"  )){
-        // //     dd( $monday);
-        // // }
-
-        // $date_test= date_format($date, 'Y-m-d');
-        // $W=date('W', $date_test);
-        // dd($W);
-        // $date_test= date_format($date, 'Y-m-d');
-        // $W=date('W', $date_test);
-        // dd($W);
-        //  //    tableau avec lundi a l'index 0 
-        // //    se servir des index comme dans js 
-        // // lundi + 4 jour 
-        // // ca doit etre le 5 eme jour  de la semaine de cours ...ex: si mardi debut sem actuelle lundi fin sem d'après
-        
-        // //stocker les jours fériés a voir
-        // // dd($qcm);
-        // $dateTime= new \DateTime();
-        // $formatDate=date_format($dateTime,'Y-d-m H-i-s');
-        // $endTime= new \DateTime();
-        // $min=60;//TODO variable d'environnement
-        // $dateTest=$endTime->add(new \DateInterval("PT{$min}M"));
-        // $dateTest2=$qcmInstance->setStartTime($dateTime);
-        // $qcmInstance->setEndTime($dateTime);
-        // dd($dateTest, $dateTest2);
-        //     // le jour du commencement du module +5 jour  si c un samedi + 2
