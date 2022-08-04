@@ -105,6 +105,8 @@ span{
     padding: 5px 55px;
     text-align: center;
     font-size: var(--normal);
+    font-family: "Alumni Sans", serif;
+    border: none;
 }
 
 .buttonExercice:hover{
@@ -158,6 +160,7 @@ span{
     font-size: var(--semi_normal);
     border: none;
     cursor: pointer;
+    font-family: "Alumni Sans", serif;
 }
 
 .buttonValid:hover{
@@ -236,6 +239,8 @@ input[type="radio"]:checked {
     padding: 10px 42px;
     text-align: center;
     font-size: var(--normal);
+    font-family: "Alumni Sans", serif;
+    border: none;
 }
 
 .buttonBadge:hover{
@@ -291,6 +296,7 @@ input[type="radio"]:checked {
     .buttonExercice{
         width: 30%;
         margin: auto;
+        font-family: "Alumni Sans", serif;
     }
 
     .selectEntrainement{

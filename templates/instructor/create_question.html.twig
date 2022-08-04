@@ -56,7 +56,7 @@
                 </p>
             </td>
             <td colspan="2" class="second" id="error_checked">
-                <ul id="list_proposal">
+                <ul id="listProposal">
                     {% for proposal in form.proposals %}
                         <li class="liProposal">
                             <div class="divProposal">
@@ -67,7 +67,7 @@
                     {%endfor%}
                 </ul>
                 <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="add_proposal"class="addProposal">
-                +
+                    {{ 'button.addProposal'|trans }}
                 </button>
             </td>
         </tr>

@@ -33,7 +33,7 @@ class CreateQuestionType extends AbstractType
             ->add('wording',CKEditorType::class,[
                 'config' => [
                     'uiColor' => '#FFAC8F',
-                    'toolbar' => [['Bold', 'Italic', 'Underline', 'JustifyLeft', 'JustifyCenter','JustifyRight', 'JustifyBlock', 'CodeSnippet', 'Blockquote', 'Indent', 'Outdent', 'Image']],
+                    'toolbar' => [['Source', 'Bold', 'Italic', 'Underline', 'JustifyLeft', 'JustifyCenter','JustifyRight', 'JustifyBlock', 'CodeSnippet', 'Blockquote', 'Indent', 'Outdent', 'Image']],
                     'extraPlugins' => ['codesnippet'],
                     'codeSnippet_theme' => 'monokai'
                 ],
@@ -45,6 +45,7 @@ class CreateQuestionType extends AbstractType
                         return self::DIFFICULTIES[$choice->value];
                     },
                 'expanded' => true,
+                'empty_data' => self::DIFFICULTIES[2],
             ])
 
             // Imbriquation de formulaire
