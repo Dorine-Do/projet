@@ -12,6 +12,7 @@ ul {
 }
 
 /* ********************** Display questions by qcm *********************** */
+
 .bloc_display_question_by_qcm,
 .bloc_btns_nav {
   width: 75%;
@@ -30,9 +31,6 @@ ul {
   margin: 0;
   border-radius: 5px;
   background: white;
-}
-.list_questions {
-  overflow: hidden;
 }
 
 .list_questions > li {
@@ -72,6 +70,9 @@ ul {
   grid-gap: 10px;
   overflow: hidden;
   border-radius: 5px;
+}
+.list_btn_qcm:hover {
+  overflow-y: scroll;
 }
 .list_btn_qcm > li {
   padding: 15px 0;
