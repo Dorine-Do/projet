@@ -24,6 +24,9 @@ ul {
   background-color: var(--fond);
   border-radius: 5px;
 }
+.bloc_qcm {
+  overflow: hidden;
+}
 
 .list_questions,
 .bloc_qcm {
@@ -68,10 +71,13 @@ ul {
   padding: 15px;
   display: grid;
   grid-gap: 10px;
-  overflow: hidden;
   border-radius: 5px;
 }
-.list_btn_qcm:hover {
+/* .bloc_qcm:hover {
+  overflow-y: scroll;
+} */
+
+.scroll_active {
   overflow-y: scroll;
 }
 .list_btn_qcm > li {
@@ -116,11 +122,11 @@ ul {
   background: var(--pamplemousse) !important;
 }
 /******************************* scroll bar***************************** */
-.list_questions:hover {
+/* .list_questions:hover {
   overflow-y: scroll;
-}
+} */
 /* width */
-.list_questions::-webkit-scrollbar {
+.scroll_active::-webkit-scrollbar {
   width: 10px;
 }
 
