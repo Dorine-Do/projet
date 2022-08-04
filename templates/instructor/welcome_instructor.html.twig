@@ -9,6 +9,12 @@
 {% block title %}{{ 'head.dashboard'|trans }}{% endblock %}
 
 {% block body %}
+{% for message in app.flashes('instructoAddQcm') %}
+    <div class="flash-notice">
+        {{ message }}
+    </div>
+{% endfor %}
+
 
     <h1> - Accueil - </h1>
     <div class="accueilDiv">
@@ -29,7 +35,7 @@
         </div>
         <div class="hrefDiv">
             <div class="hrefDecorationDiv">
-                <a href="#" class="accueilA">Créer un qcm officiel</a>
+                <a href="{{ path('instructor_create_qcm') }}" class="accueilA">Créer un qcm officiel</a>
             </div>
         </div>
         <div class="hrefDiv">

@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Module;
 use App\Entity\Proposal;
 use App\Entity\Qcm;
+use App\Entity\QcmInstance;
 use App\Entity\Question;
+use App\Entity\Session;
 use App\Form\CreateQuestionType;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\InstructorRepository;
@@ -12,7 +15,11 @@ use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
+use App\Repository\SessionRepository;
+use App\Repository\UserRepository;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Expr\Cast\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -215,7 +222,6 @@ class InstructorController extends AbstractController
             $questionEntity->setIsOfficial(false);
             $questionEntity->setIsMandatory(false);
             $questionEntity->setExplanation('Explication');
-//            dd();
             $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
 
             //  validation et enregistrement des données du form dans la bdd
@@ -250,7 +256,7 @@ class InstructorController extends AbstractController
         }
 
         /**********************************************************************************/
-        // Get module choised
+        // Get module choiced
         $module = null;
         if( $request->get('module') ){
             $module = $moduleRepository->find($request->get('module'));
@@ -261,18 +267,17 @@ class InstructorController extends AbstractController
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
-        }
+         }
 
         /********************************************************************************/
-
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => $modules,
             'customQuestions' => $module ? $customQuestions : null,
             'officialQuestions' => $module ? $officialQuestions : null,
             'generatedQcm' => $module ? $generatedQcm : null,
         ]);
-
     }
+
 
     #[Route('instructor/questions/upDateFetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
     public function upDateQuestionFetch(
@@ -286,7 +291,6 @@ class InstructorController extends AbstractController
     {
       $data = (array)json_decode($request->getContent());
         $question = new Question();
-//        dd($data['module']);
         $module = $moduleRepository->find($data['module']);
         $question->setModule($module);
         $question->setWording($data['wording']);
@@ -308,6 +312,7 @@ class InstructorController extends AbstractController
         };
 
         $validator->validate($question);
+        $questionJson = json_encode($question);
 
         $entityManager->persist($question);
         $entityManager->flush();
@@ -397,5 +402,90 @@ class InstructorController extends AbstractController
         return $this->render('instructor/display_qcms.html.twig', [
             'qcms' => $qcms
         ]);
+    }
+
+    #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
+    public function createOfficialQcm(
+        Security $security,
+        SessionRepository $sessionRepository,
+        InstructorRepository $instructorRepository,
+        Request $request,
+        QuestionRepository $questionRepository,
+        ModuleRepository $moduleRepository,
+        EntityManagerInterface $manager
+    ): Response
+    {
+        $userId=$security->getUser();
+        $sessionAndModuleByInstructor= $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+
+        foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor){
+            $sessionId=$sessionAndModuleByInstructor->getSession()->getId();
+            $moduleId=$sessionAndModuleByInstructor->getModule()->getId();
+            $sessions=$sessionRepository->findBy(['id'=>$sessionId]);
+            $modules=$sessionRepository->findBy(['id'=>$moduleId]);
+        }
+
+        $formData= $request->query->all();
+
+        if(count($formData) != 0 ){
+
+        $module=$moduleRepository->find($formData["module"]);
+        $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
+        $qcm=$qcmGenerator->generateRandomQcm($module,false);
+        $manager->persist($qcm);
+        $manager->flush();
+
+        $linksSessionStudent=$sessionRepository->find($formData["session"])->getLinksSessionStudent();
+        $students=[];
+
+        foreach($linksSessionStudent as $linkSessionStudent){
+
+            $students[]=$linkSessionStudent->getStudent();
+        }
+        foreach($students as $student){
+            $qcmInstance= new QcmInstance();
+            $qcmInstance->setStudent($student) ;
+            $qcmInstance->setQcm($qcm);
+            $qcmInstance->setCreatedAtValue();
+            $qcmInstance->setUpdateAtValue();
+
+            //START TIME AND END TIME
+            $dayOfCreationOfQcmInstance=$qcmInstance->getCreatedAt();
+            if($dayOfCreationOfQcmInstance){
+             $dateOfCreationFormat=date_format($dayOfCreationOfQcmInstance, "Y-m-d H:i:s");
+             $newDateTimeForStartTime=date("Y-m-d 13:00:00", strtotime($dateOfCreationFormat.'+ 5 days'));
+             $startTime=new \DateTime($newDateTimeForStartTime);
+             $qcmInstance->setStartTime($startTime);
+             $newDateTimeForEndTime=date("Y-m-d H:i:s",strtotime($newDateTimeForStartTime.'+ 4hours'));
+             $endTime=new \Datetime($newDateTimeForEndTime);
+             $qcmInstance->setEndTime($endTime);
+
+              //on recupère on crée une variable dans lequel on met le string de getcreatedat ,
+              //puis on place la varible dans datetime puis on lei donne un format et ainsi de suite
+            }
+
+            $manager->persist($qcmInstance);
+            $manager->flush();
+
+            $this->addFlash(
+                'instructorAddQcm',
+                'Le qcm a été généré avec succès'
+            );
+            return $this->redirectToRoute('welcome_instructor');
+
+        }
+    //  redirect to route avec flash vers welcome instructor
+        }
+
+
+       return $this->render('instructor/create_official_qcm.html.twig',[
+           'sessions'=>$sessions,
+           'modules'=>$modules
+       ]);
+    }
+    #[Route('instructor/qcms/test',name:'test',methods:['GET','POST'])]
+    public function test():Response
+    {
+        return $this->render('instructor/test.html.twig');
     }
 }
