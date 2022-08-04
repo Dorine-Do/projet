@@ -261,7 +261,6 @@ class InstructorController extends AbstractController
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
-//            dd($generatedQcm);
         }
 
         /********************************************************************************/
@@ -271,7 +270,6 @@ class InstructorController extends AbstractController
             'customQuestions' => $module ? $customQuestions : null,
             'officialQuestions' => $module ? $officialQuestions : null,
             'generatedQcm' => $module ? $generatedQcm : null,
-//            'questions' => $generatedQcm->getQuestionsCache() ? $generatedQcm : null,
         ]);
 
     }
@@ -310,15 +308,13 @@ class InstructorController extends AbstractController
         };
 
         $validator->validate($question);
-        $questionJson = json_encode($question);
 
         $entityManager->persist($question);
         $entityManager->flush();
 
         $questionResponse = $questionRepository->find($question->getId());
-//        dd($questionResponse);
 
-
+        /*TODO Débuger le jsonResponce*/
         return new JsonResponse($questionResponse);
     }
 
@@ -352,10 +348,10 @@ class InstructorController extends AbstractController
         $module = $moduleRepository->find($data['module']);
         $qcm->setModule($module);
 
+        /*TODO voir avec Mathieu pour utiliser le hepler pour cette partie*/
         $questionsCache = [];
         foreach( $data['questions'] as $question )
         {
-//            dd($question->id);
             $question = $questionRepository->find($question->id);
             $questionProposals = $question->getProposals();
             $proposalsCache = [];
@@ -382,6 +378,7 @@ class InstructorController extends AbstractController
         $entityManager->persist($qcm);
         $entityManager->flush();
 
+        /*TODO débuger la redirection*/
         $this->addFlash('success', 'Le qcm a bien été modifiée.');
         return $this->redirectToRoute('instructor_display_questions');
 

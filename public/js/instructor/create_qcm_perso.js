@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 let id = children[i].dataset.id
 
                 // textarea
-                let value = children[i].lastChild.textContent.trim()
+                let value = children[i].children[1].textContent.trim()
                 let textarea = document.createElement('textarea')
                 textarea.textContent = value
                 textarea.setAttribute('name', id)
@@ -159,6 +159,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 img.addEventListener('click',deleteProp)
 
                 children[i].lastChild.remove()
+                children[i].children[1].remove()
                 children[i].append(textarea, checkBox)
                 children[i].append(img)
 
@@ -212,7 +213,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             }
 
-
             fetch( route, {
                 method: 'POST',
                 body:  JSON.stringify(values), // The data
@@ -224,14 +224,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 .then( data => console.log(data) )
         })
     })
-
-    // Event pour supprimer une question côté qcm choisi
-    // let btnDeleteQuestion = document.querySelectorAll('.x')
-    // btnDeleteQuestion.forEach(btn =>{
-    //     btn.addEventListener('click',(e)=>{
-    //         e.target.parentNode.remove()
-    //     })
-    // })
 
 
     //Event select li to move*******************************************************************************************
@@ -467,8 +459,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             p.classList.add('officialProposalWordingP','proposalWordingP')
             p.innerHTML = value.value
             p.dataset.id = value.id
-
-            div.append(span ,p)
+            p.append(span)
+            div.append(p)
         })
 
 
@@ -484,7 +476,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         let difficultyLevel = 0;
 
         let questions = side.querySelectorAll( '.qcmChoisedTrefle' )
-        console.log(questions)
         questions.forEach(question => {
             if (question.dataset.level === 'easy'){
                 easyLevel ++
@@ -496,13 +487,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
         })
 
         let pEasy = document.getElementById('easy')
-        console.log(pEasy)
         pEasy.innerHTML = easyLevel
         let pMedium = document.getElementById('medium')
-        console.log(pMedium)
         pMedium.innerHTML = mediumLevel
         let pDifficult = document.getElementById('difficulty')
-        console.log(pDifficult)
         pDifficult.innerHTML = difficultyLevel
 
 

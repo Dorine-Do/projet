@@ -195,8 +195,9 @@ ul{
 }
 
 
-.proposalWordingP{
-
+.qcmChoisedProposalWordingP,
+.officialProposalWordingP {
+    margin: 1em;
 }
 
 .proposalWordingDiv{
@@ -208,7 +209,7 @@ ul{
     width: 100%;
     margin-top: 7px;
     border-radius: 0 0 5px 5px;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .questionWordingP{
@@ -386,7 +387,7 @@ ul{
     justify-content: space-between;
 }
 .qcmChoisedLiDiv{
-    width: 90%;
+    width: 100%;
 }
 
 /***********************************************************************/
@@ -548,7 +549,7 @@ ul{
     justify-content: space-around;
     align-items: center;
     width: 100%;
-    margin-bottom: .2em;
+    margin: 0 0 .2em 0;
 }
 
 .modifyP textarea{
@@ -715,4 +716,9 @@ ul{
     border: none;
     background: var(--pamplemousse);
     color: white;
+}
+
+.qcmValidation button:hover{
+    cursor: pointer;
+    background-color: var(--vert);
 }
