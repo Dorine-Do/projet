@@ -267,17 +267,17 @@ class InstructorController extends AbstractController
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
+         }
 
         /********************************************************************************/
-        }
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => $modules,
             'customQuestions' => $module ? $customQuestions : null,
             'officialQuestions' => $module ? $officialQuestions : null,
             'generatedQcm' => $module ? $generatedQcm : null,
         ]);
-
     }
+
 
     #[Route('instructor/questions/upDateFetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
     public function upDateQuestionFetch(
@@ -291,7 +291,6 @@ class InstructorController extends AbstractController
     {
       $data = (array)json_decode($request->getContent());
         $question = new Question();
-//        dd($data['module']);
         $module = $moduleRepository->find($data['module']);
         $question->setModule($module);
         $question->setWording($data['wording']);
@@ -319,8 +318,6 @@ class InstructorController extends AbstractController
         $entityManager->flush();
 
         $questionResponse = $questionRepository->find($question->getId());
-//        dd($questionResponse);
-
 
         return new JsonResponse($questionResponse);
     }
@@ -358,7 +355,6 @@ class InstructorController extends AbstractController
         $questionsCache = [];
         foreach( $data['questions'] as $question )
         {
-//            dd($question->id);
             $question = $questionRepository->find($question->id);
             $questionProposals = $question->getProposals();
             $proposalsCache = [];
@@ -405,8 +401,16 @@ class InstructorController extends AbstractController
         ]);
     }
 
-    #[Route('instructor/qcms/create_official_qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
-    public function createOfficialQcm(Security $security,SessionRepository $sessionRepository,InstructorRepository $instructorRepository,Request $request,QuestionRepository $questionRepository,ModuleRepository $moduleRepository,EntityManagerInterface $manager): Response
+    #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
+    public function createOfficialQcm(
+        Security $security,
+        SessionRepository $sessionRepository,
+        InstructorRepository $instructorRepository,
+        Request $request,
+        QuestionRepository $questionRepository,
+        ModuleRepository $moduleRepository,
+        EntityManagerInterface $manager
+    ): Response
     {
 
         $dayOfWeekEnd=array("Saturday", "Sunday");
@@ -421,6 +425,7 @@ class InstructorController extends AbstractController
         }
 
         $formData= $request->query->all();
+
         if(count($formData) != 0 ){
 
         $module=$moduleRepository->find($formData["module"]);
@@ -431,6 +436,7 @@ class InstructorController extends AbstractController
 
         $linksSessionStudent=$sessionRepository->find($formData["session"])->getLinksSessionStudent();
         $students=[];
+
         foreach($linksSessionStudent as $linkSessionStudent){
 
             $students[]=$linkSessionStudent->getStudent();
@@ -456,7 +462,7 @@ class InstructorController extends AbstractController
              $endTimeTextualFormat=date_format($endTime,'l');
             if($endTime&& $endTimeTextualFormat===$dayOfWeekEnd[0]){
                 $endTime=date_format($endTime,"Y-m-d H:i:s");
-                $endTimeFormatNum=date("Y-m-d H:i:s",strtotime($endTime.'+ 2 days'));               
+                $endTimeFormatNum=date("Y-m-d H:i:s",strtotime($endTime.'+ 2 days'));
                 $endTime=new \DateTime($endTimeFormatNum);
             }elseif($endTime && $endTimeTextualFormat===$dayOfWeekEnd[1]){
                 //autre methode si format de celle ci gardé sinon la convertir en celle d'en haut
@@ -466,7 +472,7 @@ class InstructorController extends AbstractController
              $qcmInstance->setEndTime($endTime);
              //mettre dans un tableau saturday sunday
              //et a partir de la endtdate  la convertir a un format mot et faire une condition
-             // si la date contient un des jours du tableau (ou une condition swich pour voir si c'est égale a un des element ddans ) ajouter +1 ou +2 enfonction du jour pour que ça tombe un lundi 
+             // si la date contient un des jours du tableau (ou une condition swich pour voir si c'est égale a un des element ddans ) ajouter +1 ou +2 enfonction du jour pour que ça tombe un lundi
 
               //on recupère on crée une variable dans lequel on met le string de getcreatedat ,
               //puis on place la varible dans datetime puis on lei donne un format et ainsi de suite

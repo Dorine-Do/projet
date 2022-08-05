@@ -63,6 +63,38 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         letterProposal(li.firstElementChild, indexData,)
 
+        // INSERTION DU SCRIPT DE CKEDITOR OBLIGATOIRE POUR L'AJOUT DE CKEDITOR AU TEXTAREA DES NOUVELLES RÉPONSES
+        if (CKEDITOR.instances[`create_question_proposals_${indexData}_wording`]) {
+            CKEDITOR.instances[`create_question_proposals_${indexData}_wording`].destroy(true);
+            delete CKEDITOR.instances[`create_question_proposals_${indexData}_wording`];
+        }
+
+        CKEDITOR.replace(`create_question_proposals_${indexData}_wording`, {
+            "uiColor": "#FFAC8F",
+            "toolbar": [
+                [
+                    "Source",
+                    "Bold",
+                    "Italic",
+                    "Underline",
+                    "JustifyLeft",
+                    "JustifyCenter",
+                    "JustifyRight",
+                    "JustifyBlock",
+                    "CodeSnippet",
+                    "Blockquote",
+                    "Indent",
+                    "Outdent"
+                ]
+            ],
+            "extraPlugins": [
+                "codesnippet"
+            ],
+            "codeSnippet_theme": "monokai",
+            "language": "fr"
+        });
+
+
         // ************************************************************************************
         // INCREMENT LA LONGUEUR DU TABLEAU DES REPONSES
         indexData++
