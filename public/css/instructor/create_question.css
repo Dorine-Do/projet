@@ -39,8 +39,10 @@ li{
     margin-left: 0;
 }
 #listProposal{
+    width: 95%;
     display: flex;
-    justify-content: space-around;
+    flex-wrap: wrap;;
+    justify-content: space-evenly;
 }
 
 .second{
@@ -331,9 +333,7 @@ label{
     border: none;
     padding: 15px 300px;;
     font-size: var(--normal);
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 60px;
+    margin: 2.5% auto;
     display: block;
 }
 
