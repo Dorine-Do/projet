@@ -457,16 +457,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             let p = document.createElement('p')
             p.classList.add('officialProposalWordingP','proposalWordingP')
-            p.innerHTML = value.value
+            let spanInP = document.createElement('span')
+            spanInP.innerHTML = value.value
             p.dataset.id = value.id
-            p.append(span)
+            p.append(span,spanInP)
             div.append(p)
         })
-
-
-
-
-
     }
 
     function calcNbrQuestionByLevel(side){
@@ -505,89 +501,4 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     }
 })
-
-
-
-/*
-/*
-definiton des variables et recup des data
-
-
-let dbValues = [
-    {
-        id: 15,
-        proposals: [
-            {
-                id: 2,
-                wording: 'rfreqeg',
-                isCorrectAnswer: true
-            },
-            {
-                id: 3,
-                wording: 'rfreqeg',
-                isCorrectAnswer: true
-            },
-        ]
-    },
-    {
-        id: 16,
-        proposals: [
-            {
-                id: 4,
-                wording: 'rfreqeg',
-                isCorrectAnswer: true
-            },
-            {
-                id: 5,
-                wording: 'rfreqeg',
-                isCorrectAnswer: true
-            },
-        ]
-    }
-];
-
-let valuesToEdit = [];
-
-let cancelBtn;
-
-function editQuestion()
-{
-    let questionToEdit = dbValues.filter( question => question.id === document.querySelector().data('id'));
-
-    let editedQuestion = {
-        id: this.data('id'),
-        proposals: [
-            {
-                id: 4,
-                wording: 'rfreqeg',
-                isCorrectAnswer: true
-            },
-            {
-                id: 5,
-                wording: 'rfreqeg',
-                isCorrectAnswer: true
-            },
-        ]
-    };
-
-    valuesToEdit.push( question );
-}
-
-function cancelEditQuestion()
-{
-    let questionToCancelEdition = valuesToEdit.filter( question => question.id === document.querySelector().data('id'));
-
-}
-
- */
-
-
-
-
-
-
-
-
-
-
 

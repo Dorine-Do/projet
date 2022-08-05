@@ -176,7 +176,7 @@ ul{
 }
 
 /************************************************************************/
-/*question li*/
+/*questions li*/
 .questionLi{
     margin: 1em 0;
 }
@@ -196,7 +196,8 @@ ul{
 
 
 .qcmChoisedProposalWordingP,
-.officialProposalWordingP {
+.officialProposalWordingP,
+.backWhite .proposalWordingP{
     margin: 1em;
 }
 
@@ -324,7 +325,7 @@ ul{
 .nPropPartTwo{
     padding: 2px 12px;
     font-size: 23px;
-    margin-right: 2px;
+    margin-right: 1.1em;
 }
 
 /***************************************************************************************************/
@@ -335,7 +336,7 @@ ul{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    align-items: center;
+    align-items: baseline;
 }
 .qcmChoisedLegend{
     display: flex;
@@ -459,6 +460,7 @@ ul{
 .imageDragAndDrop{
     width: 9%;
     text-align: center;
+    align-self: center;
 }
 
 .imageDragAndDrop img{

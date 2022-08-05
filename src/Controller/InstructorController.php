@@ -279,7 +279,7 @@ class InstructorController extends AbstractController
     }
 
 
-    #[Route('instructor/questions/upDateFetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
+    #[Route('instructor/questions/upDate_fetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
     public function upDateQuestionFetch(
         ValidatorInterface $validator,
         Request $request,
@@ -323,7 +323,7 @@ class InstructorController extends AbstractController
         return new JsonResponse($questionResponse);
     }
 
-    #[Route('instructor/qcm/createFetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
+    #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
     public function createQcmFetch(
         ValidatorInterface $validator,
         Request $request,
