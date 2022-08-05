@@ -64,8 +64,8 @@ window.onload = function (event) {
   let ulQcmHeight = ulBtnQcm.getBoundingClientRect().height;
   let ulQuestionHeight = questionslist.getBoundingClientRect().height;
 
-  ///////////////////////
-  // SCROLL
+  ////////////////////
+  // HOVER DECLENCHEMENT SCROLL-Y
   blocUlQcm.addEventListener("mouseover", function () {
     if (ulQcmHeight > blocUlQcmHeight + 10) {
       blocUlQcm.classList.add("scroll_active");
@@ -101,8 +101,6 @@ window.onload = function (event) {
       ".bloc_link_btn_my_creations button"
     ).style.background = "#93AD6E";
   }
-  ////////////////////
-  // HOVER DECLENCHEMENT SCROLL-Y
 
   ///////////////////
   // SELECTION UNIQUE DES BOUTONS QCMS ET DISPLAY DE LA LISTE DES QUESTIONS LIEES
@@ -143,10 +141,7 @@ window.onload = function (event) {
         forWording < questionsCache.length;
         forWording++
       ) {
-        if (questionsCache.length == 42) {
-          console.log("yes");
-        }
-        console.log(questionsCache.length);
+        console.log(forWording);
         questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
           questionsCache[forWording].wording
         }`;

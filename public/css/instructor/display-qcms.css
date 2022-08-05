@@ -9,6 +9,7 @@ ul {
 .container_qcm_and_questions_management {
   display: grid;
   grid-gap: 60px;
+  padding: 100px 0 0;
 }
 
 /* ********************** Display questions by qcm *********************** */
@@ -24,7 +25,8 @@ ul {
   background-color: var(--fond);
   border-radius: 5px;
 }
-.bloc_qcm {
+.bloc_qcm,
+.bloc-toggle-ul-question {
   overflow: hidden;
 }
 
@@ -59,12 +61,6 @@ ul {
   font-size: var(--normal);
 }
 
-/* temporaire voir js  */
-.bloc_link_btn_my_creations > button:active,
-.bloc_link_btn_qcm_given > button:active {
-  background-color: var(--vert);
-}
-
 .list_btn_qcm {
   text-align: center;
   margin: 0;
@@ -73,9 +69,6 @@ ul {
   grid-gap: 10px;
   border-radius: 5px;
 }
-/* .bloc_qcm:hover {
-  overflow-y: scroll;
-} */
 
 .scroll_active {
   overflow-y: scroll;
@@ -122,22 +115,20 @@ ul {
   background: var(--pamplemousse) !important;
 }
 /******************************* scroll bar***************************** */
-/* .list_questions:hover {
-  overflow-y: scroll;
-} */
+
 /* width */
 .scroll_active::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
-.list_questions::-webkit-scrollbar-track {
+.scroll_active::-webkit-scrollbar-track {
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
 
 /* Handle */
-.list_questions::-webkit-scrollbar-thumb {
+.scroll_active::-webkit-scrollbar-thumb {
   background: var(--grey);
   border-radius: 10px;
 }

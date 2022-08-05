@@ -475,6 +475,8 @@ class InstructorController extends AbstractController
             $manager->persist($qcmInstance);
             $manager->flush();
 
+
+             //  redirect to route avec flash 
             $this->addFlash(
                 'instructorAddQcm',
                 'Le qcm a été généré avec succès'
@@ -482,7 +484,7 @@ class InstructorController extends AbstractController
             return $this->redirectToRoute('welcome_instructor');
 
         }
-    //  redirect to route avec flash vers welcome instructor
+
         }
 
 
@@ -494,6 +496,6 @@ class InstructorController extends AbstractController
     #[Route('instructor/qcms/test',name:'test',methods:['GET','POST'])]
     public function test():Response
     {
-        return $this->render('instructor/test.html.twig');
+        return $this->render('instructor/test1.html.twig');
     }
 }

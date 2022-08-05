@@ -6,7 +6,8 @@
 
 
 {% block body %}
-{{dump(qcms)}}
+{# {{dump(qcms)}} #}
+  
 <main class="container_qcm_and_questions_management">
  <div class="bloc_btns_nav">
         <div class="bloc_link_btn_my_creations"><button>Mes créations</button></div>
@@ -35,7 +36,7 @@
            {% for qcm in qcms %}
                 {% for question in qcm.getQuestions() %}
                  
-                    <li data-id='{{question.id}}'> {#  data-id temporaire#}
+                    <li  data-id='{{question.id}}'> {#  data-id temporaire#}
 
                     <span class="qcm_question_number"></span> 
                     {{question.wording }}
