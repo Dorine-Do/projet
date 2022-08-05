@@ -686,8 +686,8 @@ ul{
 /***************************************************************************************************/
 
 .qcmName{
-    margin: 3em auto;
-    width: 30%;
+    margin: 2em auto;
+    width: 100%;
     text-align: center;
     background: var(--fond);
     padding: 2em 3em;
@@ -695,7 +695,7 @@ ul{
 }
 
 .qcmName input{
-    width: 90%;
+    width: 50%;
     border: 2px solid var(--grey);
     border-radius: 5px;
     padding: .2em;
@@ -708,7 +708,7 @@ ul{
 
 .qcmValidation{
     margin: 3em auto;
-    width: 30%;
+    width: 100%;
     text-align: center;
 }
 
