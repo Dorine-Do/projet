@@ -415,6 +415,8 @@ class InstructorController extends AbstractController
         EntityManagerInterface $manager
     ): Response
     {
+
+        $dayOfWeekEnd=array("Saturday", "Sunday");
         $userId=$security->getUser();
         $sessionAndModuleByInstructor= $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
@@ -422,7 +424,7 @@ class InstructorController extends AbstractController
             $sessionId=$sessionAndModuleByInstructor->getSession()->getId();
             $moduleId=$sessionAndModuleByInstructor->getModule()->getId();
             $sessions=$sessionRepository->findBy(['id'=>$sessionId]);
-            $modules=$sessionRepository->findBy(['id'=>$moduleId]);
+            $modules=$moduleRepository->findBy(['id'=>$moduleId]);
         }
 
         $formData= $request->query->all();
@@ -458,7 +460,22 @@ class InstructorController extends AbstractController
              $qcmInstance->setStartTime($startTime);
              $newDateTimeForEndTime=date("Y-m-d H:i:s",strtotime($newDateTimeForStartTime.'+ 4hours'));
              $endTime=new \Datetime($newDateTimeForEndTime);
+
+            //  DAY ADDITION IF ENDTIME = A DAY OF WEEK  voir array -> dayOfweek
+             $endTimeTextualFormat=date_format($endTime,'l');
+            if($endTime&& $endTimeTextualFormat===$dayOfWeekEnd[0]){
+                $endTime=date_format($endTime,"Y-m-d H:i:s");
+                $endTimeFormatNum=date("Y-m-d H:i:s",strtotime($endTime.'+ 2 days'));
+                $endTime=new \DateTime($endTimeFormatNum);
+            }elseif($endTime && $endTimeTextualFormat===$dayOfWeekEnd[1]){
+                //autre methode si format de celle ci gardé sinon la convertir en celle d'en haut
+                $endTime=$endTime->add(new DateInterval("P1D"));
+                dd($endTime,'dimanche');
+            }
              $qcmInstance->setEndTime($endTime);
+             //mettre dans un tableau saturday sunday
+             //et a partir de la endtdate  la convertir a un format mot et faire une condition
+             // si la date contient un des jours du tableau (ou une condition swich pour voir si c'est égale a un des element ddans ) ajouter +1 ou +2 enfonction du jour pour que ça tombe un lundi
 
               //on recupère on crée une variable dans lequel on met le string de getcreatedat ,
               //puis on place la varible dans datetime puis on lei donne un format et ainsi de suite

@@ -9,12 +9,18 @@
 {% block title %}{{ 'head.dashboard'|trans }}{% endblock %}
 
 {% block body %}
-{% for message in app.flashes('instructoAddQcm') %}
+
+  
+{# read and display just one flash message type #}
+{% for message in app.flashes('instructorAddQcm') %}
+   
     <div class="flash-notice">
-        {{ message }}
+       <div>
+        {{message}} </br>
+        <span>clic sur le cadre pour fermer l'onglet</span>
+       </div>
     </div>
 {% endfor %}
-
 
     <h1> - Accueil - </h1>
     <div class="accueilDiv">
@@ -45,5 +51,19 @@
         </div>
     </div>
 
+{% block javascripts %}
+{# temporaire #}
+    <script>
+    window.onload = function (event) {
+         let span = document.querySelector(".flash-notice div");
+         let addFlash = document.querySelector(".flash-notice ");
+    
+         span.addEventListener("click",function () {
+             addFlash.style.display="none";
 
+         })
+    }
+    </script>
+ 
+{% endblock %}
 {% endblock %}
