@@ -36,7 +36,7 @@
                         <li class="questionLi">
                             <div class="questionWordingDiv">
                                 <p class="questionWordingP">
-                                    <span class="numeroForm">{{ count }}</span>{{question.wording}}
+                                    <span class="numeroForm">{{ count }}</span>{{question.wording | raw }}
                                 </p>
                                 <p class="chevronBasP">
                                     <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg chevron">
@@ -46,7 +46,7 @@
                                 {% set countLetter = 0 %}
                                 {% for proposal in question.proposals %}
                                     <p class="proposalWordingP"><span class="numeroProp">{{ letters[countLetter] }}</span>
-                                        {{ proposal.wording }}
+                                        {{ proposal.wording | raw }}
                                     </p>
                                     {% set countLetter = countLetter + 1 %}
                                 {% endfor %}
