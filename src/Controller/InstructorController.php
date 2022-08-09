@@ -470,7 +470,6 @@ class InstructorController extends AbstractController
             }elseif($endTime && $endTimeTextualFormat===$dayOfWeekEnd[1]){
                 //autre methode si format de celle ci gardé sinon la convertir en celle d'en haut
                 $endTime=$endTime->add(new DateInterval("P1D"));
-                dd($endTime,'dimanche');
             }
              $qcmInstance->setEndTime($endTime);
              //mettre dans un tableau saturday sunday
