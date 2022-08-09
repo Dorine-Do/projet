@@ -9,6 +9,7 @@ use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Entity\Session;
 use App\Form\CreateQuestionType;
+use App\Form\PlanQcmType;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\InstructorRepository;
 use App\Repository\ModuleRepository;
@@ -500,9 +501,17 @@ class InstructorController extends AbstractController
            'modules'=>$modules
        ]);
     }
-    #[Route('instructor/qcms/test',name:'test',methods:['GET','POST'])]
-    public function test():Response
+
+    #[Route('instructor/plan_qcm',name:'instructor_plan_qcm',methods:['GET','POST'])]
+    public function planQcm(Request $request):Response
     {
-        return $this->render('instructor/test.html.twig');
+        $form = $this->createForm(PlanQcmType::class );
+
+
+
+        return $this->render('instructor/plan_qcm.html.twig', [
+            'planQcmform' => $form->createView(),
+            'req' => $request
+        ]);
     }
 }

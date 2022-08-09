@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\LinkInstructorSessionModule;
 use App\Entity\Session;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,16 @@ class SessionRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getInstructorSessions( $instructor )
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->join(LinkInstructorSessionModule::class, 'lism')
+            ->where('lism.instructor = :instructor' )
+            ->andWhere( 'lism.session = s.id' )
+            ->setParameter('instructor', $instructor->getId() );
     }
 
 //    /**

@@ -3,53 +3,56 @@
 {% block body %}
     <main>
         <h1>- PROGRAMMER LA PLANIFICATION D'UN QCM -</h1>
-        <form action="" method="post">
-            <section>
-                <p>
-                    <span>Etape 1</span> Choix de la classe
-                </p>
-                <ul>
-                    <li>
-                        <input type="radio">
-                    </li>
-                </ul>
-            </section>
-            <section>
-                <p>
-                    <span>Etape 2</span> Choix du module
-                </p>
-                <select name="">
-                    <option value=""></option>
-                </select>
-            </section>
-            <section>
-                <p>
-                    <span>Etape 3</span> Choix du QCM
-                </p>
-                <select name="">
-                    <option value=""></option>
-                </select>
-            </section>
-            <section>
-                <p>
-                    <span>Etape 4</span> Choix du ou des élèves pouvant faire le QCM
-                </p>
-            </section>
-            <section>
-                <p>
-                    <span>Etape 5</span> Choix des dates
-                </p>
-                <div>
-                    Date à partir de laquelle le QCM sera accèssible aux élèves
-                </div>
-                <div>
-                    Date avant laquelle le QCM devra être fait par les élèves
-                </div>
-            </section>
-        </form>
+        {{ form(planQcmform) }}
+{#        {{ dump(req) }}#}
+
+{#        <form action="" method="post">#}
+{#            <section>#}
+{#                <p>#}
+{#                    <span>Etape 1</span> Choix de la classe#}
+{#                </p>#}
+{#                <ul>#}
+{#                    <li>#}
+{#                        <input type="radio">#}
+{#                    </li>#}
+{#                </ul>#}
+{#            </section>#}
+{#            <section>#}
+{#                <p>#}
+{#                    <span>Etape 2</span> Choix du module#}
+{#                </p>#}
+{#                <select name="">#}
+{#                    <option value=""></option>#}
+{#                </select>#}
+{#            </section>#}
+{#            <section>#}
+{#                <p>#}
+{#                    <span>Etape 3</span> Choix du QCM#}
+{#                </p>#}
+{#                <select name="">#}
+{#                    <option value=""></option>#}
+{#                </select>#}
+{#            </section>#}
+{#            <section>#}
+{#                <p>#}
+{#                    <span>Etape 4</span> Choix du ou des élèves pouvant faire le QCM#}
+{#                </p>#}
+{#            </section>#}
+{#            <section>#}
+{#                <p>#}
+{#                    <span>Etape 5</span> Choix des dates#}
+{#                </p>#}
+{#                <div>#}
+{#                    Date à partir de laquelle le QCM sera accèssible aux élèves#}
+{#                </div>#}
+{#                <div>#}
+{#                    Date avant laquelle le QCM devra être fait par les élèves#}
+{#                </div>#}
+{#            </section>#}
+{#        </form>#}
     </main>
 {% endblock %}
 
 {% block javascripts %}
-
+    <script type="text/javascript" src="{{ asset('js/instructor/qcmPlanner.js') }}"></script>
 {% endblock %}
