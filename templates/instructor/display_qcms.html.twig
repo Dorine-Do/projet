@@ -1,62 +1,61 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('css/instructor/display-qcms.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/instructor/display_qcms.css') }}">
 {% endblock %}
 
 
 {% block body %}
 {# {{dump(qcms)}} #}
-  
+{# {{include('./instructor/display_questions.html.twig')}}   #}
+ <h1>Mes Qcm officiels</h1>
 <main class="container_qcm_and_questions_management">
- <div class="bloc_btns_nav">
-        <div class="bloc_link_btn_my_creations"><button>Mes créations</button></div>
-        <div class="bloc_link_btn_qcm_given"><button>Qcm donnés</button></div>
+    <div class=" blocIndice">
+      <p class="indiceToSelectQcm ">
+          <span>Etape 1</span> je sélectionne mon qcm
+      </p>
+      <p class="indiceToShowQuestions ">
+          <span>Etape 2</span> affichage de mes questions en fonction du qcms choisi
+      </p>
     </div>
 
     <div class="bloc_display_question_by_qcm">
         <div class="bloc_qcm">
+          <div class="divQcm">
             <ul class="list_btn_qcm">
             {% for qcm in qcms %}
             {# data-parent voir css ::after #}
                     <li class="li_btn_qcm" data-id="{{qcm.id}}" data-questions-cache="{{qcm.questionsCache|json_encode}}" data-parent="{{ qcm.difficulty == 1 ? 'facile'}}{{ qcm.difficulty == 2 ? 'moyen'}}{{ qcm.difficulty == 3 ? 'difficile'}}" >
-                        {{qcm.title }}
+                        {{qcm.title|raw }}
                     </li> 
 
             {% endfor %}
             </ul>
-           
+          </div>
         </div>
-   <div class="bloc-toggle-ul-question">
-   
-     {# {% for qcm in qcms %} for temporaire #}
-        {# <ul class="list_questions" data-id='{{qcm.id}}'  data-prototype='{{qcm.title}}' > #}
-       
-         <ul class="list_questions"  data-qcms="{{ qcms|json_encode|e('html_attr')}}">
-           {% for qcm in qcms %}
-                {% for question in qcm.getQuestions() %}
-                 
-                    <li  data-id='{{question.id}}'> {#  data-id temporaire#}
+       <div class="bloc-toggle-ul-question">
+            <div class="divQuestions">
+                <ul class="list_questions"  data-qcms="{{ qcms|json_encode|e('html_attr')}}">
+                   {% for qcm in qcms %}
+                        {% for question in qcm.getQuestions() %}
+                        
+                            <li  data-id='{{question.id}}'> {#  data-id temporaire#}
 
-                    <span class="qcm_question_number"></span> 
-                    {{question.wording }}
-                   
-                    </li> 
-                    
+                            <span class="qcm_question_number"></span> 
+                            {{question.wording|raw }}
+                        
+                            </li> 
 
-                {% endfor %}
-            
-         {% endfor %}
+                        {% endfor %}
+                
+                   {% endfor %}
 
-         {# pour afficher les question en fonction de l'id des qcm
-         dans le js deplacer les li dans le ul avec l'id corespondant au clic  et cacher l'autre
-         sino au clic du bouton cacher l'ul ne corespondant pas a l'id du bouton cliqué #}
-         
- 
-         </ul>
-         
-          {# {% endfor %} #}
-     </div>
+                {# pour afficher les question en fonction de l'id des qcm
+                dans le js deplacer les li dans le ul avec l'id corespondant au clic  et cacher l'autre
+                sino au clic du bouton cacher l'ul ne corespondant pas a l'id du bouton cliqué #}
+                </ul>
+            </div>
+        </div>
         
     </div>
 <main>

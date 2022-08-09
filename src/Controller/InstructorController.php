@@ -397,11 +397,12 @@ class InstructorController extends AbstractController
         ]);
 
         return $this->render('instructor/display_qcms.html.twig', [
-            'qcms' => $qcms
+            'qcms' => $qcms,
+            
         ]);
     }
 
-    #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
+    #[Route('instructor/create_official_qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
     public function createOfficialQcm(
         Security $security,
         SessionRepository $sessionRepository,
@@ -467,7 +468,7 @@ class InstructorController extends AbstractController
             }elseif($endTime && $endTimeTextualFormat===$dayOfWeekEnd[1]){
                 //autre methode si format de celle ci gardé sinon la convertir en celle d'en haut
                 $endTime=$endTime->add(new DateInterval("P1D"));
-                dd($endTime,'dimanche');
+                // dd($endTime,'dimanche');
             }
              $qcmInstance->setEndTime($endTime);
              //mettre dans un tableau saturday sunday
@@ -499,9 +500,9 @@ class InstructorController extends AbstractController
            'modules'=>$modules
        ]);
     }
-    #[Route('instructor/qcms/test',name:'test',methods:['GET','POST'])]
+    #[Route('instructor/mes_creations/qcms',name:'my_creations',methods:['GET','POST'])]
     public function test():Response
     {
-        return $this->render('instructor/test1.html.twig');
+        return $this->render('instructor/my_creations.html.twig');
     }
 }

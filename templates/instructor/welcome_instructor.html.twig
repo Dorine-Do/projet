@@ -24,31 +24,35 @@
 
     <h1> - Accueil - </h1>
     <div class="accueilDiv">
-        <div class="hrefDiv">
-            <div class="hrefDecorationDiv">
-                <a href="{{ path('instructor_display_questions')}}" class="accueilA">{{ 'title.creations'|trans }}</a>
+       {# <div class="sectionOne"> #}
+           <div class="hrefDiv">
+                <div class="hrefDecorationDiv">
+                    <a href="{{ path('my_creations')}}" class="accueilA">{{ 'title.creations'|trans }}</a>
+                </div>
+           </div>
+            <div class="hrefDiv">
+                <div class="hrefDecorationDiv">
+                    <a href="#" class="accueilA">Plannifier la distribution d'un qcm</a>
+                </div>
             </div>
-        </div>
-        <div class="hrefDiv">
-            <div class="hrefDecorationDiv">
-                <a href="{{ path('instructor_create_question') }}" class="accueilA">{{ 'question.create'|trans }}</a>
+       {# </div>
+        <div class="sectionTwo"> #}
+            <div class="hrefDiv">
+                <div class="hrefDecorationDiv">
+                    <a href="{{ path('instructor_create_question') }}" class="accueilA">{{ 'question.create'|trans }}</a>
+                </div>
             </div>
-        </div>
-        <div class="hrefDiv">
-            <div class="hrefDecorationDiv">
-                <a href="{{ path('instructor_create_qcm_perso') }}" class="accueilA">Créer un qcm d'exercice</a>
+            <div class="hrefDiv">
+                <div class="hrefDecorationDiv">
+                    <a href="{{ path('instructor_create_qcm_perso') }}" class="accueilA">Créer un qcm d'exercice</a>
+                </div>
             </div>
-        </div>
-        <div class="hrefDiv">
-            <div class="hrefDecorationDiv">
-                <a href="{{ path('instructor_create_qcm') }}" class="accueilA">Créer un qcm officiel</a>
+            <div class="hrefDiv">
+                <div class="hrefDecorationDiv">
+                    <a href="{{ path('instructor_create_qcm') }}" class="accueilA">Créer un qcm officiel</a>
+                </div>
             </div>
-        </div>
-        <div class="hrefDiv">
-            <div class="hrefDecorationDiv">
-                <a href="#" class="accueilA">Plannifier la distribution d'un qcm</a>
-            </div>
-        </div>
+        {# </div> #}
     </div>
 
 {% block javascripts %}
@@ -57,11 +61,16 @@
     window.onload = function (event) {
          let span = document.querySelector(".flash-notice div");
          let addFlash = document.querySelector(".flash-notice ");
-    
+         let hrefDecorationDiv = document.querySelector(".hrefDecorationDiv");
+         let hrefDiv = document.querySelector(".hrefDiv");
+
          span.addEventListener("click",function () {
              addFlash.style.display="none";
 
          })
+        //  hrefDecorationDiv.addEventListener("mouseover",function(){
+        //     hrefDiv.style.padding="20px"
+        //  })
     }
     </script>
  

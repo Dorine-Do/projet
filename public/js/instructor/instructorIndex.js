@@ -51,13 +51,20 @@ window.onload = function (event) {
 
   let liBtnQcm = document.querySelectorAll(".li_btn_qcm  ");
   let ulBtnQcm = document.querySelector(".list_btn_qcm  ");
-  console.log(liBtnQcm);
+  // console.log(liBtnQcm);
   let questionsLi = document.querySelectorAll(".list_questions li");
+  let questionsLiOne = document.querySelector(".list_questions li");
   let questionsSpans = document.querySelectorAll(".list_questions li span");
   let questionslist = document.querySelector(".list_questions ");
   let forBtnQcm;
   let blocUlQcm = document.querySelector(".bloc_qcm ");
   let blocUlQuestion = document.querySelector(".bloc-toggle-ul-question");
+  let navLinkChoice = document.querySelector(".choix");
+  let linkQcmGiven = document.querySelector(".qcmGiven");
+  let linkCreation = document.querySelector(".creation");
+  // let liCreate = (questionslist.innerHTML = "<li></li>");
+  // console.log(liCreate);
+
   //calcule height pour scroll active
   let blocUlQcmHeight = blocUlQcm.getBoundingClientRect().height;
   let blocUlQuestionHeight = blocUlQuestion.getBoundingClientRect().height;
@@ -97,15 +104,28 @@ window.onload = function (event) {
   /////////////////////
   //  TEST url
   if (window.location.href.includes(location.pathname)) {
-    document.querySelector(
-      ".bloc_link_btn_my_creations button"
-    ).style.background = "#93AD6E";
+    linkCreation.classList.add('activeBorderLinkNav')
+    navLinkChoice.style.width = "90%";
+    navLinkChoice.style.gridTemplateColumns = "repeat(4,1fr)";
+    linkCreation.style.display = "inline";
+    linkQcmGiven.style.display = "inline";
   }
 
   ///////////////////
   // SELECTION UNIQUE DES BOUTONS QCMS ET DISPLAY DE LA LISTE DES QUESTIONS LIEES
 
   for (forBtnQcm = 0; forBtnQcm < liBtnQcm.length; forBtnQcm++) {
+    // TEST
+    // let questionsCache = JSON.parse(liBtnQcm[forBtnQcm].dataset.questionsCache);
+    // for (let forWording = 0; forWording < questionsCache.length; forWording++) {
+    //   // questionslist.innerHTML = `<li><span>${forWording + 1}</span>${
+    //   //   questionsCache[forWording].wording
+    //   // }</li>`;
+    //   questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
+    //     questionsCache[forWording].wording
+    //   }`;
+    // }
+    //  click
     liBtnQcm[forBtnQcm].addEventListener("click", function (e) {
       // let eTarget = this.dataset.id;
       let questionsCache = JSON.parse(this.dataset.questionsCache);
@@ -118,30 +138,14 @@ window.onload = function (event) {
         console.log(questionsCache[forQuestionCache].wording);
       }
 
-      // for (
-      //   let forQuestionCache = 0;
-      //   forQuestionCache < questionsCache.length;
-      //   forQuestionCache++
-      // ) {
-      //   console.log(questionsCache[forQuestionCache].wording);
-      // }
-      // for (
-      //   let forWording = 0;
-      //   forWording < questionsCache.length;
-      //   forWording++
-      // ) {
-      //   console.log(questionsCache.length);
-      //   questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
-      //     questionsCache[forWording].wording
-      //   }`;
-      // }
-
       for (
         let forWording = 0;
         forWording < questionsCache.length;
         forWording++
       ) {
-        console.log(forWording);
+        // questionslist.innerHTML = `<li><span>${forWording + 1}</span>${
+        //   questionsCache[forWording].wording
+        // }</li>`;
         questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
           questionsCache[forWording].wording
         }`;
@@ -160,3 +164,20 @@ window.onload = function (event) {
     });
   }
 };
+// for (
+//   let forQuestionCache = 0;
+//   forQuestionCache < questionsCache.length;
+//   forQuestionCache++
+// ) {
+//   console.log(questionsCache[forQuestionCache].wording);
+// }
+// for (
+//   let forWording = 0;
+//   forWording < questionsCache.length;
+//   forWording++
+// ) {
+//   console.log(questionsCache.length);
+//   questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
+//     questionsCache[forWording].wording
+//   }`;
+// }
