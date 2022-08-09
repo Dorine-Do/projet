@@ -106,14 +106,14 @@ tbody{
     -webkit-appearance: none;
     -moz-appearance: none;
     border-radius: 25px;
-    height: 59px;
+    height: 65%;
     border: 1px solid #ccc;
-    width: 300px;
+    width: 252px;
 }
 #create_question_difficulty label{
     position: relative;
-    top: 48px;
-    left: 38%;
+    top: 50%;
+    left: 34%;
     color: white;
     font-size: var(--grand);
 }
@@ -147,6 +147,7 @@ input[type="radio"]:checked {
     padding: 1em;
     width: 85%;
     border-radius: 10px;
+    text-align: center;
 }
 
 .difficulty{
@@ -164,11 +165,11 @@ input[type="radio"]:checked {
 }
 
 .option{
-    margin: auto;
+    margin-left: 7em;
     background-color: var(--fond);
     padding: 25px 1px;
     border-radius: 10px;
-    width: 85%;
+    width: 6%;
     text-align: center;
 }
 
@@ -195,7 +196,7 @@ input[type="radio"]:checked {
     font-weight: bold;
     border: none;
     padding: 3px 9px;
-    font-size: var(--semi_small);
+    font-size: var(--normal);
     margin-bottom: 15px;
 }
 
@@ -209,6 +210,17 @@ input[type="radio"]:checked {
 
 .divProposal{
     text-align: center;
+}
+
+.pLetter{
+    background-color: var(--grey);
+    padding: 4px 12px;
+    border-radius: 50px;
+    color: white;
+    font-size: var(--grand);
+    width: 5%;
+    height: 12%;
+    margin: 1em auto;
 }
 
 .divProposal label{

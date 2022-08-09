@@ -36,7 +36,7 @@
                         <li class="questionLi">
                             <div class="questionWordingDiv">
                                 <p class="questionWordingP">
-                                    <span class="numeroForm">{{ count }}</span>{{question.wording}}
+                                    <span class="numeroForm">{{ count }}</span>{{question.wording | raw }}
                                 </p>
                                 <p class="chevronBasP">
                                     <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg chevron">
@@ -46,7 +46,7 @@
                                 {% set countLetter = 0 %}
                                 {% for proposal in question.proposals %}
                                     <p class="proposalWordingP"><span class="numeroProp">{{ letters[countLetter] }}</span>
-                                        {{ proposal.wording }}
+                                        {{ proposal.wording | raw }}
                                     </p>
                                     {% set countLetter = countLetter + 1 %}
                                 {% endfor %}
@@ -71,12 +71,10 @@
                                 <div>
                                     Facile
                                 </div>
-
                                 <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
-
                             </div>
                             <div class="legendDifficultyNbr">
-                                : <p class="nbrQuestion" >5</p>
+                                : <p class="nbrQuestion" id="easy" >5</p>
                             </div>
                         </div>
 
@@ -85,15 +83,12 @@
                                 <div>
                                     Moyen
                                 </div>
-
                                 <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à trois feuilles">
-
                             </div>
                             <div class="legendDifficultyNbr" >
-                                : <p class="nbrQuestion" >5</p>
+                                : <p class="nbrQuestion" id="medium" >5</p>
                             </div>
                         </div>
-
                         <div class="legendDifficultyDecoDiv">
                             <div class="legendDifficultyDecoSubDiv">
                                 <div>
@@ -102,7 +97,7 @@
                                 <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
                             </div>
                             <div class="legendDifficultyNbr" >
-                                : <p class="nbrQuestion" >5</p>
+                                : <p class="nbrQuestion" id="difficulty" >5</p>
                             </div>
                         </div>
                     </div>
@@ -118,28 +113,26 @@
                     <div class="qcmChoisedSubDiv">
                         <div class="qcmChoisedLegend">
                             QCM Choici
-                            <div class="qcmChoisedLevel">
+                            <div class="qcmChoisedLevel" id="qcmChoisedLevel">
                                 Facile
                             </div>
                         </div>
                         <div class="qcmChoisedMain">
                             <ul>
                                 {% for question in generatedQcm.questionsCache %}
-                                    <li class="qcmChoisedLi">
+                                    <li class="qcmChoisedLi"  draggable="true">
                                         <div class="qcmChoisedLiDiv">
                                             <div class="questionWordingDiv qcmChoisedQuestionWordingDiv">
-                                                {#TODO Modifier les app fixture pour ajouter la difficulté de la question#}
-                                                {#                                            {% if question.difficulty is same as 1 %}#}
-                                                {#                                                <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle">#}
-                                                {#                                            {% elseif question.difficulty is same as 2 %}#}
-                                                {#                                                <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle">#}
-                                                {#                                            {% else %}#}
-                                                {#                                                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle">#}
-                                                {#                                            {% endif %}#}
                                                 <p class="qcmChoisedTreffleP">
-                                                    <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle">
+                                                {% if question.difficulty == 1 %}
+                                                    <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">
+                                                {% elseif question.difficulty.value == 2 %}
+                                                    <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="medium">
+                                                {% else %}
+                                                    <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">
+                                                {% endif %}
                                                 </p>
-                                                <p class="qcmChoisedQuestionWordingP questionWordingP" >
+                                                <p class="qcmChoisedQuestionWordingP questionWordingP" data-id = {{ question.id }} >
                                                     {{question.wording}}
                                                 </p>
                                                 <p class="qcmChoisedchevronBasP">
@@ -157,9 +150,6 @@
                                                 {% endfor %}
                                             </div>
                                         </div>
-                                        <div class="x">
-                                            X
-                                        </div>
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -169,7 +159,8 @@
                     {#Image drag and drop #}
 
                     <div class="imageDragAndDrop">
-                        <img src="{{ asset('build/images/drag_and_drop.png') }}" alt="Flèche arrondie verte">
+                        <img src="{{ asset('build/images/drag_and_drop.png') }}" alt="Flèche arrondie verte" class="arrowRight">
+                        <img src="{{ asset('build/images/drag_and_drop.png') }}" alt="Flèche arrondie verte" class="arrowLeft">
                     </div>
 
                     {#*************************************************************************************************#}
@@ -184,11 +175,62 @@
                         <div class="questionsOfficial">
                             <ul>
                                 {% for question in officialQuestions %}
-                                    <li class="officialQuestionLi">
-                                        <div class="OfficialQuestionWordingDiv questionWordingDiv">
-                                            {#TODO Remplacer le texte par l'image des trefles en fonction de la difficulté de la question#}
+                                    <li class="officialQuestionLi" draggable="true">
+                                        <div class="OfficialQuestionWordingDiv questionWordingDiv ">
                                             <p class="qcmChoisedTreffleP">
-                                                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle">
+                                                {% if question.difficulty == 1 %}
+                                                    <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">
+                                                {% elseif question.difficulty.value == 2 %}
+                                                    <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="medium">
+                                                {% else %}
+                                                    <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">
+                                                {% endif %}
+                                            </p>
+                                            <p class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
+                                                {{question.wording}}
+                                            </p>
+                                            <p class="officialChevronBasP chevronBasP">
+                                                <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
+                                            </p>
+                                            <div class="modifyQuestionImgDiv">
+                                                <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier" class="modifyQuestionImg">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="OfficialProposalWordingDiv proposalWordingDiv">
+                                                {% set countLetter = 0 %}
+                                                {% for proposal in question.proposals %}
+                                                    <p class="officialProposalWordingP proposalWordingP" data-id="{{proposal.id}}">
+                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span>{{ proposal.wording }}</span>
+                                                    </p>
+                                                    {% set countLetter = countLetter + 1 %}
+                                                {% endfor %}
+                                                <div class="questionModify">
+                                                    <button class="save">Enregistrer</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {#*************************************************************************************************#}
+                        {#CUSTOM #}
+                         <div class="questionsCustom">
+                            <ul>
+                                {% for question in officialQuestions %}
+                                    <li class="officialQuestionLi" draggable="true">
+                                        <div class="OfficialQuestionWordingDiv questionWordingDiv ">
+                                            <p class="qcmChoisedTreffleP">
+                                                {% if question.difficulty == 1 %}
+                                                    <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">
+                                                {% elseif question.difficulty.value == 2 %}
+                                                    <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="medium">
+                                                {% else %}
+                                                    <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">
+                                                {% endif %}
                                             </p>
                                             <p class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
                                                 {{question.wording}}
@@ -206,7 +248,7 @@
                                                 {% for proposal in question.proposals %}
                                                     <p class="officialProposalWordingP proposalWordingP" data-id="{{proposal.id}}">
                                                         <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span>
-                                                        {{ proposal.wording }}
+                                                        <span>{{ proposal.wording }}</span>
                                                     </p>
                                                     {% set countLetter = countLetter + 1 %}
                                                 {% endfor %}
@@ -221,48 +263,7 @@
                                 {% endfor %}
                             </ul>
                         </div>
-                        {#*************************************************************************************************#}
-                        {#CUSTOM #}
-                        <div class="questionsCustom">
-                            <h4>Questions personalisées</h4>
-                            <ul>
-                                {% for question in officialQuestions %}
-                                    <li>
-                                        <div class="questionWordingDiv">
-                                            {#TODO Remplacer le texte par l'image des trefles en fonction de la difficulté de la question#}
-                                            <p>
-                                                Ici trèfle
-                                            </p>
-                                            <p class="questionWordingP">
-                                                {{question.wording}}
-                                            </p>
-                                            <p class="chevronBasP">
-                                                <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg chevron">
-                                            </p>
-                                            <div class="modifyQuestionImgDiv">
-                                                <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier" class="modifyQuestionImg">
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="proposalWordingDiv">
-                                                {% for proposal in question.proposals %}
-                                                    <p class="proposalWordingP">
-                                                        {{ proposal.wording }}
-                                                    </p>
-                                                {% endfor %}
-                                            </div>
-                                            <div>
-                                                <button class="save">Enregistrer</button>
-                                            </div>
 
-                                        </div>
-
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
                 {#*************************************************************************************************#}
                 {#BUTTON CREATE QUESTION #}
                 <div class="createQuestion">
@@ -272,7 +273,12 @@
             {#*************************************************************************************************#}
             {#NAME#}
             <div class="qcmName">
-                <input type="text" placeholder="Veuillez indiquer un nom pour le qcm" class="qcmNameInput">
+                <input type="text" placeholder="Veuillez indiquer un nom pour le qcm" class="qcmNameInput" data-module="{{generatedQcm.module.id}}">
+            </div>
+
+            <div class="isPublic">
+                <label for=""> Ce qcm pourra t'il être utilisé par d'autres formateurs? </label>
+                <input type="checkbox"  id="isPublicInput" >
             </div>
 
             <div class="qcmValidation">
@@ -290,8 +296,10 @@
         let chevronBas = "{{asset('build/images/chevron_bas.png')}}"
         let deleteImg = "{{asset('build/images/delete_close.png')}}"
 
-        let route = "{{ path('instructor_questions_upDateFetch') }}"
+        let route = "{{ path('instructor_questions_update_fetch') }}"
+        let routeInstructorQcmFetch = "{{ path('instructor_qcm_create_fetch') }}"
 
+        {#let questions = {{ questions|json_encode }}#}
     </script>
     <script type="text/javascript" src="{{ asset('js/instructor/create_qcm_perso.js') }}"></script>
 {% endblock %}

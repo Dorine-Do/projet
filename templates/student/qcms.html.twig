@@ -49,16 +49,16 @@
                         {% endfor %}
                     </select>
                     <div class="difficult">
-                        <div>
-                            <input type="radio" id="Facile" name="Difficulty" value="1"checked>
+                        <div class="difficultySubDiv">
+                            <input type="radio" id="Easy" name="Difficulty" value="1"checked>
                             <label for="Easy">{{ 'difficulty.easy'|trans }}</label>
                         </div>
-                        <div>
-                            <input type="radio" id="Moyen" name="Difficulty" value="2">
+                        <div class="difficultySubDiv">
+                            <input type="radio" id="Medium" name="Difficulty" value="2">
                             <label for="Medium">{{ 'difficulty.medium'|trans }}</label>
                         </div>
-                        <div>
-                            <input type="radio" id="Difficile" name="Difficulty" value="3">
+                        <div class="difficultySubDiv">
+                            <input type="radio" id="Difficult" name="Difficulty" value="3">
                             <label for="Difficult">{{ 'difficulty.difficult'|trans }}</label>
                         </div>
                     </div>

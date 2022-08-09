@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Module;
 use App\Entity\Proposal;
+use App\Entity\Qcm;
+use App\Entity\QcmInstance;
 use App\Entity\Question;
+use App\Entity\Session;
 use App\Form\CreateQuestionType;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\InstructorRepository;
@@ -11,7 +15,11 @@ use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
+use App\Repository\SessionRepository;
+use App\Repository\UserRepository;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Node\Expr\Cast\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -214,7 +222,6 @@ class InstructorController extends AbstractController
             $questionEntity->setIsOfficial(false);
             $questionEntity->setIsMandatory(false);
             $questionEntity->setExplanation('Explication');
-//            dd();
             $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
 
             //  validation et enregistrement des données du form dans la bdd
@@ -247,6 +254,9 @@ class InstructorController extends AbstractController
         foreach ($linksInstructorSessionModule as $linkInstructorSessionModule){
             $modules[]=$linkInstructorSessionModule->getModule();
         }
+
+        /**********************************************************************************/
+        // Get module choiced
         $module = null;
         if( $request->get('module') ){
             $module = $moduleRepository->find($request->get('module'));
@@ -257,23 +267,126 @@ class InstructorController extends AbstractController
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module'=> $module->getId(), 'author'=> $userId ]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module'=> $module->getId() ]);
-        }
+         }
+
+        /********************************************************************************/
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => $modules,
-            'generatedQcm' => $module ? $generatedQcm : null,
             'customQuestions' => $module ? $customQuestions : null,
-            'officialQuestions' => $module ? $officialQuestions : null
+            'officialQuestions' => $module ? $officialQuestions : null,
+            'generatedQcm' => $module ? $generatedQcm : null,
         ]);
-
     }
 
-    #[Route('instructor/questions/upDateFetch', name: 'instructor_questions_upDateFetch', methods: ['POST'])]
-    public function upDateQuestionFetch(ValidatorInterface $validator): Response
-    {
-        $values = $_POST;
-        $question = new Question();
 
-        return new JsonResponse('ok');
+    #[Route('instructor/questions/upDate_fetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
+    public function upDateQuestionFetch(
+        ValidatorInterface $validator,
+        Request $request,
+        InstructorRepository $instructorRepository,
+        ModuleRepository $moduleRepository,
+        QuestionRepository $questionRepository,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+      $data = (array)json_decode($request->getContent());
+        $question = new Question();
+        $module = $moduleRepository->find($data['module']);
+        $question->setModule($module);
+        $question->setWording($data['wording']);
+        $question->setIsMultiple($data['isMultiple']);
+        $question->setDifficulty(1);
+        $question->setExplanation('null');
+        $author = $instructorRepository->find($this->getUser()->getId());
+        $question->setAuthor($author);
+        $question->setIsMandatory(0);
+        $question->setIsOfficial(0);
+        $question->setIsEnabled(1);
+
+        foreach ($data['proposals'] as $proposal){
+           $newProposal = new Proposal();
+           $newProposal->setWording($proposal->wording);
+           $newProposal->setIsCorrectAnswer($proposal->isCorrectAnswer);
+           $validator->validate($newProposal);
+           $question->addProposal($newProposal);
+        };
+
+        $validator->validate($question);
+        $questionJson = json_encode($question);
+
+        $entityManager->persist($question);
+        $entityManager->flush();
+
+        $questionResponse = $questionRepository->find($question->getId());
+
+        /*TODO Débuger le jsonResponce*/
+        return new JsonResponse($questionResponse);
+    }
+
+    #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
+    public function createQcmFetch(
+        ValidatorInterface $validator,
+        Request $request,
+        InstructorRepository $instructorRepository,
+        QuestionRepository $questionRepository,
+        ModuleRepository $moduleRepository,
+        EntityManagerInterface $entityManager
+    ): Response
+
+    {
+        $data = (array)json_decode($request->getContent());
+        $qcm = new Qcm();
+        $author = $instructorRepository->find($this->getUser()->getId());
+        $qcm->setAuthor($author);
+        $qcm->setTitle($data['name']);
+        if ($data['level'] === 'Difficile'){
+            $level = 1;
+        }elseif ($data['level'] === 'Moyen'){
+            $level = 2;
+        }else{
+            $level = 3;
+        }
+        $qcm->setDifficulty($level);
+        $qcm->setIsEnabled(1);
+        $qcm->setIsOfficial(0);
+        $qcm->setIsPublic($data['isPublic']);
+        $module = $moduleRepository->find($data['module']);
+        $qcm->setModule($module);
+
+        /*TODO voir avec Mathieu pour utiliser le hepler pour cette partie*/
+        $questionsCache = [];
+        foreach( $data['questions'] as $question )
+        {
+            $question = $questionRepository->find($question->id);
+            $questionProposals = $question->getProposals();
+            $proposalsCache = [];
+            foreach( $questionProposals as $questionProposal )
+            {
+                $proposalsCache[] = [
+                    'id'                => $questionProposal->getId(),
+                    'wording'           => $questionProposal->getWording(),
+                    'isCorrectAnswer'   => $questionProposal->getIsCorrectAnswer(),
+                ];
+            }
+            $questionsCache[] = [
+                'id'         => $question->getId(),
+                'wording'    => $question->getWording(),
+                'isMultiple' => $question->getIsMultiple(),
+                'difficulty' => $question->getDifficulty(),
+                'proposals'  => $proposalsCache
+            ];
+        }
+
+        $qcm->setQuestionsCache($questionsCache);
+
+        $validator->validate($qcm);
+        $entityManager->persist($qcm);
+        $entityManager->flush();
+
+        /*TODO débuger la redirection*/
+        $this->addFlash('success', 'Le qcm a bien été modifiée.');
+        return $this->redirectToRoute('instructor_display_questions');
+
     }
 
     #[Route('instructor/qcms', name: 'instructor_qcms', methods: ['GET'])]
@@ -291,11 +404,105 @@ class InstructorController extends AbstractController
         ]);
     }
 
-    #[Route('instructor/plan_qcm/', name: 'instructor_plan_qcm')]
-    public function planQcm()
+    #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
+    public function createOfficialQcm(
+        Security $security,
+        SessionRepository $sessionRepository,
+        InstructorRepository $instructorRepository,
+        Request $request,
+        QuestionRepository $questionRepository,
+        ModuleRepository $moduleRepository,
+        EntityManagerInterface $manager
+    ): Response
     {
-        $instructor = $this->getUser();
 
-        return $this->render( 'instructor/plan_qcm.html.twig', []);
+        $dayOfWeekEnd=array("Saturday", "Sunday");
+        $userId=$security->getUser();
+        $sessionAndModuleByInstructor= $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+
+        foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor){
+            $sessionId=$sessionAndModuleByInstructor->getSession()->getId();
+            $moduleId=$sessionAndModuleByInstructor->getModule()->getId();
+            $sessions=$sessionRepository->findBy(['id'=>$sessionId]);
+            $modules=$moduleRepository->findBy(['id'=>$moduleId]);
+        }
+
+        $formData= $request->query->all();
+
+        if(count($formData) != 0 ){
+
+        $module=$moduleRepository->find($formData["module"]);
+        $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
+        $qcm=$qcmGenerator->generateRandomQcm($module,false);
+        $manager->persist($qcm);
+        $manager->flush();
+
+        $linksSessionStudent=$sessionRepository->find($formData["session"])->getLinksSessionStudent();
+        $students=[];
+
+        foreach($linksSessionStudent as $linkSessionStudent){
+
+            $students[]=$linkSessionStudent->getStudent();
+        }
+        foreach($students as $student){
+            $qcmInstance= new QcmInstance();
+            $qcmInstance->setStudent($student) ;
+            $qcmInstance->setQcm($qcm);
+            $qcmInstance->setCreatedAtValue();
+            $qcmInstance->setUpdateAtValue();
+
+            //START TIME AND END TIME
+            $dayOfCreationOfQcmInstance=$qcmInstance->getCreatedAt();
+            if($dayOfCreationOfQcmInstance){
+             $dateOfCreationFormat=date_format($dayOfCreationOfQcmInstance, "Y-m-d H:i:s");
+             $newDateTimeForStartTime=date("Y-m-d 13:00:00", strtotime($dateOfCreationFormat.'+ 5 days'));
+             $startTime=new \DateTime($newDateTimeForStartTime);
+             $qcmInstance->setStartTime($startTime);
+             $newDateTimeForEndTime=date("Y-m-d H:i:s",strtotime($newDateTimeForStartTime.'+ 4hours'));
+             $endTime=new \Datetime($newDateTimeForEndTime);
+
+            //  DAY ADDITION IF ENDTIME = A DAY OF WEEK  voir array -> dayOfweek
+             $endTimeTextualFormat=date_format($endTime,'l');
+            if($endTime&& $endTimeTextualFormat===$dayOfWeekEnd[0]){
+                $endTime=date_format($endTime,"Y-m-d H:i:s");
+                $endTimeFormatNum=date("Y-m-d H:i:s",strtotime($endTime.'+ 2 days'));
+                $endTime=new \DateTime($endTimeFormatNum);
+            }elseif($endTime && $endTimeTextualFormat===$dayOfWeekEnd[1]){
+                //autre methode si format de celle ci gardé sinon la convertir en celle d'en haut
+                $endTime=$endTime->add(new DateInterval("P1D"));
+                dd($endTime,'dimanche');
+            }
+             $qcmInstance->setEndTime($endTime);
+             //mettre dans un tableau saturday sunday
+             //et a partir de la endtdate  la convertir a un format mot et faire une condition
+             // si la date contient un des jours du tableau (ou une condition swich pour voir si c'est égale a un des element ddans ) ajouter +1 ou +2 enfonction du jour pour que ça tombe un lundi
+
+              //on recupère on crée une variable dans lequel on met le string de getcreatedat ,
+              //puis on place la varible dans datetime puis on lei donne un format et ainsi de suite
+            }
+
+            $manager->persist($qcmInstance);
+            $manager->flush();
+
+            $this->addFlash(
+                'instructorAddQcm',
+                'Le qcm a été généré avec succès'
+            );
+            return $this->redirectToRoute('welcome_instructor');
+
+        }
+    //  redirect to route avec flash vers welcome instructor
+        }
+
+
+       return $this->render('instructor/create_official_qcm.html.twig',[
+           'sessions'=>$sessions,
+           'modules'=>$modules
+       ]);
+    }
+    #[Route('instructor/qcms/test',name:'test',methods:['GET','POST'])]
+    public function test():Response
+    {
+        return $this->render('instructor/test.html.twig');
     }
 }

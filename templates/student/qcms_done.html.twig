@@ -61,7 +61,7 @@
             {{qcmDone.result.getSubmittedAt()|date('d/m/Y')}}
         </div>
         <div class="divButton">
-            <a class="button" href="{{ path('student_qcm_correction', {result: qcmDone.result.id} ) }}">{{ 'qcm.name'|trans }}</a>
+            <a class="button" href="{{ path('student_qcm_correction', {result: qcmDone.result.id} ) }}">{{ 'button.viewAnswers'|trans }}</a>
             <a class="button" href="{{ path('student_retry_same_qcm', {qcm: qcmDone.qcm.id} ) }}">{{ 'button.doAgain'|trans }}</a>
         </div>
     </div>

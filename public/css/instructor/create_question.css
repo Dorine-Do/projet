@@ -38,6 +38,12 @@ li{
 .premier{
     margin-left: 0;
 }
+#listProposal{
+    width: 95%;
+    display: flex;
+    flex-wrap: wrap;;
+    justify-content: space-evenly;
+}
 
 .second{
     margin: auto;
@@ -105,11 +111,11 @@ input[type="radio"]:checked {
 }
 
 .option{
-    margin: auto;
+    margin-left: 7em;
     background-color: var(--fond);
     padding: 25px 1px;
     border-radius: 10px;
-    width: 85%;
+    width: 6%;
     text-align: center;
 }
 
@@ -182,7 +188,7 @@ input[type="radio"]:checked {
     font-weight: bold;
     border: none;
     padding: 3px 9px;
-    font-size: var(--semi_small);
+    font-size: var(--normal);
     margin-bottom: 15px;
 }
 
@@ -200,7 +206,7 @@ input[type="radio"]:checked {
     font-weight: bold;
     border: none;
     padding: 5px 13px;
-    font-size: var(--semi_small);
+    font-size: var(--normal);
     margin: auto;
     width: 180px;
 }
@@ -253,7 +259,6 @@ input[type="radio"]:checked {
     box-shadow: 0px 0px 10px -2px var(--grey);
 }
 
-
 #list_proposal{
     display: flex;
     flex-wrap: wrap;
@@ -267,7 +272,7 @@ input[type="radio"]:checked {
     padding: 8px 15px;
     border-radius: 50%;
     color: white;
-    margin: auto;
+    margin: 1em auto;
     width: 15px;
     text-align: center;
 }
@@ -328,9 +333,7 @@ label{
     border: none;
     padding: 15px 300px;;
     font-size: var(--normal);
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 60px;
+    margin: 2.5% auto;
     display: block;
 }
 

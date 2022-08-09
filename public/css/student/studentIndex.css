@@ -10,6 +10,7 @@
     padding: 25px;
     display: flex;
     justify-content: space-around;
+    margin-bottom: 2.5%;
 }
 
 /********************************************** BALISES GENERALES ***************************************************/
@@ -88,23 +89,25 @@ span{
 }
 
 .selectEntrainement{
-    margin: auto;
     background-color: white;
-    padding: 2px 65px;
     font-size: var(--normal);
     text-align: center;
     border: 1px solid var(--grey);
     border-radius: 7px;
     font-family: 'Alumni Sans', sans-serif;
+    width: 70%;
 }
 
 .buttonExercice{
     border-radius: 25px;
     background-color: var(--grey);
     color: white;
-    padding: 5px 55px;
+    padding: 0.1em 1em;
     text-align: center;
     font-size: var(--normal);
+    font-family: "Alumni Sans", serif;
+    border: none;
+    width: 27%
 }
 
 .buttonExercice:hover{
@@ -137,6 +140,11 @@ span{
     height: 55px;
 }
 
+.difficultySubDiv input:hover,
+.difficultySubDiv label:hover{
+    cursor: pointer;
+}
+
 .cercle{
     background-color: var(--fond);
     border-radius: 50%;
@@ -158,6 +166,7 @@ span{
     font-size: var(--semi_normal);
     border: none;
     cursor: pointer;
+    font-family: "Alumni Sans", serif;
 }
 
 .buttonValid:hover{
@@ -236,6 +245,8 @@ input[type="radio"]:checked {
     padding: 10px 42px;
     text-align: center;
     font-size: var(--normal);
+    font-family: "Alumni Sans", serif;
+    border: none;
 }
 
 .buttonBadge:hover{
@@ -291,6 +302,7 @@ input[type="radio"]:checked {
     .buttonExercice{
         width: 30%;
         margin: auto;
+        font-family: "Alumni Sans", serif;
     }
 
     .selectEntrainement{

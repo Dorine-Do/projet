@@ -6,8 +6,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     addbutton.dataset.index = li_proposal_v1.length
     let indexData = 0
     let form = addbutton.dataset.form
-    let ul = document.querySelector('#list_proposal')
-
+    let ul = document.querySelector('#listProposal')
 // *******************************************************************************************************
 // Add function
     function clickAdd(e) {
@@ -34,6 +33,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 // *******************************************************************************************************
 // li_form Function
     function li_form(ul){
+        console.log(ul)
         let li = document.createElement("li")
 
         // Replace
@@ -62,6 +62,38 @@ document.addEventListener("DOMContentLoaded", (event) => {
         li.firstElementChild.className = "divProposal"
 
         letterProposal(li.firstElementChild, indexData,)
+
+        // INSERTION DU SCRIPT DE CKEDITOR OBLIGATOIRE POUR L'AJOUT DE CKEDITOR AU TEXTAREA DES NOUVELLES RÉPONSES
+        if (CKEDITOR.instances[`create_question_proposals_${indexData}_wording`]) {
+            CKEDITOR.instances[`create_question_proposals_${indexData}_wording`].destroy(true);
+            delete CKEDITOR.instances[`create_question_proposals_${indexData}_wording`];
+        }
+
+        CKEDITOR.replace(`create_question_proposals_${indexData}_wording`, {
+            "uiColor": "#FFAC8F",
+            "toolbar": [
+                [
+                    "Source",
+                    "Bold",
+                    "Italic",
+                    "Underline",
+                    "JustifyLeft",
+                    "JustifyCenter",
+                    "JustifyRight",
+                    "JustifyBlock",
+                    "CodeSnippet",
+                    "Blockquote",
+                    "Indent",
+                    "Outdent"
+                ]
+            ],
+            "extraPlugins": [
+                "codesnippet"
+            ],
+            "codeSnippet_theme": "monokai",
+            "language": "fr"
+        });
+
 
         // ************************************************************************************
         // INCREMENT LA LONGUEUR DU TABLEAU DES REPONSES
