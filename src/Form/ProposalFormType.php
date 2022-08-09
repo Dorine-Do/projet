@@ -22,7 +22,21 @@ class ProposalFormType extends AbstractType
             ->add('wording',CKEditorType::class, [
                 'config' => [
                     'uiColor' => '#FFAC8F',
-                    'toolbar' => [['Source', 'Bold', 'Italic', 'Underline', 'JustifyLeft', 'JustifyCenter','JustifyRight', 'JustifyBlock', 'CodeSnippet', 'Blockquote', 'Indent', 'Outdent']],
+                    'toolbar' => [
+                        [
+                            'Bold',
+                            'Italic',
+                            'Underline',
+                            'JustifyLeft',
+                            'JustifyCenter',
+                            'JustifyRight',
+                            'JustifyBlock',
+                            'CodeSnippet',
+                            'Blockquote',
+                            'Indent',
+                            'Outdent'
+                        ]
+                    ],
                     'extraPlugins' => ['codesnippet'],
                     'codeSnippet_theme' => 'monokai'
                 ],
