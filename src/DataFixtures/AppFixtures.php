@@ -388,7 +388,7 @@ class AppFixtures extends Fixture
             array_push($arrayDifficulty, $difficulty);
             $arrayAnswers = [];
             foreach ($answers as $answer){
-                array_push($arrayAnswers, ["id" => $answer->getId(), "libelle" => $answer->getWording(), "is_correct" => $answer->getIsCorrect()]);
+                array_push($arrayAnswers, ["id" => $answer->getId(), "wording" => $answer->getWording(), "is_correct" => $answer->getIsCorrect()]);
             }
 
             $questionAnswer =
@@ -397,9 +397,9 @@ class AppFixtures extends Fixture
                         "question"=>
                             [
                                 "id"=> $randomQuestion->getId(),
-                                "libelle"=>$randomQuestion->getWording(),
+                                "wording"=>$randomQuestion->getWording(),
                                 "responce_type"=>$randomQuestion->getResponseType(),
-                                "answers"=>
+                                "proposals"=>
                                     $arrayAnswers
                             ],
                     ]

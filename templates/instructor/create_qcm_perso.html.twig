@@ -133,7 +133,7 @@
                                                 {% endif %}
                                                 </p>
                                                 <p class="qcmChoisedQuestionWordingP questionWordingP" data-id = {{ question.id }} >
-                                                    {{question.wording}}
+                                                    {{ question.wording | raw }}
                                                 </p>
                                                 <p class="qcmChoisedchevronBasP">
                                                     <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="qcmChoisedchevronBasImg chevron">
@@ -144,7 +144,7 @@
                                                 {% for proposal in question.proposals %}
                                                     <p class="qcmChoisedProposalWordingP proposalWordingP">
                                                         <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span>
-                                                        {{ proposal.wording }}
+                                                        {{ proposal.wording | raw }}
                                                     </p>
                                                     {% set countLetter = countLetter + 1 %}
                                                 {% endfor %}
@@ -187,7 +187,7 @@
                                                 {% endif %}
                                             </p>
                                             <p class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
-                                                {{question.wording}}
+                                                {{ question.wording | raw }}
                                             </p>
                                             <p class="officialChevronBasP chevronBasP">
                                                 <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
@@ -201,7 +201,7 @@
                                                 {% set countLetter = 0 %}
                                                 {% for proposal in question.proposals %}
                                                     <p class="officialProposalWordingP proposalWordingP" data-id="{{proposal.id}}">
-                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span>{{ proposal.wording }}</span>
+                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span>{{ proposal.wording | raw }}</span>
                                                     </p>
                                                     {% set countLetter = countLetter + 1 %}
                                                 {% endfor %}
@@ -233,7 +233,7 @@
                                                 {% endif %}
                                             </p>
                                             <p class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
-                                                {{question.wording}}
+                                                {{ question.wording | raw }}
                                             </p>
                                             <p class="officialChevronBasP chevronBasP">
                                                 <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
@@ -248,7 +248,7 @@
                                                 {% for proposal in question.proposals %}
                                                     <p class="officialProposalWordingP proposalWordingP" data-id="{{proposal.id}}">
                                                         <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span>
-                                                        <span>{{ proposal.wording }}</span>
+                                                        <span>{{ proposal.wording | raw }}</span>
                                                     </p>
                                                     {% set countLetter = countLetter + 1 %}
                                                 {% endfor %}
