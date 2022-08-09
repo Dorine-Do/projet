@@ -40,9 +40,9 @@
             {% for question in questionsAnswers %}
 
                 <p class="question"><span class="numeroform">1</span>
-                    {{ question.libelle }}
+                    {{ question.wording | raw }}
                 </p>
-                {% for answer in question.answers %}
+                {% for proposal in question.proposals %}
                     {% if question.responce_type == 'radio'%}
                         {% if question.difficulty == 'Difficile' %}
                             <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
@@ -51,16 +51,16 @@
                         {% else %}
                             <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
                         {% endif %}
-                            <input type="radio" for='{{ answer.id}}' name="{{ question.id }}" value="{{ answer.id }}">
-                            <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                            <input type="radio" for='{{ proposal.id}}' name="{{ question.id }}" value="{{ proposal.id }}">
+                            <label for="{{ proposal.id }}">{{ proposal.wording | raw }}</label>
                     {% else %}
-                        <input type="checkbox" for='{{ answer.id}}' name="{{question.id}}[]" value="{{ answer.id }}">
-                        <label for="{{ answer.id }}">{{ answer.libelle }}</label>
+                        <input type="checkbox" for='{{ proposal.id}}' name="{{question.id}}[]" value="{{ proposal.id }}">
+                        <label for="{{ proposal.id }}">{{ proposal.wording | raw }}</label>
                     {% endif %}
 
                 {% endfor %}
             {% endfor %}
-            <input class="valid" type="submit" value="J'ai fini mon qcm">
+            <input class="valid" type="submit" value="J'ai fini mon qcm.">
         </form>
 
     </div>
