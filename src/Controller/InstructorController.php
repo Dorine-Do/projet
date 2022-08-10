@@ -174,8 +174,21 @@ class InstructorController extends AbstractController
     public function createQuestion(
         Request $request,
         EntityManagerInterface $manager,
+        Security $security,
+        InstructorRepository $instructorRepository,
+        ModuleRepository $moduleRepository
     ): Response
     {
+
+        $userId=$security->getUser();
+        $linkModulesSessions=$instructorRepository->find($userId)->getLinksInstructorSessionModule();
+        foreach($linkModulesSessions as $linkModulesSessions){
+            $moduleId=$linkModulesSessions->getModule()->getId();
+            $modules=$moduleRepository->findBy(['id'=>$moduleId]);
+            
+        }
+    
+
         $questionEntity= new Question();
 
         $proposal1 = new Proposal();
@@ -186,12 +199,14 @@ class InstructorController extends AbstractController
 
         $questionEntity->addProposal($proposal2);
         $questionEntity->addProposal($proposal1);
-
+       
+      
         // création form
         $form = $this->createForm(CreateQuestionType::class,$questionEntity);
         // accès aux données du form
-        $form->handleRequest($request);
-
+         $form->handleRequest($request);
+         
+   
         // vérification des données soumises
         if($form->isSubmitted() && $form->isValid())
         {
@@ -217,15 +232,20 @@ class InstructorController extends AbstractController
             {
                 $questionEntity->setIsMultiple("false");
             }
-
+            
+           $form->getData();
+         
+           
             $questionEntity->setAuthor( $this->getUser() );
             $questionEntity->setIsOfficial(false);
             $questionEntity->setIsMandatory(false);
             $questionEntity->setExplanation('Explication');
             $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
-
+            
             //  validation et enregistrement des données du form dans la bdd
             $manager->persist($questionEntity);
+            // dd($questionEntity);
+            // dd($form);
             $manager->flush();
 
             return $this->redirectToRoute('instructor_display_questions');
@@ -234,6 +254,8 @@ class InstructorController extends AbstractController
         return $this->render('instructor/create_question.html.twig', [
             'form' => $form->createView(),
             "add"=>true,
+            "modules"=>$modules,
+           
         ]);
     }
 

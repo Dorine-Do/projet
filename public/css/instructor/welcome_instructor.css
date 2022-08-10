@@ -5,22 +5,22 @@ body {
 
 .accueilDiv {
   display: grid;
-  grid-gap: 2em;
+  grid-gap: 4em;
+  grid-template-columns: repeat(2, 1fr);
+  /* grid-template-columns: repeat(3, 1fr); temporaire*/
   text-align: center;
   width: 90%;
   margin: 30px auto;
   padding: 40px 0;
-  /* background: var(--fond);
-  border-radius: 20px; */
 }
 
 .hrefDiv {
   margin: auto;
   background-color: var(--pamplemousse);
-  padding: 1em;
+  padding: 1em 20px;
   border-radius: 5px;
   box-shadow: 0 0 3px 1px gray;
-  width: 80%;
+  width: 90%;
 }
 
 .hrefDecorationDiv {
@@ -73,10 +73,18 @@ body {
   justify-content: center;
   align-content: center;
 }
+/* temporaire */
 
-/* .sectionOne,
-.sectionTwo {
+.sectionOne,
+.sectionTwo,
+.sectionThree {
   background: var(--fond);
   border-radius: 20px;
-  padding: 20px;
-} */
+  padding: 30px;
+}
+.sectionThree {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 30px;
+  grid-column: 1/3;
+}

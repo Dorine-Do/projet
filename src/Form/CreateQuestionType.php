@@ -4,8 +4,11 @@ namespace App\Form;
 
 
 use App\Entity\Enum\Difficulty;
+use App\Entity\Instructor;
 use App\Entity\Module;
 use App\Entity\Question;
+use App\Repository\InstructorRepository;
+use App\Repository\ModuleRepository;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -15,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -26,6 +30,14 @@ class CreateQuestionType extends AbstractType
         2 => 'Moyen',
         3 => 'Difficile',
     ];
+
+    private $security;
+
+    public function __construct( Security $security,InstructorRepository $instructorRepository )
+    {
+        $this->security = $security;
+        $this->repository=$instructorRepository;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -78,6 +90,13 @@ class CreateQuestionType extends AbstractType
             //    Intégration d'une autre entité dans un form
             ->add('module', EntityType::class, [
                 'class'=> Module::class,
+                // Voir repository -> méthode accepté createQueryBuilder() et non getResult() car array return
+                'query_builder' => function(ModuleRepository $moduleRepository){
+                    return $moduleRepository->getModules($this->security->getUser()) ;
+                },
+                'choice_label'=>'title',
+                'compound' => true,
+                'multiple' => false,
             ])
 
             ->add('is_enabled', CheckboxType::class, [

@@ -24,35 +24,37 @@
 
     <h1> - Accueil - </h1>
     <div class="accueilDiv">
-       {# <div class="sectionOne"> #}
+       <div class="sectionOne"> 
            <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
-                    <a href="{{ path('my_creations')}}" class="accueilA">{{ 'title.creations'|trans }}</a>
+                    <a href="{{ path('my_creations')}}" class="accueilA">créations</a>
                 </div>
            </div>
+        </div>
+        <div class="sectionTwo">
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
-                    <a href="#" class="accueilA">Plannifier la distribution d'un qcm</a>
+                    <a href="#" class="accueilA"> la distribution d'un qcm</a>
                 </div>
             </div>
-       {# </div>
-        <div class="sectionTwo"> #}
+       </div>
+        <div class="sectionThree">
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
-                    <a href="{{ path('instructor_create_question') }}" class="accueilA">{{ 'question.create'|trans }}</a>
-                </div>
-            </div>
-            <div class="hrefDiv">
-                <div class="hrefDecorationDiv">
-                    <a href="{{ path('instructor_create_qcm_perso') }}" class="accueilA">Créer un qcm d'exercice</a>
+                    <a href="{{ path('instructor_create_question') }}" class="accueilA">un qcm</a>
                 </div>
             </div>
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
-                    <a href="{{ path('instructor_create_qcm') }}" class="accueilA">Créer un qcm officiel</a>
+                    <a href="{{ path('instructor_create_qcm_perso') }}" class="accueilA"> un qcm d'exercice</a>
                 </div>
             </div>
-        {# </div> #}
+            <div class="hrefDiv">
+                <div class="hrefDecorationDiv">
+                    <a href="{{ path('instructor_create_qcm') }}" class="accueilA"> un qcm officiel</a>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% block javascripts %}
