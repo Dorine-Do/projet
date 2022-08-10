@@ -1,100 +1,101 @@
-@import url('../main.css');
+@import url("../main.css");
 
 /*************************************** CSS sur simple balise HTML **********************************/
-.form-question{
-    max-width: 100%
+body {
+  position: relative;
+}
+.form-question {
+  max-width: 100%;
 }
 
-table{
-    width: 100%;
+table {
+  width: 100%;
 }
 
-
-.etape{
-    padding: 50px;
-    font-weight: bold;
-    font-size: var(--grand);
+.etape {
+  padding: 50px;
+  font-weight: bold;
+  font-size: var(--grand);
 }
 
-tr{
-    display: flex;
-    flex-direction: column;
+tr {
+  display: flex;
+  flex-direction: column;
 }
 
-td{
-    text-align: left;
+td {
+  text-align: left;
 }
 
-tbody{
-    width: 100%;
+tbody {
+  width: 100%;
 }
 
-li{
-    margin-left: 35%;
+li {
+  margin-left: 35%;
 }
 
 /************************************************ CSS SUR LES TD **************************************************************/
 
-.premier{
-    margin-left: 0;
+.premier {
+  margin-left: 0;
 }
-#listProposal{
-    width: 95%;
-    display: flex;
-    flex-wrap: wrap;;
-    justify-content: space-evenly;
-}
-
-.second{
-    margin: auto;
-    background-color: var(--fond);
-    padding: 25px 1px;
-    width: 85%;
-    border-radius: 10px;
+#listProposal {
+  width: 95%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
 }
 
-.difficulty{
-    margin: auto;
-    padding: 25px 1px;
-    width: 85%;
-    display: flex;
-    justify-content: space-around;
+.second {
+  margin: auto;
+  background-color: var(--fond);
+  padding: 25px 1px;
+  width: 85%;
+  border-radius: 10px;
+}
+
+.difficulty {
+  margin: auto;
+  padding: 25px 1px;
+  width: 85%;
+  display: flex;
+  justify-content: space-around;
 }
 .difficulty > div {
-    width: 100%;
+  width: 100%;
+}
+.divInputLabel {
+  position: relative;
+  width: 25%;
+  padding-left: 5px;
+  padding-right: 0;
+}
+#create_question_difficulty input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 25px;
+  height: 59px;
+  border: 1px solid #ccc;
+  margin: 0;
+  width: 90%;
+}
+#create_question_difficulty label {
+  position: absolute;
+  top: 20%;
+  left: 29%;
+  color: white;
+}
 
-}
-.divInputLabel{
-    position: relative;
-    width: 25%;
-    padding-left: 5px;
-    padding-right: 0;
-}
-#create_question_difficulty input[type=radio]{
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    border-radius: 25px;
-    height: 59px;
-    border: 1px solid #ccc;
-    margin: 0;
-    width: 90%;
-}
-#create_question_difficulty label{
-    position: absolute;
-    top: 20%;
-    left: 29%;
-    color: white;
-}
-
-input[type="radio"]{
-    background-color: var(--grey);
-    cursor:pointer;
+input[type="radio"] {
+  background-color: var(--grey);
+  cursor: pointer;
 }
 
 input[type="radio"]:checked {
-    background-color: var(--vert);
-    margin:0;
-    cursor:pointer;
+  background-color: var(--vert);
+  margin: 0;
+  cursor: pointer;
 }
 
 /*input[type="radio"]:checked:before {*/
@@ -104,510 +105,542 @@ input[type="radio"]:checked {
 /*     position: absolute;*/
 /*}*/
 
-
-#error_checked{
-    display: flex;
-    flex-direction: column;
+#error_checked {
+  display: flex;
+  flex-direction: column;
 }
 
-.option{
-    margin-left: 7em;
-    background-color: var(--fond);
-    padding: 25px 1px;
-    border-radius: 10px;
-    width: 6%;
-    text-align: center;
+.option {
+  margin-left: 7em;
+  background-color: var(--fond);
+  padding: 25px 1px;
+  border-radius: 10px;
+  width: 6%;
+  text-align: center;
 }
 
-.premierSelect{
-    margin:auto;
+.premierSelect {
+  margin: auto;
 }
 
-.numeroForm{
-    background-color: var(--pamplemousse);
-    padding: 8px 17px;
-    border-radius: 50%;
+.numeroForm {
+  background-color: var(--pamplemousse);
+  padding: 8px 17px;
+  border-radius: 50%;
 }
 
 /********************************************************* CSS SUR LES ELEMENTS DU FORM ***************************************/
 
-#create_question_wording{
-    width: 80%;
-    height: 75px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    border: hidden;
-    padding: 10px;
+#create_question_wording {
+  width: 80%;
+  height: 75px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  border: hidden;
+  padding: 10px;
 }
 
-#create_question_module, #create_question_difficulty{
-    margin: auto;
-    padding: 20px 60px;
-    border: none;
-    background-color: var(--fond);
-    font-size: var(--grand);
-    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
-    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
-    display: flex;
-    justify-content: space-around;
+#create_question_module,
+#create_question_difficulty {
+  margin: auto;
+  padding: 20px 60px;
+  border: none;
+  background-color: var(--fond);
+  font-size: var(--grand);
+  -webkit-box-shadow: 5px 5px 5px -2px rgba(0, 0, 0, 0.77);
+  box-shadow: 5px 5px 5px -2px rgba(0, 0, 0, 0.77);
+  display: flex;
+  justify-content: space-around;
 }
 
-#create_question_enabled{
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    border-radius: 4px;
-    height: 30px;
-    width: 30px;
-    background: #fff;
-    border: 1px solid #ccc;
+#create_question_enabled {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 4px;
+  height: 30px;
+  width: 30px;
+  background: #fff;
+  border: 1px solid #ccc;
 }
 
 #create_question_enabled:checked {
-    background: var(--vert);
-    margin:0px;
-    position: relative;
-    cursor: pointer;
-    border: 1px solid;
+  background: var(--vert);
+  margin: 0px;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid;
 }
 #create_question_enabled:checked:before {
-    font-family: 'Alumni Sans', sans-serif;
-    display: block;
-    color: grey;
-    font-size: var(--semi_small);
-    position: absolute;
+  font-family: "Alumni Sans", sans-serif;
+  display: block;
+  color: grey;
+  font-size: var(--semi_small);
+  position: absolute;
 }
 
 /********************************************* CE QUI A UN RAPPORT AVEC LA PARTIE PROPOSAL ***************************************************/
 
-
-.removeProposal{
-    background-color: var(--grey);
-    color: white;
-    border-radius: 5px;
-    font-weight: bold;
-    border: none;
-    padding: 3px 9px;
-    font-size: var(--normal);
-    margin-bottom: 15px;
+.errorAddProposal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%);
+  left: 50%;
+  right: 50%;
+  bottom: 50%;
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.errorAddProposal > ul {
+  align-self: center;
+  background: var(--pamplemousse);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+}
+.errorAddProposal > ul > li {
+  padding: 20px 20px 60px;
+  margin: 0;
+  height: 20px;
+}
+.errorAddProposal > ul > li::after {
+  content: "click sur le cadre pour fermer l'onglet ";
+  position: absolute;
+  top: 45%;
+  right: 50%;
+  transform: translate(50%, 50%);
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+.removeProposal {
+  background-color: var(--grey);
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  border: none;
+  padding: 3px 9px;
+  font-size: var(--normal);
+  margin-bottom: 15px;
 }
 
-.removeProposal:hover{
-    background-color: var(--vert);
-    font-weight: bold;
-    padding: 4px 11px;
-    cursor: pointer;
+.removeProposal:hover {
+  background-color: var(--vert);
+  font-weight: bold;
+  padding: 4px 11px;
+  cursor: pointer;
 }
 
-.addProposal{
-    background-color: var(--grey);
-    color: white;
-    border-radius: 5px;
-    font-weight: bold;
-    border: none;
-    padding: 5px 13px;
-    font-size: var(--normal);
-    margin: auto;
-    width: 180px;
+.addProposal {
+  background-color: var(--grey);
+  color: white;
+  border-radius: 5px;
+  font-weight: bold;
+  border: none;
+  padding: 5px 13px;
+  font-size: var(--normal);
+  margin: auto;
+  width: 180px;
 }
 
-.addProposal:hover{
-    background-color: var(--vert);
-    font-weight: bold;
-    padding: 4px 11px;
-    cursor: pointer;
+.addProposal:hover {
+  background-color: var(--vert);
+  font-weight: bold;
+  padding: 4px 11px;
+  cursor: pointer;
 }
 
-.divProposal{
-    text-align: center;
+.divProposal {
+  text-align: center;
 }
 
-.divProposal label{
-    padding: .5em;
+.divProposal label {
+  padding: 0.5em;
 }
 
-.divProposal textarea{
-    border-radius: 5px;
-    border: none;
-    color: grey;
-    padding: .5em;
-    background: var(--fond);
-    width: 100%;
-    margin: auto;
+.divProposal textarea {
+  border-radius: 5px;
+  border: none;
+  color: grey;
+  padding: 0.5em;
+  background: var(--fond);
+  width: 100%;
+  margin: auto;
 }
 
-
-.divProposal:first-child{
-    display: flex;
-    flex-direction: column;
-    margin: 0 1em;
+.divProposal:first-child {
+  display: flex;
+  flex-direction: column;
+  margin: 0 1em;
 }
 .divProposal:nth-child(2) {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
-.liProposal{
-    width: 25%;
-    text-align: center;
-    margin: 1em;
-    /*border: 2px solid var(--pamplemousse);*/
-    padding: .5em;
-    border-radius: 10px;
-    background: white;
-    box-shadow: 0px 0px 10px -2px var(--grey);
+.liProposal {
+  width: 25%;
+  text-align: center;
+  margin: 1em;
+  /*border: 2px solid var(--pamplemousse);*/
+  padding: 0.5em;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0px 0px 10px -2px var(--grey);
 }
 
-#list_proposal{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin: 0;
-    padding: 0;
+#list_proposal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
 }
 
-.pLetter{
-    background-color: var(--grey);
-    padding: 8px 15px;
-    border-radius: 50%;
-    color: white;
-    margin: 1em auto;
-    width: 15px;
-    text-align: center;
+.pLetter {
+  background-color: var(--grey);
+  padding: 8px 15px;
+  border-radius: 50%;
+  color: white;
+  margin: 1em auto;
+  width: 15px;
+  text-align: center;
 }
 
-.required{
-    color: var(--grey);
-    font-weight: bold;
-    margin: auto;
-    text-align: center;
-    width: 80px;
+.required {
+  color: var(--grey);
+  font-weight: bold;
+  margin: auto;
+  text-align: center;
+  width: 80px;
 }
 
-label{
-    margin-left: 20px;
-    color: var(--grey);
-    font-weight: bold;
+label {
+  margin-left: 20px;
+  color: var(--grey);
+  font-weight: bold;
 }
 
-.wording{
-    margin-left: 20px;
-    height: 50px;
+.wording {
+  margin-left: 20px;
+  height: 50px;
 }
 
-
-.div_wording{
-    display: flex;
+.div_wording {
+  display: flex;
 }
 
-.div_wording textarea{
-    margin-top: 23px;
+.div_wording textarea {
+  margin-top: 23px;
 }
 
-.proposal{
-    display: flex;
-    align-items: center;
+.proposal {
+  display: flex;
+  align-items: center;
 }
-
 
 /******************************************* PARTIE DESACTIVE LA QUESTION ************************************************/
 
-.formOption{
-    background-color: var(--pamplemousse);;
-    padding: 12px 30px;
-    border-radius: 50%;
+.formOption {
+  background-color: var(--pamplemousse);
+  padding: 12px 30px;
+  border-radius: 50%;
 }
 
-.paddingOption{
-    padding-left: 25px;
+.paddingOption {
+  padding-left: 25px;
 }
 
 /******************************************************** VALIDATION *****************************************************************/
 
-.valid{
-    background-color: var(--grey);
-    color: white;
-    border-radius: 20px;
-    font-weight: bold;
-    border: none;
-    padding: 15px 300px;;
-    font-size: var(--normal);
-    margin: 2.5% auto;
-    display: block;
+.valid {
+  background-color: var(--grey);
+  color: white;
+  border-radius: 20px;
+  font-weight: bold;
+  border: none;
+  padding: 15px 300px;
+  font-size: var(--normal);
+  margin: 2.5% auto;
+  display: block;
 }
 
-.valid:hover{
-    background-color: var(--vert);
-    font-weight: bold;
-    cursor: pointer;
+.valid:hover {
+  background-color: var(--vert);
+  font-weight: bold;
+  cursor: pointer;
 }
 
-img{
-    width: 50px;
-    height: 50px;
-    margin-left: 20px
+img {
+  width: 50px;
+  height: 50px;
+  margin-left: 20px;
 }
 
 @media screen and (max-width: 1200px) {
+  .buttondiff {
+    padding: 5px 35px;
+    font-size: var(--normal);
+  }
 
-    .buttondiff{
-        padding: 5px 35px;;
-        font-size: var(--normal);
-    }
+  .buttondesac {
+    padding: 5px 15px;
+    font-size: var(--normal);
+  }
 
-    .buttondesac{
-        padding: 5px 15px;
-        font-size: var(--normal);
-    }
+  .formOption {
+    padding: 8px 20px;
+  }
 
-    .formOption{
-        padding: 8px 20px;
-    }
+  .valid {
+    padding: 15px 200px;
+  }
 
-    .valid{
-        padding: 15px 200px;;
-    }
-
-    label.required{
-        text-align: left;
-    }
+  label.required {
+    text-align: left;
+  }
 }
 
 @media screen and (max-width: 780px) {
+  table {
+    width: 100%;
+  }
 
-    table{
-        width: 100%;
-    }
+  .buttondesac {
+    padding: 10px 30px;
+    font-size: var(--normal);
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
 
-    .buttondesac{
-        padding: 10px 30px;
-        font-size: var(--normal);
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-    }
+  .buttondiff {
+    padding: 10px 35px;
+    font-size: var(--normal);
+  }
 
-    .buttondiff{
-        padding: 10px 35px;;
-        font-size: var(--normal);
-    }
+  .valid {
+    padding: 13px 150px;
+  }
 
-    .valid{
-        padding: 13px 150px;
-    }
+  #question_module {
+    padding: 10px 30px;
+    font-size: var(--normal);
+  }
 
-    #question_module{
-        padding: 10px 30px;
-        font-size: var(--normal);
-    }
+  #create_question_difficulty input[type="radio"] {
+    width: 140px;
+    height: 60px;
+  }
 
-    #create_question_difficulty input[type=radio]{
-        width: 140px;
-        height: 60px;
-    }
+  img {
+    width: 45px;
+    height: 45px;
+  }
 
-    img{
-        width: 45px;
-        height: 45px;
-    }
+  .divProposal :first-child div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .divProposal :first-child div{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+  .divProposal div label {
+    width: 100%;
+    text-align: center;
+  }
 
-    .divProposal div label{
-        width: 100%;
-        text-align: center;
-    }
+  .wording {
+    width: 120px;
+    height: 60px;
+  }
 
-    .wording{
-        width: 120px;
-        height: 60px;
-    }
+  #error_checked {
+    display: flex;
+    flex-direction: column;
+  }
 
-    #error_checked{
-        display: flex;
-        flex-direction: column;
-    }
+  .liProposal {
+    width: 40%;
+  }
 
-    .liProposal{
-        width: 40%;
-    }
+  .difficulty {
+    width: 68%;
+  }
 
-    .difficulty{
-        width: 68%;
-    }
-
-    #create_question_difficulty label{
-        position: absolute;
-        top: 20%;
-        left: 37%;
-        color: white;
-    }
+  #create_question_difficulty label {
+    position: absolute;
+    top: 20%;
+    left: 37%;
+    color: white;
+  }
 }
 
 @media screen and (max-width: 450px) {
+  .container {
+    max-width: 90%;
+  }
 
-    .container{
-        max-width: 90%;
-    }
+  table {
+    margin: auto;
+    width: 350px;
+  }
 
-    table{
-        margin: auto;
-        width: 350px;
-    }
+  tbody {
+    width: 400px;
+    display: block;
+  }
 
-    tbody{
-        width: 400px;
-        display: block;
-    }
+  tr {
+    background-color: var(--fond);
+    margin-top: 20px;
+    padding: 0;
+  }
 
-    tr{
-        background-color: var(--fond);
-        margin-top: 20px;
-        padding: 0;
-    }
+  #create_question_module,
+  #create_question_difficulty {
+    background-color: var(--fond);
+    margin-bottom: 20px;
+    font-size: var(--normal);
+  }
 
-    #create_question_module, #create_question_difficulty{
-        background-color: var(--fond);
-        margin-bottom: 20px;
-        font-size: var(--normal);
-    }
+  .numeroForm {
+    background-color: var(--pamplemousse);
+    padding: 4px 16px;
+    border-radius: 50%;
+    border: none;
+  }
 
-    .numeroForm{
-        background-color: var(--pamplemousse);
-        padding: 4px 16px;
-        border-radius: 50%;
-        border: none;
-    }
+  .etape {
+    padding: 0;
+    margin-left: 20%;
+  }
 
-    .etape{
-        padding: 0;
-        margin-left: 20%;
-    }
+  .buttondiff {
+    padding: 8px 27px;
+    font-size: var(--semi_small);
+  }
 
-    .buttondiff{
-        padding: 8px 27px;;
-        font-size: var(--semi_small);
-    }
+  #question_wording {
+    width: 95%;
+    height: 35px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    border: 1px solid var(--grey);
+  }
 
-    #question_wording{
-        width: 95%;
-        height: 35px;
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-        border: 1px solid var(--grey);
-    }
+  li {
+    margin-left: 15%;
+  }
 
-    li{
-        margin-left: 15%;
-    }
+  tr {
+    background-color: white;
+  }
 
-    tr{
-        background-color: white;
-    }
+  .paddingOption {
+    margin-left: 0;
+  }
 
-    .paddingOption{
-        margin-left: 0;
-    }
+  .liProposal {
+    flex-direction: column;
+  }
 
-    .liProposal{
-        flex-direction: column;
-    }
+  .div_wording {
+    padding: 0;
+  }
 
-    .div_wording{
-        padding: 0;
-    }
+  .div_wording textarea {
+    width: 224px;
+    height: 76px;
+    margin-top: 2px;
+  }
 
-    .div_wording textarea{
-        width: 224px;
-        height: 76px;
-        margin-top: 2px;
-    }
+  .removeProposal {
+    margin: 15px auto 50px auto;
+    display: block;
+  }
 
-    .removeProposal{
-        margin: 15px auto 50px auto;
-        display: block;
-    }
+  #list_proposal {
+    padding-left: 0;
+  }
 
-    #list_proposal{
-        padding-left: 0;
-    }
+  img {
+    width: 25px;
+    height: 25px;
+  }
 
-    img{
-        width: 25px;
-        height: 25px;
-    }
+  .proposal {
+    display: flex;
+    flex-direction: column;
+  }
 
-    .proposal{
-        display: flex;
-        flex-direction: column;
-    }
+  #create_question_difficulty input[type="radio"] {
+    width: 65px;
+    height: 31px;
+    border: none;
+  }
+  .difficulty {
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+  }
 
-    #create_question_difficulty input[type=radio]{
-        width: 65px;
-        height: 31px;
-        border: none;
-    }
-    .difficulty{
-        width: 60%;
-        display: flex;
-        justify-content: space-around;
-    }
+  label.required {
+    width: 50%;
+    text-align: center;
+  }
 
-    label.required{
-        width: 50%;
-        text-align: center;
-    }
+  .divProposal {
+    flex-direction: column;
+  }
 
-    .divProposal{
-        flex-direction: column;
-    }
+  .pLetter {
+    margin: 30px auto auto auto;
+  }
 
-    .pLetter{
-        margin: 30px auto auto auto;
-    }
+  .divProposal div label {
+    margin: auto;
+  }
 
-    .divProposal div label {
-        margin: auto;
-    }
+  .divProposal div {
+    flex-direction: column;
+  }
 
-    .divProposal div{
-        flex-direction: column;
-    }
+  .wording {
+    width: 216px;
+    height: 68px;
+  }
 
-    .wording{
-        width: 216px;
-        height: 68px;
-    }
+  .paddingoption {
+    margin-left: 0;
+  }
 
-    .paddingoption{
-        margin-left: 0;
-    }
+  .liProposal {
+    width: 80%;
+  }
 
-    .liProposal{
-        width: 80%;
-    }
+  .center {
+    text-align: center;
+  }
 
-    .center{
-        text-align: center;
-    }
+  .addProposal {
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    margin-top: 10px;
+  }
 
-    .addProposal{
-        margin-right: auto;
-        margin-left: auto;
-        display: block;
-        margin-top: 10px;
-    }
-
-    #create_question_difficulty label{
-        position: absolute;
-        top: 13%;
-        left: 28%;
-        color: white;
-    }
+  #create_question_difficulty label {
+    position: absolute;
+    top: 13%;
+    left: 28%;
+    color: white;
+  }
 }

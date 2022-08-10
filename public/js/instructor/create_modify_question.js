@@ -6,6 +6,31 @@ document.addEventListener("DOMContentLoaded", (event) => {
   let indexData = 0;
   let form = addbutton.dataset.form;
   let ul = document.querySelector("#listProposal");
+  let modal = document.querySelector(".errorAddProposal ul");
+  let containerModal = document.querySelector(".errorAddProposal");
+  let proposalsPosition = document
+    .querySelector(".blocProposal")
+    .getBoundingClientRect().right;
+
+  //////////////////////SCROLL UNTIL ERROR MODAL AFTER PROPOSALS
+  if (modal) {
+    // modal.scrollIntoView({
+    //   behavior: "smooth",
+    // });
+    let modalPosition = modal.getBoundingClientRect().right;
+    window.scroll({
+      top: modalPosition + 200,
+      behavior: "smooth",
+    });
+    modal.addEventListener("click", function () {
+      containerModal.style.display = "none";
+      window.scroll({
+        top: proposalsPosition + 350,
+        behavior: "smooth",
+      });
+    });
+  }
+
   // *******************************************************************************************************
   // Add function
   function clickAdd(e) {
