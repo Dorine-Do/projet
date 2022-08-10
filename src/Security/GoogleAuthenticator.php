@@ -49,7 +49,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
         return new SelfValidatingPassport(
             new UserBadge($accessToken->getToken(), function() use ($accessToken, $client) {
                 /** @var GoogleUser $googleUser */
-                $facebookUser = $client->fetchUserFromToken($accessToken);
+                $googleUser = $client->fetchUserFromToken($accessToken);
 
                 $email = $googleUser->getEmail();
 
@@ -64,10 +64,12 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
                 // 2) do we have a matching user by email?
                 $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+                // TODO $user = null if user is not found, fix this
+                dd($user);
 
                 // 3) Maybe you just want to "register" them by creating
                 // a User object
-                $user->setGoogleId($facebookUser->getId());
+                $user->setGoogleId($googleUser->getId());
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 

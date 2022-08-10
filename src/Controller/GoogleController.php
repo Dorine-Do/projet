@@ -26,9 +26,7 @@ class GoogleController extends AbstractController
         // will redirect to Facebook!
         return $clientRegistry
             ->getClient('google') // key used in config/packages/knpu_oauth2_client.yaml
-            ->redirect([
-                'app_check_dashboard'
-            ]);
+            ->redirect([]);
     }
 
     /**
