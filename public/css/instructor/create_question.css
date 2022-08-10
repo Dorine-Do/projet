@@ -4,16 +4,13 @@
 body {
   position: relative;
 }
-.form-question {
-  max-width: 100%;
-}
 
 table {
   width: 100%;
 }
 
 .etape {
-  padding: 50px;
+  padding: 1em 0;
   font-weight: bold;
   font-size: var(--grand);
 }
@@ -23,9 +20,9 @@ tr {
   flex-direction: column;
 }
 
-td {
+/* td {
   text-align: left;
-}
+} */
 
 tbody {
   width: 100%;
@@ -48,10 +45,9 @@ li {
 }
 
 .second {
-  margin: auto;
   background-color: var(--fond);
-  padding: 25px 1px;
-  width: 85%;
+  padding: 2em;
+  width: 93%;
   border-radius: 10px;
 }
 
@@ -67,7 +63,6 @@ li {
 }
 .divInputLabel {
   position: relative;
-  width: 25%;
   padding-left: 5px;
   padding-right: 0;
 }
@@ -79,6 +74,9 @@ li {
   border: 1px solid #ccc;
   margin: 0;
   width: 90%;
+  background-position: 50px;
+  background-repeat: no-repeat;
+  background-size: 30px;
 }
 #create_question_difficulty label {
   position: absolute;
@@ -120,7 +118,11 @@ input[type="radio"]:checked {
 }
 
 .premierSelect {
-  margin: auto;
+  width: 100%;
+  padding: 60px 0;
+  text-align: center;
+  background: var(--fond);
+  border-radius: 10px;
 }
 
 .numeroForm {
@@ -130,7 +132,10 @@ input[type="radio"]:checked {
 }
 
 /********************************************************* CSS SUR LES ELEMENTS DU FORM ***************************************/
-
+form {
+  width: 90%;
+  margin: auto;
+}
 #create_question_wording {
   width: 80%;
   height: 75px;
@@ -141,17 +146,22 @@ input[type="radio"]:checked {
   padding: 10px;
 }
 
-#create_question_module,
+#create_question_module {
+  padding: 20px;
+  width: 70%;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.3);
+  outline: none;
+}
 #create_question_difficulty {
   margin: auto;
-  padding: 20px 60px;
+  padding: 20px;
   border: none;
-  background-color: var(--fond);
+
   font-size: var(--grand);
-  -webkit-box-shadow: 5px 5px 5px -2px rgba(0, 0, 0, 0.77);
-  box-shadow: 5px 5px 5px -2px rgba(0, 0, 0, 0.77);
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
 
 #create_question_enabled {
@@ -202,6 +212,7 @@ input[type="radio"]:checked {
   border-radius: 10px;
   text-align: center;
   position: relative;
+  cursor: pointer;
 }
 .errorAddProposal > ul > li {
   padding: 20px 20px 60px;
@@ -383,6 +394,10 @@ img {
   height: 50px;
   margin-left: 20px;
 }
+/* ************************CKEDITOR TEST CSS************************ */
+/* .cke_inner .cke_reset {
+  width: 100%;
+} */
 
 @media screen and (max-width: 1200px) {
   .buttondiff {
@@ -503,7 +518,9 @@ img {
     padding: 0;
   }
 
-  #create_question_module,
+  #create_question_module {
+    font-size: var(--normal);
+  }
   #create_question_difficulty {
     background-color: var(--fond);
     margin-bottom: 20px;

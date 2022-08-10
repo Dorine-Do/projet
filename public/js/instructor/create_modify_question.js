@@ -8,8 +8,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
   let ul = document.querySelector("#listProposal");
   let modal = document.querySelector(".errorAddProposal ul");
   let containerModal = document.querySelector(".errorAddProposal");
+  // .second temporaire voir blocProposal
   let proposalsPosition = document
-    .querySelector(".blocProposal")
+    .querySelector(".second")
     .getBoundingClientRect().right;
 
   //////////////////////SCROLL UNTIL ERROR MODAL AFTER PROPOSALS
@@ -25,7 +26,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     modal.addEventListener("click", function () {
       containerModal.style.display = "none";
       window.scroll({
-        top: proposalsPosition + 350,
+        top: proposalsPosition + 400,
         behavior: "smooth",
       });
     });
@@ -182,8 +183,27 @@ document.addEventListener("DOMContentLoaded", (event) => {
   // *******************************************************************************************************
   // IMAGE TREFFLES
 
-  let badgesParent = document.getElementById("create_question_difficulty");
+  let badgesParent = document.getElementById("create_question_difficulty ");
+  let badgesInput = document.querySelectorAll(".divInputLabel input");
   let badges = document.querySelectorAll(".divInputLabel");
+
+  for (
+    let forBadgesInput = 0;
+    forBadgesInput < badgesInput.length;
+    forBadgesInput++
+  ) {
+    for (let forImgPath = 0; forImgPath < imgPath.length; forImgPath++) {
+      if (forImgPath == forBadgesInput) {
+        console.log("yes");
+        badgesInput[
+          forBadgesInput
+        ].style.backgroundImage = `url(${imgPath[forImgPath]})`;
+      }
+    }
+  }
+  // badgesLabel[0].insertAdjacentHTML("afterbegin", `<img  src=${imgPath[0]}>`);
+
+  console.log(logo);
   for (const [key, value] of Object.entries(badges)) {
     let logo = document.createElement("img");
     logo.setAttribute("src", imgPath[key]);

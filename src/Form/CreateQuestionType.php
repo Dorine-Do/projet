@@ -81,7 +81,7 @@ class CreateQuestionType extends AbstractType
                                     return;
                                 }
                             }
-                            $context->getRoot()->addError(new FormError('La question doit contenir au moins une bonne réponse'));
+                            $context->getRoot()->addError(new FormError('Pour valider le formulaire, veuillez cocher au moins une réponse!'));
                         }]
                     )
                 ]
