@@ -9,6 +9,7 @@ use App\Entity\Module;
 use App\Entity\Question;
 use App\Repository\InstructorRepository;
 use App\Repository\ModuleRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -32,11 +33,15 @@ class CreateQuestionType extends AbstractType
     ];
 
     private $security;
+    private $manager;
+    private $instructorRepository;
 
-    public function __construct( Security $security,InstructorRepository $instructorRepository )
+
+    public function __construct( Security $security,InstructorRepository $instructorRepository ,EntityManagerInterface $manager)
     {
         $this->security = $security;
         $this->repository=$instructorRepository;
+        $this->manager=$manager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -82,7 +87,7 @@ class CreateQuestionType extends AbstractType
                                     return;
                                 }
                             }
-                            $context->getRoot()->addError(new FormError('Pour valider le formulaire, veuillez cocher au moins une réponse!'));
+                            $context->getRoot()->addError(new FormError('Pour valider le formulaire, veuillez cocher au moins une réponse correcte!'));
                         }]
                     )
                 ]
@@ -96,8 +101,12 @@ class CreateQuestionType extends AbstractType
                     return $moduleRepository->getModules($this->security->getUser()) ;
                 },
                 'choice_label'=>'title',
-                'compound' => true,
-                'multiple' => false,
+                'empty_data' =>function(){
+                   $module= new Module();
+                   $module->setTitle('Choix du module');
+                   $this->manager->persist($module);
+                   return $module;
+                },
             ])
 
             ->add('is_enabled', CheckboxType::class, [

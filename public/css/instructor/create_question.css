@@ -9,7 +9,8 @@ table {
   width: 100%;
 }
 
-.etape {
+.etape,
+.partTitle {
   padding: 1em 0;
   font-weight: 600;
   margin: 0;
@@ -211,9 +212,10 @@ form {
   right: 50%;
   bottom: 50%;
   top: 50%;
-  display: flex;
+  display: none;
   justify-content: center;
   align-content: center;
+  z-index: 100;
 }
 .errorAddProposal > ul {
   align-self: center;
@@ -433,6 +435,44 @@ img {
     text-align: left;
   }
 }
+/*****************INFO MODIF QUESTION***************** */
+.infoQuestion {
+  width: 70%;
+  margin: 2em auto 0;
+  border-bottom: 2px dashed var(--grey);
+  border-top: 2px dashed var(--grey);
+  padding: 0 1em 1em;
+}
+
+.info > p {
+  font-size: var(--grand);
+  font-weight: 600;
+  text-align: center;
+  margin: 0;
+  padding: 1em 0;
+}
+
+.stickerInfo {
+  padding: 1.5em;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 2em;
+  background: var(--fond);
+  border-radius: 0.5em;
+}
+
+.stickerInfo > li {
+  padding: 1em;
+  border-radius: 0.5em;
+  background: white;
+  text-align: left;
+  margin: 0;
+}
+.stickerInfo > li > span {
+  font-size: 22px;
+  font-weight: 600;
+}
 
 @media screen and (max-width: 780px) {
   table {
@@ -549,7 +589,8 @@ img {
     color: var(--fond);
   } */
 
-  .etape {
+  .etape,
+  .partTitle {
     padding: 0;
     margin-left: 20%;
   }

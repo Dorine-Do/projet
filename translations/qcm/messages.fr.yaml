@@ -8,7 +8,7 @@ qcm:
   choice: Choix du QCM
   dones: QCM Réalisés
   donesExplain: En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les qcm que tu as terminés, voir tes réponses fausses et t'entrainer à les refaire.
-  iChance : Je retente ma chance
+  iChance: Je retente ma chance
   chanceExplain: Si tu as obtenu "découvre" ou "explore" à un des qcm, tu peux tenter d'obtenir à nouveau ton badge et l'ajouter à ta collection en repassant un qcm du module en question.
   tryAgainExplain: /!\ Repasser le qcm pour obtenir le badge du module ne changera pas le niveau obtenu lors du QCM officiel
   trainning: QCM d'entrainement
@@ -36,15 +36,16 @@ question:
   iCreate: Je crée ma question
   listePerso: Liste des questions personalisées
   iCorrectModify: Je corrige/modifie ma question
-  goal: Cette page a pour but de permettre de corriger les possibles fautes orthoqraphiques dans l'intitulé de la quesiton ou des réponses.
+  goal: Cette page a pour but de permettre de corriger les possibles fautes orthoqraphiques dans l'intitulé de la question ou des réponses.
   warning: Attention
-  warningExplain: une fois créée et distribuée aux élève, la question ne pourra plus être modifiées ou supprimer.
-  infoPublished: Votre question a déjà été diffusée aux élèves, elle ne peut plus être modifiée.
-  infoNoPublished: Votre quesiton n'a pas encore été donnée aux élèves, vous pouvez encore la modifier.
-  firstDatePublished : 1ère date de diffusion
+  notice: À noter
+  reminder: Rappel
+  warningExplain: Lorsqu'une question est crée,puis distribuée aux élèves, celle-ci ne peut plus être modifiée ou supprimée.
+  infoPublished: La question que vous souhaitez modifier a déjà été diffusée aux élèves, il n'est donc plus possible de la modifier.
+  infoNoPublished: La question que vous venez de créer n'a pas encore été distribué aux élèves, vous pouvez donc la modifier.
+  firstDatePublished: 1ère date de diffusion
   session: Classe
   create: Créer une question
-
 
 proposal:
   create: Créer les réponses
@@ -62,6 +63,7 @@ button:
 header:
   qcm: QCM
   dashboard: Tableau de bord
+  creation: Mes créations
 
 title:
   done: QCM Réalisé

@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // modal.scrollIntoView({
     //   behavior: "smooth",
     // });
+    containerModal.style.display = "flex";
     let modalPosition = modal.getBoundingClientRect().right;
     window.scroll({
       top: modalPosition + 200,

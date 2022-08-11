@@ -10,6 +10,16 @@
 {% block title %}{{ 'title.listQuestions'|trans }}{% endblock %}
 
 {% block body %}
+    {# read and display just one flash message type #}
+    {% for message in app.flashes('instructorAddQuestion') %}
+    
+        <div class="flash-notice">
+        <div>
+            {{message}} </br>
+            <span>clic sur le cadre pour fermer l'onglet</span>
+        </div>
+        </div>
+    {% endfor %}
 
     <h1>- {{ 'question.listePerso'|trans }} -</h1>
     <div class="divQuestions">

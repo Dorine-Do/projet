@@ -1,5 +1,15 @@
 //ONLOAD ET NON DOM CHARGEMENT 1 FOIS ET NON 2 COMME DOM CAR ERREUR ET PROBLEME D AFFICHAGE
 window.onload = function (event) {
+  let span = document.querySelector(".flash-notice div");
+  let addFlash = document.querySelector(".flash-notice ");
+  ///////////////////////FLASH MESSAGE
+  if (span) {
+    span.addEventListener("click", function () {
+      addFlash.style.display = "none";
+    });
+  }
+
+  //////////////PROPOSALS
   let div_proposals = document.querySelectorAll(".divProposals");
   div_proposals.forEach((div) => {
     div.style.display = "none";
@@ -66,10 +76,19 @@ window.onload = function (event) {
   // console.log(liCreate);
 
   //calcule height pour scroll active
-  let blocUlQcmHeight = blocUlQcm.getBoundingClientRect().height;
-  let blocUlQuestionHeight = blocUlQuestion.getBoundingClientRect().height;
-  let ulQcmHeight = ulBtnQcm.getBoundingClientRect().height;
-  let ulQuestionHeight = questionslist.getBoundingClientRect().height;
+  //Condition pour que la suite des instructions ne blocque pas sur les autres pages
+  if (blocUlQcm) {
+    let blocUlQcmHeight = blocUlQcm.getBoundingClientRect().height;
+  }
+  if (blocUlQuestion) {
+    let blocUlQuestionHeight = blocUlQuestion.getBoundingClientRect().height;
+  }
+  if (ulBtnQcm) {
+    let ulQcmHeight = ulBtnQcm.getBoundingClientRect().height;
+  }
+  if (questionslist) {
+    let ulQuestionHeight = questionslist.getBoundingClientRect().height;
+  }
 
   ////////////////////
   // HOVER DECLENCHEMENT SCROLL-Y
@@ -104,7 +123,7 @@ window.onload = function (event) {
   /////////////////////
   //  TEST url
   if (window.location.href.includes(location.pathname)) {
-    linkCreation.classList.add('activeBorderLinkNav')
+    linkCreation.classList.add("activeBorderLinkNav");
     navLinkChoice.style.width = "90%";
     navLinkChoice.style.gridTemplateColumns = "repeat(4,1fr)";
     linkCreation.style.display = "inline";
