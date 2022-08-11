@@ -1,0 +1,79 @@
+.container_my_creations {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 30px;
+}
+
+.blocLinkToMyCreation {
+  width: 85%;
+  margin: auto;
+  display: grid;
+  grid-gap: 20px;
+  padding: 40px 0;
+}
+.blocLinkToMyCreation > p {
+  font-weight: 600;
+  padding: 15px;
+  width: 80%;
+  text-align: center;
+  margin: auto;
+  border-bottom: 2px dashed grey;
+  /* border-radius: 50px;
+  background: #fff4e4; */
+  font-size: 25px !important;
+}
+
+.blocLinkToMyQcmsCreation,
+.blocLinkToMyQuestionsCreation {
+  background: #fff4e4;
+  padding: 30px;
+  border-radius: 10px;
+  display: grid;
+  grid-gap: 2em;
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.1);
+}
+
+.btnLinkOfficialQcm,
+.btnLinkPersoQcm,
+.btnLinkOfficialQuestions,
+.btnLinkPersoQuestions {
+  padding: 1em;
+  background: #ffac8f;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.blocLinkDecorative {
+  padding: 1.5em 0;
+  width: 100%;
+  border-bottom: 2px solid #fff4e4;
+  /* border-radius: 10px; */
+}
+.blocLinkDecorative > a {
+  padding: 20px 120px;
+}
+.blocLinkDecorative:hover {
+  padding: 29px 0;
+  border-radius: 10px;
+  border: 2px solid var(--fond);
+}
+
+.linkToQuestion.two:before,
+.linkToQcm.two:before {
+  content: "Bientôt";
+  position: absolute;
+  left: 60%;
+  width: 80px;
+  background: #fff4e4;
+  border-radius: 50px;
+}
+
+.linkToQcm.two:before {
+  content: "Bientôt";
+  position: absolute;
+  left: 10%;
+  width: 80px;
+  background: #fff4e4;
+  border-radius: 50px;
+}
