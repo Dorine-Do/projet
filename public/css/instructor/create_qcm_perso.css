@@ -176,7 +176,7 @@ ul{
 }
 
 /************************************************************************/
-/*question li*/
+/*questions li*/
 .questionLi{
     margin: 1em 0;
 }
@@ -195,8 +195,10 @@ ul{
 }
 
 
-.proposalWordingP{
-
+.qcmChoisedProposalWordingP,
+.officialProposalWordingP,
+.backWhite .proposalWordingP{
+    margin: 1em;
 }
 
 .proposalWordingDiv{
@@ -208,7 +210,7 @@ ul{
     width: 100%;
     margin-top: 7px;
     border-radius: 0 0 5px 5px;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .questionWordingP{
@@ -323,7 +325,7 @@ ul{
 .nPropPartTwo{
     padding: 2px 12px;
     font-size: 23px;
-    margin-right: 2px;
+    margin-right: 1.1em;
 }
 
 /***************************************************************************************************/
@@ -334,7 +336,7 @@ ul{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    align-items: center;
+    align-items: baseline;
 }
 .qcmChoisedLegend{
     display: flex;
@@ -386,7 +388,7 @@ ul{
     justify-content: space-between;
 }
 .qcmChoisedLiDiv{
-    width: 90%;
+    width: 100%;
 }
 
 /***********************************************************************/
@@ -458,6 +460,7 @@ ul{
 .imageDragAndDrop{
     width: 9%;
     text-align: center;
+    align-self: center;
 }
 
 .imageDragAndDrop img{
@@ -548,7 +551,7 @@ ul{
     justify-content: space-around;
     align-items: center;
     width: 100%;
-    margin-bottom: .2em;
+    margin: 0 0 .2em 0;
 }
 
 .modifyP textarea{
@@ -683,8 +686,8 @@ ul{
 /***************************************************************************************************/
 
 .qcmName{
-    margin: 3em auto;
-    width: 30%;
+    margin: 2em auto;
+    width: 100%;
     text-align: center;
     background: var(--fond);
     padding: 2em 3em;
@@ -692,7 +695,7 @@ ul{
 }
 
 .qcmName input{
-    width: 90%;
+    width: 50%;
     border: 2px solid var(--grey);
     border-radius: 5px;
     padding: .2em;
@@ -705,7 +708,7 @@ ul{
 
 .qcmValidation{
     margin: 3em auto;
-    width: 30%;
+    width: 100%;
     text-align: center;
 }
 
@@ -715,4 +718,9 @@ ul{
     border: none;
     background: var(--pamplemousse);
     color: white;
+}
+
+.qcmValidation button:hover{
+    cursor: pointer;
+    background-color: var(--vert);
 }

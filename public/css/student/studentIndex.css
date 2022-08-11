@@ -89,25 +89,25 @@ span{
 }
 
 .selectEntrainement{
-    margin: auto;
     background-color: white;
-    padding: 2px 65px;
     font-size: var(--normal);
     text-align: center;
     border: 1px solid var(--grey);
     border-radius: 7px;
     font-family: 'Alumni Sans', sans-serif;
+    width: 70%;
 }
 
 .buttonExercice{
     border-radius: 25px;
     background-color: var(--grey);
     color: white;
-    padding: 5px 55px;
+    padding: 0.1em 1em;
     text-align: center;
     font-size: var(--normal);
     font-family: "Alumni Sans", serif;
     border: none;
+    width: 27%
 }
 
 .buttonExercice:hover{
@@ -138,6 +138,11 @@ span{
     display: flex;
     justify-content: space-around;
     height: 55px;
+}
+
+.difficultySubDiv input:hover,
+.difficultySubDiv label:hover{
+    cursor: pointer;
 }
 
 .cercle{

@@ -302,7 +302,7 @@ class InstructorController extends AbstractController
     }
 
 
-    #[Route('instructor/questions/upDateFetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
+    #[Route('instructor/questions/upDate_fetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
     public function upDateQuestionFetch(
         ValidatorInterface $validator,
         Request $request,
@@ -342,10 +342,11 @@ class InstructorController extends AbstractController
 
         $questionResponse = $questionRepository->find($question->getId());
 
+        /*TODO Débuger le jsonResponce*/
         return new JsonResponse($questionResponse);
     }
 
-    #[Route('instructor/qcm/createFetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
+    #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
     public function createQcmFetch(
         ValidatorInterface $validator,
         Request $request,
@@ -375,6 +376,7 @@ class InstructorController extends AbstractController
         $module = $moduleRepository->find($data['module']);
         $qcm->setModule($module);
 
+        /*TODO voir avec Mathieu pour utiliser le hepler pour cette partie*/
         $questionsCache = [];
         foreach( $data['questions'] as $question )
         {
@@ -404,6 +406,7 @@ class InstructorController extends AbstractController
         $entityManager->persist($qcm);
         $entityManager->flush();
 
+        /*TODO débuger la redirection*/
         $this->addFlash('success', 'Le qcm a bien été modifiée.');
         return $this->redirectToRoute('instructor_display_questions');
 
