@@ -19,11 +19,13 @@ use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use PhpParser\Node\Expr\Cast\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -180,13 +182,7 @@ class InstructorController extends AbstractController
     ): Response
     {
 
-        $userId=$security->getUser();
-        $linkModulesSessions=$instructorRepository->find($userId)->getLinksInstructorSessionModule();
-        foreach($linkModulesSessions as $linkModulesSessions){
-            $moduleId=$linkModulesSessions->getModule()->getId();
-            $modules=$moduleRepository->findBy(['id'=>$moduleId]);
-            
-        }
+    
     
 
         $questionEntity= new Question();
@@ -205,11 +201,12 @@ class InstructorController extends AbstractController
         $form = $this->createForm(CreateQuestionType::class,$questionEntity);
         // accès aux données du form
          $form->handleRequest($request);
-         
+        
    
         // vérification des données soumises
         if($form->isSubmitted() && $form->isValid())
         {
+            // dd($form->isValid());
             $count = 0;
             $persitPropCount=0;
             foreach ($questionEntity->getProposals() as $proposal)
@@ -233,7 +230,7 @@ class InstructorController extends AbstractController
                 $questionEntity->setIsMultiple("false");
             }
             
-           $form->getData();
+           
          
            
             $questionEntity->setAuthor( $this->getUser() );
@@ -241,20 +238,24 @@ class InstructorController extends AbstractController
             $questionEntity->setIsMandatory(false);
             $questionEntity->setExplanation('Explication');
             $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
-            
+           
             //  validation et enregistrement des données du form dans la bdd
             $manager->persist($questionEntity);
-            // dd($questionEntity);
-            // dd($form);
+           
             $manager->flush();
 
-            return $this->redirectToRoute('instructor_display_questions');
+                //  redirect to route avec flash 
+                $this->addFlash(
+                    'instructorAddQuestion',
+                    'La question a été généré avec succès'
+                );
+                return $this->redirectToRoute('instructor_display_questions');
+            
         }
-
         return $this->render('instructor/create_question.html.twig', [
             'form' => $form->createView(),
             "add"=>true,
-            "modules"=>$modules,
+          
            
         ]);
     }
