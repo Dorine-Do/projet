@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Entity\User; // your user entity
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
@@ -37,7 +37,6 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
     public function supports(Request $request): ?bool
     {
-        // continue ONLY if the current ROUTE matches the check ROUTE
         return $request->attributes->get('_route') === 'connect_google_check';
     }
 
@@ -53,9 +52,9 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
                 $email = $googleUser->getEmail();
 
-                // 1) have they logged in with Facebook before? Easy!
+                // 1) have they logged in with Google before? Easy!
                 $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(
-                    ['googleId' => $googleUser->getId()])
+                    ['email3wa' => $email])
                 ;
 
                 if ($existingUser) {
@@ -63,13 +62,18 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
                 }
 
                 // 2) do we have a matching user by email?
-                $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
-                // TODO $user = null if user is not found, fix this
-                dd($user);
+                $user = $this->entityManager->getRepository(User::class)->findOneBy(['email3wa' => $email]);
+
+                if ($user) {
+                    return $user;
+                }
 
                 // 3) Maybe you just want to "register" them by creating
-                // a User object
+                // TODO $user = null if user is not found => check in db suivi
+                dd($user);
+
                 $user->setGoogleId($googleUser->getId());
+
                 $this->entityManager->persist($user);
                 $this->entityManager->flush();
 
@@ -80,13 +84,9 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // change "app_homepage" to some route in your app
         $targetUrl = $this->router->generate('app_check_dashboard');
 
         return new RedirectResponse($targetUrl);
-
-        // or, on success, let the request continue to be handled by the controller
-        //return null;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
@@ -102,6 +102,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
      */
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
+        // TODO Check this
         return new RedirectResponse(
             '/connect/', // might be the site, where users choose their oauth provider
             Response::HTTP_TEMPORARY_REDIRECT
