@@ -64,18 +64,16 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
                 // 2) do we have a matching user by email?
                 $user = $this->entityManager->getRepository(User::class)->findOneBy(['email3wa' => $email]);
 
-                if ($user) {
-                    return $user;
+                if (!$user) {
+                    // 3) Maybe you just want to "register" them by creating
+                    // TODO $user = null if user is not found => check in db suivi
+                    dd($user);
+
+                    $user->setGoogleId($googleUser->getId());
+
+                    $this->entityManager->persist($user);
+                    $this->entityManager->flush();
                 }
-
-                // 3) Maybe you just want to "register" them by creating
-                // TODO $user = null if user is not found => check in db suivi
-                dd($user);
-
-                $user->setGoogleId($googleUser->getId());
-
-                $this->entityManager->persist($user);
-                $this->entityManager->flush();
 
                 return $user;
             })
