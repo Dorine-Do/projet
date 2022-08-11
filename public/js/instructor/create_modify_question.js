@@ -203,10 +203,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
   }
   // badgesLabel[0].insertAdjacentHTML("afterbegin", `<img  src=${imgPath[0]}>`);
 
-  console.log(logo);
-  for (const [key, value] of Object.entries(badges)) {
-    let logo = document.createElement("img");
-    logo.setAttribute("src", imgPath[key]);
-    badgesParent.insertBefore(logo, value);
-  }
+  // console.log(logo);
+  // for (const [key, value] of Object.entries(badges)) {
+  //   let logo = document.createElement("img");
+  //   logo.setAttribute("src", imgPath[key]);
+  //   badgesParent.insertBefore(logo, value);
+  // }
 });

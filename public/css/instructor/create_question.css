@@ -11,8 +11,8 @@ table {
 
 .etape {
   padding: 1em 0;
-  font-weight: bold;
-  font-size: var(--grand);
+  font-weight: 600;
+  margin: 0;
 }
 
 tr {
@@ -34,14 +34,13 @@ li {
 
 /************************************************ CSS SUR LES TD **************************************************************/
 
-.premier {
-  margin-left: 0;
-}
+/* .premier {
+  padding: 1em 0;
+} */
 #listProposal {
-  width: 95%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .second {
@@ -53,10 +52,12 @@ li {
 
 .difficulty {
   margin: auto;
-  padding: 25px 1px;
-  width: 85%;
+  padding: 1.5em 0;
   display: flex;
+  width: 100%;
   justify-content: space-around;
+  background: var(--fond);
+  border-radius: 10px;
 }
 .difficulty > div {
   width: 100%;
@@ -69,20 +70,21 @@ li {
 #create_question_difficulty input[type="radio"] {
   -webkit-appearance: none;
   -moz-appearance: none;
-  border-radius: 25px;
-  height: 59px;
+  border-radius: 2em;
+  padding: 1em 0;
   border: 1px solid #ccc;
-  margin: 0;
-  width: 90%;
-  background-position: 50px;
+  width: 75%;
+  background-position: 25px;
   background-repeat: no-repeat;
-  background-size: 30px;
+  background-size: 23px;
 }
 #create_question_difficulty label {
   position: absolute;
-  top: 20%;
-  left: 29%;
+  top: 25%;
+  left: 35%;
   color: white;
+  font-weight: 500;
+  font-size: var(--normal);
 }
 
 input[type="radio"] {
@@ -91,7 +93,7 @@ input[type="radio"] {
 }
 
 input[type="radio"]:checked {
-  background-color: var(--vert);
+  background: var(--pamplemousse);
   margin: 0;
   cursor: pointer;
 }
@@ -109,17 +111,16 @@ input[type="radio"]:checked {
 }
 
 .option {
-  margin-left: 7em;
   background-color: var(--fond);
-  padding: 25px 1px;
+  padding: 2em;
   border-radius: 10px;
-  width: 6%;
   text-align: center;
+  background: var(--fond);
 }
 
 .premierSelect {
   width: 100%;
-  padding: 60px 0;
+  padding: 2em 0;
   text-align: center;
   background: var(--fond);
   border-radius: 10px;
@@ -127,14 +128,20 @@ input[type="radio"]:checked {
 
 .numeroForm {
   background-color: var(--pamplemousse);
-  padding: 8px 17px;
+  padding: 20px;
+  display: inline-block;
   border-radius: 50%;
+  margin-right: 15px;
+  width: 20px;
+  text-align: center;
+  color: var(--fond);
 }
 
 /********************************************************* CSS SUR LES ELEMENTS DU FORM ***************************************/
 form {
-  width: 90%;
+  width: 70%;
   margin: auto;
+  padding: 2.5em 0;
 }
 #create_question_wording {
   width: 80%;
@@ -147,21 +154,24 @@ form {
 }
 
 #create_question_module {
-  padding: 20px;
+  padding: 0.8em;
   width: 70%;
   margin: auto;
   border-radius: 10px;
-  box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.2);
   outline: none;
+  text-align: center;
+  border: none;
 }
 #create_question_difficulty {
   margin: auto;
-  padding: 20px;
+  padding: 1em 0;
   border: none;
-
   font-size: var(--grand);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  width: 80%;
+  text-align: center;
 }
 
 #create_question_enabled {
@@ -233,18 +243,16 @@ form {
 .removeProposal {
   background-color: var(--grey);
   color: white;
-  border-radius: 5px;
-  font-weight: bold;
+  border-radius: 50px;
+  font-weight: 500;
   border: none;
-  padding: 3px 9px;
-  font-size: var(--normal);
+  padding: 10px;
+  width: 10em;
   margin-bottom: 15px;
 }
 
 .removeProposal:hover {
   background-color: var(--vert);
-  font-weight: bold;
-  padding: 4px 11px;
   cursor: pointer;
 }
 
@@ -254,21 +262,23 @@ form {
   border-radius: 5px;
   font-weight: bold;
   border: none;
-  padding: 5px 13px;
+  outline: none;
+  border-radius: 50px;
+  padding: 0.7em 0;
   font-size: var(--normal);
   margin: auto;
-  width: 180px;
+  width: 30%;
 }
 
 .addProposal:hover {
-  background-color: var(--vert);
-  font-weight: bold;
-  padding: 4px 11px;
   cursor: pointer;
 }
 
 .divProposal {
   text-align: center;
+}
+.divProposal > div:last-child {
+  padding: 0.5em 0;
 }
 
 .divProposal label {
@@ -297,10 +307,8 @@ form {
 }
 
 .liProposal {
-  width: 25%;
   text-align: center;
   margin: 1em;
-  /*border: 2px solid var(--pamplemousse);*/
   padding: 0.5em;
   border-radius: 10px;
   background: white;
@@ -317,7 +325,7 @@ form {
 
 .pLetter {
   background-color: var(--grey);
-  padding: 8px 15px;
+  padding: 10px 13px;
   border-radius: 50%;
   color: white;
   margin: 1em auto;
@@ -334,9 +342,8 @@ form {
 }
 
 label {
-  margin-left: 20px;
   color: var(--grey);
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .wording {
@@ -362,25 +369,29 @@ label {
 .formOption {
   background-color: var(--pamplemousse);
   padding: 12px 30px;
-  border-radius: 50%;
+  border-radius: 40px;
 }
 
 .paddingOption {
-  padding-left: 25px;
+  margin: 0;
+  padding: 2.5em 0;
 }
 
 /******************************************************** VALIDATION *****************************************************************/
-
+tr:last-child > td {
+  padding: 1.5em 0;
+  text-align: center;
+}
 .valid {
   background-color: var(--grey);
   color: white;
-  border-radius: 20px;
+  border-radius: 50px;
   font-weight: bold;
   border: none;
-  padding: 15px 300px;
+  padding: 1em 0;
   font-size: var(--normal);
-  margin: 2.5% auto;
-  display: block;
+  width: 100%;
+  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 .valid:hover {
@@ -527,12 +538,16 @@ img {
     font-size: var(--normal);
   }
 
-  .numeroForm {
+  /* .numeroForm {
     background-color: var(--pamplemousse);
-    padding: 4px 16px;
+    padding: 20px;
+    display: inline-block;
     border-radius: 50%;
-    border: none;
-  }
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+    color: var(--fond);
+  } */
 
   .etape {
     padding: 0;

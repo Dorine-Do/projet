@@ -6,7 +6,6 @@ body {
 }
 
 .container_create_qcm {
-  padding: 5px;
 }
 
 /*******GENERAL*******/
@@ -55,13 +54,13 @@ ul {
   padding: 5px 15px;
 }
 .content_qcm_creation {
-  padding: 6em 0;
+  padding: 1em 0 2em;
 }
 .bloc_choice_session_and_module,
 .bloc_date_qcm_given,
 .bloc_generate_qcm {
   background: #fff4e4;
-  border-radius: 5px;
+  border-radius: 10px;
   text-align: center;
 }
 
@@ -81,15 +80,16 @@ ul {
   border-radius: 5px;
 }
 .select_module {
-  padding: 70px 0;
+  padding: 2.5em 0;
   text-align: center;
   background: #fff4e4;
+  border-radius: 10px;
 }
 
 .select_module > select {
   align-self: center;
-  padding: 25px;
-  width: 48%;
+  padding: 1em;
+  width: 70%;
   border: none;
   box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.3);
   border-radius: 5px;
@@ -98,7 +98,7 @@ ul {
 }
 .bloc_date_qcm_given,
 .bloc_generate_qcm {
-  padding: 60px 0;
+  padding: 2em 0;
 }
 .bloc_date_qcm_given > input {
   padding: 25px;
@@ -107,8 +107,8 @@ ul {
   width: 48%;
 }
 .bloc_generate_qcm > button {
-  width: 48%;
-  padding: 25px;
+  width: 70%;
+  padding: 1.2em 0;
   outline: none;
   background: grey;
   border: none;
@@ -150,9 +150,7 @@ span {
   .list_buttons_nav > li {
     border-radius: 20px;
   }
-  .container_create_qcm {
-    padding: 10px;
-  }
+
   .bloc_step_one {
   }
   .list_buttons_nav {

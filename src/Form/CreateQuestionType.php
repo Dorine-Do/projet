@@ -58,6 +58,7 @@ class CreateQuestionType extends AbstractType
                     },
                 'expanded' => true,
                 'empty_data' => self::DIFFICULTIES[2],
+                "label"=>false
             ])
 
             // Imbriquation de formulaire
