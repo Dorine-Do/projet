@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class ConnectionController extends AbstractController
 {
-    #[Route('/connection', name: 'app_connection')]
+    #[Route('/connect', name: 'app_connection')]
     public function index( AuthenticationUtils $authUtils ): Response
     {
         $error = $authUtils->getLastAuthenticationError();

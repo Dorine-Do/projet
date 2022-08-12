@@ -13,5 +13,6 @@
     </div>
     <div class="eleve">
         <p class="helloStudent">Salut,{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>
+        <div class="logOut"> <a href="{{path('app_logout')}}" ><img class="imgLogOut" src="{{asset('build/images/exit2.png')}}"> </a></div>
     </div>
 </header>

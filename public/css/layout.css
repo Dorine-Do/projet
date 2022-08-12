@@ -82,7 +82,15 @@ header {
   padding: 10px 0;
   align-self: center;
 }
-
+.logOut {
+  align-self: center;
+}
+.imgLogOut {
+  width: 35px;
+  height: 35px;
+  margin: 0 10px;
+  cursor: pointer;
+}
 @media screen and (max-width: 1200px) {
   .logo {
   }
