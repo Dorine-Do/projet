@@ -6,6 +6,7 @@ use App\Repository\SessionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -14,9 +15,11 @@ class Session
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['session:read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[Groups(['session:read'])]
     private $name;
 
     #[ORM\Column(type: 'smallint')]

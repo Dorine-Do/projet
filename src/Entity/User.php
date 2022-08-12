@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\DiscriminatorMap(["admin" => Admin::class, "instructor" => Instructor::class, "student" => Student::class])]
@@ -19,6 +20,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['user:read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
@@ -31,9 +33,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     #[ORM\Column(type: 'string', length: 150)]
+    #[Groups(['user:read'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 150)]
+    #[Groups(['user:read'])]
     private $lastName;
 
     #[ORM\Column(type: 'datetime', nullable: true)]

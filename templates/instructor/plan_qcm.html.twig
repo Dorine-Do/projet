@@ -3,56 +3,88 @@
 {% block body %}
     <main>
         <h1>- PROGRAMMER LA PLANIFICATION D'UN QCM -</h1>
-        {{ form(planQcmform) }}
-{#        {{ dump(req) }}#}
-
-{#        <form action="" method="post">#}
-{#            <section>#}
-{#                <p>#}
-{#                    <span>Etape 1</span> Choix de la classe#}
-{#                </p>#}
-{#                <ul>#}
-{#                    <li>#}
-{#                        <input type="radio">#}
-{#                    </li>#}
-{#                </ul>#}
-{#            </section>#}
-{#            <section>#}
-{#                <p>#}
-{#                    <span>Etape 2</span> Choix du module#}
-{#                </p>#}
-{#                <select name="">#}
-{#                    <option value=""></option>#}
-{#                </select>#}
-{#            </section>#}
-{#            <section>#}
-{#                <p>#}
-{#                    <span>Etape 3</span> Choix du QCM#}
-{#                </p>#}
-{#                <select name="">#}
-{#                    <option value=""></option>#}
-{#                </select>#}
-{#            </section>#}
-{#            <section>#}
-{#                <p>#}
-{#                    <span>Etape 4</span> Choix du ou des élèves pouvant faire le QCM#}
-{#                </p>#}
-{#            </section>#}
-{#            <section>#}
-{#                <p>#}
-{#                    <span>Etape 5</span> Choix des dates#}
-{#                </p>#}
-{#                <div>#}
-{#                    Date à partir de laquelle le QCM sera accèssible aux élèves#}
-{#                </div>#}
-{#                <div>#}
-{#                    Date avant laquelle le QCM devra être fait par les élèves#}
-{#                </div>#}
-{#            </section>#}
-{#        </form>#}
+{#        {{ form(planQcmform) }}#}
+{#        {{ dump(sessions) }}#}
+        <form action="" method="post">
+            <section>
+                <p>
+                    <span>Etape 1</span> Choix de la classe
+                </p>
+                <ul>
+                    <li>
+                        {% for session in instructorSessions %}
+                            <input type="radio" name="session" value="{{ session.id }}"><label for="session">{{ session.name }}</label>
+                        {% endfor %}
+                    </li>
+                </ul>
+            </section>
+            <section>
+                <p>
+                    <span>Etape 2</span> Choix du module
+                </p>
+                <select id="module-choice" name="module">
+                    <option value="0">Selectionnez une session pour choisir un module</option>
+                </select>
+            </section>
+            <section>
+                <p>
+                    <span>Etape 3</span> Choix du QCM
+                </p>
+                <select id="qcm-choice" name="qcm">
+                    <option value="0">Selectionnez un module pour choisir un QCM</option>
+                </select>
+            </section>
+            <section>
+                <p>
+                    <span>Etape 4</span> Choix du ou des élèves pouvant faire le QCM
+                    <ul id="qcm-students">
+                        <li>La liste des élèves apparaitra ici lorsque vous aurez choisi une session.</li>
+                    </ul>
+                </p>
+            </section>
+            <section>
+                <p>
+                    <span>Etape 5</span> Choix des dates
+                </p>
+                <div>
+                    <label for="start-time">Date à partir de laquelle le QCM sera accèssible aux élèves</label>
+                    <input id="start-time" name="start-time" type="datetime-local">
+                </div>
+                <div>
+                    <label for="end-time">Date avant laquelle le QCM devra être fait par les élèves</label>
+                    <input id="end-time" name="end-time" type="datetime-local">
+                </div>
+            </section>
+        </form>
     </main>
 {% endblock %}
 
 {% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+{#    <script>#}
+{#        var $session = $('#plan_qcm_session');#}
+{#        // When sport gets selected ...#}
+{#        $session.change(function() {#}
+{#            // ... retrieve the corresponding form.#}
+{#            var $form = $(this).closest('form');#}
+{#            // Simulate form data, but only include the selected sport value.#}
+{#            var data = {};#}
+{#            data[$session.attr('name')] = $session.val();#}
+{#            // Submit data via AJAX to the form's action path.#}
+{#            $.ajax({#}
+{#                url : $form.attr('action'),#}
+{#                type: $form.attr('method'),#}
+{#                data : data,#}
+{#                complete: function(html) {#}
+{#                    // Replace current position field ...#}
+{#                    $('#plan_qcm_module').replaceWith(#}
+{#                        // ... with the returned one from the AJAX response.#}
+{#                        $(html.responseText).find('#plan_qcm_module')#}
+{#                    );#}
+{#                    // Position field now displays the appropriate positions.#}
+{#                }#}
+{#            });#}
+{#        });#}
+{#    </script>#}
     <script type="text/javascript" src="{{ asset('js/instructor/qcmPlanner.js') }}"></script>
 {% endblock %}

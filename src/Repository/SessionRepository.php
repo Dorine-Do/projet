@@ -47,7 +47,9 @@ class SessionRepository extends ServiceEntityRepository
             ->join(LinkInstructorSessionModule::class, 'lism')
             ->where('lism.instructor = :instructor' )
             ->andWhere( 'lism.session = s.id' )
-            ->setParameter('instructor', $instructor->getId() );
+            ->setParameter('instructor', $instructor->getId() )
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

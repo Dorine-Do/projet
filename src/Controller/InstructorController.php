@@ -2,29 +2,27 @@
 
 namespace App\Controller;
 
-use App\Entity\Module;
 use App\Entity\Proposal;
 use App\Entity\Qcm;
 use App\Entity\QcmInstance;
 use App\Entity\Question;
 use App\Entity\Session;
 use App\Form\CreateQuestionType;
-use App\Form\PlanQcmType;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\InstructorRepository;
+use App\Repository\LinkInstructorSessionModuleRepository;
+use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
-use App\Repository\UserRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Expr\Cast\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -502,15 +500,51 @@ class InstructorController extends AbstractController
     }
 
     #[Route('instructor/plan_qcm',name:'instructor_plan_qcm',methods:['GET','POST'])]
-    public function planQcm(Request $request):Response
+    public function planQcm( SessionRepository $sessionRepo ):Response
     {
-        $form = $this->createForm(PlanQcmType::class );
-
-
+//        $form = $this->createForm(PlanQcmType::class );
+        $instructorSessions = $sessionRepo->getInstructorSessions( $this->getUser() );
 
         return $this->render('instructor/plan_qcm.html.twig', [
-            'planQcmform' => $form->createView(),
-            'req' => $request
+            'instructorSessions' => $instructorSessions,
         ]);
+    }
+
+    #[Route('instructor/qcm-planner/getSessionModules/{session}', name: 'instructor_get_session_modules_ajax', methods: ['GET'])]
+    public function ajaxGetSessionModules(
+        LinkInstructorSessionModuleRepository $LinkSessionModuleRepo,
+        Session $session = null
+    ): JsonResponse
+    {
+        if( $session )
+        {
+            $modules = [];
+            $linksSessionModule = $LinkSessionModuleRepo->findBy( [ 'session' => $session ] );
+            foreach( $linksSessionModule as $linkSessionModule )
+            {
+                $modules[] = $linkSessionModule->getModule();
+            }
+             return $this->json( $modules, 200, [], ['groups' => 'module:read']);
+        }
+        return new JsonResponse();
+    }
+
+    #[Route('instructor/qcm-planner/getSessionStudents/{session}', name: 'instructor_get_session_students_ajax', methods: ['GET'])]
+    public function ajaxGetSessionStudents(
+        LinkSessionStudentRepository $LinkSessionStudentRepo,
+        Session $session = null
+    ): JsonResponse
+    {
+        if( $session )
+        {
+            $students = [];
+            $LinksSessionStudent = $LinkSessionStudentRepo->findBy( [ 'session' => $session ] );
+            foreach( $LinksSessionStudent as $LinkSessionStudent )
+            {
+                $students[] = $LinkSessionStudent->getStudent();
+            }
+            return $this->json( $students, 200, [], ['groups' => 'user:read']);
+        }
+        return new JsonResponse();
     }
 }

@@ -6,6 +6,7 @@ use App\Repository\ModuleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ModuleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -14,12 +15,14 @@ class Module
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['module:read'])]
     private $id;
 
     #[ORM\Column(type: 'smallint')]
     private $weeks;
 
     #[ORM\Column(type: 'string', length: 50)]
+    #[Groups(['module:read'])]
     private $title;
 
     #[ORM\Column(type: 'datetime')]
