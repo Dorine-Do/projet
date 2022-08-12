@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,22 +18,27 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
+use function Symfony\Component\Translation\t;
+
 
 class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationEntrypointInterface
 {
     private ClientRegistry $clientRegistry;
     private EntityManagerInterface $entityManager;
     private RouterInterface $router;
+    private ManagerRegistry $managerRegistry;
 
     public function __construct(
         ClientRegistry $clientRegistry,
         EntityManagerInterface $entityManager,
-        RouterInterface $router
+        RouterInterface $router,
+        ManagerRegistry $managerRegistry,
     )
     {
         $this->clientRegistry = $clientRegistry;
         $this->entityManager = $entityManager;
         $this->router = $router;
+        $this->managerRegistry = $managerRegistry;
     }
 
     public function supports(Request $request): ?bool
@@ -67,7 +73,9 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
                 if (!$user) {
                     // 3) Maybe you just want to "register" them by creating
                     // TODO $user = null if user is not found => check in db suivi
-                    dd($user);
+//                    $user_3wa = $this->managerRegistry->getManager('db3wa');
+
+//                    dd($user);
 
                     $user->setGoogleId($googleUser->getId());
 
