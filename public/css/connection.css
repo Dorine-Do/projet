@@ -1,0 +1,95 @@
+@import url("main.css");
+
+html,
+body {
+  margin: 0;
+}
+body {
+  height: 100vh;
+}
+.containerConnection {
+  display: grid;
+  grid-template-columns: repeat(2, 25% [col-start] 75%[col-end]);
+  height: 100%;
+}
+/* BLOC DE GAUCHE */
+.blocLeft {
+  background: var(--fond);
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+.partOfApplication {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.partOfApplication > h1 {
+  align-self: center;
+}
+.typeOfApplication {
+  text-align: center;
+  margin: 0;
+  padding: 1em 0;
+  font-size: var(--grand);
+  font-weight: 500;
+  color: var(--pamplemousse);
+}
+/* BLOC DE DROITE */
+.blocRight {
+  background: var(--pamplemousse);
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.blocWhite {
+  align-self: center;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.formConnection {
+  margin: 0;
+  align-self: center;
+  background: var(--fond);
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  /* box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.3); */
+}
+
+.blocEmail,
+.blocPassword,
+.blocError,
+.blocBtnSubmit {
+  align-self: center;
+  padding: 1em 0;
+  width: 80%;
+  text-align: center;
+}
+.blocError {
+  display: none;
+}
+.blocEmail > input,
+.blocPassword > input,
+.blocBtnSubmit > button {
+  padding: 0.7em;
+  width: 85%;
+  text-align: center;
+  border-radius: 50px;
+  outline: none;
+  border: none;
+}
+.blocBtnSubmit > button {
+  width: 70%;
+  background: var(--grey);
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
+  color: white;
+}
