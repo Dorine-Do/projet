@@ -3,9 +3,7 @@
 {% block body %}
     <main>
         <h1>- PROGRAMMER LA PLANIFICATION D'UN QCM -</h1>
-{#        {{ form(planQcmform) }}#}
-{#        {{ dump(sessions) }}#}
-        <form action="" method="post">
+        <form action="{{ path('instructor_distribue_qcm') }}" method="post">
             <section>
                 <p>
                     <span>Etape 1</span> Choix de la classe
@@ -55,36 +53,12 @@
                     <input id="end-time" name="end-time" type="datetime-local">
                 </div>
             </section>
+            <button type="submit">Distribuer le QCM aux élèves sélectionnés</button>
         </form>
     </main>
 {% endblock %}
 
 {% block javascripts %}
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-{#    <script>#}
-{#        var $session = $('#plan_qcm_session');#}
-{#        // When sport gets selected ...#}
-{#        $session.change(function() {#}
-{#            // ... retrieve the corresponding form.#}
-{#            var $form = $(this).closest('form');#}
-{#            // Simulate form data, but only include the selected sport value.#}
-{#            var data = {};#}
-{#            data[$session.attr('name')] = $session.val();#}
-{#            // Submit data via AJAX to the form's action path.#}
-{#            $.ajax({#}
-{#                url : $form.attr('action'),#}
-{#                type: $form.attr('method'),#}
-{#                data : data,#}
-{#                complete: function(html) {#}
-{#                    // Replace current position field ...#}
-{#                    $('#plan_qcm_module').replaceWith(#}
-{#                        // ... with the returned one from the AJAX response.#}
-{#                        $(html.responseText).find('#plan_qcm_module')#}
-{#                    );#}
-{#                    // Position field now displays the appropriate positions.#}
-{#                }#}
-{#            });#}
-{#        });#}
-{#    </script>#}
     <script type="text/javascript" src="{{ asset('js/instructor/qcmPlanner.js') }}"></script>
 {% endblock %}

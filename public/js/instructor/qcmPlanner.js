@@ -1,54 +1,62 @@
-// document.addEventListener('DOMContentLoaded', function(){
-//     let session = document.querySelector('#plan_qcm_session');
-//     session.addEventListener('change', function(){
-//         let form = this.closest('form');
-//         let data = {};
-//         data[session.getAttribute('name')] = session.value;
-//         fetch(form.getAttribute('action'), data)
-//             .then( html => {
-//                 console.log(html)
-//                 document.querySelector('#plan_qcm_module').replaceWith(
-//                     document.querySelector(html.responseText).find('#plan_qcm_module')
-//                 );
-//             })
-//     });
-// })
-//
 let sessionfields, moduleField, qcmField, studentsFields, startDateField, endDateField, qcmData, selectedSession = null;
 
-function getDataFromAjaxRequest( url )
+async function updateModulesFromAjax( session, field )
 {
-    // let req = new Request(url, {
-    //     method: 'GET',
-    //     headers: {
-    //         'Content-type': 'application/json'
-    //     }
-    // });
-    return fetch( url, {method: 'GET'} )
-        .then( response => console.log(response) )
-        // .then( json => console.log(json) );
+    await fetch( 'qcm-planner/getSessionModules/'+ session, {method: 'GET'} )
+        .then( response => response.json() )
+        .then( json => updateModuleSelect( field, json ) );
+}
+
+async function updateStudentsFromAjax( session, field )
+{
+    await fetch( 'qcm-planner/getSessionStudents/' + session, {method: 'GET'} )
+        .then( response => response.json() )
+        .then( json => updateStudentOptions( field, json ) );
+}
+
+async function updateQcmsFromAjax( module, field )
+{
+    await fetch( 'qcm-planner/getModuleQcms/' + module, {method: 'GET'} )
+        .then( response => response.json() )
+        .then( json => updateQcmSelect( field, json ) );
 }
 
 function updateModuleSelect( field, fieldData )
 {
+    field.innerHTML = '';
     fieldData.forEach( data => {
         let option = document.createElement('option');
         option.value = data.id;
         option.innerText = data.title;
         field.append(option);
     });
+    updateQcmsFromAjax( fieldData[0].id, qcmField );
 }
 
-function updateCheckboxOptions( field, fieldData )
+function updateStudentOptions( field, fieldData )
 {
+    field.innerHTML = '';
     fieldData.forEach( data => {
         let input = document.createElement('input');
         let label = document.createElement('label');
         input.type = 'checkbox';
+        input.name = 'students['+ data.id +']';
         input.value = data.id;
-        label.innerText = data.firstname + ' ' + data.lastname;
+        label.innerText = data.firstName + ' ' + data.lastName;
 
+        field.append(input);
+        field.append(label);
+    });
+}
 
+function updateQcmSelect( field, fieldData )
+{
+    field.innerHTML = '';
+    fieldData.forEach( data => {
+        let option = document.createElement('option');
+        option.value = data.id;
+        option.innerText = data.title;
+        field.append(option);
     });
 }
 
@@ -64,13 +72,13 @@ document.addEventListener('DOMContentLoaded', function(){
     sessionfields.forEach( sessionField => {
         sessionField.addEventListener('click', function(){
             selectedSession = this.value;
-            let modules = getDataFromAjaxRequest( 'qcm-planner/getSessionModules/' + selectedSession.toString() );
-            // let students = getDataFromAjaxRequest( 'qcm-planner/getSessionStudents/' + selectedSession.toString() );
-            // updateModuleSelect( moduleField, modules );
-            // updateCheckboxOptions( studentsFields, students );
+            updateModulesFromAjax( selectedSession.toString(), moduleField );
+            updateStudentsFromAjax( selectedSession.toString(), studentsFields );
         });
     });
 
-
+    moduleField.addEventListener('change', function (){
+        updateQcmsFromAjax( moduleField.value, qcmField );
+    })
 
 })

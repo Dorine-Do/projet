@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Module;
 use App\Entity\Proposal;
 use App\Entity\Qcm;
 use App\Entity\QcmInstance;
@@ -17,6 +18,7 @@ use App\Repository\ProposalRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
+use App\Repository\StudentRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -518,13 +520,12 @@ class InstructorController extends AbstractController
     {
         if( $session )
         {
-            $modules = [];
-            $linksSessionModule = $LinkSessionModuleRepo->findBy( [ 'session' => $session ] );
-            foreach( $linksSessionModule as $linkSessionModule )
-            {
-                $modules[] = $linkSessionModule->getModule();
-            }
-             return $this->json( $modules, 200, [], ['groups' => 'module:read']);
+            $linksSessionModules = $LinkSessionModuleRepo->findBy( [ 'session' => $session ] );
+            $modules = array_map( function($linkSessionModule) {
+                return $linkSessionModule->getModule();
+            }, $linksSessionModules);
+
+            return $this->json( $modules, 200, [], ['groups' => 'module:read']);
         }
         return new JsonResponse();
     }
@@ -537,14 +538,54 @@ class InstructorController extends AbstractController
     {
         if( $session )
         {
-            $students = [];
             $LinksSessionStudent = $LinkSessionStudentRepo->findBy( [ 'session' => $session ] );
-            foreach( $LinksSessionStudent as $LinkSessionStudent )
-            {
-                $students[] = $LinkSessionStudent->getStudent();
-            }
+            $students = array_map( function($LinkSessionStudent){
+                return $LinkSessionStudent->getStudent();
+            }, $LinksSessionStudent);
+
             return $this->json( $students, 200, [], ['groups' => 'user:read']);
         }
         return new JsonResponse();
+    }
+
+    #[Route('instructor/qcm-planner/getModuleQcms/{module}', name: 'instructor_get_module_qcms_ajax', methods: ['GET'])]
+    public function ajaxGetModuleQcms(
+        Module $module = null
+    ): JsonResponse
+    {
+        if( $module )
+        {
+            $qcms = $module->getQcms();
+            return $this->json( $qcms, 200, [], ['groups' => 'qcm:read']);
+        }
+        return new JsonResponse();
+    }
+
+    #[Route('instructor/qcm-planner/distribute', name: 'instructor_distribue_qcm')]
+    public function planQcmToStudents(
+        Request $request,
+        QcmRepository $qcmRepo,
+        StudentRepository $studentRepo,
+        EntityManagerInterface $manager
+    )
+    {
+        $qcm = $qcmRepo->find( intval( $request->get('qcm') ) );
+        $startTime = new \DateTime( $request->get('start-time') );
+        $endTime = new \DateTime( $request->get('end-time') );
+        $students = array_map(function($studentId) use ($studentRepo){
+            return $studentRepo->find( intval($studentId) );
+        }, $request->get('students'));
+        foreach( $students as $student )
+        {
+            $qcmInstance = new QcmInstance();
+            $qcmInstance->setStudent( $student );
+            $qcmInstance->setQcm( $qcm );
+            $qcmInstance->setStartTime( $startTime );
+            $qcmInstance->setEndTime( $endTime );
+            $qcmInstance->setCreatedAtValue();
+            $qcmInstance->setUpdateAtValue();
+            $manager->persist( $qcmInstance );
+        }
+        $manager->flush();
     }
 }
