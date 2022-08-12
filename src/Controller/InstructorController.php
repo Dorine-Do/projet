@@ -587,5 +587,7 @@ class InstructorController extends AbstractController
             $manager->persist( $qcmInstance );
         }
         $manager->flush();
+
+        return $this->redirectToRoute('welcome_instructor');
     }
 }
