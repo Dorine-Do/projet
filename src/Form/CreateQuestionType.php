@@ -4,8 +4,8 @@ namespace App\Form;
 
 
 use App\Entity\Enum\Difficulty;
-use App\Entity\Module;
-use App\Entity\Question;
+use App\Entity\Main\Module;
+use App\Entity\Main\Question;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Main;
 
-use App\Repository\ModuleRepository;
+use App\Repository\SessionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ModuleRepository::class)]
+#[ORM\Entity(repositoryClass: SessionRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Module
+class Session
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'smallint')]
-    private $weeks;
-
     #[ORM\Column(type: 'string', length: 50)]
-    private $title;
+    private $name;
+
+    #[ORM\Column(type: 'smallint')]
+    private $schoolYear;
 
     #[ORM\Column(type: 'datetime')]
     private \DateTime $createdAt;
@@ -28,22 +28,18 @@ class Module
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Question::class)]
-    private $questions;
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkSessionStudent::class)]
+    private $linksSessionStudent;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: Qcm::class)]
-    private $qcms;
-
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkInstructorSessionModule::class)]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkInstructorSessionModule::class)]
     private $linksInstructorSessionModule;
 
-    #[ORM\OneToMany(mappedBy: 'module', targetEntity: LinkSessionModule::class)]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkSessionModule::class)]
     private $linksSessionModule;
 
     public function __construct()
     {
-        $this->questions = new ArrayCollection();
-        $this->qcms = new ArrayCollection();
+        $this->linksSessionStudent = new ArrayCollection();
         $this->linksInstructorSessionModule = new ArrayCollection();
         $this->linksSessionModule = new ArrayCollection();
     }
@@ -61,32 +57,31 @@ class Module
         $this->updatedAt = new \DateTime();
     }
 
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getWeeks(): ?int
+    public function getName(): ?string
     {
-        return $this->weeks;
+        return $this->name;
     }
 
-    public function setWeeks(int $weeks): self
+    public function setName(string $name): self
     {
-        $this->weeks = $weeks;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getSchoolYear(): ?int
     {
-        return $this->title;
+        return $this->schoolYear;
     }
 
-    public function setTitle(string $title): self
+    public function setSchoolYear(int $schoolYear): self
     {
-        $this->title = $title;
+        $this->schoolYear = $schoolYear;
 
         return $this;
     }
@@ -116,59 +111,29 @@ class Module
     }
 
     /**
-     * @return Collection<int, Question>
+     * @return Collection<int, LinkSessionStudent>
      */
-    public function getQuestions(): Collection
+    public function getLinksSessionStudent(): Collection
     {
-        return $this->questions;
+        return $this->linksSessionStudent;
     }
 
-    public function addQuestion(Question $question): self
+    public function addLinkSessionStudent(LinkSessionStudent $linkSessionStudent): self
     {
-        if (!$this->questions->contains($question)) {
-            $this->questions[] = $question;
-            $question->setModule($this);
+        if (!$this->linksSessionStudent->contains($linkSessionStudent)) {
+            $this->linksSessionStudent[] = $linkSessionStudent;
+            $linkSessionStudent->setSession($this);
         }
 
         return $this;
     }
 
-    public function removeQuestion(Question $question): self
+    public function removeLinkSessionStudent(LinkSessionStudent $linkSessionStudent): self
     {
-        if ($this->questions->removeElement($question)) {
+        if ($this->linksSessionStudent->removeElement($linkSessionStudent)) {
             // set the owning side to null (unless already changed)
-            if ($question->getModule() === $this) {
-                $question->setModule(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Qcm>
-     */
-    public function getQcms(): Collection
-    {
-        return $this->qcms;
-    }
-
-    public function addQcm(Qcm $qcm): self
-    {
-        if (!$this->qcms->contains($qcm)) {
-            $this->qcms[] = $qcm;
-            $qcm->setModule($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQcm(Qcm $qcm): self
-    {
-        if ($this->qcms->removeElement($qcm)) {
-            // set the owning side to null (unless already changed)
-            if ($qcm->getModule() === $this) {
-                $qcm->setModule(null);
+            if ($linkSessionStudent->getSession() === $this) {
+                $linkSessionStudent->setSession(null);
             }
         }
 
@@ -187,7 +152,7 @@ class Module
     {
         if (!$this->linksInstructorSessionModule->contains($linksInstructorSessionModule)) {
             $this->linksInstructorSessionModule[] = $linksInstructorSessionModule;
-            $linksInstructorSessionModule->setModule($this);
+            $linksInstructorSessionModule->setSession($this);
         }
 
         return $this;
@@ -197,8 +162,8 @@ class Module
     {
         if ($this->linksInstructorSessionModule->removeElement($linksInstructorSessionModule)) {
             // set the owning side to null (unless already changed)
-            if ($linksInstructorSessionModule->getModule() === $this) {
-                $linksInstructorSessionModule->setModule(null);
+            if ($linksInstructorSessionModule->getSession() === $this) {
+                $linksInstructorSessionModule->setSession(null);
             }
         }
 
@@ -217,7 +182,7 @@ class Module
     {
         if (!$this->linksSessionModule->contains($linksSessionModule)) {
             $this->linksSessionModule[] = $linksSessionModule;
-            $linksSessionModule->setModule($this);
+            $linksSessionModule->setSession($this);
         }
 
         return $this;
@@ -227,16 +192,13 @@ class Module
     {
         if ($this->linksSessionModule->removeElement($linksSessionModule)) {
             // set the owning side to null (unless already changed)
-            if ($linksSessionModule->getModule() === $this) {
-                $linksSessionModule->setModule(null);
+            if ($linksSessionModule->getSession() === $this) {
+                $linksSessionModule->setSession(null);
             }
         }
 
         return $this;
     }
 
-    public function __toString(): string
-    {
-        return $this->getTitle();
-    }
+
 }

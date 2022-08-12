@@ -2,20 +2,20 @@
 
 namespace App\Security;
 
-use App\Entity\User;
+use App\Entity\Main\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\OAuth2Authenticator;
 use League\OAuth2\Client\Provider\GoogleUser;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 
@@ -59,8 +59,16 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
                 // 1) have they logged in with Google before? Easy!
                 $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(
-                    ['email3wa' => $email])
-                ;
+                    ['email3wa' => $email]);
+
+//                $existingUser = $this->managerRegistry->getRepository(
+//                    User::class,
+//                    'default')->findOneBy(
+//                    ['email3wa' => $email]
+//                );
+
+
+                dd($existingUser);
 
                 if ($existingUser) {
                     return $existingUser;
@@ -70,9 +78,12 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
                 $user = $this->entityManager->getRepository(User::class)->findOneBy(['email3wa' => $email]);
 
                 if (!$user) {
-                    // 3) Maybe you just want to "register" them by creating
+                    // 2) do we have a matching user by email?
                     // TODO $user = null if user is not found => check in db suivi
-//                    $user_3wa = $this->managerRegistry->getManager('db3wa');
+//                    $user_3wa = $this->managerRegistry->getManager('dbsuivi');
+//                    $user_3wa->getRepository(Users::class)->findOneBy(['email' => $email]);
+//                    dd($user_3wa);
+                    // 3) Maybe you just want to "register" them by creating
 
                     dd($user);
 

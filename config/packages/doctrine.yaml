@@ -22,17 +22,16 @@ doctrine:
                 mappings:
                     App:
                         is_bundle: false
-                        dir: '%kernel.project_dir%/src/Entity'
-                        prefix: 'App\Entity'
+                        dir: '%kernel.project_dir%/src/Entity/Main'
+                        prefix: 'App\Entity\Main'
                         alias: App
             dbsuivi:
                 connection: dbsuivi
                 mappings:
                     Suivi:
                         is_bundle: false
-                        type: annotation
-                        dir: '%kernel.project_dir%/src/Entity'
-                        prefix: 'App\Entity'
+                        dir: '%kernel.project_dir%/src/Entity/Suivi'
+                        prefix: 'App\Entity\Suivi'
                         alias: Suivi
 
 when@test:

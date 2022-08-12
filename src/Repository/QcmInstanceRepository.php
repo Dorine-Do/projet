@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\QcmInstance;
+use App\Entity\Main\QcmInstance;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

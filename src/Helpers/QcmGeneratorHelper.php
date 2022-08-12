@@ -2,8 +2,8 @@
 
 namespace App\Helpers;
 
-use App\Entity\Module;
-use App\Entity\Qcm;
+use App\Entity\Main\Module;
+use App\Entity\Main\Qcm;
 use App\Repository\QuestionRepository;
 use Symfony\Component\Security\Core\Security;
 

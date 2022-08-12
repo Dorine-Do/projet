@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Enum\Level;
-use App\Entity\LinkSessionModule;
-use App\Entity\Module;
-use App\Entity\Qcm;
-use App\Entity\QcmInstance;
-use App\Entity\Result;
+use App\Entity\Main\LinkSessionModule;
+use App\Entity\Main\Module;
+use App\Entity\Main\Qcm;
+use App\Entity\Main\QcmInstance;
+use App\Entity\Main\Result;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\LinkInstructorSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;

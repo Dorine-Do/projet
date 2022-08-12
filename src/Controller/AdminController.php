@@ -2,18 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Admin;
-use App\Entity\Instructor;
-use App\Entity\Student;
-use Safe\DateTime;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Main\Admin;
+use App\Entity\Main\Instructor;
+use App\Entity\Main\Student;
+use App\Entity\Main\User;
 use App\Form\RegistrationFormType;
-use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class AdminController extends AbstractController
 {

@@ -2,12 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Module;
-use App\Entity\Proposal;
-use App\Entity\Qcm;
-use App\Entity\QcmInstance;
-use App\Entity\Question;
-use App\Entity\Session;
+use App\Entity\Main\Proposal;
+use App\Entity\Main\Qcm;
+use App\Entity\Main\QcmInstance;
+use App\Entity\Main\Question;
 use App\Form\CreateQuestionType;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\InstructorRepository;
@@ -16,14 +14,12 @@ use App\Repository\ProposalRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
-use App\Repository\UserRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Expr\Cast\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
