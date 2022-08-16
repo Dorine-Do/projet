@@ -18,6 +18,7 @@ doctrine:
         default_entity_manager: default
         entity_managers:
             default:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
                 connection: default
                 mappings:
                     App:
@@ -26,6 +27,7 @@ doctrine:
                         prefix: 'App\Entity\Main'
                         alias: App
             dbsuivi:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
                 connection: dbsuivi
                 mappings:
                     Suivi:

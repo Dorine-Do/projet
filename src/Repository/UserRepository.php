@@ -42,14 +42,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
     }
 
-    public function tryingRequest()
-    {
-        return $this->createQueryBuilder('u')->select('
-            u.firstName, u.lastName
-        ')->where('u.email3wa = :email3wa')->setParameter(
-            'email3wa', 'baptiste@3wa.io')->getQuery()->getResult();
-    }
-
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */
