@@ -57,6 +57,8 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
                 $email = $googleUser->getEmail();
 
+                dd( $this->entityManager->getRepository(User::class)->tryingRequest());
+
                 // 1) have they logged in with Google before? Easy!
                 $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(
                     ['email3wa' => $email]);
