@@ -15,6 +15,7 @@ class ConnectionController extends AbstractController
     {
         $error = $authUtils->getLastAuthenticationError();
         $lastUsername = $authUtils->getLastUsername();
+
         return $this->render('connection/index.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error

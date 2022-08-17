@@ -45,19 +45,19 @@
                     <div>
                         <p class="question"><span class="numeroForm">1</span>
 
-                            {{ question.wording }}
+                            {{ question.wording | raw }}
                         </p>
                     </div>
                 </div>
                 <div class="allReponse">
-                    {% for answer in question.answers %}
+                    {% for proposal in question.proposals %}
                         <p>
-                            {% if answer.isCorrectAnswer %}
-                                <h4 style="color: forestgreen">{{ answer.wording }}</h4>
-                            {% elseif answer.isStudentAnswer and answer.isCorrectAnswer == false %}
-                                <h4 style="color: tomato">{{ answer.wording }}</h4>
+                            {% if proposal.isCorrectAnswer %}
+                                <h4 style="color: forestgreen">{{ proposal.wording | raw }}</h4>
+                            {% elseif proposal.isStudentAnswer and proposal.isCorrectAnswer == false %}
+                                <h4 style="color: tomato">{{ proposal.wording | raw }}</h4>
                             {% else %}
-                                <h4>{{ answer.wording }}</h4>
+                                <h4>{{ proposal.wording | raw }}</h4>
                             {% endif %}
                         </p>
                     {% endfor %}

@@ -6,8 +6,6 @@
 
 
 {% block body %}
-{# {{dump(qcms)}} #}
-{# {{include('./instructor/display_questions.html.twig')}}   #}
  <h1>Mes Qcm officiels</h1>
 <main class="container_qcm_and_questions_management">
     <div class=" blocIndice">
@@ -38,16 +36,16 @@
                 <ul class="list_questions"  data-qcms="{{ qcms|json_encode|e('html_attr')}}">
                    {% for qcm in qcms %}
                         {% for question in qcm.getQuestions() %}
-                        
+
                             <li  data-id='{{question.id}}'> {#  data-id temporaire#}
 
-                            <span class="qcm_question_number"></span> 
+                            <span class="qcm_question_number"></span>
                             {{question.wording|raw }}
-                        
-                            </li> 
+
+                            </li>
 
                         {% endfor %}
-                
+
                    {% endfor %}
 
                 {# pour afficher les question en fonction de l'id des qcm

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Main;
 
 use App\Entity\Enum\Difficulty;
 use App\Repository\QuestionRepository;

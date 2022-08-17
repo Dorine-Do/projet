@@ -8,7 +8,7 @@ security:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
-                class: App\Entity\User
+                class: App\Entity\Main\User
                 property: email
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
@@ -16,12 +16,13 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+#            entry_point:
+            custom_authenticators:
+                - App\Security\GoogleAuthenticator
             lazy: true
             provider: app_user_provider
             # provider: two_factor_provider
-            form_login:
-                login_path: app_connection
-                check_path: app_connection
+
 #            login_throttling:
 #                max_attempts: 3
 #                interval: '15 minutes'

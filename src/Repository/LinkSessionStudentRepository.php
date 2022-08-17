@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\LinkSessionStudent;
+use App\Entity\Main\LinkSessionStudent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

@@ -2,17 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\Proposal;
+use App\Entity\Main\Proposal;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use PhpParser\Node\Stmt\Foreach_;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\IsTrue;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class ProposalFormType extends AbstractType
 {
@@ -22,7 +17,21 @@ class ProposalFormType extends AbstractType
             ->add('wording',CKEditorType::class, [
                 'config' => [
                     'uiColor' => '#FFAC8F',
-                    'toolbar' => [['Source', 'Bold', 'Italic', 'Underline', 'JustifyLeft', 'JustifyCenter','JustifyRight', 'JustifyBlock', 'CodeSnippet', 'Blockquote', 'Indent', 'Outdent']],
+                    'toolbar' => [
+                        [
+                            'Bold',
+                            'Italic',
+                            'Underline',
+                            'JustifyLeft',
+                            'JustifyCenter',
+                            'JustifyRight',
+                            'JustifyBlock',
+                            'CodeSnippet',
+                            'Blockquote',
+                            'Indent',
+                            'Outdent'
+                        ]
+                    ],
                     'extraPlugins' => ['codesnippet'],
                     'codeSnippet_theme' => 'monokai'
                 ],
