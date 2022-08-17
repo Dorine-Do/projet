@@ -24,12 +24,22 @@
             </select>
             <button class="buttonGenerate" type="submit" >Générer le qcm</button>
         </form>
+     
+         <hr>
 
-        {% if generatedQcm is not null %}
-        <h3>- QCM -</h3>
+      
+       
+         <p><span class="etape">Etape 2</span> Qcm choisi</p>
+
+            
+         
+          {# <h3>- QCM  choisi-</h3> #}
+           {# <button class="btnCustom">Personnaliser</button> #}
+          
         <div class="showQcm">
-            <button class="btnCustom">Personnaliser</button>
+            <button class="btnShowQcm">Voir mon qcm</button>
             <div class="backWhite">
+              {% if generatedQcm is not null %}
                 <ul>
                     {% for question in generatedQcm.questionsCache %}
                         {% set count = count + 1 %}
@@ -58,46 +68,59 @@
         </div>
     </div>
 
+    
+    <div class="contentPartTwo">
+        <hr>
+        <p class="pStepThree"><span class="etape">Etape 2</span> Personnaliser son qcm</p>
+        <div class="btnToggle">
+            <button class="btnCustom">Personnaliser</button>
+        </div>
+   
         <div class="partTwo">
             {#*************************************************************************************************#}
             {#LEGEND#}
             <div class="legends">
-                <button>Explication</button>
+               
                 <p>Le niveau est déterminé automatiquement par la difficulté des questions</p>
-                <div class="legendDifficultyDiv">
-                    <div class="legendDifficultyContainerDiv">
-                        <div class="legendDifficultyDecoDiv">
-                            <div class="legendDifficultyDecoSubDiv">
-                                <div>
-                                    Facile
-                                </div>
-                                <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
-                            </div>
-                            <div class="legendDifficultyNbr">
-                                : <p class="nbrQuestion" id="easy" >5</p>
-                            </div>
-                        </div>
+                <div class="contentExplicationAndLegend">
+                    <button>Explication</button>
 
-                        <div class="legendDifficultyDecoDiv">
-                            <div class="legendDifficultyDecoSubDiv">
-                                <div>
-                                    Moyen
+
+                    <div class="legendDifficultyDiv">
+                        <div class="legendDifficultyContainerDiv">
+                            <div class="legendDifficultyDecoDiv">
+                                <div class="legendDifficultyDecoSubDiv">
+                                    <div>
+                                        Facile
+                                    </div>
+                                    <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
                                 </div>
-                                <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à trois feuilles">
-                            </div>
-                            <div class="legendDifficultyNbr" >
-                                : <p class="nbrQuestion" id="medium" >5</p>
-                            </div>
-                        </div>
-                        <div class="legendDifficultyDecoDiv">
-                            <div class="legendDifficultyDecoSubDiv">
-                                <div>
-                                    Difficile
+                                <div class="legendDifficultyNbr">
+                                    : <p class="nbrQuestion" id="easy" >5</p>
                                 </div>
-                                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
                             </div>
-                            <div class="legendDifficultyNbr" >
-                                : <p class="nbrQuestion" id="difficulty" >5</p>
+
+                            <div class="legendDifficultyDecoDiv">
+                                <div class="legendDifficultyDecoSubDiv">
+                                    <div>
+                                        Moyen
+                                    </div>
+                                    <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                                </div>
+                                <div class="legendDifficultyNbr" >
+                                    : <p class="nbrQuestion" id="medium" >5</p>
+                                </div>
+                            </div>
+                            <div class="legendDifficultyDecoDiv">
+                                <div class="legendDifficultyDecoSubDiv">
+                                    <div>
+                                        Difficile
+                                    </div>
+                                    <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                                </div>
+                                <div class="legendDifficultyNbr" >
+                                    : <p class="nbrQuestion" id="difficulty" >5</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -111,10 +134,12 @@
                 {#QCM CHOICED #}
                 <div class="qcmChoised">
                     <div class="qcmChoisedSubDiv">
-                        <div class="qcmChoisedLegend">
-                            QCM Choici
-                            <div class="qcmChoisedLevel" id="qcmChoisedLevel">
-                                Facile
+                        <div class="blocQcmChoisedLevel">
+                            <div class="qcmChoisedLegend">
+                                QCM Choici
+                                <div class="qcmChoisedLevel" id="qcmChoisedLevel">
+                                    Facile
+                                </div>
                             </div>
                         </div>
                         <div class="qcmChoisedMain">
@@ -133,7 +158,7 @@
                                                 {% endif %}
                                                 </p>
                                                 <p class="qcmChoisedQuestionWordingP questionWordingP" data-id = {{ question.id }} >
-                                                    {{question.wording}}
+                                                   <span></span>   {{question.wording}}
                                                 </p>
                                                 <p class="qcmChoisedchevronBasP">
                                                     <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="qcmChoisedchevronBasImg chevron">
@@ -159,16 +184,18 @@
                     {#Image drag and drop #}
 
                     <div class="imageDragAndDrop">
-                        <img src="{{ asset('build/images/drag_and_drop.png') }}" alt="Flèche arrondie verte" class="arrowRight">
-                        <img src="{{ asset('build/images/drag_and_drop.png') }}" alt="Flèche arrondie verte" class="arrowLeft">
+                        <img src="{{ asset('build/images/arrow-right-grey.png') }}" alt="Flèche arrondie verte" class="arrowRight">
+                        <img src="{{ asset('build/images/arrow-left-grey.png') }}" alt="Flèche arrondie verte" class="arrowLeft">
                     </div>
 
                     {#*************************************************************************************************#}
                     {#LIST OF QUESTION #}
                     <div class="listQuestionTypedDiv">
                         <div class="btnChoiseQuestionType">
-                            <button class="btnQuestionsOfficial"> Questions officielles </button>
+                         
+                            <button class="btnQuestionsOfficial"> Questions officielles : {{officialQuestions|count}}</button>
                             <button class="btnQuestionsPerso"> Questions personalisées </button>
+                         
                         </div>
                         {#*************************************************************************************************#}
                         {#OFFICIAL #}
@@ -187,13 +214,14 @@
                                                 {% endif %}
                                             </p>
                                             <p class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
-                                                {{question.wording}}
+                                            {# span temporaire test  #}
+                                              <span></span>   {{question.wording}}
                                             </p>
                                             <p class="officialChevronBasP chevronBasP">
                                                 <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
                                             </p>
                                             <div class="modifyQuestionImgDiv">
-                                                <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier" class="modifyQuestionImg">
+                                                <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg">
                                             </div>
                                         </div>
                                         <div>
@@ -201,7 +229,7 @@
                                                 {% set countLetter = 0 %}
                                                 {% for proposal in question.proposals %}
                                                     <p class="officialProposalWordingP proposalWordingP" data-id="{{proposal.id}}">
-                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span>{{ proposal.wording }}</span>
+                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span class="spanWording">{{ proposal.wording }}</span>
                                                     </p>
                                                     {% set countLetter = countLetter + 1 %}
                                                 {% endfor %}
@@ -233,13 +261,13 @@
                                                 {% endif %}
                                             </p>
                                             <p class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
-                                                {{question.wording}}
+                                               <span></span>{{question.wording}}
                                             </p>
                                             <p class="officialChevronBasP chevronBasP">
                                                 <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
                                             </p>
                                             <div class="modifyQuestionImgDiv">
-                                                <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier" class="modifyQuestionImg">
+                                                <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg">
                                             </div>
                                         </div>
                                         <div>
@@ -264,30 +292,36 @@
                             </ul>
                         </div>
 
-                {#*************************************************************************************************#}
-                {#BUTTON CREATE QUESTION #}
-                <div class="createQuestion">
-                    <button>Créer une question</button>
-                </div>
+                        {#*************************************************************************************************#}
+                        {#BUTTON CREATE QUESTION #}
+                        <div class="createQuestion">
+                            <button>Créer une question</button>
+                        </div>
+                    </div>
+                   
+            
+                    
             </div>
-            {#*************************************************************************************************#}
-            {#NAME#}
-            <div class="qcmName">
-                <input type="text" placeholder="Veuillez indiquer un nom pour le qcm" class="qcmNameInput" data-module="{{generatedQcm.module.id}}">
-            </div>
+            <p class="pStepFour"><span class="etape">Etape 4</span> Donner un titre au qcm personnalisé</p>
+            <div class="blocBeforeValidation">
+                    {#*************************************************************************************************#}
+                    {#NAME#}
+                 <div class="qcmName">
+                      <input type="text" placeholder="Veuillez indiquer un nom pour le qcm" class="qcmNameInput" data-module="{{generatedQcm.module.id}}">
+                 </div>
 
-            <div class="isPublic">
-                <label for=""> Ce qcm pourra t'il être utilisé par d'autres formateurs? </label>
-                <input type="checkbox"  id="isPublicInput" >
+                 <div class="isPublic">
+                     <label for=""> Ce qcm pourra t'il être utilisé par d'autres formateurs? </label>
+                     <input type="checkbox"  id="isPublicInput" >
+                 </div>
             </div>
-
             <div class="qcmValidation">
                 <button>Valider ce qcm personalié</button>
             </div>
-
+            
             {% endif %}
         </div>
-
+   </div>
 
 {% endblock %}
 {% block javascripts %}

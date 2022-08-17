@@ -1,454 +1,507 @@
-@import url('../main.css');
+@import url("../main.css");
 /***************************************************************************************************/
 /*GENERAL*/
-h3{
-    text-align: center;
-    font-weight: normal;
+h3 {
+  text-align: center;
+  font-weight: normal;
 }
 
-p{
-    margin: 0;
+p {
+  margin: 0;
 }
 
-ul{
-    margin: 0;
-    padding: 0;
+ul {
+  margin: 0;
+  padding: 0;
 }
 
-.chevron:hover{
-    cursor: pointer;
+.chevron:hover {
+  cursor: pointer;
 }
 
-.borderColor{
-    border: 2px solid var(--grey);
-    border-radius: 5px;
+hr {
+  width: 100%;
+  margin: 2em 0 1em;
+  border: 1px dashed;
+}
+
+.borderColor {
+  border: 2px solid var(--grey);
+  border-radius: 5px;
 }
 
 /*JS*/
-.displayNone{
-    display: none;
+.displayNone {
+  display: none;
 }
 
 .qcmChoisedLi .displayNone,
 .questionLi .displayNone,
-.officialQuestionLi .displayNone{
-    display: none;
+.officialQuestionLi .displayNone {
+  display: none;
 }
 
 /*PARTIE 1*/
 
-.partOne{
-    width: 80%;
-    margin: auto;
+.partOne {
+  width: 90%;
+  margin: auto;
+  padding: 3em 0 0;
+  display: grid;
+  grid-gap: 0.5em;
+}
+
+.partOne > p {
+  padding: 1.5em 0;
 }
 
 /*********************************************** BOUTON DEBUT DE PAGE (MODULE + GENERATE)***********************************/
 
 .partOne > form {
-    margin: 2em 0 2em 0;
-    padding-bottom: 2em;
-    border-bottom: 2px solid #c7c7c7;
+  /* border-bottom: 2px solid #c7c7c7; */
+  padding: 3em 0;
+  display: grid;
+  /* grid-template-rows: 1fr 1fr; */
+  grid-template-columns: 60% 40%;
+  text-align: center;
+  background: #fff4e4;
 }
 
-.selectModule{
-    display: block;
-    margin: 30px auto;
-    padding: .7em 11em;
-    background-color: var(--fond);
-    font-size: var(--semi_normal);
-    color: var(--grey);
-    border: none;
-    border-radius: 5px;
-    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
-    box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
-    text-align: center;
+.selectModule {
+  padding: 1em 0;
+  font-size: var(--semi_normal);
+  color: var(--grey);
+  border: none;
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 85%;
+  margin: auto;
+  outline: none;
 }
-.buttonGenerate{
-    background-color: var(--grey);
-    color: white;
-    border-radius: 20px;
-    border: none;
-    padding: 15px 180px;
-    font-size: var(--semi_normal);
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-}
-
-.buttonGenerate:hover{
-    cursor: pointer;
-    background-color: var(--vert);
-    font-weight: bold;
+.buttonGenerate {
+  background-color: var(--grey);
+  color: white;
+  border-radius: 2em;
+  border: none;
+  padding: 1em 0;
+  font-size: var(--semi_normal);
+  width: 80%;
+  margin: auto;
 }
 
-.etape{
-    background-color: var(--pamplemousse);
-    font-weight: bold;
-    color: var(--fond);
-    padding: 3px 10px;
-    border-radius: 20px;
+.buttonGenerate:hover {
+  cursor: pointer;
+  background-color: var(--vert);
+  font-weight: bold;
 }
 
-
+.etape {
+  background-color: var(--pamplemousse);
+  font-weight: bold;
+  color: var(--fond);
+  padding: 0.5em 1em;
+  border-radius: 1.5em;
+}
+.btnToggle {
+  background: var(--fond);
+  padding: 2.5em 0;
+  border-radius: 0.5em;
+}
 /***************************************************************************************************/
 /*GENERATE QCM*/
 /***************************************************************************************************/
 
-.btnCustom{
-    background-color: var(--grey);
-    color: white;
-    border-radius: 25px;
-    border: none;
-    padding: 20px 150px;
-    font-size: var(--semi_normal);
-    margin: 35px auto;
-    display: block;
+.btnCustom,
+.btnShowQcm {
+  background-color: var(--grey);
+  color: white;
+  border-radius: 2em;
+  border: none;
+  padding: 1.3em 0;
+  width: 60%;
+  font-size: var(--semi_normal);
+  margin: auto;
+  display: block;
 }
 
-.btnCustom:hover{
-    cursor: pointer;
-    background-color: var(--vert);
-    font-weight: bold;
+.btnCustom:hover {
+  cursor: pointer;
+  background-color: var(--vert);
+  font-weight: bold;
 }
 
-.showQcm{
-    background-color: var(--fond);
-    padding: 20px 40px 10px 40px;
+.showQcm {
+  background-color: var(--fond);
+  padding: 2em;
+  border-radius: 0.5em;
 }
 
 /************************************************************************/
 /*CUSTOM SCROLL*/
+.backWhite {
+  grid-gap: 1em;
+  display: none;
+}
+.backWhite.activeQcm {
+  display: grid;
+}
+
+.backWhite > ul {
+  display: grid;
+  grid-gap: 1em;
+  padding: 0.5;
+}
 .backWhite,
 .qcmChoisedMain,
-.questionsOfficial{
-    background-color: white;
-    padding: 20px;
-    overflow: scroll;
-    height: 900px;
-    border-radius: 10px;
-    border-style: none;
+.questionsOfficial {
+  overflow-y: scroll;
+  height: 590px;
+  border-radius: 10px;
+  border-style: none;
+  /* display: grid; */
 }
 
 /* Works on Firefox */
 .backWhite,
 .qcmChoisedMain,
-.questionsOfficial{
-    scrollbar-width: thin;
-    scrollbar-color: var(--grey) var(--fond);
+.questionsOfficial {
+  scrollbar-width: thin;
+  scrollbar-color: var(--grey) var(--fond);
 }
 
 /* Works on Chrome, Edge, and Safari */
 .backWhite::-webkit-scrollbar,
 .qcmChoisedMain::-webkit-scrollbar,
-.questionsOfficial::-webkit-scrollbar{
-    width: 12px;
+.questionsOfficial::-webkit-scrollbar {
+  width: 12px;
 }
 
 .backWhite::-webkit-scrollbar-track,
 .qcmChoisedMain::-webkit-scrollbar-track,
-.questionsOfficial::-webkit-scrollbar-track{
-    background: var(--grey);
-    border-radius: 5px;
+.questionsOfficial::-webkit-scrollbar-track {
+  /* background: var(--grey); */
+  border-radius: 5px;
 }
 
 .backWhite::-webkit-scrollbar-thumb,
 .qcmChoisedMain::-webkit-scrollbar-thumb,
-.questionsOfficial::-webkit-scrollbar-thumb{
-    background-color: var(--fond);
-    border-radius: 20px;
-    border: 3px solid var(--grey);
+.questionsOfficial::-webkit-scrollbar-thumb {
+  background-color: var(--grey);
+  border-radius: 20px;
+  border: 3px solid var(--grey);
 }
 
-.numeroForm{
-    background-color: white;
-    padding: 8px 17px;
-    border-radius: 50px;
-    margin-right: 8px;
+.numeroForm {
+  background-color: white;
+  padding: 8px 17px;
+  border-radius: 50px;
+  margin-right: 8px;
 }
 
-.numeroProp{
-    background-color: var(--grey);
-    padding: 4px 12px;
-    border-radius: 50px;
-    margin-right: 8px;
-    color: white;
-    font-size: var(--grand);
+.numeroProp {
+  background-color: var(--grey);
+  padding: 4px 12px;
+  border-radius: 50px;
+  margin-right: 8px;
+  color: white;
+  font-size: var(--grand);
 }
 
 /************************************************************************/
 /*questions li*/
-.questionLi{
-    margin: 1em 0;
+.questionLi {
+  /* margin: 1em 0; */
+  display: grid;
+  grid-gap: 0.5em;
 }
 
-.questionWordingDiv{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    border-radius: 5px 5px 0 0;
-    background-color: var(--pamplemousse);
+.questionWordingDiv {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 0.3em;
+  background-color: var(--pamplemousse);
 }
 
 .qcmChoisedQuestionWordingP:hover,
-.officialQuestionWordingP:hover{
-    cursor: pointer;
+.officialQuestionWordingP:hover {
+  cursor: pointer;
 }
-
 
 .qcmChoisedProposalWordingP,
 .officialProposalWordingP,
-.backWhite .proposalWordingP{
-    margin: 1em;
+.backWhite .proposalWordingP {
+  padding: 0 1em;
 }
 
-.proposalWordingDiv{
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    background-color: var(--fond);
-    padding: 11px 0;
-    width: 100%;
-    margin-top: 7px;
-    border-radius: 0 0 5px 5px;
-    flex-direction: column;
+.proposalWordingDiv {
+  display: grid;
+  grid-template-rows: 1fr;
+  padding: 1em 0;
+  width: 99%;
+  border-radius: 0.3em;
+  border: 2px dashed;
+  grid-gap: 1em;
+  text-align: left;
 }
 
-.questionWordingP{
-    padding: 20px 10px;
-    text-align: left;
-    border-radius: 8px;
-    margin-top: 8px;
-    width: 100%;
+.questionWordingP {
+  padding: 1.5em 1em;
+  border-radius: 8px;
+  width: 100%;
 }
-.chevronBasP{
-    width: 5%;
+.chevronBasP {
+  width: 5%;
 }
 
-.chevronBasImg{
-    width: 50%;
+.chevronBasImg {
+  width: 35%;
 }
 /************************************************************************/
-
 
 /*PARTIE 2*/
 /***************************************************************************************************/
 /*LEGEND*/
-
-.legends{
-    text-align: center;
-    margin: 5em 0;
+.contentPartTwo {
+  width: 90%;
+  margin: auto;
+  padding-bottom: 2em;
+}
+.pStepThree {
+  padding: 2em 0;
+}
+.legends {
+  padding: 1em 0;
+  border-radius: 0.5em;
+}
+.contentExplicationAndLegend {
+  display: grid;
+  grid-template-columns: 30% 70%;
 }
 
-.legends > button{
-    padding: 1em;
-    border: none;
-    border-radius: 50px;
-    background-color: #93AD6E;
-    color: white;
-    text-align: center;
-    width: 15%;
-    margin: 1em 0;
+.legends button {
+  padding: 1em;
+  border: none;
+  border-radius: 50px;
+  background-color: var(--grey);
+  color: white;
+  text-align: center;
+  margin: 1em 0;
+  width: 80%;
 }
 
 .legends > p {
-    margin: .5em;
-    font-weight: bold;
+  margin: 0.5em;
+  font-weight: bold;
 }
 
-.legendDifficultyDiv{
-    display: flex;
-    border: 2px solid #FFAC8F;
-    border-radius: 50px;
-    padding: 1em;
-    background-color: #FFF4E4;
-    justify-content: space-around;
-    width: 70%;
-    margin: auto;
+.legendDifficultyDiv {
+  display: flex;
+  border: 2px solid #ffac8f;
+  border-radius: 3em;
+  padding: 0.8em;
+  background-color: #fff4e4;
+  justify-content: space-around;
+  margin: auto;
 }
 
-.legendDifficultyContainerDiv{
-    display: flex;
-    justify-content: space-around;
-    background: white;
-    padding: .5em;
-    border-radius: 30px;
+.legendDifficultyContainerDiv {
+  display: flex;
+  justify-content: space-around;
+  background: white;
+  padding: 0.2em;
+  border-radius: 2em;
 }
 
-.legendDifficultyDecoDiv{
-    display: flex;
-    align-items: center;
-    width: 20%;
+.legendDifficultyDecoDiv {
+  display: flex;
+  align-items: center;
+  width: 20%;
 }
 
-.legendDifficultyDecoSubDiv{
-    display: flex;
-    background-color: #616161;
-    border-radius: 30px;
-    justify-content: center;
-    padding: .2em;
-    width: 50%;
-    align-items: center;
+.legendDifficultyDecoSubDiv {
+  display: flex;
+  /* background-color: #616161; */
+  /* border-radius: 2em; */
+  justify-content: center;
+  padding: 0.2em;
+  width: 50%;
+  align-items: center;
 }
 
-.legendDifficultyDecoSubDiv div{
-    color: white;
-    margin-right: 5px;
+.legendDifficultyDecoSubDiv div {
+  margin-right: 5px;
 }
 
-
-.legendDifficultyDecoSubDiv img{
-    padding: 5px;
-    background-color: #FFF4E4;
-    border-radius: 50px;
-    width: 25%;
+.legendDifficultyDecoSubDiv img {
+  padding: 5px;
+  background-color: #fff4e4;
+  border-radius: 50px;
+  width: 25%;
 }
 
-.legendDifficultyNbr{
-    display: flex;
+.legendDifficultyNbr {
+  display: flex;
 }
 
 /***************************************************************************************************/
 /*DRAG AND DROP*/
 /***************************************************************************************************/
-
-.dragAndDrop{
-    margin-top: 4em;
-    background-color: #FFF4E4;
-    padding: 1em;
-    border-radius: 5px;
+.blocBeforeValidation {
+  background: var(--fond);
+  border-radius: 0.5em;
+  text-align: center;
+  padding: 1.5em 0;
+}
+.dragAndDrop {
+  margin-top: 4em;
+  border-radius: 5px;
+}
+.pStepFour {
+  padding: 2em 0;
+}
+.createQuestion {
+  /*width: 47%;*/
 }
 
-.createQuestion{
-    /*width: 47%;*/
+.nPropPartTwo {
+  padding: 2px 12px;
+  font-size: 23px;
+  margin: auto;
 }
-
-.nPropPartTwo{
-    padding: 2px 12px;
-    font-size: 23px;
-    margin-right: 1.1em;
+.spanWording {
+  margin-left: 0.5em;
 }
-
 /***************************************************************************************************/
 /*QCM CHOISED*/
 /***************************************************************************************************/
 
-.qcmChoised{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: baseline;
+.blocQcmChoisedLevel {
+  padding: 1em 0;
 }
-.qcmChoisedLegend{
-    display: flex;
-    align-items: center;
-    justify-content: end;
-    background-color: #FFAC8F;
-    border-radius: 30px;
-    margin: .3em;
-    color: white;
-    padding: .4em 0;
-    margin-bottom: 1em;
-    margin-top: 0;
+.qcmChoised {
+  display: flex;
+  border-radius: 0.5em;
+  background-color: #fff4e4;
+  padding: 2em 1em;
+}
+.qcmChoisedLegend {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  background-color: #ffac8f;
+  border-radius: 2em;
+  color: white;
+  padding: 0.7em 0;
+  width: 90%;
+  margin: auto;
 }
 
-.qcmChoisedLevel{
-    padding: .2em;
-    background: grey;
-    width: 15%;
-    text-align: center;
-    border-radius: 50px;
-    color: white;
-    margin-left: 4em;
-    margin-right: 1em;
-    font-weight: var(--semi_bold);
+.qcmChoisedLevel {
+  padding: 0.2em;
+  background: grey;
+  width: 15%;
+  text-align: center;
+  border-radius: 50px;
+  color: white;
+  margin-left: 4em;
+  margin-right: 1em;
+  font-weight: var(--semi_bold);
 }
 
 /***************************************************************************************************/
 /* qcmChoisedSubDiv*/
 
-.qcmChoisedSubDiv{
-    width: 45%;
-    height: 40%;
+.qcmChoisedSubDiv {
+  width: 45%;
+  height: 40%;
 }
-
+.questionsOfficial > ul {
+  display: grid;
+  grid-gap: 0.5em;
+  padding: 0.5em;
+}
 .qcmChoisedMain,
-.questionsOfficial{
-    height: 50em;
-    padding: 20px 7px 5px 20px;
+.questionsOfficial {
+  height: 24em;
 }
 
-.listQuestionTypedDiv{
-    width: 47%;
-    text-align: center;
+.listQuestionTypedDiv {
+  width: 47%;
+  text-align: center;
 }
 
-.qcmChoisedLi{
-    display: flex;
-    margin: .5em;
-    justify-content: space-between;
+.qcmChoisedLi {
+  display: flex;
+  margin: 0.5em;
+  justify-content: space-between;
 }
-.qcmChoisedLiDiv{
-    width: 100%;
+.qcmChoisedLiDiv {
+  width: 100%;
+  padding: 0.2em;
+  display: grid;
+  grid-gap: 0.2em;
 }
 
 /***********************************************************************/
 /*Une question*/
 
-.qcmChoisedQuestionWordingDiv{
-    border-radius: 5px;
-    text-align: center;
-    justify-content: center;
+.qcmChoisedQuestionWordingDiv {
+  border-radius: 5px;
+  text-align: center;
+  justify-content: center;
 }
-.qcmChoisedTreffleP{
-    width: 5%;
-    padding: .2em;
-    background: aliceblue;
-    border-radius: 50px;
-    display: flex;
-    justify-content: center;
-}
-
-.qcmChoisedTrefle{
-    width: 100%;
+.qcmChoisedTreffleP {
+  width: 5%;
+  padding: 0.2em;
+  /* background: aliceblue; */
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
 }
 
-.qcmChoisedQuestionWordingP{
-    margin: 0;
-    text-align: center;
-    font-weight: var(--semi_bold);
-    width: 84%;
-    padding: 1em .2em;
+.qcmChoisedTrefle {
+  width: 100%;
 }
 
-.qcmChoisedchevronBasP{
-    width: 4%;
-}
-.qcmChoisedchevronBasImg{
-    width: 100%;
-}
-
-.qcmChoisedProposalWordingDiv{
-    margin-top: 0;
+.qcmChoisedQuestionWordingP {
+  margin: 0;
+  text-align: center;
+  font-weight: var(--semi_bold);
+  width: 84%;
+  padding: 1em 0.2em;
 }
 
-.qcmChoisedProposalWordingP{
-
+.qcmChoisedchevronBasP {
+  width: 4%;
+}
+.qcmChoisedchevronBasImg {
+  width: 100%;
 }
 
-.x{
-    height: 20%;
-    width: 5%;
-    text-align: center;
-    background-color: gray;
-    border-radius: 50px;
-    color: white;
-    padding: 0.2em;
-    margin-left: .2em;
+.qcmChoisedProposalWordingDiv {
+  margin-top: 0;
 }
 
-.x:hover{
-    cursor: pointer;
-    background-color: red;
+.qcmChoisedProposalWordingP {
+}
+
+.x {
+  height: 20%;
+  width: 5%;
+  text-align: center;
+  background-color: gray;
+  border-radius: 50px;
+  color: white;
+  padding: 0.2em;
+  margin-left: 0.2em;
+}
+
+.x:hover {
+  cursor: pointer;
+  background-color: red;
 }
 
 /***********************************************************************/
@@ -457,270 +510,284 @@ ul{
 /*IMAGE*/
 /***************************************************************************************************/
 
-.imageDragAndDrop{
-    width: 9%;
-    text-align: center;
-    align-self: center;
+.imageDragAndDrop {
+  width: 9%;
+  text-align: center;
+  align-self: center;
 }
 
-.imageDragAndDrop img{
-    padding: .2em;
-    border: 1px solid gray;
-    border-radius: 14px;
-    box-shadow: 0 0 3px 0 var(--grey);
-    margin: 1em;
+.imageDragAndDrop img {
+  padding: 0.2em;
+  border: 2px dashed;
+  border-radius: 14px;
+  /* box-shadow: 0 0 3px 0 var(--grey); */
+  margin: 1em;
 }
 
-.imageDragAndDrop img:hover{
-    cursor : pointer;
-    background-color: var(--pamplemousse);
+.imageDragAndDrop img:hover {
+  cursor: pointer;
+  background-color: var(--pamplemousse);
 }
 
-.arrowRight{
-    transform: rotate(-31deg);
-    width: 50%;
+.arrowRight {
+  /* transform: rotate(-31deg); */
+  width: 50%;
 }
 
-.arrowLeft{
-    transform: rotate(131deg);
-    width: 50%;
+.arrowLeft {
+  /* transform: rotate(131deg); */
+  width: 50%;
 }
 
 /***************************************************************************************************/
 /*LIST QUESTON*/
 /***************************************************************************************************/
 
-.listQuestionTypedDiv{
-    width: 45%;
+.listQuestionTypedDiv {
+  width: 45%;
 }
 
-.btnChoiseQuestionType{
-    width: 100%;
-    margin-bottom: 1em;
+.btnChoiseQuestionType {
+  width: 100%;
+  padding: 1em 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 0.5em;
 }
 
-.btnChoiseQuestionType button{
-    border: none;
-    padding: .5em;
-    border-radius: 30px;
-    color: white;
-    font-weight: var(--semi_bold);
+.btnChoiseQuestionType button {
+  margin: auto;
+  border: none;
+  padding: 0.8em;
+  border-radius: 2em;
+  color: white;
+  font-weight: var(--semi_bold);
+  width: 85%;
+  background: var(--grey);
 }
 
-.btnChoiseQuestionType button:hover{
-    background-color: var(--vert);
-    cursor: pointer;
+.btnChoiseQuestionType button:hover {
+  background-color: var(--vert);
+  cursor: pointer;
 }
 
-.btnQuestionsOfficial{
-    background-color: var(--vert) ;
+.btnQuestionsOfficial {
+  background-color: var(--vert);
 }
-.btnQuestionsPerso{
-    background-color: var(--pamplemousse);
+.btnQuestionsPerso {
+  background-color: var(--pamplemousse);
 }
 
 /***************************************************************************************************/
 /*List questions*/
 .questionsCustom,
-.questionsOfficial{
-    height: 50em;
-    overflow: scroll;
+.questionsOfficial {
+  height: 24em;
+  overflow-y: scroll;
 }
 
 /*Modify*/
-.questionModify{
-    width: 100%;
-    margin-top: 1em;
+.questionModify {
+  width: 100%;
+  text-align: center;
 }
 
-.questionModify button{
-    padding: .2em 2em;
-    border: none;
-    border-radius: 30px;
-    background: gray;
-    color: white;
+.questionModify button {
+  padding: 0.5em;
+  border: none;
+  border-radius: 2em;
+  background: gray;
+  color: white;
+  width: 40%;
 }
 
-.questionModify button:hover{
-    background-color: var(--vert);
-    cursor: pointer;
+.questionModify button:hover {
+  background-color: var(--vert);
+  cursor: pointer;
 }
 
-.modifyP{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    margin: 0 0 .2em 0;
+.modifyP {
+  display: grid;
+  grid-template-columns: 12% 70% 8% 10%;
+  align-items: center;
+  width: 100%;
+  margin: 0 0 0.2em 0;
+  padding: 0;
 }
 
-.modifyP textarea{
-    width: 54%;
-    border-radius: 5px;
-    border: 1px solid gray;
-    height: 2em;
+.modifyP textarea {
+  border-radius: 5px;
+  border: none;
+  height: 3em;
+  padding: 0.5em;
 }
 
-.buttonAddProp{
-    padding: .1em 1em;
-    border: none;
-    background: var(--pamplemousse);
-    border-radius: 5px;
-    margin: 1em auto;
-    color: white;
+.buttonAddProp {
+  padding: 0.5em;
+  border: none;
+  background: var(--pamplemousse);
+  border-radius: 2em;
+  margin: auto;
+  color: white;
+  width: 40%;
 }
 
-.buttonAddProp:hover{
-    background-color: var(--grey);
-    cursor: pointer;
+.buttonAddProp:hover {
+  background-color: var(--grey);
+  cursor: pointer;
 }
 
-.deleteProp{
-    width: 2%;
-    padding: .2em;
-    border: 1px solid gray;
-    border-radius: 5px;
-    box-shadow: 0 0 3px gray;
+.deleteProp {
+  width: 30%;
+  padding: 0.2em;
+  border-radius: 5px;
+  margin: auto;
 }
 
-.deleteProp:hover{
-    background-color: var(--pamplemousse);
-    cursor: pointer;
+.deleteProp:hover {
+  background-color: var(--pamplemousse);
+  cursor: pointer;
 }
 
-.cancel{
-    margin: 1em auto;
+.cancel {
+  width: 40%;
+  margin: auto;
+  padding: 0.5em 0;
+  border: 2px dashed;
+  border-radius: 2em;
+  text-align: center;
 }
 
-.cancel:hover{
-    cursor: pointer;
-    color: red;
+.cancel:hover {
+  cursor: pointer;
+  color: red;
 }
 
 /***************************************************************************/
 
-.officialQuestionLi{
-    margin-bottom: 1em ;
+.officialQuestionLi {
+  padding: 0.2em;
+  display: grid;
+  /* grid-gap: 0.2em; */
 }
 
-.OfficialQuestionWordingDiv{
-    border-radius: 5px;
-    text-align: center;
-    justify-content: space-around;
+.OfficialQuestionWordingDiv {
+  border-radius: 5px;
+  text-align: center;
+  justify-content: space-around;
 }
-.qcmChoisedTreffleP{
-    width: 5%;
-    padding: .2em;
-    background: aliceblue;
-    border-radius: 50px;
-    display: flex;
-    justify-content: center;
-}
-
-.qcmChoisedTrefle{
-    width: 100%;
+.qcmChoisedTreffleP {
+  width: 5%;
+  padding: 0.2em;
+  /* background: aliceblue; */
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
 }
 
-.officialQuestionWordingP{
-    margin: 0;
-    text-align: center;
-    font-weight: var(--semi_bold);
-    width: 75%;
-    padding: .1em .2em;
+.qcmChoisedTrefle {
+  width: 100%;
 }
 
-.officialChevronBasP{
-    width: 4%;
-}
-.officialChevronBasImg{
-    width: 100%;
-}
-
-.OfficialProposalWordingDiv{
-    margin-top: 0;
+.officialQuestionWordingP {
+  margin: 0;
+  text-align: center;
+  width: 75%;
+  padding: 1em 0;
 }
 
-.modifyQuestionImgDiv{
-    width: 5%;
-    padding: .1em .2em;
-    background: white;
-    border-radius: 5px;
-    box-shadow: 0 0 5px var(--grey);
+.officialChevronBasP {
+  width: 4%;
+}
+.officialChevronBasImg {
+  width: 100%;
 }
 
-.modifyQuestionImgDiv:hover{
-    cursor: pointer;
-    background-color: var(--vert);
+.OfficialProposalWordingDiv {
+  margin-top: 0;
 }
 
-.modifyQuestionImg{
-    width: 100%;
+.modifyQuestionImgDiv {
+  width: 5%;
+  padding: 0.2em;
+  border-radius: 5px;
+}
+
+.modifyQuestionImgDiv:hover {
+  cursor: pointer;
+  background-color: var(--vert);
+}
+
+.modifyQuestionImg {
+  width: 100%;
 }
 
 /***************************************************************************************************/
 /*CREATE QUESTION*/
 /***************************************************************************************************/
 
-.createQuestion button{
-    padding: .5em 5em;
-    border: none;
-    border-radius: 30px;
-    background: var(--grey);
-    color: white;
-    font-weight: var(--semi_bold);
+.createQuestion button {
+  padding: 0.8em;
+  border: none;
+  border-radius: 2em;
+  background: var(--grey);
+  color: white;
+  width: 100%;
+  outline: none;
 }
 
-.createQuestion{
-    text-align: center;
-    margin: 2em 0;
+.createQuestion {
+  text-align: center;
+  padding: 2em 0;
 }
 
-.createQuestion button:hover{
-    cursor: pointer;
-    background-color: var(--vert);
+.createQuestion button:hover {
+  cursor: pointer;
+  background-color: var(--vert);
 }
-
 
 /***************************************************************************************************/
 /*QCM NAME*/
 /***************************************************************************************************/
 
-.qcmName{
-    margin: 2em auto;
-    width: 100%;
-    text-align: center;
-    background: var(--fond);
-    padding: 2em 3em;
-    border-radius: 5px;
+.qcmName {
+  width: 100%;
+  text-align: center;
+  background: var(--fond);
+  padding: 0 0 1.5em;
+  border-radius: 5px;
 }
 
-.qcmName input{
-    width: 50%;
-    border: 2px solid var(--grey);
-    border-radius: 5px;
-    padding: .2em;
-    text-align: center;
+.qcmName input {
+  width: 60%;
+  outline: none;
+  border-radius: 0.5em;
+  padding: 0.8em 0;
+  text-align: center;
+  border: none;
 }
 
 /***************************************************************************************************/
 /*VALIDATION*/
 /***************************************************************************************************/
 
-.qcmValidation{
-    margin: 3em auto;
-    width: 100%;
-    text-align: center;
+.qcmValidation {
+  margin: 3em auto;
+  width: 100%;
+  text-align: center;
 }
 
-.qcmValidation button{
-    padding: .7em 5em;
-    border-radius: 30px;
-    border: none;
-    background: var(--pamplemousse);
-    color: white;
+.qcmValidation button {
+  padding: 1em;
+  border-radius: 30px;
+  border: none;
+  background: var(--grey);
+  color: white;
+  width: 60%;
+  box-shadow: 1px 1px 1px 1px rgb(0 0 0 / 30%);
 }
 
-.qcmValidation button:hover{
-    cursor: pointer;
-    background-color: var(--vert);
+.qcmValidation button:hover {
+  cursor: pointer;
+  background-color: var(--vert);
 }
