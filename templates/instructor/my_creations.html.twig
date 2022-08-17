@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/instructor/my_creations.css') }}">
+{% endblock %}
+
+
+{% block body %}
+    <h1>Mes créations</h1>
+
+
+    <div class="container_my_creations">
+        <div class="blocLinkToMyCreation">
+            <p>Mes qcms</p>
+            <div class="blocLinkToMyQcmsCreation">
+                <div class="btnLinkOfficialQcm"> 
+                    <div class="blocLinkDecorative">   
+                        <a href="{{ path('instructor_qcms')}}" class="linkToQcm">Mes Qcm officiels</a>
+                    </div>
+                </div>
+                <div class="btnLinkPersoQcm">
+                    <div class="blocLinkDecorative">    
+                        <a href="#" class="linkToQcm two">Mes Qcm personnalisés</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="blocLinkToMyCreation">
+            <p>Mes questions</p>
+            <div class="blocLinkToMyQuestionsCreation">
+                <div class="btnLinkOfficialQuestions">  
+                    <div class="blocLinkDecorative"> 
+                        <a href="{{ path('instructor_display_questions')}}" class="linkToQuestion">Mes questions officiels</a>
+                    </div>
+                </div>
+                <div class="btnLinkPersoQuestions"> 
+                    <div class="blocLinkDecorative">  
+                        <a href="#" class="linkToQuestion two">Mes questions personnalisées</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

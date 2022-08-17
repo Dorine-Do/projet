@@ -2,12 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Module;
-use App\Entity\Proposal;
-use App\Entity\Qcm;
-use App\Entity\QcmInstance;
-use App\Entity\Question;
-use App\Entity\Session;
+use App\Entity\Main\Proposal;
+use App\Entity\Main\Qcm;
+use App\Entity\Main\QcmInstance;
+use App\Entity\Main\Question;
 use App\Form\CreateQuestionType;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\InstructorRepository;
@@ -21,9 +19,12 @@ use App\Repository\SessionRepository;
 use App\Repository\StudentRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use PhpParser\Node\Expr\Cast\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
@@ -175,8 +176,15 @@ class InstructorController extends AbstractController
     public function createQuestion(
         Request $request,
         EntityManagerInterface $manager,
+        Security $security,
+        InstructorRepository $instructorRepository,
+        ModuleRepository $moduleRepository
     ): Response
     {
+
+
+
+
         $questionEntity= new Question();
 
         $proposal1 = new Proposal();
@@ -188,10 +196,12 @@ class InstructorController extends AbstractController
         $questionEntity->addProposal($proposal2);
         $questionEntity->addProposal($proposal1);
 
+
         // création form
         $form = $this->createForm(CreateQuestionType::class,$questionEntity);
         // accès aux données du form
-        $form->handleRequest($request);
+         $form->handleRequest($request);
+
 
         // vérification des données soumises
         if($form->isSubmitted() && $form->isValid())
@@ -219,6 +229,9 @@ class InstructorController extends AbstractController
                 $questionEntity->setIsMultiple("false");
             }
 
+
+
+
             $questionEntity->setAuthor( $this->getUser() );
             $questionEntity->setIsOfficial(false);
             $questionEntity->setIsMandatory(false);
@@ -227,14 +240,22 @@ class InstructorController extends AbstractController
 
             //  validation et enregistrement des données du form dans la bdd
             $manager->persist($questionEntity);
+
             $manager->flush();
 
-            return $this->redirectToRoute('instructor_display_questions');
-        }
+                //  redirect to route avec flash
+                $this->addFlash(
+                    'instructorAddQuestion',
+                    'La question a été généré avec succès'
+                );
+                return $this->redirectToRoute('instructor_display_questions');
 
+        }
         return $this->render('instructor/create_question.html.twig', [
             'form' => $form->createView(),
             "add"=>true,
+
+
         ]);
     }
 
@@ -320,7 +341,7 @@ class InstructorController extends AbstractController
 
         $questionResponse = $questionRepository->find($question->getId());
 
-        /*TODO Débuger le jsonResponce*/
+        /*TODO Débuger le jsonResponse*/
         return new JsonResponse($questionResponse);
     }
 
@@ -354,7 +375,7 @@ class InstructorController extends AbstractController
         $module = $moduleRepository->find($data['module']);
         $qcm->setModule($module);
 
-        /*TODO voir avec Mathieu pour utiliser le hepler pour cette partie*/
+        /*TODO voir avec Mathieu pour utiliser le helper pour cette partie*/
         $questionsCache = [];
         foreach( $data['questions'] as $question )
         {
@@ -401,11 +422,12 @@ class InstructorController extends AbstractController
         ]);
 
         return $this->render('instructor/display_qcms.html.twig', [
-            'qcms' => $qcms
+            'qcms' => $qcms,
+
         ]);
     }
 
-    #[Route('instructor/create-official-qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
+    #[Route('instructor/create_official_qcm',name:'instructor_create_qcm',methods:['GET','POST'])]
     public function createOfficialQcm(
         Security $security,
         SessionRepository $sessionRepository,
@@ -484,6 +506,8 @@ class InstructorController extends AbstractController
             $manager->persist($qcmInstance);
             $manager->flush();
 
+
+             //  redirect to route avec flash
             $this->addFlash(
                 'instructorAddQcm',
                 'Le qcm a été généré avec succès'
@@ -491,7 +515,7 @@ class InstructorController extends AbstractController
             return $this->redirectToRoute('welcome_instructor');
 
         }
-    //  redirect to route avec flash vers welcome instructor
+
         }
 
 
@@ -568,7 +592,10 @@ class InstructorController extends AbstractController
         StudentRepository $studentRepo,
         EntityManagerInterface $manager
     )
+    #[Route('instructor/mes_creations/qcms',name:'my_creations',methods:['GET','POST'])]
+    public function test():Response
     {
+        return $this->render('instructor/my_creations.html.twig');
         $qcm = $qcmRepo->find( intval( $request->get('qcm') ) );
         $startTime = new \DateTime( $request->get('start-time') );
         $endTime = new \DateTime( $request->get('end-time') );

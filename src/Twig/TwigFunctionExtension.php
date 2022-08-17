@@ -15,6 +15,7 @@ class TwigFunctionExtension extends AbstractExtension
             // parameter: ['is_safe' => ['html']]
             // Reference: https://twig.symfony.com/doc/3.x/advanced.html#automatic-escaping
             new TwigFilter('explode', [$this, 'explode']),
+            new TwigFilter('count', [$this, 'count']),
         ];
     }
 
@@ -45,6 +46,11 @@ class TwigFunctionExtension extends AbstractExtension
     {
         // ...
        return implode(' ',$b);
+    }
+    public function count($count)
+    {
+        // ...
+       return count($count);
     }
     
 }

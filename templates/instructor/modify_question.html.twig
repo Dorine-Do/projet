@@ -2,31 +2,31 @@
 
 {% block stylesheets %}
     <link href="{{asset('build/app.css')}}" rel="stylesheet">
-    <link href="{{asset('css/instructor/modify_question.css')}}" rel="stylesheet">
+    <link href="{{asset('css/instructor/create_question.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block title %}{{ 'title.modifyQuestions'|trans }}{% endblock %}
 
 {% block body %}
+ {% if not form.vars.valid %}
+        <div class ="errorAddProposal">
+            {{ form_errors(form) }}     
+        </div>
+    {% endif %}
     <h1>- {{ 'question.iCorrectModify'|trans }} -</h1>
 
     {% if  distribute != null %}
 
 {#    Info question#}
         <div class="infoQuestion">
-        <p>
-            {{ 'question.goal'|trans }}
-        </p>
-        <p>
-            {{ 'question.warning'|trans }}, {{ 'question.warningExplain'|trans }}
-        </p>
-        <p>
-            {{ 'question.infoPublished'|trans }}
-            <br>
-            - {{ 'question.firstDatePublished'|trans }} : {{distribute}}
-            <br>
-            - {{ 'question.session'|trans }} : {{session}}
-        </p>
+            <p>Sticker info</p>
+             <ul>
+                <li>{{ 'question.goal'|trans }}</li>
+                <li> {{ 'question.warning'|trans }}, {{ 'question.warningExplain'|trans }}</li>
+                <li>{{ 'question.infoPublished'|trans }}</li>
+                <li>- {{ 'question.firstDatePublished'|trans }} : {{distribute}}</li>
+                <li> - {{ 'question.session'|trans }} : {{session}}</li>
+             </ul>
         </div>
         {# Form question #}
         <div class="formQuestion">
@@ -39,7 +39,7 @@
                             {{ 'module.choice'|trans }} :
                         </p>
                     </td>
-                    <td colspan="2" class="premierselect">
+                    <td colspan="2" class="premierSelect">
                         {{form_widget(form.module, { 'disabled' : true })}}
                     </td>
                 </tr>
@@ -121,16 +121,14 @@
     {% if distribute == null %}
 
         <div class="infoQuestion">
-            <p>
-                {{ 'question.goal'|trans }}
-            </p>
-            <p>
-                <strong> {{ 'question.warning'|trans }} </strong>
-                , {{ 'question.warningExplain'|trans }}
-            </p>
-            <p>
-                {{ 'question.infoNoPublished'|trans }}
-            </p>
+           <div class="info">
+                <p>Sticker infos</p>
+                <ul class="stickerInfo">
+                    <li><span>{{ 'question.notice'|trans }} : </span>  {{ 'question.goal'|trans }}</li>
+                    <li><span> {{ 'question.warning'|trans }} : </span>  {{ 'question.warningExplain'|trans }}</li>
+                    <li><span>{{ 'question.reminder'|trans }} : </span>  {{ 'question.infoPublished'|trans }}</li>
+                </ul>
+            </div>
         </div>
         {# Form question #}
         <div class="formQuestion">
@@ -143,7 +141,7 @@
                             {{ 'module.choice'|trans }}:
                         </p>
                     </td>
-                    <td colspan="2" class="premierselect">
+                    <td colspan="2" class="premierSelect">
                         {{form_widget(form.module)}}
                     </td>
                 </tr>

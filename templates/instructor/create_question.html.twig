@@ -10,10 +10,18 @@
 {% block body %}
     <h1> - {{ 'question.iCreate'|trans }} - </h1>
 
+    {# Modale d'erreur #}
+    {# {% if form_errors(form.proposals) is not null %} #}
+    {% if not form.vars.valid %}
+        <div class ="errorAddProposal">
+            {{ form_errors(form) }}     
+        </div>
+    {% endif %}
+
+
     {{ form_start(form) }}
-    <div>
-        {{ form_errors(form) }}
-    </div>
+     
+  
     <table>
         <tr>
             <td colspan="2" class="premier">
@@ -24,6 +32,7 @@
             </td>
             <td colspan="2" class="premierSelect">
                 {{form_widget(form.module)}}
+
             </td>
         </tr>
         <tr>
@@ -45,10 +54,9 @@
                 </p>
             </td>
             <td colspan="2" class="difficulty">
-                {{ form_widget(form.difficulty)}}
+                {{ form_row(form.difficulty)}}
             </td>
-        </tr>
-        <tr>
+        </tr class="blocProposal">
             <td colspan="2" class="premier">
                 <p class="etape">
                     <span class="numeroForm" >4</span>
@@ -93,6 +101,7 @@
         </tr>
     </table>
     {{form_rest(form)}}
+    
 {% endblock %}
 
 {% block javascripts %}

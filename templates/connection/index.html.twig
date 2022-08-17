@@ -1,22 +1,35 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Hello ConnectionController!{% endblock %}
+{% block stylesheets %}
+    <link href="{{asset('css/connection.css')}}" rel="stylesheet">
+{% endblock %}
+
 
 {% block body %}
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
+    <main class="containerConnection">
+        <div class="blocLeft">
+            <div class="logoAndTypeOfApplication">
+                <div class="logo"><img src=""/></div>
+                <p class="typeOfApplication">Mon interface apprenant</p>
+            </div>
+            <div class="partOfApplication">
+                <h1>- CONNEXION -</h1>
+            </div>
+            <div></div>
+        </div>
+        <div class="blocRight">
+            <div class="blocWhite">
+                <div class="formConnection">
 
-    <form action="{{ path('app_connection') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+                    <div class="blocBtnSubmit">
+                        <a href="{{ path('connect_google') }}">Se connecter</a>
+                    </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password"/>
-
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-        <input type="hidden" name="_target_path" value="/dashboard/check"/>
-
-        <button type="submit">login</button>
-    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+   
 {% endblock %}

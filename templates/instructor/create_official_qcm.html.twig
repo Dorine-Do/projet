@@ -1,4 +1,4 @@
-{# {% extends 'base.html.twig' %} #}
+{% extends 'base.html.twig' %}
 
 {% block stylesheets %}
     <link href="{{asset('css/instructor/create_qcm.css')}}" rel="stylesheet">
@@ -7,7 +7,8 @@
 {% block body %}
 
 <div class="container_create_qcm">
-  <nav class="create_qcm">
+<h1>Je crée un qcm</h1>
+  {# <nav class="create_qcm">
     <div>ici logo</div>
     <ul class="list_buttons_nav">
       <Li>Créer un qcm</Li>
@@ -16,7 +17,7 @@
       <Li>Gestion qcm</Li>
     </ul>
     
-  </nav>
+  </nav> #}
   <main class="content_qcm_creation">
     <p class="step_one"><span>Etape 1</span>Choix de la session</p>
     <form method="GET" action="{{path('instructor_create_qcm')}}">
@@ -57,6 +58,9 @@
       // querySelectorAll -> si plusieurs input
          let sessionInput = document.querySelector(".list_sessions input");
          let sessionLiAll = document.querySelectorAll(".list_sessions li ");
+         let navLinkChoice = document.querySelector(".choix");
+          let linkQcmGiven = document.querySelector(".qcmGiven");
+          let linkCreation = document.querySelector(".creation");
 
          for(let forSessionLi = 0; forSessionLi < sessionLiAll.length ; forSessionLi++){
            sessionLiAll[forSessionLi].addEventListener("click",function(e){
@@ -65,7 +69,15 @@
            })
          }
        
-
+       /////////////////////
+      //  TEST url
+      if (window.location.href.includes(location.pathname)) {
+        // linkCreation.classList.add('activeBorderLinkNav')
+        navLinkChoice.style.width = "90%";
+        navLinkChoice.style.gridTemplateColumns = "repeat(4,1fr)";
+        linkCreation.style.display = "inline";
+        linkQcmGiven.style.display = "inline";
+      }
       
     }
     </script>

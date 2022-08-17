@@ -1,5 +1,15 @@
 //ONLOAD ET NON DOM CHARGEMENT 1 FOIS ET NON 2 COMME DOM CAR ERREUR ET PROBLEME D AFFICHAGE
 window.onload = function (event) {
+  let span = document.querySelector(".flash-notice div");
+  let addFlash = document.querySelector(".flash-notice ");
+  ///////////////////////FLASH MESSAGE
+  if (span) {
+    span.addEventListener("click", function () {
+      addFlash.style.display = "none";
+    });
+  }
+
+  //////////////PROPOSALS
   let div_proposals = document.querySelectorAll(".divProposals");
   div_proposals.forEach((div) => {
     div.style.display = "none";
@@ -51,21 +61,37 @@ window.onload = function (event) {
 
   let liBtnQcm = document.querySelectorAll(".li_btn_qcm  ");
   let ulBtnQcm = document.querySelector(".list_btn_qcm  ");
-  console.log(liBtnQcm);
+  // console.log(liBtnQcm);
   let questionsLi = document.querySelectorAll(".list_questions li");
+  let questionsLiOne = document.querySelector(".list_questions li");
   let questionsSpans = document.querySelectorAll(".list_questions li span");
   let questionslist = document.querySelector(".list_questions ");
   let forBtnQcm;
   let blocUlQcm = document.querySelector(".bloc_qcm ");
   let blocUlQuestion = document.querySelector(".bloc-toggle-ul-question");
-  //calcule height pour scroll active
-  let blocUlQcmHeight = blocUlQcm.getBoundingClientRect().height;
-  let blocUlQuestionHeight = blocUlQuestion.getBoundingClientRect().height;
-  let ulQcmHeight = ulBtnQcm.getBoundingClientRect().height;
-  let ulQuestionHeight = questionslist.getBoundingClientRect().height;
+  let navLinkChoice = document.querySelector(".choix");
+  let linkQcmGiven = document.querySelector(".qcmGiven");
+  let linkCreation = document.querySelector(".creation");
+  // let liCreate = (questionslist.innerHTML = "<li></li>");
+  // console.log(liCreate);
 
-  ///////////////////////
-  // SCROLL
+  //calcule height pour scroll active
+  //Condition pour que la suite des instructions ne blocque pas sur les autres pages
+  if (blocUlQcm) {
+    let blocUlQcmHeight = blocUlQcm.getBoundingClientRect().height;
+  }
+  if (blocUlQuestion) {
+    let blocUlQuestionHeight = blocUlQuestion.getBoundingClientRect().height;
+  }
+  if (ulBtnQcm) {
+    let ulQcmHeight = ulBtnQcm.getBoundingClientRect().height;
+  }
+  if (questionslist) {
+    let ulQuestionHeight = questionslist.getBoundingClientRect().height;
+  }
+
+  ////////////////////
+  // HOVER DECLENCHEMENT SCROLL-Y
   blocUlQcm.addEventListener("mouseover", function () {
     if (ulQcmHeight > blocUlQcmHeight + 10) {
       blocUlQcm.classList.add("scroll_active");
@@ -97,17 +123,28 @@ window.onload = function (event) {
   /////////////////////
   //  TEST url
   if (window.location.href.includes(location.pathname)) {
-    document.querySelector(
-      ".bloc_link_btn_my_creations button"
-    ).style.background = "#93AD6E";
+    linkCreation.classList.add("activeBorderLinkNav");
+    navLinkChoice.style.width = "90%";
+    navLinkChoice.style.gridTemplateColumns = "repeat(4,1fr)";
+    linkCreation.style.display = "inline";
+    linkQcmGiven.style.display = "inline";
   }
-  ////////////////////
-  // HOVER DECLENCHEMENT SCROLL-Y
 
   ///////////////////
   // SELECTION UNIQUE DES BOUTONS QCMS ET DISPLAY DE LA LISTE DES QUESTIONS LIEES
 
   for (forBtnQcm = 0; forBtnQcm < liBtnQcm.length; forBtnQcm++) {
+    // TEST
+    // let questionsCache = JSON.parse(liBtnQcm[forBtnQcm].dataset.questionsCache);
+    // for (let forWording = 0; forWording < questionsCache.length; forWording++) {
+    //   // questionslist.innerHTML = `<li><span>${forWording + 1}</span>${
+    //   //   questionsCache[forWording].wording
+    //   // }</li>`;
+    //   questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
+    //     questionsCache[forWording].wording
+    //   }`;
+    // }
+    //  click
     liBtnQcm[forBtnQcm].addEventListener("click", function (e) {
       // let eTarget = this.dataset.id;
       let questionsCache = JSON.parse(this.dataset.questionsCache);
@@ -120,33 +157,14 @@ window.onload = function (event) {
         console.log(questionsCache[forQuestionCache].wording);
       }
 
-      // for (
-      //   let forQuestionCache = 0;
-      //   forQuestionCache < questionsCache.length;
-      //   forQuestionCache++
-      // ) {
-      //   console.log(questionsCache[forQuestionCache].wording);
-      // }
-      // for (
-      //   let forWording = 0;
-      //   forWording < questionsCache.length;
-      //   forWording++
-      // ) {
-      //   console.log(questionsCache.length);
-      //   questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
-      //     questionsCache[forWording].wording
-      //   }`;
-      // }
-
       for (
         let forWording = 0;
         forWording < questionsCache.length;
         forWording++
       ) {
-        if (questionsCache.length == 42) {
-          console.log("yes");
-        }
-        console.log(questionsCache.length);
+        // questionslist.innerHTML = `<li><span>${forWording + 1}</span>${
+        //   questionsCache[forWording].wording
+        // }</li>`;
         questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
           questionsCache[forWording].wording
         }`;
@@ -165,3 +183,20 @@ window.onload = function (event) {
     });
   }
 };
+// for (
+//   let forQuestionCache = 0;
+//   forQuestionCache < questionsCache.length;
+//   forQuestionCache++
+// ) {
+//   console.log(questionsCache[forQuestionCache].wording);
+// }
+// for (
+//   let forWording = 0;
+//   forWording < questionsCache.length;
+//   forWording++
+// ) {
+//   console.log(questionsCache.length);
+//   questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
+//     questionsCache[forWording].wording
+//   }`;
+// }

@@ -2,7 +2,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Module;
+use App\Entity\LinkInstructorSessionModule;
+use App\Entity\Main\Module;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -61,6 +62,36 @@ class ModuleRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
+    //    /**
+    //  * @throws ORMException
+    //  * @throws OptimisticLockException
+    //  */
+    // public function getModule($instructorId)
+    // {
+    //     $entityManager = $this->getEntityManager();
+
+    //     return  $entityManager->createQuery(
+    //         'SELECT m
+    //         FROM App\Entity\Module m
+    //         INNER JOIN App\Entity\LinkInstructorSessionModule lism
+    //         WHERE lism.instructor = :instructor
+    //         AND lism.module = m.id
+    //        '
+    //     )->setParameter(':instructor',$instructorId)
+    //     ;
+
+    //     ;
+    // }
+
+    public function getModules( $instructor )
+    {
+        return $this->createQueryBuilder('m')
+            ->select('m')
+            ->join(LinkInstructorSessionModule::class, 'lism')
+            ->where('lism.instructor = :instructor' )
+            ->andWhere( 'lism.module = m.id' )
+            ->setParameter('instructor', $instructor->getId() );
+    }
 //    /**
 //     * @return Module[] Returns an array of Module objects
 //     */

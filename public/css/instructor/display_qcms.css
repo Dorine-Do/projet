@@ -1,4 +1,4 @@
-@import url("../main.css");
+@import url("./main.css");
 
 ul {
   margin: 0;
@@ -8,32 +8,77 @@ ul {
 
 .container_qcm_and_questions_management {
   display: grid;
-  grid-gap: 60px;
+  grid-gap: 20px;
+  padding: 80px 0 20px;
 }
 
 /* ********************** Display questions by qcm *********************** */
-
-.bloc_display_question_by_qcm,
-.bloc_btns_nav {
-  width: 75%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 20px;
+.blocIndice {
+  width: 85%;
   margin: auto;
-  padding: 5%;
-  background-color: var(--fond);
-  border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(2, 40% [col-start] 60%[col-end]);
+  /* grid-gap: 20px; */
 }
-.bloc_qcm {
-  overflow: hidden;
+.indiceToShowQuestions {
+  padding-left: 5%;
 }
 
-.list_questions,
-.bloc_qcm {
-  height: 500px;
-  margin: 0;
+/* .blocIndice > p {
+  background: #ffac8f;
+  width: 80%;
+  padding: 15px;
+  border-radius: 50px;
+  margin: auto;
+} */
+
+.blocIndice span {
+  background: #ffac8f;
+  display: inline-block;
+  text-align: center;
+  width: 50px;
+  padding: 10px;
+  border-radius: 50px;
+  color: white;
+  margin-right: 10px;
+}
+/* .blocIndice span {
+  background: #ffac8f;
+  display: inline-block;
+  text-align: center;
+  width: 23px;
+  padding: 15px;
+  border-radius: 80%;
+} */
+.bloc_display_question_by_qcm {
+  width: 85%;
+  display: grid;
+  grid-template-columns: repeat(2, 40% [col-start] 60%[col-end]);
+  /* grid-gap: 30px; */
+  margin: auto;
   border-radius: 5px;
+}
+.bloc_qcm,
+.bloc-toggle-ul-question {
+  background: #fff4e4;
+  height: 500px;
+  border-radius: 10px;
+  padding: 40px;
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.1);
+}
+.bloc-toggle-ul-question {
+  margin: 0 0 0 30px;
+}
+.divQcm,
+.divQuestions {
+  height: 100%;
+  overflow: hidden;
   background: white;
+  border-radius: 10px;
+}
+.list_questions,
+.list_btn_qcm {
+  border-radius: 10px;
 }
 
 .list_questions > li {
@@ -45,26 +90,6 @@ ul {
   text-align: center;
 }
 
-.bloc_link_btn_my_creations > button,
-.bloc_link_btn_qcm_given > button {
-  padding: 25px 0;
-  width: 100%;
-  border-radius: 5px;
-  outline: none;
-  border: none;
-  box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
-  background: #616161;
-  color: white;
-  font-family: "Alumni Sans", sans-serif;
-  font-size: var(--normal);
-}
-
-/* temporaire voir js  */
-.bloc_link_btn_my_creations > button:active,
-.bloc_link_btn_qcm_given > button:active {
-  background-color: var(--vert);
-}
-
 .list_btn_qcm {
   text-align: center;
   margin: 0;
@@ -73,9 +98,6 @@ ul {
   grid-gap: 10px;
   border-radius: 5px;
 }
-/* .bloc_qcm:hover {
-  overflow-y: scroll;
-} */
 
 .scroll_active {
   overflow-y: scroll;
@@ -122,22 +144,20 @@ ul {
   background: var(--pamplemousse) !important;
 }
 /******************************* scroll bar***************************** */
-/* .list_questions:hover {
-  overflow-y: scroll;
-} */
+
 /* width */
 .scroll_active::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
-.list_questions::-webkit-scrollbar-track {
+.scroll_active::-webkit-scrollbar-track {
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
 
 /* Handle */
-.list_questions::-webkit-scrollbar-thumb {
+.scroll_active::-webkit-scrollbar-thumb {
   background: var(--grey);
   border-radius: 10px;
 }
