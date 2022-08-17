@@ -4,18 +4,18 @@ namespace App\DataFixtures;
 
 use App\Entity\Enum\Difficulty;
 use App\Entity\Enum\Level;
-use App\Entity\Instructor;
-use App\Entity\LinkInstructorSessionModule;
-use App\Entity\LinkSessionModule;
-use App\Entity\LinkSessionStudent;
-use App\Entity\Module;
-use App\Entity\Proposal;
-use App\Entity\Qcm;
-use App\Entity\QcmInstance;
-use App\Entity\Question;
-use App\Entity\Result;
-use App\Entity\Session;
-use App\Entity\Student;
+use App\Entity\Main\Instructor;
+use App\Entity\Main\LinkInstructorSessionModule;
+use App\Entity\Main\LinkSessionModule;
+use App\Entity\Main\LinkSessionStudent;
+use App\Entity\Main\Module;
+use App\Entity\Main\Proposal;
+use App\Entity\Main\Qcm;
+use App\Entity\Main\QcmInstance;
+use App\Entity\Main\Question;
+use App\Entity\Main\Result;
+use App\Entity\Main\Session;
+use App\Entity\Main\Student;
 use App\Repository\InstructorRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\QcmInstanceRepository;
@@ -388,7 +388,7 @@ class AppFixtures extends Fixture
             array_push($arrayDifficulty, $difficulty);
             $arrayAnswers = [];
             foreach ($answers as $answer){
-                array_push($arrayAnswers, ["id" => $answer->getId(), "libelle" => $answer->getWording(), "is_correct" => $answer->getIsCorrect()]);
+                array_push($arrayAnswers, ["id" => $answer->getId(), "wording" => $answer->getWording(), "is_correct" => $answer->getIsCorrect()]);
             }
 
             $questionAnswer =
@@ -397,9 +397,9 @@ class AppFixtures extends Fixture
                         "question"=>
                             [
                                 "id"=> $randomQuestion->getId(),
-                                "libelle"=>$randomQuestion->getWording(),
+                                "wording"=>$randomQuestion->getWording(),
                                 "responce_type"=>$randomQuestion->getResponseType(),
-                                "answers"=>
+                                "proposals"=>
                                     $arrayAnswers
                             ],
                     ]

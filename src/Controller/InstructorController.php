@@ -2,12 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Module;
-use App\Entity\Proposal;
-use App\Entity\Qcm;
-use App\Entity\QcmInstance;
-use App\Entity\Question;
-use App\Entity\Session;
+use App\Entity\Main\Proposal;
+use App\Entity\Main\Qcm;
+use App\Entity\Main\QcmInstance;
+use App\Entity\Main\Question;
 use App\Form\CreateQuestionType;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\InstructorRepository;
@@ -16,16 +14,15 @@ use App\Repository\ProposalRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
-use App\Repository\UserRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use PhpParser\Node\Expr\Cast\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -182,8 +179,8 @@ class InstructorController extends AbstractController
     ): Response
     {
 
-    
-    
+
+
 
         $questionEntity= new Question();
 
@@ -195,14 +192,14 @@ class InstructorController extends AbstractController
 
         $questionEntity->addProposal($proposal2);
         $questionEntity->addProposal($proposal1);
-       
-      
+
+
         // création form
         $form = $this->createForm(CreateQuestionType::class,$questionEntity);
         // accès aux données du form
          $form->handleRequest($request);
-        
-   
+
+
         // vérification des données soumises
         if($form->isSubmitted() && $form->isValid())
         {
@@ -229,34 +226,34 @@ class InstructorController extends AbstractController
             {
                 $questionEntity->setIsMultiple("false");
             }
-            
-           
-         
-           
+
+
+
+
             $questionEntity->setAuthor( $this->getUser() );
             $questionEntity->setIsOfficial(false);
             $questionEntity->setIsMandatory(false);
             $questionEntity->setExplanation('Explication');
             $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
-           
+
             //  validation et enregistrement des données du form dans la bdd
             $manager->persist($questionEntity);
-           
+
             $manager->flush();
 
-                //  redirect to route avec flash 
+                //  redirect to route avec flash
                 $this->addFlash(
                     'instructorAddQuestion',
                     'La question a été généré avec succès'
                 );
                 return $this->redirectToRoute('instructor_display_questions');
-            
+
         }
         return $this->render('instructor/create_question.html.twig', [
             'form' => $form->createView(),
             "add"=>true,
-          
-           
+
+
         ]);
     }
 
@@ -342,7 +339,7 @@ class InstructorController extends AbstractController
 
         $questionResponse = $questionRepository->find($question->getId());
 
-        /*TODO Débuger le jsonResponce*/
+        /*TODO Débuger le jsonResponse*/
         return new JsonResponse($questionResponse);
     }
 
@@ -376,7 +373,7 @@ class InstructorController extends AbstractController
         $module = $moduleRepository->find($data['module']);
         $qcm->setModule($module);
 
-        /*TODO voir avec Mathieu pour utiliser le hepler pour cette partie*/
+        /*TODO voir avec Mathieu pour utiliser le helper pour cette partie*/
         $questionsCache = [];
         foreach( $data['questions'] as $question )
         {
@@ -424,7 +421,7 @@ class InstructorController extends AbstractController
 
         return $this->render('instructor/display_qcms.html.twig', [
             'qcms' => $qcms,
-            
+
         ]);
     }
 
@@ -494,7 +491,6 @@ class InstructorController extends AbstractController
             }elseif($endTime && $endTimeTextualFormat===$dayOfWeekEnd[1]){
                 //autre methode si format de celle ci gardé sinon la convertir en celle d'en haut
                 $endTime=$endTime->add(new DateInterval("P1D"));
-                // dd($endTime,'dimanche');
             }
              $qcmInstance->setEndTime($endTime);
              //mettre dans un tableau saturday sunday
@@ -509,7 +505,7 @@ class InstructorController extends AbstractController
             $manager->flush();
 
 
-             //  redirect to route avec flash 
+             //  redirect to route avec flash
             $this->addFlash(
                 'instructorAddQcm',
                 'Le qcm a été généré avec succès'
