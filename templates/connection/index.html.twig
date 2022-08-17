@@ -21,25 +21,13 @@
         </div>
         <div class="blocRight">
             <div class="blocWhite">
-                <form action="{{ path('app_connection') }}" method="post" class="formConnection">
-                    <div class="blocEmail"> 
-                        <label for="username" hidden>Email:</label>
-                        <input type="text" id="username" name="_username" value="{{ last_username }}" placeHolder="Email"/>
+                <div class="formConnection">
+
+                    <div class="blocBtnSubmit">
+                        <a href="{{ path('connect_google') }}">Se connecter</a>
                     </div>
-                    <div class="blocPassword"> 
-                        <label for="password" hidden>Password:</label>
-                        <input type="password" id="password" name="_password"placeHolder="Mot de passe"/>
-                    </div>
-                   
-                        <div class="blocError"> 
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                            <input type="hidden" name="_target_path" value="/dashboard/check"/>
-                        </div>
-                   
-                    <div class="blocBtnSubmit"> 
-                        <button type="submit">Se connecter</button>
-                    </div>
-                </form>
+
+                </div>
             </div>
         </div>
     </main>

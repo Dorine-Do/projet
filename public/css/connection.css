@@ -79,7 +79,7 @@ body {
 }
 .blocEmail > input,
 .blocPassword > input,
-.blocBtnSubmit > button {
+.blocBtnSubmit > a {
   padding: 0.7em;
   width: 85%;
   text-align: center;
@@ -87,7 +87,7 @@ body {
   outline: none;
   border: none;
 }
-.blocBtnSubmit > button {
+.blocBtnSubmit > a {
   width: 70%;
   background: var(--grey);
   box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
