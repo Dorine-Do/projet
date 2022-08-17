@@ -2,9 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\Module;
-use App\Entity\QcmPlanner;
-use App\Entity\Session;
+use App\Entity\Main\Module;
+use App\Entity\Main\QcmPlanner;
+use App\Entity\Main\Session;
 use App\Repository\SessionRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

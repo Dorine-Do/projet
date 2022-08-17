@@ -19,11 +19,9 @@ use App\Repository\SessionRepository;
 use App\Repository\StudentRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
-use PhpParser\Node\Expr\Cast\String_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
@@ -158,9 +156,6 @@ class InstructorController extends AbstractController
     public function createQuestion(
         Request                $request,
         EntityManagerInterface $manager,
-        Security               $security,
-        InstructorRepository   $instructorRepository,
-        ModuleRepository       $moduleRepository
     ): Response
     {
         $questionEntity = new Question();
@@ -482,11 +477,16 @@ class InstructorController extends AbstractController
 
         }
 
-
         return $this->render('instructor/create_official_qcm.html.twig', [
             'sessions' => $sessions,
             'modules' => $modules
         ]);
+    }
+
+    #[Route('instructor/mes_creations/qcms',name:'my_creations',methods:['GET','POST'])]
+    public function displayInstructionCreations():Response
+    {
+        return $this->render('instructor/my_creations.html.twig');
     }
 
     #[Route('instructor/plan_qcm', name: 'instructor_plan_qcm', methods: ['GET', 'POST'])]

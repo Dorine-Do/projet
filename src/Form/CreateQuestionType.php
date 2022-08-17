@@ -4,9 +4,9 @@ namespace App\Form;
 
 
 use App\Entity\Enum\Difficulty;
-use App\Entity\Instructor;
-use App\Entity\Module;
-use App\Entity\Question;
+use App\Entity\Main\Instructor;
+use App\Entity\Main\Module;
+use App\Entity\Main\Question;
 use App\Repository\InstructorRepository;
 use App\Repository\ModuleRepository;
 use Doctrine\ORM\EntityManagerInterface;
