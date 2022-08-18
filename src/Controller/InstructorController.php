@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Main\Module;
 use App\Entity\Main\Proposal;
 use App\Entity\Main\Qcm;
 use App\Entity\Main\QcmInstance;
 use App\Entity\Main\Question;
+use App\Entity\Main\Session;
 use App\Form\CreateQuestionType;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\InstructorRepository;
@@ -46,10 +48,12 @@ class InstructorController extends AbstractController
         $resumeProposal = [];
 
         $questions = $questionRepository->findBy(['author' => $this->getUser()->getId()]);
-        foreach ($questions as $question) {
+        foreach( $questions as $question )
+        {
             $question_id = $question->getId();
-            $proposals[$question_id] = $proposalRepository->findBy(['question' => $question_id]);
-            foreach ($proposals[$question_id] as $proposal) {
+            $proposals[$question_id] = $proposalRepository->findBy( ['question' => $question_id] );
+            foreach( $proposals[$question_id] as $proposal )
+            {
                 $proposalValues = [
                     'id' => $proposal->getId(),
                     'wording' => $proposal->getWording(),
@@ -74,19 +78,25 @@ class InstructorController extends AbstractController
     ): Response
     {
         $releaseDateOnSession = $questionRepository->getSessionWithReleaseDate($question);
-        if ($releaseDateOnSession) {
+        if ($releaseDateOnSession)
+        {
             $session = $releaseDateOnSession[0]['name'];
-        } else {
+        }
+        else
+        {
             $session = null;
         }
 
         // GetQuestionById with release_date
         $releaseDate = $questionRepository->getQuestionWithReleaseDate($question);
 
-        if ($releaseDate) {
+        if ($releaseDate)
+        {
             $date = $releaseDate[0]['startTime'];
             $distribute = date_format($date, 'd/m/y');
-        } else {
+        }
+        else
+        {
             $distribute = null;
         }
 
@@ -177,22 +187,28 @@ class InstructorController extends AbstractController
 
 
         // vérification des données soumises
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ( $form->isSubmitted() && $form->isValid() )
+        {
             $count = 0;
             $persitPropCount = 0;
-            foreach ($questionEntity->getProposals() as $proposal) {
+            foreach( $questionEntity->getProposals() as $proposal )
+            {
                 // set les proposals
                 $proposal->setQuestion($questionEntity);
                 $persitPropCount++;
 
                 // set le response type
-                if ($proposal->getIsCorrectAnswer() === true) {
+                if( $proposal->getIsCorrectAnswer() )
+                {
                     $count++;
                 }
             }
-            if ($count > 1) {
+            if ($count > 1)
+            {
                 $questionEntity->setIsMultiple("true");
-            } elseif ($count == 1) {
+            }
+            elseif ($count == 1)
+            {
                 $questionEntity->setIsMultiple("false");
             }
 
@@ -234,18 +250,21 @@ class InstructorController extends AbstractController
         $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
         $modules = [];
-        foreach ($linksInstructorSessionModule as $linkInstructorSessionModule) {
+        foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
+        {
             $modules[] = $linkInstructorSessionModule->getModule();
         }
 
         /**********************************************************************************/
         // Get module choiced
         $module = null;
-        if ($request->get('module')) {
+        if ($request->get('module'))
+        {
             $module = $moduleRepository->find($request->get('module'));
         }
 
-        if ($module) {
+        if ($module)
+        {
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
@@ -272,7 +291,7 @@ class InstructorController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response
     {
-        $data = (array)json_decode($request->getContent());
+        $data = (array) json_decode($request->getContent());
         $question = new Question();
         $module = $moduleRepository->find($data['module']);
         $question->setModule($module);
@@ -286,7 +305,8 @@ class InstructorController extends AbstractController
         $question->setIsOfficial(0);
         $question->setIsEnabled(1);
 
-        foreach ($data['proposals'] as $proposal) {
+        foreach ($data['proposals'] as $proposal)
+        {
             $newProposal = new Proposal();
             $newProposal->setWording($proposal->wording);
             $newProposal->setIsCorrectAnswer($proposal->isCorrectAnswer);
@@ -295,7 +315,6 @@ class InstructorController extends AbstractController
         };
 
         $validator->validate($question);
-        $questionJson = json_encode($question);
 
         $entityManager->persist($question);
         $entityManager->flush();
@@ -315,18 +334,22 @@ class InstructorController extends AbstractController
         ModuleRepository       $moduleRepository,
         EntityManagerInterface $entityManager
     ): Response
-
     {
         $data = (array)json_decode($request->getContent());
         $qcm = new Qcm();
         $author = $instructorRepository->find($this->getUser()->getId());
         $qcm->setAuthor($author);
         $qcm->setTitle($data['name']);
-        if ($data['level'] === 'Difficile') {
+        if ($data['level'] === 'Difficile')
+        {
             $level = 1;
-        } elseif ($data['level'] === 'Moyen') {
+        }
+        elseif ($data['level'] === 'Moyen')
+        {
             $level = 2;
-        } else {
+        }
+        else
+        {
             $level = 3;
         }
         $qcm->setDifficulty($level);
@@ -338,11 +361,13 @@ class InstructorController extends AbstractController
 
         /*TODO voir avec Mathieu pour utiliser le hepler pour cette partie*/
         $questionsCache = [];
-        foreach ($data['questions'] as $question) {
+        foreach ($data['questions'] as $question)
+        {
             $question = $questionRepository->find($question->id);
             $questionProposals = $question->getProposals();
             $proposalsCache = [];
-            foreach ($questionProposals as $questionProposal) {
+            foreach ($questionProposals as $questionProposal)
+            {
                 $proposalsCache[] = [
                     'id' => $questionProposal->getId(),
                     'wording' => $questionProposal->getWording(),
@@ -381,7 +406,6 @@ class InstructorController extends AbstractController
 
         return $this->render('instructor/display_qcms.html.twig', [
             'qcms' => $qcms,
-
         ]);
     }
 
@@ -396,12 +420,12 @@ class InstructorController extends AbstractController
         EntityManagerInterface $manager
     ): Response
     {
-
         $dayOfWeekEnd = array("Saturday", "Sunday");
         $userId = $security->getUser();
         $sessionAndModuleByInstructor = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
-        foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor) {
+        foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor)
+        {
             $sessionId = $sessionAndModuleByInstructor->getSession()->getId();
             $moduleId = $sessionAndModuleByInstructor->getModule()->getId();
             $sessions = $sessionRepository->findBy(['id' => $sessionId]);
@@ -410,8 +434,8 @@ class InstructorController extends AbstractController
 
         $formData = $request->query->all();
 
-        if (count($formData) != 0) {
-
+        if (count($formData) != 0)
+        {
             $module = $moduleRepository->find($formData["module"]);
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             $qcm = $qcmGenerator->generateRandomQcm($module, false);
@@ -421,12 +445,13 @@ class InstructorController extends AbstractController
             $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
             $students = [];
 
-            foreach ($linksSessionStudent as $linkSessionStudent) {
-
+            foreach ($linksSessionStudent as $linkSessionStudent)
+            {
                 $students[] = $linkSessionStudent->getStudent();
             }
 
-            foreach ($students as $student) {
+            foreach ($students as $student)
+            {
                 $qcmInstance = new QcmInstance();
                 $qcmInstance->setStudent($student);
                 $qcmInstance->setQcm($qcm);
@@ -435,7 +460,8 @@ class InstructorController extends AbstractController
 
                 //START TIME AND END TIME
                 $dayOfCreationOfQcmInstance = $qcmInstance->getCreatedAt();
-                if ($dayOfCreationOfQcmInstance) {
+                if ($dayOfCreationOfQcmInstance)
+                {
                     $dateOfCreationFormat = date_format($dayOfCreationOfQcmInstance, "Y-m-d H:i:s");
                     $newDateTimeForStartTime = date("Y-m-d 13:00:00", strtotime($dateOfCreationFormat . '+ 5 days'));
                     $startTime = new \DateTime($newDateTimeForStartTime);
@@ -445,11 +471,14 @@ class InstructorController extends AbstractController
 
                     //  DAY ADDITION IF ENDTIME = A DAY OF WEEK  voir array -> dayOfweek
                     $endTimeTextualFormat = date_format($endTime, 'l');
-                    if ($endTime && $endTimeTextualFormat === $dayOfWeekEnd[0]) {
+                    if ($endTime && $endTimeTextualFormat === $dayOfWeekEnd[0])
+                    {
                         $endTime = date_format($endTime, "Y-m-d H:i:s");
                         $endTimeFormatNum = date("Y-m-d H:i:s", strtotime($endTime . '+ 2 days'));
                         $endTime = new \DateTime($endTimeFormatNum);
-                    } elseif ($endTime && $endTimeTextualFormat === $dayOfWeekEnd[1]) {
+                    }
+                    elseif ($endTime && $endTimeTextualFormat === $dayOfWeekEnd[1])
+                    {
                         //autre methode si format de celle ci gardé sinon la convertir en celle d'en haut
                         $endTime = $endTime->add(new DateInterval("P1D"));
                     }
@@ -465,21 +494,19 @@ class InstructorController extends AbstractController
                 $manager->persist($qcmInstance);
                 $manager->flush();
 
-
                 //  redirect to route avec flash
                 $this->addFlash(
                     'instructorAddQcm',
                     'Le qcm a été généré avec succès'
                 );
                 return $this->redirectToRoute('welcome_instructor');
-
             }
 
         }
 
         return $this->render('instructor/create_official_qcm.html.twig', [
             'sessions' => $sessions,
-            'modules' => $modules
+            'modules' => $modules,
         ]);
     }
 
@@ -492,7 +519,6 @@ class InstructorController extends AbstractController
     #[Route('instructor/plan_qcm', name: 'instructor_plan_qcm', methods: ['GET', 'POST'])]
     public function planQcm(SessionRepository $sessionRepo): Response
     {
-//        $form = $this->createForm(PlanQcmType::class );
         $instructorSessions = $sessionRepo->getInstructorSessions($this->getUser());
 
         return $this->render('instructor/plan_qcm.html.twig', [
@@ -503,10 +529,11 @@ class InstructorController extends AbstractController
     #[Route('instructor/qcm-planner/getSessionModules/{session}', name: 'instructor_get_session_modules_ajax', methods: ['GET'])]
     public function ajaxGetSessionModules(
         LinkInstructorSessionModuleRepository $LinkSessionModuleRepo,
-        Session                               $session = null
+        Session $session = null
     ): JsonResponse
     {
-        if ($session) {
+        if ($session)
+        {
             $linksSessionModules = $LinkSessionModuleRepo->findBy(['session' => $session]);
             $modules = array_map(function ($linkSessionModule) {
                 return $linkSessionModule->getModule();
@@ -520,10 +547,11 @@ class InstructorController extends AbstractController
     #[Route('instructor/qcm-planner/getSessionStudents/{session}', name: 'instructor_get_session_students_ajax', methods: ['GET'])]
     public function ajaxGetSessionStudents(
         LinkSessionStudentRepository $LinkSessionStudentRepo,
-        Session                      $session = null
+        Session $session = null
     ): JsonResponse
     {
-        if ($session) {
+        if ($session)
+        {
             $LinksSessionStudent = $LinkSessionStudentRepo->findBy(['session' => $session]);
             $students = array_map(function ($LinkSessionStudent) {
                 return $LinkSessionStudent->getStudent();
@@ -539,7 +567,8 @@ class InstructorController extends AbstractController
         Module $module = null
     ): JsonResponse
     {
-        if ($module) {
+        if ($module)
+        {
             $qcms = $module->getQcms();
             return $this->json($qcms, 200, [], ['groups' => 'qcm:read']);
         }
@@ -560,7 +589,8 @@ class InstructorController extends AbstractController
         $students = array_map(function ($studentId) use ($studentRepo) {
             return $studentRepo->find(intval($studentId));
         }, $request->get('students'));
-        foreach ($students as $student) {
+        foreach ($students as $student)
+        {
             $qcmInstance = new QcmInstance();
             $qcmInstance->setStudent($student);
             $qcmInstance->setQcm($qcm);
