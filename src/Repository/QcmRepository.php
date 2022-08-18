@@ -48,7 +48,7 @@ class QcmRepository extends ServiceEntityRepository
         $qcmBdd = $this->getEntityManager();
         return $qcmBdd->createQuery('
         SELECT q
-        FROM App\Entity\Qcm q
+        FROM App\Entity\Main\Qcm q
        
         
        
@@ -67,7 +67,7 @@ class QcmRepository extends ServiceEntityRepository
         $qcmBdd = $this->getEntityManager();
         return $qcmBdd->createQuery('
         SELECT q.id, q.title
-        FROM App\Entity\Qcm q
+        FROM App\Entity\Main\Qcm q
      ')
             ->getResult();
        }
@@ -80,7 +80,7 @@ class QcmRepository extends ServiceEntityRepository
         $qcmBdd = $this->getEntityManager();
         return $qcmBdd->createQuery('
         SELECT q.title, q.difficulty
-        FROM App\Entity\Qcm q
+        FROM App\Entity\Main\Qcm q
        
        
      ')
@@ -100,7 +100,7 @@ class QcmRepository extends ServiceEntityRepository
    
            $query = $entityManager->createQuery(
                'SELECT q, qu
-               FROM App\Entity\Qcm q
+               FROM App\Entity\Main\Qcm q
                INNER JOIN q.questions qu
 
                WHERE  q.id = :id
@@ -124,7 +124,7 @@ class QcmRepository extends ServiceEntityRepository
    
            $query = $entityManager->createQuery(
                'SELECT q, qu
-               FROM App\Entity\Qcm q
+               FROM App\Entity\Main\Qcm q
                INNER JOIN q.questions qu
                WHERE q.author = :id_author
 
@@ -150,7 +150,7 @@ class QcmRepository extends ServiceEntityRepository
 
         $query = $entityManager->createQuery(
             'SELECT q, qu
-            FROM App\Entity\Qcm q
+            FROM App\Entity\Main\Qcm q
             INNER JOIN q.questions qu
             WHERE q.author = :id_author
             AND  q.id = :id

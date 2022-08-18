@@ -48,10 +48,10 @@ class QcmInstanceRepository extends ServiceEntityRepository
         $qcmInstanceBdd = $this->getEntityManager();
         return $qcmInstanceBdd->createQuery('
             SELECT qi
-            FROM App\Entity\QcmInstance qi
+            FROM App\Entity\Main\QcmInstance qi
             WHERE qi.id NOT IN (
                 SELECT IDENTITY (r.qcmInstance)
-                FROM App\Entity\Result r
+                FROM App\Entity\Main\Result r
             )
 
         ')

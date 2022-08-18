@@ -47,8 +47,8 @@ class StudentRepository extends ServiceEntityRepository
         $studentBdd = $this->getEntityManager();
         return $studentBdd->createQuery('
         SELECT DISTINCT s
-        FROM App\Entity\Student s
-        INNER JOIN App\Entity\LinkSessionStudent lss
+        FROM App\Entity\Main\Student s
+        INNER JOIN App\Entity\Main\LinkSessionStudent lss
         WITH lss.student = s.id
         WHERE lss.isEnabled = true
         ')
