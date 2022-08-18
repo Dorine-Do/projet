@@ -186,7 +186,11 @@
                                 </li>
                             {%endfor%}
                         </ul>
-                        <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="add_proposal"class="addProposal">
+                        <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'
+                                data-index="{{form.proposals|length }}"
+                                type="button"
+                                id="add_proposal"
+                                class="addProposal">
                             {{ 'button.addProposal'|trans }}
                         </button>
                     </td>

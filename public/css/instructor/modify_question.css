@@ -504,7 +504,7 @@ input[type="radio"]:checked {
         margin-left: 4px;
     }
 
-    create_question_difficulty{
+    #create_question_difficulty{
         -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
         box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.77);
     }
