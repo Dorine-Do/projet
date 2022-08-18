@@ -75,7 +75,7 @@ class QuestionRepository extends ServiceEntityRepository
         $questionBdd = $this->getEntityManager();
         return $questionBdd->createQuery('
         SELECT q.id ,q.wording
-        FROM App\Entity\Question q
+        FROM App\Entity\Main\Question q
        
        
      ')
@@ -212,10 +212,10 @@ class QuestionRepository extends ServiceEntityRepository
              $questionBdd = $this->getEntityManager();
         return $questionBdd->createQuery('
         SELECT q.id, q.wording, qcmi.startTime
-        FROM App\Entity\Question q
-        INNER JOIN App\Entity\Qcm qcm
+        FROM App\Entity\Main\Question q
+        INNER JOIN App\Entity\Main\Qcm qcm
         WITH q.id = qcm.id
-        INNER JOIN App\Entity\QcmInstance qcmi
+        INNER JOIN App\Entity\Main\QcmInstance qcmi
         WITH qcmi.qcm = qcm.id
         WHERE q.id = :id_question
         ')
@@ -233,18 +233,18 @@ class QuestionRepository extends ServiceEntityRepository
         $sessionBdd = $this->getEntityManager();
         return $sessionBdd->createQuery('
         SELECT q.id, q.wording, qcmi.startTime, se.name
-        FROM App\Entity\Question q
-        INNER JOIN App\Entity\Qcm qcm
+        FROM App\Entity\Main\Question q
+        INNER JOIN App\Entity\Main\Qcm qcm
         WITH q.id = qcm.id
-        INNER JOIN App\Entity\QcmInstance qcmi
+        INNER JOIN App\Entity\Main\QcmInstance qcmi
         WITH qcmi.qcm = qcm.id
-        INNER JOIN App\Entity\Result r
+        INNER JOIN App\Entity\Main\Result r
         WITH qcmi.id = r.qcmInstance
-        INNER JOIN App\Entity\Student s 
+        INNER JOIN App\Entity\Main\Student s 
         WITH qcmi.student = s.id
-        INNER JOIN App\Entity\LinkSessionStudent lss 
+        INNER JOIN App\Entity\Main\LinkSessionStudent lss 
         WITH s.id = lss.student
-        INNER JOIN App\Entity\Session se 
+        INNER JOIN App\Entity\Main\Session se 
         WITH lss.session = se.id
         WHERE q.id = :id_question
         ')

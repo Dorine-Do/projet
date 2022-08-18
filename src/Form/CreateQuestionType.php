@@ -4,10 +4,8 @@ namespace App\Form;
 
 
 use App\Entity\Enum\Difficulty;
-use App\Entity\Main\Instructor;
 use App\Entity\Main\Module;
 use App\Entity\Main\Question;
-use App\Repository\InstructorRepository;
 use App\Repository\ModuleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -34,13 +32,11 @@ class CreateQuestionType extends AbstractType
 
     private $security;
     private $manager;
-    private $instructorRepository;
 
 
-    public function __construct( Security $security,InstructorRepository $instructorRepository ,EntityManagerInterface $manager)
+    public function __construct( Security $security ,EntityManagerInterface $manager)
     {
         $this->security = $security;
-        $this->repository=$instructorRepository;
         $this->manager=$manager;
     }
 
