@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   // *******************************************************************************************************
   // IMAGE TREFFLES
 
-  let badgesParent = document.getElementById("create_question_difficulty ");
+  let badgesParent = document.getElementById("create_question_difficulty");
   let badgesInput = document.querySelectorAll(".divInputLabel input");
   let badges = document.querySelectorAll(".divInputLabel");
 
