@@ -58,6 +58,40 @@ function checkCreateQuestionForm(e)
             }
         }
 
+        if( proposalsWordingInputs.length > 6 )
+        {
+            let listProposal = document.querySelector( '#listProposal').parentElement;
+            createQuestionFormErrors.push({
+                errorMessage: 'Une question ne peux comporter plus de six réponses',
+                errorParentContainer: listProposal
+            });
+            listProposal.classList.add('errorBorder');
+        }
+        else
+        {
+            if( listProposal.classList.contains('errorBorder') )
+            {
+                listProposal.classList.remove('errorBorder');
+            }
+        }
+
+        if( proposalsWordingInputs.length < 2 )
+        {
+            let listProposal = document.querySelector( '#listProposal').parentElement;
+            createQuestionFormErrors.push({
+                errorMessage: 'Une question doit comporter au moins deux réponses',
+                errorParentContainer: listProposal
+            });
+            listProposal.classList.add('errorBorder');
+        }
+        else
+        {
+            if( listProposal.classList.contains('errorBorder') )
+            {
+                listProposal.classList.remove('errorBorder');
+            }
+        }
+
         if( proposalsIsRightAnswers.length === 0 )
         {
             let listProposal = document.querySelector( '#listProposal').parentElement;
