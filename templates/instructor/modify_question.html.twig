@@ -76,7 +76,7 @@
                         </p>
                     </td>
                     <td colspan="2" class="second">
-                        <ul id ="listProposal">
+                        <ul id="listProposal">
                             {% for proposal in form.proposals %}
                                 <li class="liProposal">
                                     <div class="divProposal">
@@ -88,16 +88,18 @@
                                 </li>
                             {%endfor%}
                         </ul>
-                        {% if distribute == null %}
-                            <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'data-index="{{form.proposals|length }}"type="button"id="add_proposal"class="addProposal">
+                            <button data-form='{{ form_widget(form.proposals.vars.prototype) }}'
+                                    data-index="{{form.proposals|length }}"
+                                    type="button"id="add_proposal"
+                                    class="addProposal"
+                                    style="display:none;">
                                 {{ 'button.addProposal'|trans }}
                             </button>
-                        {% endif %}
                     </td>
                 </tr>
                 <tr>
                     <td colspan="2" class="premier">
-                        <p class = "etape">
+                        <p class="etape">
                             <span class="numeroForm">5</span>
                             {{ 'question.desactivate'|trans }}
                         </p>
@@ -150,7 +152,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" class="premier">
-                        <p class = "etape">
+                        <p class="etape">
                             <span class="numeroForm">2</span>
                             {{ 'question.wording'|trans }} :
                         </p>
@@ -172,13 +174,13 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <p class = "etape">
+                        <p class="etape">
                             <span class="numeroForm" >4</span>
                             {{ 'proposal.create'|trans }}
                         </p>
                     </td>
                     <td colspan="2" class="second" id="error_checked">
-                        <ul id ="listProposal">
+                        <ul id="listProposal">
                             {% for proposal in form.proposals %}
                                 <li class="liProposal">
                                     <div class="divProposal">
@@ -199,7 +201,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" class="premier">
-                        <p class = "etape">
+                        <p class="etape">
                             <span class="numeroForm">5</span>
                             {{ 'question.desactivate'|trans }}
                         </p>
