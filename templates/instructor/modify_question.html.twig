@@ -20,14 +20,16 @@
 
 {#    Info question#}
         <div class="infoQuestion">
-            <p>Sticker info</p>
-             <ul>
-                <li>{{ 'question.goal'|trans }}</li>
-                <li> {{ 'question.warning'|trans }}, {{ 'question.warningExplain'|trans }}</li>
-                <li>{{ 'question.infoPublished'|trans }}</li>
-                <li>- {{ 'question.firstDatePublished'|trans }} : {{distribute}}</li>
-                <li> - {{ 'question.session'|trans }} : {{session}}</li>
-             </ul>
+             <div class="info">
+                 <p>Sticker info</p>
+                 <ul class="stickerInfo">
+                     <li><span>{{ 'question.notice'|trans }} : </span> {{ 'question.goal'|trans }}</li>
+                     <li><span> {{ 'question.warning'|trans }} : </span>, {{ 'question.warningExplain'|trans }}</li>
+                     <li><span>{{ 'question.reminder'|trans }} : </span> {{ 'question.infoPublished'|trans }}</li>
+                     <li><span>{{ 'question.firstDatePublished'|trans }} : </span> {{distribute}}</li>
+                     <li><span>{{ 'question.session'|trans }} : </span> {{dump(session)}}</li>
+                 </ul>
+             </div>
         </div>
         {# Form question #}
         <div class="formQuestion">
@@ -35,7 +37,7 @@
             <table>
                 <tr>
                     <td colspan="2" class="premier">
-                        <p class="partTitle">
+                        <p class="etape">
                             <span class="numeroForm">1</span>
                             {{ 'module.choice'|trans }} :
                         </p>
@@ -46,7 +48,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" class="premier">
-                        <p class = "partTitle">
+                        <p class = "etape">
                             <span class="numeroForm">2</span>
                             {{ 'question.wording'|trans }} :
                         </p>
@@ -57,7 +59,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" class="premier">
-                        <p  class="partTitle">
+                        <p  class="etape">
                             <span class="numeroForm">3</span>
                             {{ 'question.difficulty'|trans }}:
                         </p>
@@ -68,7 +70,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <p class = "partTitle">
+                        <p class = "etape">
                             <span class="numeroForm" >4</span>
                             {{ 'proposal.create'|trans }}
                         </p>
@@ -95,7 +97,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" class="premier">
-                        <p class = "partTitle">
+                        <p class = "etape">
                             <span class="numeroForm">5</span>
                             {{ 'question.desactivate'|trans }}
                         </p>
@@ -137,7 +139,7 @@
             <table>
                 <tr>
                     <td colspan="2" class="premier">
-                        <p class="partTitle">
+                        <p class="etape">
                             <span class="numeroForm">1</span>
                             {{ 'module.choice'|trans }}:
                         </p>
@@ -148,7 +150,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" class="premier">
-                        <p class = "partTitle">
+                        <p class = "etape">
                             <span class="numeroForm">2</span>
                             {{ 'question.wording'|trans }} :
                         </p>
@@ -159,7 +161,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" class="premier">
-                        <p  class="partTitle">
+                        <p  class="etape">
                             <span class="numeroForm">3</span>
                             {{ 'question.difficulty'|trans }} :
                         </p>
@@ -170,7 +172,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <p class = "partTitle">
+                        <p class = "etape">
                             <span class="numeroForm" >4</span>
                             {{ 'proposal.create'|trans }}
                         </p>
@@ -197,7 +199,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" class="premier">
-                        <p class = "partTitle">
+                        <p class = "etape">
                             <span class="numeroForm">5</span>
                             {{ 'question.desactivate'|trans }}
                         </p>
