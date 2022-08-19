@@ -103,12 +103,9 @@
                             <span class="numeroForm">5</span>
                             {{ 'question.desactivate'|trans }}
                         </p>
-                        <p>
-                            {{ 'question.desactivateExplain'|trans }}
-                        </p>
                     </td>
                     <td colspan="2" class="second">
-                        {{ form_widget(form.is_enabled) }}
+                        {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
                     </td>
                 </tr>
                 <tr>
