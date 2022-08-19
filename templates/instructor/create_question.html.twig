@@ -98,7 +98,7 @@
         </tr>
         <tr>
             <td colspan="2">
-                <button type="submit" class="valid">{{ 'button.validate'|trans }}</button>
+                <button type="button" class="valid">{{ 'button.validate'|trans }}</button>
             </td>
         </tr>
     </table>
@@ -117,5 +117,7 @@
         let imgPath = [];
         imgPath.push('{{asset('build/images/trefle_facile_bon_vert.png')}}', '{{asset('build/images/trefle_moyen_bon_vert.png')}}', '{{asset('build/images/trefle_difficile_bon_vert.png')}}')
     </script>
+
+    <script type="text/javascript" src="{{ asset('js/instructor/error_handling.js') }}"></script>
 
 {% endblock %}

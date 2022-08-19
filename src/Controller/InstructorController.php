@@ -114,7 +114,8 @@ class InstructorController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid())
+        {
             $count = 0;
             $persistPropCount = 0;
             $persistProp = [];
@@ -134,9 +135,12 @@ class InstructorController extends AbstractController
             }
 
             // Set le champs ResponseType
-            if ($count > 1) {
+            if ($count > 1)
+            {
                 $instanceQuestion->setIsMultiple(true);
-            } elseif ($count == 1) {
+            }
+            elseif ($count == 1)
+            {
                 $instanceQuestion->setIsMultiple(false);
             }
 
