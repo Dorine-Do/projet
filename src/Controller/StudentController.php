@@ -26,6 +26,12 @@ use Symfony\Component\Security\Core\Security;
 
 class StudentController extends AbstractController
 {
+    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+    public function __construct(StudentRepository $studentRepository){
+        $this->studentRepo = $studentRepository;
+        $this->id = 11;
+    }
+
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
     public function manageQcms(
         LinkSessionStudentRepository $linkSessionStudentRepo,
@@ -122,7 +128,9 @@ class StudentController extends AbstractController
         LinkInstructorSessionModuleRepository $linkSessionModuleRepo
     ): Response
     {
-        $student = $this->getUser();
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+        $student = $this->studentRepo->find($this->id);
+//        $student = $this->getUser();
 
         $studentQcmInstances = $student->getQcmInstances();
         $studentResults = [];
@@ -138,6 +146,7 @@ class StudentController extends AbstractController
             $qcmsDone[] = [
                 'qcm'    => $qcmInstance->getQcm(),
                 'result' => $studentResult,
+                'module' => $qcmInstance->getQcm()->getModule()->getTitle(),
             ];
         }
 

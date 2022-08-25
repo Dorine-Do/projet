@@ -63,25 +63,72 @@ select{
 /***************************************** PARTIE AFFICHAGE QCM ******************************************/
 
 .realise{
-    width: 100%;
     display: flex;
     justify-content: space-around;
     background-color: var(--fond);
-    padding: 20px;
     margin-bottom: 25px;
+    align-items: center;
+    padding: 2em 4em;
+}
+
+.levelAndModule{
+    width: 10%;
+    text-align: center;
+}
+
+.moduleQcm{
+    padding: .2em;
+    background: gray;
+    border-radius: 30px;
+    color: white;
+    margin: .5em 0;
+}
+
+.difficultyQcm{
+    padding: .2em;
+    background: var(--pamplemousse);
+    border-radius: 30px;
+    color: white;
 }
 
 .nomQcm{
     background-color: var(--pamplemousse);
-    padding: 28px 115px;
     border-radius: 9px;
-    max-width: 150px;
+    width: 34%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1em;
+}
+
+.divLevel{
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+}
+
+.divLevel img{
+    width: 34%;
+}
+
+.divLevel img:hover{
+    cursor: help;
+}
+
+.pInfo{
+    padding: .2em;
+    background: var(--pamplemousse);
+    border-radius: 5px;
+    color: white;
+    font-weight: var(--semi_bold);
 }
 
 .button{
     border-radius: 25px;
-    margin: 0;
-    width: 90%;
+    margin: .5em 0;
     background-color: var(--grey);
     color: white;
     padding: 8px 35px;
@@ -95,13 +142,10 @@ select{
 .divButton{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    margin: auto 100px auto 0;
-    height: 120px;
+    width: 20%;
 }
 
 .date{
-    margin: auto;
     font-size: var(--normal);
 }
 

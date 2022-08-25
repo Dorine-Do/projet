@@ -58,7 +58,6 @@
                 </div>
                 <div class="allReponse">
                     {% for proposal in question.answers %}
-
                         {% if proposal.isCorrectAnswer == true and proposal.isStudentAnswer == true %}
                             <div class="reponseCorrection">
                                 {% if not question.isMultiple %}
