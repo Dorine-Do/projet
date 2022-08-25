@@ -78,12 +78,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   // ////////////// QUESTIONS OFFICIELS/ PERSONNALISED COUNT
   console.log(listQuestionsOfficials.length);
+  let btnQuestionsOfficial = document.querySelector(".btnQuestionsOfficial");
 
   // Event sur les button de choix du type de question****************************************************************
   buttonQuestionType.forEach((button) => {
     button.addEventListener("click", (e) => {
       let choiceBtn = e.target;
       let otherBtn;
+
       if (e.target.previousElementSibling === null) {
         otherBtn = choiceBtn.nextElementSibling;
       } else {
@@ -110,7 +112,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   chevrons.forEach((chevron) => {
     chevron.addEventListener("click", (e) => {
       let proposalWordingDiv;
-
+      //   officialQuestionLi.style.gridGap = "0.2em";
       if (e.target.classList.contains("officialChevronBasImg")) {
         proposalWordingDiv =
           e.target.parentNode.parentNode.parentNode.lastElementChild
@@ -274,8 +276,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
       }
 
       fetch(route, {
+        //  get temporaire
         method: "POST",
-        body: JSON.stringify(values), // The data
+        body: console.log(JSON.stringify(values)), // The data
         headers: {
           "Content-type": "application/json", // The type of data you're sending
         },
@@ -324,10 +327,23 @@ document.addEventListener("DOMContentLoaded", (event) => {
           }
         }
 
-        // ////
         let qcmChoisedLi = li;
         li.remove();
         ulQuestionsOfficialSide.insertBefore(qcmChoisedLi, firstLi);
+
+        ////nombre de questions choisies drop dans questions officielles
+        let liQcmChoicedInOfficialQcm = document.querySelectorAll(
+          ".questionsOfficial .qcmChoisedLi"
+        );
+        if (liQcmChoicedInOfficialQcm) {
+          for (let i = 0; i < liQcmChoicedInOfficialQcm.length; i++) {
+            console.log(
+              (btnQuestionsOfficial.innerHTML = `Questions officielles :${
+                listQuestionsOfficials.length + liQcmChoicedInOfficialQcm.length
+              }`)
+            );
+          }
+        }
       } else {
         li.remove();
       }
@@ -336,7 +352,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     elementSelect.forEach((el) => {
       el.classList.remove("borderColor");
     });
-
     calcNbrQuestionByLevel(qcmChoisedMain);
   });
 
@@ -351,15 +366,39 @@ document.addEventListener("DOMContentLoaded", (event) => {
       //questions officelles
       if (li.classList.contains("officialQuestionLi")) {
         let allP = li.firstElementChild.children;
+        console.log(allP[3], "YES");
         // Bouton modifier la question
         for (let i = 0; i < allP.length; i++) {
-          if (allP[i].tagName === "DIV") {
+          //etant donné que les p sont transformées en div donc contition lié au class pour sélectionner la bonne div
+          if (allP[i].classList === "modifyQuestionImgDiv") {
             allP[i].classList.add("displayNone");
           }
         }
+
         let officialLi = li;
+        console.log(officialLi, "la");
         li.remove();
         ulQcmChoisedSide.insertBefore(officialLi, firstLi);
+        //count questions officiel dans question choisie
+        // FAIRE UNE FONCTION TOTALE DE listQuestionsOfficials.length +liQcmChoicedInOfficialQcm.length dans la fonction de déplacement vers ldroite et la rappeler en bas
+        //
+        let liQcmChoicedInOfficialQcm = document.querySelectorAll(
+          ".questionsOfficial .qcmChoisedLi"
+        );
+        let liQcmOfficialInQcmChoiced = document.querySelectorAll(
+          ".qcmChoisedMain .officialQuestionLi"
+        );
+        if (liQcmChoicedInOfficialQcm) {
+          for (let i = 0; i < liQcmChoicedInOfficialQcm.length; i++) {
+            console.log(
+              (btnQuestionsOfficial.innerHTML = `Questions officielles :${
+                listQuestionsOfficials.length +
+                liQcmChoicedInOfficialQcm.length -
+                liQcmOfficialInQcmChoiced.length
+              }`)
+            );
+          }
+        }
       }
     });
 
@@ -371,21 +410,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     calcNbrQuestionByLevel(qcmChoisedMain);
   });
   ////////////////////// COUNT LI QCM CHOICED IN OFFICIAL QCM
-  let liqcmChoicedInOfficialQcm = document.querySelectorAll(
-    ".questionsOfficial .qcmChoisedLi"
-  );
-  //   console.log(liqcmChoicedInOfficialQcm.length);
-  //   for (let i = 0; i < liqcmChoicedInOfficialQcm.length; i++) {
-  //     console.log(liqcmChoicedInOfficialQcm[i].getAttribute());
-  //     if (liqcmChoicedInOfficialQcm) {
-  //       console.log(liqcmChoicedInOfficialQcm.length, "one");
-  //     }
-  //   }
-
-  //   console.log(
-  //     listQuestionsOfficials.length + liqcmChoicedInOfficialQcm.length,
-  //     "two"
-  //   );
 
   // Event Validation qcm
   let qcmValidationBtn = document.querySelector(".qcmValidation");

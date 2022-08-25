@@ -15,7 +15,8 @@
 
     <div class="partOne">
         <p><span class="etape">Etape 1</span> Choix du qcm par module et par niveau</p>
-        <form action="{{ path('instructor_create_qcm_perso') }}" method="GET">
+        {# form -> id : user.id => temporaire /// voir controller + var #}
+        <form action="{{ path('instructor_create_qcm_perso',{ 'id': user.id}) }}" method="GET">
             <select class="selectModule" name="module">
                 {% for module in modules %}
                     <option value="null">Veuillez choisir un module</option>
@@ -162,10 +163,10 @@
                                             <div class="qcmChoisedProposalWordingDiv proposalWordingDiv">
                                                 {% set countLetter = 0 %}
                                                 {% for proposal in question.proposals %}
-                                                    <p class="qcmChoisedProposalWordingP proposalWordingP">
+                                                    <div class="qcmChoisedProposalWordingP proposalWordingP">
                                                         <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span>
                                                         {{ proposal.wording | raw }}
-                                                    </p>
+                                                    </div>
                                                     {% set countLetter = countLetter + 1 %}
                                                 {% endfor %}
                                             </div>
@@ -189,7 +190,8 @@
                         <div class="btnChoiseQuestionType">
 
                             <button class="btnQuestionsOfficial"> Questions officielles : {{officialQuestions|count}}</button>
-                            <button class="btnQuestionsPerso"> Questions personalisées </button>
+                           
+                            <button class="btnQuestionsPerso" > Questions personalisées </button>
 
                         </div>
                         {#*************************************************************************************************#}
@@ -199,7 +201,7 @@
                                 {% for question in officialQuestions %}
                                     <li class="officialQuestionLi" draggable="true">
                                         <div class="OfficialQuestionWordingDiv questionWordingDiv ">
-                                            <p class="qcmChoisedTreffleP">
+                                            <div class="qcmChoisedTreffleP">
                                                 {% if question.difficulty == 1 %}
                                                     <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">
                                                 {% elseif question.difficulty.value == 2 %}
@@ -207,13 +209,13 @@
                                                 {% else %}
                                                     <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">
                                                 {% endif %}
-                                            </p>
-                                            <p class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
+                                            </div>
+                                            <div class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
                                               <span></span>   {{ question.wording | raw }}
-                                            </p>
-                                            <p class="officialChevronBasP chevronBasP">
+                                            </div>
+                                            <div class="officialChevronBasP chevronBasP">
                                                 <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
-                                            </p>
+                                            </div>
                                             <div class="modifyQuestionImgDiv">
                                                 <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg">
                                             </div>
@@ -241,11 +243,12 @@
                         {#*************************************************************************************************#}
                         {#CUSTOM #}
                          <div class="questionsCustom">
+                        
                             <ul>
-                                {% for question in officialQuestions %}
+                                {% for question in customQuestions %}
                                     <li class="officialQuestionLi" draggable="true">
                                         <div class="OfficialQuestionWordingDiv questionWordingDiv ">
-                                            <p class="qcmChoisedTreffleP">
+                                            <div class="qcmChoisedTreffleP">
                                                 {% if question.difficulty == 1 %}
                                                     <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">
                                                 {% elseif question.difficulty.value == 2 %}
@@ -253,13 +256,13 @@
                                                 {% else %}
                                                     <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">
                                                 {% endif %}
-                                            </p>
-                                            <p class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
-                                               <span></span> {{ question.wording | raw }}
-                                            </p>
-                                            <p class="officialChevronBasP chevronBasP">
+                                            </div>
+                                            <div class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
+                                              <span></span>   {{ question.wording | raw }}
+                                            </div>
+                                            <div class="officialChevronBasP chevronBasP">
                                                 <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
-                                            </p>
+                                            </div>
                                             <div class="modifyQuestionImgDiv">
                                                 <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg">
                                             </div>
@@ -269,8 +272,7 @@
                                                 {% set countLetter = 0 %}
                                                 {% for proposal in question.proposals %}
                                                     <p class="officialProposalWordingP proposalWordingP" data-id="{{proposal.id}}">
-                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span>
-                                                        <span>{{ proposal.wording | raw }}</span>
+                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span class="spanWording">{{ proposal.wording | raw }}</span>
                                                     </p>
                                                     {% set countLetter = countLetter + 1 %}
                                                 {% endfor %}
@@ -289,7 +291,7 @@
                         {#*************************************************************************************************#}
                         {#BUTTON CREATE QUESTION #}
                         <div class="createQuestion">
-                            <button>Créer une question</button>
+                            <button >Créer une question</button>
                         </div>
                     </div>
 
@@ -310,7 +312,7 @@
                  </div>
             </div>
             <div class="qcmValidation">
-                <button>Valider ce qcm personalié</button>
+                <button>Valider ce qcm personnalisé</button>
             </div>
 
             {% endif %}
@@ -325,7 +327,8 @@
         let deleteImg = "{{asset('build/images/delete_close.png')}}"
 
         let route = "{{ path('instructor_questions_update_fetch') }}"
-        let routeInstructorQcmFetch = "{{ path('instructor_qcm_create_fetch') }}"
+          {#id : user.id => temporaire /// voir controller + var #}
+        let routeInstructorQcmFetch = "{{ path('instructor_qcm_create_fetch',{ 'id': user.id} ) }}"
 
         {#let questions = {{ questions|json_encode }}#}
     </script>

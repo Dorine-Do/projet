@@ -38,16 +38,18 @@ class InstructorController extends AbstractController
         return $this->render('instructor/welcome_instructor.html.twig', []);
     }
 
-    #[Route('instructor/questions', name: 'instructor_display_questions', methods: ['GET'])]
+    #[Route('instructor{id}/questions', name: 'instructor_display_questions', methods: ['GET'])]
     public function displayQuestions(
         QuestionRepository $questionRepository,
-        ProposalRepository $proposalRepository
+        ProposalRepository $proposalRepository,
+        Int $id
     ): Response
     {
         $proposals = [];
         $resumeProposal = [];
 
-        $questions = $questionRepository->findBy(['author' => $this->getUser()->getId()]);
+        $questions = $questionRepository->findBy(['author' => $id]);
+        // $questions = $questionRepository->findBy(['author' => $this->getUser()->getId()]);
         foreach( $questions as $question )
         {
             $question_id = $question->getId();
@@ -241,16 +243,21 @@ class InstructorController extends AbstractController
         ]);
     }
 
-    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
+    #[Route('instructor{id}/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
     public function createQcmPersonalized(
         Request              $request,
         InstructorRepository $instructorRepository,
         ModuleRepository     $moduleRepository,
         QuestionRepository   $questionRepository,
-        Security             $security
+        Security             $security,
+        Int $id
+
     ): Response
     {
-        $userId = $this->getUser()->getId();
+
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+        $userId=$instructorRepository->find($id);
+        // $userId = $this->getUser()->getId();
         $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
         $modules = [];
@@ -281,6 +288,8 @@ class InstructorController extends AbstractController
             'customQuestions' => $module ? $customQuestions : null,
             'officialQuestions' => $module ? $officialQuestions : null,
             'generatedQcm' => $module ? $generatedQcm : null,
+            // temporaire voir todo pour connection
+            'user'=>$userId
         ]);
     }
 
@@ -329,21 +338,27 @@ class InstructorController extends AbstractController
         return new JsonResponse($questionResponse);
     }
 
-    #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
+    // methode Post non permise car route non trouvée donc method Get Ok
+    #[Route('instructor{id}/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['GET','POST'])]
     public function createQcmFetch(
         ValidatorInterface     $validator,
         Request                $request,
         InstructorRepository   $instructorRepository,
         QuestionRepository     $questionRepository,
         ModuleRepository       $moduleRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        Int $id
     ): Response
     {
         $data = (array)json_decode($request->getContent());
         $qcm = new Qcm();
-        $author = $instructorRepository->find($this->getUser()->getId());
+          /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+          $author=$instructorRepository->find($id);
+        // $author = $instructorRepository->find($this->getUser()->getId());
         $qcm->setAuthor($author);
-        $qcm->setTitle($data['name']);
+        // dd($request->request);
+        $qcm->setTitle(true);
+        // $qcm->setTitle($data['name']);
         if ($data['level'] === 'Difficile')
         {
             $level = 1;
@@ -385,10 +400,10 @@ class InstructorController extends AbstractController
                 'difficulty' => $question->getDifficulty(),
                 'proposals' => $proposalsCache
             ];
+            $qcm->setQuestionsCache($questionsCache);
+
+           
         }
-
-        $qcm->setQuestionsCache($questionsCache);
-
         $validator->validate($qcm);
         $entityManager->persist($qcm);
         $entityManager->flush();
@@ -396,6 +411,7 @@ class InstructorController extends AbstractController
         /*TODO débuger la redirection*/
         $this->addFlash('success', 'Le qcm a bien été modifiée.');
         return $this->redirectToRoute('instructor_display_questions');
+       
     }
 
     #[Route('instructor/qcms', name: 'instructor_qcms', methods: ['GET'])]
