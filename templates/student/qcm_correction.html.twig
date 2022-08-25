@@ -3,13 +3,13 @@
 {% block title %}{{ 'qcm.todo'|trans }}{% endblock %}
 
 {% block stylesheets %}
-    <link href="{{asset('css/student/qcmToDo.css')}}" rel="stylesheet">
+    <link href="{{asset('css/student/qcmToDoAndQcmCorrection.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
 
     <div class="qcmToDo">
-        <h1>- {{ 'qcm.todo'|trans }} -</h1>
+        <h1>- {{ 'qcm.correction'|trans }} -</h1>
 
         <div class="divName">
             <p class="nom">
@@ -44,26 +44,90 @@
                     </div>
                     <div>
                         <p class="question"><span class="numeroForm">1</span>
-
                             {{ question.wording | raw }}
                         </p>
                     </div>
+                    <div>
+                        {% if question.isCorrect %}
+                            <p class="bravo">Bravo!</p>
+                        {% else %}
+                            <p class="oups">Oups</p>
+                        {% endif %}
+                    </div>
+
                 </div>
                 <div class="allReponse">
-                    {% for proposal in question.proposals %}
-                        <p>
-                            {% if proposal.isCorrectAnswer %}
-                                <h4 style="color: forestgreen">{{ proposal.wording | raw }}</h4>
-                            {% elseif proposal.isStudentAnswer and proposal.isCorrectAnswer == false %}
-                                <h4 style="color: tomato">{{ proposal.wording | raw }}</h4>
+                    {% for proposal in question.answers %}
+
+                        {% if proposal.isCorrectAnswer == true and proposal.isStudentAnswer == true %}
+                            <div class="reponseCorrection">
+                                {% if not question.isMultiple %}
+                                    <input type="radio" checked disabled>
+                                {% else %}
+                                    <input type="checkbox" checked disabled>
+                                {% endif %}
+                                <div class="divReponse">
+                                    <label data-correction="green">{{ proposal.wording | raw }}</label>
+                                    <img class="imgReponse" src="{{asset('build/images/good.png')}}" alt="Bonne réponse">
+                                </div>
+                            </div>
+                        {% elseif proposal.isCorrectAnswer%}
+                            <div class="reponseCorrection">
+                            {% if not question.isMultiple %}
+                                <input type="radio" disabled>
                             {% else %}
-                                <h4>{{ proposal.wording | raw }}</h4>
+                                <input type="checkbox" disabled>
                             {% endif %}
-                        </p>
+                                <div class="divReponse">
+                                    <label data-correction="green">{{ proposal.wording | raw }}</label>
+                                </div>
+                            </div>
+                        {% elseif proposal.isStudentAnswer and proposal.isCorrectAnswer == false %}
+                            <div class="reponseCorrection">
+                                {% if not question.isMultiple %}
+                                    <input type="radio" checked disabled>
+                                {% else %}
+                                    <input type="checkbox" checked disabled>
+                                {% endif %}
+                                <div class="divReponse">
+                                    <label >{{ proposal.wording | raw }}</label>
+                                    <img class="imgReponse" src="{{asset('build/images/wrong.png')}}" alt="Mauvaise réponse">
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="reponseCorrection">
+                                {% if not question.isMultiple %}
+                                    <input type="radio" disabled>
+                                {% else %}
+                                    <input type="checkbox" disabled>
+                                {% endif %}
+                                <div class="divReponse">
+                                    <label >{{ proposal.wording | raw }}</label>
+                                </div>
+                            </div>
+                        {% endif %}
+
                     {% endfor %}
                 </div>
             {% endfor %}
+            <div class="containerComment">
+                <div>
+                    <h4>Mon commentaire </h4>
+                    <p class="comment">
+                        {{ studentComment }}
+                    </p>
+                </div>
+                <div>
+                    <h4>Commentaire du formateur </h4>
+                    <p class="comment">
+                        {{ instructorComment }}
+                    </p>
+                </div>
+            </div>
         </section>
     </div>
 
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/student/qcmCorrection.js') }}"></script>
 {% endblock %}

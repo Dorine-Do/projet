@@ -16,6 +16,7 @@ use App\Repository\ProposalRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\ResultRepository;
+use App\Repository\StudentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,9 +30,10 @@ class StudentController extends AbstractController
     public function manageQcms(
         LinkSessionStudentRepository $linkSessionStudentRepo,
         LinkInstructorSessionModuleRepository $linkSessionModuleRepo,
-        ModuleRepository $moduleRepo
+        ModuleRepository $moduleRepo,
     ): Response
     {
+
         $student = $this->getUser();
 
         $allAvailableQcmInstances = $student->getQcmInstances();
@@ -254,10 +256,13 @@ class StudentController extends AbstractController
                             }
 
 
-
+                            /*TODO A tester Dorine (si isCorrect est bien ajouté au tableau / Problème de co avec Google Auth peux pas tester) */
                             if( $goodAnswersCount === count($dbAnswersCheck['good']) && $badAnswersCount === 0 )
                             {
                                 $countIsCorrectAnswer ++;
+                                $questionsCache[$questionCacheKey]['isCorrect'] = true;
+                            }else{
+                                $questionsCache[$questionCacheKey]['isCorrect'] = false;
                             }
                         }
                     }
@@ -316,24 +321,6 @@ class StudentController extends AbstractController
             'nameQcmInstance' => $qcmInstance->getQcm()->getTitle(),
             'titleModule'=> $qcm->getModule()->getTitle(),
             'questionsAnswers' => $questionsCache
-        ]);
-    }
-
-    #[Route('student/qcm/qcmDone/{qcmInstance}', name: 'student_qcm_done', methods: ['GET'])]
-    public function qcmDone(
-        QcmInstance $qcmInstance,
-        ResultRepository $resultRepository
-    ): Response
-    {
-        $result = $resultRepository->findOneBy( [ 'qcmInstance' => $qcmInstance, 'student'=> $this->getUser() ] );
-
-        $questionsAnswersDecode = [];
-        foreach ($result->getAnswers() as $answer){
-            $questionsAnswersDecode[] = json_decode($answer);
-        }
-
-        return $this->render('student/qcmDone.twig', [
-            'questionsAnswers' => $questionsAnswersDecode
         ]);
     }
 
@@ -461,8 +448,10 @@ class StudentController extends AbstractController
             }
             $qcmQuestions[] = [
                 'questionId'  => $dbAnswer['id'],
+                'isMultiple'  => $question->getIsMultiple(),
                 'wording'     => $question->getWording(),
-                'answers'   => $proposals
+                'answers'   => $proposals,
+                'isCorrect' => $dbAnswer['isCorrect'],
             ];
         }
 
@@ -470,6 +459,8 @@ class StudentController extends AbstractController
             'qcmQuestions' => $qcmQuestions,
             'nameQcmInstance' => $qcmInstance->getQcm()->getTitle(),
             'titleModule'=> $qcm->getModule()->getTitle(),
+            'studentComment' => $result->getStudentComment(),
+            'instructorComment' => $result->getInstructorComment()
         ]);
     }
 }

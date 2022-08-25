@@ -71,7 +71,7 @@ class AppFixtures extends Fixture
 //        $this->generateStudents( $manager );
 
         //Question + Proposal
-        $this->generateQuestions( $manager );
+//        $this->generateQuestions( $manager );
 
         //Qcm
 //        $this->generateQcm( $manager );
@@ -86,7 +86,7 @@ class AppFixtures extends Fixture
 //        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
-//        $this->generateResults( $manager );
+        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
@@ -508,15 +508,18 @@ class AppFixtures extends Fixture
                         'id'              => $proposal['id'],
                         'wording'         => $proposal['wording'],
                         'isCorrectAnswer' => $proposal['isCorrectAnswer'],
-                        'isStudentAnswer' => rand(0,1),
+                        'isStudentAnswer' => rand(0,1)
                     ];
                 }
                 $resultAnswers[] = [
                     'id'          => $questionAnswer['id'],
                     'wording'     => $questionAnswer['wording'],
                     'isMultiple'  => $questionAnswer['isMultiple'],
-                    'proposals'   => $proposalDetails
+                    'isCorrect' => rand(0,1),
+                    'proposals'   => $proposalDetails,
+
                 ];
+
             }
 
             $result->setAnswers($resultAnswers);

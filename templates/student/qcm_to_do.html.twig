@@ -3,7 +3,7 @@
 {% block title %}{{ 'qcm.todo'|trans }}{% endblock %}
 
 {% block stylesheets %}
-    <link href="{{asset('css/student/qcmToDo.css')}}" rel="stylesheet">
+    <link href="{{asset('css/student/qcmToDoAndQcmCorrection.css')}}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -53,12 +53,16 @@
                     {% if not question.isMultiple %}
                         <div class="reponse">
                             <input type="radio" for='{{ proposal.id}}' name="{{ question.id }}" value="{{ proposal.id }}">
-                            <label for="{{ proposal.id }}">{{ proposal.wording | raw }}</label>
+                            <div class="divReponse">
+                                <label for="{{ proposal.id }}">{{ proposal.wording | raw }}</label>
+                            </div>
                         </div>
                     {% else %}
                         <div class="reponse">
                             <input type="checkbox" for='{{ proposal.id}}' name="{{question.id}}[]" value="{{ proposal.id }}">
-                            <label for="{{ proposal.id }}">{{ proposal.wording | raw }}</label>
+                            <div class="divReponse">
+                                <label for="{{ proposal.id }}">{{ proposal.wording | raw }}</label>
+                            </div>
                         </div>
                     {% endif %}
 

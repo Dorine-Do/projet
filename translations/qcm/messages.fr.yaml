@@ -15,6 +15,7 @@ qcm:
   iTrainning: Je m'entraîne
   questionConfirmQcm: Voulez vous vraiment confirmer ce QCM ?
   finish: LE QCM EST TERMINÉ
+  correction: Correction
 
 difficulty:
   easy: Facile

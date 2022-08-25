@@ -47,7 +47,7 @@ class InstructorController extends AbstractController
         $proposals = [];
         $resumeProposal = [];
 
-        $questions = $questionRepository->findBy(['author' => $this->getUser()->getId()]);
+        $questions = $questionRepository->findBy(['author' => 11]);
         foreach( $questions as $question )
         {
             $question_id = $question->getId();
@@ -250,7 +250,7 @@ class InstructorController extends AbstractController
         Security             $security
     ): Response
     {
-        $userId = $this->getUser()->getId();
+        $userId = 1;
         $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
         $modules = [];

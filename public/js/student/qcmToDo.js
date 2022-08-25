@@ -51,7 +51,8 @@ function submitQcm()
     form.submit();
 }
 
-function hideModals(){
+function hideModals()
+{
     let modal = document.getElementById("my-modal");
     let errorModal = document.getElementById("error-modal");
     modal.style.display = "none";
@@ -61,6 +62,9 @@ function hideModals(){
 
 
 document.addEventListener("DOMContentLoaded", (event) => {
+    let numeroForm = document.querySelectorAll('.numeroForm')
+    let allReponse = document.querySelectorAll('.allReponse')
+
     let confirmQcm = document.getElementById('confirm-qcm-btn');
     let valid = document.getElementById("valid");
     let cancelBtn = document.getElementById("cancel-qcm-btn");
@@ -69,4 +73,32 @@ document.addEventListener("DOMContentLoaded", (event) => {
     confirmQcm.addEventListener('click', submitQcm);
     cancelBtn.addEventListener('click', hideModals);
     cancelErrorBtn.addEventListener('click', hideModals);
+
+    // Numéro question
+    let countNum = 1
+    numeroForm.forEach(num => {
+        num.innerHTML = countNum
+        countNum ++
+    })
+
+    // Lettre réponse
+    allReponse.forEach(reponses =>{
+        let countLetter = 0
+        for(let i = 0 ; i < reponses.children.length ; i++){
+
+            let divReponse = reponses.children[i].lastElementChild
+            let alphabet = ["A", "B", "C", "D", "E", "F", "G", "H"];
+
+            let end = parseInt(countLetter, 10) + 1; // 4 +1 = 5    '4' + 1 = 41
+            let begin = countLetter;
+            let letter = alphabet.slice(begin, end);
+            let p = document.createElement("p");
+            p.className = "pLetter";
+            p.innerHTML = letter;
+
+            divReponse.insertBefore(p,divReponse.firstElementChild )
+            countLetter++;
+        }
+
+    })
 })
