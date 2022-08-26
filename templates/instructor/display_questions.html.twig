@@ -57,14 +57,14 @@
                     <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/modify.png') }}" alt="bouton de modification de la question"></a>
                 </div>
             {%endfor%}
-            <div class="divAdd">
-                <a href="{{ path('instructor_create_question') }}" class="linkCreate">
-                    <button class="buttonAdd">
-                        {{ 'button.createQuestion'|trans }}
-                    </button>
-                </a>
-            </div>
         </ul>
+        <div class="divAdd">
+            <a href="{{ path('instructor_create_question') }}" class="linkCreate">
+                <button class="buttonAdd">
+                    {{ 'button.createQuestion'|trans }}
+                </button>
+            </a>
+        </div>
     </div>
 {% endblock %}
 

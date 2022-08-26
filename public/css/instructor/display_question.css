@@ -116,7 +116,38 @@
   padding: 2em;
   border-radius: 5px;
   background-color: white;
+  height: 50em;
+  overflow: scroll;
 }
+
+/************************************************************************/
+/*CUSTOM SCROLL*/
+
+/* Works on Firefox */
+.ulQuestions{
+  scrollbar-width: thin;
+  scrollbar-color: var(--grey) var(--fond);
+}
+
+/* Works on Chrome, Edge, and Safari */
+.ulQuestions::-webkit-scrollbar{
+  width: 12px;
+}
+
+.ulQuestions::-webkit-scrollbar-track
+{
+  /* background: var(--grey); */
+  border-radius: 5px;
+}
+
+.ulQuestions::-webkit-scrollbar-thumb{
+  background-color: var(--grey);
+  border-radius: 20px;
+  border: 3px solid var(--grey);
+}
+
+/************************************************************************/
+
 .divQuestion {
   margin: 1em auto;
   display: flex;

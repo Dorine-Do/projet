@@ -44,7 +44,6 @@ window.onload = function (event) {
             let p = document.createElement("p");
             p.className = "pLetter";
             p.innerHTML = letter;
-
             p_prop = document.createElement("p");
             p_prop.innerHTML = proposal.wording;
             div.append(p, p_prop);
@@ -56,7 +55,6 @@ window.onload = function (event) {
       } else {
         // si ouvert alors
         e.target.setAttribute("src", chevronBas);
-
         div_js.innerHTML = "";
         e.target.dataset.status = false;
       }

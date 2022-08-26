@@ -436,7 +436,7 @@ class StudentController extends AbstractController
         ProposalRepository $proposalRepo
     ): Response
     {
-        $dbAnswers = $result->getAnswers();²
+        $dbAnswers = $result->getAnswers();
         $qcmInstance = $result->getQcmInstance();
         $qcm = $qcmInstance->getQcm();
         $qcmQuestions = [];
