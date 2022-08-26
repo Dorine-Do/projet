@@ -86,6 +86,10 @@ li {
   font-size: var(--normal);
 }
 
+#create_question_difficulty label:hover {
+  cursor: pointer;
+}
+
 input[type="radio"] {
   background-color: var(--grey);
   cursor: pointer;
