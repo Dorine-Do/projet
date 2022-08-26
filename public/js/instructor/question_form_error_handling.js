@@ -12,7 +12,7 @@ function checkCreateQuestionForm(e)
         errorMessages.forEach( errorMessage => errorMessage.remove() );
         errorcontainers.forEach( errorContainer => errorContainer.classList.remove('errorBorder') );
 
-        let questionWordingInput    = document.querySelector( '#cke_create_question_wording iframe' ).contentWindow.document.querySelector('body > p');
+        let questionWordingInput = document.querySelector( '#cke_create_question_wording iframe' ).contentWindow.document.querySelector('body > p');
         let proposalsIFrames        = document.querySelectorAll( '#listProposal iframe' );
         let proposalsWordingInputs  = [];
         proposalsIFrames.forEach( proposalIFrame => proposalsWordingInputs.push( proposalIFrame.contentWindow.document.querySelector('body > p') ) );
