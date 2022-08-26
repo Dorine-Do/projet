@@ -126,6 +126,7 @@ ul, .backgroundEtape, .allDate{
     flex-direction: column;
     padding: 0 100px;
 }
+
 .date input{
     padding: .2em;
     border-radius: 5px;
