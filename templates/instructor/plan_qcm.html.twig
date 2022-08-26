@@ -14,7 +14,7 @@
                 <p>
                     <span class="etape">Etape 1</span> {{ 'session.choice'|trans }}
                 </p>
-                <ul>
+                <ul class="choixClasse">
                     <li class="liSession">
                         {% for session in instructorSessions %}
                             <input class="nameSession" type="radio" name="session" value="{{ session.id }}"><label for="session">{{ session.name }}</label>
@@ -54,7 +54,7 @@
                 <p>
                     <span class="etape">Etape 5</span> Choix des dates
                 </p>
-                <div class="backgroundEtape">
+                <div class="allDate">
                     <div class="date">
                         <label for="start-time">Date à partir de laquelle le QCM sera accèssible aux élèves</label>
                         <input id="start-time" name="start-time" type="datetime-local">

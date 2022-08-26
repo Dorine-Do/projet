@@ -255,8 +255,21 @@ img{
     background: white;
 }
 
+@media screen and (max-width: 1200px) {
+    .container{
+        width: 90%;
+        margin: auto;
+    }
+
+}
+
 
 @media screen and (max-width: 780px) {
+
+    .container{
+        width: 80%;
+        margin: auto;
+    }
 
     .diff p{
         padding: 5px 30px;
@@ -278,7 +291,7 @@ img{
 @media screen and (max-width: 450px) {
 
     .container{
-        max-width: 90%;
+        width: 90%;
     }
 
     form{
@@ -306,11 +319,15 @@ img{
     }
 
     .reponse{
-        padding: 15px 5px 15px 10px;
+        padding: 15px 10px 15px 0;
     }
 
     .modalContent{
         height: 300px;
         width: 400px;
+    }
+
+    .reponseCorrection{
+        padding: 15px 50px 15px 0;
     }
 }
