@@ -1,0 +1,118 @@
+@import url("../main.css");
+
+section{
+    margin: 50px 0;
+}
+
+.etape {
+    background-color: var(--pamplemousse);
+    font-weight: bold;
+    color: var(--fond);
+    padding: 0.5em 1em;
+    border-radius: 1.5em;
+}
+
+ul, .backgroundEtape{
+    background-color: var(--fond);
+    padding: 25px;
+    display: flex;
+    justify-content: center;
+}
+
+#qcm-choice, #module-choice{
+    padding: 0.8em;
+    width: 30%;
+    margin: auto;
+    border-radius: 10px;
+    box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    outline: none;
+    text-align: center;
+    border: none;
+}
+
+.nameSession{
+    -moz-appearance: none;
+    border-radius: 7px;
+    padding: 1em 200px;
+    width: 130px;
+    border: 1px solid #ccc;
+    background-color: var(--grey);
+    height: 70px;
+}
+
+.nameSession:checked{
+    background-color: var(--vert);
+}
+
+li label{
+    position: relative;
+    bottom: 40%;
+    right: 17%;
+    color: white;
+}
+
+.container{
+    max-width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.valid{
+    background-color: var(--grey);
+    color: white;
+    border-radius: 50px;
+    border: none;
+    padding: 0.6em 0;
+    font-size: var(--normal);
+    width: 50%;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+}
+
+.valid:hover{
+    background-color: var(--vert);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#qcm-students{
+    display: flex;
+    justify-content: space-between;
+}
+
+#qcm-students input{
+    -moz-appearance: none;
+    border-radius: 50px;
+    padding: 8px 150px;
+    width: 100%;
+    background-color: var(--grey);
+    height: 70px;
+}
+
+#qcm-students input:checked{
+    background-color: var(--pamplemousse);
+    font-weight: bold;
+}
+
+#qcm-students label{
+    position: absolute;
+    top: 27%;
+    left: 34%;
+    color: white;
+    width: 100%;
+    height: 20%;
+}
+
+.divStudentOption{
+    position: relative;
+}
+
+.date{
+    display: flex;
+    flex-direction: column;
+    padding: 0 100px;
+}
