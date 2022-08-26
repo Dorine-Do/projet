@@ -30,6 +30,10 @@ ul, .backgroundEtape, .allDate{
     border: none;
 }
 
+#qcm-choice:hover, #module-choice:hover{
+    cursor: pointer;
+}
+
 .nameSession{
     -moz-appearance: none;
     border-radius: 7px;
@@ -44,10 +48,19 @@ ul, .backgroundEtape, .allDate{
     background-color: var(--vert);
 }
 
-li label{
+.liSession{
     position: relative;
+}
+
+.liSession input:hover,
+.liSession label:hover{
+    cursor: pointer;
+}
+
+.liSession label{
+    position: absolute;
     bottom: 40%;
-    right: 17%;
+    right: 35%;
     color: white;
 }
 
@@ -112,6 +125,12 @@ li label{
     display: flex;
     flex-direction: column;
     padding: 0 100px;
+}
+
+.date input{
+    padding: .2em;
+    border-radius: 5px;
+    border: none;
 }
 
 @media screen and (max-width: 780px) {
