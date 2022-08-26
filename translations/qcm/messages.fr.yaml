@@ -16,6 +16,8 @@ qcm:
   questionConfirmQcm: Voulez vous vraiment confirmer ce QCM ?
   finish: LE QCM EST TERMINÉ
   correction: Correction
+  iSelecteQcm : Je sélectionne mon qcm
+  displayQuestionByChoisedQcm : Affichage de mes questions en fonction du qcms choisi
 
 difficulty:
   easy: Facile
@@ -87,4 +89,4 @@ title:
   modifyQuestions: Modification de mes questions
   creations: Mes créations
   planQcm : Programmer la planification d'un qcm
-  myQcmExercice : Mes Qcm d'exercices
+  myQcmExercice : Mes Qcms d'exercices
