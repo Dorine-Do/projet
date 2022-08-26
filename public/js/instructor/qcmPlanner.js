@@ -39,13 +39,16 @@ function updateStudentOptions( field, fieldData )
     fieldData.forEach( data => {
         let input = document.createElement('input');
         let label = document.createElement('label');
+        let div = document.createElement('div');
+        div.classList.add('divStudentOption')
         input.type = 'checkbox';
         input.name = 'students['+ data.id +']';
         input.value = data.id;
         label.innerText = data.firstName + ' ' + data.lastName;
 
-        field.append(input);
-        field.append(label);
+        div.append(input, label)
+        field.append(div);
+
     });
 }
 

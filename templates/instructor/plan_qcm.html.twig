@@ -1,40 +1,50 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link href="{{asset('css/instructor/plan_qcm.css')}}" rel="stylesheet">
+    <link href="{{asset('build/app.css')}}" rel="stylesheet">
+    <link href="{{asset('css/instructor/ckeditor_overwrite.css')}}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
-    <main>
-        <h1>- PROGRAMMER LA PLANIFICATION D'UN QCM -</h1>
+    <h1>- PROGRAMMER LA PLANIFICATION D'UN QCM -</h1>
+    <div class="container">
         <form action="{{ path('instructor_distribue_qcm') }}" method="post">
             <section>
                 <p>
-                    <span>Etape 1</span> Choix de la classe
+                    <span class="etape">Etape 1</span> Choix de la classe
                 </p>
                 <ul>
                     <li>
                         {% for session in instructorSessions %}
-                            <input type="radio" name="session" value="{{ session.id }}"><label for="session">{{ session.name }}</label>
+                            <input class="nameSession" type="radio" name="session" value="{{ session.id }}"><label for="session">{{ session.name }}</label>
                         {% endfor %}
                     </li>
                 </ul>
             </section>
             <section>
                 <p>
-                    <span>Etape 2</span> Choix du module
+                    <span class="etape">Etape 2</span> Choix du module
                 </p>
-                <select id="module-choice" name="module">
-                    <option value="0">Selectionnez une session pour choisir un module</option>
-                </select>
+                <div class="backgroundEtape">
+                    <select id="module-choice" name="module">
+                        <option value="0">Selectionnez une session pour choisir un module</option>
+                    </select>
+                </div>
             </section>
             <section>
                 <p>
-                    <span>Etape 3</span> Choix du QCM
+                    <span class="etape">Etape 3</span> Choix du QCM
                 </p>
-                <select id="qcm-choice" name="qcm">
-                    <option value="0">Selectionnez un module pour choisir un QCM</option>
-                </select>
+                <div class="backgroundEtape">
+                    <select id="qcm-choice" name="qcm">
+                        <option value="0">Selectionnez un module pour choisir un QCM</option>
+                    </select>
+                </div>
             </section>
             <section>
                 <p>
-                    <span>Etape 4</span> Choix du ou des élèves pouvant faire le QCM
+                    <span class="etape">Etape 4</span> Choix du ou des élèves pouvant faire le QCM
                     <ul id="qcm-students">
                         <li>La liste des élèves apparaitra ici lorsque vous aurez choisi une session.</li>
                     </ul>
@@ -42,20 +52,22 @@
             </section>
             <section>
                 <p>
-                    <span>Etape 5</span> Choix des dates
+                    <span class="etape">Etape 5</span> Choix des dates
                 </p>
-                <div>
-                    <label for="start-time">Date à partir de laquelle le QCM sera accèssible aux élèves</label>
-                    <input id="start-time" name="start-time" type="datetime-local">
-                </div>
-                <div>
-                    <label for="end-time">Date avant laquelle le QCM devra être fait par les élèves</label>
-                    <input id="end-time" name="end-time" type="datetime-local">
+                <div class="backgroundEtape">
+                    <div class="date">
+                        <label for="start-time">Date à partir de laquelle le QCM sera accèssible aux élèves</label>
+                        <input id="start-time" name="start-time" type="datetime-local">
+                    </div>
+                    <div class="date">
+                        <label for="end-time">Date avant laquelle le QCM devra être fait par les élèves</label>
+                        <input id="end-time" name="end-time" type="datetime-local">
+                    </div>
                 </div>
             </section>
-            <button type="submit">Distribuer le QCM aux élèves sélectionnés</button>
+            <button class="valid" type="submit">Distribuer le QCM aux élèves sélectionnés</button>
         </form>
-    </main>
+    </div>
 {% endblock %}
 
 {% block javascripts %}

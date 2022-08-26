@@ -80,7 +80,7 @@ li {
 #create_question_difficulty label {
   position: absolute;
   top: 25%;
-  left: 35%;
+  left: 40%;
   color: white;
   font-weight: 500;
   font-size: var(--normal);
@@ -407,34 +407,7 @@ img {
   height: 50px;
   margin-left: 20px;
 }
-/* ************************CKEDITOR TEST CSS************************ */
-/* .cke_inner .cke_reset {
-  width: 100%;
-} */
 
-@media screen and (max-width: 1200px) {
-  .buttondiff {
-    padding: 5px 35px;
-    font-size: var(--normal);
-  }
-
-  .buttondesac {
-    padding: 5px 15px;
-    font-size: var(--normal);
-  }
-
-  .formOption {
-    padding: 8px 20px;
-  }
-
-  .valid {
-    padding: 15px 200px;
-  }
-
-  label.required {
-    text-align: left;
-  }
-}
 /*****************INFO MODIF QUESTION***************** */
 .infoQuestion {
   width: 70%;
@@ -474,10 +447,44 @@ img {
   font-weight: 600;
 }
 
+/* ************************CKEDITOR TEST CSS************************ */
+/* .cke_inner .cke_reset {
+  width: 100%;
+} */
+
+@media screen and (max-width: 1200px) {
+  .buttondiff {
+    padding: 5px 35px;
+    font-size: var(--normal);
+  }
+
+  .buttondesac {
+    padding: 5px 15px;
+    font-size: var(--normal);
+  }
+
+  .formOption {
+    padding: 8px 20px;
+  }
+
+  .valid {
+    padding: 15px 200px;
+  }
+
+  label.required {
+    text-align: center;
+  }
+}
+
 @media screen and (max-width: 780px) {
   table {
     width: 100%;
   }
+
+  form {
+    width: 90%;
+  }
+
 
   .buttondesac {
     padding: 10px 30px;
@@ -532,25 +539,21 @@ img {
     flex-direction: column;
   }
 
-  .liProposal {
-    width: 40%;
-  }
-
-  .difficulty {
-    width: 68%;
-  }
-
   #create_question_difficulty label {
     position: absolute;
-    top: 20%;
-    left: 37%;
+    top: 27%;
+    left: 31%;
     color: white;
   }
 }
 
 @media screen and (max-width: 450px) {
   .container {
-    max-width: 90%;
+    max-width: 100%;
+  }
+
+  h1{
+    width: 100%;
   }
 
   table {
@@ -576,6 +579,7 @@ img {
     background-color: var(--fond);
     margin-bottom: 20px;
     font-size: var(--normal);
+    width: 100%;
   }
 
   /* .numeroForm {
@@ -623,6 +627,7 @@ img {
 
   .liProposal {
     flex-direction: column;
+    width: 85%;
   }
 
   .div_wording {
@@ -655,15 +660,9 @@ img {
   }
 
   #create_question_difficulty input[type="radio"] {
-    width: 65px;
+    width: 120px;
     height: 31px;
     border: none;
-  }
-
-  .difficulty {
-    width: 60%;
-    display: flex;
-    justify-content: space-around;
   }
 
   label.required {
@@ -696,10 +695,6 @@ img {
     margin-left: 0;
   }
 
-  .liProposal {
-    width: 80%;
-  }
-
   .center {
     text-align: center;
   }
@@ -709,12 +704,25 @@ img {
     margin-left: auto;
     display: block;
     margin-top: 10px;
+    width: 80%;
   }
 
   #create_question_difficulty label {
     position: absolute;
-    top: 13%;
-    left: 28%;
+    top: 16%;
+    left: 36%;
     color: white;
+  }
+
+  #listProposal{
+    grid-template-columns: none;
+  }
+
+  .second{
+    width: 80%;
+  }
+
+  .stickerInfo {
+    grid-template-columns: repeat(1, 1fr);
   }
 }

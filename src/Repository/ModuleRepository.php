@@ -90,7 +90,8 @@ class ModuleRepository extends ServiceEntityRepository
             ->join(LinkInstructorSessionModule::class, 'lism')
             ->where('lism.instructor = :instructor' )
             ->andWhere( 'lism.module = m.id' )
-            ->setParameter('instructor', $instructor->getId() );
+            /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+            ->setParameter('instructor', 1 );
     }
 //    /**
 //     * @return Module[] Returns an array of Module objects

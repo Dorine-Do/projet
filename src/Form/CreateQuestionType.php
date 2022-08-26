@@ -109,7 +109,8 @@ class CreateQuestionType extends AbstractType
                 'class'=> Module::class,
                 // Voir repository -> méthode accepté createQueryBuilder() et non getResult() car array return
                 'query_builder' => function(ModuleRepository $moduleRepository){
-                    return $moduleRepository->getModules($this->security->getUser()) ;
+                    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+                    return $moduleRepository->getModules(1);
                 },
                 'choice_label'=>'title',
                 'empty_data' =>function(){

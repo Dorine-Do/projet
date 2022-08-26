@@ -65,6 +65,7 @@ hr {
   grid-template-columns: 60% 40%;
   text-align: center;
   background: #fff4e4;
+  border-radius: 0.5em;
 }
 
 .selectModule {
@@ -151,7 +152,16 @@ hr {
 .backWhite > ul {
   display: grid;
   grid-gap: 1em;
-  padding: 0.5;
+  padding: 0.5em;
+}
+/* temporaire */
+.backWhite > ul p {
+  text-align: left;
+}
+.qcmChoisedMain ul {
+  padding: 0.5em;
+  display: grid;
+  grid-gap: 0.5em;
 }
 .backWhite,
 .qcmChoisedMain,
@@ -435,7 +445,6 @@ hr {
 
 .qcmChoisedLi {
   display: flex;
-  margin: 0.5em;
   justify-content: space-between;
 }
 .qcmChoisedLiDiv {
@@ -468,10 +477,24 @@ hr {
 
 .qcmChoisedQuestionWordingP {
   margin: 0;
-  text-align: center;
-  font-weight: var(--semi_bold);
+  text-align: left;
+  font-weight: 500;
   width: 84%;
   padding: 1em 0.2em;
+  display: grid;
+  grid-template-columns: 5% 95%;
+}
+
+/* temporaire pour le marquage des questions */
+.qcmChoisedQuestionWordingP span {
+  background: green;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 0.5em;
+  align-self: center;
 }
 
 .qcmChoisedchevronBasP {
@@ -668,7 +691,6 @@ hr {
 .officialQuestionLi {
   padding: 0.2em;
   display: grid;
-  /* grid-gap: 0.2em; */
 }
 
 .OfficialQuestionWordingDiv {
@@ -691,9 +713,26 @@ hr {
 
 .officialQuestionWordingP {
   margin: 0;
-  text-align: center;
+  text-align: left;
   width: 75%;
   padding: 1em 0;
+  font-weight: 500;
+  display: grid;
+  grid-template-columns: 5% 95%;
+}
+
+/* temporaire */
+.officialQuestionWordingP span {
+  color: red;
+  background: red;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  align-self: center;
+  /* temporaire pour cacher le texte -> numerotation */
+  overflow: hidden;
+  margin-right: 0.5em;
 }
 
 .officialChevronBasP {
@@ -790,4 +829,11 @@ hr {
 .qcmValidation button:hover {
   cursor: pointer;
   background-color: var(--vert);
+}
+
+@media screen and (min-width: 1000px) {
+  .partOne,
+  .contentPartTwo {
+    width: 70%;
+  }
 }
