@@ -71,6 +71,8 @@
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script>
     <script>
+        let chevronHaut = "{{asset('build/images/chevron_haut.png')}}"
+        let chevronBas = "{{asset('build/images/chevron_bas.png')}}"
         let proposals = {{proposals|json_encode|raw}};
     </script>
 {% endblock %}

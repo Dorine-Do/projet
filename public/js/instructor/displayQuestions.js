@@ -27,6 +27,8 @@ window.onload = function (event) {
 
       if (status === false) {
         // Si fermé alors
+          e.target.setAttribute("src", chevronHaut);
+
         let count = 0;
         for (const proposal of proposals) {
           let id = parseInt(e.target.dataset.id);
@@ -53,6 +55,8 @@ window.onload = function (event) {
         e.target.dataset.status = true; // Chevron ouvert
       } else {
         // si ouvert alors
+        e.target.setAttribute("src", chevronBas);
+
         div_js.innerHTML = "";
         e.target.dataset.status = false;
       }
