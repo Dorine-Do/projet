@@ -16,7 +16,7 @@
     <div class="partOne">
         <p><span class="etape">Etape 1</span> Choix du qcm par module et par niveau</p>
         {# form -> id : user.id => temporaire /// voir controller + var #}
-        <form action="{{ path('instructor_create_qcm_perso',{ 'id': user.id}) }}" method="GET">
+        <form action="{{ path('instructor_create_qcm_perso') }}" method="GET">
             <select class="selectModule" name="module">
                 {% for module in modules %}
                     <option value="null">Veuillez choisir un module</option>
@@ -328,7 +328,7 @@
 
         let route = "{{ path('instructor_questions_update_fetch') }}"
           {#id : user.id => temporaire /// voir controller + var #}
-        let routeInstructorQcmFetch = "{{ path('instructor_qcm_create_fetch',{ 'id': user.id} ) }}"
+        let routeInstructorQcmFetch = "{{ path('instructor_qcm_create_fetch' ) }}"
 
         {#let questions = {{ questions|json_encode }}#}
     </script>

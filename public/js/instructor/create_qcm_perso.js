@@ -274,11 +274,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
       } else {
         values["isMultiple"] = false;
       }
-
+      //   on passe pas dans le fetch VERIFICATION IMPORTANTE POUR TRANSMISSION DE DONNEES
+      //   let res = fetch(route);
+      //   console.log(alert(response.headers.get("Content-Type")));
       fetch(route, {
-        //  get temporaire
         method: "POST",
-        body: console.log(JSON.stringify(values)), // The data
+        body: JSON.stringify(values), // The data
         headers: {
           "Content-type": "application/json", // The type of data you're sending
         },
@@ -439,14 +440,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
         wording: wording,
       });
     });
-
+    console.log(routeInstructorQcmFetch);
+    console.log(questionsSelect);
     fetch(routeInstructorQcmFetch, {
       method: "POST",
-      body: JSON.stringify(questionsSelect), // The data
       headers: {
         "Content-type": "application/json", // The type of data you're sending
       },
-    });
+      body: JSON.stringify(questionsSelect), // The data
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result == "ok") {
+          window.location.href = "https://127.0.0.1:8000/instructor/questions";
+          
+        }
+      });
   });
 
   /**********************************************************************************************************************/
