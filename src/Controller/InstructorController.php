@@ -46,8 +46,8 @@ class InstructorController extends AbstractController
     {
         $proposals = [];
         $resumeProposal = [];
-
-        $questions = $questionRepository->findBy(['author' => 11]);
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+        $questions = $questionRepository->findBy(['author' => 1]);
         foreach( $questions as $question )
         {
             $question_id = $question->getId();

@@ -166,6 +166,21 @@
   border-radius: 0 0 5px 5px;
 }
 
+.divProp{
+  display: flex;
+  align-items: center;
+}
+
+.pLetter {
+  background-color: var(--grey);
+  padding: 10px 13px;
+  border-radius: 50%;
+  color: white;
+  margin: 0 1em 0 0;
+  width: 15px;
+  text-align: center;
+}
+
 @media screen and (max-width: 1200px) {
   .liWording {
     background-color: var(--pamplemousse);

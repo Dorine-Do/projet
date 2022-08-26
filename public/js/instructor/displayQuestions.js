@@ -32,6 +32,8 @@ window.onload = function (event) {
           let id = parseInt(e.target.dataset.id);
 
           if (id === proposal.id_question) {
+            let div =  document.createElement('div')
+            div.classList.add('divProp')
             let alphabet = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
             let end = parseInt(count, 10) + 1; // 4 +1 = 5    '4' + 1 = 41
@@ -43,7 +45,8 @@ window.onload = function (event) {
 
             p_prop = document.createElement("p");
             p_prop.innerHTML = proposal.wording;
-            div_js.append(p, p_prop);
+            div.append(p, p_prop);
+            div_js.append(div);
             count++;
           }
         }
