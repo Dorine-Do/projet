@@ -58,22 +58,3 @@
   border-radius: 10px;
   border: 2px solid var(--fond);
 }
-
-.linkToQuestion.two:before,
-.linkToQcm.two:before {
-  content: "Bientôt";
-  position: absolute;
-  left: 60%;
-  width: 80px;
-  background: #fff4e4;
-  border-radius: 50px;
-}
-
-.linkToQcm.two:before {
-  content: "Bientôt";
-  position: absolute;
-  left: 10%;
-  width: 80px;
-  background: #fff4e4;
-  border-radius: 50px;
-}

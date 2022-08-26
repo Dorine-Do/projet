@@ -5,7 +5,7 @@ qcm:
   todo: Qcm à faire
   official: QCM officiel
   inter: QCM d'exercice
-  choice: Choix du QCM
+  choice: Choix du qcm
   dones: QCM Réalisés
   donesExplain: En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les qcm que tu as terminés, voir tes réponses fausses et t'entrainer à les refaire.
   iChance: Je retente ma chance
@@ -24,7 +24,7 @@ difficulty:
 
 module:
   name: Nom du module
-  choice: Choix du Module
+  choice: Choix du module
   filter: Filtre par module
   plsChoice: Veuillez sélectionner un module
 
@@ -51,25 +51,40 @@ question:
 proposal:
   create: Créer les réponses
 
+session:
+  choice: Choix de la classe
+
+date :
+  choice : Choix des dates
+
 button:
   validate: Valider
   delete: Supprimer
   addProposal: Ajouter une réponse
   createQuestion: Créer une question
+  createQcmCustom : Créer un qcm d'exercice
+  generateQcmOfficial: Générer un qcm officiel
   tryAgain: J'essaie d'obtenir mon badge
   viewAnswers: Voir les réponses
   doAgain: Refaire le qcm
   back: Retour
+  planQcmExercice : Planifier un qcm d'exercice
+  myQuestionsCustom : Mes questions personnalisées
+  myQcmsExercice : Mes qcms d'exercice
+  myCreation: Mes créations
 
 header:
-  qcm: QCM
   dashboard: Tableau de bord
-  creation: Mes créations
+  planning : Planning
+
 
 title:
+  weclome: Accueil
   done: QCM Réalisé
   menu: QCM Menu
   createQuestions: Création de questions
   listQuestions: Liste des questions
   modifyQuestions: Modification de mes questions
   creations: Mes créations
+  planQcm : Programmer la planification d'un qcm
+  myQcmExercice : Mes Qcm d'exercices

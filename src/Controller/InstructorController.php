@@ -41,7 +41,13 @@
             return $this->render('instructor/welcome_instructor.html.twig', []);
         }
 
-        #[Route('instructor/questions', name: 'instructor_display_questions', methods: ['GET'])]
+        #[Route('instructor/creations',name:'my_creations',methods:['GET','POST'])]
+        public function displayInstructionCreations():Response
+        {
+            return $this->render('instructor/my_creations.html.twig');
+        }
+
+        #[Route('instructor/creations/questions', name: 'instructor_display_questions', methods: ['GET'])]
         public function displayQuestions(
             QuestionRepository $questionRepository,
             ProposalRepository $proposalRepository
@@ -69,6 +75,21 @@
             return $this->render('instructor/display_questions.html.twig', [
                 'questions' => $questions,
                 'proposals' => $resumeProposal,
+            ]);
+        }
+
+        #[Route('instructor/creations/qcms', name: 'instructor_display_qcms', methods: ['GET'])]
+        public function displayQcms(
+            QcmRepository $qcmRepo,
+            Security      $security
+        ): Response
+        {
+            $qcms = $qcmRepo->findBy([
+                'author' => $security->getUser(),
+            ]);
+
+            return $this->render('instructor/display_qcms.html.twig', [
+                'qcms' => $qcms,
             ]);
         }
 
@@ -403,20 +424,7 @@
             return $this->redirectToRoute('instructor_display_questions');
         }
 
-        #[Route('instructor/qcms', name: 'instructor_qcms', methods: ['GET'])]
-        public function displayQcms(
-            QcmRepository $qcmRepo,
-            Security      $security
-        ): Response
-        {
-            $qcms = $qcmRepo->findBy([
-                'author' => $security->getUser(),
-            ]);
 
-            return $this->render('instructor/display_qcms.html.twig', [
-                'qcms' => $qcms,
-            ]);
-        }
 
         #[Route('instructor/create_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
         public function createOfficialQcm(
@@ -513,16 +521,10 @@
 
             }
 
-            return $this->render('instructor/create_official_qcm.html.twig', [
+            return $this->render('instructor/generate_official_qcm.html.twig', [
                 'sessions' => $sessions,
                 'modules' => $modules,
             ]);
-        }
-
-        #[Route('instructor/mes_creations/qcms',name:'my_creations',methods:['GET','POST'])]
-        public function displayInstructionCreations():Response
-        {
-            return $this->render('instructor/my_creations.html.twig');
         }
 
         #[Route('instructor/plan_qcm', name: 'instructor_plan_qcm', methods: ['GET', 'POST'])]

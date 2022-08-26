@@ -7,15 +7,15 @@
 {% endblock %}
 
 {% block body %}
-    <h1>- PROGRAMMER LA PLANIFICATION D'UN QCM -</h1>
+    <h1> {{ 'title.planQcm'|trans }} </h1>
     <div class="container">
         <form action="{{ path('instructor_distribue_qcm') }}" method="post">
             <section>
                 <p>
-                    <span class="etape">Etape 1</span> Choix de la classe
+                    <span class="etape">Etape 1</span> {{ 'session.choice'|trans }}
                 </p>
                 <ul>
-                    <li>
+                    <li class="liSession">
                         {% for session in instructorSessions %}
                             <input class="nameSession" type="radio" name="session" value="{{ session.id }}"><label for="session">{{ session.name }}</label>
                         {% endfor %}
@@ -24,7 +24,7 @@
             </section>
             <section>
                 <p>
-                    <span class="etape">Etape 2</span> Choix du module
+                    <span class="etape">Etape 2</span> {{ 'module.choice'|trans }}
                 </p>
                 <div class="backgroundEtape">
                     <select id="module-choice" name="module">
@@ -34,7 +34,7 @@
             </section>
             <section>
                 <p>
-                    <span class="etape">Etape 3</span> Choix du QCM
+                    <span class="etape">Etape 3</span> {{ 'qcm.choice'|trans }}
                 </p>
                 <div class="backgroundEtape">
                     <select id="qcm-choice" name="qcm">
