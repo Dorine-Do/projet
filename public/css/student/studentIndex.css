@@ -113,6 +113,7 @@ span{
 .buttonExercice:hover{
     background-color: var(--vert);
     font-weight: bold;
+    cursor: pointer;
 }
 
 .divQcm h2{
@@ -300,13 +301,14 @@ input[type="radio"]:checked {
     }
 
     .buttonExercice{
-        width: 30%;
+        width: 100%;
         margin: auto;
         font-family: "Alumni Sans", serif;
     }
 
     .selectEntrainement{
         margin-bottom: 20px;
+        width: 100%;
     }
 
     .divBadge{

@@ -48,19 +48,15 @@ ul, .backgroundEtape, .allDate{
     background-color: var(--vert);
 }
 
-.liSession{
-    position: relative;
-}
-
 .liSession input:hover,
 .liSession label:hover{
     cursor: pointer;
 }
 
 .liSession label{
-    position: absolute;
+    position: relative;
     bottom: 40%;
-    right: 35%;
+    right: 17%;
     color: white;
 }
 
@@ -196,5 +192,12 @@ ul, .backgroundEtape, .allDate{
     li label{
         bottom: 17%;
         left: 39%;
+    }
+
+    .liSession label{
+        position: relative;
+        bottom: 18%;
+        right: 17%;
+        color: white;
     }
 }

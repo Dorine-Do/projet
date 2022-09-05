@@ -21,7 +21,7 @@ h1, h2{
 .premiereDiv{
     background-color: var(--fond);
     width: 90%;
-    margin: auto auto 75px auto;
+    margin: 75px auto 75px auto;
     display: flex;
     justify-content: center;
 }
@@ -161,7 +161,7 @@ select{
     }
 
     .ligne{
-        width: 600px;
+        width: 100%;
     }
 
     .divButton{
@@ -192,16 +192,17 @@ select{
 
     .button{
         text-align: center;
+        margin: 10px auto;
     }
 
 
     h1{
-        width: 412px;
+        width: 100%
     }
 
 
     .ligne{
-        width: 405px;
+        width: 100%;
     }
 
     .officiel select{

@@ -4,14 +4,10 @@ body {
 }
 
 .accueilDiv {
-  display: grid;
-  grid-gap: 4em;
-  grid-template-columns: repeat(2, 1fr);
-  /* grid-template-columns: repeat(3, 1fr); temporaire*/
-  text-align: center;
-  width: 90%;
-  margin: 30px auto;
-  padding: 40px 0;
+  display: flex;
+  justify-content: space-around;
+  margin: 20px auto 100px auto;
+
 }
 
 .hrefDiv {
@@ -75,16 +71,76 @@ body {
 }
 /* temporaire */
 
-.sectionOne,
-.sectionTwo,
 .sectionThree {
   background: var(--fond);
   border-radius: 20px;
   padding: 30px;
+  margin: auto 30px;
+  text-align: center;
 }
+
+.sectionOne,
+.sectionTwo{
+  width: 40%;
+  background: var(--fond);
+  border-radius: 20px;
+  padding: 30px;
+  margin: 30px;
+  text-align: center;
+}
+
 .sectionThree {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 30px;
   grid-column: 1/3;
 }
+
+@media screen and (max-width: 1200px) {
+
+}
+
+@media screen and (max-width: 780px) {
+  .hrefDiv{
+    width: 70%;
+    height: 80%;
+  }
+
+  .accueilDiv{
+    margin: 20px auto 70px auto;
+  }
+}
+
+@media screen and (max-width: 450px) {
+
+    .container{
+      width: 450px;
+    }
+
+    .sectionThree{
+      grid-template-columns: repeat(1, 1fr);
+      width: 73%;
+    }
+
+  .sectionThree .hrefDiv{
+      width: 70%;
+  }
+
+  .accueilDiv{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .sectionOne{
+    width: 73%;
+    margin: 10px auto;
+  }
+
+  .sectionTwo{
+    width: 73%;
+    margin: 10px auto 60px auto;
+  }
+
+}
+
+
