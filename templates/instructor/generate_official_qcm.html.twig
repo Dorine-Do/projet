@@ -8,16 +8,6 @@
 
 <div class="container_create_qcm">
 <h1>Je crée un qcm</h1>
-  {# <nav class="create_qcm">
-    <div>ici logo</div>
-    <ul class="list_buttons_nav">
-      <Li>Créer un qcm</Li>
-      <Li>Mon planning</Li>
-      <Li>Tableau de bord</Li>
-      <Li>Gestion qcm</Li>
-    </ul>
-    
-  </nav> #}
   <main class="content_qcm_creation">
     <p class="step_one"><span>Etape 1</span>Choix de la session</p>
     <form method="GET" action="{{path('instructor_create_qcm')}}">
@@ -68,16 +58,6 @@
              sessionInput.value=`${sessionLiId}`
            })
          }
-       
-       /////////////////////
-      //  TEST url
-      if (window.location.href.includes(location.pathname)) {
-        // linkCreation.classList.add('activeBorderLinkNav')
-        navLinkChoice.style.width = "90%";
-        navLinkChoice.style.gridTemplateColumns = "repeat(4,1fr)";
-        linkCreation.style.display = "inline";
-        linkQcmGiven.style.display = "inline";
-      }
       
     }
     </script>

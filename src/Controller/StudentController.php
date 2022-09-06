@@ -79,7 +79,7 @@ class StudentController extends AbstractController
             }
         }
 
-        $studentSession = $linkSessionStudentRepo->findOneBy([ 'student' => $student->getId()] )->getSession();
+        $studentSession = $linkSessionStudentRepo->findOneBy([ 'student' => $student->getId(), 'isEnabled'=> 1] )->getSession();
         $sessionModules = $linkSessionModuleRepo->findBy([ 'session' => $studentSession->getId() ]);
         foreach ( $sessionModules as $key => $sessionModule )
         {
@@ -348,7 +348,7 @@ class StudentController extends AbstractController
         $student = $this->getUser();
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, true, $difficulty );
+        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, true, $difficulty, $this->studentRepo );
 
         $manager->persist( $trainingQcm );
         $manager->flush();

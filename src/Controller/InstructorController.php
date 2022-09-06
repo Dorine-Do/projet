@@ -425,7 +425,6 @@
         }
 
 
-
         #[Route('instructor/create_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
         public function createOfficialQcm(
             Security               $security,
@@ -438,7 +437,9 @@
         ): Response
         {
             $dayOfWeekEnd = array("Saturday", "Sunday");
-            $userId = $security->getUser();
+//            $userId = $security->getUser();
+            /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+            $userId = 1;
             $sessionAndModuleByInstructor = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
             foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor)
