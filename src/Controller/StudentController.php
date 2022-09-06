@@ -29,7 +29,7 @@ class StudentController extends AbstractController
     /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
     public function __construct(StudentRepository $studentRepository){
         $this->studentRepo = $studentRepository;
-        $this->id = 11;
+        $this->id = 21;
     }
 
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
@@ -40,7 +40,7 @@ class StudentController extends AbstractController
     ): Response
     {
 
-        $student = $this->getUser();
+        $student = $this->studentRepo->find($this->id);
 
         $allAvailableQcmInstances = $student->getQcmInstances();
 
@@ -177,6 +177,8 @@ class StudentController extends AbstractController
         $questionsCache = $qcm->getQuestionsCache();
 
         $result = $request->query->all();
+
+//        dd($result);
 
         $countIsCorrectAnswer = 0;
 

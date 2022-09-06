@@ -2,6 +2,12 @@
 
 /******************************************************* Difficulté avec badge *****************************************/
 
+.container{
+    max-width: 90%;
+    margin: auto;
+}
+
+
 img{
     width: 40px;
 }
@@ -150,7 +156,7 @@ img{
 
 /***************************************** POP UP (Qcm To do) *************************************/
 
-#my-modal, #error-modal{
+#my-modal, #error-modal, #comment-modal{
     display: none;
     position: fixed;
     top: 0;
@@ -176,8 +182,20 @@ img{
     margin-left: auto;
     margin-right: auto;
     display: block;
-    height: 300px;
-    width: 500px;
+    height: 31%;
+    width: 42%;
+    text-align: center;
+    background-color: var(--fond);
+}
+
+.modalConfirm{
+    border-radius: 5px;
+    margin-top: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    height: 63%;
+    width: 42%;
     text-align: center;
     background-color: var(--fond);
 }
@@ -228,6 +246,14 @@ img{
 .logoPop{
     width: 100px;
     margin-top: 20px;
+}
+
+#comment-modal textarea{
+    margin-bottom: 15px;
+    height: 50%;
+    width: 90%;
+    padding: 15px;
+    resize : none;
 }
 
 /***************************************** Comment (Correction) *************************************/

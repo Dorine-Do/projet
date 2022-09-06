@@ -74,6 +74,7 @@ button:
   myQuestionsCustom : Mes questions personnalisées
   myQcmsExercice : Mes qcms d'exercice
   myCreation: Mes créations
+  pass: Passer
 
 header:
   dashboard: Tableau de bord
