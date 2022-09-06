@@ -16,6 +16,8 @@ qcm:
   questionConfirmQcm: Voulez vous vraiment confirmer ce QCM ?
   finish: LE QCM EST TERMINÉ
   correction: Correction
+  chooseStudents:  Choix du ou des élèves pouvant faire le QCM
+  doAllQestions : Merci de répondre à toutes les questions pour valider le QCM...
 
 difficulty:
   easy: Facile
@@ -25,8 +27,9 @@ difficulty:
 module:
   name: Nom du module
   choice: Choix du module
-  filter: Filtre par module
+  filter: Filtrer par module
   plsChoice: Veuillez sélectionner un module
+  selectModuleToChooseQcm : Selectionnez un module pour choisir un QCM
 
 question:
   plsChoice:
@@ -47,15 +50,20 @@ question:
   firstDatePublished: 1ère date de diffusion
   session: Classe
   create: Créer une question
+  selectQuestionToChooseModule : Selectionnez une session pour choisir un module
 
 proposal:
   create: Créer les réponses
 
 session:
   choice: Choix de la classe
+  popStudentList: La liste des élèves apparaitra ici lorsque vous aurez choisi une session.
+
 
 date :
   choice : Choix des dates
+  studentAccassibleQcm : Date à partir de laquelle le QCM sera accèssible aux élèves
+  studentQcmDoneBefore : Date avant laquelle le QCM devra être fait par les élèves
 
 button:
   validate: Valider
@@ -63,6 +71,7 @@ button:
   addProposal: Ajouter une réponse
   createQuestion: Créer une question
   createQcmCustom : Créer un qcm d'exercice
+  generateQcm : Générer un qcm
   generateQcmOfficial: Générer un qcm officiel
   tryAgain: J'essaie d'obtenir mon badge
   viewAnswers: Voir les réponses
@@ -72,6 +81,8 @@ button:
   myQuestionsCustom : Mes questions personnalisées
   myQcmsExercice : Mes qcms d'exercice
   myCreation: Mes créations
+  connect : Se connecter
+  distributeQcmToSelectedStudents : Distribuer le QCM aux élèves sélectionnés
 
 header:
   dashboard: Tableau de bord
@@ -88,3 +99,29 @@ title:
   creations: Mes créations
   planQcm : Programmer la planification d'un qcm
   myQcmExercice : Mes Qcm d'exercices
+  connexion : connexion
+  AdminDashboard : Admin dashboard
+  createCustomQcm : Créer un QCM personalisé
+  iCreateQcm : Je crée un qcm
+  myComment : Mon commentaire
+  trainerComment : Commentaire du formateur
+  stickerInfos : Sticker infos
+  step1 : Étape 1
+  step2 : Étape 2
+  step3 : Étape 3
+  step4 : Étape 4
+  step5 : Étape 5
+  myQcms : Mes qcms
+  myQuestions: Mes questions
+  iQcmSelect : Je sélectionne mon qcm
+  displayMyQuestions : Affichage de mes questions en fonction du qcms choisi
+  chooseSession : Choix de la session
+  chooseModule : Choix du module
+  validate: Valider
+
+
+
+  general:
+    studentInterface : Mon interface apprenant
+    chooseQcm : Choix du qcm par module et par niveau
+    clickFrameToCloseTab : clique sur le cadre pour fermer l'onglet

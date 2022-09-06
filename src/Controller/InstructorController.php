@@ -438,8 +438,9 @@
         ): Response
         {
             $dayOfWeekEnd = array("Saturday", "Sunday");
-            $userId = $security->getUser();
-            $sessionAndModuleByInstructor = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+            /*TODO A enlever une fois que la connexion avec google sera opérationnelle*/
+            //$userId = $security->getUser();
+            $sessionAndModuleByInstructor = $instructorRepository->find(22)->getLinksInstructorSessionModule();
 
             foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor)
             {

@@ -12,10 +12,10 @@
         <div class="blocLeft">
             <div class="logoAndTypeOfApplication">
                 <div class="logo"><img src=""/></div>
-                <p class="typeOfApplication">Mon interface apprenant</p>
+                <p class="typeOfApplication">{{ 'general.studentInterface'|trans }}</p>
             </div>
             <div class="partOfApplication">
-                <h1>- CONNEXION -</h1>
+                <h1>- {{ 'title.connexion'|trans }} -</h1>
             </div>
             <div></div>
         </div>
@@ -24,7 +24,7 @@
                 <div class="formConnection">
 
                     <div class="blocBtnSubmit">
-                        <a href="{{ path('connect_google') }}">Se connecter</a>
+                        <a href="{{ path('connect_google') }}">S{{ 'button.connect'|trans }}</a>
                     </div>
 
                 </div>

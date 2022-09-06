@@ -12,7 +12,7 @@
         <form action="{{ path('instructor_distribue_qcm') }}" method="post">
             <section>
                 <p>
-                    <span class="etape">Etape 1</span> {{ 'session.choice'|trans }}
+                    <span class="etape">{{ 'title.step1'|trans }}</span> {{ 'session.choice'|trans }}
                 </p>
                 <ul class="choixClasse">
                     <li class="liSession">
@@ -24,48 +24,48 @@
             </section>
             <section>
                 <p>
-                    <span class="etape">Etape 2</span> {{ 'module.choice'|trans }}
+                    <span class="etape">{{ 'title.step2'|trans }}</span> {{ 'module.choice'|trans }}
                 </p>
                 <div class="backgroundEtape">
                     <select id="module-choice" name="module">
-                        <option value="0">Selectionnez une session pour choisir un module</option>
+                        <option value="0">{{ 'question.selectQuestionToChooseModule'|trans }}</option>
                     </select>
                 </div>
             </section>
             <section>
                 <p>
-                    <span class="etape">Etape 3</span> {{ 'qcm.choice'|trans }}
+                    <span class="etape">{{ 'title.step3'|trans }}</span> {{ 'qcm.choice'|trans }}
                 </p>
                 <div class="backgroundEtape">
                     <select id="qcm-choice" name="qcm">
-                        <option value="0">Selectionnez un module pour choisir un QCM</option>
+                        <option value="0">{{ 'module.selectModuleToChooseQcm'|trans }}</option>
                     </select>
                 </div>
             </section>
             <section>
                 <p>
-                    <span class="etape">Etape 4</span> Choix du ou des élèves pouvant faire le QCM
+                    <span class="etape">{{ 'title.step4'|trans }}</span> {{ 'qcm.chooseStudents'|trans }}
                     <ul id="qcm-students">
-                        <li>La liste des élèves apparaitra ici lorsque vous aurez choisi une session.</li>
+                        <li>{{ 'session.popStudentList'|trans }}</li>
                     </ul>
                 </p>
             </section>
             <section>
                 <p>
-                    <span class="etape">Etape 5</span> Choix des dates
+                    <span class="etape">{{ 'title.step5'|trans }}</span> {{ 'date.choice'|trans }}
                 </p>
                 <div class="allDate">
                     <div class="date">
-                        <label for="start-time">Date à partir de laquelle le QCM sera accèssible aux élèves</label>
+                        <label for="start-time">{{ 'date.studentAccassibleQcm'|trans }}</label>
                         <input id="start-time" name="start-time" type="datetime-local">
                     </div>
                     <div class="date">
-                        <label for="end-time">Date avant laquelle le QCM devra être fait par les élèves</label>
+                        <label for="end-time">{{ 'date.studentQcmDoneBefore'|trans }}</label>
                         <input id="end-time" name="end-time" type="datetime-local">
                     </div>
                 </div>
             </section>
-            <button class="valid" type="submit">Distribuer le QCM aux élèves sélectionnés</button>
+            <button class="valid" type="submit">{{ 'button.distributeQcmToSelectedStudents'|trans }}</button>
         </form>
     </div>
 {% endblock %}
