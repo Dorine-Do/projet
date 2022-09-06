@@ -178,6 +178,8 @@ class StudentController extends AbstractController
 
         $result = $request->query->all();
 
+//        dd($result);
+
         $countIsCorrectAnswer = 0;
 
         if( count($result) !== 0 )
