@@ -276,11 +276,8 @@ class StudentController extends AbstractController
                             }
                         }
                     }
-//                    elseif( 'comment_student' == trim($studentAnswerKey) ){
-//                    }
                 }
             }
-            $result = new Result();
 
             $nbQuestions = count($questionsCache);
             $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;

@@ -45,6 +45,7 @@ function showValidationModal()
 
 function showValidationComment()
 {
+
     let modal = document.getElementById("comment-modal");
     modal.style.display = "block";
 }
@@ -56,13 +57,7 @@ function submitQcm()
     let comment = document.getElementById("comment-modal");
     modal.style.display = "none";
     comment.style.display = "none";
-
-    let textarea = comment.querySelector('textarea')
-
-    form.append(textarea);
-
-    form.submit()
-
+    form.submit();
 }
 
 function hideModals()
