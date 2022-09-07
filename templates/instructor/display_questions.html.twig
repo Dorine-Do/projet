@@ -79,7 +79,8 @@
                     </div>
                     </div>
                 </div>
-            {%endfor%}
+            {% endfor %}
+        </ul>
             <div class="divAdd">
                 <a href="{{ path('instructor_create_question') }}" class="linkCreate">
                     <button class="buttonAdd">
@@ -87,17 +88,16 @@
                     </button>
                 </a>
             </div>
-        </ul>
       </div>
     </div>
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('js/instructor/instructorIndex.js') }}"></script>
-{#  <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script>#}
+    {# // <script type="text/javascript" src="{{ asset('js/instructor/instructorIndex.js') }}"></script> #}
+ <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script>
     <script>
-{#  let chevronHaut = "{{asset('build/images/chevron_haut.png')}}"
-        let chevronBas = "{{asset('build/images/chevron_bas.png')}}"#}
+  let chevronHaut = "{{asset('build/images/chevron_haut.png')}}"
+        let chevronBas = "{{asset('build/images/chevron_bas.png')}}"
         let proposals = {{proposals|json_encode|raw}};
     </script>
 {% endblock %}

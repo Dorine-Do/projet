@@ -61,6 +61,7 @@
 
 .divAdd {
   text-align: center;
+  padding: 1em;
 }
 .buttonAdd {
   background-color: var(--grey);
@@ -127,37 +128,35 @@
   border: 1px solid var(--fond);
   padding: 2em;
   border-radius: 5px;
-  background-color: white;
   height: 50em;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 /************************************************************************/
 /*CUSTOM SCROLL*/
 
-/* Works on Firefox
-.ulQuestions{
+/* Works on Firefox */
+.ulQuestions {
   scrollbar-width: thin;
-  scrollbar-color: var(--grey) var(--fond);*/
+  scrollbar-color: var(--fond);
 }
 
-/* Works on Chrome, Edge, and Safari
-.ulQuestions::-webkit-scrollbar{
-  width: 12px;*/
+/* Works on Chrome, Edge, and Safari */
+.ulQuestions::-webkit-scrollbar {
+  width: 12px;
 }
 
-.ulQuestions::-webkit-scrollbar-track
-{
-  /* background: var(--grey);
-  border-radius: 5px;*/
+.ulQuestions::-webkit-scrollbar-track {
+  background: var(--fond);
+  border-radius: 5px;
 }
 
-.ulQuestions::-webkit-scrollbar-thumb{
-/*  background-color: var(--grey);
-border-radius: 20px;
-border: 3px solid var(--grey);
+.ulQuestions::-webkit-scrollbar-thumb {
+  background-color: var(--grey);
+  border-radius: 20px;
+  border: 3px solid var(--grey);
 }
-*/
+
 /************************************************************************/
 
 .divQuestion {
@@ -202,10 +201,6 @@ border: 3px solid var(--grey);
   display: none;
 }
 
-.divQuestionChevron {
-  width: 90%;
-}
-
 .divJs {
   display: flex;
   justify-content: space-between;
@@ -215,7 +210,7 @@ border: 3px solid var(--grey);
   background: var(--fond);
   border-radius: 0 0 5px 5px;
 }
-.divProp{
+.divProp {
   display: flex;
   align-items: center;
 }

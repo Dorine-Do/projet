@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   }
 
   // ////////////// QUESTIONS OFFICIELS/ PERSONNALISED COUNT
-  console.log(listQuestionsOfficials.length);
+  // console.log(listQuestionsOfficials.length);
   let btnQuestionsOfficial = document.querySelector(".btnQuestionsOfficial");
 
   // Event sur les button de choix du type de question****************************************************************
