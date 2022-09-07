@@ -48,16 +48,27 @@ ul, .backgroundEtape, .allDate{
     background-color: var(--vert);
 }
 
+.choixClasse{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.liSession{
+    position: relative;
+    margin-right: .5em;
+}
+
 .liSession input:hover,
 .liSession label:hover{
     cursor: pointer;
 }
 
 .liSession label{
-    position: relative;
-    bottom: 40%;
-    right: 17%;
+    position: absolute;
     color: white;
+    display: block;
+    text-align: center;
+    padding: 0 5px;
 }
 
 .container{

@@ -84,4 +84,28 @@ document.addEventListener('DOMContentLoaded', function(){
         updateQcmsFromAjax( moduleField.value, qcmField );
     })
 
+
+    // Position des label par rapport a leur input
+    let liSession = document.querySelectorAll('.liSession')
+    liSession.forEach( li => {
+
+        let label = li.querySelector('label')
+        let input = li.querySelector('input')
+
+        let widthInput = input.getBoundingClientRect().width
+        let heightInput = input.getBoundingClientRect().height
+
+        let widthLabel = label.getBoundingClientRect().width
+        let heightLabel = label.getBoundingClientRect().height
+
+        label.style.top = ((heightInput/2)-(heightLabel/2)) + 'px'
+
+        if (widthInput < widthLabel){
+            input.style.width = (widthLabel + 10) + 'px'
+        }else {
+            label.style.width = (widthInput-10) + 'px'
+        }
+
+    })
+
 })

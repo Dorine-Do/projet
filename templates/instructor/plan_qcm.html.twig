@@ -15,11 +15,11 @@
                     <span class="etape">Etape 1</span> {{ 'session.choice'|trans }}
                 </p>
                 <ul class="choixClasse">
-                    <li class="liSession">
-                        {% for session in instructorSessions %}
+                    {% for session in instructorSessions %}
+                        <li class="liSession">
                             <input class="nameSession" type="radio" name="session" value="{{ session.id }}"><label for="session">{{ session.name }}</label>
-                        {% endfor %}
-                    </li>
+                        </li>
+                    {% endfor %}
                 </ul>
             </section>
             <section>
