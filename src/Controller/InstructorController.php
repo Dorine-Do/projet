@@ -442,10 +442,10 @@
             $userId = 1;
             $sessionAndModuleByInstructor = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
-            foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor)
+            foreach ($sessionAndModuleByInstructor as $sessionAndModule)
             {
-                $sessionId = $sessionAndModuleByInstructor->getSession()->getId();
-                $moduleId = $sessionAndModuleByInstructor->getModule()->getId();
+                $sessionId = $sessionAndModule->getSession()->getId();
+                $moduleId = $sessionAndModule->getModule()->getId();
                 $sessions = $sessionRepository->findBy(['id' => $sessionId]);
                 $modules = $moduleRepository->findBy(['id' => $moduleId]);
             }
@@ -456,9 +456,9 @@
             {
                 $module = $moduleRepository->find($formData["module"]);
                 $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-                $qcm = $qcmGenerator->generateRandomQcm($module, false);
+                /*TODO A enlever une fois que a connection avec google sera opérationnelle ( $instructorRepository )*/
+                $qcm = $qcmGenerator->generateRandomQcm($module,$instructorRepository, false);
                 $manager->persist($qcm);
-                $manager->flush();
 
                 $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
                 $students = [];
@@ -514,7 +514,7 @@
 
                     //  redirect to route avec flash
                     $this->addFlash(
-                        'instructorAddQcm',
+                        'success',
                         'Le qcm a été généré avec succès'
                     );
                     return $this->redirectToRoute('welcome_instructor');
@@ -615,6 +615,7 @@
             }
             $manager->flush();
 
+            $this->addFlash('success', 'La programmation du qcm a bien été enregistrée.');
             return $this->redirectToRoute('welcome_instructor');
         }
     }
