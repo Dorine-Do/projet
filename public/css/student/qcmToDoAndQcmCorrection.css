@@ -110,6 +110,27 @@ img{
     margin-left: 55px;
 }
 
+.explanation{
+    background-color: var(--fond);
+    border-radius: 5px;
+    border: 1px dashed var(--grey);
+    margin: .7em 0 1em 55px;
+    padding: .2em;
+}
+
+.explanation h4{
+    padding: 0.5em 0 0 .5em;
+    margin: 0;
+    font-weight: 600;
+}
+
+.explanation p{
+    padding: .5em;
+    color: var(--vert);
+    font-weight: 600;
+    margin: 0;
+}
+
 .imageDiff{
     display: flex;
     align-items: center;

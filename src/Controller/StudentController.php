@@ -461,12 +461,14 @@ class StudentController extends AbstractController
                     'isCorrectAnswer' => $answer['isCorrectAnswer'],
                 ];
             }
+//            dd($dbAnswer);
             $qcmQuestions[] = [
                 'questionId'  => $dbAnswer['id'],
                 'isMultiple'  => $question->getIsMultiple(),
                 'wording'     => $question->getWording(),
                 'answers'   => $proposals,
-                'isCorrect' => $dbAnswer['isCorrect'],
+                'isCorrect' => $dbAnswer['student_answer_correct'],
+                'explanation' => $question->getExplanation()
             ];
         }
 
