@@ -57,6 +57,9 @@ function submitQcm()
     let comment = document.getElementById("comment-modal");
     modal.style.display = "none";
     comment.style.display = "none";
+
+    let textaera = comment.querySelector('textarea')
+    form.append(textaera);
     form.submit();
 }
 

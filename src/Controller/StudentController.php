@@ -282,6 +282,8 @@ class StudentController extends AbstractController
             $nbQuestions = count($questionsCache);
             $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
 
+            $result = new Result();
+
             $result->setQcmInstance($qcmInstance);
             $result->setScore($totalScore);
             if( $totalScore < 25 )
@@ -316,7 +318,7 @@ class StudentController extends AbstractController
             $result->setIsFirstTry($isFirstTry);
 
             $result->setAnswers($questionsCache);
-
+//            dd($resultRequest);
             if (trim($resultRequest['comment_student'] === "")){
                 $result->setStudentComment(null);
             }else{
