@@ -13,7 +13,17 @@ document.addEventListener('DOMContentLoaded', function(){
     let validDrillQcm = drillChoicesContainer.querySelector('button');
     validDrillQcm.addEventListener('click', function(){
         let qcm = drillChoicesContainer.querySelector('select').value;
-        window.location.href = "qcms/qcmToDo/"+qcm;
+        if (qcm === ""){
+            let p = document.createElement('p')
+            p.innerHTML = "Sélectionne bien ton qcm"
+            p.style.color = '#fff4e4'
+            p.style.padding = '.2em'
+
+            drillChoicesContainer.parentNode.append(p)
+        }else{
+            window.location.href = "qcms/qcmToDo/"+qcm;
+        }
+
     });
 
     // RETRY TO GET BADGE
