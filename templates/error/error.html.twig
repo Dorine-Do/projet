@@ -1,0 +1,32 @@
+
+{% block stylesheets %}
+    <link href="{{asset('css/error.css')}}" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+    <header>
+        <img src="{{asset('build/images/logo_officiel.png')}}" alt="logo youup">
+        <img src="{{asset('build/images/oiseau.png')}}" alt="oiseau" class="oiseau">
+    </header>
+
+
+    <div>
+        <p class="orange">PHP</p>
+        <p class="vert">JS</p>
+    </div>
+    <div>
+        <p class="vert">PYTHON</p>
+        <p class="orange">REACT</p>
+        <p>Erreur 404</p>
+    </div>
+    <div>
+        <p class="vert">Node JS</p>
+        <p class="orange">C++</p>
+        <p class="vert">CSS</p>
+    </div>
+    <div>
+        <img src="" alt="">
+        <img src="" alt="">
+    </div>
+{% endblock %}

@@ -48,4 +48,13 @@ class ConnectionController extends AbstractController
 //
 //        return $this->redirectToRoute( $dashboardRouteName );
 //    }
+
+    #[Route('/error', name: 'error')]
+    public function index(): Response
+    {
+
+        return $this->render('error/error.html.twig', [
+
+        ]);
+    }
 }

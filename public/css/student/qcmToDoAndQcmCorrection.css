@@ -2,6 +2,12 @@
 
 /******************************************************* Difficulté avec badge *****************************************/
 
+.container{
+    max-width: 90%;
+    margin: auto;
+}
+
+
 img{
     width: 40px;
 }
@@ -150,7 +156,7 @@ img{
 
 /***************************************** POP UP (Qcm To do) *************************************/
 
-#my-modal, #error-modal{
+#my-modal, #error-modal, #comment-modal{
     display: none;
     position: fixed;
     top: 0;
@@ -176,49 +182,106 @@ img{
     margin-left: auto;
     margin-right: auto;
     display: block;
-    height: 300px;
-    width: 500px;
+    height: 35%;
+    width: 42%;
+    text-align: center;
+    background-color: var(--fond);
+}
+
+.modalConfirm{
+    border-radius: 5px;
+    margin-top: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    height: 42%;
+    width: 42%;
     text-align: center;
     background-color: var(--fond);
 }
 
 .confirmBtn{
-    border-radius: 8px;
-    background-color: var(--grey);
-    color: white;
-    cursor: pointer;
-    margin: auto;
-    padding: 10px 50px;
-    text-align: center;
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    border: none;
-}
-
-.confirmBtn:hover{
-    background-color: var(--vert);
+    color: var(--grey);
+    border-radius: 4px;
+    transition: ease-out 0.3s;
+    outline: none;
+    position: relative;
+    z-index: 1;
+    border: 2px solid var(--vert);
+    padding: 12px 36px;
+    text-decoration: none;
+    background-color: var(--fond);
+    margin-top: 15px;
     font-weight: bold;
+    width: 15%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .cancelBtn{
-    border-radius: 8px;
-    background-color: var(--grey);
-    color: white;
+    color: var(--grey);
+    border-radius: 4px;
+    transition: ease-out 0.3s;
+    outline: none;
+    position: relative;
+    z-index: 1;
+    border: 2px solid var(--pamplemousse);
+    padding: 12px 36px;
+    text-decoration: none;
+    background-color: var(--fond);
+    margin-top: 15px;
+    font-weight: bold;
+    width: 15%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.confirmBtn:hover{
+    color: #fff;
     cursor: pointer;
-    margin: 8px auto;
-    padding: 10px 50px;
-    text-align: center;
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    border: none;
+    border: 3px solid var(--vert);
 }
 
 .cancelBtn:hover{
-    background-color: var(--vert);
-    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    border: 3px solid var(--pamplemousse);
 }
+
+.confirmBtn::before{
+    transition: 0.5s all ease;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    opacity: 0;
+    content: "";
+    background-color: var(--vert);
+}
+
+.cancelBtn::before{
+    transition: 0.5s all ease;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    opacity: 0;
+    content: "";
+    background-color: var(--pamplemousse);
+}
+
+.cancelBtn:hover::before, .confirmBtn:hover::before {
+    transition: 0.5s all ease;
+    left: 0;
+    right: 0;
+    opacity: 1;
+    z-index: -1;
+}
+
 
 .buttonPop{
     display: flex;
@@ -228,6 +291,14 @@ img{
 .logoPop{
     width: 100px;
     margin-top: 20px;
+}
+
+#comment-modal textarea{
+    margin-bottom: 15px;
+    height: 50%;
+    width: 90%;
+    padding: 15px;
+    resize : none;
 }
 
 /***************************************** Comment (Correction) *************************************/

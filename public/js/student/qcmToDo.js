@@ -43,19 +43,30 @@ function showValidationModal()
     modal.style.display = "block";
 }
 
+function showValidationComment()
+{
+
+    let modal = document.getElementById("comment-modal");
+    modal.style.display = "block";
+}
+
 function submitQcm()
 {
     let form = document.querySelector('form');
     let modal = document.getElementById("my-modal");
+    let comment = document.getElementById("comment-modal");
     modal.style.display = "none";
+    comment.style.display = "none";
     form.submit();
 }
 
 function hideModals()
 {
     let modal = document.getElementById("my-modal");
+    let comment = document.getElementById("comment-modal");
     let errorModal = document.getElementById("error-modal");
     modal.style.display = "none";
+    comment.style.display = "none";
     errorModal.style.display = "none";
 }
 
@@ -69,10 +80,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let valid = document.getElementById("valid");
     let cancelBtn = document.getElementById("cancel-qcm-btn");
     let cancelErrorBtn = document.getElementById('cancel-error-qcm-btn')
+    let confirmPopup = document.getElementById('confirm-comment-btn')
+    let cancelComment = document.getElementById('cancel-comment-btn')
     valid.addEventListener('click', showModal);
     confirmQcm.addEventListener('click', submitQcm);
     cancelBtn.addEventListener('click', hideModals);
+    cancelComment.addEventListener('click', submitQcm);
     cancelErrorBtn.addEventListener('click', hideModals);
+    confirmPopup.addEventListener('click', showValidationComment)
 
     // Numéro question
     let countNum = 1
