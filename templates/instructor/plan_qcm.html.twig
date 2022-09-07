@@ -17,7 +17,7 @@
                 <ul class="choixClasse">
                     {% for session in instructorSessions %}
                         <li class="liSession">
-                            <input class="nameSession" type="radio" name="session" value="{{ session.id }}"><label for="session">{{ session.name }}</label>
+                            <input class="nameSession" id="{{ session.name }}" type="radio" name="session" value="{{ session.id }}"><label for="{{ session.name }}">{{ session.name }}</label>
                         </li>
                     {% endfor %}
                 </ul>

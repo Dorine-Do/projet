@@ -112,6 +112,10 @@ ul, .backgroundEtape, .allDate{
     background-color: var(--grey);
 }
 
+#qcm-students input:hover{
+    cursor: pointer;
+}
+
 #qcm-students input:checked{
     background-color: var(--pamplemousse);
     font-weight: bold;
@@ -122,6 +126,10 @@ ul, .backgroundEtape, .allDate{
     top: 27%;
     left: 34%;
     color: white;
+}
+
+#qcm-students label{
+    cursor: pointer;
 }
 
 .divStudentOption{

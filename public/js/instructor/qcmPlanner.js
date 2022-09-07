@@ -44,7 +44,9 @@ function updateStudentOptions( field, fieldData )
         input.type = 'checkbox';
         input.name = 'students['+ data.id +']';
         input.value = data.id;
+        input.setAttribute('id', 'students['+ data.id +']' )
         label.innerText = data.firstName + ' ' + data.lastName;
+        label.setAttribute('for', 'students['+ data.id +']')
 
         div.append(input, label)
         field.append(div);
