@@ -29,7 +29,7 @@ class StudentController extends AbstractController
     /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
     public function __construct(StudentRepository $studentRepository){
         $this->studentRepo = $studentRepository;
-        $this->id = 21;
+        $this->id = 11;
     }
 
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
@@ -171,22 +171,21 @@ class StudentController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        $student = $this->getUser();
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+        $student = $this->studentRepo->find($this->id);
+//        $student = $this->getUser();
         $qcm = $qcmRepository->find(['id' => ($qcmInstance->getQcm()->getId())]);
 
         $questionsCache = $qcm->getQuestionsCache();
 
-        $result = $request->query->all();
-
-//        dd($result);
-
+        $resultRequest = $request->query->all();
         $countIsCorrectAnswer = 0;
 
-        if( count($result) !== 0 )
+        if( count($resultRequest) !== 0 )
         {
             foreach ( $questionsCache as $questionCacheKey => $questionCache )
             {
-                foreach ( $result as $studentAnswerKey => $studentAnswerValue )
+                foreach ( $resultRequest as $studentAnswerKey => $studentAnswerValue )
                 {
                     if( $questionsCache[$questionCacheKey]['id'] == $studentAnswerKey )
                     {
@@ -277,13 +276,15 @@ class StudentController extends AbstractController
                             }
                         }
                     }
+//                    elseif( 'comment_student' == trim($studentAnswerKey) ){
+//                    }
                 }
             }
+            $result = new Result();
 
             $nbQuestions = count($questionsCache);
             $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
 
-            $result = new Result();
             $result->setQcmInstance($qcmInstance);
             $result->setScore($totalScore);
             if( $totalScore < 25 )
@@ -318,6 +319,12 @@ class StudentController extends AbstractController
             $result->setIsFirstTry($isFirstTry);
 
             $result->setAnswers($questionsCache);
+
+            if (trim($resultRequest['comment_student'] === "")){
+                $result->setStudentComment(null);
+            }else{
+                $result->setStudentComment(trim($resultRequest['comment_student']));
+            }
             $result->setInstructorComment(null);
 
             $em->persist($result);

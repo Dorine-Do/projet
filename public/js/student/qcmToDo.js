@@ -45,23 +45,24 @@ function showValidationModal()
 
 function showValidationComment()
 {
-
     let modal = document.getElementById("comment-modal");
     modal.style.display = "block";
 }
 
 function submitQcm()
 {
-    let form = document.querySelectorAll('form');
+    let form = document.querySelector('form');
     let modal = document.getElementById("my-modal");
     let comment = document.getElementById("comment-modal");
     modal.style.display = "none";
     comment.style.display = "none";
-    form.forEach(element => {
-        element.submit()
-        console.log(element)
-});
-    console.log(form);
+
+    let textarea = comment.querySelector('textarea')
+
+    form.append(textarea);
+
+    form.submit()
+
 }
 
 function hideModals()
