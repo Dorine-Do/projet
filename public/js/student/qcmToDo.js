@@ -52,16 +52,12 @@ function showValidationComment()
 
 function submitQcm()
 {
-    let form = document.querySelectorAll('form');
+    let form = document.querySelector('form');
     let modal = document.getElementById("my-modal");
     let comment = document.getElementById("comment-modal");
     modal.style.display = "none";
     comment.style.display = "none";
-    form.forEach(element => {
-        element.submit()
-        console.log(element)
-});
-    console.log(form);
+    form.submit();
 }
 
 function hideModals()
