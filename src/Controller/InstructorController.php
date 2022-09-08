@@ -275,51 +275,6 @@
             ]);
         }
 
-        #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
-        public function createQcmPersonalized(
-            Request              $request,
-            InstructorRepository $instructorRepository,
-            ModuleRepository     $moduleRepository,
-            QuestionRepository   $questionRepository,
-            Security             $security
-        ): Response
-        {
-            /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-            $userId = $this->id;
-            $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
-
-            $modules = [];
-            foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
-            {
-                $modules[] = $linkInstructorSessionModule->getModule();
-            }
-
-            /**********************************************************************************/
-            // Get module choiced
-            $module = null;
-            if ($request->get('module'))
-            {
-                $module = $moduleRepository->find($request->get('module'));
-            }
-
-            if ($module)
-            {
-                $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-                $generatedQcm = $qcmGenerator->generateRandomQcm($module);
-                $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
-                $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
-            }
-
-            /********************************************************************************/
-            return $this->render('instructor/create_qcm_perso.html.twig', [
-                'modules' => $modules,
-                'customQuestions' => $module ? $customQuestions : null,
-                'officialQuestions' => $module ? $officialQuestions : null,
-                'generatedQcm' => $module ? $generatedQcm : null,
-            ]);
-        }
-
-
         #[Route('instructor/questions/upDate_fetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
         public function upDateQuestionFetch(
             ValidatorInterface     $validator,
@@ -362,6 +317,50 @@
 
             /*TODO Débuger le jsonResponse*/
             return new JsonResponse($questionResponse);
+        }
+
+        #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
+        public function createQcmPersonalized(
+            Request              $request,
+            InstructorRepository $instructorRepository,
+            ModuleRepository     $moduleRepository,
+            QuestionRepository   $questionRepository,
+            Security             $security
+        ): Response
+        {
+            /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+            $userId = $this->id;
+            $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+
+            $modules = [];
+            foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
+            {
+                $modules[] = $linkInstructorSessionModule->getModule();
+            }
+
+            /**********************************************************************************/
+            // Get module choiced
+            $module = null;
+            if ($request->get('module'))
+            {
+                $module = $moduleRepository->find($request->get('module'));
+            }
+
+            if ($module)
+            {
+                $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
+                $generatedQcm = $qcmGenerator->generateRandomQcm($module);
+                $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
+                $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
+            }
+
+            /********************************************************************************/
+            return $this->render('instructor/create_qcm_perso.html.twig', [
+                'modules' => $modules,
+                'customQuestions' => $module ? $customQuestions : null,
+                'officialQuestions' => $module ? $officialQuestions : null,
+                'generatedQcm' => $module ? $generatedQcm : null,
+            ]);
         }
 
         #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
@@ -434,7 +433,7 @@
         }
 
 
-        #[Route('instructor/create_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
+        #[Route('instructor/qcms/create_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
         public function createOfficialQcm(
             Security               $security,
             SessionRepository      $sessionRepository,
