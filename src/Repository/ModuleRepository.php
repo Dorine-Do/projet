@@ -62,14 +62,14 @@ class ModuleRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
-    public function getModuleSessions()
+    public function getModuleSessions($id)
     {
         return $this->createQueryBuilder('m')
             ->select('m')
             ->join(LinkInstructorSessionModule::class, 'lism')
             ->where('lism.session = :session' )
             ->andWhere( 'lism.module = m.id' )
-            ->setParameter('session', 20 )
+            ->setParameter('session', $id )
             ->getQuery()
             ->getResult();
     }

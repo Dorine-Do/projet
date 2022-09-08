@@ -637,8 +637,8 @@
             return $this->redirectToRoute('welcome_instructor');
         }
 
-        #[Route('instructor/qcms/dispatch_qcms',name:'dispatch_qcms',methods:['GET','POST'])]
-        public function dispatchQcmToStudent(
+        #[Route('instructor/qcms/distributed_qcms',name:'instructor_distributed_qcms',methods:['GET','POST'])]
+        public function distributedQcmToStudent(
             InstructorRepository        $instructorRepository,
             SessionRepository           $sessionRepository,
             ModuleRepository            $moduleRepository,
@@ -649,14 +649,33 @@
 
             foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor)
             {
-                $moduleId = $sessionAndModuleByInstructor->getModule()->getId();
                 $sessions = $sessionRepository->getInstructorSessions();
-                $modules = $moduleRepository->getModuleSessions();
+                $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
             }
 
-            return $this->render('instructor/dispatch_qcms.html.twig', [
+            return $this->render('instructor/distributed_qcms.html.twig', [
                         'sessions' => $sessions,
                         'modules' => $modules,
                 ]);
         }
+
+        #[Route('instructor/qcms/distributed_qcms/{session}',name:'instructor_distributed_qcms_get_module_ajax',methods:['GET'])]
+        public function ajaxGetSessionByInstructor(
+            Session $session,
+            ModuleRepository $moduleRepository
+        ):JsonResponse
+        {
+//            dd('stop');
+
+            $modules = $moduleRepository->getModuleSessions($session->getId());
+            $modulesName = [];
+            foreach ( $modules as $module ){
+                $modulesName[] =  ['name' => $module->getTitle(), 'id' => $module->getId()];
+            }
+            return $this->json($modulesName);
+        }
+
+
+
+
     }
