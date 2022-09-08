@@ -1,6 +1,5 @@
 @import url('main.css');
 
-
 header{
     position: relative;
     background-color: var(--rose);
@@ -41,4 +40,9 @@ img{
     width: 20px;
     text-align: center;
     color: var(--pamplemousse);
+}
+
+.error{
+    font-family: 'Saira Stencil One', sans-serif;
+    font-size: 4em;
 }

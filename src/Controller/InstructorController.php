@@ -616,4 +616,27 @@
 
             return $this->redirectToRoute('welcome_instructor');
         }
+
+        #[Route('instructor/qcms/dispatch_qcms',name:'dispatch_qcms',methods:['GET','POST'])]
+        public function dispatchQcmToStudent(
+            InstructorRepository        $instructorRepository,
+            SessionRepository           $sessionRepository,
+            ModuleRepository            $moduleRepository,
+        ):Response
+        {
+            $userId = $this->id;
+            $sessionAndModuleByInstructor = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+
+            foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor)
+            {
+                $moduleId = $sessionAndModuleByInstructor->getModule()->getId();
+                $sessions = $sessionRepository->getInstructorSessions();
+                $modules = $moduleRepository->getModuleSessions();
+            }
+
+            return $this->render('instructor/dispatch_qcms.html.twig', [
+                        'sessions' => $sessions,
+                        'modules' => $modules,
+                ]);
+        }
     }
