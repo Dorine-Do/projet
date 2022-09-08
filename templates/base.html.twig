@@ -15,11 +15,7 @@
     <body>
     {% include('layout/header.html.twig')%}
         <div class="container">
-            {%for message in app.flashes('success')%}
-                <div>
-                    {{message}}
-                </div>
-            {%endfor%}
+          
             {% block body %}
 
             {% endblock %}

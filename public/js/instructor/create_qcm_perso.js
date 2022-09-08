@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   }
 
   // ////////////// QUESTIONS OFFICIELS/ PERSONNALISED COUNT
-  console.log(listQuestionsOfficials.length);
+  // console.log(listQuestionsOfficials.length);
   let btnQuestionsOfficial = document.querySelector(".btnQuestionsOfficial");
 
   // Event sur les button de choix du type de question****************************************************************
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   chevrons.forEach((chevron) => {
     chevron.addEventListener("click", (e) => {
       let proposalWordingDiv;
-      //   officialQuestionLi.style.gridGap = "0.2em";
+      officialQuestionLi.style.gridGap = "0.2em"; //a voir
       if (e.target.classList.contains("officialChevronBasImg")) {
         proposalWordingDiv =
           e.target.parentNode.parentNode.parentNode.lastElementChild
@@ -122,14 +122,20 @@ document.addEventListener("DOMContentLoaded", (event) => {
           e.target.parentNode.parentNode.parentNode.lastElementChild;
       }
 
-      proposalWordingDiv.classList.toggle("displayNone");
+      proposalWordingDiv.classList.toggle("displayNone"); //a voir
 
       if (proposalWordingDiv.classList.contains("displayNone")) {
         e.target.setAttribute("src", chevronBas);
         officialQuestionLi.style.gridGap = "0";
+
+        //img modify remove display none quand chevron vers le bas
+        //a revoir
+        // document
+        //   .querySelector(".modifyQuestionImg")
+        //   .parentNode.classList.remove("displayNone");
       } else {
         e.target.setAttribute("src", chevronHaut);
-        officialQuestionLi.style.gridGap = "0.2em";
+        officialQuestionLi.style.gridGap = "0";
       }
     });
   });
@@ -145,27 +151,38 @@ document.addEventListener("DOMContentLoaded", (event) => {
         "src",
         chevronHaut
       );
-      img.parentNode.classList.add("displayNone");
+      //   console.log(
+      //     img.parentNode.previousElementSibling.firstElementChild,
+      //     "hello"
+      //   );
+      // document
+      //   .querySelector(".modifyQuestionImg")
+      //   .parentNode.classList.remove("displayNone");
+      //   img.parentNode.classList.add("displayNone");
 
       let divParent = img.parentNode.parentNode;
       let question = divParent.querySelector(".questionWordingP");
+
       let proposalWordingDiv =
         img.parentNode.parentNode.parentNode.lastElementChild.lastElementChild;
+
       let questionModify =
         img.parentNode.parentNode.parentNode.lastElementChild.lastElementChild
           .lastElementChild;
 
       //Css
-      proposalWordingDiv.style.flexDirection = "column";
-      let nPropPartTwo = proposalWordingDiv.querySelectorAll(".nPropPartTwo");
-      nPropPartTwo.forEach((nbr) => {
-        nbr.style.padding = "2px 10px";
-      });
+      //   proposalWordingDiv.style.flexDirection = "column";
+      //   let nPropPartTwo = proposalWordingDiv.querySelectorAll(".nPropPartTwo");
+      //   nPropPartTwo.forEach((nbr) => {
+      //     nbr.style.padding = "2px 10px";
+      //   });
 
       // si la div des proposal n'est pas dérouler
       if (proposalWordingDiv.classList.contains("displayNone")) {
         proposalWordingDiv.classList.remove("displayNone");
+        img.parentNode.classList.add("displayNone");
       }
+
       // Afficher le bouton 'enregistrer'
       questionModify.classList.remove("displayNone");
 
@@ -274,11 +291,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
       } else {
         values["isMultiple"] = false;
       }
-
+      //   on passe pas dans le fetch VERIFICATION IMPORTANTE POUR TRANSMISSION DE DONNEES
+      //   let res = fetch(route);
+      //   console.log(alert(response.headers.get("Content-Type")));
       fetch(route, {
-        //  get temporaire
         method: "POST",
-        body: console.log(JSON.stringify(values)), // The data
+        body: JSON.stringify(values), // The data
         headers: {
           "Content-type": "application/json", // The type of data you're sending
         },
@@ -439,14 +457,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
         wording: wording,
       });
     });
-
+    console.log(routeInstructorQcmFetch);
+    console.log(questionsSelect);
     fetch(routeInstructorQcmFetch, {
       method: "POST",
-      body: JSON.stringify(questionsSelect), // The data
       headers: {
         "Content-type": "application/json", // The type of data you're sending
       },
-    });
+      body: JSON.stringify(questionsSelect), // The data
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result == "ok") {
+          window.location.href = "https://127.0.0.1:8000/instructor/questions";
+        }
+      });
   });
 
   /**********************************************************************************************************************/
