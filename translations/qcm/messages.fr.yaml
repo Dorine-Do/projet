@@ -49,6 +49,8 @@ question:
   firstDatePublished: 1ère date de diffusion
   session: Classe
   create: Créer une question
+  isOfficial : Question officielle
+  isOfficialExplain : La question sera créée en tant que question officielle. Elle sera disponible pour créer des qcm officiel.
 
 proposal:
   create: Créer les réponses

@@ -120,11 +120,17 @@ class CreateQuestionType extends AbstractType
                    return $module;
                 },
             ])
+            ->add('is_official', CheckboxType::class, [
+                'required' => false,
+                'label' => false,
+            ])
 
             ->add('is_enabled', CheckboxType::class, [
                 'required' => false,
                 'label' => false,
             ]);
+
+
 
     }
 

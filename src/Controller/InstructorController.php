@@ -195,8 +195,13 @@
         public function createQuestion(
             Request                $request,
             EntityManagerInterface $manager,
+            InstructorRepository $instructorRepository
         ): Response
         {
+
+//          TODO A enlever une fois que a connection avec google sera opérationnelle
+            $user = $instructorRepository->find( $this->id );
+
             $questionEntity = new Question();
 
             $proposal1 = new Proposal();
@@ -241,7 +246,9 @@
                     $questionEntity->setIsMultiple("false");
                 }
 
-                $questionEntity->setAuthor($this->getUser());
+//              TODO A enlever une fois que a connection avec google sera opérationnelle
+                $questionEntity->setAuthor($user);
+//                $questionEntity->setAuthor($this->getUser());
                 $questionEntity->setIsOfficial(false);
                 $questionEntity->setIsMandatory(false);
                 $questionEntity->setExplanation('Explication');
@@ -263,6 +270,8 @@
             return $this->render('instructor/create_question.html.twig', [
                 'form' => $form->createView(),
                 "add" => true,
+//                TODO A enlever une fois que a connection avec google sera opérationnelle
+                'user' => $user
             ]);
         }
 
