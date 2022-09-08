@@ -40,7 +40,7 @@ class SessionRepository extends ServiceEntityRepository
         }
     }
 
-    public function getInstructorSessions( $instructor )
+    public function getInstructorSessions()
     {
         return $this->createQueryBuilder('s')
             ->select('s')
@@ -53,7 +53,6 @@ class SessionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */
