@@ -1,4 +1,5 @@
 @import url('main.css');
+@import url('http://fonts.cdnfonts.com/css/saira-stencil-one');
 
 
 header{
@@ -21,18 +22,211 @@ img{
     width: 500px;
 }
 
-.vert{
+.champi{
+    position: absolute;
+    right: 1%;
+    top: 720px;
+    height: 260px;
+    width: 300px;
+}
+
+.logo{
+    position: absolute;
+    left: 1%;
+    top: 360%;
+    height: 90px;
+    width: 80px;
+}
+
+.erreur {
+    position: absolute;
+    font-family: 'Saira Stencil One', sans-serif;
+    font-size: 4em;
+    right: 35%;
+    top: 35%;
+    color: var(--writing);
+}
+
+.fourZeroFour {
+    position: absolute;
+    font-family: 'Saira Stencil One', sans-serif;
+    font-size: 8em;
+    right: 25%;
+    top: 35%;
+    color: var(--vert);
+}
+
+.return {
+    font-family: 'Saira Stencil One', sans-serif;
+    font-size: 1em;
+    position: absolute;
+    top: 10%;
+    left: 2%;
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+    color: white;
+    overflow: hidden;
+    padding: 20px 50px;
+    border-radius: 30px;
+    box-shadow: 0px -0px 0px 0px var(--fond), 0px 0px 0px 0px var(--fond);
+    transition: all .2s;
+}
+
+.return::after {
+    content: "";
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(225deg, #27c86c 0%, 26caf8 50% #c625d0 100%);
+    position: absolute;
+    z-index: -1;
+    transition: all .2s;
+}
+
+.return:hover::after {
+    transform: rotate(150deg);
+}
+
+.return:hover {
+    transform: translate(0, -6px);
+    box-shadow: 10px -10px 25px 0 var(--fond), -10px 10px 25px 0px var(--fond);
+}
+
+.js{
+    position: absolute;
+    background-color: var(--vert);
+    padding: 50px;
+    display: inline-block;
+    border-radius: 80%;
+    width: 50px;
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    left: 37%;
+    box-shadow: 0 0 0 0 var(--vert);
+    animation: pulse 1.3s infinite;
+}
+
+@keyframes pulse {
+    to {
+        box-shadow: 0 0 0 18px rgba(0, 0, 0, 0.01);
+    }
+
+}
+
+.python{
+    position: absolute;
+    background-color: var(--vert);
+    padding: 35px 25px;
+    display: inline-block;
+    border-radius: 50%;
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    left: 10%;
+    box-shadow: 0 0 0 0 var(--vert);
+    animation: python 1.3s infinite;
+}
+
+@keyframes python {
+    to {
+        box-shadow: 0 0 0 15px rgba(0, 0, 0, 0.01);
+    }
+
+}
+
+.node{
+    position: absolute;
     background-color: var(--vert);
     padding: 20px;
     display: inline-block;
     border-radius: 50%;
-    margin-right: 15px;
+    width: 65px;
+    text-align: center;
+    color: white;
+    left: 31%;
+    top: 85%;
+    font-size: 30px;
+    box-shadow: 0 0 0 0 var(--vert);
+    animation: node 1.3s infinite;
+}
+
+@keyframes node {
+    to {
+        box-shadow: 0 0 0 12px rgba(0, 0, 0, 0.01);
+    }
+
+}
+
+.css{
+    position: absolute;
+    background-color: var(--vert);
+    padding: 20px;
+    display: inline-block;
+    border-radius: 50%;
     width: 20px;
     text-align: center;
     color: white;
+    right: 30%;
+    top: 75%;
+    box-shadow: 0 0 0 0 var(--vert);
+    animation: css 1.3s infinite;
 }
 
-.orange{
+@keyframes css {
+    to {
+        box-shadow: 0 0 0 9px rgba(0, 0, 0, 0.01);
+    }
+
+}
+
+.php{
+    background-color: var(--fond);
+    padding: 50px;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 15px;
+    margin-left: 25px;
+    margin-top: 10px;
+    width: 50px;
+    text-align: center;
+    color: var(--pamplemousse);
+    font-size: 40px;
+    box-shadow: 0 0 0 0 var(--rose);
+    animation: php 1.3s infinite;
+}
+
+@keyframes php {
+    to {
+        box-shadow: 0 0 0 18px rgba(0, 0, 0, 0.01);
+    }
+
+}
+
+.react{
+    position: absolute;
+    background-color: var(--fond);
+    padding: 50px;
+    display: inline-block;
+    border-radius: 50%;
+    text-align: center;
+    color: var(--pamplemousse);
+    font-size: 25px;
+    left: 35%;
+    top: 55%;
+    box-shadow: 0 0 0 0 var(--rose);
+    animation: react 1.3s infinite;
+}
+
+@keyframes react {
+    to {
+        box-shadow: 0 0 0 15px rgba(0, 0, 0, 0.01);
+    }
+
+}
+
+.cPlus{
+    position: absolute;
     background-color: var(--fond);
     padding: 20px;
     display: inline-block;
@@ -41,4 +235,361 @@ img{
     width: 20px;
     text-align: center;
     color: var(--pamplemousse);
+    right: 45%;
+    top: 70%;
+    box-shadow: 0 0 0 0 var(--rose);
+    animation: cPlus 1.3s infinite;
 }
+
+@keyframes cPlus {
+    to {
+        box-shadow: 0 0 0 9px rgba(0, 0, 0, 0.01);
+    }
+
+}
+
+@media screen and (max-width: 1200px) {
+
+    header{
+        position: relative;
+        background-color: var(--rose);
+        padding: 50px;
+    }
+
+    img{
+        margin-right: auto;
+        margin-left: auto;
+        display: block;
+    }
+
+    .oiseau{
+        position: absolute;
+        right: 0;
+        top: 69%;
+        height: 250px;
+        width: 500px;
+    }
+
+    .champi{
+        position: absolute;
+        right: 1%;
+        top: 810px;
+        height: 230px;
+        width: 260px;
+    }
+
+    .logo{
+        position: absolute;
+        left: 1%;
+        top: 395%;
+        height: 90px;
+        width: 80px;
+    }
+
+    .erreur {
+        position: absolute;
+        font-family: 'Saira Stencil One', sans-serif;
+        font-size: 3.5em;
+        right: 30%;
+        top: 40%;
+        color: var(--writing);
+    }
+
+    .fourZeroFour {
+        position: absolute;
+        font-family: 'Saira Stencil One', sans-serif;
+        font-size: 7em;
+        right: 20%;
+        top: 40%;
+        color: var(--vert);
+    }
+
+    .return {
+        font-family: 'Saira Stencil One', sans-serif;
+        font-size: 1em;
+        position: absolute;
+        top: 10%;
+        left: 4%;
+        cursor: pointer;
+        border: 1px;
+        background: transparent;
+        color: white;
+        overflow: hidden;
+        padding: 20px 50px;
+        border-radius: 30px;
+        box-shadow: 0px -0px 0px 0px var(--fond), 0px 0px 0px 0px var(--fond);
+        transition: all .2s;
+
+    }
+
+    .return::after {
+        content: "";
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(225deg, #27c86c 0%, 26caf8 50% #c625d0 100%);
+        position: absolute;
+        z-index: -1;
+        transition: all .2s;
+    }
+
+    .return:hover::after {
+        transform: rotate(150deg);
+    }
+
+    .return:hover {
+        transform: translate(0, -6px);
+        box-shadow: 10px -10px 25px 0 var(--fond), -10px 10px 25px 0px var(--fond);
+    }
+}
+
+@media screen and (max-width: 780px) {
+
+    header{
+        position: relative;
+        background-color: var(--rose);
+        padding: 50px;
+    }
+
+    img{
+        margin-right: auto;
+        margin-left: auto;
+        display: block;
+    }
+
+    .oiseau{
+        position: absolute;
+        right: 0;
+        top: 81%;
+        height: 150px;
+        width: 300px;
+    }
+
+    .champi{
+        position: absolute;
+        right: 1%;
+        top: 810px;
+        height: 180px;
+        width: 180px;
+    }
+
+    .logo{
+        position: absolute;
+        left: 1%;
+        top: 375%;
+        height: 90px;
+        width: 80px;
+    }
+
+    .erreur {
+        position: absolute;
+        font-family: 'Saira Stencil One', sans-serif;
+        font-size: 3em;
+        right: 20%;
+        top: 40%;
+        color: var(--writing);
+    }
+
+    .fourZeroFour {
+        position: absolute;
+        font-family: 'Saira Stencil One', sans-serif;
+        font-size: 6em;
+        right: 10%;
+        top: 40%;
+        color: var(--vert);
+    }
+
+    .cPlus {
+        display: none;
+    }
+
+    .return {
+        font-family: 'Saira Stencil One', sans-serif;
+        font-size: 1em;
+        position: absolute;
+        top: 5%;
+        left: 1%;
+        cursor: pointer;
+        border: 1px;
+        background: transparent;
+        color: white;
+        overflow: hidden;
+        padding: 20px 50px;
+        border-radius: 30px;
+        box-shadow: 0px -0px 0px 0px var(--fond), 0px 0px 0px 0px var(--fond);
+        transition: all .2s;
+
+    }
+
+    .return::after {
+        content: "";
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(225deg, #27c86c 0%, 26caf8 50% #c625d0 100%);
+        position: absolute;
+        z-index: -1;
+        transition: all .2s;
+    }
+
+    .return:hover::after {
+        transform: rotate(150deg);
+    }
+
+    .return:hover {
+        transform: translate(0, -6px);
+        box-shadow: 10px -10px 25px 0 var(--fond), -10px 10px 25px 0px var(--fond);
+    }
+}
+
+@media screen and (max-width: 450px) {
+
+    header{
+        position: relative;
+        background-color: var(--rose);
+        padding: 50px;
+    }
+
+    img{
+        margin-right: auto;
+        margin-left: auto;
+        display: block;
+    }
+
+    .oiseau{
+        position: absolute;
+        right: 0;
+        top: 87.5%;
+        height: 100px;
+        width: 200px;
+    }
+
+    .champi{
+        position: absolute;
+        right: 1%;
+        top: 850px;
+        height: 140px;
+        width: 140px;
+    }
+
+    .js{
+        position: absolute;
+        background-color: var(--vert);
+        padding: 50px;
+        border-radius: 80%;
+        width: 50px;
+        text-align: center;
+        color: white;
+        font-size: 40px;
+        left: 37%;
+        box-shadow: 0 0 0 0 var(--vert);
+        animation: pulse 1.3s infinite;
+        display: none;
+    }
+
+    @keyframes pulse {
+        to {
+            box-shadow: 0 0 0 18px rgba(0, 0, 0, 0.01);
+        }
+
+    }
+
+    .react{
+        position: absolute;
+        background-color: var(--fond);
+        padding: 50px;
+        display: inline-block;
+        border-radius: 50%;
+        text-align: center;
+        color: var(--pamplemousse);
+        font-size: 25px;
+        left: 35%;
+        top: 68%;
+        box-shadow: 0 0 0 0 var(--rose);
+        animation: react 1.3s infinite;
+    }
+
+    @keyframes react {
+        to {
+            box-shadow: 0 0 0 15px rgba(0, 0, 0, 0.01);
+        }
+
+    }
+
+    .css{
+        position: absolute;
+        background-color: var(--vert);
+        padding: 20px;
+        display: none;
+        border-radius: 50%;
+        width: 20px;
+        text-align: center;
+        color: white;
+        right: 30%;
+        top: 75%;
+        box-shadow: 0 0 0 0 var(--vert);
+        animation: css 1.3s infinite;
+    }
+
+    @keyframes css {
+        to {
+            box-shadow: 0 0 0 9px rgba(0, 0, 0, 0.01);
+        }
+
+    }
+
+    .erreur {
+        position: absolute;
+        font-family: 'Saira Stencil One', sans-serif;
+        font-size: 2.5em;
+        right: 20%;
+        top: 30%;
+        color: var(--writing);
+    }
+
+    .fourZeroFour {
+        position: absolute;
+        font-family: 'Saira Stencil One', sans-serif;
+        font-size: 5em;
+        right: 10%;
+        top: 30%;
+        color: var(--vert);
+    }
+
+    .return {
+        font-family: 'Saira Stencil One', sans-serif;
+        font-size: 1em;
+        position: absolute;
+        top: 60%;
+        left: 38%;
+        cursor: pointer;
+        border: 1px;
+        background: transparent;
+        color: var(--writing);
+        overflow: hidden;
+        padding: 20px 50px;
+        border-radius: 30px;
+        box-shadow: 0px -0px 0px 0px var(--rose), 0px 0px 0px 0px var(--rose);
+        transition: all .2s;
+
+    }
+
+    .return::after {
+        content: "";
+        width: 400px;
+        height: 400px;
+        background: linear-gradient(225deg, #27c86c 0%, 26caf8 50% #c625d0 100%);
+        position: absolute;
+        z-index: -1;
+        transition: all .2s;
+    }
+
+    .return:hover::after {
+        transform: rotate(150deg);
+    }
+
+    .return:hover {
+        transform: translate(0, -6px);
+        box-shadow: 10px -10px 25px 0 var(--rose), -10px 10px 25px 0px var(--rose);
+    }
+
+}
+
