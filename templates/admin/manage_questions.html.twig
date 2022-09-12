@@ -2,20 +2,23 @@
 
 {% block title %}Admin | QCMs{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/admin/admin_lists.css') }}">
+{% endblock %}
+
 {% block body %}
 
-    <main>
+    <main id="admin_content">
 
         <section>
             <h1>Gestion des questions</h1>
         </section>
 
-        <section>
-            <a href="#">Créer une question</a>
-        </section>
-
-        <section>
-            <table id="tableToSort">
+        <section class="tableContainer">
+            <div class="createBtnContainer">
+                <a href="#">Créer une question</a>
+            </div>
+            <table id="tableToSort" class="questionsTable">
                 <thead>
                     <tr>
                         <th>Module</th>
