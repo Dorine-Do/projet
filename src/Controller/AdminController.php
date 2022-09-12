@@ -7,6 +7,8 @@ use App\Entity\Main\Instructor;
 use App\Entity\Main\Student;
 use App\Entity\Main\User;
 use App\Form\RegistrationFormType;
+use App\Repository\QcmRepository;
+use App\Repository\QuestionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +26,23 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('admin/manage-qcms', name: 'admin_manage_qcms')]
+    public function manageQcms( QcmRepository $qcmRepo ): Response
+    {
+        return $this->render('admin/manage_qcms.html.twig', [
+            'qcms' => $qcmRepo->findAll()
+        ]);
+    }
+
+    #[Route('admin/manage-questions', name: 'admin_manage_questions')]
+    public function manageQuestions( QuestionRepository $questionRepo ): Response
+    {
+        return $this->render('admin/manage_questions.html.twig', [
+            'questions' => $questionRepo->findAll()
+        ]);
+    }
+
+    // TODO: Probablement à supprimer
     #[Route('/admin/new-user', name: 'app_new_user')]
     public function newUser(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
