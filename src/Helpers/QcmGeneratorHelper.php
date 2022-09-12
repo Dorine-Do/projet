@@ -130,7 +130,7 @@ class QcmGeneratorHelper
         return $pickedQuestions;
     }
 
-    private function generateQuestionCache( array $questions ): array
+    public function generateQuestionCache( array $questions ): array
     {
         $questionsCache = [];
         foreach( $questions as $question )

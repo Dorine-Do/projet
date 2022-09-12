@@ -33,7 +33,7 @@
 
     class InstructorController extends AbstractController
     {
-
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
         private $id = 1;
 
 //    TODO future page à implémenter
@@ -373,6 +373,7 @@
         QuestionRepository     $questionRepository,
         ModuleRepository       $moduleRepository,
         EntityManagerInterface $entityManager,
+        QcmGeneratorHelper $generatorHelper
 
     ): Response
     {
@@ -406,28 +407,29 @@
         $qcm->setModule($module);
 
             /*TODO voir avec Mathieu pour utiliser le hepler pour cette partie*/
-            $questionsCache = [];
-            foreach ($data['questions'] as $question)
-            {
-                $question = $questionRepository->find($question->id);
-                $questionProposals = $question->getProposals();
-                $proposalsCache = [];
-                foreach ($questionProposals as $questionProposal)
-                {
-                    $proposalsCache[] = [
-                        'id' => $questionProposal->getId(),
-                        'wording' => $questionProposal->getWording(),
-                        'isCorrectAnswer' => $questionProposal->getIsCorrectAnswer(),
-                    ];
-                }
-                $questionsCache[] = [
-                    'id' => $question->getId(),
-                    'wording' => $question->getWording(),
-                    'isMultiple' => $question->getIsMultiple(),
-                    'difficulty' => $question->getDifficulty(),
-                    'proposals' => $proposalsCache
-                ];
-            }
+        $questionsCache = $generatorHelper->generateQuestionCache($data['questions']);
+//            $questionsCache = [];
+//            foreach ($data['questions'] as $question)
+//            {
+//                $question = $questionRepository->find($question->id);
+//                $questionProposals = $question->getProposals();
+//                $proposalsCache = [];
+//                foreach ($questionProposals as $questionProposal)
+//                {
+//                    $proposalsCache[] = [
+//                        'id' => $questionProposal->getId(),
+//                        'wording' => $questionProposal->getWording(),
+//                        'isCorrectAnswer' => $questionProposal->getIsCorrectAnswer(),
+//                    ];
+//                }
+//                $questionsCache[] = [
+//                    'id' => $question->getId(),
+//                    'wording' => $question->getWording(),
+//                    'isMultiple' => $question->getIsMultiple(),
+//                    'difficulty' => $question->getDifficulty(),
+//                    'proposals' => $proposalsCache
+//                ];
+//            }
 
             $qcm->setQuestionsCache($questionsCache);
 

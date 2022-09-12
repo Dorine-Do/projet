@@ -26,7 +26,7 @@ use Symfony\Component\Security\Core\Security;
 
 class StudentController extends AbstractController
 {
-    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+//    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
     public function __construct(StudentRepository $studentRepository){
         $this->studentRepo = $studentRepository;
         $this->id = 11;
