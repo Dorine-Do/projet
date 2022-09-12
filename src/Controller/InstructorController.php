@@ -284,7 +284,6 @@ class InstructorController extends AbstractController
         ]);
     }
 
-
     #[Route('instructor/questions/upDate_fetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
     public function upDateQuestionFetch(
         ValidatorInterface     $validator,
