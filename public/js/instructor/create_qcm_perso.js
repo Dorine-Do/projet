@@ -141,6 +141,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   });
 
   let dbValues = [];
+  //correct answer précoché
 
   // event pour modifier une question*********************************************************************************
   let modifyQuestionImgDiv = document.querySelectorAll(".modifyQuestionImgDiv");
@@ -151,6 +152,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
         "src",
         chevronHaut
       );
+      // console.log(
+      //   document.querySelectorAll(".proposalWordingP").dataset.status,
+      //   "hi"
+      // );
       //   console.log(
       //     img.parentNode.previousElementSibling.firstElementChild,
       //     "hello"
@@ -169,7 +174,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       let questionModify =
         img.parentNode.parentNode.parentNode.lastElementChild.lastElementChild
           .lastElementChild;
-
+      console.log(questionModify, "hello");
       //Css
       //   proposalWordingDiv.style.flexDirection = "column";
       //   let nPropPartTwo = proposalWordingDiv.querySelectorAll(".nPropPartTwo");
@@ -252,6 +257,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
           }
         });
       }
+      //proposal input précoché voir data-status dans twig
+
+      for (let dataNumber = 0; dataNumber < children.length; dataNumber++) {
+        if (children[dataNumber].dataset.status == 1) {
+          let dataChildren = children[dataNumber];
+          if (
+            dataChildren.children[2].localName === "input" &&
+            dataChildren.children[2].classList.value === "checkBoxIsCorrect"
+          ) {
+            dataChildren.children[2].checked = true;
+          }
+        }
+      }
     });
   });
 
@@ -302,7 +320,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
         },
       })
         .then((response) => response.json())
-        .then((data) => console.log(data));
+        .then((data) => {
+          if (data.status === 200) {
+            console.log("data.status");
+          }
+        });
     });
   });
 

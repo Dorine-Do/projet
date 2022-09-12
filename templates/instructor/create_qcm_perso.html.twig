@@ -219,18 +219,22 @@
                                                 <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
                                             </div>
                                             <div class="modifyQuestionImgDiv">
-                                                <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg">
+                                                <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg" >
                                             </div>
                                         </div>
                                         
                                         <div>
+                                        
                                             <div class="OfficialProposalWordingDiv proposalWordingDiv">
+                                           
                                                 <p class="responselabel">Les réponses</p>
                                                 {% set countLetter = 0 %}
                                                 {% for proposal in question.proposals %}
-                                                    <p class="officialProposalWordingP proposalWordingP" data-id="{{proposal.id}}">
-                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span class="spanWording">{{ proposal.wording | raw }}</span>
+                                 
+                                                    <p class =" officialProposalWordingP proposalWordingP " data-status="{{proposal.isCorrectAnswer|number_format }}" data-id="{{proposal.id}}" >
+                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span class="spanWording" >{{ proposal.wording | raw }} </span>
                                                     </p>
+                                                    
                                                     {% set countLetter = countLetter + 1 %}
                                                 {% endfor %}
                                                 <div class="questionModify">
@@ -272,13 +276,13 @@
                                             </div>
                                         </div>
                                         <div>
-                                        
+                                         
                                             <div class="OfficialProposalWordingDiv proposalWordingDiv">
                                                 {% set countLetter = 0 %}
-                                                
                                                 {% for proposal in question.proposals %}
-                                                    <p class="officialProposalWordingP proposalWordingP" data-id="{{proposal.id}}">
-                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span class="spanWording">{{ proposal.wording | raw }}</span>
+                                             
+                                                    <p class="officialProposalWordingP proposalWordingP " data-id="{{proposal.id}}" >
+                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span class="spanWording" >{{ proposal.wording | raw }}</span>
                                                     </p>
                                                     {% set countLetter = countLetter + 1 %}
                                                 {% endfor %}

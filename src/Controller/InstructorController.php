@@ -27,6 +27,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
@@ -304,8 +309,9 @@ class InstructorController extends AbstractController
         InstructorRepository   $instructorRepository,
         ModuleRepository       $moduleRepository,
         QuestionRepository     $questionRepository,
-        EntityManagerInterface $entityManager
-    ): Response
+        EntityManagerInterface $entityManager,
+        SerializerInterface $serializer
+    ): jsonResponse
     {
         $data = (array) json_decode($request->getContent());
         $question = new Question();
@@ -315,7 +321,10 @@ class InstructorController extends AbstractController
         $question->setIsMultiple($data['isMultiple']);
         $question->setDifficulty(1);
         $question->setExplanation('null');
-        $author = $instructorRepository->find($this->getUser()->getId());
+        $author = $instructorRepository->find(2);
+        // var_dump($module);
+        // dd($module);
+        // $author = $instructorRepository->find($this->getUser()->getId());
         $question->setAuthor($author);
         $question->setIsMandatory(0);
         $question->setIsOfficial(0);
@@ -334,11 +343,23 @@ class InstructorController extends AbstractController
 
         $entityManager->persist($question);
         $entityManager->flush();
-
+        // $serializerT=new Serializer([new ObjectNormalizer()]);
+        // $test= $serializerT->normalize($module);
+        $encoder = new JsonEncoder();
         $questionResponse = $questionRepository->find($question->getId());
-
+        $defaultContext = [
+            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($module) {
+                return $module->getId();
+            },
+        ];
+        $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
+        
+        $serializerTest = new Serializer([$normalizer], [$encoder]);
+        $serializerTest2= $serializerTest->serialize($questionResponse,format:'json');
+        // $dataTest=$serializerT->serialize($test,format:'json');
         /*TODO Débuger le jsonResponse*/
-        return new JsonResponse($questionResponse);
+        // return  $this->json("ok",200);
+        return  new JsonResponse($serializerTest2,200,['Content-Type' => 'application/json'],true);
     }
 
     // methode Post non permise car route non trouvée donc method Get Ok
