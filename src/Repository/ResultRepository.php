@@ -39,6 +39,28 @@ class ResultRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Result[] Returns an array of Student objects
+     */
+    public function maxScoreByModuleAndSession($sessionId, $moduleId): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('s.id, s.firstName, s.lastName , MAX(r.score) AS max_score, r.level')
+            ->innerJoin('r.qcmInstance', 'qi')
+            ->innerJoin('qi.student', 's')
+            ->innerJoin('s.linksSessionStudent', 'lss')
+            ->innerJoin('qi.qcm', 'q')
+            ->innerJoin('q.module', 'm')
+            ->where('lss.session = :session_id')
+            ->andWhere('m.id = :module_id')
+            ->groupBy('s.id')
+            ->setParameter('session_id', $sessionId)
+            ->setParameter('module_id', $moduleId)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Result[] Returns an array of Result objects
 //     */
