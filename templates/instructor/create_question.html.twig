@@ -88,6 +88,17 @@
         <tr>
             <td colspan="2" class="premier">
                 <p class="etape">
+                    <span class="numeroForm">5</span>
+                    {{ 'question.explanation'|trans }}
+                </p>
+            </td>
+            <td colspan="2" class="second">
+                {{form_widget(form.explanation)}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="premier">
+                <p class="etape">
                     <span class="numeroForm">Option</span>
                     {{ 'question.desactivate'|trans }}
                 </p>
@@ -114,6 +125,24 @@
                     {{ form_widget(form.is_official) }} {{ 'question.isOfficialExplain'|trans }}
                 </td>
             </tr>
+        {#        TODO mettre en place le if pour vérifier si le user est bien un admin ou un prof référent (google connexion nessecaire)#}
+        {#        {% if app.user.isReferent is same as true %}#}
+        {# TODO A enlever une fois que a connection avec google sera opérationnelle #}
+        {% if user.isReferent is same as true %}
+        <tr>
+            {% else %}
+        <tr style="display: none">
+            {% endif %}
+            <td colspan="2" class="premier">
+                <p class="etape">
+                    <span class="numeroForm">Option</span>
+                    {{ 'question.isMandatoty'|trans }}
+                </p>
+            </td>
+            <td colspan="2" class="second">
+                {{ form_widget(form.is_mandatory) }} {{ 'question.isMandatoryExplain'|trans }}
+            </td>
+        </tr>
         <tr>
             <td colspan="2">
                 <button type="button" class="valid">{{ 'button.validate'|trans }}</button>

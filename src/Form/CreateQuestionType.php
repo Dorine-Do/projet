@@ -120,7 +120,37 @@ class CreateQuestionType extends AbstractType
                    return $module;
                 },
             ])
+
+            ->add('explanation',CKEditorType::class,[
+                'config' => [
+                    'uiColor' => '#FFAC8F',
+                    'toolbar' => [
+                        [
+                            'Bold',
+                            'Italic',
+                            'Underline',
+                            'JustifyLeft',
+                            'JustifyCenter',
+                            'JustifyRight',
+                            'JustifyBlock',
+                            'CodeSnippet',
+                            'Blockquote',
+                            'Indent',
+                            'Outdent',
+                            'Image'
+                        ]
+                    ],
+                    'extraPlugins' => ['codesnippet'],
+                    'codeSnippet_theme' => 'monokai'
+                ],
+            ])
+
             ->add('is_official', CheckboxType::class, [
+                'required' => false,
+                'label' => false,
+            ])
+
+            ->add('is_mandatory', CheckboxType::class, [
                 'required' => false,
                 'label' => false,
             ])

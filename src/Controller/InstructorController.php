@@ -8,6 +8,7 @@
     use App\Entity\Main\QcmInstance;
     use App\Entity\Main\Question;
     use App\Entity\Main\Session;
+    use App\Entity\Main\Student;
     use App\Form\CreateQuestionType;
     use App\Helpers\QcmGeneratorHelper;
     use App\Repository\InstructorRepository;
@@ -15,6 +16,7 @@
     use App\Repository\LinkSessionStudentRepository;
     use App\Repository\ModuleRepository;
     use App\Repository\ProposalRepository;
+    use App\Repository\QcmInstanceRepository;
     use App\Repository\QcmRepository;
     use App\Repository\QuestionRepository;
     use App\Repository\ResultRepository;
@@ -251,9 +253,6 @@
 //              TODO A enlever une fois que a connection avec google sera opérationnelle
                 $questionEntity->setAuthor($user);
 //                $questionEntity->setAuthor($this->getUser());
-                $questionEntity->setIsOfficial(false);
-                $questionEntity->setIsMandatory(false);
-                $questionEntity->setExplanation('Explication');
                 $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
 
                 //  validation et enregistrement des données du form dans la bdd
@@ -728,55 +727,35 @@
         {
 
             $maxScoreStudents = $resultRepository->maxScoreByModuleAndSession($session->getId(), $module->getId());
-//            dd($maxScoreStudents);
-            /*
-             *
-              InstructorController.php on line 729:
-                array:2 [
-                  0 => array:2 [
-                    "id" => 19
-                    "max_score" => 87
-                  ]
-                  1 => array:2 [
-                    "id" => 20
-                    "max_score" => 60
-                  ]
-                ]
-                SELECT MAX(score) FROM `result`
-                INNER JOIN qcm_instance ON qcm_instance.id = result.qcm_instance_id
-                INNER JOIN qcm ON qcm.id = qcm_instance.qcm_id
-                INNER JOIN module ON module.id = qcm.module_id
-                WHERE qcm_instance.student_id = 19 AND module.id = 2;
-
-            MAX(s.score) AS HIDDEN max_score
-
-            SELECT user.id ,MAX(score) FROM `result`
-            INNER JOIN qcm_instance ON qcm_instance.id = result.qcm_instance_id
-            INNER JOIN user ON user.id = qcm_instance.student_id
-            INNER JOIN link_session_student ON user.id = link_session_student.student_id
-            INNER JOIN qcm ON qcm.id = qcm_instance.qcm_id
-            INNER JOIN module ON module.id = qcm.module_id
-            WHERE module.id = 2 AND link_session_student.session_id = 4
-            GROUP BY user.id;
-
-            $studentsName = [];
-            foreach ($students as $student)
-            {
-                $studentsName[] =
-                    [
-                        'id' => $id =$student->getStudent()->getId(),
-                        'firstname' => $firstname = $student->getStudent()->getFirstName(),
-                        'lastname' => $lastname = $student->getStudent()->getLastName()
-                    ];
-
-            }
-             */
-//            $modules = $studentRepository->getModuleSessions($session->getId());
-//            $modulesName = [];
-//            foreach ( $modules as $module ){
-//                $modulesName[] =  ['name' => $module->getTitle(), 'id' => $module->getId()];
-//            }
             return $this->json($maxScoreStudents);
+        }
+
+        #[Route('instructor/dashboard/{session}/{moduleId}/{studentId}',name:'instructor_get_qcms_by_student_ajax',methods:['GET'])]
+        #[Entity('Session', options: ['id' => 'session'])]
+        public function ajaxGetQcmsByStudentForDashBoard(
+            $studentId,
+            Session $session,
+            $moduleId,
+            StudentRepository $studentRepository,
+            ModuleRepository $moduleRepository,
+            SessionRepository $sessionRepository,
+            LinkSessionStudentRepository $linkSessionStudentRepository,
+            ResultRepository $resultRepository,
+            QcmRepository $qcmRepository,
+            QcmInstanceRepository $qcmInstanceRepository
+        ):JsonResponse
+        {
+//            $time_start = microtime(true);
+//            dump($studentId, $moduleId);
+//            dump(intval($studentId), intval($moduleId));
+            $qcms = $qcmRepository->getQcmsByStudentAndModule(intval($moduleId),intval($studentId));
+//            dd($qcms);
+            $time_end = microtime(true);
+//            $execution_time = ($time_end - $time_start);
+//           0.0051281452178955
+//            dd($execution_time);
+            return $this->json($qcms);
+
         }
 
 
