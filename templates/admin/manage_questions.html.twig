@@ -16,7 +16,7 @@
 
         <section class="tableContainer">
             <div class="createBtnContainer">
-                <a href="#">Créer une question</a>
+                <a href="{{ path('instructor_create_question') }}" class="greenButton">Créer une question</a>
             </div>
             <table id="tableToSort" class="questionsTable">
                 <thead>
@@ -55,8 +55,8 @@
                             <td>{{ question.author.firstname }} {{ question.author.lastname }}</td>
                             <td>{{ question.createdAt | date('d/m/Y') }}</td>
                             <td>
-                                <a href="#">Stats</a>
-                                <a href="#">Editer</a>
+                                <a href="#" class="greyButton">Stats</a>
+                                <a href="{{ path('instructor_modify_question', {'question': question.id}) }}" class="greyButton">Editer</a>
                             </td>
                         </tr>
 
