@@ -1,5 +1,5 @@
 $(document).ready( function () {
-    $('#tableToSort').DataTable({
+    const tableToSort = $('#tableToSort').DataTable({
         language: {
             processing:     "Traitement en cours...",
             search:         "Rechercher&nbsp;: ",

@@ -27,6 +27,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $email;
 
     #[ORM\Column(type: 'json')]
+    #[Groups(['user:read'])]
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
@@ -44,6 +45,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $birthDate;
 
     #[ORM\Column(type: 'string', length: 80)]
+    #[Groups(['user:read'])]
     private $email3wa;
 
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -53,6 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $moodleId;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(['user:read'])]
     private \DateTime $createdAt;
 
     #[ORM\Column(type: 'datetime')]

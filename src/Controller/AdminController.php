@@ -9,8 +9,10 @@ use App\Entity\Main\User;
 use App\Form\RegistrationFormType;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -40,6 +42,31 @@ class AdminController extends AbstractController
         return $this->render('admin/manage_questions.html.twig', [
             'questions' => $questionRepo->findAll()
         ]);
+    }
+
+    #[Route('admin/manage-users', name: 'admin_manage_users')]
+    public function manageUsers( UserRepository $userRepo ): Response
+    {
+        return $this->render('admin/manage_users.html.twig', [
+            'users' => $userRepo->findAll()
+        ]);
+    }
+
+    #[Route('admin/update-user/{user}/{role}', name: 'admin_update_users_ajax', methods: ['GET'])]
+    function ajaxFetchUsers(
+        User $user,
+        EntityManagerInterface $manager,
+        UserRepository $userRepo,
+        Request $request,
+        $role
+    ): JsonResponse
+    {
+        $user->setRoles([$role]);
+
+        $manager->persist($user);
+        $manager->flush();
+
+        return $this->json( $user, 200, [],['groups' => 'user:read'] );
     }
 
     // TODO: Probablement à supprimer

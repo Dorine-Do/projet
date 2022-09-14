@@ -1,3 +1,7 @@
+/*****************************************************
+    ADMIN TABLES
+***/
+
 #admin_content {
     width: 100%;
 }
@@ -41,6 +45,14 @@
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
+}
+
+#tableToSort thead tr {
+    border-radius: 24px 24px 0 0;
+}
+
+#tableToSort tbody tr:last-of-type {
+    border-radius: 0 0 24px 24px;
 }
 
 #tableToSort tr td,
@@ -115,4 +127,50 @@
 #tableToSort.questionsTable tr > *:nth-of-type(5)
 {
     width: 5%;
+}
+
+/*****************************************************
+    ADMIN MODALS
+***/
+
+/*#admin_content {*/
+/*    position: relative;*/
+/*}*/
+
+#roleUpdaterModale {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255,255,255, .38);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#roleUpdaterModale > main {
+    width: 33%;
+    height: fit-content;
+    padding: 48px 24px;
+    background-color: #FFF4E4;
+    border-radius: 24px;
+}
+
+#roleUpdaterModale > main > * {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#roleUpdaterModale > main button {
+    margin: 0 8px;
+}
+
+#roleUpdaterModale.hideRoleUpdaterModale {
+    display: none;
 }
