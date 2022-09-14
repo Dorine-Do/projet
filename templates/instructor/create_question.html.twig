@@ -110,11 +110,8 @@
 {#        TODO mettre en place le if pour vérifier si le user est bien un admin ou un prof référent (google connexion nessecaire)#}
 {#        {% if app.user.isReferent is same as true %}#}
         {# TODO A enlever une fois que a connection avec google sera opérationnelle #}
-        {% if user.isReferent is same as true %}
+        {% if user.isReferent is same as true or 'ROLE_ADMIN' in user.roles %}
             <tr>
-        {% else %}
-            <tr style="display: none">
-        {% endif %}
                 <td colspan="2" class="premier">
                     <p class="etape">
                         <span class="numeroForm">Option</span>
@@ -125,14 +122,12 @@
                     {{ form_widget(form.is_official) }} {{ 'question.isOfficialExplain'|trans }}
                 </td>
             </tr>
+        {% endif %}
         {#        TODO mettre en place le if pour vérifier si le user est bien un admin ou un prof référent (google connexion nessecaire)#}
         {#        {% if app.user.isReferent is same as true %}#}
         {# TODO A enlever une fois que a connection avec google sera opérationnelle #}
-        {% if user.isReferent is same as true %}
+        {% if 'ROLE_ADMIN' in user.roles %}
         <tr>
-            {% else %}
-        <tr style="display: none">
-            {% endif %}
             <td colspan="2" class="premier">
                 <p class="etape">
                     <span class="numeroForm">Option</span>
@@ -143,13 +138,14 @@
                 {{ form_widget(form.is_mandatory) }} {{ 'question.isMandatoryExplain'|trans }}
             </td>
         </tr>
+        {% endif %}
         <tr>
             <td colspan="2">
                 <button type="button" class="valid">{{ 'button.validate'|trans }}</button>
             </td>
         </tr>
     </table>
-    {{form_rest(form)}}
+    {{form_end(form)}}
     
 {% endblock %}
 

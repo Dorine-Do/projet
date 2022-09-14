@@ -6,7 +6,10 @@ namespace App\Form;
 use App\Entity\Enum\Difficulty;
 use App\Entity\Main\Module;
 use App\Entity\Main\Question;
+use App\Entity\Main\User;
+use App\Form\EventListener\AddUserData;
 use App\Repository\ModuleRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -16,6 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -32,12 +37,14 @@ class CreateQuestionType extends AbstractType
 
     private $security;
     private $manager;
+    private $user;
 
 
-    public function __construct( Security $security ,EntityManagerInterface $manager)
+    public function __construct( Security $security ,EntityManagerInterface $manager, UserRepository $userRepository)
     {
         $this->security = $security;
         $this->manager=$manager;
+        $this->user = $userRepository->find(1);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -145,23 +152,41 @@ class CreateQuestionType extends AbstractType
                 ],
             ])
 
-            ->add('is_official', CheckboxType::class, [
-                'required' => false,
-                'label' => false,
-            ])
-
-            ->add('is_mandatory', CheckboxType::class, [
-                'required' => false,
-                'label' => false,
-            ])
-
             ->add('is_enabled', CheckboxType::class, [
                 'required' => false,
                 'label' => false,
+            ])
+        ;
+
+
+
+        //if (in_array('ROLE_ADMIN', $this->security->getUser()->getRoles())){
+        /* TODO A enlever quand la connexion via google sera opperationelle */
+        if (in_array('ROLE_ADMIN', $this->user->getRoles())){
+            $builder
+                    ->add('is_mandatory', CheckboxType::class, [
+                        'required' => false,
+                        'label' => false,
+                    ]);
+        }
+        //if (
+        //  in_array('ROLE_ADMIN', $this->security->getUser()->getRoles()) ||
+        //  $this->security->getUser()->isReferent &&
+        //  in_array('ROLE_INSTRUCTOR', $this->security->getUser()->getRoles())
+        //){
+        /* TODO A enlever quand la connexion via google sera opperationelle */
+        if (
+            $this->user->isReferent() &&
+            in_array('ROLE_INSTRUCTOR', $this->user->getRoles()) ||
+            in_array('ROLE_ADMIN', $this->user->getRoles())
+        )
+        {
+            $builder
+                ->add('is_official', CheckboxType::class, [
+                'required' => false,
+                'label' => false,
             ]);
-
-
-
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
