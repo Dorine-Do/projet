@@ -174,7 +174,7 @@ class QcmRepository extends ServiceEntityRepository
     {
 
             return $this->createQueryBuilder('q')
-            ->select('qi.id, r.level, m.title, q.difficulty, q.isOfficial, r.submittedAt')
+            ->select('qi.id, r.level, m.title, q.difficulty, q.isOfficial, r.submittedAt, r.id as resultId')
             ->innerJoin('q.qcmInstances', 'qi')
             ->innerJoin('qi.student', 's')
             ->innerJoin('qi.result', 'r')

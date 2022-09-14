@@ -11,13 +11,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     // Lettre réponse
     allReponse.forEach(reponses => {
-        console.log(reponses)
         let countLetter = 0
         for (let i = 0 ; i < reponses.children.length ; i++){
 
             let divReponse = reponses.children[i].querySelector('.divReponse')
 
-            console.log(divReponse)
             let alphabet = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
             let end = parseInt(countLetter, 10) + 1; // 4 +1 = 5    '4' + 1 = 41
@@ -35,5 +33,33 @@ document.addEventListener("DOMContentLoaded", (event) => {
             countLetter++;
         }
 
+    })
+
+    let btnAddComment = document.querySelector('.addComment')
+    btnAddComment.addEventListener('click', (e) => {
+
+        let parent = e.target.parentNode
+        let pInfoComment = parent.querySelector('.infoComment')
+        let input = parent.querySelector('input')
+
+        let result = input.dataset.id
+        let comment = input.value
+
+        if (comment === ""){
+            pInfoComment.style.display = 'block'
+            pInfoComment.innerHTML = "Veuillez remplir le formulaire d'ajout de commentaire avant de le soumettre"
+            pInfoComment.style.color = 'red'
+        }else {
+            pInfoComment.style.display = 'none'
+        }
+        fetch(`https://127.0.0.1:8000/instructor/qcm_student/correction/${result}/${comment}`)
+            .then((response) => response.json())
+            .then((data) => {
+                pInfoComment.style.display = 'block'
+                pInfoComment.innerHTML = data
+                pInfoComment.style.color = '#93ad6e'
+                input.value = comment
+
+            });
     })
 })

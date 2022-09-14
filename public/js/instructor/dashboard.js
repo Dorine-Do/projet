@@ -83,6 +83,10 @@ function displayQcmsDone(data){
 
     data.forEach( qcm => {
         let li = createElementSimple('li', 'liQcmDone')
+        li.addEventListener('click', (e) => {
+            document.location.href = `/student/qcm/correction/${qcm.resultId}`
+        })
+
         let pDifficulty = createElementSimple('p', 'pDifficulty')
         if (qcm.difficulty === 1)
         {

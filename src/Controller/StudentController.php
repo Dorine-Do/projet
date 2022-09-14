@@ -479,7 +479,8 @@ class StudentController extends AbstractController
             'nameQcmInstance' => $qcmInstance->getQcm()->getTitle(),
             'titleModule'=> $qcm->getModule()->getTitle(),
             'studentComment' => $result->getStudentComment(),
-            'instructorComment' => $result->getInstructorComment()
+            'instructorComment' => $result->getInstructorComment(),
+            'resultId' => $result->getId()
         ]);
     }
 }

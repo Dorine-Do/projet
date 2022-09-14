@@ -2,11 +2,13 @@
 
     namespace App\Controller;
 
+    use App\Entity\Main\Instructor;
     use App\Entity\Main\Module;
     use App\Entity\Main\Proposal;
     use App\Entity\Main\Qcm;
     use App\Entity\Main\QcmInstance;
     use App\Entity\Main\Question;
+    use App\Entity\Main\Result;
     use App\Entity\Main\Session;
     use App\Entity\Main\Student;
     use App\Form\CreateQuestionType;
@@ -668,8 +670,6 @@
             ModuleRepository $moduleRepository
         ):JsonResponse
         {
-//            dd('stop');
-
             $modules = $moduleRepository->getModuleSessions($session->getId());
             $modulesName = [];
             foreach ( $modules as $module ){
@@ -688,9 +688,8 @@
         {
             /*TODO A enlever et mettre à jour quand connexion google sera rétablie */
             $userId = $this->id;
-
-                $sessions = $sessionRepository->getInstructorSessions($userId);
-                $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
+            $sessions = $sessionRepository->getInstructorSessions($userId);
+            $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
 
             return $this->render('instructor/dashboard.html.twig', [
                 'sessions' => $sessions,
@@ -704,7 +703,6 @@
             ModuleRepository $moduleRepository,
         ):JsonResponse
         {
-
             $modules = $moduleRepository->getModuleSessions($session->getId());
             $modulesName = [];
             foreach ( $modules as $module ){
@@ -718,45 +716,41 @@
         public function ajaxGetStudentByInstructorForDashBoard(
             Session $session,
             Module $module,
-            StudentRepository $studentRepository,
-            ModuleRepository $moduleRepository,
-            SessionRepository $sessionRepository,
-            LinkSessionStudentRepository $linkSessionStudentRepository,
             ResultRepository $resultRepository
         ):JsonResponse
         {
-
             $maxScoreStudents = $resultRepository->maxScoreByModuleAndSession($session->getId(), $module->getId());
             return $this->json($maxScoreStudents);
         }
 
         #[Route('instructor/dashboard/{session}/{moduleId}/{studentId}',name:'instructor_get_qcms_by_student_ajax',methods:['GET'])]
-        #[Entity('Session', options: ['id' => 'session'])]
         public function ajaxGetQcmsByStudentForDashBoard(
             $studentId,
             Session $session,
             $moduleId,
-            StudentRepository $studentRepository,
-            ModuleRepository $moduleRepository,
-            SessionRepository $sessionRepository,
-            LinkSessionStudentRepository $linkSessionStudentRepository,
-            ResultRepository $resultRepository,
             QcmRepository $qcmRepository,
-            QcmInstanceRepository $qcmInstanceRepository
         ):JsonResponse
         {
-//            $time_start = microtime(true);
-//            dump($studentId, $moduleId);
-//            dump(intval($studentId), intval($moduleId));
             $qcms = $qcmRepository->getQcmsByStudentAndModule(intval($moduleId),intval($studentId));
-//            dd($qcms);
-            $time_end = microtime(true);
-//            $execution_time = ($time_end - $time_start);
-//           0.0051281452178955
-//            dd($execution_time);
             return $this->json($qcms);
 
         }
+
+        #[Route('instructor/qcm_student/correction/{result}/{comment}',name:'instructor_qcm_student_add_comment_ajax',methods:['GET'])]
+        public function ajaxAddCommentQcmStudent(
+            Result $result,
+            $comment,
+            EntityManagerInterface $manager
+        ):JsonResponse
+        {
+//            dd($comment);
+            $result->setInstructorComment($comment);
+            $manager->flush();
+            return $this->json('Le commentaire a bien été ajouté');
+
+        }
+
+
 
 
 
