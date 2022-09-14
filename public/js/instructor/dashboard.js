@@ -34,23 +34,10 @@ function getQcmsDoneByStudentFromAjax(sessionId, moduleId, studentId){
 function displayModules(data){
     levelDiv.style.display = 'block'
     console.log(data)
-    selectModule = document.getElementById('module-choice')
-
     data.forEach( module => {
         let option = document.createElement('option')
         option.innerHTML = module['name']
         option.value = module['id']
-
-        selectModule.addEventListener('change', (e) => {
-            studentsDiv.style.display = 'block'
-
-            if (moduleId !== e.target.value){
-                ulListStudents = studentsDiv.querySelector('.ulListStudents')
-                moduleId = e.target.value
-                getStudentsByModuleFromAjax(sessionId, moduleId)
-            }
-        })
-
         selectModule.append(option)
     } )
 }
@@ -131,6 +118,7 @@ function displayQcmsDone(data){
         ulListQcms.append(li)
     })
 }
+
 
 //Autres
 function createElementSimple(elementName,className, textContent = null){
@@ -215,7 +203,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     qcmsDiv = document.querySelector('.Qcms')
     qcmsDiv.style.display = 'none'
 
-
+    // Display block or none (par rapport à la séléction des levels au click)
     namesLevel = document.querySelectorAll('.nameLevel')
     namesLevel.forEach( input => {
         input.addEventListener('click', (e)=>{
@@ -234,7 +222,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         })
     })
 
-
+    // Display module par rapport à la session séléctionnée
     nameSession = document.querySelectorAll('.nameSession')
     nameSession.forEach( input => {
         input.addEventListener('click', (e)=>{
@@ -244,6 +232,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
         })
     } )
+
+    // Display student par rapport au module séléctioné
+    selectModule = document.getElementById('module-choice')
+    selectModule.addEventListener('change', (e) => {
+        studentsDiv.style.display = 'block'
+        if (moduleId !== e.target.value){
+            ulListStudents = studentsDiv.querySelector('.ulListStudents')
+            moduleId = e.target.value
+            getStudentsByModuleFromAjax(sessionId, moduleId)
+        }
+    })
 
 
 
