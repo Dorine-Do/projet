@@ -1,7 +1,7 @@
 
 
 /**********************************************************************************************************************/
-/*Session*/
+/* Session / Level / Students */
 .nameSession,
 .nameLevel{
     -moz-appearance: none;
@@ -64,6 +64,8 @@
 .liLevel label{
     color: white;
 }
+/**********************************************************************************************************************/
+/*Students*/
 
 .liStudentData label{
     color: var(--grey);
@@ -87,4 +89,27 @@
 .imgLevel{
     position: absolute;
     right: 0;
+}
+
+/**********************************************************************************************************************/
+/*Qcm Done*/
+
+.liQcmDone{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.liQcmDone:hover{
+    cursor: pointer;
+    background-color: var(--pamplemousse);
+    border-radius: 13px;
+}
+
+.qcmImgLevel{
+    width: 8%;
+}
+
+#ImgDecouvre{
+    width: 4%;
 }

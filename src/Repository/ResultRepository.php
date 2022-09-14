@@ -40,7 +40,7 @@ class ResultRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Result[] Returns an array of Student objects
+     * @return Result[] Returns an array of Result objects
      */
     public function maxScoreByModuleAndSession($sessionId, $moduleId): array
     {
