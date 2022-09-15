@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Main\Admin;
 use App\Entity\Main\Instructor;
+use App\Entity\Main\Session;
 use App\Entity\Main\Student;
 use App\Entity\Main\User;
 use App\Form\RegistrationFormType;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
+use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,7 +55,7 @@ class AdminController extends AbstractController
     }
 
     #[Route('admin/update-user/{user}/{role}', name: 'admin_update_users_ajax', methods: ['GET'])]
-    function ajaxFetchUsers(
+    public function ajaxFetchUsers(
         User $user,
         EntityManagerInterface $manager,
         UserRepository $userRepo,
@@ -67,6 +69,51 @@ class AdminController extends AbstractController
         $manager->flush();
 
         return $this->json( $user, 200, [],['groups' => 'user:read'] );
+    }
+
+    #[Route('admin/user-details/{user}', name: 'admin_user_details_ajax')]
+    public function ajaxUserDetails( User $user ): JsonResponse
+    {
+        return $this->json( $user, 200, [],['groups' => 'user:read'] );
+    }
+
+    #[Route('admin/manage-sessions', name: 'admin_manage_sessions')]
+    public function manageSessions( SessionRepository $sessionRepo ): Response
+    {
+        return $this->render('admin/manage_sessions.html.twig', [
+            'sessions' => $sessionRepo->findAll()
+        ]);
+    }
+
+    #[Route('admin/session-students/{session}', name: 'admin_session_users_ajax')]
+    public function ajaxSessionStudents( Session $session ): JsonResponse
+    {
+        $linksSessionStudent = $session->getLinksSessionStudent()->toArray();
+        $students = array_map( function($linkSessionStudent){
+            return $linkSessionStudent->getStudent();
+        }, $linksSessionStudent);
+
+        return $this->json( $students, 200, [],['groups' => 'user:read'] );
+    }
+
+    #[Route('admin/session-modules/{session}', name: 'admin_session_modules_ajax')]
+    public function ajaxSessionModules( Session $session ): JsonResponse
+    {
+        $linksSessionModule = $session->getLinksSessionModule();
+
+        $modules = [];
+
+        foreach( $linksSessionModule as $linkSessionModule )
+        {
+            $modules[] = [
+                'id' => $linkSessionModule->getModule()->getId(),
+                'title' => $linkSessionModule->getModule()->getTitle(),
+                'startDate' => $linkSessionModule->getStartDate(),
+                'endDate' => $linkSessionModule->getEndDate(),
+            ];
+        }
+
+        return $this->json( $modules, 200, [],['groups' => 'user:read'] );
     }
 
     // TODO: Probablement à supprimer

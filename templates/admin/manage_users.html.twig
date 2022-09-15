@@ -45,7 +45,7 @@
                             </td>
                             <td>{{ user.createdAt | date('d/m/Y') }}</td>
                             <td>
-                                <button class="editRoleBtn greyButton" data-user="{{ user.id }}">Détails</button>
+                                <button class="userDetailsBtn greyButton" data-user="{{ user.id }}">Détails</button>
                                 <button class="editRoleBtn greyButton" data-user="{{ user.id }}" data-role="{{ user.roles[0] }}">Changer le rôle</button>
                             </td>
                         </tr>
@@ -55,7 +55,7 @@
             </table>
         </section>
 
-        <div id="roleUpdaterModale" class="hideRoleUpdaterModale">
+        <div id="roleUpdaterModale" class="hideModale">
             <main>
                 <select id="roleChoice">
                     <option value="ROLE_STUDENT">Etudiant</option>
@@ -71,6 +71,17 @@
             </main>
         </div>
 
+        <div id="userDetailsModale" class="hideModale">
+            <main>
+                <section>
+                    <button id="closeUserDetailsBtn">X</button>
+                </section>
+                <secion id="userDetailsModaleContent">
+
+                </secion>
+            </main>
+        </div>
+
     </main>
 
 {% endblock %}
@@ -79,5 +90,5 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="{{ asset('js/admin/tableSorter.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/admin/roleUpdater.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/admin/manageUser.js') }}"></script>
 {% endblock %}

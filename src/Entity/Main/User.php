@@ -24,6 +24,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Groups(['user:read'])]
     private string $email;
 
     #[ORM\Column(type: 'json')]
@@ -42,6 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $lastName;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Groups(['user:read'])]
     private $birthDate;
 
     #[ORM\Column(type: 'string', length: 80)]
@@ -59,6 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private \DateTime $createdAt;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(['user:read'])]
     private $updatedAt;
 
     #[ORM\PrePersist]
