@@ -1,4 +1,10 @@
 
+
+.container{
+    width: 90%;
+    margin: auto;
+}
+
 .flashMessage{
     padding: 1em;
     background: #FFF4E4;
