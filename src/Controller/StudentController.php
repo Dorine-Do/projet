@@ -463,7 +463,7 @@ class StudentController extends AbstractController
                     'isCorrectAnswer' => $answer['isCorrectAnswer'],
                 ];
             }
-//            dd($dbAnswer);
+
             $qcmQuestions[] = [
                 'questionId'  => $dbAnswer['id'],
                 'isMultiple'  => $question->getIsMultiple(),
@@ -483,4 +483,23 @@ class StudentController extends AbstractController
             'resultId' => $result->getId()
         ]);
     }
+
+    #[Route('student/level/', name: 'student_level', methods: ['GET'])]
+    public function levelStudentByModule(
+
+    ): Response
+    {
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+        $student = $this->studentRepo->find($this->id);
+//        $student = $this->getUser();
+
+        $modules = $this->studentRepo->moduleMaxScore($student->getId());
+
+        return $this->render('student/level_modules.html.twig', [
+            'modules' => $modules
+        ]);
+    }
+
+
+
 }
