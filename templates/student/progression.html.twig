@@ -1,0 +1,193 @@
+{#{% extends 'base.html.twig' %}#}
+
+{#{% block title %}Ma progression{% endblock %}#}
+
+{#{% block stylesheets %}#}
+{#    <link href="{{asset('css/student/progression.css')}}" rel="stylesheet">#}
+{#{% endblock %}#}
+
+{#{% block body %}#}
+{#    <h1>Ma progression</h1>#}
+
+{#    <div class="containerTimeLine">#}
+{#        <div class="lineX"></div>#}
+{#        <div class="timeLine">#}
+{#            {% for isOfficialQcm in isOfficialQcms %}#}
+
+{#            <div class="isOfficialQcm">#}
+{#                <div class="lineY"></div>#}
+{#                <p class="infoTimeLine moduleTitle"> {{ isOfficialQcm.moduleTitle }} </p>#}
+{#                <p class="infoTimeLine iTrainning"> Je m'entraine </p>#}
+{#                {% if isOfficialQcm is same as 1  or isOfficialQcm is same as 2%}#}
+{#                    <p class="passOrNot">X</p>#}
+{#                {% else %}#}
+{#                    <p class="passOrNot">V</p>#}
+{#                {% endif %}#}
+{#            </div>#}
+
+{#            #}{#/***************************************/#}
+{#            <div>#}
+{#                <div class="isOfficialQcm">#}
+{#                    <div class="lineY"></div>#}
+{#                    <p class="infoTimeLine moduleTitle"> {{ isOfficialQcm.moduleTitle }} </p>#}
+{#                    <p class="infoTimeLine iTrainning"> Je m'entraine </p>#}
+{#                    {% if isOfficialQcm is same as 1  or isOfficialQcm is same as 2%}#}
+{#                        <p class="passOrNot">X</p>#}
+{#                    {% else %}#}
+{#                        <p class="passOrNot">V</p>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#                <div class="isOfficialQcm">#}
+{#                    <div class="lineY"></div>#}
+{#                    <p class="infoTimeLine moduleTitle"> {{ isOfficialQcm.moduleTitle }} </p>#}
+{#                    <p class="infoTimeLine iTrainning"> Je m'entraine </p>#}
+{#                    {% if isOfficialQcm is same as 1  or isOfficialQcm is same as 2%}#}
+{#                        <p class="passOrNot">X</p>#}
+{#                    {% else %}#}
+{#                        <p class="passOrNot">V</p>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#                <div class="isOfficialQcm">#}
+{#                    <div class="lineY"></div>#}
+{#                    <p class="infoTimeLine moduleTitle"> {{ isOfficialQcm.moduleTitle }} </p>#}
+{#                    <p class="infoTimeLine iTrainning"> Je m'entraine </p>#}
+{#                    {% if isOfficialQcm is same as 1  or isOfficialQcm is same as 2%}#}
+{#                        <p class="passOrNot">X</p>#}
+{#                    {% else %}#}
+{#                        <p class="passOrNot">V</p>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#                <div class="isOfficialQcm">#}
+{#                    <div class="lineY"></div>#}
+{#                    <p class="infoTimeLine moduleTitle"> {{ isOfficialQcm.moduleTitle }} </p>#}
+{#                    <p class="infoTimeLine iTrainning"> Je m'entraine </p>#}
+{#                    {% if isOfficialQcm is same as 1  or isOfficialQcm is same as 2%}#}
+{#                        <p class="passOrNot">X</p>#}
+{#                    {% else %}#}
+{#                        <p class="passOrNot">V</p>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#                <div class="isOfficialQcm">#}
+{#                    <div class="lineY"></div>#}
+{#                    <p class="infoTimeLine moduleTitle"> {{ isOfficialQcm.moduleTitle }} </p>#}
+{#                    <p class="infoTimeLine iTrainning"> Je m'entraine </p>#}
+{#                    {% if isOfficialQcm is same as 1  or isOfficialQcm is same as 2%}#}
+{#                        <p class="passOrNot">X</p>#}
+{#                    {% else %}#}
+{#                        <p class="passOrNot">V</p>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#            </div>#}
+
+{#            <div>#}
+{#                <div class="isOfficialQcm">#}
+{#                    <div class="lineY"></div>#}
+{#                    <p class="infoTimeLine moduleTitle"> {{ isOfficialQcm.moduleTitle }} </p>#}
+{#                    <p class="infoTimeLine iTrainning"> Je m'entraine </p>#}
+{#                    {% if isOfficialQcm is same as 1  or isOfficialQcm is same as 2%}#}
+{#                        <p class="passOrNot">X</p>#}
+{#                    {% else %}#}
+{#                        <p class="passOrNot">V</p>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#                <div class="isOfficialQcm">#}
+{#                    <div class="lineY"></div>#}
+{#                    <p class="infoTimeLine moduleTitle"> {{ isOfficialQcm.moduleTitle }} </p>#}
+{#                    <p class="infoTimeLine iTrainning"> Je m'entraine </p>#}
+{#                    {% if isOfficialQcm is same as 1  or isOfficialQcm is same as 2%}#}
+{#                        <p class="passOrNot">X</p>#}
+{#                    {% else %}#}
+{#                        <p class="passOrNot">V</p>#}
+{#                    {% endif %}#}
+{#                </div>#}
+
+{#                <div class="isOfficialQcm">#}
+{#                    <div class="lineY"></div>#}
+{#                    <p class="infoTimeLine moduleTitle"> {{ isOfficialQcm.moduleTitle }} </p>#}
+{#                    <p class="infoTimeLine iTrainning"> Je m'entraine </p>#}
+{#                    {% if isOfficialQcm is same as 1  or isOfficialQcm is same as 2%}#}
+{#                        <p class="passOrNot">X</p>#}
+{#                    {% else %}#}
+{#                        <p class="passOrNot">V</p>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#                <div class="isOfficialQcm">#}
+{#                    <div class="lineY"></div>#}
+{#                    <p class="infoTimeLine moduleTitle"> {{ isOfficialQcm.moduleTitle }} </p>#}
+{#                    <p class="infoTimeLine iTrainning"> Je m'entraine </p>#}
+{#                    {% if isOfficialQcm is same as 1  or isOfficialQcm is same as 2%}#}
+{#                        <p class="passOrNot">X</p>#}
+{#                    {% else %}#}
+{#                        <p class="passOrNot">V</p>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#                <div class="isOfficialQcm">#}
+{#                    <div class="lineY"></div>#}
+{#                    <p class="infoTimeLine moduleTitle"> {{ isOfficialQcm.moduleTitle }} </p>#}
+{#                    <p class="infoTimeLine iTrainning"> Je m'entraine </p>#}
+{#                    {% if isOfficialQcm is same as 1  or isOfficialQcm is same as 2%}#}
+{#                        <p class="passOrNot">X</p>#}
+{#                    {% else %}#}
+{#                        <p class="passOrNot">V</p>#}
+{#                    {% endif %}#}
+{#                </div>#}
+{#            </div>#}
+
+
+
+
+{#            {% endfor %}#}
+
+{#        </div>#}
+{#    </div>#}
+
+
+
+{#{% endblock %}#}
+{#{% block javascripts %}#}
+{#    <script type="text/javascript" src="{{ asset('js/student/progression.js') }}"></script>#}
+{#{% endblock %}#}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma progression{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{asset('css/student/progression.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <h1>Ma progression</h1>
+
+    <div class="containerTimeLine">
+        <div class="lineX"></div>
+        <div class="timeLine">
+            {% for isOfficialQcm in isOfficialQcms %}
+
+                            <div class="isOfficialQcm" data-level = "{{ isOfficialQcm.level }}">
+                                <div class="lineY"></div>
+                                <p class="infoTimeLine moduleTitle" data-id = "{{ isOfficialQcm.moduleId }}"> {{ isOfficialQcm.moduleTitle }} </p>
+                                <p class="infoTimeLine iTrainning"> Je m'entraine </p>
+                                {% if isOfficialQcm.level is same as 1  or isOfficialQcm.level is same as 2%}
+                                    <p class="passOrNot">X</p>
+                                {% else %}
+                                    <p class="passOrNot">V</p>
+                                {% endif %}
+                            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+
+{% endblock %}
+{% block javascripts %}
+    <script>
+        let isOfficialQcms = {{ isOfficialQcms|json_encode|raw }};
+        let logo = "{{asset('build/images/logo_officiel.png')}}";
+        let wrong = "{{asset('build/images/wrongTemporaire.png')}}";
+
+    </script>
+    <script type="text/javascript" src="{{ asset('js/student/progression.js') }}"></script>
+{% endblock %}

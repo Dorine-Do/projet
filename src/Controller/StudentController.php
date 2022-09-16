@@ -500,6 +500,99 @@ class StudentController extends AbstractController
         ]);
     }
 
+    #[Route('student/progression/', name: 'student_progression', methods: ['GET'])]
+    public function progressionStudent(
+
+    ): Response
+    {
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+        $student = $this->studentRepo->find($this->id);
+//        $student = $this->getUser();
+
+        $isOfficialQcms = $this->studentRepo->isOfficialQcmLevel($student->getId());
+//        dd($isOfficialQcms);
+        $isOfficialQcms[] = [
+            "qcmId" => 6,
+                "qcmTitle" => "Qcm1",
+                "qcmInstanceId" => 10,
+                "resultID" => 7,
+                "moduleId" => 6,
+                "moduleTitle" => "Titre de Module 6",
+                "level" => 1
+        ];
+        $isOfficialQcms[] = [
+            "qcmId" => 7,
+            "qcmTitle" => "Qcm2",
+            "qcmInstanceId" => 11,
+            "resultID" => 8,
+            "moduleId" => 6,
+            "moduleTitle" => "Titre de Module 6",
+            "level" => 4
+        ];
+        $isOfficialQcms[] = [
+            "qcmId" => 8,
+            "qcmTitle" => "Qcm3",
+            "qcmInstanceId" => 12,
+            "resultID" => 9,
+            "moduleId" => 7,
+            "moduleTitle" => "Titre de Module 7",
+            "level" => 1
+        ];
+        $isOfficialQcms[] = [
+            "qcmId" => 9,
+            "qcmTitle" => "Qcm4",
+            "qcmInstanceId" => 13,
+            "resultID" => 10,
+            "moduleId" => 7,
+            "moduleTitle" => "Titre de Module 7",
+            "level" => 2
+        ];
+        $isOfficialQcms[] = [
+            "qcmId" => 9,
+            "qcmTitle" => "Qcm4",
+            "qcmInstanceId" => 13,
+            "resultID" => 10,
+            "moduleId" => 8,
+            "moduleTitle" => "Titre de Module 8",
+            "level" => 1
+        ];
+        $isOfficialQcms[] = [
+            "qcmId" => 10,
+            "qcmTitle" => "Qcm4",
+            "qcmInstanceId" => 14,
+            "resultID" => 11,
+            "moduleId" => 8,
+            "moduleTitle" => "Titre de Module 8",
+            "level" => 4
+        ];
+        $isOfficialQcms[] = [
+            "qcmId" => 11,
+            "qcmTitle" => "Qcm4",
+            "qcmInstanceId" => 15,
+            "resultID" => 12,
+            "moduleId" => 9,
+            "moduleTitle" => "Titre de Module 9",
+            "level" => 4
+        ];
+        /*
+         * array:1 [▼
+              0 => array:7 [▼
+                "qcmId" => 5
+                "qcmTitle" => "et"
+                "qcmInstanceId" => 9
+                "resultID" => 6
+                "moduleId" => 6
+                "moduleTitle" => "ipsum"
+                "level" => 4
+              ]
+            ]
+         */
+
+        return $this->render('student/progression.html.twig', [
+            'isOfficialQcms' => $isOfficialQcms
+        ]);
+    }
+
 
 
 }
