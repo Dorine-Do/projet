@@ -25,6 +25,16 @@
             {% endblock %}
             {% include('layout/footer.html.twig')%}
         </div>
+        <div id="g_id_onload"
+             data-client_id="939653659160-g2cn2cgin2ua2cgp33003np8quf1l7m1.apps.googleusercontent.com"
+             data-login_uri="http://localhost:8000"
+             data-auto_select="true"
+{#             data-username="{{ last_username }}"#}
+             data-context="signin">
+        </div>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+        <script src="{{ asset('js/onetap.js') }}"></script>
+        <script src="{{ asset('js/disconnect.js') }}"></script>
          {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
