@@ -518,7 +518,9 @@ class StudentController extends AbstractController
                 "resultID" => 7,
                 "moduleId" => 6,
                 "moduleTitle" => "Titre de Module 6",
-                "level" => 1
+                "level" => 1,
+                "startDat" => "2021-12-12",
+                "endDate" => "2022-08-27"
         ];
         $isOfficialQcms[] = [
             "qcmId" => 7,
@@ -527,7 +529,9 @@ class StudentController extends AbstractController
             "resultID" => 8,
             "moduleId" => 6,
             "moduleTitle" => "Titre de Module 6",
-            "level" => 4
+            "level" => 4,
+            "startDat" => "2021-12-12",
+            "endDate" => "2022-08-27"
         ];
         $isOfficialQcms[] = [
             "qcmId" => 8,
@@ -536,7 +540,9 @@ class StudentController extends AbstractController
             "resultID" => 9,
             "moduleId" => 7,
             "moduleTitle" => "Titre de Module 7",
-            "level" => 1
+            "level" => 1,
+            "startDat" => "2021-12-12",
+            "endDate" => "2022-08-27"
         ];
         $isOfficialQcms[] = [
             "qcmId" => 9,
@@ -545,7 +551,9 @@ class StudentController extends AbstractController
             "resultID" => 10,
             "moduleId" => 7,
             "moduleTitle" => "Titre de Module 7",
-            "level" => 2
+            "level" => 2,
+            "startDat" => "2021-12-12",
+            "endDate" => "2022-08-27"
         ];
         $isOfficialQcms[] = [
             "qcmId" => 9,
@@ -554,7 +562,9 @@ class StudentController extends AbstractController
             "resultID" => 10,
             "moduleId" => 8,
             "moduleTitle" => "Titre de Module 8",
-            "level" => 1
+            "level" => 1,
+            "startDat" => "2021-12-12",
+            "endDate" => "2022-08-27"
         ];
         $isOfficialQcms[] = [
             "qcmId" => 10,
@@ -563,7 +573,9 @@ class StudentController extends AbstractController
             "resultID" => 11,
             "moduleId" => 8,
             "moduleTitle" => "Titre de Module 8",
-            "level" => 4
+            "level" => 4,
+            "startDat" => "2021-12-12",
+            "endDate" => "2022-08-27"
         ];
         $isOfficialQcms[] = [
             "qcmId" => 11,
@@ -572,7 +584,9 @@ class StudentController extends AbstractController
             "resultID" => 12,
             "moduleId" => 9,
             "moduleTitle" => "Titre de Module 9",
-            "level" => 4
+            "level" => 4,
+            "startDat" => "2021-12-12",
+            "endDate" => "2022-08-27"
         ];
         /*
          * array:1 [▼
