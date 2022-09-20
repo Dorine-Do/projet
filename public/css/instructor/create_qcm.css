@@ -79,6 +79,11 @@ ul {
   margin: auto;
   border-radius: 5px;
 }
+
+.list_sessions > li:hover {
+  cursor: pointer;
+}
+
 .select_module {
   padding: 2.5em 0;
   text-align: center;
@@ -96,6 +101,11 @@ ul {
   text-align: center;
   outline: none;
 }
+
+.select_module > select:hover {
+  cursor: pointer;
+}
+
 .bloc_date_qcm_given,
 .bloc_generate_qcm {
   padding: 2em 0;
@@ -116,6 +126,11 @@ ul {
   color: white;
   box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.3);
 }
+
+.bloc_generate_qcm > button:hover {
+  cursor: pointer;
+}
+
 .step_one,
 .step_two,
 .step_three {

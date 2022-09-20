@@ -24,6 +24,7 @@ class Instructor extends User
 
     public function __construct()
     {
+        parent::__construct();
         $this->qcms = new ArrayCollection();
         $this->linksInstructorSessionModule = new ArrayCollection();
         $this->questions = new ArrayCollection();

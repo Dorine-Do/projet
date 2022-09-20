@@ -78,7 +78,6 @@ span{
     border: 2px solid white;
     width: 500px;
     margin: 15px auto;
-    height: 130px;
     border-radius: 9px;
     padding: 7px 15px;
 }
@@ -381,9 +380,6 @@ input[type="radio"]:checked {
         width: 350px;
     }
 
-    .divQcm{
-        height: 180px;
-    }
 }
 
 @media screen and (max-width: 450px) {

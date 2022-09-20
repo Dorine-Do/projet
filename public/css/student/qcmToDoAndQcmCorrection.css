@@ -7,7 +7,6 @@
     margin: auto;
 }
 
-
 img{
     width: 40px;
 }
@@ -23,7 +22,6 @@ img{
     display: flex;
     flex-direction: column;
     align-items: center;
-
 }
 
 .diff p{
@@ -110,6 +108,27 @@ img{
     margin-left: 55px;
 }
 
+.explanation{
+    background-color: var(--fond);
+    border-radius: 5px;
+    border: 1px dashed var(--grey);
+    margin: .7em 0 1em 55px;
+    padding: .2em;
+}
+
+.explanation h4{
+    padding: 0.5em 0 0 .5em;
+    margin: 0;
+    font-weight: 600;
+}
+
+.explanation p{
+    padding: .5em;
+    color: var(--vert);
+    font-weight: 600;
+    margin: 0;
+}
+
 .imageDiff{
     display: flex;
     align-items: center;
@@ -178,26 +197,26 @@ img{
 
 .modalContent{
     border-radius: 5px;
-    margin-top: 250px;
+    margin-top: 5em;
     margin-left: auto;
     margin-right: auto;
     display: block;
-    height: 35%;
     width: 42%;
     text-align: center;
     background-color: var(--fond);
+    padding: 1em 0;
 }
 
 .modalConfirm{
     border-radius: 5px;
-    margin-top: 250px;
+    margin-top: 5em;
     margin-left: auto;
     margin-right: auto;
     display: block;
-    height: 42%;
     width: 42%;
     text-align: center;
     background-color: var(--fond);
+    padding: 1em 0;
 }
 
 .confirmBtn{
@@ -208,7 +227,6 @@ img{
     position: relative;
     z-index: 1;
     border: 2px solid var(--vert);
-    padding: 12px 36px;
     text-decoration: none;
     background-color: var(--fond);
     margin-top: 15px;
@@ -227,7 +245,6 @@ img{
     position: relative;
     z-index: 1;
     border: 2px solid var(--pamplemousse);
-    padding: 12px 36px;
     text-decoration: none;
     background-color: var(--fond);
     margin-top: 15px;
@@ -285,7 +302,7 @@ img{
 
 .buttonPop{
     display: flex;
-    flex-direction: column;
+    justify-content: space-around;
 }
 
 .logoPop{
@@ -321,9 +338,16 @@ img{
 
 .comment{
     border-radius: 5px;
-    padding: 1em;
+    padding: 1em 0;
     margin: 0;
     background: white;
+    width: 100%;
+}
+
+.explainComment{
+    border: 1px solid var(--pamplemousse);
+    padding: .2em;
+    border-radius: 5px;
 }
 
 @media screen and (max-width: 1200px) {

@@ -19,8 +19,8 @@ class QcmGeneratorHelper
         $this->_questionRepo = $questionRepo;
         $this->_security = $security;
     }
-
-    public function generateRandomQcm( Module $module, bool $isTraining = true, int $difficulty = 2 ): Qcm
+    /*TODO A enlever une fois que a connection avec google sera opérationnelle ( $instructorRepository )*/
+    public function generateRandomQcm( Module $module, $instructorRepository , bool $isTraining = true, int $difficulty = 2): Qcm
     {
         if( $isTraining )
         {
@@ -41,7 +41,9 @@ class QcmGeneratorHelper
 
         $qcm = new Qcm();
         $qcm->setModule( $module );
-        $qcm->setAuthor( $this->_security->getUser() );
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+        $qcm->setAuthor( $instructorRepository->find(1) );
+//      $qcm->setAuthor( $this->_security->getUser() );
         $qcm->setTitle( $title );
         $qcm->setDifficulty( $difficulty );
         $qcm->setIsOfficial( $isOfficial );
@@ -128,7 +130,7 @@ class QcmGeneratorHelper
         return $pickedQuestions;
     }
 
-    private function generateQuestionCache( array $questions ): array
+    public function generateQuestionCache( array $questions ): array
     {
         $questionsCache = [];
         foreach( $questions as $question )

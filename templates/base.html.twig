@@ -11,14 +11,18 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-
+        <link href="{{asset('css/base.css')}}" rel="stylesheet">
         
     </head>
 
     <body>
     {% include('layout/header.html.twig')%}
         <div class="container">
-          
+            {%for message in app.flashes('success')%}
+                <div class="flashMessage">
+                    {{message}}
+                </div>
+            {%endfor%}
             {% block body %}
 
             {% endblock %}

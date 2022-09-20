@@ -44,7 +44,9 @@ function updateStudentOptions( field, fieldData )
         input.type = 'checkbox';
         input.name = 'students['+ data.id +']';
         input.value = data.id;
+        input.setAttribute('id', 'students['+ data.id +']' )
         label.innerText = data.firstName + ' ' + data.lastName;
+        label.setAttribute('for', 'students['+ data.id +']')
 
         div.append(input, label)
         field.append(div);
@@ -82,6 +84,30 @@ document.addEventListener('DOMContentLoaded', function(){
 
     moduleField.addEventListener('change', function (){
         updateQcmsFromAjax( moduleField.value, qcmField );
+    })
+
+
+    // Position des label par rapport a leur input
+    let liSession = document.querySelectorAll('.liSession')
+    liSession.forEach( li => {
+
+        let label = li.querySelector('label')
+        let input = li.querySelector('input')
+
+        let widthInput = input.getBoundingClientRect().width
+        let heightInput = input.getBoundingClientRect().height
+
+        let widthLabel = label.getBoundingClientRect().width
+        let heightLabel = label.getBoundingClientRect().height
+
+        label.style.top = ((heightInput/2)-(heightLabel/2)) + 'px'
+
+        if (widthInput < widthLabel){
+            input.style.width = (widthLabel + 10) + 'px'
+        }else {
+            label.style.width = (widthInput-10) + 'px'
+        }
+
     })
 
 })
