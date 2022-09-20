@@ -12,6 +12,8 @@
     {% set letters = ["A", "B", "C", "D", "E", "F"] %}
 
     <h1>- CRÉER UN QCM PERSONNALISÉ -</h1>
+ 
+ 
 
     <div class="partOne">
         <p><span class="etape">Etape 1</span> Choix du qcm par module et par niveau</p>
@@ -198,9 +200,11 @@
                         {#*************************************************************************************************#}
                         {#OFFICIAL #}
                         <div class="questionsOfficial">
-                        
+                       
                             <ul>
+                            {{dump(qcmInstancesByQuestion)}}
                                 {% for question in officialQuestions %}
+                                    
                                     <li class="officialQuestionLi" draggable="true">
                                         <div class="OfficialQuestionWordingDiv questionWordingDiv ">
                                             <div class="qcmChoisedTreffleP">
@@ -218,8 +222,13 @@
                                             <div class="officialChevronBasP chevronBasP">
                                                 <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
                                             </div>
-                                            <div class="modifyQuestionImgDiv">
-                                                <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg" >
+                                            {# modif #}
+
+                                            <div class="modifyQuestionImgDiv ">
+
+                                                {% if qcmInstancesByQuestion[question.id] == 0 %}
+                                                    <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg" >
+                                                {% endif %}
                                             </div>
                                         </div>
                                         
@@ -271,8 +280,11 @@
                                             <div class="officialChevronBasP chevronBasP">
                                                 <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
                                             </div>
-                                            <div class="modifyQuestionImgDiv">
+                                            
+                                            <div class="modifyQuestionImgDiv ">
+                                             {% if qcmInstancesByQuestion[question.id] == 0 %}
                                                 <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg">
+                                             {% endif %} 
                                             </div>
                                         </div>
                                         <div>
@@ -328,18 +340,19 @@
             {% endif %}
         </div>
    </div>
-
+<input
 {% endblock %}
 {% block javascripts %}
     <script>
         let chevronHaut = "{{asset('build/images/chevron_haut.png')}}"
         let chevronBas = "{{asset('build/images/chevron_bas.png')}}"
         let deleteImg = "{{asset('build/images/delete_close.png')}}"
+      {#  let qcmInstanceQuestions= {{ qcmInstanceQuestionsCache|json_encode }}#}
 
-        let route = "{{ path('instructor_questions_update_fetch') }}"
+        let route = "{{ path('instructor_questions_update_fetch') }}
           {#id : user.id => temporaire /// voir controller + var #}
         let routeInstructorQcmFetch = "{{ path('instructor_qcm_create_fetch' ) }}"
-
+ 
         {#let questions = {{ questions|json_encode }}#}
     </script>
     <script type="text/javascript" src="{{ asset('js/instructor/create_qcm_perso.js') }}"></script>

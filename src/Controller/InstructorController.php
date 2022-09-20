@@ -15,6 +15,7 @@ use App\Repository\LinkInstructorSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
+use App\Repository\QcmInstanceRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
@@ -257,11 +258,12 @@ class InstructorController extends AbstractController
         ModuleRepository     $moduleRepository,
         QuestionRepository   $questionRepository,
         Security             $security,
-      
+        QcmRepository        $qcmRepo,
+        QcmInstanceRepository     $qcmInstanceRepository
 
     ): Response
     {
-
+  
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
         // $userId=$instructorRepository->find($id);
         // $userId = $this->getUser()->getId();
@@ -288,8 +290,40 @@ class InstructorController extends AbstractController
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
+             //qcm instance
+            // $qcms = $qcmRepo->findBy(["module"=>$module->getId()]);
+            // $qcmInstances = $qcmInstanceRepository->findBy(["qcm"=>$qcms]);
+            $qcms = $module->getQcms();
+            $moduleQuestions = $module->getQuestions();
+                        
+            
         }
+        
+        
+        // $qcmInstanceFromOfficialQcm=[];
+        // foreach($qcmInstances as $qcm){
+        //     $qcmInstanceFromOfficialQcm[]=["id"=>$qcm->getQcm()->getId(),"questions"=>$qcm->getQcm()->getQuestionsCache()];
+            
+        // }
+        //pour chaque q recup les qcm lié et enregistré le nombr d'instance de c'est q en tant que val 
+     
+        
+        $qcmInstancesByQuestion = [];
+        foreach($moduleQuestions as $moduleQuestion){
 
+            $count=0;
+            foreach($moduleQuestion->getQcms() as $moduleQuestionQcm ) {
+                $count+=count($moduleQuestionQcm->getQcmInstances());
+              }  
+             $qcmInstancesByQuestion[$moduleQuestion->getId()]=$count;
+            }
+
+
+
+
+
+
+        
         /********************************************************************************/
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => $modules,
@@ -297,10 +331,13 @@ class InstructorController extends AbstractController
             'officialQuestions' => $module ? $officialQuestions : null,
             'generatedQcm' => $module ? $generatedQcm : null,
             // temporaire voir todo pour connection
-            'user'=>$userId
+            'user'=>$userId,
+            // 'qcmInstanceFromOfficialQcm'=>$qcmInstanceFromOfficialQcm,
+            'qcms'=>$qcms,
+            'qcmInstancesByQuestion'=>$qcmInstancesByQuestion
+
         ]);
     }
-
 
     #[Route('instructor/questions/upDate_fetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
     public function upDateQuestionFetch(
@@ -309,9 +346,8 @@ class InstructorController extends AbstractController
         InstructorRepository   $instructorRepository,
         ModuleRepository       $moduleRepository,
         QuestionRepository     $questionRepository,
-        EntityManagerInterface $entityManager,
-        SerializerInterface $serializer
-    ): jsonResponse
+        EntityManagerInterface $entityManager
+    ): Response
     {
         $data = (array) json_decode($request->getContent());
         $question = new Question();
@@ -321,10 +357,7 @@ class InstructorController extends AbstractController
         $question->setIsMultiple($data['isMultiple']);
         $question->setDifficulty(1);
         $question->setExplanation('null');
-        $author = $instructorRepository->find(2);
-        // var_dump($module);
-        // dd($module);
-        // $author = $instructorRepository->find($this->getUser()->getId());
+        $author = $instructorRepository->find($this->getUser()->getId());
         $question->setAuthor($author);
         $question->setIsMandatory(0);
         $question->setIsOfficial(0);
@@ -343,24 +376,13 @@ class InstructorController extends AbstractController
 
         $entityManager->persist($question);
         $entityManager->flush();
-        // $serializerT=new Serializer([new ObjectNormalizer()]);
-        // $test= $serializerT->normalize($module);
-        $encoder = new JsonEncoder();
+
         $questionResponse = $questionRepository->find($question->getId());
-        $defaultContext = [
-            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($module) {
-                return $module->getId();
-            },
-        ];
-        $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
-        
-        $serializerTest = new Serializer([$normalizer], [$encoder]);
-        $serializerTest2= $serializerTest->serialize($questionResponse,format:'json');
-        // $dataTest=$serializerT->serialize($test,format:'json');
+
         /*TODO Débuger le jsonResponse*/
-        // return  $this->json("ok",200);
-        return  new JsonResponse($serializerTest2,200,['Content-Type' => 'application/json'],true);
+        return new JsonResponse($questionResponse);
     }
+   
 
     // methode Post non permise car route non trouvée donc method Get Ok
     #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]

@@ -15,7 +15,7 @@ class Session
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['session:read'])]
+    #[Groups(['session:read'])] //évite les ref circulaires 
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]

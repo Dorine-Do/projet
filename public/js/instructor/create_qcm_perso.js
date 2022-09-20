@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", (event) => {
+  // console.log(qcmInstances);
+
   // display none
   let questionsCustom = document.querySelector(".questionsCustom");
   questionsCustom.classList.add("displayNone");
@@ -76,8 +78,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     questionQcmChoicedSpan[a].style.color = "green";
   }
 
-  // ////////////// QUESTIONS OFFICIELS/ PERSONNALISED COUNT
-  // console.log(listQuestionsOfficials.length);
   let btnQuestionsOfficial = document.querySelector(".btnQuestionsOfficial");
 
   // Event sur les button de choix du type de question****************************************************************
@@ -320,11 +320,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         },
       })
         .then((response) => response.json())
-        .then((data) => {
-          if (data.status === 200) {
-            console.log("data.status");
-          }
-        });
+        .then((data) => console.log(data));
     });
   });
 
@@ -647,3 +643,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
   }
 });
+
+// TODO
+// info bouton modif une question retiré
+// faire un event au survol pour signifier ce changement
