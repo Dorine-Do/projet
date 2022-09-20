@@ -8,11 +8,13 @@ use App\Entity\Main\Session;
 use App\Entity\Main\Student;
 use App\Entity\Main\User;
 use App\Form\RegistrationFormType;
+use App\Repository\ModuleRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -116,6 +118,14 @@ class AdminController extends AbstractController
         return $this->json( $modules, 200, [],['groups' => 'user:read'] );
     }
 
+    #[Route('admin/manage-modules', name: 'admin_manage_modules')]
+    public function manageModules( ModuleRepository $moduleRepo ): Response
+    {
+        return $this->render('admin/manage_modules.html.twig', [
+            'modules' => $moduleRepo->findAll()
+        ]);
+    }
+
     // TODO: Probablement à supprimer
     #[Route('/admin/new-user', name: 'app_new_user')]
     public function newUser(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
@@ -180,6 +190,23 @@ class AdminController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+        ]);
+    }
+
+    // TODO: à supprimer d`s que le test est concluant ou que la f`con de faire est abandonée
+    #[Route('admin/test', name: 'admin_test')]
+    public function adminTest( ManagerRegistry $doctrine ): Response
+    {
+        $conn = $doctrine->getConnection('dbsuivi');
+        $result = $conn
+            ->prepare('SELECT * FROM daily')
+            ->executeQuery()
+            ->fetchAllKeyValue();
+//        $sql = 'SELECT daily.date, sessions.name FROM daily JOIN sessions ON sessions.id = daily.id_session WHERE daily.date = NOW()';
+//        $result = $conn->fetchAllKeyValue($sql);
+
+        return $this->render('admin/test.html.twig', [
+            'result' => $result
         ]);
     }
 }
