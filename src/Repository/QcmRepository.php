@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Main\Module;
 use App\Entity\Main\Qcm;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -165,6 +166,17 @@ class QcmRepository extends ServiceEntityRepository
 
        return $query->getResult();
         
+    }
+
+    public function getQcmModules($id)
+    {
+        return $this->createQueryBuilder('q')
+            ->select('q')
+            ->innerJoin('q.module', 'm')
+            ->where('m.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
     }
 
    

@@ -23,9 +23,11 @@ class Qcm
     private string $title;
 
     #[ORM\Column(type: 'smallint')]
+    #[Groups(['qcm:read'])]
     private int $difficulty;
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['qcm:read'])]
     private $isOfficial;
 
     #[ORM\Column(type: 'boolean')]
@@ -41,6 +43,7 @@ class Qcm
     private \DateTime $createdAt;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(['qcm:read'])]
     private $updatedAt;
 
     #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: QcmInstance::class)]

@@ -4,6 +4,7 @@ namespace App\Entity\Main;
 
 use App\Repository\ResultRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ResultRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -21,6 +22,7 @@ class Result
     private $answers = [];
 
     #[ORM\Column(type: 'smallint')]
+    #[Groups(['user:read'])]
     private $score;
 
     #[ORM\Column(type: 'text', nullable: true)]

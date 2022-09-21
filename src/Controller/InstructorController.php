@@ -2,11 +2,13 @@
 
     namespace App\Controller;
 
+    use App\Entity\Enum\Level;
     use App\Entity\Main\Module;
     use App\Entity\Main\Proposal;
     use App\Entity\Main\Qcm;
     use App\Entity\Main\QcmInstance;
     use App\Entity\Main\Question;
+    use App\Entity\Main\Result;
     use App\Entity\Main\Session;
     use App\Form\CreateQuestionType;
     use App\Helpers\QcmGeneratorHelper;
@@ -642,6 +644,7 @@
             InstructorRepository        $instructorRepository,
             SessionRepository           $sessionRepository,
             ModuleRepository            $moduleRepository,
+            QcmRepository               $qcmRepository,
         ):Response
         {
             $userId = $this->id;
@@ -651,31 +654,60 @@
             {
                 $sessions = $sessionRepository->getInstructorSessions();
                 $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
+                $qcm = $qcmRepository->getQcmModules(1);
             }
 
             return $this->render('instructor/distributed_qcms.html.twig', [
                         'sessions' => $sessions,
                         'modules' => $modules,
+                        'qcm' => $qcm,
                 ]);
         }
 
         #[Route('instructor/qcms/distributed_qcms/{session}',name:'instructor_distributed_qcms_get_module_ajax',methods:['GET'])]
         public function ajaxGetSessionByInstructor(
             Session $session,
-            ModuleRepository $moduleRepository
+            ModuleRepository $moduleRepository,
         ):JsonResponse
         {
-//            dd('stop');
 
             $modules = $moduleRepository->getModuleSessions($session->getId());
             $modulesName = [];
             foreach ( $modules as $module ){
                 $modulesName[] =  ['name' => $module->getTitle(), 'id' => $module->getId()];
             }
+
+
             return $this->json($modulesName);
         }
 
+        #[Route('instructor/qcms/distributed_students/{qcm}',name:'instructor_distributed_qcms_get_student_ajax',methods:['GET'])]
+        public function ajaxGetStudentByQcm(
+            Qcm $qcm = null
+        ): JsonResponse
+        {
+            if ($qcm)
+            {
+                $qcmInstances = $qcm->getQcmInstances()->toArray();
+                dump($qcmInstances);
+                $students = array_map( function($qcmInstance){
+                    dump($qcmInstance->getStudent());
+                    return [
+                        'student' => $qcmInstance->getStudent(),
+                        'result' => $qcmInstance->getResult()
+                    ];
+                }, $qcmInstances);
+                $studentResponse = [];
+                foreach ($students as $student){
+                    if(!in_array($student, $studentResponse)){
+                        $studentResponse[] = $student;
+                    }
+                }
+                dump($studentResponse);
 
+                return $this->json($studentResponse, 200, [], ['groups' => 'user:read']);
+            }
 
-
+            return new JsonResponse();
+        }
     }
