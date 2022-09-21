@@ -19,10 +19,12 @@
     use App\Repository\ProposalRepository;
     use App\Repository\QcmRepository;
     use App\Repository\QuestionRepository;
+    use App\Repository\ResultRepository;
     use App\Repository\SessionRepository;
     use App\Repository\StudentRepository;
     use DateInterval;
     use Doctrine\ORM\EntityManagerInterface;
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\JsonResponse;
     use Symfony\Component\HttpFoundation\Request;
@@ -707,7 +709,105 @@
 
                 return $this->json($studentResponse, 200, [], ['groups' => 'user:read']);
             }
-
             return new JsonResponse();
+        }
+
+        #[Route('instructor/dashboard',name:'instructor_dashboard',methods:['GET'])]
+        public function dashboard(
+            InstructorRepository        $instructorRepository,
+            SessionRepository           $sessionRepository,
+            ModuleRepository            $moduleRepository,
+        ):Response
+        {
+            /*TODO A enlever et mettre à jour quand connexion google sera rétablie */
+            $userId = $this->id;
+
+            $sessions = $sessionRepository->getInstructorSessions($userId);
+            $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
+
+            return $this->render('instructor/dashboard.html.twig', [
+                'sessions' => $sessions,
+                'modules' => $modules,
+            ]);
+        }
+
+        #[Route('instructor/dashboard/{session}',name:'instructor_get_module_student_ajax',methods:['GET'])]
+        public function ajaxGetSessionAndStudentByInstructor(
+            Session $session,
+            ModuleRepository $moduleRepository,
+        ):JsonResponse
+        {
+
+            $modules = $moduleRepository->getModuleSessions($session->getId());
+            $modulesName = [];
+            foreach ( $modules as $module ){
+                $modulesName[] =  ['name' => $module->getTitle(), 'id' => $module->getId()];
+            }
+            return $this->json($modulesName);
+        }
+
+        #[Route('instructor/dashboard/{session}/{module}',name:'instructor_get_student_ajax',methods:['GET'])]
+        #[Entity('Session', options: ['id' => 'session'])]
+        public function ajaxGetStudentByInstructorForDashBoard(
+            Session $session,
+            Module $module,
+            StudentRepository $studentRepository,
+            ModuleRepository $moduleRepository,
+            SessionRepository $sessionRepository,
+            LinkSessionStudentRepository $linkSessionStudentRepository,
+            ResultRepository $resultRepository
+        ):JsonResponse
+        {
+
+            $maxScoreStudents = $resultRepository->maxScoreByModuleAndSession($session->getId(), $module->getId());
+//            dd($maxScoreStudents);
+            /*
+             *
+              InstructorController.php on line 729:
+                array:2 [
+                  0 => array:2 [
+                    "id" => 19
+                    "max_score" => 87
+                  ]
+                  1 => array:2 [
+                    "id" => 20
+                    "max_score" => 60
+                  ]
+                ]
+                SELECT MAX(score) FROM `result`
+                INNER JOIN qcm_instance ON qcm_instance.id = result.qcm_instance_id
+                INNER JOIN qcm ON qcm.id = qcm_instance.qcm_id
+                INNER JOIN module ON module.id = qcm.module_id
+                WHERE qcm_instance.student_id = 19 AND module.id = 2;
+
+            MAX(s.score) AS HIDDEN max_score
+
+            SELECT user.id ,MAX(score) FROM `result`
+            INNER JOIN qcm_instance ON qcm_instance.id = result.qcm_instance_id
+            INNER JOIN user ON user.id = qcm_instance.student_id
+            INNER JOIN link_session_student ON user.id = link_session_student.student_id
+            INNER JOIN qcm ON qcm.id = qcm_instance.qcm_id
+            INNER JOIN module ON module.id = qcm.module_id
+            WHERE module.id = 2 AND link_session_student.session_id = 4
+            GROUP BY user.id;
+
+            $studentsName = [];
+            foreach ($students as $student)
+            {
+                $studentsName[] =
+                    [
+                        'id' => $id =$student->getStudent()->getId(),
+                        'firstname' => $firstname = $student->getStudent()->getFirstName(),
+                        'lastname' => $lastname = $student->getStudent()->getLastName()
+                    ];
+
+            }
+             */
+//            $modules = $studentRepository->getModuleSessions($session->getId());
+//            $modulesName = [];
+//            foreach ( $modules as $module ){
+//                $modulesName[] =  ['name' => $module->getTitle(), 'id' => $module->getId()];
+//            }
+            return $this->json($maxScoreStudents);
         }
     }

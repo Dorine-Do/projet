@@ -1,0 +1,90 @@
+
+
+/**********************************************************************************************************************/
+/*Session*/
+.nameSession,
+.nameLevel{
+    -moz-appearance: none;
+    border-radius: 7px;
+    padding: 1em 200px;
+    width: 130px;
+    border: 1px solid #ccc;
+    background-color: var(--grey);
+    height: 70px;
+}
+
+.checkboxStudent{
+    -moz-appearance: none;
+    height: 40px;
+    border-radius: 7px;
+    border: 2px solid var(--pamplemousse);
+}
+
+.nameSession:checked,
+.nameLevel:checked,
+.checkboxStudent:checked{
+    background-color: var(--vert);
+    color: white;
+}
+
+.choiceSession{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.liSession,
+.liLevel,
+.liStudentData{
+    position: relative;
+    margin-right: .5em;
+}
+
+.liStudentData{
+    width: 75%;
+}
+
+.liSession input:hover,
+.liSession label:hover,
+.liLevel input:hover,
+.liLevel label:hover,
+.liStudentData input:hover,
+.liStudentData label:hover{
+    cursor: pointer;
+}
+
+.liSession label,
+.liLevel label,
+.liStudentData label{
+    position: absolute;
+    display: block;
+    text-align: center;
+    padding: 0 5px;
+}
+.liSession label,
+.liLevel label{
+    color: white;
+}
+
+.liStudentData label{
+    color: var(--grey);
+}
+
+.ulListStudents{
+    display: flex;
+    justify-content: space-around;
+}
+
+.divStudentData{
+    display: flex;
+    align-items: center;
+    width: 29%;
+    position: relative;
+    margin: 2em 0;
+    background-color: var(--fond);
+    border-radius: 7px;
+}
+
+.imgLevel{
+    position: absolute;
+    right: 0;
+}

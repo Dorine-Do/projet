@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/instructor/dashboard.css') }}">
+{% endblock %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block body %}
+
+    <section>
+        <p>
+            Session
+        </p>
+        <ul class="choiceSession">
+            {% for session in sessions %}
+                <li class="liSession">
+                    <input class="nameSession" id="{{ session.name }}" type="radio" name="session" value="{{ session.id }}"><label for="{{ session.name }}">{{ session.name }}</label>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <div class="level">
+        <h4>Niveau</h4>
+        <select id="module-choice" name="module">
+            <option value="0">Selectionnez un module</option>
+        </select>
+        <ul class="choiceLevel">
+            <li class="liLevel">
+                <input class="nameLevel" id="decouvre/explore" type="radio" name="level" value="[1,2]"><label for="decouvre/explore">Découvre/Explore</label>
+            </li>
+            <li class="liLevel">
+                <input class="nameLevel" id="maitrise" type="radio" name="level" value="3"><label for="maitrise">Maîtrise</label>
+            </li>
+            <li class="liLevel">
+                <input class="nameLevel" id="domine" type="radio" name="level" value="4"><label for="domine">Domine</label>
+            </li>
+        </ul>
+    </div>
+
+    <div class="students">
+        <h4>Liste des élèves</h4>
+        <div class="studentsList">
+            <ul class="ulListStudents"></ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        let decouvre = "{{asset('build/images/arbre_decouvre.png')}}";
+        let explore = "{{asset('build/images/arbre_explore.png')}}";
+        let maitrise = "{{asset('build/images/arbre_maitrise.png')}}";
+        let domine = "{{asset('build/images/arbre_domine.png')}}";
+    </script>
+    <script type="text/javascript" src="{{ asset('js/instructor/dashboard.js') }}"></script>
+
+{% endblock %}
