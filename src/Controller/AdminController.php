@@ -204,80 +204,80 @@ class AdminController extends AbstractController
     #[Route('admin/test', name: 'admin_test')]
     public function adminTest( ManagerRegistry $doctrine ): Response
     {
-//        $suiviSessions = $this->getDataFromSuivi( 'SELECT * FROM sessions WHERE id < 4' );
-//        $sessions = [];
-//        foreach ($suiviSessions as $suiviSession)
-//        {
-//            $params = [
-//                'id' => $suiviSession['id']
-//            ];
-//            $sessionStart = $this->getDataFromSuivi( 'SELECT DISTINCT MIN(date) FROM daily WHERE id_session = :id GROUP BY id_session', $params );
-//            $explodedStartDate = explode('-', $sessionStart[0]['MIN(date)']);
-//
-//            $sessions[] = [
-//                'id' => $suiviSession['id'],
-//                'name' => $suiviSession['name'],
-//                'school_year' => $explodedStartDate[0],
-//                'created_at' => new \DateTime(),
-//                'updated_at' => new \DateTime(),
-//            ];
-//        }
-//
-//
-//        $moduleByName = [];
-//        foreach ($sessions as $session)
-//        {
-//            $params = [
-//                'id' => $session["id"]
-//            ];
-//            $modulesSql = "SELECT DISTINCT
-//                sessions.name as session_name,
-//                sessions.id as session_id,
-//                modules.name as module_name,
-//                modules.id as module_id,
-//                MIN(date) as start_date,
-//                MAX(date) as end_date,
-//                COUNT(date) as duration
-//                FROM users
-//                LEFT JOIN daily ON daily.id_user = users.id
-//                LEFT JOIN modules ON modules.id = daily.id_module
-//                LEFT JOIN categories ON categories.id = modules.id_category
-//                LEFT JOIN sessions ON sessions.id = daily.id_session
-//                WHERE sessions.id = :id
-//                GROUP BY modules.id";
-//
-//            $suiviModules = $this->getDataFromSuivi($modulesSql, $params);
-//            $moduleByName = [];
-//            foreach($suiviModules as $suiviModule)
-//            {
-//                $explodedModuleName = explode('.', $suiviModule['module_name']);
-//                $moduleName = $explodedModuleName[0];
-//                if( !array_key_exists($moduleName, $moduleByName) )
-//                {
-//                    $moduleByName[$moduleName] = [];
-//                }
-//                $moduleByName[$moduleName][] = $suiviModule;
-//            }
-//        }
-//
-//        $modules = [];
-//        foreach( $moduleByName as $name => $submodules )
-//        {
-//            $moduleDuration = 0;
-//            foreach( $submodules as $submodule  )
-//            {
-//                $moduleDuration += $submodule['duration'];
-//            }
-//
-//            $weeks = ceil( $moduleDuration / 5 );
-//
-//            $modules[] = [
-//                'name' => $name,
-//                'weeks' => $weeks,
-//                'created_at' => new \DateTime(),
-//                'updated_at' => new \DateTime(),
-//            ];
-//        }
+        $suiviSessions = $this->getDataFromSuivi( 'SELECT * FROM sessions WHERE id < 4' );
+        $sessions = [];
+        foreach ($suiviSessions as $suiviSession)
+        {
+            $params = [
+                'id' => $suiviSession['id']
+            ];
+            $sessionStart = $this->getDataFromSuivi( 'SELECT DISTINCT MIN(date) FROM daily WHERE id_session = :id GROUP BY id_session', $params );
+            $explodedStartDate = explode('-', $sessionStart[0]['MIN(date)']);
+
+            $sessions[] = [
+                'id' => $suiviSession['id'],
+                'name' => $suiviSession['name'],
+                'school_year' => $explodedStartDate[0],
+                'created_at' => new \DateTime(),
+                'updated_at' => new \DateTime(),
+            ];
+        }
+
+
+        $moduleByName = [];
+        foreach ($sessions as $session)
+        {
+            $params = [
+                'id' => $session["id"]
+            ];
+            $modulesSql = "SELECT DISTINCT
+                sessions.name as session_name,
+                sessions.id as session_id,
+                modules.name as module_name,
+                modules.id as module_id,
+                MIN(date) as start_date,
+                MAX(date) as end_date,
+                COUNT(date) as duration
+                FROM users
+                LEFT JOIN daily ON daily.id_user = users.id
+                LEFT JOIN modules ON modules.id = daily.id_module
+                LEFT JOIN categories ON categories.id = modules.id_category
+                LEFT JOIN sessions ON sessions.id = daily.id_session
+                WHERE sessions.id = :id
+                GROUP BY modules.id";
+
+            $suiviModules = $this->getDataFromSuivi($modulesSql, $params);
+            $moduleByName = [];
+            foreach($suiviModules as $suiviModule)
+            {
+                $explodedModuleName = explode('.', $suiviModule['module_name']);
+                $moduleName = $explodedModuleName[0];
+                if( !array_key_exists($moduleName, $moduleByName) )
+                {
+                    $moduleByName[$moduleName] = [];
+                }
+                $moduleByName[$moduleName][] = $suiviModule;
+            }
+        }
+
+        $modules = [];
+        foreach( $moduleByName as $name => $submodules )
+        {
+            $moduleDuration = 0;
+            foreach( $submodules as $submodule  )
+            {
+                $moduleDuration += $submodule['duration'];
+            }
+
+            $weeks = ceil( $moduleDuration / 5 );
+
+            $modules[] = [
+                'name' => $name,
+                'weeks' => $weeks,
+                'created_at' => new \DateTime(),
+                'updated_at' => new \DateTime(),
+            ];
+        }
 
         $instructorsAndSessionByModule = $this->getDataFromSuivi('SELECT DISTINCT
                 users.id as instructor_id,
@@ -310,25 +310,25 @@ class AdminController extends AbstractController
         {
             if( !in_array( $ism, $isms ) )
             {
-                $isms[] = $ism;
+                $isms[$ism['instructor_id'].$ism['session_id'].$ism['module_name']] = $ism;
             }
         }
 
-//        for($i = 0; $i < count($instructorsAndSessionByModule); $i++)
-//        {
-//            $testInstructorId = in_array( $instructorsAndSessionByModule[$i]['instructor_id'], $isms );
-//            $testSessionId = in_array( $instructorsAndSessionByModule[$i]['session_id'], $isms );
-//            $testModuleName = in_array( $instructorsAndSessionByModule[$i]['module_name'], $isms );
-//
-//            if( !$testInstructorId && !$testSessionId && !$testModuleName )
-//            {
-//                $isms[] = [
-//                    'instructor_id' => $instructorsAndSessionByModule[$i]['instructor_id'],
-//                    'session_id' => $instructorsAndSessionByModule[$i]['session_id'],
-//                    'module_name' => $instructorsAndSessionByModule[$i]['module_name'],
-//                ];
-//            }
-//        }
+        $isms = array_map( function($ism) use ($modules) {
+            foreach( $modules as $key => $module )
+            {
+                if( $module['name'] === $ism['module_name'] )
+                {
+                    return [
+                        'instructor_id' => $ism['instructor_id'],
+                        'session_id' => $ism['session_id'],
+                        'module_id' => $key + 1,
+                        'module_name' => $module['name']
+                    ];
+                }
+            }
+        }, $isms);
+
 
         $result = $isms;
 
