@@ -179,7 +179,28 @@ class QcmRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-   
+        /**
+         * @return Qcm[] Returns an array of Qcm objects
+         */
+        public function getQcmsByStudentAndModule($moduleId, $studentId): array
+    {
+
+            return $this->createQueryBuilder('q')
+            ->select('qi.id, r.level, m.title, q.difficulty, q.isOfficial, r.submittedAt, r.id as resultId')
+            ->innerJoin('q.qcmInstances', 'qi')
+            ->innerJoin('qi.student', 's')
+            ->innerJoin('qi.result', 'r')
+            ->innerJoin('q.module', 'm')
+            ->where('s.id = :student_id')
+            ->andWhere('m.id = :module_id')
+            ->setParameter('student_id', $studentId)
+            ->setParameter('module_id', $moduleId)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
 //    /**
 //     * @return Qcm[] Returns an array of Qcm objects
 //     */

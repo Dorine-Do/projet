@@ -1,0 +1,232 @@
+/*****************************************************
+    ADMIN TABLES
+***/
+
+#admin_content {
+    width: 100%;
+}
+
+.tableContainer {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 2.4rem;
+}
+
+.createBtnContainer {
+    display: block;
+    margin: 24px 0 48px 0;
+}
+
+#tableToSort {
+    display: block;
+    width: 100%;
+    margin-top: 2.4rem;
+}
+
+#tableToSort_filter {
+    padding-top: 2.4rem;
+}
+
+#tableToSort thead,
+#tableToSort tbody
+{
+    display: block;
+    width: 100%;
+}
+
+#tableToSort thead tr {
+    background-color: #FFAC8F;
+}
+
+#tableToSort tr {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#tableToSort thead tr {
+    border-radius: 24px 24px 0 0;
+}
+
+#tableToSort tbody tr:last-of-type {
+    border-radius: 0 0 24px 24px;
+}
+
+#tableToSort tr td,
+#tableToSort tr th
+{
+    display: block !important;
+    padding: .8rem 1.6rem;
+    text-align: left;
+}
+
+#tableToSort.qcmsTable tr > * {
+    width: 20% !important;
+}
+
+#tableToSort tr.even {
+    background-color: #FFF4E4;
+}
+
+#tableToSort tr:hover {
+    background-color: #FFAC8F;
+}
+
+.dataTables_info {
+    margin: 24px 0;
+}
+
+.dataTables_paginate {
+    margin-bottom: 24px;
+}
+
+.dataTables_paginate a {
+    padding: .8rem 1.6rem;
+    margin: 0 .8rem;
+    border-radius: .8rem;
+    background-color: #FFF4E4;
+}
+
+.dataTables_paginate a.previous,
+.dataTables_paginate a.next
+{
+    color: #fff;
+    background-color: #616161;
+}
+
+.dataTables_paginate a.previous {
+    margin-left: 0;
+}
+.dataTables_paginate a.next {
+    margin-right: 0;
+}
+
+.dataTables_paginate a.current {
+    background-color: #FFAC8F;
+}
+
+.dataTables_paginate a:hover {
+    background-color: #FFAC8F;
+}
+
+/* QUESTIONS TABLE */
+
+#tableToSort.questionsTable tr > * {
+    width: 10%;
+}
+
+#tableToSort.questionsTable tr > *:nth-of-type(2) {
+    width: 60%;
+}
+
+#tableToSort.questionsTable tr > *:nth-of-type(3),
+#tableToSort.questionsTable tr > *:nth-of-type(4),
+#tableToSort.questionsTable tr > *:nth-of-type(5)
+{
+    width: 5%;
+}
+
+/*****************************************************
+    ADMIN MODALS
+***/
+
+#roleUpdaterModale,
+#userDetailsModale,
+#sessionStudentsModale,
+#sessionModulesModale {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255,255,255, .38);
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#roleUpdaterModale > main,
+#userDetailsModale > main,
+#sessionStudentsModale > main,
+#sessionModulesModale > main
+{
+    width: 33%;
+    height: fit-content;
+    padding: 48px 24px;
+    background-color: #FFF4E4;
+    border-radius: 24px;
+}
+
+#roleUpdaterModale > main > *,
+#userDetailsModale > main > *,
+#sessionStudentsModale > main > *,
+#sessionModulesModale > main > * {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#userDetailsModale > main > section:first-of-type,
+#sessionStudentsModale > main > section:first-of-type,
+#sessionModulesModale > main > section:first-of-type {
+    justify-content: flex-end;
+}
+
+#roleUpdaterModale > main button {
+    margin: 0 8px;
+}
+
+#userDetailsModaleContent {
+    flex-wrap: wrap;
+}
+
+#userDetailsModaleContent > * {
+    display: block;
+    width: 100%;
+}
+
+#sessionStudentsModaleContent {
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#sessionStudentsModaleContent > div {
+    display: block;
+    margin: 0 .8rem;
+    width: calc(100% / 3 - 1.6rem);
+    padding: .8rem .8rem;
+    text-align: center;
+    border-bottom: 2px solid #626163;
+}
+
+#sessionModulesModaleContent table,
+#sessionModulesModaleContent table thead,
+#sessionModulesModaleContent table tbody,
+#sessionModulesModaleContent table tr {
+    width: 100%;
+}
+
+#sessionModulesModaleContent table th,
+#sessionModulesModaleContent table td {
+    width: calc( 100% / 3 );
+    margin: 0;
+    text-align: left;
+}
+
+#roleUpdaterModale.hideModale,
+#userDetailsModale.hideModale,
+#sessionStudentsModale.hideModale,
+#sessionModulesModale.hideModale {
+    display: none;
+}

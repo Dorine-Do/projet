@@ -71,6 +71,65 @@ class StudentRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @return Student[] Returns an array of Student objects
+     */
+    public function moduleMaxScore($id): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select('m.id, m.title, MAX(r.score), r.level')
+            ->innerJoin('s.qcmInstances', 'qi')
+            ->innerJoin('qi.result', 'r')
+            ->innerJoin('qi.qcm', 'q')
+            ->innerJoin('q.module', 'm')
+            ->where('s.id = :id')
+            ->groupBy('m.id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @return Student[] Returns an array of Student objects
+     */
+    public function isOfficialQcmLevel($id): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select(
+                "q.id as qcmId,
+                 q.title as qcmTitle,
+                 qi.id as qcmInstanceId, 
+                 r.id as resultID, 
+                 m.id as moduleId, 
+                 m.title as moduleTitle,
+                 r.level,
+                 DATE_FORMAT(lsm.startDate,'%Y-%m-%d') as startDat,
+                 DATE_FORMAT(lsm.endDate,'%Y-%m-%d') as endDate
+                 ")
+            ->innerJoin('s.qcmInstances', 'qi')
+            ->innerJoin('qi.result', 'r')
+            ->innerJoin('qi.qcm', 'q')
+            ->innerJoin('q.module', 'm')
+            ->innerJoin('m.linksSessionModule', 'lsm')
+            ->where('s.id = :id')
+            ->andWhere('q.isOfficial = true')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /*
+     * SELECT module.id, module.name ,MAX(result.score) FROM `user`
+        INNER JOIN qcm_instance ON qcm_instance.student_id = user.id
+        INNER JOIN result ON result.qcm_instance_id = qcm_instance.id
+        INNER JOIN qcm ON qcm.id = qcm_instance.qcm_id
+        INNER JOIN module ON module.id = qcm.module_id
+        WHERE user.id = 11
+        GROUP BY module.id;
+     */
+
 //    /**
 //     * @return Student[] Returns an array of Student objects
 //     */

@@ -8,13 +8,14 @@ doctrine:
 #                driver: 'pdo_mysql'
 #                server_version: '5.7'
 #                charset: utf8mb4
-#            dbsuivi:
-#                url: '%env(resolve:DATABASE_SUIVI_URL)%'
+            dbsuivi:
+                url: '%env(resolve:DATABASE_SUIVI_URL)%'
                 # configure these for your database server
 #                driver: 'pdo_mysql'
 #                server_version: '5.7'
 #                charset: utf8mb4
     orm:
+
         default_entity_manager: default
         entity_managers:
             default:
@@ -26,15 +27,22 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Main'
                         prefix: 'App\Entity\Main'
                         alias: App
-#            dbsuivi:
-#                naming_strategy: doctrine.orm.naming_strategy.underscore
-#                connection: dbsuivi
-#                mappings:
-#                    Suivi:
-#                        is_bundle: false
-#                        dir: '%kernel.project_dir%/src/Entity/Suivi'
-#                        prefix: 'App\Entity\Suivi'
-#                        alias: Suivi
+                dql:
+                    datetime_functions:
+                        DATE_FORMAT: DoctrineExtensions\Query\Mysql\DateFormat
+                        DAY: DoctrineExtensions\Query\Mysql\Day
+                        MONTH: DoctrineExtensions\Query\Mysql\Month
+                        YEAR: DoctrineExtensions\Query\Mysql\Year
+
+            dbsuivi:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                connection: dbsuivi
+                mappings:
+                    Suivi:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Entity/Suivi'
+                        prefix: 'App\Entity\Suivi'
+                        alias: Suivi
 
 when@test:
     doctrine:

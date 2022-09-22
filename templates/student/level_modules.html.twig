@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon niveau{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{asset('css/student/level_modules.css')}}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+    <h1>Mon niveau</h1>
+
+    <div class="containerLegend">
+        <div class="titleLegend">
+            <p class="etape"><span>1</span> Légende des niveaux </p>
+        </div>
+        <div class="divLegend">
+            <div>
+                <div class="DivImgLegend">
+                    <img src="{{asset('build/images/arbre_decouvre.png')}}" alt="Graine d'arbre">
+                    <img src="{{asset('build/images/arbre_explore.png')}}" alt="Jeune pousse d'arbre">
+                    <img src="{{asset('build/images/arbre_maitrise.png')}}" alt="arbre adulte">
+                    <img src="{{asset('build/images/arbre_domine.png')}}" alt="arbre adulte fleuri">
+                </div>
+                <div class="divpLegend">
+                    <p class="pLegend">
+                        Découvre
+                    </p>
+                    <p class="pLegend">
+                        Explore
+                    </p>
+                    <p class="pLegend">
+                        Maîtrise
+                    </p>
+                    <p class="pLegend">
+                        Domine
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="containerLevel">
+        <div>
+            <p class="etape"><span>2</span> Enssemble des modules terminer avec ton niveau </p>
+        </div>
+        {% for module in modules %}
+            <div class="divLevel">
+                <div class="divModule">
+                    <p class="moduleName">
+                        Nom du module : {{ module.title }}
+                    </p>
+                    {% if module.level is same as 1 %}
+                        <img src="{{asset('build/images/arbre_decouvre.png')}}" alt="Graine d'arbre">
+                    {% elseif module.level is same as 2 %}
+                        <img src="{{asset('build/images/arbre_explore.png')}}" alt="Jeune pousse d'arbre">
+                    {% elseif module.level is same as 3 %}
+                        <img src="{{asset('build/images/arbre_maitrise.png')}}" alt="arbre adulte">
+                    {% elseif module.level is same as 4 %}
+                        <img src="{{asset('build/images/arbre_domine.png')}}" alt="arbre adulte fleuri">
+                    {% endif %}
+                </div>
+                <div class="divLink">
+                    <h4>Pour progresser</h4>
+                    <div>
+                        <p>
+                            Lien vers la doc mdn
+                        </p>
+                        <p>
+                            lien vers la doc 3wa
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+
+    </div>
+
+
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/student/level_module.js') }}"></script>
+{% endblock %}

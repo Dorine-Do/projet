@@ -3,6 +3,7 @@
     namespace App\Controller;
 
     use App\Entity\Enum\Level;
+    use App\Entity\Main\Instructor;
     use App\Entity\Main\Module;
     use App\Entity\Main\Proposal;
     use App\Entity\Main\Qcm;
@@ -10,6 +11,7 @@
     use App\Entity\Main\Question;
     use App\Entity\Main\Result;
     use App\Entity\Main\Session;
+    use App\Entity\Main\Student;
     use App\Form\CreateQuestionType;
     use App\Helpers\QcmGeneratorHelper;
     use App\Repository\InstructorRepository;
@@ -17,6 +19,7 @@
     use App\Repository\LinkSessionStudentRepository;
     use App\Repository\ModuleRepository;
     use App\Repository\ProposalRepository;
+    use App\Repository\QcmInstanceRepository;
     use App\Repository\QcmRepository;
     use App\Repository\QuestionRepository;
     use App\Repository\ResultRepository;
@@ -35,7 +38,7 @@
 
     class InstructorController extends AbstractController
     {
-
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
         private $id = 1;
 
 //    TODO future page à implémenter
@@ -253,9 +256,6 @@
 //              TODO A enlever une fois que a connection avec google sera opérationnelle
                 $questionEntity->setAuthor($user);
 //                $questionEntity->setAuthor($this->getUser());
-                $questionEntity->setIsOfficial(false);
-                $questionEntity->setIsMandatory(false);
-                $questionEntity->setExplanation('Explication');
                 $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
 
                 //  validation et enregistrement des données du form dans la bdd
@@ -375,6 +375,7 @@
         QuestionRepository     $questionRepository,
         ModuleRepository       $moduleRepository,
         EntityManagerInterface $entityManager,
+        QcmGeneratorHelper $generatorHelper
 
     ): Response
     {
@@ -408,28 +409,29 @@
         $qcm->setModule($module);
 
             /*TODO voir avec Mathieu pour utiliser le hepler pour cette partie*/
-            $questionsCache = [];
-            foreach ($data['questions'] as $question)
-            {
-                $question = $questionRepository->find($question->id);
-                $questionProposals = $question->getProposals();
-                $proposalsCache = [];
-                foreach ($questionProposals as $questionProposal)
-                {
-                    $proposalsCache[] = [
-                        'id' => $questionProposal->getId(),
-                        'wording' => $questionProposal->getWording(),
-                        'isCorrectAnswer' => $questionProposal->getIsCorrectAnswer(),
-                    ];
-                }
-                $questionsCache[] = [
-                    'id' => $question->getId(),
-                    'wording' => $question->getWording(),
-                    'isMultiple' => $question->getIsMultiple(),
-                    'difficulty' => $question->getDifficulty(),
-                    'proposals' => $proposalsCache
-                ];
-            }
+        $questionsCache = $generatorHelper->generateQuestionCache($data['questions']);
+//            $questionsCache = [];
+//            foreach ($data['questions'] as $question)
+//            {
+//                $question = $questionRepository->find($question->id);
+//                $questionProposals = $question->getProposals();
+//                $proposalsCache = [];
+//                foreach ($questionProposals as $questionProposal)
+//                {
+//                    $proposalsCache[] = [
+//                        'id' => $questionProposal->getId(),
+//                        'wording' => $questionProposal->getWording(),
+//                        'isCorrectAnswer' => $questionProposal->getIsCorrectAnswer(),
+//                    ];
+//                }
+//                $questionsCache[] = [
+//                    'id' => $question->getId(),
+//                    'wording' => $question->getWording(),
+//                    'isMultiple' => $question->getIsMultiple(),
+//                    'difficulty' => $question->getDifficulty(),
+//                    'proposals' => $proposalsCache
+//                ];
+//            }
 
             $qcm->setQuestionsCache($questionsCache);
 
@@ -678,8 +680,6 @@
             foreach ( $modules as $module ){
                 $modulesName[] =  ['name' => $module->getTitle(), 'id' => $module->getId()];
             }
-
-
             return $this->json($modulesName);
         }
 
@@ -721,7 +721,6 @@
         {
             /*TODO A enlever et mettre à jour quand connexion google sera rétablie */
             $userId = $this->id;
-
             $sessions = $sessionRepository->getInstructorSessions($userId);
             $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
 
@@ -737,7 +736,6 @@
             ModuleRepository $moduleRepository,
         ):JsonResponse
         {
-
             $modules = $moduleRepository->getModuleSessions($session->getId());
             $modulesName = [];
             foreach ( $modules as $module ){
@@ -751,63 +749,43 @@
         public function ajaxGetStudentByInstructorForDashBoard(
             Session $session,
             Module $module,
-            StudentRepository $studentRepository,
-            ModuleRepository $moduleRepository,
-            SessionRepository $sessionRepository,
-            LinkSessionStudentRepository $linkSessionStudentRepository,
             ResultRepository $resultRepository
         ):JsonResponse
         {
-
             $maxScoreStudents = $resultRepository->maxScoreByModuleAndSession($session->getId(), $module->getId());
-//            dd($maxScoreStudents);
-            /*
-             *
-              InstructorController.php on line 729:
-                array:2 [
-                  0 => array:2 [
-                    "id" => 19
-                    "max_score" => 87
-                  ]
-                  1 => array:2 [
-                    "id" => 20
-                    "max_score" => 60
-                  ]
-                ]
-                SELECT MAX(score) FROM `result`
-                INNER JOIN qcm_instance ON qcm_instance.id = result.qcm_instance_id
-                INNER JOIN qcm ON qcm.id = qcm_instance.qcm_id
-                INNER JOIN module ON module.id = qcm.module_id
-                WHERE qcm_instance.student_id = 19 AND module.id = 2;
-
-            MAX(s.score) AS HIDDEN max_score
-
-            SELECT user.id ,MAX(score) FROM `result`
-            INNER JOIN qcm_instance ON qcm_instance.id = result.qcm_instance_id
-            INNER JOIN user ON user.id = qcm_instance.student_id
-            INNER JOIN link_session_student ON user.id = link_session_student.student_id
-            INNER JOIN qcm ON qcm.id = qcm_instance.qcm_id
-            INNER JOIN module ON module.id = qcm.module_id
-            WHERE module.id = 2 AND link_session_student.session_id = 4
-            GROUP BY user.id;
-
-            $studentsName = [];
-            foreach ($students as $student)
-            {
-                $studentsName[] =
-                    [
-                        'id' => $id =$student->getStudent()->getId(),
-                        'firstname' => $firstname = $student->getStudent()->getFirstName(),
-                        'lastname' => $lastname = $student->getStudent()->getLastName()
-                    ];
-
-            }
-             */
-//            $modules = $studentRepository->getModuleSessions($session->getId());
-//            $modulesName = [];
-//            foreach ( $modules as $module ){
-//                $modulesName[] =  ['name' => $module->getTitle(), 'id' => $module->getId()];
-//            }
             return $this->json($maxScoreStudents);
         }
+
+        #[Route('instructor/dashboard/{session}/{moduleId}/{studentId}',name:'instructor_get_qcms_by_student_ajax',methods:['GET'])]
+        public function ajaxGetQcmsByStudentForDashBoard(
+            $studentId,
+            Session $session,
+            $moduleId,
+            QcmRepository $qcmRepository,
+        ):JsonResponse
+        {
+            $qcms = $qcmRepository->getQcmsByStudentAndModule(intval($moduleId),intval($studentId));
+            return $this->json($qcms);
+
+        }
+
+        #[Route('instructor/qcm_student/correction/{result}/{comment}',name:'instructor_qcm_student_add_comment_ajax',methods:['GET'])]
+        public function ajaxAddCommentQcmStudent(
+            Result $result,
+            $comment,
+            EntityManagerInterface $manager
+        ):JsonResponse
+        {
+//            dd($comment);
+            $result->setInstructorComment($comment);
+            $manager->flush();
+            return $this->json('Le commentaire a bien été ajouté');
+
+        }
+
+
+
+
+
+
     }

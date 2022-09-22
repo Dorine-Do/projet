@@ -7,7 +7,6 @@
     margin: auto;
 }
 
-
 img{
     width: 40px;
 }
@@ -23,7 +22,6 @@ img{
     display: flex;
     flex-direction: column;
     align-items: center;
-
 }
 
 .diff p{
@@ -340,9 +338,16 @@ img{
 
 .comment{
     border-radius: 5px;
-    padding: 1em;
+    padding: 1em 0;
     margin: 0;
     background: white;
+    width: 100%;
+}
+
+.explainComment{
+    border: 1px solid var(--pamplemousse);
+    padding: .2em;
+    border-radius: 5px;
 }
 
 @media screen and (max-width: 1200px) {

@@ -100,11 +100,11 @@ class ModuleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m')
             ->select('m')
             ->join(LinkInstructorSessionModule::class, 'lism')
-             /*TODO A remettre une fois que a connection avec google sera opérationnelle*/
+             /* TODO A remettre une fois que a connection avec google sera opérationnelle*/
              ->where('lism.instructor = 2' )
             // ->where('lism.instructor = :instructor' )
             ->andWhere( 'lism.module = m.id' );
-            /*TODO A remettre une fois que a connection avec google sera opérationnelle*/
+            /* TODO A remettre une fois que a connection avec google sera opérationnelle*/
             // ->setParameter('instructor', $instructor->getId() );
     }
 //    /**
