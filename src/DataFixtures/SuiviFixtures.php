@@ -375,7 +375,97 @@ class SuiviFixtures extends Fixture
 
     public function getSuiviLinksSessionModule()
     {
+        $linksSessionModule = [];
 
+        foreach( $this->sessions as $session )
+        {
+            foreach( $this->modules as $key => $module )
+            {
+                if( $module['name'] === 'INTRO' )
+                {
+                    $startModuleForSession = $this->getDataFromSuivi('SELECT DISTINCT
+                    MIN(date) as startdate
+                    FROM daily
+                    INNER JOIN modules ON modules.id = daily.id_module
+                    WHERE id_session = :id AND modules.name LIKE :modulename',
+                        [
+                            'id' => $session['id'],
+                            'modulename' => 'INTRO'
+                        ])[0]['startdate'];
+
+                    $endModuleForSession = $this->getDataFromSuivi( 'SELECT DISTINCT
+                    MAX(date) as enddate
+                    FROM daily
+                    INNER JOIN modules ON modules.id = daily.id_module
+                    WHERE id_session = :id AND modules.name LIKE :modulename',
+                        [
+                            'id' => $session['id'],
+                            'modulename' => 'INTRO'
+                        ])[0]['enddate'];
+
+                    $module_name = $module['name'];
+                }
+                elseif( strpos( $module['name'], 'DATA' ) !== false  )
+                {
+
+                    $startModuleForSession = $this->getDataFromSuivi('SELECT DISTINCT
+                    MIN(date) as startdate
+                    FROM daily
+                    INNER JOIN modules ON modules.id = daily.id_module
+                    WHERE id_session = :id AND modules.name LIKE :modulename',
+                        [
+                            'id' => $session['id'],
+                            'modulename' => 'DATA%'
+                        ])[0]['startdate'];
+
+                    $endModuleForSession = $this->getDataFromSuivi( 'SELECT DISTINCT
+                    MAX(date) as enddate
+                    FROM daily
+                    INNER JOIN modules ON modules.id = daily.id_module
+                    WHERE id_session = :id AND modules.name LIKE :modulename',
+                        [
+                            'id' => $session['id'],
+                            'modulename' => 'DATA%'
+                        ])[0]['enddate'];
+
+                    $module_name = $module['name'];
+
+                }
+                else
+                {
+                    $startModuleForSession = $this->getDataFromSuivi('SELECT DISTINCT
+                    MIN(date) as startdate
+                    FROM daily
+                    INNER JOIN modules ON modules.id = daily.id_module
+                    WHERE id_session = :id AND modules.name LIKE :modulename AND modules.name <> "INTRO"',
+                        [
+                            'id' => $session['id'],
+                            'modulename' => $module['name'] . '%'
+                        ])[0]['startdate'];
+
+                    $endModuleForSession = $this->getDataFromSuivi( 'SELECT DISTINCT
+                    MAX(date) as enddate
+                    FROM daily
+                    INNER JOIN modules ON modules.id = daily.id_module
+                    WHERE id_session = :id AND modules.name LIKE :modulename AND modules.name <> "INTRO"',
+                        [
+                            'id' => $session['id'],
+                            'modulename' => $module['name'] . '%'
+                        ])[0]['enddate'];
+
+                    $module_name = $module['name'];
+                }
+
+                $linksSessionModule[] = [
+                    'session_id' => $session['id'],
+                    'module_id' => $key + 1,
+                    'start_date' => $startModuleForSession,
+                    'end_date' => $endModuleForSession,
+                    'moduleName' => $module_name
+                ];
+            }
+        }
+        return $linksSessionModule;
     }
 
     //------------------------------------------------------------------------------------------------------------------
