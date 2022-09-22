@@ -289,8 +289,8 @@ class AdminController extends AbstractController
                 LEFT JOIN modules ON modules.id = daily.id_module
                 LEFT JOIN categories ON categories.id = modules.id_category
                 LEFT JOIN sessions ON sessions.id = daily.id_session
-                WHERE sessions.id <= 3');
-
+                WHERE sessions.id= 1');
+//        dump($instructorsAndSessionByModule);
         $instructorsAndSessionByModule = array_map(function($item){
 
             $explodedName = explode('.', $item['module_name']);
@@ -303,32 +303,9 @@ class AdminController extends AbstractController
                 'module_name' => $moduleName,
             ];
         }, $instructorsAndSessionByModule);
-
+//        dd($instructorsAndSessionByModule);
         $isms = [];
 
-        foreach ( $instructorsAndSessionByModule as $ism )
-        {
-            if( !in_array( $ism, $isms ) )
-            {
-                $isms[] = $ism;
-            }
-        }
-
-//        for($i = 0; $i < count($instructorsAndSessionByModule); $i++)
-//        {
-//            $testInstructorId = in_array( $instructorsAndSessionByModule[$i]['instructor_id'], $isms );
-//            $testSessionId = in_array( $instructorsAndSessionByModule[$i]['session_id'], $isms );
-//            $testModuleName = in_array( $instructorsAndSessionByModule[$i]['module_name'], $isms );
-//
-//            if( !$testInstructorId && !$testSessionId && !$testModuleName )
-//            {
-//                $isms[] = [
-//                    'instructor_id' => $instructorsAndSessionByModule[$i]['instructor_id'],
-//                    'session_id' => $instructorsAndSessionByModule[$i]['session_id'],
-//                    'module_name' => $instructorsAndSessionByModule[$i]['module_name'],
-//                ];
-//            }
-//        }
 
         $result = $isms;
 
