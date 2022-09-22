@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Instructor extends User
 {
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['user:read'])]
     private $isReferent;
 
     #[ORM\Column(type: 'string', length: 12, nullable: true)]

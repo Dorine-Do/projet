@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin | QCMs{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/admin/admin_lists.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <main class="admin_content">
+
+        <section>
+            <h1>Gestion des modules</h1>
+        </section>
+
+        <section class="tableContainer">
+            <table id="tableToSort" class="qcmsTable">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Durée</th>
+                        <th>Créée le</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for module in modules %}
+                    
+                        <tr>
+                            <td>{{ module.title }}</td>
+                            <td>{{ module.weeks }}</td>
+                            <td>{{ module.createdAt | date('d/m/Y') }}</td>
+                            <td>
+                                <a class="greyButton" href="#">Editer</a>
+                            </td>
+                        </tr>
+                        
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/admin/tableSorter.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin | QCMs{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/admin/admin_lists.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <main id="admin_content">
+
+        <section>
+            <h1>Gestion des questions</h1>
+        </section>
+
+        <section class="tableContainer">
+            <div class="createBtnContainer">
+                <a href="{{ path('instructor_create_question') }}" class="greenButton">Créer une question</a>
+            </div>
+            <table id="tableToSort" class="questionsTable">
+                <thead>
+                    <tr>
+                        <th>Module</th>
+                        <th>Enoncé</th>
+                        <th>Difficulté</th>
+                        <th>Officielle</th>
+                        <th>Obligatoire</th>
+                        <th>Auteur</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for question in questions %}
+
+                        <tr>
+                            <td>{{ question.module.title }}</td>
+                            <td>{{ question.wording | raw}}</td>
+                            <td>{{ question.difficulty.value }}</td>
+                            <td>
+                                {% if question.isOfficial %}
+                                    oui
+                                {% else %}
+                                    non
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if question.isMandatory %}
+                                    oui
+                                {% else %}
+                                    non
+                                {% endif %}
+                            </td>
+                            <td>{{ question.author.firstname }} {{ question.author.lastname }}</td>
+                            <td>{{ question.createdAt | date('d/m/Y') }}</td>
+                            <td>
+                                <a href="#" class="greyButton">Stats</a>
+                                <a href="{{ path('instructor_modify_question', {'question': question.id}) }}" class="greyButton">Editer</a>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/admin/tableSorter.js') }}"></script>
+{% endblock %}
