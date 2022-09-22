@@ -279,58 +279,63 @@ class AdminController extends AbstractController
             ];
         }
 
-        $instructorsAndSessionByModule = $this->getDataFromSuivi('SELECT DISTINCT
-                users.id as instructor_id,
-                modules.id as module_id,
-                sessions.id as session_id,
-                modules.name as module_name
-                FROM users
-                LEFT JOIN daily ON daily.id_user = users.id
-                LEFT JOIN modules ON modules.id = daily.id_module
-                LEFT JOIN categories ON categories.id = modules.id_category
-                LEFT JOIN sessions ON sessions.id = daily.id_session
-                WHERE sessions.id <= 3');
 
-        $instructorsAndSessionByModule = array_map(function($item){
 
-            $explodedName = explode('.', $item['module_name']);
-            $moduleName = $explodedName[0];
+        $linksSessionModule = [];
 
-            return [
-                'instructor_id' => $item['instructor_id'],
-                'session_id' => $item['session_id'],
-                'module_id' => $item['module_id'],
-                'module_name' => $moduleName,
-            ];
-        }, $instructorsAndSessionByModule);
-
-        $isms = [];
-
-        foreach ( $instructorsAndSessionByModule as $ism )
+        foreach( $sessions as $session )
         {
-            if( !in_array( $ism, $isms ) )
+            foreach( $modules as $key => $module )
             {
-                $isms[$ism['instructor_id'].$ism['session_id'].$ism['module_name']] = $ism;
+                $startModuleForSession = $this->getDataFromSuivi( 'SELECT DISTINCT
+                                                                        MIN(date) as startdate,
+                                                                        modules.name as module_name
+                                                                        FROM daily
+                                                                        LEFT JOIN modules
+                                                                        ON daily.id_module = modules.id
+                                                                        WHERE id_session = :id AND modules.name LIKE :modulename',
+                [
+                    'id' => $session['id'],
+                    'modulename' => $module['name'] . '%'
+                ])[0]['startdate'];
+
+                $endModuleForSession = $this->getDataFromSuivi( 'SELECT DISTINCT
+                                                                        MAX(date) as enddate,
+                                                                        modules.name as module_name
+                                                                        FROM daily
+                                                                        LEFT JOIN modules
+                                                                        ON daily.id_module = modules.id
+                                                                        WHERE id_session = :id AND modules.name LIKE :modulename',
+                    [
+                        'id' => $session['id'],
+                        'modulename' => $module['name'] . '%'
+                    ])[0]['enddate'];
+
+                $linksSessionModule[] = [
+                    'session_id' => $session['id'],
+                    'module_id' => $key + 1,
+                    'start_date' => $startModuleForSession,
+                    'end_date' => $endModuleForSession,
+                ];
             }
         }
 
-        $isms = array_map( function($ism) use ($modules) {
-            foreach( $modules as $key => $module )
-            {
-                if( $module['name'] === $ism['module_name'] )
-                {
-                    return [
-                        'instructor_id' => $ism['instructor_id'],
-                        'session_id' => $ism['session_id'],
-                        'module_id' => $key + 1,
-                        'module_name' => $module['name']
-                    ];
-                }
-            }
-        }, $isms);
+//        $linkSessionModule = [
+//            'session_id' => '',
+//            'module_id' => '',
+//            'start_date' => '',
+//            'end_date' => '',
+//        ];
 
+        $blibli = $this->getDataFromSuivi( `
+                SELECT DISTINCT
+                MIN(date) as startdate
+                FROM daily
+                INNER JOIN modules ON modules.id = daily.id_module
+                WHERE id_session = 1 AND modules.name LIKE 'JS1%'
+        `);
 
-        $result = $isms;
+        $result = $blibli;
 
         return $this->render('admin/test.html.twig', [
             'result' => $result,
