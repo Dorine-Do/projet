@@ -33,10 +33,12 @@ class SuiviFixtures extends Fixture
 {
     private $faker;
 
-    protected array $arrayModule = [];
-    protected array $arraySession = [];
-    protected array $arrayStudent = [];
-    protected array $arrayInstructor = [];
+    protected array $modules = [];
+    protected array $sessions = [];
+    protected array $students = [];
+    protected array $instructors = [];
+    protected array $linksSessionStudent = [];
+    protected array $linksInstructorSessionModule = [];
     protected array $ChoicesDifficulty = [ Difficulty::Easy, Difficulty::Medium, Difficulty::Difficult];
     protected array $ChoicesLevel = [ Level::Discover, Level::Explore, Level::Master, Level::Dominate];
 
@@ -106,11 +108,12 @@ class SuiviFixtures extends Fixture
 
     public function initSuiviData()
     {
-        $sessions = $this->getSuiviSessions();
-        $modules = $this->getSuiviModules($sessions);
-        $instructors = $this->getSuiviInstructors();
-        $students = $this->getSuiviStudents();
-        $linksSessionStudent = $this->getSuiviLinksSessionStudent($sessions);
+        $this->sessions = $this->getSuiviSessions();
+        $this->modules = $this->getSuiviModules($this->sessions);
+        $this->instructors = $this->getSuiviInstructors();
+        $this->students = $this->getSuiviStudents();
+        $this->linksSessionStudent = $this->getSuiviLinksSessionStudent($this->sessions);
+        $this->linksInstructorSessionModule = $this->getSuiviLinksInstructorSessionModule();
 
     }
 
@@ -318,9 +321,10 @@ class SuiviFixtures extends Fixture
     public function getSuiviLinksInstructorSessionModule()
     {
         $instructorsAndSessionByModule = $this->getDataFromSuivi('SELECT DISTINCT
-                users.id,
-                modules.id,
-                sessions.id
+                users.id as instructor_id,
+                modules.id as module_id,
+                sessions.id as session_id,
+                modules.name as module_name
                 FROM users
                 LEFT JOIN daily ON daily.id_user = users.id
                 LEFT JOIN modules ON modules.id = daily.id_module
@@ -328,11 +332,45 @@ class SuiviFixtures extends Fixture
                 LEFT JOIN sessions ON sessions.id = daily.id_session
                 WHERE sessions.id <= 3');
 
-        $linksInstructorSessionModule[] = [
-            'instructor_id' => '',
-            'session_id' => '',
-            'module_id' => '',
-        ];
+        $instructorsAndSessionByModule = array_map(function($item){
+
+            $explodedName = explode('.', $item['module_name']);
+            $moduleName = $explodedName[0];
+
+            return [
+                'instructor_id' => $item['instructor_id'],
+                'session_id' => $item['session_id'],
+                'module_id' => $item['module_id'],
+                'module_name' => $moduleName,
+            ];
+        }, $instructorsAndSessionByModule);
+
+        $linksInstructorSessionModule = [];
+
+        foreach ( $instructorsAndSessionByModule as $ism )
+        {
+            if( !in_array( $ism, $linksInstructorSessionModule ) )
+            {
+                $linksInstructorSessionModule[$ism['instructor_id'].$ism['session_id'].$ism['module_name']] = $ism;
+            }
+        }
+
+        $linksInstructorSessionModule = array_map( function($ism) {
+            foreach( $this->modules as $key => $module )
+            {
+                if( $module['name'] === $ism['module_name'] )
+                {
+                    return [
+                        'instructor_id' => $ism['instructor_id'],
+                        'session_id' => $ism['session_id'],
+                        'module_id' => $key + 1,
+                        'module_name' => $module['name']
+                    ];
+                }
+            }
+        }, $linksInstructorSessionModule);
+
+        return $linksInstructorSessionModule;
     }
 
     public function getSuiviLinksSessionModule()
