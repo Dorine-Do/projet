@@ -48,13 +48,13 @@ function displayStudents(data){
         let div = createElementSimple('div', 'divStudentData')
         let liStudentData = createElementSimple('li', 'liStudentData')
 
-        let checkbox = document.createElement('input')
-        checkbox.classList.add('checkboxStudent')
-        checkbox.setAttribute('type', `checkbox`)
-        checkbox.setAttribute('name', 'student')
-        checkbox.setAttribute('id', `student${student.id}`)
-        checkbox.setAttribute('value', `${student.id}`)
-        checkbox.addEventListener('click', (e) => {
+        let radio = document.createElement('input')
+        radio.classList.add('checkboxStudent')
+        radio.setAttribute('type', `radio`)
+        radio.setAttribute('name', 'student')
+        radio.setAttribute('id', `student${student.id}`)
+        radio.setAttribute('value', `${student.id}`)
+        radio.addEventListener('click', (e) => {
             getQcmsDoneByStudentFromAjax(sessionId, moduleId, e.target.value)
         })
 
@@ -68,7 +68,7 @@ function displayStudents(data){
         let img = createElementSimple('img', 'imgLevel')
         img = dislayImgLevel(student.level, img, liStudentData)
 
-        liStudentData.append(checkbox, label, input)
+        liStudentData.append(radio, label, input)
         div.append(liStudentData, img)
         ulListStudents.append(div)
     })
@@ -80,7 +80,7 @@ function displayStudents(data){
 function displayQcmsDone(data){
     qcmsDiv.style.display = 'block'
     ulListQcms = qcmsDiv.querySelector('.ulListQcms')
-
+    ulListQcms.innerHTML = ""
     data.forEach( qcm => {
         let li = createElementSimple('li', 'liQcmDone')
         li.addEventListener('click', (e) => {
@@ -204,13 +204,20 @@ document.addEventListener("DOMContentLoaded", (event) => {
     levelDiv.style.display = 'none'
     studentsDiv = document.querySelector('.students')
     studentsDiv.style.display = 'none'
-    qcmsDiv = document.querySelector('.Qcms')
+    qcmsDiv = document.querySelector('.qcmsDone')
     qcmsDiv.style.display = 'none'
 
     // Display block or none (par rapport à la séléction des levels au click)
     namesLevel = document.querySelectorAll('.nameLevel')
     namesLevel.forEach( input => {
         input.addEventListener('click', (e)=>{
+            qcmsDiv = document.querySelector('.qcmsDone')
+            console.log(qcmsDiv.style.display)
+            if (qcmsDiv.style.display === 'block'){
+                qcmsDiv.style.display = "none"
+                ulListQcms.innerHTML = ""
+            }
+            console.log('hi')
             liStudentsData = document.querySelectorAll('.liStudentData')
             liStudentsData.forEach( li => {
                let level = li.lastChild.dataset.level
@@ -243,6 +250,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         studentsDiv.style.display = 'block'
         if (moduleId !== e.target.value){
             ulListStudents = studentsDiv.querySelector('.ulListStudents')
+            ulListStudents.innerHTML = ""
             moduleId = e.target.value
             getStudentsByModuleFromAjax(sessionId, moduleId)
         }
