@@ -40,7 +40,7 @@ class SessionRepository extends ServiceEntityRepository
         }
     }
 
-    public function getInstructorSessions($id)
+    public function getInstructorSessions()
     {
         return $this->createQueryBuilder('s')
             ->select('s')
@@ -48,7 +48,7 @@ class SessionRepository extends ServiceEntityRepository
             ->where('lism.instructor = :instructor' )
             ->andWhere( 'lism.session = s.id' )
 //           /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-            ->setParameter('instructor', $id )
+            ->setParameter('instructor', 1 )
             ->getQuery()
             ->getResult();
     }

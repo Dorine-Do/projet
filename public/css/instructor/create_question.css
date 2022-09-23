@@ -208,6 +208,15 @@ form {
   position: absolute;
 }
 
+.cke_4.cke_chrome{
+  border: none;
+}
+
+#cke_4_top, #cke_4_bottom{
+  background-color: var(--fond);
+  border: none;
+}
+
 /********************************************* CE QUI A UN RAPPORT AVEC LA PARTIE PROPOSAL ***************************************************/
 
 .errorAddProposal {

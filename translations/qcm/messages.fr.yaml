@@ -18,6 +18,7 @@ qcm:
   correction: Correction
   iSelecteQcm : Je sélectionne mon qcm
   displayQuestionByChoisedQcm : Affichage de mes questions en fonction du qcms choisi
+  distributed : Qcms distribué
 
 difficulty:
   easy: Facile
@@ -60,6 +61,7 @@ proposal:
 
 session:
   choice: Choix de la classe
+  sessionModule: Selectionnez une session pour choisir un module
 
 date :
   choice : Choix des dates
@@ -80,6 +82,8 @@ button:
   myQcmsExercice : Mes qcms d'exercice
   myCreation: Mes créations
   pass: Passer
+  progress: Ma progression
+  level: Mon niveau
 
 header:
   dashboard: Tableau de bord
@@ -96,3 +100,4 @@ title:
   creations: Mes créations
   planQcm : Programmer la planification d'un qcm
   myQcmExercice : Mes Qcms d'exercices
+  espaceQcm : Mon espace QCM

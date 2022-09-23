@@ -607,6 +607,17 @@ class StudentController extends AbstractController
         ]);
     }
 
+    #[Route('student/dashboard', name: 'student_dashboard', methods: ['GET'])]
+    public function studentDashboard(
+
+    ): Response
+    {
+
+
+        return $this->render('student/welcome_student.html.twig', [
+
+        ]);
+    }
 
 
 }

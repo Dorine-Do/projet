@@ -4,10 +4,9 @@ body {
 }
 
 .accueilDiv {
-  display: flex;
-  justify-content: space-around;
   margin: 20px auto 100px auto;
-
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .hrefDiv {
@@ -80,8 +79,9 @@ body {
 }
 
 .sectionOne,
-.sectionTwo{
-  width: 40%;
+.sectionTwo,
+.sectionThrees,
+.sectionFour{
   background: var(--fond);
   border-radius: 20px;
   padding: 30px;

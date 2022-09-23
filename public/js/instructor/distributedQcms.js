@@ -80,16 +80,16 @@ function fetchStudents(){
                 studentsContainer.innerHTML = "Aucun étudiant n'a effectué ce qcm"
             }else{
                 studentsContainer.innerHTML = ''
+                let ulStudent = document.createElement('ul')
                 studentsResults.forEach( studentResult => {
-                    let ulStudent = document.createElement('ul')
-                    let name = document.createElement('li')
-                    let result = document.createElement('li')
+                    let li = document.createElement('li')
+                    let name = document.createElement('p')
                     let img = document.createElement('img')
+                    let span = document.createElement('span')
 
-
+                    li.className = 'liStudent'
                     ulStudent.className = 'studentQcm'
                     name.className = 'firstName'
-                    result.className = 'score'
 
                     let score = studentResult.result ? studentResult.result.score : 'QCM pas encore effectué'
 
@@ -98,27 +98,47 @@ function fetchStudents(){
                     if(score < 25){
                         img.src = decouvre
                         img.className = 'decouvre'
-                        result.append(img)
+                        img.dataset.level = 'Découvre'
+                        img.addEventListener('mouseenter', mouseEnter);
+                        img.addEventListener('mousemove', mouseMouve);
+                        img.addEventListener('mouseout', mouseOut);
+                        span.append(img)
+                        name.append(span)
                     }else if(score >= 25 && score < 50){
                         img.src = explore
                         img.className = 'explore'
-                        result.append(img)
+                        img.dataset.level = 'Explore'
+                        img.addEventListener('mouseenter', mouseEnter);
+                        img.addEventListener('mousemove', mouseMouve);
+                        img.addEventListener('mouseout', mouseOut);
+                        span.append(img)
+                        name.append(span)
                     }else if(score >= 50 && score < 75){
                         img.src = maitrise
                         img.className = 'maitrise'
-                        result.append(img)
+                        img.dataset.level = 'Maitrise'
+                        img.addEventListener('mouseenter', mouseEnter);
+                        img.addEventListener('mousemove', mouseMouve);
+                        img.addEventListener('mouseout', mouseOut);
+                        span.append(img)
+                        name.append(span)
                     }else if(score >= 75 && score <= 100){
                         img.src = domine
                         img.className = 'domine'
-                        result.append(img)
+                        img.dataset.level = 'Domine'
+                        img.addEventListener('mouseenter', mouseEnter);
+                        img.addEventListener('mousemove', mouseMouve);
+                        img.addEventListener('mouseout', mouseOut);
+                        span.append(img)
+                        name.append(span)
                     }else{
-                        result.innerHTML = 'Non effectué'
+                        name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : Non effectué'
                     }
 
                     studentsContainer.append(ulStudent)
+                    ulStudent.append(li)
 
-
-                    ulStudent.append(name, result)
+                    li.append(name)
                 })
             }
         })
@@ -129,6 +149,29 @@ function showQcmsStudent()
     qcmsContainer.style.display = "block";
     studentsContainer.style.display = "block";
 }
+
+const mouseEnter = (e) =>{
+    let pInfo = document.createElement('p');
+    pInfo.style.position = 'absolute'
+    pInfo.setAttribute('id', 'infoHover')
+    pInfo.classList.add('imgHover')
+    pInfo.innerHTML = e.target.dataset.level
+    e.target.parentNode.append(pInfo)
+    pInfo.style.left = e.pageX + 'px';
+    pInfo.style.top = e.pageY + 'px';
+}
+
+const mouseMouve = (e) =>{
+    let pInfo = document.getElementById('infoHover');
+    pInfo.style.left = e.layerX + 'px';
+    pInfo.style.top = e.layerY + 'px';
+}
+
+const mouseOut = (e) =>{
+    let pInfo = document.getElementById('infoHover');
+    pInfo.remove()
+}
+
 
 
 document.addEventListener("DOMContentLoaded", (event) => {

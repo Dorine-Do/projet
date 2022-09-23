@@ -10,11 +10,11 @@
 
 .global{
     background-color: var(--pamplemousse);
-    width: 100%;
     padding: 25px;
     display: flex;
     justify-content: space-around;
     margin-bottom: 2.5%;
+    margin-top: 2em;
 }
 
 /********************************************** BALISES GENERALES ***************************************************/

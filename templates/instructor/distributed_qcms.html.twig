@@ -9,14 +9,14 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-    <h1>- Mon espace QCM -</h1>
+    <h1>- {{ 'title.espaceQcm'|trans }} -</h1>
 
     <p>
         <span class="numeroForm">1</span> {{ 'session.choice'|trans }}
     </p>
     <div class="firstSelect">
         <select id="session-choice" name="session">
-            <option value="0">Selectionnez une session pour choisir un module</option>
+            <option value="0">{{ 'session.sessionModule'|trans }}</option>
             {% for session in sessions %}
                 <option value="{{ session.id }}">{{ session.name }}</option>
             {% endfor %}
@@ -29,7 +29,7 @@
     </p>
     <div class="secondSelect">
         <select id="module-choice" name="module">
-            <option value="0">Sélectionnez un module</option>
+            <option value="0">{{ 'module.plsChoice'|trans }}</option>
         </select>
     </div>
     <div id="qcms-module">
