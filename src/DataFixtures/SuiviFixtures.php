@@ -17,6 +17,9 @@ use App\Entity\Main\Result;
 use App\Entity\Main\Session;
 use App\Entity\Main\Student;
 use App\Repository\InstructorRepository;
+use App\Repository\LinkInstructorSessionModuleRepository;
+use App\Repository\LinkSessionModuleRepository;
+use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\QcmInstanceRepository;
 use App\Repository\QcmRepository;
@@ -35,6 +38,7 @@ class SuiviFixtures extends Fixture
 
     protected array $modules = [];
     protected array $sessions = [];
+    protected array $linksSessionModule = [];
     protected array $students = [];
     protected array $instructors = [];
     protected array $linksSessionStudent = [];
@@ -51,6 +55,9 @@ class SuiviFixtures extends Fixture
         private QcmRepository $qcmRepository,
         private StudentRepository $studentRepository,
         private QcmInstanceRepository $qcmInstanceRepository,
+        private LinkSessionModuleRepository $linksSessionModuleRepository,
+        private LinkSessionStudentRepository $linksSessionStudentRepository,
+        private LinkInstructorSessionModuleRepository $linkInstructorSessionModuleRepository,
         private \Doctrine\Persistence\ManagerRegistry $doctrine
     )
     {
@@ -59,46 +66,51 @@ class SuiviFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        //Module
-//        $this->generateModules( $manager );
+        $this->initSuiviData();
 
-        //Session
-//        $this->generateSessions( $manager );
+        //Sessions
+        $this->generateSessions( $manager );
 
-        //LinkSessionModule
-//        $this->generateLinksSessionModule( $manager );
+        //Modules
+        $this->generateModules( $manager );
 
-        //Instructeur
-//        $this->generateInstructors( $manager );
+        //LinksSessionModule
+        $this->generateLinksSessionModule( $manager );
 
-        //Student
-//        $this->generateStudents( $manager );
+        //Instructors
+        $this->generateInstructors( $manager );
+
+        //Students
+        $this->generateStudents( $manager );
+
+        // LinksSessionStudent
+        $this->generateLinksSessionStudent( $manager );
+
+        // LinksInstructorSessionModule
+        $this->generateLinkInstructorSessionModule( $manager );
 
         //Question + Proposal
         $this->generateQuestions( $manager );
 
         //Qcm
-//        $this->generateQcm( $manager );
+        $this->generateQcm( $manager );
 
         //Qcm avec le module de démo (réelles data)
-//        $this->generateQcmWithSpecifyModule($manager);
+        $this->generateQcmWithSpecifyModule($manager);
 
         // QcmInstances
-//        $this->generateQcmInstances( $manager );
+        $this->generateQcmInstances( $manager );
 
         //QcmInstance avec le module de démo (réelles data)
-//        $this->generateQcmInstancesWithSpecifyModule($manager);
+        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
-//        $this->generateResults( $manager );
-
-//        $this->generateJson();
+        $this->generateResults( $manager );
     }
 
     // HANDLE SUIVI DATA FUNCTIONS -------------------------------------------------------------------------------------
     public function getDataFromSuivi( $sql, $params = [] )
     {
-
         $conn = $this->doctrine->getConnection('dbsuivi');
         return $conn
             ->prepare($sql)
@@ -110,11 +122,11 @@ class SuiviFixtures extends Fixture
     {
         $this->sessions = $this->getSuiviSessions();
         $this->modules = $this->getSuiviModules($this->sessions);
+        $this->linksSessionModule = $this->getSuiviLinksSessionModule();
         $this->instructors = $this->getSuiviInstructors();
         $this->students = $this->getSuiviStudents();
         $this->linksSessionStudent = $this->getSuiviLinksSessionStudent($this->sessions);
         $this->linksInstructorSessionModule = $this->getSuiviLinksInstructorSessionModule();
-
     }
 
     public function getSuiviSessions()
@@ -429,7 +441,6 @@ class SuiviFixtures extends Fixture
                         ])[0]['enddate'];
 
                     $module_name = $module['name'];
-
                 }
                 else
                 {
@@ -467,112 +478,94 @@ class SuiviFixtures extends Fixture
         }
         return $linksSessionModule;
     }
-
     //------------------------------------------------------------------------------------------------------------------
-
-    public function generateModules( $manager ) :void
-    {
-        for ($i=0; $i < 10; $i++)
-        {
-            $module = new Module();
-
-            $module->setTitle( $this->faker->word() );
-            $module->setWeeks( $this->faker->numberBetween(1,10) );
-
-            $manager->persist($module);
-        }
-        $manager->flush();
-    }
 
     public function generateSessions( $manager ) :void
     {
-        for ($i=0; $i<10; $i++)
+        foreach($this->sessions as $suiviSession)
         {
-            $word = $this->faker->word();
             $session = new Session();
-            $session->setName($word);
-            $session->setSchoolYear( $this->faker->numberBetween(2019,2022) );
+            $session->setName( $suiviSession['name'] );
+            $session->setSchoolYear( $suiviSession['school_year'] );
+            $session->setCreatedAt( new \DateTime( $suiviSession['created_at'] ) );
+            $session->setUpdatedAt( new \DateTime( $suiviSession['updated_at'] ) );
             $manager->persist($session);
         }
         $manager->flush();
+
+        $this->sessions = $this->sessionRepository->findAll();
+    }
+
+    public function generateModules( $manager ) :void
+    {
+        foreach($this->modules as $suiviModule)
+        {
+            $module = new Module();
+            $module->setTitle( $suiviModule['name'] );
+            $module->setWeeks( $suiviModule['weeks'] );
+            $module->setCreatedAt( $suiviModule['created_at'] );
+            $module->setUpdatedAt( $suiviModule['updated_at'] );
+            $manager->persist($module);
+        }
+        $manager->flush();
+
+        $this->modules = $this->moduleRepository->findAll();
     }
 
     public function generateLinksSessionModule( $manager ) :void
     {
-        $dbModules  = $this->moduleRepository->findAll();
-        $dbSessions = $this->sessionRepository->findAll();
-
-        foreach( $dbModules as $module )
+        foreach( $this->linksSessionModule as $suiviLinkSessionModule )
         {
             $linkSessionModule = new LinkSessionModule();
-            $linkSessionModule->setModule( $module );
-            $linkSessionModule->setSession( $dbSessions[array_rand($dbSessions)] );
-            $linkSessionModule->setStartDate( $this->faker->dateTimeBetween('-1 year', 'now') );
-            $linkSessionModule->setEndDate( $this->faker->dateTimeBetween( 'now', '+1 month' ) );
+            $linkSessionModule->setModule( $suiviLinkSessionModule['module_id'] );
+            $linkSessionModule->setSession( $suiviLinkSessionModule['session_id'] );
+            $linkSessionModule->setStartDate( new \DateTime( $suiviLinkSessionModule['start_date'] ) );
+            $linkSessionModule->setEndDate( new \DateTime( $suiviLinkSessionModule['end_date'] ) );
             $manager->persist($linkSessionModule);
         }
         $manager->flush();
+
+        $this->linksSessionModule = $this->linksSessionModuleRepository->findAll();
     }
 
     public function generateInstructors( $manager ) :void
     {
-        $dbModules  = $this->moduleRepository->findAll();
-        $dbSessions = $this->sessionRepository->findAll();
-
-        for ($i=0; $i<10; $i++)
+        foreach($this->instructors as $suiviInstructors)
         {
             $instructor = new Instructor();
-
-            $instructorFirstName = $this->faker->firstName();
-            $instructor->setFirstname($instructorFirstName);
-            $instructorLastName = $this->faker->lastName();
-            $instructor->setLastname($instructorLastName);
-            $instructor->setBirthDate( $this->faker->dateTimeBetween('-40 years', '-18 years') );
-            $instructor->setPhone($this->faker->numerify('+33########'));
-            $instructor->setEmail($this->faker->email());
+            $instructor->setFirstname($suiviInstructors['first_name']);
+            $instructor->setLastname($suiviInstructors['last_name']);
+            $instructor->setBirthDate( $suiviInstructors['birthdate'] );
+            $instructor->setPhone( $suiviInstructors['phone'] );
+            $instructor->setEmail( $suiviInstructors['email'] );
             $instructor->setPassword(
                 $this->userPasswordHasherInterface->hashPassword(
                     $instructor, "password"
                 )
             );
-            $instructor->setMoodleId($this->faker->randomNumber(5, true));
-            $instructor->setIsReferent($this->faker->numberBetween(0, 1));
+            $instructor->setMoodleId( $suiviInstructors['id_moodle'] );
+            $instructor->setIsReferent( $suiviInstructors['isReferent'] );
             $instructor->setRoles(['ROLE_INSTRUCTOR']);
-            $instructor->setEmail3wa($instructorFirstName . '.' . $instructorLastName . '@3wa.io');
+            $instructor->setEmail3wa($suiviInstructors['email3wa']);
             $manager->persist($instructor);
-
-            $linkInstructorSessionModule = new linkInstructorSessionModule();
-            $linkInstructorSessionModule->setModule($dbModules[array_rand($dbModules)]);
-            $linkInstructorSessionModule->setSession($dbSessions[array_rand($dbSessions)]);
-            $linkInstructorSessionModule->setInstructor($instructor);
-            $manager->persist($linkInstructorSessionModule);
         }
         $manager->flush();
+
+        $this->instructors = $this->instructorRepository->findAll();
     }
 
     public function generateStudents( $manager ) :void
     {
-        $dbModules  = $this->moduleRepository->findAll();
-        $dbSessions = $this->sessionRepository->findAll();
-
-        for ($i=0; $i<10; $i++)
+        foreach($this->students as $suiviStudent)
         {
             $student = new Student();
-
-            $studentFirstName = $this->faker->firstName();
-            $studentLastName = $this->faker->lastName();
-
-            $student->setFirstname( $studentFirstName );
-            $student->setLastname( $studentLastName );
-            $student->setBirthDate( $this->faker->dateTimeBetween('-40 years', '-18 years') );
-            $student->setBadges([
-                array_rand($dbModules,1) => "Découvre",
-                array_rand($dbModules,1) => "Explore",
-                array_rand($dbModules,1) => "Domine",
-            ]);
-            $student->setEmail3wa($studentFirstName . '.' . $studentLastName . '@3wa.io');
-            $student->setEmail($studentFirstName . '.' . $studentLastName . '@yahoo.fr');
-            $student->setMoodleId( $this->faker->randomNumber(5, true) );
+            $student->setFirstname( $suiviStudent['first_name'] );
+            $student->setLastname( $suiviStudent['last_name'] );
+            $student->setBirthDate( $suiviStudent['birthdate'] );
+            $student->setBadges( $suiviStudent['badges'] );
+            $student->setEmail3wa($suiviStudent['email3wa']);
+            $student->setEmail($suiviStudent['email']);
+            $student->setMoodleId( $suiviStudent['id_moodle'] );
             $student->setPassword(
                 $this->userPasswordHasherInterface->hashPassword(
                     $student, "password"
@@ -580,19 +573,44 @@ class SuiviFixtures extends Fixture
             );
             $student->setRoles(['ROLE_STUDENT']);
             $manager->persist($student);
-            $manager->flush();
 
-            //LinkSessionStudent
-            $lms = new linkSessionStudent();
-            $lms->setIsEnabled( $this->faker->numberBetween(0, 1) );
-            $lms->setStudent($student);
-            $lms->setSession($dbSessions[array_rand($dbSessions)]);
-
-            $manager->persist($lms);
         }
         $manager->flush();
+
+        $this->students = $this->studentRepository->findAll();
     }
 
+    public function generateLinksSessionStudent( $manager )
+    {
+        foreach ($this->linksSessionStudent as $suiviLinkSessionStudent)
+        {
+            $linkSessionStudent = new LinkSessionStudent();
+            $linkSessionStudent->setSession( $suiviLinkSessionStudent['session_id'] );
+            $linkSessionStudent->setStudent( $suiviLinkSessionStudent['student_id'] );
+            $linkSessionStudent->setIsEnabled( $suiviLinkSessionStudent['is_enabled'] );
+
+            $manager->persist( $linkSessionStudent );
+        }
+        $manager->flush();
+
+        $this->linksSessionStudent = $this->linksSessionStudentRepository->findAll();
+    }
+
+    public function generateLinkInstructorSessionModule( $manager )
+    {
+        foreach ($this->linksInstructorSessionModule as $suiviLinkInstructorSessionModule)
+        {
+            $linkInstructorSessionModule = new LinkInstructorSessionModule();
+            $linkInstructorSessionModule->setInstructor( $suiviLinkInstructorSessionModule['instructor_id'] );
+            $linkInstructorSessionModule->setSession( $suiviLinkInstructorSessionModule['session_id'] );
+            $linkInstructorSessionModule->setModule( $suiviLinkInstructorSessionModule['module_id'] );
+            $manager->persist( $linkInstructorSessionModule );
+        }
+        $manager->flush();
+
+        $this->linksInstructorSessionModule = $this->linkInstructorSessionModuleRepository->findAll();
+    }
+    // -----------------------------------------------------------------------------------
     public function generateQuestions( $manager ) :void
     {
         $dbModules  = $this->moduleRepository->findAll();
