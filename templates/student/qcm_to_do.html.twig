@@ -43,7 +43,7 @@
                     <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
                     </div>
                     <div>
-                    <p class="question"><span class="numeroForm">1</span>
+                    <p class="question"><span class="circle whiteCircle">1</span>
                     {{ question.wording | raw }}
                     </p>
                     </div>
@@ -71,7 +71,8 @@
 
 
             {% endfor %}
-            <input type="submit" id="valid" value="J'ai fini mon qcm">
+{#            <input type="submit" id="valid" class="button greyButton" value="J'ai fini mon qcm">#}
+            <button id="valid" class="button greyButton" style="margin: 24px auto;">J'ai fini mon QCM</button>
         </form>
     </div>
 

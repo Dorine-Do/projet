@@ -35,7 +35,7 @@
                                 <option value="{{ unofficialQcmInstanceNotDone.id }}">{{unofficialQcmInstanceNotDone.qcm.title}}</option>
                             {% endfor %}
                         </select>
-                        <button class="buttonExercice">{{ 'qcm.todo'|trans }}</button>
+                        <button class="button greyButton smallButton">{{ 'qcm.todo'|trans }}</button>
                     </div>
                 </div>
             </section>
@@ -62,7 +62,7 @@
                             <label for="Difficult">{{ 'difficulty.difficult'|trans }}</label>
                         </div>
                     </div>
-                    <button class="buttonValid" >{{ 'qcm.trainning'|trans }}</button>
+                    <button class="button greyButton trainingButton" >{{ 'qcm.trainning'|trans }}</button>
                 </div>
             </section>
         </article>
@@ -74,7 +74,7 @@
                     <p>
                         {{ 'qcm.donesExplain'|trans }}
                     </p>
-                    <a class="real" href="{{ path('student_qcms_done') }}">{{ 'qcm.dones'|trans }}</a>
+                    <a class="button fondBoldButton" href="{{ path('student_qcms_done') }}">{{ 'qcm.dones'|trans }}</a>
                 </div>
             </section>
             <section>
@@ -93,7 +93,7 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <button class="buttonBadge">{{ 'button.tryAgain'|trans }}</button>
+                    <button class="button greyButton badgeButton">{{ 'button.tryAgain'|trans }}</button>
                 </div>
             </section>
             <p class="lastP">

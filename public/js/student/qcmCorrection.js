@@ -23,12 +23,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
             let end = parseInt(countLetter, 10) + 1; // 4 +1 = 5    '4' + 1 = 41
             let begin = countLetter;
             let letter = alphabet.slice(begin, end);
-            let p = document.createElement("p");
-            p.className = "pLetter";
+            let p = document.createElement("div");
+            p.classList.add("circle");
+            p.classList.add("greyCircle");
             p.innerHTML = letter;
 
             if (divReponse.firstElementChild.dataset.correction){
-                p.style.backgroundColor = "green"
+                p.classList.add("greenCircle")
             }
 
             divReponse.insertBefore(p ,divReponse.firstElementChild )

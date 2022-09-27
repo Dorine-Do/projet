@@ -12,6 +12,10 @@ img{
     width: 40px;
 }
 
+label {
+    padding: 10px;
+}
+
 .premiereDiv{
     display: flex;
     justify-content: space-around;
@@ -48,21 +52,17 @@ img{
 
 /******************************************************* QCM **********************************************/
 
-
-.numeroForm{
-    background-color: white;
-    padding: 8px 17px;
-    border-radius: 50%;
-    margin-right: 8px;
-}
-
 .question{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    min-width: fit-content;
     background-color: var(--pamplemousse);
-    padding: 20px 10px;
+    padding: 10px 15px;
     text-align: left;
     border-radius: 8px;
     margin-right: 1em;
-    width: fit-content;
 }
 
 
@@ -129,29 +129,10 @@ img{
 
 .bravo{
     border-radius: 30px;
-    background: green;
+    background: var(--vert) ;
     padding: .5em 1em;
     color: white;
     font-weight: 500;
-}
-
-/**************************************** BOUTON VALIDE ******************************************/
-
-#valid{
-    background-color: var(--grey);
-    color: white;
-    border-radius: 20px;
-    font-weight: bold;
-    border: none;
-    padding: 15px 150px;;
-    font-size: var(--normal);
-    margin: 50px auto;
-    display: block;
-}
-
-#valid:hover{
-    background-color: var(--vert);
-    cursor: pointer;
 }
 
 /***************************************** POP UP (Qcm To do) *************************************/
@@ -386,7 +367,10 @@ img{
     }
 
     #valid{
+        display: block;
         padding: 12px 60px;
+        margin: 24px auto;
+        color: red !important;
     }
 
     .reponse{

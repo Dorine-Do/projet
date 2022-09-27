@@ -67,27 +67,6 @@ ul, .backgroundEtape, .allDate{
     margin-right: auto;
 }
 
-.valid{
-    background-color: var(--grey);
-    color: white;
-    border-radius: 50px;
-    border: none;
-    padding: 0.6em 0;
-    font-size: var(--normal);
-    width: 50%;
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.3);
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 30px;
-}
-
-.valid:hover{
-    background-color: var(--vert);
-    font-weight: bold;
-    cursor: pointer;
-}
-
 #qcm-students{
     display: flex;
     justify-content: space-between;

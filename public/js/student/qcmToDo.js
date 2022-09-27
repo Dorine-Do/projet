@@ -108,8 +108,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
             let begin = countLetter;
             let letter = alphabet.slice(begin, end);
             let p = document.createElement("p");
-            p.className = "pLetter";
+            p.classList.add("circle");
+            p.classList.add("greyCircle");
+            p.style.marginRight="16px";
             p.innerHTML = letter;
+
+            console.log(p, letter);
 
             divReponse.insertBefore(p,divReponse.firstElementChild )
             countLetter++;

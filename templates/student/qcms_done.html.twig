@@ -31,8 +31,8 @@
     </div>
     <div class="officiel">
         <div>
-            <p>
-                <span class="numeroForm">1</span>
+            <p class="question">
+                <span class="circle smallOrangeCircle">1</span>
                 {{ 'module.filter'|trans }} :
             </p>
         </div>
@@ -44,8 +44,8 @@
         </select>
     </div>
     <span class="ligne"></span>
-    <p>
-        <span class="numeroForm">2</span>
+    <p class="question">
+        <span class="circle smallOrangeCircle">2</span>
         Qcm
     </p>
 
@@ -86,8 +86,8 @@
             {{qcmDone.result.getSubmittedAt()|date('d/m/Y')}}
         </div>
         <div class="divButton">
-            <a class="button" href="{{ path('student_qcm_correction', {result: qcmDone.result.id} ) }}">{{ 'button.viewAnswers'|trans }}</a>
-            <a class="button" href="{{ path('student_retry_same_qcm', {qcm: qcmDone.qcm.id} ) }}">{{ 'button.doAgain'|trans }}</a>
+            <a class="button greyButton" href="{{ path('student_qcm_correction', {result: qcmDone.result.id} ) }}">{{ 'button.viewAnswers'|trans }}</a>
+            <a class="button greyButton" href="{{ path('student_retry_same_qcm', {qcm: qcmDone.qcm.id} ) }}">{{ 'button.doAgain'|trans }}</a>
         </div>
     </div>
 {% endfor %}

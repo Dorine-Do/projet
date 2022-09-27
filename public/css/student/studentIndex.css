@@ -61,17 +61,24 @@ span{
 .button{
     border-radius: 25px;
     background-color: var(--vert);
-    color: white;
-    padding: 10px 30px;
     text-align: center;
     font-size: var(--normal);
     font-family: 'Alumni Sans', sans-serif;
 }
 
+
 .button:hover{
-    background-color: var(--vert);
     font-weight: bold;
+    cursor: pointer;
+}
+
+.greyButton {
+    background-color: var(--grey);
     color: white;
+}
+
+.greyButton:hover {
+    background-color: var(--vert);
 }
 
 .divQcm{
@@ -96,24 +103,7 @@ span{
     border-radius: 7px;
     font-family: 'Alumni Sans', sans-serif;
     width: 70%;
-}
-
-.buttonExercice{
-    border-radius: 25px;
-    background-color: var(--grey);
-    color: white;
-    padding: 0.1em 1em;
-    text-align: center;
-    font-size: var(--normal);
-    font-family: "Alumni Sans", serif;
-    border: none;
-    width: 27%
-}
-
-.buttonExercice:hover{
-    background-color: var(--vert);
-    font-weight: bold;
-    cursor: pointer;
+    margin-bottom: 14px;
 }
 
 .divQcm h2{
@@ -156,6 +146,7 @@ span{
 
 .training{
     padding-top: 75px;
+    position: relative;
 }
 
 .buttonValid{
@@ -187,7 +178,7 @@ input[type="radio"]{
 
 label{
     position: relative;
-    bottom: 40px;
+    bottom: 33px;
     color: white;
     font-size: var(--normal);
     font-family: 'Alumni Sans', sans-serif;
@@ -239,22 +230,6 @@ input[type="radio"]:checked {
     padding-bottom: 15px;
 }
 
-.buttonBadge{
-    border-radius: 25px;
-    background-color: var(--grey);
-    color: white;
-    padding: 10px 42px;
-    text-align: center;
-    font-size: var(--normal);
-    font-family: "Alumni Sans", serif;
-    border: none;
-}
-
-.buttonBadge:hover{
-    background-color: var(--vert);
-    font-weight: bold;
-}
-
 .divBadge{
     background-color: var(--fond);
     margin: auto;
@@ -298,12 +273,6 @@ input[type="radio"]:checked {
     .inter{
         display: flex;
         flex-direction: column;
-    }
-
-    .buttonExercice{
-        width: 100%;
-        margin: auto;
-        font-family: "Alumni Sans", serif;
     }
 
     .selectEntrainement{

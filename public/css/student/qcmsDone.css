@@ -41,12 +41,6 @@ h1, h2{
 
 /**************************************** PARTIE MODULE *********************************************/
 
-.numeroForm{
-    background-color: var(--pamplemousse);
-    padding: 8px 14px;
-    border-radius: 50%;
-}
-
 .module{
     text-align: center;
 }
@@ -62,9 +56,21 @@ select{
     text-align: center;
 }
 
-.officiel{
+.question {
     display: flex;
-    justify-content: flex-end;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    min-width: fit-content;
+    background-color: transparent;
+    padding: 10px 15px;
+    text-align: left;
+    border-radius: 8px;
+    margin-right: 1em;
+}
+
+.question .smallOrangeCircle {
+    margin-right: 10px;
 }
 
 /***************************************** PARTIE AFFICHAGE QCM ******************************************/
@@ -131,19 +137,6 @@ select{
     border-radius: 5px;
     color: white;
     font-weight: var(--semi_bold);
-}
-
-.button{
-    border-radius: 25px;
-    margin: .5em 0;
-    background-color: var(--grey);
-    color: white;
-    padding: 8px 35px;
-    text-align: center;
-}
-
-.button:hover{
-    background-color: var(--vert);
 }
 
 .divButton{

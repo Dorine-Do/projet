@@ -145,7 +145,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let letter = alphabet.slice(begin, end);
 
     let p = document.createElement("p");
-    p.className = "pLetter";
+    p.classList.add("circle");
+    p.classList.add("greyCircle");
+    p.classList.add("mx-auto");
     p.innerHTML = letter;
 
     div_proposal.firstElementChild.insertBefore(p, label);
