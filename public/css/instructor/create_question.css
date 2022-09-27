@@ -150,7 +150,8 @@ form {
   padding: 10px;
 }
 
-#create_question_module {
+#create_question_module
+#create_question_explanation{
   padding: 0.8em;
   width: 70%;
   margin: auto;
@@ -160,6 +161,11 @@ form {
   text-align: center;
   border: none;
 }
+
+#create_question_module:hover {
+  cursor: pointer;
+}
+
 #create_question_difficulty {
   margin: auto;
   padding: 1em 0;
@@ -194,6 +200,15 @@ form {
   color: grey;
   font-size: var(--semi_small);
   position: absolute;
+}
+
+.cke_4.cke_chrome{
+  border: none;
+}
+
+#cke_4_top, #cke_4_bottom{
+  background-color: var(--fond);
+  border: none;
 }
 
 /********************************************* CE QUI A UN RAPPORT AVEC LA PARTIE PROPOSAL ***************************************************/

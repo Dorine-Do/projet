@@ -26,7 +26,7 @@ use Symfony\Component\Security\Core\Security;
 
 class StudentController extends AbstractController
 {
-    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+//    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
     public function __construct(StudentRepository $studentRepository){
         $this->studentRepo = $studentRepository;
         $this->id = 31;
@@ -79,7 +79,7 @@ class StudentController extends AbstractController
             }
         }
 
-        $studentSession = $linkSessionStudentRepo->findOneBy([ 'student' => $student->getId()] )->getSession();
+        $studentSession = $linkSessionStudentRepo->findOneBy([ 'student' => $student->getId(), 'isEnabled'=> 1] )->getSession();
         $sessionModules = $linkSessionModuleRepo->findBy([ 'session' => $studentSession->getId() ]);
         foreach ( $sessionModules as $key => $sessionModule )
         {
@@ -171,20 +171,21 @@ class StudentController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        $student = $this->getUser();
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+        $student = $this->studentRepo->find($this->id);
+//        $student = $this->getUser();
         $qcm = $qcmRepository->find(['id' => ($qcmInstance->getQcm()->getId())]);
 
         $questionsCache = $qcm->getQuestionsCache();
 
-        $result = $request->query->all();
-
+        $resultRequest = $request->query->all();
         $countIsCorrectAnswer = 0;
 
-        if( count($result) !== 0 )
+        if( count($resultRequest) !== 0 )
         {
             foreach ( $questionsCache as $questionCacheKey => $questionCache )
             {
-                foreach ( $result as $studentAnswerKey => $studentAnswerValue )
+                foreach ( $resultRequest as $studentAnswerKey => $studentAnswerValue )
                 {
                     if( $questionsCache[$questionCacheKey]['id'] == $studentAnswerKey )
                     {
@@ -282,6 +283,7 @@ class StudentController extends AbstractController
             $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
 
             $result = new Result();
+
             $result->setQcmInstance($qcmInstance);
             $result->setScore($totalScore);
             if( $totalScore < 25 )
@@ -316,6 +318,12 @@ class StudentController extends AbstractController
             $result->setIsFirstTry($isFirstTry);
 
             $result->setAnswers($questionsCache);
+//            dd($resultRequest);
+            if (trim($resultRequest['comment_student'] === "")){
+                $result->setStudentComment(null);
+            }else{
+                $result->setStudentComment(trim($resultRequest['comment_student']));
+            }
             $result->setInstructorComment(null);
 
             $em->persist($result);
@@ -348,7 +356,7 @@ class StudentController extends AbstractController
         $student = $this->getUser();
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, true, $difficulty );
+        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, true, $difficulty, $this->studentRepo );
 
         $manager->persist( $trainingQcm );
         $manager->flush();
@@ -457,12 +465,14 @@ class StudentController extends AbstractController
                     'isCorrectAnswer' => $answer['isCorrectAnswer'],
                 ];
             }
+
             $qcmQuestions[] = [
                 'questionId'  => $dbAnswer['id'],
                 'isMultiple'  => $question->getIsMultiple(),
                 'wording'     => $question->getWording(),
                 'answers'   => $proposals,
-                'isCorrect' => $dbAnswer['isCorrect'],
+                'isCorrect' => $dbAnswer['student_answer_correct'],
+                'explanation' => $question->getExplanation()
             ];
         }
 
@@ -471,7 +481,145 @@ class StudentController extends AbstractController
             'nameQcmInstance' => $qcmInstance->getQcm()->getTitle(),
             'titleModule'=> $qcm->getModule()->getTitle(),
             'studentComment' => $result->getStudentComment(),
-            'instructorComment' => $result->getInstructorComment()
+            'instructorComment' => $result->getInstructorComment(),
+            'resultId' => $result->getId()
         ]);
     }
+
+    #[Route('student/level/', name: 'student_level', methods: ['GET'])]
+    public function levelStudentByModule(
+
+    ): Response
+    {
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+        $student = $this->studentRepo->find($this->id);
+//        $student = $this->getUser();
+
+        $modules = $this->studentRepo->moduleMaxScore($student->getId());
+
+        return $this->render('student/level_modules.html.twig', [
+            'modules' => $modules
+        ]);
+    }
+
+    #[Route('student/progression/', name: 'student_progression', methods: ['GET'])]
+    public function progressionStudent(
+
+    ): Response
+    {
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+        $student = $this->studentRepo->find($this->id);
+//        $student = $this->getUser();
+
+        $isOfficialQcms = $this->studentRepo->isOfficialQcmLevel($student->getId());
+//        dd($isOfficialQcms);
+        $isOfficialQcms[] = [
+            "qcmId" => 6,
+                "qcmTitle" => "Qcm1",
+                "qcmInstanceId" => 10,
+                "resultID" => 7,
+                "moduleId" => 6,
+                "moduleTitle" => "Titre de Module 6",
+                "level" => 1,
+                "startDat" => "2021-12-12",
+                "endDate" => "2022-08-27"
+        ];
+        $isOfficialQcms[] = [
+            "qcmId" => 7,
+            "qcmTitle" => "Qcm2",
+            "qcmInstanceId" => 11,
+            "resultID" => 8,
+            "moduleId" => 6,
+            "moduleTitle" => "Titre de Module 6",
+            "level" => 4,
+            "startDat" => "2021-12-12",
+            "endDate" => "2022-08-27"
+        ];
+        $isOfficialQcms[] = [
+            "qcmId" => 8,
+            "qcmTitle" => "Qcm3",
+            "qcmInstanceId" => 12,
+            "resultID" => 9,
+            "moduleId" => 7,
+            "moduleTitle" => "Titre de Module 7",
+            "level" => 1,
+            "startDat" => "2021-12-12",
+            "endDate" => "2022-08-27"
+        ];
+        $isOfficialQcms[] = [
+            "qcmId" => 9,
+            "qcmTitle" => "Qcm4",
+            "qcmInstanceId" => 13,
+            "resultID" => 10,
+            "moduleId" => 7,
+            "moduleTitle" => "Titre de Module 7",
+            "level" => 2,
+            "startDat" => "2021-12-12",
+            "endDate" => "2022-08-27"
+        ];
+        $isOfficialQcms[] = [
+            "qcmId" => 9,
+            "qcmTitle" => "Qcm4",
+            "qcmInstanceId" => 13,
+            "resultID" => 10,
+            "moduleId" => 8,
+            "moduleTitle" => "Titre de Module 8",
+            "level" => 1,
+            "startDat" => "2021-12-12",
+            "endDate" => "2022-08-27"
+        ];
+        $isOfficialQcms[] = [
+            "qcmId" => 10,
+            "qcmTitle" => "Qcm4",
+            "qcmInstanceId" => 14,
+            "resultID" => 11,
+            "moduleId" => 8,
+            "moduleTitle" => "Titre de Module 8",
+            "level" => 4,
+            "startDat" => "2021-12-12",
+            "endDate" => "2022-08-27"
+        ];
+        $isOfficialQcms[] = [
+            "qcmId" => 11,
+            "qcmTitle" => "Qcm4",
+            "qcmInstanceId" => 15,
+            "resultID" => 12,
+            "moduleId" => 9,
+            "moduleTitle" => "Titre de Module 9",
+            "level" => 4,
+            "startDat" => "2021-12-12",
+            "endDate" => "2022-08-27"
+        ];
+        /*
+         * array:1 [▼
+              0 => array:7 [▼
+                "qcmId" => 5
+                "qcmTitle" => "et"
+                "qcmInstanceId" => 9
+                "resultID" => 6
+                "moduleId" => 6
+                "moduleTitle" => "ipsum"
+                "level" => 4
+              ]
+            ]
+         */
+
+        return $this->render('student/progression.html.twig', [
+            'isOfficialQcms' => $isOfficialQcms
+        ]);
+    }
+
+    #[Route('student/dashboard', name: 'student_dashboard', methods: ['GET'])]
+    public function studentDashboard(
+
+    ): Response
+    {
+
+
+        return $this->render('student/welcome_student.html.twig', [
+
+        ]);
+    }
+
+
 }

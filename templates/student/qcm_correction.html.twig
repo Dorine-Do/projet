@@ -8,7 +8,6 @@
 
 {% block body %}
 
-    <div class="qcmToDo">
         <h1>- {{ 'qcm.correction'|trans }} -</h1>
 
         <div class="divName">
@@ -105,10 +104,21 @@
                                 </div>
                             </div>
                         {% endif %}
-
                     {% endfor %}
                 </div>
+                <div class="explanation">
+                    <h4>Explication</h4>
+                    <p>
+                        {{ question.explanation }}
+                    </p>
+                </div>
             {% endfor %}
+            {#/* TODO A enlever une fois que a connection avec google sera opérationnelle*/#}
+            {% set user = 'instructor' %}
+
+            {#{% if app.user %}#}
+            {#/* TODO A enlever une fois que a connection avec google sera opérationnelle*/#}
+            {% if user is same as 'student' %}
             <div class="containerComment">
                 <div>
                     <h4>{{ 'title.myComment'|trans }} </h4>
@@ -122,9 +132,31 @@
                         {{ instructorComment }}
                     </p>
                 </div>
-            </div>
+            {% elseif user is same as 'instructor' %}
+                <div class="containerComment">
+                    <div>
+                        <h4>Ajouter un commentaire </h4>
+                        <input
+                                class="comment"
+                                name="instructorComment"
+                                id="instructorComment"
+                                data-id="{{resultId}}"
+                                value = {{instructorComment}}
+                        >
+                        <p class="explainComment">Attention, votre commentaire sera lisible par l'élève dans son espace YouUp.</p>
+                        <p style ="display:none;" class="infoComment"></p>
+                        <button class="addComment">Ajouter</button>
+                    </div>
+                    <div>
+                        <h4>Commentaire de l'élève </h4>
+                        <p class="comment">
+                            {{ studentComment }}
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+
         </section>
-    </div>
 
 {% endblock %}
 {% block javascripts %}

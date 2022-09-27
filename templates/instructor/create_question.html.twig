@@ -89,6 +89,19 @@
             <td colspan="2" class="premier">
                 <div class="etape">
                     <div class="circle orangeCircle">5</div>
+                <p class="etape">
+                    <span class="numeroForm">5</span>
+                    {{ 'question.explanation'|trans }}
+                </p>
+            </td>
+            <td colspan="2" class="second">
+                {{form_widget(form.explanation)}}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="premier">
+                <p class="etape">
+                    <span class="numeroForm">Option</span>
                     {{ 'question.desactivate'|trans }}
                 </div>
             </td>
@@ -96,13 +109,45 @@
                 {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
             </td>
         </tr>
+{#        TODO mettre en place le if pour vérifier si le user est bien un admin ou un prof référent (google connexion nessecaire)#}
+{#        {% if app.user.isReferent is same as true %}#}
+        {# TODO A enlever une fois que a connection avec google sera opérationnelle #}
+        {% if user.isReferent is same as true or 'ROLE_ADMIN' in user.roles %}
+            <tr>
+                <td colspan="2" class="premier">
+                    <p class="etape">
+                        <span class="numeroForm">Option</span>
+                        {{ 'question.isOfficial'|trans }}
+                    </p>
+                </td>
+                <td colspan="2" class="second">
+                    {{ form_widget(form.is_official) }} {{ 'question.isOfficialExplain'|trans }}
+                </td>
+            </tr>
+        {% endif %}
+        {#        TODO mettre en place le if pour vérifier si le user est bien un admin ou un prof référent (google connexion nessecaire)#}
+        {#        {% if app.user.isReferent is same as true %}#}
+        {# TODO A enlever une fois que a connection avec google sera opérationnelle #}
+        {% if 'ROLE_ADMIN' in user.roles %}
+        <tr>
+            <td colspan="2" class="premier">
+                <p class="etape">
+                    <span class="numeroForm">Option</span>
+                    {{ 'question.isMandatoty'|trans }}
+                </p>
+            </td>
+            <td colspan="2" class="second">
+                {{ form_widget(form.is_mandatory) }} {{ 'question.isMandatoryExplain'|trans }}
+            </td>
+        </tr>
+        {% endif %}
         <tr>
             <td colspan="2">
                 <button type="button" class="button largeButton greyButton">{{ 'button.validate'|trans }}</button>
             </td>
         </tr>
     </table>
-    {{form_rest(form)}}
+    {{form_end(form)}}
     
 {% endblock %}
 

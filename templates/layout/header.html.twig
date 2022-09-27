@@ -3,11 +3,26 @@
 {% endblock %}
 
 <header>
+    {#/* TODO A enlever une fois que a connection avec google sera opérationnelle*/#}
+    {% set user = 'student' %}
+
     <img class="logo" src="{{asset('build/images/logo_officiel.png')}}">
-    <div class="choix">
-        <a href="{{path('welcome_instructor')}}" class="tab">{{ 'header.dashboard'|trans }}</a>
-        <a href="#" class="tab">{{ 'header.planning'|trans }}</a>
-    </div>
+    <nav class="choix">
+
+        {#/* TODO A enlever une fois que a connection avec google sera opérationnelle*/#}
+        {% if user is same as 'student' %}
+            <a href="{{path('student_qcms')}}" class="tab">{{ 'header.dashboard'|trans }}</a>
+        {% elseif user is same as 'instructor' %}
+            <a href="{{path('welcome_instructor')}}" class="tab">{{ 'header.dashboard'|trans }}</a>
+            <a href="#" class="tab">{{ 'header.planning'|trans }}</a>
+        {% endif %}
+
+
+{#        {% if app.user %}#}
+{#        <a href="{{path('welcome_instructor')}}" class="tab">{{ 'header.dashboard'|trans }}</a>#}
+{#        <a href="#" class="tab">{{ 'header.planning'|trans }}</a>#}
+{#        {% endif %}#}
+    </nav>
     <div class="eleve">
         <p class="helloStudent">Salut,{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>
     </div>
@@ -15,3 +30,4 @@
         <a href="{{path('app_logout')}}" ><img class="imgLogOut" src="{{asset('build/images/exit.png')}}" alt="Déconnexion"> </a>
     </div>
 </header>
+

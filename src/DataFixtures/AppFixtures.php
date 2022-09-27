@@ -74,7 +74,7 @@ class AppFixtures extends Fixture
 //        $this->generateQuestions( $manager );
 
         //Qcm
-//        $this->generateQcm( $manager );
+        $this->generateQcm( $manager );
 
         //Qcm avec le module de démo (réelles data)
 //        $this->generateQcmWithSpecifyModule($manager);
@@ -86,7 +86,7 @@ class AppFixtures extends Fixture
 //        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
-        $this->generateResults( $manager );
+//        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
@@ -310,7 +310,7 @@ class AppFixtures extends Fixture
             $qcm->addQuestion($randomQuestion);
             $answers = $randomQuestion->getProposals();
             $difficulty = $randomQuestion->getDifficulty();
-            $arrayDifficulty[] = $difficulty;
+            $arrayDifficulty[] = $difficulty->value;
             $arrayAnswers = [];
 
             foreach ($answers as $answer)

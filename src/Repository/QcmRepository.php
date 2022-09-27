@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Main\Module;
 use App\Entity\Main\Qcm;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -167,7 +168,39 @@ class QcmRepository extends ServiceEntityRepository
         
     }
 
-   
+    public function getQcmModules($id)
+    {
+        return $this->createQueryBuilder('q')
+            ->select('q')
+            ->innerJoin('q.module', 'm')
+            ->where('m.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
+
+        /**
+         * @return Qcm[] Returns an array of Qcm objects
+         */
+        public function getQcmsByStudentAndModule($moduleId, $studentId): array
+    {
+
+            return $this->createQueryBuilder('q')
+            ->select('qi.id, r.level, m.title, q.difficulty, q.isOfficial, r.submittedAt, r.id as resultId')
+            ->innerJoin('q.qcmInstances', 'qi')
+            ->innerJoin('qi.student', 's')
+            ->innerJoin('qi.result', 'r')
+            ->innerJoin('q.module', 'm')
+            ->where('s.id = :student_id')
+            ->andWhere('m.id = :module_id')
+            ->setParameter('student_id', $studentId)
+            ->setParameter('module_id', $moduleId)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
 //    /**
 //     * @return Qcm[] Returns an array of Qcm objects
 //     */

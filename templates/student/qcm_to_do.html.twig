@@ -8,7 +8,6 @@
 
 {% block body %}
 
-    <div class="qcmToDo">
         <h1>- {{ 'qcm.todo'|trans }} -</h1>
 
         <div class="divName">
@@ -74,7 +73,7 @@
 {#            <input type="submit" id="valid" class="button greyButton" value="J'ai fini mon qcm">#}
             <button id="valid" class="button greyButton" style="margin: 24px auto;">J'ai fini mon QCM</button>
         </form>
-    </div>
+
 
         <div id="error-modal" style="display: none">
             <div class="overlay"></div>
@@ -103,11 +102,9 @@
         <div id="comment-modal" class="modalContainer">
             <div class="overlay"></div>
             <div class="modalConfirm">
-                <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}">
+                <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}" alt="logo de Youup">
                 <p>Je laisse mon commentaire à propos de ce QCM</p>
-                <form action="{{ path('student_qcm_to_do', { 'qcmInstance': idQcmInstance }) }}" name="formulaireComment">
-                <textarea type="text"></textarea>
-                </form>
+                <textarea type="text" name="comment_student"></textarea>
                 <div class="buttonPop">
                     <button type="button" class="confirmBtn" id="confirm-qcm-btn">{{ 'button.validate'|trans }}</button>
                     <button type="button" class="cancelBtn" id="cancel-comment-btn">{{ 'button.pass'|trans }}</button>

@@ -1,0 +1,19 @@
+
+
+.container{
+    width: 90%;
+    margin: auto;
+}
+
+.flashMessage{
+    padding: 1em;
+    background: #FFF4E4;
+    margin-bottom: .5em;
+    color: green;
+}
+
+@media screen and (max-width: 450px) {
+    .container{
+        width: 100%;
+    }
+}

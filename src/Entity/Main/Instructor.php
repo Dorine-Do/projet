@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Instructor extends User
 {
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['user:read'])]
     private $isReferent;
 
     #[ORM\Column(type: 'string', length: 12, nullable: true)]
@@ -24,6 +25,7 @@ class Instructor extends User
 
     public function __construct()
     {
+        parent::__construct();
         $this->qcms = new ArrayCollection();
         $this->linksInstructorSessionModule = new ArrayCollection();
         $this->questions = new ArrayCollection();

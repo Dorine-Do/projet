@@ -1,13 +1,17 @@
 <?php
 
-    namespace App\Controller;
+namespace App\Controller;
 
+    use App\Entity\Enum\Level;
+    use App\Entity\Main\Instructor;
     use App\Entity\Main\Module;
     use App\Entity\Main\Proposal;
     use App\Entity\Main\Qcm;
     use App\Entity\Main\QcmInstance;
     use App\Entity\Main\Question;
+    use App\Entity\Main\Result;
     use App\Entity\Main\Session;
+    use App\Entity\Main\Student;
     use App\Form\CreateQuestionType;
     use App\Helpers\QcmGeneratorHelper;
     use App\Repository\InstructorRepository;
@@ -15,12 +19,15 @@
     use App\Repository\LinkSessionStudentRepository;
     use App\Repository\ModuleRepository;
     use App\Repository\ProposalRepository;
+    use App\Repository\QcmInstanceRepository;
     use App\Repository\QcmRepository;
     use App\Repository\QuestionRepository;
+    use App\Repository\ResultRepository;
     use App\Repository\SessionRepository;
     use App\Repository\StudentRepository;
     use DateInterval;
     use Doctrine\ORM\EntityManagerInterface;
+    use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\JsonResponse;
     use Symfony\Component\HttpFoundation\Request;
@@ -31,15 +38,15 @@
 
     class InstructorController extends AbstractController
     {
-
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
         private $id = 1;
 
 //    TODO future page à implémenter
-        #[Route('/instructor', name: 'welcome_instructor')]
-        public function welcome(): Response
-        {
-            return $this->render('instructor/welcome_instructor.html.twig', []);
-        }
+    #[Route('/instructor', name: 'welcome_instructor')]
+    public function welcome(): Response
+    {
+        return $this->render('instructor/welcome_instructor.html.twig', []);
+    }
 
         #[Route('instructor/creations',name:'my_creations',methods:['GET','POST'])]
         public function displayInstructionCreations():Response
@@ -195,8 +202,13 @@
         public function createQuestion(
             Request                $request,
             EntityManagerInterface $manager,
+            InstructorRepository $instructorRepository
         ): Response
         {
+
+//          TODO A enlever une fois que a connection avec google sera opérationnelle
+            $user = $instructorRepository->find( $this->id );
+
             $questionEntity = new Question();
 
             $proposal1 = new Proposal();
@@ -241,10 +253,9 @@
                     $questionEntity->setIsMultiple("false");
                 }
 
-                $questionEntity->setAuthor($this->getUser());
-                $questionEntity->setIsOfficial(false);
-                $questionEntity->setIsMandatory(false);
-                $questionEntity->setExplanation('Explication');
+//              TODO A enlever une fois que a connection avec google sera opérationnelle
+                $questionEntity->setAuthor($user);
+//                $questionEntity->setAuthor($this->getUser());
                 $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
 
                 //  validation et enregistrement des données du form dans la bdd
@@ -263,8 +274,10 @@
             return $this->render('instructor/create_question.html.twig', [
                 'form' => $form->createView(),
                 "add" => true,
+//                TODO A enlever une fois que a connection avec google sera opérationnelle
+                'user' => $user
             ]);
-        }
+            }
 
     #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
     public function createQcmPersonalized(
@@ -398,63 +411,72 @@
             return new JsonResponse($questionResponse);
         }
 
-        #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
-        public function createQcmFetch(
-            ValidatorInterface     $validator,
-            Request                $request,
-            InstructorRepository   $instructorRepository,
-            QuestionRepository     $questionRepository,
-            ModuleRepository       $moduleRepository,
-            EntityManagerInterface $entityManager
-        ): Response
+    // methode Post non permise car route non trouvée donc method Get Ok
+    #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
+    public function createQcmFetch(
+        ValidatorInterface     $validator,
+        Request                $request,
+        InstructorRepository   $instructorRepository,
+        QuestionRepository     $questionRepository,
+        ModuleRepository       $moduleRepository,
+        EntityManagerInterface $entityManager,
+        QcmGeneratorHelper $generatorHelper
+
+    ): Response
+    {
+
+
+        $data = (array)json_decode($request->getContent());
+        $qcm = new Qcm();
+          /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+          $author=$instructorRepository->find(2);
+        // $author = $instructorRepository->find($this->getUser()->getId());
+        $qcm->setAuthor($author);
+
+        $qcm->setTitle($data['name']);
+        if ($data['level'] === 'Difficile')
         {
-            $data = (array)json_decode($request->getContent());
-            $qcm = new Qcm();
-            $author = $instructorRepository->find($this->getUser()->getId());
-            $qcm->setAuthor($author);
-            $qcm->setTitle($data['name']);
-            if ($data['level'] === 'Difficile')
-            {
-                $level = 1;
-            }
-            elseif ($data['level'] === 'Moyen')
-            {
-                $level = 2;
-            }
-            else
-            {
-                $level = 3;
-            }
-            $qcm->setDifficulty($level);
-            $qcm->setIsEnabled(1);
-            $qcm->setIsOfficial(0);
-            $qcm->setIsPublic($data['isPublic']);
-            $module = $moduleRepository->find($data['module']);
-            $qcm->setModule($module);
+            $level = 1;
+        }
+        elseif ($data['level'] === 'Moyen')
+        {
+            $level = 2;
+        }
+        else
+        {
+            $level = 3;
+        }
+        $qcm->setDifficulty($level);
+        $qcm->setIsEnabled(1);
+        $qcm->setIsOfficial(0);
+        $qcm->setIsPublic($data['isPublic']);
+        $module = $moduleRepository->find($data['module']);
+        $qcm->setModule($module);
 
             /*TODO voir avec Mathieu pour utiliser le hepler pour cette partie*/
-            $questionsCache = [];
-            foreach ($data['questions'] as $question)
-            {
-                $question = $questionRepository->find($question->id);
-                $questionProposals = $question->getProposals();
-                $proposalsCache = [];
-                foreach ($questionProposals as $questionProposal)
-                {
-                    $proposalsCache[] = [
-                        'id' => $questionProposal->getId(),
-                        'wording' => $questionProposal->getWording(),
-                        'isCorrectAnswer' => $questionProposal->getIsCorrectAnswer(),
-                    ];
-                }
-                $questionsCache[] = [
-                    'id' => $question->getId(),
-                    'wording' => $question->getWording(),
-                    'isMultiple' => $question->getIsMultiple(),
-                    'difficulty' => $question->getDifficulty(),
-                    'proposals' => $proposalsCache
-                ];
-            }
+        $questionsCache = $generatorHelper->generateQuestionCache($data['questions']);
+//            $questionsCache = [];
+//            foreach ($data['questions'] as $question)
+//            {
+//                $question = $questionRepository->find($question->id);
+//                $questionProposals = $question->getProposals();
+//                $proposalsCache = [];
+//                foreach ($questionProposals as $questionProposal)
+//                {
+//                    $proposalsCache[] = [
+//                        'id' => $questionProposal->getId(),
+//                        'wording' => $questionProposal->getWording(),
+//                        'isCorrectAnswer' => $questionProposal->getIsCorrectAnswer(),
+//                    ];
+//                }
+//                $questionsCache[] = [
+//                    'id' => $question->getId(),
+//                    'wording' => $question->getWording(),
+//                    'isMultiple' => $question->getIsMultiple(),
+//                    'difficulty' => $question->getDifficulty(),
+//                    'proposals' => $proposalsCache
+//                ];
+//            }
 
             $qcm->setQuestionsCache($questionsCache);
 
@@ -462,14 +484,15 @@
             $entityManager->persist($qcm);
             $entityManager->flush();
 
-            /*TODO débuger la redirection*/
-            $this->addFlash('success', 'Le qcm a bien été modifiée.');
-            return $this->redirectToRoute('instructor_display_questions');
-        }
+        /*redirection voir js*/
+        $this->addFlash('success', 'Le qcm a bien été modifiée.');
+        // // return $this->redirectToRoute('instructor_display_questions');
+        return $this->json("ok",200);
+
+    }
 
 
-
-        #[Route('instructor/create_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
+        #[Route('instructor/qcms/create_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
         public function createOfficialQcm(
             Security               $security,
             SessionRepository      $sessionRepository,
@@ -481,14 +504,15 @@
         ): Response
         {
             $dayOfWeekEnd = array("Saturday", "Sunday");
-            /*TODO A enlever une fois que la connexion avec google sera opérationnelle*/
-            //$userId = $security->getUser();
-            $sessionAndModuleByInstructor = $instructorRepository->find(22)->getLinksInstructorSessionModule();
+//            $userId = $security->getUser();
+            /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+            $userId = 1;
+            $sessionAndModuleByInstructor = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
-            foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor)
+            foreach ($sessionAndModuleByInstructor as $sessionAndModule)
             {
-                $sessionId = $sessionAndModuleByInstructor->getSession()->getId();
-                $moduleId = $sessionAndModuleByInstructor->getModule()->getId();
+                $sessionId = $sessionAndModule->getSession()->getId();
+                $moduleId = $sessionAndModule->getModule()->getId();
                 $sessions = $sessionRepository->findBy(['id' => $sessionId]);
                 $modules = $moduleRepository->findBy(['id' => $moduleId]);
             }
@@ -499,9 +523,9 @@
             {
                 $module = $moduleRepository->find($formData["module"]);
                 $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-                $qcm = $qcmGenerator->generateRandomQcm($module, false);
+                /*TODO A enlever une fois que a connection avec google sera opérationnelle ( $instructorRepository )*/
+                $qcm = $qcmGenerator->generateRandomQcm($module,$instructorRepository, false);
                 $manager->persist($qcm);
-                $manager->flush();
 
                 $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
                 $students = [];
@@ -557,7 +581,7 @@
 
                     //  redirect to route avec flash
                     $this->addFlash(
-                        'instructorAddQcm',
+                        'success',
                         'Le qcm a été généré avec succès'
                     );
                     return $this->redirectToRoute('welcome_instructor');
@@ -576,6 +600,8 @@
         {
             /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
             $instructorSessions = $sessionRepo->getInstructorSessions($this->id);
+
+//            $instructorSessions = $sessionRepo->getInstructorSessions($this->getUser());
 
             return $this->render('instructor/plan_qcm.html.twig', [
                 'instructorSessions' => $instructorSessions,
@@ -658,6 +684,153 @@
             }
             $manager->flush();
 
+            $this->addFlash('success', 'La programmation du qcm a bien été enregistrée.');
             return $this->redirectToRoute('welcome_instructor');
         }
+
+        #[Route('instructor/qcms/distributed_qcms',name:'instructor_distributed_qcms',methods:['GET','POST'])]
+        public function distributedQcmToStudent(
+            InstructorRepository        $instructorRepository,
+            SessionRepository           $sessionRepository,
+            ModuleRepository            $moduleRepository,
+            QcmRepository               $qcmRepository,
+        ):Response
+        {
+            $userId = $this->id;
+            $sessionAndModuleByInstructor = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+
+            foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor)
+            {
+                $sessions = $sessionRepository->getInstructorSessions();
+                $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
+                $qcm = $qcmRepository->getQcmModules(1);
+            }
+
+            return $this->render('instructor/distributed_qcms.html.twig', [
+                        'sessions' => $sessions,
+                        'modules' => $modules,
+                        'qcm' => $qcm,
+                ]);
+        }
+
+        #[Route('instructor/qcms/distributed_qcms/{session}',name:'instructor_distributed_qcms_get_module_ajax',methods:['GET'])]
+        public function ajaxGetSessionByInstructor(
+            Session $session,
+            ModuleRepository $moduleRepository,
+        ):JsonResponse
+        {
+
+            $modules = $moduleRepository->getModuleSessions($session->getId());
+            $modulesName = [];
+            foreach ( $modules as $module ){
+                $modulesName[] =  ['name' => $module->getTitle(), 'id' => $module->getId()];
+            }
+            return $this->json($modulesName);
+        }
+
+        #[Route('instructor/qcms/distributed_students/{qcm}',name:'instructor_distributed_qcms_get_student_ajax',methods:['GET'])]
+        public function ajaxGetStudentByQcm(
+            Qcm $qcm = null
+        ): JsonResponse
+        {
+            if ($qcm)
+            {
+                $qcmInstances = $qcm->getQcmInstances()->toArray();
+                dump($qcmInstances);
+                $students = array_map( function($qcmInstance){
+                    dump($qcmInstance->getStudent());
+                    return [
+                        'student' => $qcmInstance->getStudent(),
+                        'result' => $qcmInstance->getResult()
+                    ];
+                }, $qcmInstances);
+                $studentResponse = [];
+                foreach ($students as $student){
+                    if(!in_array($student, $studentResponse)){
+                        $studentResponse[] = $student;
+                    }
+                }
+                dump($studentResponse);
+
+                return $this->json($studentResponse, 200, [], ['groups' => 'user:read']);
+            }
+            return new JsonResponse();
+        }
+
+        #[Route('instructor/dashboard',name:'instructor_dashboard',methods:['GET'])]
+        public function dashboard(
+            InstructorRepository        $instructorRepository,
+            SessionRepository           $sessionRepository,
+            ModuleRepository            $moduleRepository,
+        ):Response
+        {
+            /*TODO A enlever et mettre à jour quand connexion google sera rétablie */
+            $userId = $this->id;
+            $sessions = $sessionRepository->getInstructorSessions($userId);
+            $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
+
+            return $this->render('instructor/dashboard.html.twig', [
+                'sessions' => $sessions,
+                'modules' => $modules,
+            ]);
+        }
+
+        #[Route('instructor/dashboard/{session}',name:'instructor_get_module_student_ajax',methods:['GET'])]
+        public function ajaxGetSessionAndStudentByInstructor(
+            Session $session,
+            ModuleRepository $moduleRepository,
+        ):JsonResponse
+        {
+            $modules = $moduleRepository->getModuleSessions($session->getId());
+            $modulesName = [];
+            foreach ( $modules as $module ){
+                $modulesName[] =  ['name' => $module->getTitle(), 'id' => $module->getId()];
+            }
+            return $this->json($modulesName);
+        }
+
+        #[Route('instructor/dashboard/{session}/{module}',name:'instructor_get_student_ajax',methods:['GET'])]
+        #[Entity('Session', options: ['id' => 'session'])]
+        public function ajaxGetStudentByInstructorForDashBoard(
+            Session $session,
+            Module $module,
+            ResultRepository $resultRepository
+        ):JsonResponse
+        {
+            $maxScoreStudents = $resultRepository->maxScoreByModuleAndSession($session->getId(), $module->getId());
+            return $this->json($maxScoreStudents);
+        }
+
+        #[Route('instructor/dashboard/{session}/{moduleId}/{studentId}',name:'instructor_get_qcms_by_student_ajax',methods:['GET'])]
+        public function ajaxGetQcmsByStudentForDashBoard(
+            $studentId,
+            Session $session,
+            $moduleId,
+            QcmRepository $qcmRepository,
+        ):JsonResponse
+        {
+            $qcms = $qcmRepository->getQcmsByStudentAndModule(intval($moduleId),intval($studentId));
+            return $this->json($qcms);
+
+        }
+
+        #[Route('instructor/qcm_student/correction/{result}/{comment}',name:'instructor_qcm_student_add_comment_ajax',methods:['GET'])]
+        public function ajaxAddCommentQcmStudent(
+            Result $result,
+            $comment,
+            EntityManagerInterface $manager
+        ):JsonResponse
+        {
+//            dd($comment);
+            $result->setInstructorComment($comment);
+            $manager->flush();
+            return $this->json('Le commentaire a bien été ajouté');
+
+        }
+
+
+
+
+
+
     }

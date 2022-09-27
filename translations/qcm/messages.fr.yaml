@@ -18,6 +18,9 @@ qcm:
   correction: Correction
   chooseStudents:  Choix du ou des élèves pouvant faire le QCM
   doAllQestions : Merci de répondre à toutes les questions pour valider le QCM...
+  iSelecteQcm : Je sélectionne mon qcm
+  displayQuestionByChoisedQcm : Affichage de mes questions en fonction du qcms choisi
+  distributed : Qcms distribué
 
 difficulty:
   easy: Facile
@@ -29,7 +32,6 @@ module:
   choice: Choix du module
   filter: Filtrer par module
   plsChoice: Veuillez sélectionner un module
-  selectModuleToChooseQcm : Selectionnez un module pour choisir un QCM
 
 question:
   plsChoice:
@@ -51,6 +53,11 @@ question:
   session: Classe
   create: Créer une question
   selectQuestionToChooseModule : Selectionnez une session pour choisir un module
+  isOfficial : Question officielle
+  isOfficialExplain : La question sera créée en tant que question officielle. Elle sera disponible pour créer des qcm officiel.
+  isMandatoty : Question obligatoire
+  isMandatoryExplain : La question apparaitra obligatoirement dans tous les qcms finaux du module à laquelle celle-ci appartient.
+  explanation : Explication de la réponse juste
 
 proposal:
   create: Créer les réponses
@@ -59,6 +66,7 @@ session:
   choice: Choix de la classe
   popStudentList: La liste des élèves apparaitra ici lorsque vous aurez choisi une session.
 
+  sessionModule: Selectionnez une session pour choisir un module
 
 date :
   choice : Choix des dates
@@ -83,6 +91,9 @@ button:
   myCreation: Mes créations
   connect : Se connecter
   distributeQcmToSelectedStudents : Distribuer le QCM aux élèves sélectionnés
+  pass: Passer
+  progress: Ma progression
+  level: Mon niveau
 
 header:
   dashboard: Tableau de bord
@@ -125,3 +136,5 @@ title:
     studentInterface : Mon interface apprenant
     chooseQcm : Choix du qcm par module et par niveau
     clickFrameToCloseTab : clique sur le cadre pour fermer l'onglet
+  myQcmExercice : Mes Qcms d'exercices
+  espaceQcm : Mon espace QCM

@@ -40,19 +40,18 @@ class SessionRepository extends ServiceEntityRepository
         }
     }
 
-    public function getInstructorSessions( $instructor )
+    public function getInstructorSessions()
     {
         return $this->createQueryBuilder('s')
             ->select('s')
             ->join(LinkInstructorSessionModule::class, 'lism')
             ->where('lism.instructor = :instructor' )
             ->andWhere( 'lism.session = s.id' )
-            /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+//           /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
             ->setParameter('instructor', 1 )
             ->getQuery()
             ->getResult();
     }
-
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */
