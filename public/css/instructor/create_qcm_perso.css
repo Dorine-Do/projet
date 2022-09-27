@@ -384,6 +384,12 @@ hr {
 .spanWording {
   margin-left: 0.5em;
 }
+.responselabel {
+  text-align: center;
+  font-weight: 600;
+  font-size: 20px;
+  text-decoration: underline;
+}
 /***************************************************************************************************/
 /*QCM CHOISED*/
 /***************************************************************************************************/
@@ -631,11 +637,10 @@ hr {
 
 .modifyP {
   display: grid;
-  grid-template-columns: 12% 70% 8% 10%;
+  grid-template-columns: 12% 65% 8% 15%;
   align-items: center;
-  width: 100%;
-  margin: 0 0 0.2em 0;
-  padding: 0;
+  grid-gap: 0.2em;
+  padding: 0 0.5em;
 }
 
 .modifyP textarea {

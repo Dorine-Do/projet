@@ -141,7 +141,7 @@ form {
   padding: 2.5em 0;
 }
 #create_question_wording {
-  width: 80%;
+  width: 73%;
   height: 75px;
   margin-left: auto;
   margin-right: auto;
@@ -266,7 +266,7 @@ form {
   color: grey;
   padding: 0.5em;
   background: var(--fond);
-  width: 100%;
+  width: 80%;
   margin: auto;
 }
 
@@ -351,8 +351,9 @@ img {
 .infoQuestion {
   width: 70%;
   margin: 2em auto 0;
-  border-bottom: 2px dashed var(--grey);
-  border-top: 2px dashed var(--grey);
+  /* temporaire */
+  /* border-bottom: 2px dashed var(--grey);
+  border-top: 2px dashed var(--grey); */
   padding: 0 1em 1em;
 }
 
