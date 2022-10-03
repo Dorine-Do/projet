@@ -21,6 +21,7 @@ qcm:
   iSelecteQcm : Je sélectionne mon qcm
   displayQuestionByChoisedQcm : Affichage de mes questions en fonction du qcms choisi
   distributed : Qcms distribué
+  chooseQcmModuleLevel : Choix du qcm par module et par niveau
 
 difficulty:
   easy: Facile
@@ -94,6 +95,13 @@ button:
   pass: Passer
   progress: Ma progression
   level: Mon niveau
+  seeQcm : Voir mon QCM
+  personalized : Personnaliser
+  explanation : Explication
+  officialQuestions : Questions officielles
+  personalizedQuestions : Questions personalisées
+  register : Enregistrer
+  validPersonalizedQcm : Valider le QCM personnalisé
 
 header:
   dashboard: Tableau de bord
@@ -129,6 +137,12 @@ title:
   chooseSession : Choix de la session
   chooseModule : Choix du module
   validate: Valider
+  qcmChoosed : QCM choisi
+  qcmPersonalized : Personnaliser son QCM
+  levelByQuestionDifficulty : Le niveau est déterminé automatiquement par la difficulté des questions
+  qcmPersonalizedTitle : Donner un titre au qcm personnalisé
+  qcmUseByOtherTeacher : Ce qcm pourra t'il être utilisé par d'autres formateurs?
+  qcmPlan: QCMs Plannifiés
 
 
 
@@ -136,5 +150,4 @@ title:
     studentInterface : Mon interface apprenant
     chooseQcm : Choix du qcm par module et par niveau
     clickFrameToCloseTab : clique sur le cadre pour fermer l'onglet
-  myQcmExercice : Mes Qcms d'exercices
-  espaceQcm : Mon espace QCM
+    myQcmExercice : Mes Qcms d'exercices

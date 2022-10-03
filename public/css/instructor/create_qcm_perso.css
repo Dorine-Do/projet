@@ -81,22 +81,6 @@ hr {
   margin: auto;
   outline: none;
 }
-.buttonGenerate {
-  background-color: var(--grey);
-  color: white;
-  border-radius: 2em;
-  border: none;
-  padding: 1em 0;
-  font-size: var(--semi_normal);
-  width: 80%;
-  margin: auto;
-}
-
-.buttonGenerate:hover {
-  cursor: pointer;
-  background-color: var(--vert);
-  font-weight: bold;
-}
 
 .etape {
   background-color: var(--pamplemousse);
@@ -114,8 +98,7 @@ hr {
 /*GENERATE QCM*/
 /***************************************************************************************************/
 
-.btnCustom,
-.btnShowQcm {
+.btnCustom {
   background-color: var(--grey);
   color: white;
   border-radius: 2em;
@@ -131,12 +114,6 @@ hr {
   cursor: pointer;
   background-color: var(--vert);
   font-weight: bold;
-}
-
-.showQcm {
-  background-color: var(--fond);
-  padding: 2em;
-  border-radius: 0.5em;
 }
 
 /************************************************************************/

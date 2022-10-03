@@ -39,7 +39,7 @@ namespace App\Controller;
     class InstructorController extends AbstractController
     {
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        private $id = 1;
+        private $id = 21;
 
 //    TODO future page à implémenter
     #[Route('/instructor', name: 'welcome_instructor')]
@@ -295,7 +295,7 @@ namespace App\Controller;
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
         // $userId=$instructorRepository->find($id);
         // $userId = $this->getUser()->getId();
-        $userId =2;
+        $userId =21;
         $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
         $modules = [];
@@ -312,45 +312,35 @@ namespace App\Controller;
             $module = $moduleRepository->find($request->get('module'));
         }
 
-        if ($module)
-        {
+        if ($module) {
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
-             //qcm instance
+            //qcm instance
             // $qcms = $qcmRepo->findBy(["module"=>$module->getId()]);
             // $qcmInstances = $qcmInstanceRepository->findBy(["qcm"=>$qcms]);
             $qcms = $module->getQcms();
             $moduleQuestions = $module->getQuestions();
 
+            // $qcmInstanceFromOfficialQcm=[];
+            // foreach($qcmInstances as $qcm){
+            //     $qcmInstanceFromOfficialQcm[]=["id"=>$qcm->getQcm()->getId(),"questions"=>$qcm->getQcm()->getQuestionsCache()];
 
-        }
-
-
-        // $qcmInstanceFromOfficialQcm=[];
-        // foreach($qcmInstances as $qcm){
-        //     $qcmInstanceFromOfficialQcm[]=["id"=>$qcm->getQcm()->getId(),"questions"=>$qcm->getQcm()->getQuestionsCache()];
-
-        // }
-        //pour chaque q recup les qcm lié et enregistré le nombr d'instance de c'est q en tant que val
+            // }
+            //pour chaque q recup les qcm lié et enregistré le nombr d'instance de c'est q en tant que val
 
 
-        $qcmInstancesByQuestion = [];
-        foreach($moduleQuestions as $moduleQuestion){
+            $qcmInstancesByQuestion = [];
+            foreach ($moduleQuestions as $moduleQuestion) {
 
-            $count=0;
-            foreach($moduleQuestion->getQcms() as $moduleQuestionQcm ) {
-                $count+=count($moduleQuestionQcm->getQcmInstances());
-              }
-             $qcmInstancesByQuestion[$moduleQuestion->getId()]=$count;
+                $count = 0;
+                foreach ($moduleQuestion->getQcms() as $moduleQuestionQcm) {
+                    $count += count($moduleQuestionQcm->getQcmInstances());
+                }
+                $qcmInstancesByQuestion[$moduleQuestion->getId()] = $count;
             }
-
-
-
-
-
-
+        }
 
         /********************************************************************************/
         return $this->render('instructor/create_qcm_perso.html.twig', [
@@ -361,8 +351,10 @@ namespace App\Controller;
             // temporaire voir todo pour connection
             'user'=>$userId,
             // 'qcmInstanceFromOfficialQcm'=>$qcmInstanceFromOfficialQcm,
-            'qcms'=>$qcms,
-            'qcmInstancesByQuestion'=>$qcmInstancesByQuestion
+            'qcms'=> $module ? $qcms : null
+,
+            'qcmInstancesByQuestion'=> $module ? $qcmInstancesByQuestion : null
+
 
         ]);
     }
@@ -701,7 +693,7 @@ namespace App\Controller;
 
             foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor)
             {
-                $sessions = $sessionRepository->getInstructorSessions();
+                $sessions = $sessionRepository->getInstructorSessions($userId);
                 $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
                 $qcm = $qcmRepository->getQcmModules(1);
             }
