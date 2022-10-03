@@ -10,29 +10,29 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class ConnectionController extends AbstractController
 {
-//    #[Route('/', name: 'app_connection')]
-//    public function index( AuthenticationUtils $authUtils ): Response
-//    {
-//        $error = $authUtils->getLastAuthenticationError();
-//        $lastUsername = $authUtils->getLastUsername();
-//
-//        return $this->render('connection/index.html.twig', [
-//            'last_username' => $lastUsername,
-//            'error' => $error
-//        ]);
-//    }
-
     #[Route('/', name: 'app_connection')]
     public function index( AuthenticationUtils $authUtils ): Response
     {
         $error = $authUtils->getLastAuthenticationError();
         $lastUsername = $authUtils->getLastUsername();
 
-        return $this->render('connection/one-tap.html.twig', [
+        return $this->render('connection/index.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error
         ]);
     }
+
+//    #[Route('/', name: 'app_connection')]
+//    public function index( AuthenticationUtils $authUtils ): Response
+//    {
+//        $error = $authUtils->getLastAuthenticationError();
+//        $lastUsername = $authUtils->getLastUsername();
+//
+//        return $this->render('connection/one-tap.html.twig', [
+//            'last_username' => $lastUsername,
+//            'error' => $error
+//        ]);
+//    }
 
     #[Route('/dashboard/check', name: 'app_check_dashboard')]
     public function roleChecking( Security $security): Response
