@@ -6,10 +6,20 @@
 
 {% block body %}
 
+<div class="container_create_qcm">
+<h1>{{ 'title.iCreateQcm'|trans }}</h1>
+  {# <nav class="create_qcm">
+    <div>ici logo</div>
+    <ul class="list_buttons_nav">
+      <Li>Créer un qcm</Li>
+      <Li>Mon planning</Li>
+      <Li>Tableau de bord</Li>
+      <Li>Gestion qcm</Li>
+    </ul>
 
-<h1>Je crée un qcm</h1>
+  </nav> #}
   <main class="content_qcm_creation">
-    <p class="step_one"><span>Etape 1</span>Choix de la session</p>
+    <p class="step_one"><span>{{ 'title.step1'|trans }}</span>{{ 'title.chooseSession'|trans }}</p>
     <form method="GET" action="{{path('instructor_create_qcm')}}">
     <div class="bloc_choice_session_and_module">
     
@@ -26,7 +36,7 @@
       </ul>
       
     </div>
-    <p class="step_two"><span>Etape 2</span>choix du module</p>
+    <p class="step_two"><span>{{ 'title.step2'|trans }}</span>{{ 'title.chooseModule'|trans }}</p>
     <div class="select_module">
         <select name="module" id="module">
          {% for module in modules %}
@@ -34,12 +44,13 @@
           {% endfor %}
         </select>
       </div>
-    <p class="step_three"><span>Etape 3</span>Valider</p>
+    <p class="step_three"><span>{{ 'title.step3'|trans }}</span>{{ 'title.validate'|trans }}</p>
     <div class="bloc_generate_qcm">
-      <button type="submit">Générer un qcm</button>
+      <button type="submit">{{ 'button.generateQcm'|trans }}</button>
     </div>
     </form>
   </main>
+</div>
 {% block javascripts %}
 {# temporaire #}
     <script>
@@ -57,7 +68,17 @@
              sessionInput.value=`${sessionLiId}`
            })
          }
-      
+
+       /////////////////////
+      //  TEST url
+      if (window.location.href.includes(location.pathname)) {
+        // linkCreation.classList.add('activeBorderLinkNav')
+        navLinkChoice.style.width = "90%";
+        navLinkChoice.style.gridTemplateColumns = "repeat(4,1fr)";
+        linkCreation.style.display = "inline";
+        linkQcmGiven.style.display = "inline";
+      }
+
     }
     </script>
  
