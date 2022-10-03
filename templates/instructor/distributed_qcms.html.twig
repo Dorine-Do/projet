@@ -9,20 +9,47 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-    <select id="session-choice" name="session">
-        <option value="0">Selectionnez une session pour choisir un module</option>
-        {% for session in sessions %}
-            <option value="{{ session.id }}">{{ session.name }}</option>
-        {% endfor %}
-    </select>
+    <h1>- {{ 'title.qcmPlan'|trans }} -</h1>
 
-    <select id="module-choice" name="module">
-        <option value="0">Selectionnez un module</option>
-    </select>
+    <p>
+        <span class="circle orangeCircle">1</span> {{ 'session.choice'|trans }}
+    </p>
+    <div class="firstSelect">
+        <select id="session-choice" name="session">
+            <option value="0">{{ 'session.sessionModule'|trans }}</option>
+            {% for session in sessions %}
+                <option value="{{ session.id }}">{{ session.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+
+    <p>
+        <span class="circle orangeCircle">2</span> {{ 'module.choice'|trans }}
+    </p>
+    <div class="secondSelect">
+        <select id="module-choice" name="module">
+            <option value="0">{{ 'module.plsChoice'|trans }}</option>
+        </select>
+    </div>
+    <div id="qcms-module">
+
+
+    </div>
+    <div id="students-qcm">
+
+
+    </div>
+
 {% endblock %}
 
 {% block javascripts %}
-
+    <script>
+        let decouvre = "{{asset('build/images/arbre_decouvre.png')}}"
+        let explore = "{{asset('build/images/arbre_explore.png')}}"
+        let maitrise = "{{asset('build/images/arbre_maitrise.png')}}"
+        let domine = "{{asset('build/images/arbre_domine.png')}}"
+    </script>
     <script type="text/javascript" src="{{ asset('js/instructor/distributedQcms.js') }}"></script>
 
 {% endblock %}

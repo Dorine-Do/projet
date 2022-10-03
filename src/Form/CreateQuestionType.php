@@ -114,11 +114,6 @@ class CreateQuestionType extends AbstractType
             //    Intégration d'une autre entité dans un form
             ->add('module', EntityType::class, [
                 'class'=> Module::class,
-                // Voir repository -> méthode accepté createQueryBuilder() et non getResult() car array return
-                'query_builder' => function(ModuleRepository $moduleRepository){
-                    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-                    return $moduleRepository->getModules(1);
-                },
                 'choice_label'=>'title',
                 'empty_data' =>function(){
                    $module= new Module();

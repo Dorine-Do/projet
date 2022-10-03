@@ -8,7 +8,6 @@
 
 {% block body %}
 
-
         <h1>- {{ 'qcm.correction'|trans }} -</h1>
 
         <div class="divName">
@@ -120,19 +119,18 @@
             {#{% if app.user %}#}
             {#/* TODO A enlever une fois que a connection avec google sera opérationnelle*/#}
             {% if user is same as 'student' %}
-                <div class="containerComment">
-                    <div>
-                        <h4>Mon commentaire </h4>
-                        <p class="comment">
-                            {{ studentComment }}
-                        </p>
-                    </div>
-                    <div>
-                        <h4>Commentaire du formateur </h4>
-                        <p class="comment">
-                            {{ instructorComment }}
-                        </p>
-                    </div>
+            <div class="containerComment">
+                <div>
+                    <h4>{{ 'title.myComment'|trans }} </h4>
+                    <p class="comment">
+                        {{ studentComment }}
+                    </p>
+                </div>
+                <div>
+                    <h4>{{ 'title.trainerComment'|trans }} </h4>
+                    <p class="comment">
+                        {{ instructorComment }}
+                    </p>
                 </div>
             {% elseif user is same as 'instructor' %}
                 <div class="containerComment">

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/student/welcome_student.css') }}">
+{% endblock %}
+
+{% block body %}
+
+
+<h1> -  {{ 'title.weclome'|trans }} - </h1>
+<div class="accueilDiv">
+    <div class="sectionOne">
+        <div class="hrefDiv">
+            <div class="hrefDecorationDiv">
+                <a href="{{ path('student_progression')}}" class="accueilA">{{ 'button.progress'|trans }}</a>
+            </div>
+        </div>
+    </div>
+    <div class="sectionTwo">
+        <div class="hrefDiv">
+            <div class="hrefDecorationDiv">
+                <a href="{{ path('student_level') }}" class="accueilA"> {{ 'button.level'|trans }}</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

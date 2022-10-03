@@ -17,6 +17,7 @@ use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\ResultRepository;
 use App\Repository\StudentRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +30,7 @@ class StudentController extends AbstractController
 //    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
     public function __construct(StudentRepository $studentRepository){
         $this->studentRepo = $studentRepository;
-        $this->id = 11;
+        $this->id = 37;
     }
 
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
@@ -347,16 +348,20 @@ class StudentController extends AbstractController
         ModuleRepository $moduleRepo,
         QuestionRepository $questionRepo,
         Security $security,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        UserRepository      $userRepository
     ): Response
     {
         $module = $moduleRepo->find( $request->get('module') );
         $difficulty = (int) $request->get('difficulty');
 
-        $student = $this->getUser();
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+        $student = $this->studentRepo->find($this->id);
+
+//        $student = $this->getUser();
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, true, $difficulty, $this->studentRepo );
+        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $userRepository,true, $difficulty);
 
         $manager->persist( $trainingQcm );
         $manager->flush();
@@ -607,6 +612,17 @@ class StudentController extends AbstractController
         ]);
     }
 
+    #[Route('student/dashboard', name: 'student_dashboard', methods: ['GET'])]
+    public function studentDashboard(
+
+    ): Response
+    {
+
+
+        return $this->render('student/welcome_student.html.twig', [
+
+        ]);
+    }
 
 
 }

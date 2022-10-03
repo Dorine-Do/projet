@@ -3,7 +3,8 @@ let isCreateQuestionFormValidable = false;
 
 function checkCreateQuestionForm(e)
 {
-    e.preventDefault();
+    console.log(e)
+    // e.preventDefault();
     if( !isCreateQuestionFormValidable )
     {
         let errorMessages = document.querySelectorAll('.errorMsg');
@@ -127,7 +128,7 @@ function checkCreateQuestionForm(e)
     }
     else
     {
-        document.querySelector( 'input[name="create_question"]' ).submit();
+        document.querySelector( 'form[name="create_question"]' ).submit();
     }
 }
 

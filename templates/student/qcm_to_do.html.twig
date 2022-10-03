@@ -8,7 +8,6 @@
 
 {% block body %}
 
-
         <h1>- {{ 'qcm.todo'|trans }} -</h1>
 
         <div class="divName">
@@ -73,7 +72,7 @@
             {% endfor %}
             <input type="submit" id="valid" value="J'ai fini mon qcm">
         </form>
-    </div>
+
 
         <div id="error-modal" style="display: none">
             <div class="overlay"></div>
@@ -110,6 +109,7 @@
                     <button type="button" class="cancelBtn" id="cancel-comment-btn">{{ 'button.pass'|trans }}</button>
                 </div>
             </div>
+        </div>
 
 {% endblock %}
 {% block javascripts %}

@@ -1,0 +1,43 @@
+body {
+    position: relative;
+    margin: 0;
+}
+
+.sectionOne,
+.sectionTwo{
+    background: var(--fond);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 30px auto;
+    text-align: center;
+    width: 80%;
+}
+
+.accueilDiv {
+    margin: 20px auto 100px auto;
+}
+
+.hrefDiv {
+    margin: auto;
+    background-color: var(--pamplemousse);
+    padding: 1em 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px 1px gray;
+    width: 90%;
+}
+
+.hrefDecorationDiv {
+    border-bottom: 2px solid var(--fond);
+    padding: 36px;
+}
+.hrefDecorationDiv:hover {
+    border-radius: 10px;
+    border: 2px solid var(--fond);
+    padding: 35px;
+}
+
+.accueilA {
+    width: 100%;
+    display: inline-block;
+    font-weight: 600;
+}
