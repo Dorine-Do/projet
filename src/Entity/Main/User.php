@@ -56,6 +56,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer', nullable: true)]
     private $moodleId;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $suiviId;
+
     #[ORM\Column(type: 'datetime')]
     #[Groups(['user:read'])]
     private \DateTime $createdAt;
@@ -223,6 +226,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setMoodleId(int $moodleId): self
     {
         $this->moodleId = $moodleId;
+
+        return $this;
+    }
+
+    public function getSuiviId(): ?int
+    {
+        return $this->suiviId;
+    }
+
+    public function setSuiviId(int $suiviId): self
+    {
+        $this->suiviId = $suiviId;
 
         return $this;
     }
