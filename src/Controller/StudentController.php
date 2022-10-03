@@ -30,7 +30,7 @@ class StudentController extends AbstractController
 //    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
     public function __construct(StudentRepository $studentRepository){
         $this->studentRepo = $studentRepository;
-        $this->id = 37;
+        $this->id = 11;
     }
 
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
@@ -388,13 +388,17 @@ class StudentController extends AbstractController
         QuestionRepository $questionRepo,
         Module $module,
         Security $security,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        UserRepository $userRepository
     ): Response
     {
-        $student = $this->getUser();
+
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+        $student = $this->studentRepo->find($this->id);
+//        $student = $this->getUser();
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $retryQcm = $qcmGenerator->generateRandomQcm( $module );
+        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $userRepository );
 
         $manager->persist( $retryQcm );
         $manager->flush();
@@ -426,7 +430,10 @@ class StudentController extends AbstractController
     ): Response
     {
         $qcmInstance = new QcmInstance();
-        $qcmInstance->setStudent( $this->getUser() );
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+        $student = $this->studentRepo->find($this->id);
+        $qcmInstance->setStudent( $student );
+//        $qcmInstance->setStudent( $this->getUser() );
         $qcmInstance->setQcm( $qcm );
         $qcmInstance->setStartTime( new \DateTime() );
         $endTime = new \DateTime();
