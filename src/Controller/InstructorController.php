@@ -203,7 +203,8 @@ namespace App\Controller;
         public function createQuestion(
             Request                $request,
             EntityManagerInterface $manager,
-            InstructorRepository $instructorRepository
+            InstructorRepository $instructorRepository,
+            QuestionRepository     $questionRepository
         ): Response
         {
 
@@ -254,6 +255,16 @@ namespace App\Controller;
                     $questionEntity->setIsMultiple("false");
                 }
 
+                if(!in_array('ROLE_ADMIN', $user->getRoles()))
+                {
+                    $questionEntity->setIsMandatory(0);
+
+                    if($user->isReferent() === 0)
+                    {
+                        $questionEntity->setIsOfficial(0);
+                    }
+                }
+
 //              TODO A enlever une fois que a connection avec google sera opérationnelle
                 $questionEntity->setAuthor($user);
 //                $questionEntity->setAuthor($this->getUser());
@@ -269,6 +280,8 @@ namespace App\Controller;
                     'instructorAddQuestion',
                     'La question a été généré avec succès'
                 );
+
+
                 return $this->redirectToRoute('instructor_display_questions');
 
             }
