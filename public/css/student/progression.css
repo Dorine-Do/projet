@@ -22,6 +22,7 @@
     height: 18.9em;
     border-radius: 5px;
     overflow-x: hidden;
+    width: 94em;
 }
 
 .isOfficialQcm{
@@ -45,6 +46,11 @@
 /*    flex-direction: column-reverse;*/
 /*    margin: 1em auto;*/
 /*}*/
+
+.infoQcm{
+    width: 86%;
+    z-index: 2;
+}
 
 .infoTimeLine{
     padding: .5em 0;
@@ -146,11 +152,15 @@
         overflow-x: initial;
         overflow-y: scroll;
         height: 30em;
+        width: 90%;
+        margin: 1em auto;
+        position: static;
     }
     .lineX {
-        top: 4%;
-        left: 226px;
+        top: 80%;
+        left: 188px;
         width: 1%;
+        height: 30em;
     }
     .timeLine{
         display: block;
@@ -160,25 +170,51 @@
         padding: .5em 0;
     }
     .isOfficialQcm{
-        width: 75%;
-        position: static;
-        margin: auto;
+        margin: 0;
+        width: 59%;
+        min-width: 5em;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
     }
     .lineY{
-        display: none;
+        background: var(--pamplemousse);
+        width: 5em;
+        height: 1.5px;
+        top: 25px;
+        right: 21px;
     }
+
+    .infoQcm{
+        width: 59%;
+    }
+
     .passOrNot{
         margin: 0;
     }
+
+    .infoTimeLine{
+        width: 100%;
+        position: relative;
+    }
+
+    .passOrNot{
+        width: 21%;
+        align-self: self-start;
+        margin: .2em 0;
+    }
+
     .isOfficialQcmOdd{
-        flex-direction: column;
-        margin: 0;
+        right: -41%;
+        flex-direction: row-reverse;
     }
 
     .pBadge{
         text-align: center;
-        position: static;
-        margin: 1em auto;
+        margin: 0 auto;
+        padding: .5em 0;
+        margin-bottom: 1em;
+        width: 25%;
     }
 
 

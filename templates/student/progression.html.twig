@@ -18,8 +18,11 @@
                      data-endDate = "{{ isOfficialQcm.endDate }}"
                 >
                     <div class="lineY"></div>
-                    <p class="infoTimeLine moduleTitle" data-id = "{{ isOfficialQcm.moduleId }}"> {{ isOfficialQcm.moduleTitle }} </p>
-                    <p class="infoTimeLine iTrainning"> Je m'entraine </p>
+                    <div class="infoQcm">
+                        <p class="infoTimeLine moduleTitle" data-id = "{{ isOfficialQcm.moduleId }}"> {{ isOfficialQcm.moduleTitle }} </p>
+                        <p class="infoTimeLine iTrainning"> Je m'entraine </p>
+                    </div>
+
                     {% if isOfficialQcm.level is same as 1  or isOfficialQcm.level is same as 2%}
                         <p class="passOrNot">X</p>
                     {% else %}
