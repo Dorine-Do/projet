@@ -642,7 +642,6 @@ namespace App\Controller;
                 $students = array_map(function ($LinkSessionStudent) {
                     return $LinkSessionStudent->getStudent();
                 }, $LinksSessionStudent);
-
                 return $this->json($students, 200, [], ['groups' => 'user:read']);
             }
             return new JsonResponse();
@@ -740,9 +739,7 @@ namespace App\Controller;
             if ($qcm)
             {
                 $qcmInstances = $qcm->getQcmInstances()->toArray();
-                dump($qcmInstances);
                 $students = array_map( function($qcmInstance){
-                    dump($qcmInstance->getStudent());
                     return [
                         'student' => $qcmInstance->getStudent(),
                         'result' => $qcmInstance->getResult()
