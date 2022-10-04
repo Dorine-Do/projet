@@ -14,8 +14,6 @@ function getStudentsByModuleFromAjax(sessionId, moduleId){
     fetch( 'dashboard/' + sessionId + '/' + moduleId, {method: 'GET'} )
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
-            console.log('stop')
             displayStudents(data)
         })
 }
@@ -24,7 +22,6 @@ function getQcmsDoneByStudentFromAjax(sessionId, moduleId, studentId){
     fetch( 'dashboard/' + sessionId + '/' + moduleId + '/' + studentId, {method: 'GET'} )
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
             displayQcmsDone(data)
         })
 }
@@ -33,7 +30,7 @@ function getQcmsDoneByStudentFromAjax(sessionId, moduleId, studentId){
 //Display
 function displayModules(data){
     levelDiv.style.display = 'block'
-    console.log(data)
+    selectModule.innerHTML = ""
     data.forEach( module => {
         let option = document.createElement('option')
         option.innerHTML = module['name']
@@ -217,7 +214,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 qcmsDiv.style.display = "none"
                 ulListQcms.innerHTML = ""
             }
-            console.log('hi')
             liStudentsData = document.querySelectorAll('.liStudentData')
             liStudentsData.forEach( li => {
                let level = li.lastChild.dataset.level
