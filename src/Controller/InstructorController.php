@@ -42,12 +42,11 @@ namespace App\Controller;
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
         private $id = 1;
 
-//    TODO future page à implémenter
-    #[Route('/instructor', name: 'welcome_instructor')]
-    public function welcome(): Response
-    {
-        return $this->render('instructor/welcome_instructor.html.twig', []);
-    }
+        #[Route('/instructor', name: 'welcome_instructor')]
+        public function welcome(): Response
+        {
+            return $this->render('instructor/welcome_instructor.html.twig', []);
+        }
 
         #[Route('instructor/creations',name:'my_creations',methods:['GET','POST'])]
         public function displayInstructionCreations():Response
@@ -373,49 +372,49 @@ namespace App\Controller;
         ]);
     }
 
-        #[Route('instructor/questions/upDate_fetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
-        public function upDateQuestionFetch(
-            ValidatorInterface     $validator,
-            Request                $request,
-            InstructorRepository   $instructorRepository,
-            ModuleRepository       $moduleRepository,
-            QuestionRepository     $questionRepository,
-            EntityManagerInterface $entityManager
-        ): Response
+    #[Route('instructor/questions/upDate_fetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
+    public function upDateQuestionFetch(
+        ValidatorInterface     $validator,
+        Request                $request,
+        InstructorRepository   $instructorRepository,
+        ModuleRepository       $moduleRepository,
+        QuestionRepository     $questionRepository,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+        $data = (array) json_decode($request->getContent());
+        $question = new Question();
+        $module = $moduleRepository->find($data['module']);
+        $question->setModule($module);
+        $question->setWording($data['wording']);
+        $question->setIsMultiple($data['isMultiple']);
+        $question->setDifficulty(1);
+        $question->setExplanation('null');
+        $author = $instructorRepository->find($this->getUser()->getId());
+        $question->setAuthor($author);
+        $question->setIsMandatory(0);
+        $question->setIsOfficial(0);
+        $question->setIsEnabled(1);
+
+        foreach ($data['proposals'] as $proposal)
         {
-            $data = (array) json_decode($request->getContent());
-            $question = new Question();
-            $module = $moduleRepository->find($data['module']);
-            $question->setModule($module);
-            $question->setWording($data['wording']);
-            $question->setIsMultiple($data['isMultiple']);
-            $question->setDifficulty(1);
-            $question->setExplanation('null');
-            $author = $instructorRepository->find($this->getUser()->getId());
-            $question->setAuthor($author);
-            $question->setIsMandatory(0);
-            $question->setIsOfficial(0);
-            $question->setIsEnabled(1);
+            $newProposal = new Proposal();
+            $newProposal->setWording($proposal->wording);
+            $newProposal->setIsCorrectAnswer($proposal->isCorrectAnswer);
+            $validator->validate($newProposal);
+            $question->addProposal($newProposal);
+        };
 
-            foreach ($data['proposals'] as $proposal)
-            {
-                $newProposal = new Proposal();
-                $newProposal->setWording($proposal->wording);
-                $newProposal->setIsCorrectAnswer($proposal->isCorrectAnswer);
-                $validator->validate($newProposal);
-                $question->addProposal($newProposal);
-            };
+        $validator->validate($question);
 
-            $validator->validate($question);
+        $entityManager->persist($question);
+        $entityManager->flush();
 
-            $entityManager->persist($question);
-            $entityManager->flush();
+        $questionResponse = $questionRepository->find($question->getId());
 
-            $questionResponse = $questionRepository->find($question->getId());
-
-            /*TODO Débuger le jsonResponse*/
-            return new JsonResponse($questionResponse);
-        }
+        /*TODO Débuger le jsonResponse*/
+        return new JsonResponse($questionResponse);
+    }
 
     // methode Post non permise car route non trouvée donc method Get Ok
     #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
@@ -427,7 +426,6 @@ namespace App\Controller;
         ModuleRepository       $moduleRepository,
         EntityManagerInterface $entityManager,
         QcmGeneratorHelper $generatorHelper
-
     ): Response
     {
 
