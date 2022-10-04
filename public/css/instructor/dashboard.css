@@ -1,35 +1,150 @@
+.titleDashboard{
+    margin-bottom: 50px;
+}
 
+.title{
+    text-align: center;
+    width: 60%;
+    padding: 10px;
+    border-radius: 2em;
+    background-color: var(--pamplemousse);
+    margin: auto;
+    font-weight: bold;
+    color: white;
+}
+
+#module-choice{
+    background-color: white;
+    padding: 1em;
+    width: 33%;
+    border: none;
+    box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: block;
+    margin: 10px auto;
+}
+
+.level{
+    background-color: var(--fond);
+    padding: 16px;
+    margin: 50px auto;
+    display: flex;
+}
+
+.pIsOfficial{
+    background-color: var(--grey);
+    color: white;
+    border-radius: 50px;
+    border: none;
+    padding: 10px;
+    width: 6em;
+    margin-bottom: 15px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: 'Alumni Sans', sans-serif;
+}
+
+.pDifficulty{
+    background-color: var(--pamplemousse);
+    color: white;
+    border-radius: 50px;
+    border: none;
+    padding: 10px;
+    width: 6em;
+    margin-bottom: 15px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: 'Alumni Sans', sans-serif;
+}
+
+.pTitle{
+    background-color: var(--grey);
+    color: white;
+    border-radius: 9px;
+    border: none;
+    padding: 15px;
+    width: 8em;
+    margin-bottom: 15px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: 'Alumni Sans', sans-serif;
+}
+
+.QcmsList{
+    background-color: var(--fond);
+    padding: 2em;
+    margin: 50px auto;
+}
 
 /**********************************************************************************************************************/
 /* Session / Level / Students */
-.nameSession,
+.nameSession{
+    -moz-appearance: none;
+    border-radius: 7px;
+    padding: 1em 200px;
+    width: 254px;
+    border: 1px solid #ccc;
+    background-color: var(--grey);
+    height: 70px;
+}
+
 .nameLevel{
     -moz-appearance: none;
     border-radius: 7px;
     padding: 1em 200px;
-    width: 130px;
+    width: 198px;
     border: 1px solid #ccc;
     background-color: var(--grey);
     height: 70px;
+}
+
+.nameLevel label{
+    top: 23.5px;
+    width: 185px;
+}
+
+.nameSession label{
+    top: 23.5px;
+    width: 94%;
+    text-align: center;
 }
 
 .checkboxStudent{
     -moz-appearance: none;
     height: 40px;
     border-radius: 7px;
-    border: 2px solid var(--pamplemousse);
 }
 
 .nameSession:checked,
-.nameLevel:checked,
-.checkboxStudent:checked{
+.nameLevel:checked{
     background-color: var(--vert);
     color: white;
 }
 
+.checkboxStudent:checked{
+    background-color: var(--pamplemousse);
+    padding: 4px 12px;
+    border-radius: 1em;
+}
+
 .choiceSession{
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    background-color: var(--fond);
+    width: 85%;
+    padding: 8px 32px;
+    margin: 50px auto;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.choiceLevel{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
 }
 
 .liSession,
@@ -86,6 +201,12 @@
     border-radius: 7px;
 }
 
+.divStudentData:hover{
+    background-color: var(--pamplemousse);
+    padding: 4px 12px;
+    border-radius: 1em;
+}
+
 .imgLevel{
     position: absolute;
     right: 0;
@@ -98,6 +219,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    border-bottom: 1px dashed var(--writing);
 }
 
 .liQcmDone:hover{
