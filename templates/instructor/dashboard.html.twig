@@ -8,8 +8,10 @@
 
 {% block body %}
 
+    <h1 class="titleDashboard">- TABLEAU DE BORD -</h1>
+
     <section>
-        <p>
+        <p class="title">
             Session
         </p>
         <ul class="choiceSession">
@@ -21,8 +23,8 @@
         </ul>
     </section>
 
+        <h4 class="title">Niveau</h4>
     <div class="level">
-        <h4>Niveau</h4>
         <select id="module-choice" name="module">
             <option value="0">Selectionnez un module</option>
         </select>
@@ -46,13 +48,13 @@
     </div>
 
     <div class="students">
-        <h4>Liste des élèves</h4>
+        <h4 class="title">Liste des élèves</h4>
         <div class="studentsList">
             <ul class="ulListStudents"></ul>
         </div>
     </div>
 
-    <div class="qcmsDone">
+    <div class="qcms">
         <h4>Qcms effectués</h4>
         <div class="QcmsList">
             <ul class="ulListQcms"></ul>

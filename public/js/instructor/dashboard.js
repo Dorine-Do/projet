@@ -201,14 +201,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
     levelDiv.style.display = 'none'
     studentsDiv = document.querySelector('.students')
     studentsDiv.style.display = 'none'
-    qcmsDiv = document.querySelector('.qcmsDone')
+    qcmsDiv = document.querySelector('.qcms')
     qcmsDiv.style.display = 'none'
 
     // Display block or none (par rapport à la séléction des levels au click)
     namesLevel = document.querySelectorAll('.nameLevel')
     namesLevel.forEach( input => {
         input.addEventListener('click', (e)=>{
-            qcmsDiv = document.querySelector('.qcmsDone')
+            qcmsDiv = document.querySelector('.qcms')
+            console.log(qcmsDiv.style.display)
             if (qcmsDiv.style.display === 'block'){
                 qcmsDiv.style.display = "none"
                 ulListQcms.innerHTML = ""
