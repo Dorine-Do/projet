@@ -653,8 +653,6 @@ class StudentController extends AbstractController
 
     ): Response
     {
-
-
         return $this->render('student/welcome_student.html.twig', [
 
         ]);
