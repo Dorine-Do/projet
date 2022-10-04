@@ -36,6 +36,7 @@
         </div>
 
         <section>
+            {{ dump(qcmQuestions) }}
             {% for question in qcmQuestions %}
                 <div class="imageDiff">
                     <div class="trefle">
@@ -155,7 +156,7 @@
                     </div>
                 </div>
             {% endif %}
-
+            </div>
         </section>
 
 {% endblock %}

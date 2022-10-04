@@ -40,7 +40,7 @@ class StudentController extends AbstractController
         ModuleRepository $moduleRepo,
     ): Response
     {
-
+        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
         $student = $this->studentRepo->find($this->id);
 
         $allAvailableQcmInstances = $student->getQcmInstances();
@@ -50,11 +50,15 @@ class StudentController extends AbstractController
                 $qcmInstance->getQcm()->getIsOfficial() == true
                 && $qcmInstance->getStartTime() < new \DateTime()
                 && $qcmInstance->getEndTime() > new \DateTime()
-                && $qcmInstance->getQcm()->getIsEnabled() == true ;
+                && $qcmInstance->getQcm()->getIsEnabled() == true
+                && $qcmInstance->getResult() === null;
         });
 
         $unofficialQcmInstances = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
-            return $qcmInstance->getQcm()->getIsOfficial() == false;
+            return
+                $qcmInstance->getQcm()->getIsOfficial() == false
+                && $qcmInstance->getResult() === null
+            ;
         });
 
         $studentQcmInstances = $student->getQcmInstances();
@@ -144,10 +148,28 @@ class StudentController extends AbstractController
         foreach($studentResults as $studentResult)
         {
             $qcmInstance = $studentResult->getQcmInstance();
+            if($qcmInstance->getQcm()->getIsOfficial() === true)
+            {
+                $type = 'official';
+            }
+            elseif
+            (
+                $qcmInstance->getQcm()->getIsOfficial() === false
+                && $qcmInstance->getQcm()->getAuthor()->getId() === $student->getId()
+            )
+            {
+                $type = 'trainning';
+            }
+            else
+            {
+                $type = 'exercice';
+            }
+
             $qcmsDone[] = [
                 'qcm'    => $qcmInstance->getQcm(),
                 'result' => $studentResult,
                 'module' => $qcmInstance->getQcm()->getModule()->getTitle(),
+                'type' => $type
             ];
         }
 
@@ -204,18 +226,21 @@ class StudentController extends AbstractController
                                 )
                                 {
                                     $countIsCorrectAnswer++;
+                                    $questionsCache[$questionCacheKey]['isCorrect'] = true;
                                     $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 1;
                                     $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
                                 }
                                 // Si case cochée par l'etudiant
                                 elseif( $studentAnswerValue === $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id'] )
                                 {
+                                    $questionsCache[$questionCacheKey]['isCorrect'] = false;
                                     $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 1;
                                     $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                                 }
                                 // Si pas case cochée par l'etudiant
                                 else
                                 {
+                                    $questionsCache[$questionCacheKey]['isCorrect'] = false;
                                     $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 0;
                                     $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                                 }
@@ -245,15 +270,20 @@ class StudentController extends AbstractController
                                 if( in_array( $studentAnswer, $dbAnswersCheck['good'] ) )
                                 {
                                     $goodAnswersCount++;
-                                    $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
+
                                 }
                                 elseif( in_array($studentAnswer, $dbAnswersCheck['bad']) )
                                 {
                                     $badAnswersCount++;
-                                    $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
+
+                                }
+                                else{
+                                    $badAnswersCount++;
+
                                 }
                             }
 
+                            // Pour savoir quelles réponses à coché l'étudiant
                             foreach ($questionsCache[$questionCacheKey]['proposals'] as $answerDbKey => $answerDbValue)
                             {
                                 if( in_array($answerDbValue['id'], $studentAnswerValue) )
@@ -266,14 +296,14 @@ class StudentController extends AbstractController
                                 }
                             }
 
-
-                            /*TODO A tester Dorine (si isCorrect est bien ajouté au tableau / Problème de co avec Google Auth peux pas tester) */
                             if( $goodAnswersCount === count($dbAnswersCheck['good']) && $badAnswersCount === 0 )
                             {
                                 $countIsCorrectAnswer ++;
-                                $questionsCache[$questionCacheKey]['isCorrect'] = true;
+                                $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
+
                             }else{
-                                $questionsCache[$questionCacheKey]['isCorrect'] = false;
+                                $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
+
                             }
                         }
                     }
@@ -319,7 +349,7 @@ class StudentController extends AbstractController
             $result->setIsFirstTry($isFirstTry);
 
             $result->setAnswers($questionsCache);
-//            dd($resultRequest);
+
             if (trim($resultRequest['comment_student'] === "")){
                 $result->setStudentComment(null);
             }else{
@@ -460,7 +490,6 @@ class StudentController extends AbstractController
         $qcmInstance = $result->getQcmInstance();
         $qcm = $qcmInstance->getQcm();
         $qcmQuestions = [];
-
         foreach( $dbAnswers as $dbAnswer )
         {
             $question = $questionRepo->find( $dbAnswer['id'] );

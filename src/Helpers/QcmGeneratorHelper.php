@@ -43,7 +43,7 @@ class QcmGeneratorHelper
         $qcm = new Qcm();
         $qcm->setModule( $module );
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $qcm->setAuthor( $userRepository->find(27) );
+        $qcm->setAuthor( $userRepository->find(11) );
 //      $qcm->setAuthor( $this->_security->getUser() );
         $qcm->setTitle( $title );
         $qcm->setDifficulty( $difficulty );
