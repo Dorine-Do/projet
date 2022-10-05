@@ -370,8 +370,6 @@ namespace App\Controller;
             // 'qcmInstanceFromOfficialQcm'=>$qcmInstanceFromOfficialQcm,
             'qcms'=> $module ? $qcms : null,
             'qcmInstancesByQuestion'=> $module ? $qcmInstancesByQuestion : null
-
-
         ]);
     }
 
