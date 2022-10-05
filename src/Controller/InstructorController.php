@@ -25,6 +25,7 @@ namespace App\Controller;
     use App\Repository\ResultRepository;
     use App\Repository\SessionRepository;
     use App\Repository\StudentRepository;
+    use App\Repository\UserRepository;
     use DateInterval;
     use Doctrine\ORM\EntityManagerInterface;
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -300,16 +301,16 @@ namespace App\Controller;
         QuestionRepository   $questionRepository,
         Security             $security,
         QcmRepository        $qcmRepo,
-        QcmInstanceRepository     $qcmInstanceRepository
+        QcmInstanceRepository     $qcmInstanceRepository,
+        UserRepository $userRepository
 
     ): Response
     {
 
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        // $userId=$instructorRepository->find($id);
-        // $userId = $this->getUser()->getId();
-        $userId =21;
-        $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+//         $userId=$instructorRepository->find($id);
+//         $userId = $this->getUser()->getId();
+        $linksInstructorSessionModule = $instructorRepository->find($this->id)->getLinksInstructorSessionModule();
 
         $modules = [];
         foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
@@ -327,8 +328,8 @@ namespace App\Controller;
 
         if ($module) {
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-            $generatedQcm = $qcmGenerator->generateRandomQcm($module);
-            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module, $userRepository);
+            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $this->id]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
             //qcm instance
             // $qcms = $qcmRepo->findBy(["module"=>$module->getId()]);
@@ -362,10 +363,9 @@ namespace App\Controller;
             'officialQuestions' => $module ? $officialQuestions : null,
             'generatedQcm' => $module ? $generatedQcm : null,
             // temporaire voir todo pour connection
-            'user'=>$userId,
+            'user'=>$this->id,
             // 'qcmInstanceFromOfficialQcm'=>$qcmInstanceFromOfficialQcm,
-            'qcms'=> $module ? $qcms : null
-,
+            'qcms'=> $module ? $qcms : null,
             'qcmInstancesByQuestion'=> $module ? $qcmInstancesByQuestion : null
 
 
@@ -433,7 +433,7 @@ namespace App\Controller;
         $data = (array)json_decode($request->getContent());
         $qcm = new Qcm();
           /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-          $author=$instructorRepository->find(2);
+          $author=$instructorRepository->find($this->id);
         // $author = $instructorRepository->find($this->getUser()->getId());
         $qcm->setAuthor($author);
 

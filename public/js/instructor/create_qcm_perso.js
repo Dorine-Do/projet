@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   // /////////////////////// SHOW QCM
 
-  let btnShowQcm = document.querySelector(".btnShowQcm");
+  let btnShowQcm = document.querySelector("#btnShowQcm");
   let showQcm = document.querySelector(".backWhite");
 
   btnShowQcm.addEventListener("click", function (e) {
