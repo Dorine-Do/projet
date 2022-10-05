@@ -50,9 +50,18 @@ class Login3waAuthenticator extends AbstractAuthenticator
     public function authenticate(Request $request): Passport
     {
         if ( !$_COOKIE['cookie'] ) {
+            header('Location: https://login.3wa.io');
+            exit();
             // The cookie was empty, authentication fails
             // Code 401 "Unauthorized"
-            throw new CustomUserMessageAuthenticationException('Utilisateur non connecté');
+            // throw new CustomUserMessageAuthenticationException('Utilisateur non connecté');
+        }
+
+
+
+        if(  )
+        {
+
         }
 
         // recuperation des infos du user dans admin_login
@@ -84,7 +93,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
             $user->setFirstName();
             $user->setLastName();
             $user->setMoodleId();
-            $user->set
+            $user->setDiscr();
         }
 
         return new SelfValidatingPassport(new UserBadge($cookieYouUp, $user));
