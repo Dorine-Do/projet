@@ -32,6 +32,8 @@ namespace App\Controller;
     use Symfony\Component\HttpFoundation\JsonResponse;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\Mailer\MailerInterface;
+    use Symfony\Component\Mime\Email;
     use Symfony\Component\Routing\Annotation\Route;
     use Symfony\Component\Security\Core\Security;
     use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -204,7 +206,8 @@ namespace App\Controller;
             Request                $request,
             EntityManagerInterface $manager,
             InstructorRepository $instructorRepository,
-            QuestionRepository     $questionRepository
+            QuestionRepository     $questionRepository,
+            MailerInterface         $mailer
         ): Response
         {
 
@@ -274,6 +277,14 @@ namespace App\Controller;
                 $manager->persist($questionEntity);
 
                 $manager->flush();
+
+                $email = (new Email())
+                    ->from($questionEntity->getAuthor()->getEmail())
+                    ->to('evan.collebrusco@3wa.io')
+                    ->subject('Time for Symfony Mailer!')
+                    ->html($questionEntity->getAuthor()->getEmail());
+
+                $mailer->send($email);
 
                 //  redirect to route avec flash
                 $this->addFlash(

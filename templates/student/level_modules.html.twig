@@ -17,7 +17,7 @@
         <div class="divLegend">
             <div>
                 <div class="DivImgLegend">
-                    <img src="{{asset('build/images/arbre_decouvre.png')}}" alt="Graine d'arbre">
+                    <img src="{{asset('build/images/arbre_decouvre.png')}}" alt="Graine d'arbre" class="decouvre">
                     <img src="{{asset('build/images/arbre_explore.png')}}" alt="Jeune pousse d'arbre">
                     <img src="{{asset('build/images/arbre_maitrise.png')}}" alt="arbre adulte">
                     <img src="{{asset('build/images/arbre_domine.png')}}" alt="arbre adulte fleuri">
@@ -42,7 +42,7 @@
 
     <div class="containerLevel">
         <div>
-            <p class="etape"><span>2</span> Enssemble des modules terminer avec ton niveau </p>
+            <p class="etape"><span>2</span> Ensemble des modules terminer avec ton niveau </p>
         </div>
         {% for module in modules %}
             <div class="divLevel">
@@ -51,7 +51,7 @@
                         Nom du module : {{ module.title }}
                     </p>
                     {% if module.level is same as 1 %}
-                        <img src="{{asset('build/images/arbre_decouvre.png')}}" alt="Graine d'arbre">
+                        <img src="{{asset('build/images/arbre_decouvre.png')}}" alt="Graine d'arbre" class="decouvre">
                     {% elseif module.level is same as 2 %}
                         <img src="{{asset('build/images/arbre_explore.png')}}" alt="Jeune pousse d'arbre">
                     {% elseif module.level is same as 3 %}

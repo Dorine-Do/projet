@@ -19,7 +19,7 @@
     display: inline-block;
     border-radius: 50%;
     margin-right: 15px;
-    width: 6%;
+    width: 4%;
     text-align: center;
     color: var(--fond);
 }
@@ -27,12 +27,20 @@
 .DivImgLegend{
     display: flex;
     justify-content: space-around;
-    padding: 1em 0;
+    padding-top: 1em;
+    height: 82px;
+    width: 1500px;
 }
 
-.DivImgLegend img{
-    width: 13%;
-    height: 12%;
+img{
+    width: 5%;
+    height: 97%;
+}
+
+.divModule img{
+    width: 5%;
+    height: 35%;
+    margin-right: 50px;
 }
 
 .divLegend{
@@ -77,10 +85,10 @@
 
 .moduleName {
     background: var(--pamplemousse);
-    padding: 5em .5em;
+    padding: 5em 0;
     width: 64%;
     text-align: center;
-    border-radius: 13%;
+    border-radius: 5%;
 }
 
 /*Link*/
@@ -110,6 +118,95 @@
     margin: .5em auto;
     border-radius: 30px;
     box-shadow: 3px 2px 5px -1px var(--grey);
+}
+
+@media screen and (max-width: 1200px) {
+    .DivImgLegend {
+        width: 1000px;
+    }
+
+    img {
+        width: 8%;
+        height: 90%;
+    }
+
+    .divLink {
+        margin-left: 50px;
+    }
+
+    .divModule img {
+        width: 7%;
+        height: 31%;
+        margin-right: 23px;
+    }
+
+    .moduleName {
+        width: 75%;
+    }
+
+    .etape span {
+        width: 6%;
+    }
+
+    .DivImgLegend img:first-child{
+        width: 5%;
+        height: 90%;
+    }
+}
+
+@media screen and (max-width: 780px) {
+
+    .DivImgLegend {
+        width: 700px;
+    }
+
+    .etape span {
+        width: 9%;
+    }
+
+    .divModule img {
+        width: 11%;
+        height: 33%;
+        margin-left: 20px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+
+    .DivImgLegend {
+        width: 400px;
+        margin-left: 33px;
+    }
+
+    .DivImgLegend img:first-child {
+        width: 9%;
+        height: 90%;
+    }
+
+    img {
+        width: 14%;
+        height: 97%;
+    }
+
+    .divLevel {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .divModule {
+        width: 93%;
+    }
+
+    .divLink {
+        margin-bottom: 80px;
+        margin-left: 0;
+        width: 100%;
+        border-bottom: 2px dashed var(--writing);
+    }
+
+    .etape span {
+        width: 13%;
+    }
 }
 
 
