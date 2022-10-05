@@ -20,10 +20,10 @@ class QcmInstance
     #[ORM\Column(type: 'datetime')]
     private \DateTime $endTime;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTime $createdAt;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $updatedAt;
 
     #[ORM\ManyToOne(targetEntity: Student::class, inversedBy: 'qcmInstances')]

@@ -25,10 +25,10 @@ class Module
     #[Groups(['module:read'])]
     private $title;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTime $createdAt;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $updatedAt;
 
     #[ORM\OneToMany(mappedBy: 'module', targetEntity: Question::class)]

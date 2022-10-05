@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\DiscriminatorColumn(name: "discr", type: "string")]
 #[ORM\InheritanceType("SINGLE_TABLE")]
 #[ORM\HasLifecycleCallbacks]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -31,9 +31,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read'])]
     private $roles = [];
 
-    #[ORM\Column(type: 'string')]
-    private $password;
-
     #[ORM\Column(type: 'string', length: 150)]
     #[Groups(['user:read'])]
     private $firstName;
@@ -46,21 +43,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read'])]
     private $birthDate;
 
-    #[ORM\Column(type: 'string', length: 80)]
-    #[Groups(['user:read'])]
-    private $email3wa;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $googleId;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: false)]
     private $moodleId;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'integer', nullable: false)]
+    private $suiviId;
+
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     #[Groups(['user:read'])]
     private \DateTime $createdAt;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     #[Groups(['user:read'])]
     private $updatedAt;
 
@@ -132,21 +125,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
      * @see UserInterface
      */
     public function eraseCredentials()
@@ -179,38 +157,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBirthDate(): ?\DateTimeInterface
+    public function getBirthDate(): ?\DateTime
     {
         return $this->birthDate;
     }
 
-    public function setBirthDate(?\DateTimeInterface $birthDate): self
+    public function setBirthDate(?\DateTime $birthDate): self
     {
         $this->birthDate = $birthDate;
-
-        return $this;
-    }
-
-    public function getEmail3wa(): ?string
-    {
-        return $this->email3wa;
-    }
-
-    public function setEmail3wa(string $email3wa): self
-    {
-        $this->email3wa = $email3wa;
-
-        return $this;
-    }
-
-    public function getGoogleId(): ?int
-    {
-        return $this->googleId;
-    }
-
-    public function setGoogleId(int $googleId): self
-    {
-        $this->googleId = $googleId;
 
         return $this;
     }
@@ -227,24 +181,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function setSuivieId(int $suiviId): self
+    {
+        $this->suiviId = $suiviId;
+
+        return $this;
+    }
+
+    public function getSuiviId(): ?int
+    {
+        return $this->suiviId;
+    }
+
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

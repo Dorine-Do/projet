@@ -278,14 +278,6 @@ namespace App\Controller;
 
                 $manager->flush();
 
-                $email = (new Email())
-                    ->from($questionEntity->getAuthor()->getEmail())
-                    ->to('evan.collebrusco@3wa.io')
-                    ->subject('Time for Symfony Mailer!')
-                    ->html($questionEntity->getAuthor()->getEmail());
-
-                $mailer->send($email);
-
                 //  redirect to route avec flash
                 $this->addFlash(
                     'instructorAddQuestion',
@@ -446,7 +438,7 @@ namespace App\Controller;
         $data = (array)json_decode($request->getContent());
         $qcm = new Qcm();
           /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-          $author=$instructorRepository->find(2);
+          $author=$instructorRepository->find($this->id);
         // $author = $instructorRepository->find($this->getUser()->getId());
         $qcm->setAuthor($author);
 
@@ -523,8 +515,7 @@ namespace App\Controller;
             $dayOfWeekEnd = array("Saturday", "Sunday");
 //            $userId = $security->getUser();
             /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-            $userId = 1;
-            $sessionAndModuleByInstructor = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+            $sessionAndModuleByInstructor = $instructorRepository->find($this->id)->getLinksInstructorSessionModule();
 
             foreach ($sessionAndModuleByInstructor as $sessionAndModule)
             {

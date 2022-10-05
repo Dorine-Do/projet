@@ -25,10 +25,10 @@ class Session
     #[ORM\Column(type: 'smallint')]
     private $schoolYear;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTime $createdAt;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $updatedAt;
 
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkSessionStudent::class)]
