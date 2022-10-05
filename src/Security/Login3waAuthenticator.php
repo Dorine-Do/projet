@@ -26,6 +26,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
     private RouterInterface $router;
     private ManagerRegistry $managerRegistry;
     private UserRepository $userRepo;
+    private ManagerRegistry $doctrine;
 
     public function __construct(
         ClientRegistry $clientRegistry,
@@ -33,6 +34,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         RouterInterface $router,
         ManagerRegistry $managerRegistry,
         UserRepository $userRepo,
+        ManagerRegistry $doctrine
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -116,5 +118,13 @@ class Login3waAuthenticator extends AbstractAuthenticator
         ];
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
+    }
+
+    protected function rawSqlRequestToExtDb( $sql, $params = [], $extDb = 'dbsuivi' ) {
+        $conn = $this->doctrine->getConnection($extDb);
+        return $conn
+            ->prepare($sql)
+            ->executeQuery($params)
+            ->fetchAll();
     }
 }
