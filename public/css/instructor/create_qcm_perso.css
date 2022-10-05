@@ -541,7 +541,7 @@ hr {
 }
 
 .arrowLeft {
-  /* transform: rotate(131deg); */
+   transform: rotate(180deg);
   width: 50%;
 }
 

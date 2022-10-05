@@ -25,6 +25,7 @@ namespace App\Controller;
     use App\Repository\ResultRepository;
     use App\Repository\SessionRepository;
     use App\Repository\StudentRepository;
+    use App\Repository\UserRepository;
     use DateInterval;
     use Doctrine\ORM\EntityManagerInterface;
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -44,12 +45,11 @@ namespace App\Controller;
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
         private $id = 1;
 
-//    TODO future page à implémenter
-    #[Route('/instructor', name: 'welcome_instructor')]
-    public function welcome(): Response
-    {
-        return $this->render('instructor/welcome_instructor.html.twig', []);
-    }
+        #[Route('/instructor', name: 'welcome_instructor')]
+        public function welcome(): Response
+        {
+            return $this->render('instructor/welcome_instructor.html.twig', []);
+        }
 
         #[Route('instructor/creations',name:'my_creations',methods:['GET','POST'])]
         public function displayInstructionCreations():Response
@@ -304,16 +304,16 @@ namespace App\Controller;
         QuestionRepository   $questionRepository,
         Security             $security,
         QcmRepository        $qcmRepo,
-        QcmInstanceRepository     $qcmInstanceRepository
+        QcmInstanceRepository     $qcmInstanceRepository,
+        UserRepository $userRepository
 
     ): Response
     {
 
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        // $userId=$instructorRepository->find($id);
-        // $userId = $this->getUser()->getId();
-        $userId =21;
-        $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+//         $userId=$instructorRepository->find($id);
+//         $userId = $this->getUser()->getId();
+        $linksInstructorSessionModule = $instructorRepository->find($this->id)->getLinksInstructorSessionModule();
 
         $modules = [];
         foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
@@ -331,8 +331,8 @@ namespace App\Controller;
 
         if ($module) {
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-            $generatedQcm = $qcmGenerator->generateRandomQcm($module);
-            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module, $userRepository);
+            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $this->id]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
             //qcm instance
             // $qcms = $qcmRepo->findBy(["module"=>$module->getId()]);
@@ -366,59 +366,56 @@ namespace App\Controller;
             'officialQuestions' => $module ? $officialQuestions : null,
             'generatedQcm' => $module ? $generatedQcm : null,
             // temporaire voir todo pour connection
-            'user'=>$userId,
+            'user'=>$this->id,
             // 'qcmInstanceFromOfficialQcm'=>$qcmInstanceFromOfficialQcm,
-            'qcms'=> $module ? $qcms : null
-,
+            'qcms'=> $module ? $qcms : null,
             'qcmInstancesByQuestion'=> $module ? $qcmInstancesByQuestion : null
-
-
         ]);
     }
 
-        #[Route('instructor/questions/upDate_fetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
-        public function upDateQuestionFetch(
-            ValidatorInterface     $validator,
-            Request                $request,
-            InstructorRepository   $instructorRepository,
-            ModuleRepository       $moduleRepository,
-            QuestionRepository     $questionRepository,
-            EntityManagerInterface $entityManager
-        ): Response
+    #[Route('instructor/questions/upDate_fetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
+    public function upDateQuestionFetch(
+        ValidatorInterface     $validator,
+        Request                $request,
+        InstructorRepository   $instructorRepository,
+        ModuleRepository       $moduleRepository,
+        QuestionRepository     $questionRepository,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+        $data = (array) json_decode($request->getContent());
+        $question = new Question();
+        $module = $moduleRepository->find($data['module']);
+        $question->setModule($module);
+        $question->setWording($data['wording']);
+        $question->setIsMultiple($data['isMultiple']);
+        $question->setDifficulty(1);
+        $question->setExplanation('null');
+        $author = $instructorRepository->find($this->getUser()->getId());
+        $question->setAuthor($author);
+        $question->setIsMandatory(0);
+        $question->setIsOfficial(0);
+        $question->setIsEnabled(1);
+
+        foreach ($data['proposals'] as $proposal)
         {
-            $data = (array) json_decode($request->getContent());
-            $question = new Question();
-            $module = $moduleRepository->find($data['module']);
-            $question->setModule($module);
-            $question->setWording($data['wording']);
-            $question->setIsMultiple($data['isMultiple']);
-            $question->setDifficulty(1);
-            $question->setExplanation('null');
-            $author = $instructorRepository->find($this->getUser()->getId());
-            $question->setAuthor($author);
-            $question->setIsMandatory(0);
-            $question->setIsOfficial(0);
-            $question->setIsEnabled(1);
+            $newProposal = new Proposal();
+            $newProposal->setWording($proposal->wording);
+            $newProposal->setIsCorrectAnswer($proposal->isCorrectAnswer);
+            $validator->validate($newProposal);
+            $question->addProposal($newProposal);
+        };
 
-            foreach ($data['proposals'] as $proposal)
-            {
-                $newProposal = new Proposal();
-                $newProposal->setWording($proposal->wording);
-                $newProposal->setIsCorrectAnswer($proposal->isCorrectAnswer);
-                $validator->validate($newProposal);
-                $question->addProposal($newProposal);
-            };
+        $validator->validate($question);
 
-            $validator->validate($question);
+        $entityManager->persist($question);
+        $entityManager->flush();
 
-            $entityManager->persist($question);
-            $entityManager->flush();
+        $questionResponse = $questionRepository->find($question->getId());
 
-            $questionResponse = $questionRepository->find($question->getId());
-
-            /*TODO Débuger le jsonResponse*/
-            return new JsonResponse($questionResponse);
-        }
+        /*TODO Débuger le jsonResponse*/
+        return new JsonResponse($questionResponse);
+    }
 
     // methode Post non permise car route non trouvée donc method Get Ok
     #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
@@ -430,7 +427,6 @@ namespace App\Controller;
         ModuleRepository       $moduleRepository,
         EntityManagerInterface $entityManager,
         QcmGeneratorHelper $generatorHelper
-
     ): Response
     {
 
@@ -646,7 +642,6 @@ namespace App\Controller;
                 $students = array_map(function ($LinkSessionStudent) {
                     return $LinkSessionStudent->getStudent();
                 }, $LinksSessionStudent);
-
                 return $this->json($students, 200, [], ['groups' => 'user:read']);
             }
             return new JsonResponse();
@@ -744,9 +739,7 @@ namespace App\Controller;
             if ($qcm)
             {
                 $qcmInstances = $qcm->getQcmInstances()->toArray();
-                dump($qcmInstances);
                 $students = array_map( function($qcmInstance){
-                    dump($qcmInstance->getStudent());
                     return [
                         'student' => $qcmInstance->getStudent(),
                         'result' => $qcmInstance->getResult()
