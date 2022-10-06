@@ -2,25 +2,25 @@
 
 namespace App\Entity\Main;
 
-use App\Repository\CookieRepository;
+use App\Repository\BugReportRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CookieRepository::class)]
-class Cookie
+#[ORM\Entity(repositoryClass: BugReportRepository::class)]
+class BugReport
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 32, nullable: true)]
-    private ?string $cookie = null;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $message = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
-    #[ORM\OneToOne(inversedBy: 'cookie', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'bugReports')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
@@ -29,14 +29,14 @@ class Cookie
         return $this->id;
     }
 
-    public function getCookie(): ?string
+    public function getMessage(): ?string
     {
-        return $this->cookie;
+        return $this->message;
     }
 
-    public function setCookie(?string $cookie): self
+    public function setMessage(string $message): self
     {
-        $this->cookie = $cookie;
+        $this->message = $message;
 
         return $this;
     }
@@ -46,7 +46,7 @@ class Cookie
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -58,7 +58,7 @@ class Cookie
         return $this->user;
     }
 
-    public function setUser(User $user): self
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 
