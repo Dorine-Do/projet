@@ -64,13 +64,14 @@ class Login3waAuthenticator extends AbstractAuthenticator
         }
 
         // get user by cookie in dblogin
-        $sqlReqDblogin = `
+        $sqlReqDblogin = "
                 SELECT
                 users.firstname, users.lastname, users.username, users.email, users.access, cookies.cookie
                 FROM users
                 NATURAL JOIN cookies
                 ON users.id = cookies.id_user
-                WHERE cookies.cookie = :cookie`;
+                WHERE cookies.cookie = :cookie
+                ";
 
         $dbLoginUser = $this->rawSqlRequestToExtDb( $sqlReqDblogin, [ 'cookie' => $_COOKIE['cookie'] ], 'dblogin' )[0];
 
