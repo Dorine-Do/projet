@@ -128,7 +128,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         $cookieYouUp = Cookie::create('cookieYouUp')
             ->withValue( $this->generateCookieString() )
             ->withExpires( $cookieExpires )
-            ->withDomain('.3wa.com')
+            ->withDomain('you-up.3wa.com')
             ->withSecure(true);
 
         $user->setCookie( $cookieYouUp );
