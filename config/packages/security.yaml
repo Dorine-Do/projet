@@ -16,9 +16,9 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-#            entry_point:
+            entry_point: form_login
             custom_authenticators:
-                - App\Security\GoogleAuthenticator
+                - App\Security\Login3waAuthenticator
             lazy: true
             provider: app_user_provider
             # provider: two_factor_provider
@@ -27,6 +27,10 @@ security:
 #                max_attempts: 3
 #                interval: '15 minutes'
 #                limiter: cache.rate_limiter
+            form_login:
+                # "app_login" is the name of the route created previously
+                login_path: app_connection
+                check_path: app_connection
             logout:
                 path: app_logout
         secured_area:
