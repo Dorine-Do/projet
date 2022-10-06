@@ -59,7 +59,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
     {
         // if user isn't logged in 3wa.io ( cookie isn't set )
         if ( !isset($_COOKIE['cookie']) ) {
-            header('Location: https://login.3wa.io');
+            header('Location: https://login.3wa.io/youup%27');
             exit();
         }
 
