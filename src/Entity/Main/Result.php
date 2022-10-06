@@ -15,7 +15,7 @@ class Result
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTime $submittedAt;
 
     #[ORM\Column(type: 'json')]

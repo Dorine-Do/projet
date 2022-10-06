@@ -6,7 +6,6 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -15,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\DiscriminatorColumn(name: "discr", type: "string")]
 #[ORM\InheritanceType("SINGLE_TABLE")]
 #[ORM\HasLifecycleCallbacks]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -31,9 +30,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read'])]
     private $roles = [];
 
-    #[ORM\Column(type: 'string')]
-    private $password;
-
     #[ORM\Column(type: 'string', length: 150)]
     #[Groups(['user:read'])]
     private $firstName;
@@ -46,23 +42,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read'])]
     private $birthDate;
 
-    #[ORM\Column(type: 'string', length: 80)]
-    #[Groups(['user:read'])]
-    private $email3wa;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $googleId;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: false)]
     private $moodleId;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'integer', nullable: false)]
+    private $suiviId;
+
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     #[Groups(['user:read'])]
     private \DateTime $createdAt;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     #[Groups(['user:read'])]
     private $updatedAt;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Qcm::class)]
+    private $qcms;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Cookie $cookie = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: BugReport::class)]
+    private Collection $bugReports;
+
+    public function __construct()
+    {
+        $this->qcms = new ArrayCollection();
+        $this->bugReports = new ArrayCollection();
+    }
 
     #[ORM\PrePersist]
     public function setCreatedAtValue():void
@@ -75,14 +82,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUpdateAtValue():void
     {
         $this->updatedAt = new \DateTime();
-    }
-
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Qcm::class)]
-    private $qcms;
-
-    public function __construct()
-    {
-        $this->qcms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,21 +131,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    /**
      * @see UserInterface
      */
     public function eraseCredentials()
@@ -179,38 +163,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBirthDate(): ?\DateTimeInterface
+    public function getBirthDate(): ?\DateTime
     {
         return $this->birthDate;
     }
 
-    public function setBirthDate(?\DateTimeInterface $birthDate): self
+    public function setBirthDate(?\DateTime $birthDate): self
     {
         $this->birthDate = $birthDate;
-
-        return $this;
-    }
-
-    public function getEmail3wa(): ?string
-    {
-        return $this->email3wa;
-    }
-
-    public function setEmail3wa(string $email3wa): self
-    {
-        $this->email3wa = $email3wa;
-
-        return $this;
-    }
-
-    public function getGoogleId(): ?int
-    {
-        return $this->googleId;
-    }
-
-    public function setGoogleId(int $googleId): self
-    {
-        $this->googleId = $googleId;
 
         return $this;
     }
@@ -227,24 +187,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function setSuiviId(int $suiviId): self
+    {
+        $this->suiviId = $suiviId;
+
+        return $this;
+    }
+
+    public function getSuiviId(): ?int
+    {
+        return $this->suiviId;
+    }
+
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -275,6 +247,53 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($qcm->getAuthor() === $this) {
                 $qcm->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCookie(): ?Cookie
+    {
+        return $this->cookie;
+    }
+
+    public function setCookie(Cookie $cookie): self
+    {
+        // set the owning side of the relation if necessary
+        if ($cookie->getUser() !== $this) {
+            $cookie->setUser($this);
+        }
+
+        $this->cookie = $cookie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BugReport>
+     */
+    public function getBugReports(): Collection
+    {
+        return $this->bugReports;
+    }
+
+    public function addBugReport(BugReport $bugReport): self
+    {
+        if (!$this->bugReports->contains($bugReport)) {
+            $this->bugReports->add($bugReport);
+            $bugReport->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBugReport(BugReport $bugReport): self
+    {
+        if ($this->bugReports->removeElement($bugReport)) {
+            // set the owning side to null (unless already changed)
+            if ($bugReport->getUser() === $this) {
+                $bugReport->setUser(null);
             }
         }
 

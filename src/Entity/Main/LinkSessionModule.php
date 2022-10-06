@@ -8,10 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: LinkSessionModuleRepository::class)]
 class LinkSessionModule
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
 
     #[ORM\Column(type: 'datetime')]
     private $startDate;
@@ -19,18 +15,16 @@ class LinkSessionModule
     #[ORM\Column(type: 'datetime')]
     private $endDate;
 
+    #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'linksSessionModule')]
     #[ORM\JoinColumn(nullable: false)]
     private $session;
 
+    #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'linksSessionModule')]
     #[ORM\JoinColumn(nullable: false)]
     private $module;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getStartDate(): ?\DateTimeInterface
     {

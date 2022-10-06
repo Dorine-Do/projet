@@ -23,10 +23,10 @@ class Proposal
     #[ORM\Column(type: 'boolean')]
     private $isCorrectAnswer;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTime $createdAt;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $updatedAt;
 
     #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'proposals')]

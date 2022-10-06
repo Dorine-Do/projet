@@ -16,14 +16,14 @@
     <div class="partOne">
         <p><span class="etape">{{ 'title.step1'|trans }}</span>{{ 'qcm.chooseQcmModuleLevel'|trans }}</p>
         {# form -> id : user.id => temporaire /// voir controller + var #}
-        <form action="{{ path('instructor_create_qcm_perso',{ 'id': 21}) }}" method="GET">
+        <form action="{{ path('instructor_create_qcm_perso',{ 'id': user}) }}" method="GET">
             <select class="selectModule" name="module">
-                {% for module in modules %}
                     <option value="null">{{ 'module.plsChoice'|trans }}</option>
+                {% for module in modules %}
                     <option value="{{ module.id }}">{{ module.title }}</option>
                 {% endfor %}
             </select>
-            <button class="button greyButton" type="submit" >{{ 'button.generateQcm'|trans }}</button>
+            <button class="button greyButton" id="btnShowQcm" type="submit" >{{ 'button.generateQcm'|trans }}</button>
         </form>
 
          <hr>
@@ -180,8 +180,8 @@
                     {#Image drag and drop #}
 
                     <div class="imageDragAndDrop">
-                        <img src="{{ asset('build/images/arrow-right-grey.png') }}" alt="Flèche arrondie verte" class="arrowRight">
-                        <img src="{{ asset('build/images/arrow-left-grey.png') }}" alt="Flèche arrondie verte" class="arrowLeft">
+                        <img src="{{ asset('build/images/drag_and_drop.png') }}" alt="Flèche arrondie verte" class="arrowRight">
+                        <img src="{{ asset('build/images/drag_and_drop.png') }}" alt="Flèche arrondie verte" class="arrowLeft">
                     </div>
 
                     {#*************************************************************************************************#}
@@ -217,7 +217,7 @@
                                                 <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
                                             </div>
                                             <div class="modifyQuestionImgDiv">
-                                                <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg">
+                                                <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier" class="modifyQuestionImg">
                                             </div>
                                         </div>
                                         <div>
@@ -264,7 +264,7 @@
                                                 <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
                                             </div>
                                             <div class="modifyQuestionImgDiv">
-                                                <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg">
+                                                <img src="{{asset('build/images/modify.png')}}" alt="bouton modifier" class="modifyQuestionImg">
                                             </div>
                                         </div>
                                         <div>
@@ -328,7 +328,7 @@
 
         let route = "{{ path('instructor_questions_update_fetch') }}"
           {#id : user.id => temporaire /// voir controller + var #}
-        let routeInstructorQcmFetch = "{{ path('instructor_qcm_create_fetch',{ 'id': user.id} ) }}"
+        let routeInstructorQcmFetch = "{{ path('instructor_qcm_create_fetch',{ 'id': user} ) }}"
 
         {#let questions = {{ questions|json_encode }}#}
     </script>

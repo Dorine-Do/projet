@@ -14,6 +14,12 @@ doctrine:
 #                driver: 'pdo_mysql'
 #                server_version: '5.7'
 #                charset: utf8mb4
+            dblogin:
+                url: '%env(resolve:DATABASE_SUIVI_URL)%'
+                # configure these for your database server
+            #                driver: 'pdo_mysql'
+            #                server_version: '5.7'
+            #                charset: utf8mb4
     orm:
 
         default_entity_manager: default
@@ -43,6 +49,15 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Suivi'
                         prefix: 'App\Entity\Suivi'
                         alias: Suivi
+            dblogin:
+                naming_strategy: doctrine.orm.naming_strategy.underscore
+                connection: dblogin
+                mappings:
+                    Login:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Entity/Login'
+                        prefix: 'App\Entity\Login'
+                        alias: Login
 
 when@test:
     doctrine:

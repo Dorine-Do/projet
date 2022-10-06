@@ -26,7 +26,7 @@ class Log
     #[ORM\Column(type: 'string', length: 150)]
     private $latency;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $created_at;
 
     public function __construct()
