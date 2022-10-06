@@ -56,19 +56,6 @@ class User implements UserInterface
     #[Groups(['user:read'])]
     private $updatedAt;
 
-    #[ORM\PrePersist]
-    public function setCreatedAtValue():void
-    {
-        $this->createdAt = new \DateTime();
-        $this->updatedAt = new \DateTime();
-    }
-
-    #[ORM\PreUpdate]
-    public function setUpdateAtValue():void
-    {
-        $this->updatedAt = new \DateTime();
-    }
-
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Qcm::class)]
     private $qcms;
 
@@ -82,6 +69,19 @@ class User implements UserInterface
     {
         $this->qcms = new ArrayCollection();
         $this->bugReports = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue():void
+    {
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdateAtValue():void
+    {
+        $this->updatedAt = new \DateTime();
     }
 
     public function getId(): ?int
