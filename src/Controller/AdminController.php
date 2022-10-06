@@ -199,6 +199,7 @@ class AdminController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+
     public function getDataFromSuivi( $sql, $params = [] )
     {
         $conn = $this->doctrine->getConnection('dbsuivi');
