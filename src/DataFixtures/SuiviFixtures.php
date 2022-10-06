@@ -75,7 +75,7 @@ class SuiviFixtures extends Fixture
 //        $this->generateStudents( $manager );
 
         //Question + Proposal
-        $this->generateQuestions( $manager );
+//        $this->generateQuestions( $manager );
 
         //Qcm
 //        $this->generateQcm( $manager );
