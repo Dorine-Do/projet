@@ -93,3 +93,34 @@ body {
   box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
   color: white;
 }
+
+/* 2 STEPS CONNECTION FOR ONE TAP */
+
+#login-form .blocBtnSubmit,
+#login-form .passwordBlock {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#login-form .emailBlock label,
+#login-form .passwordBlock label {
+  display: block;
+  width: 100%;
+}
+
+#login-form .emailBlock input,
+#login-form .passwordBlock input {
+  display: block;
+  width: 75%;
+  margin: 16px auto;
+}
+
+#login-form .emailBlock.hideConnectionElement,
+#login-form .passwordBlock.hideConnectionElement,
+#login-form .nextBtn.hideConnectionElement,
+#login-form .oneTapBtn.hideConnectionElement {
+  display: none;
+}
