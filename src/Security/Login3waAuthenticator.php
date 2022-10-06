@@ -79,7 +79,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         if( !$this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] ) )
         {
             // get user data from dbsuivi
-            $sqlReqDbsuivi = `SELECT firstname, lastname, email, access, phone, id_moodle, id FROM users`;
+            $sqlReqDbsuivi = "SELECT firstname, lastname, email, access, phone, id_moodle, id FROM users";
 
             $dbSuiviUser = $this->rawSqlRequestToExtDb( $sqlReqDbsuivi, [], 'dbsuivi' )[0];
 
