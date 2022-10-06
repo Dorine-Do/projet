@@ -6,7 +6,6 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -73,9 +72,16 @@ class User implements UserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Qcm::class)]
     private $qcms;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Cookie $cookie = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: BugReport::class)]
+    private Collection $bugReports;
+
     public function __construct()
     {
         $this->qcms = new ArrayCollection();
+        $this->bugReports = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -241,6 +247,53 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($qcm->getAuthor() === $this) {
                 $qcm->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCookie(): ?Cookie
+    {
+        return $this->cookie;
+    }
+
+    public function setCookie(Cookie $cookie): self
+    {
+        // set the owning side of the relation if necessary
+        if ($cookie->getUser() !== $this) {
+            $cookie->setUser($this);
+        }
+
+        $this->cookie = $cookie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BugReport>
+     */
+    public function getBugReports(): Collection
+    {
+        return $this->bugReports;
+    }
+
+    public function addBugReport(BugReport $bugReport): self
+    {
+        if (!$this->bugReports->contains($bugReport)) {
+            $this->bugReports->add($bugReport);
+            $bugReport->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBugReport(BugReport $bugReport): self
+    {
+        if ($this->bugReports->removeElement($bugReport)) {
+            // set the owning side to null (unless already changed)
+            if ($bugReport->getUser() === $this) {
+                $bugReport->setUser(null);
             }
         }
 
