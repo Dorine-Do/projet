@@ -187,7 +187,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function setSuivieId(int $suiviId): self
+    public function setSuiviId(int $suiviId): self
     {
         $this->suiviId = $suiviId;
 
