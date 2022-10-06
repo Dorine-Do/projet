@@ -1,13 +1,18 @@
 <?php
 namespace App\Security;
 
+use App\Entity\Main\Admin;
+use App\Entity\Main\Instructor;
+use App\Entity\Main\Student;
 use App\Entity\Main\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use phpDocumentor\Reflection\Types\Object_;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
@@ -42,6 +47,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         $this->router = $router;
         $this->managerRegistry = $managerRegistry;
         $this->userRepo = $userRepo;
+        $this->doctrine = $doctrine;
     }
 
     public function supports(Request $request): ?bool
@@ -51,52 +57,83 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        if ( !$_COOKIE['cookie'] ) {
+        // if user isn't logged in 3wa.io ( cookie isn't set )
+        if ( !isset($_COOKIE['cookie']) ) {
             header('Location: https://login.3wa.io');
             exit();
-            // The cookie was empty, authentication fails
-            // Code 401 "Unauthorized"
-            // throw new CustomUserMessageAuthenticationException('Utilisateur non connecté');
         }
 
+        // get user by cookie in dblogin
+        $sqlReqDblogin = `
+                SELECT
+                users.firstname, users.lastname, users.username, users.email, users.access, cookies.cookie
+                FROM users
+                NATURAL JOIN cookies
+                ON users.id = cookies.id_user
+                WHERE cookies.cookie = :cookie`;
 
+        $dbLoginUser = $this->rawSqlRequestToExtDb( $sqlReqDblogin, [ 'cookie' => $_COOKIE['cookie'] ], 'dblogin' )[0];
 
-        if(  )
+        // if userLogin doesn't exist in youUp db
+        if( !$this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] ) )
         {
+            // get user data from dbsuivi
+            $sqlReqDbsuivi = `SELECT firstname, lastname, email, access, phone, id_moodle, id FROM users`;
 
-        }
+            $dbSuiviUser = $this->rawSqlRequestToExtDb( $sqlReqDbsuivi, [], 'dbsuivi' )[0];
 
-        // recuperation des infos du user dans admin_login
-        $admin_login_user = [];
-        // recuperation de cet utilisateur dans la db youup
-        if( strpos( $admin_login_user['email'],'3wa.io') ) {
-            $emailType = 'email3wa';
+            // check access type
+            switch( $dbSuiviUser['access'] )
+            {
+                case 'teacher':
+                    $newUser = new Instructor();
+                    $newUser->setFirstName( $dbSuiviUser['firstname'] );
+                    $newUser->setLastName( $dbSuiviUser['lastname'] );
+                    $newUser->setEmail('email');
+                    $newUser->setPhone( $dbSuiviUser['phone'] ?: null );
+                    $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
+                    $newUser->setRoles( ['ROLE_INSTRUCTOR'] );
+                    break;
+                case 'admin':
+                    $newUser = new Admin();
+                    $newUser->setFirstName( $dbSuiviUser['firstname'] );
+                    $newUser->setLastName( $dbSuiviUser['lastname'] );
+                    $newUser->setEmail('email');
+                    $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
+                    $newUser->setRoles( ['ROLE_ADMIN'] );
+                    break;
+                default:
+                    $newUser = new Student();
+                    $newUser->setFirstName( $dbSuiviUser['firstname'] );
+                    $newUser->setLastName( $dbSuiviUser['lastname'] );
+                    $newUser->setEmail('email');
+                    $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
+                    $newUser->setRoles( ['ROLE_STUDENT'] );
+                    break;
+            }
+            $this->entityManager->persist($newUser);
+            $this->entityManager->flush();
+
+            $user = $this->userRepo->find( $newUser->getId() );
         }
         else
         {
-            $emailType = 'email';
+            $user = $this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] );
         }
 
-        $userYouUp = $this->userRepo->findOneBy([
-            'firstname' => $admin_login_user['firstname'],
-            'lastname' => $admin_login_user['lastname'],
-            $emailType => $admin_login_user['email']
-        ]);
+        $cookieExpires = new \DateTime();
+        $cookieExpires->modify('+1 day');
+        $cookieExpires->setTime(5,0,0,1);
 
-        if( !$userYouUp )
-        {
-            // find user in dbsuivi to set youup user fields
-            $suiviUser = [];
-            if( $suiviUser[''] )
-            {
+        $cookieYouUp = Cookie::create('cookieYouUp')
+            ->withValue( $this->generateCookieString() )
+            ->withExpires( $cookieExpires )
+            ->withDomain('.3wa.com')
+            ->withSecure(true);
 
-            }
-            $user = new User();
-            $user->setFirstName();
-            $user->setLastName();
-            $user->setMoodleId();
-            $user->setDiscr();
-        }
+        $user->setCookie( $cookieYouUp );
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
         return new SelfValidatingPassport(new UserBadge($cookieYouUp, $user));
     }
@@ -120,11 +157,31 @@ class Login3waAuthenticator extends AbstractAuthenticator
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
 
+    public function start(Request $request, AuthenticationException $authException = null): Response
+    {
+        // TODO Check this
+        return new RedirectResponse(
+            '/connect/', // might be the site, where users choose their oauth provider
+            Response::HTTP_TEMPORARY_REDIRECT
+        );
+    }
+
     protected function rawSqlRequestToExtDb( $sql, $params = [], $extDb = 'dbsuivi' ) {
         $conn = $this->doctrine->getConnection($extDb);
         return $conn
             ->prepare($sql)
             ->executeQuery($params)
             ->fetchAll();
+    }
+
+    protected function generateCookieString( $length = 32 )
+    {
+        $characters = explode('', '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+        $cookieString = '';
+        for( $n = 0; $n < $length; $n++ )
+        {
+            $cookieString .= $characters[array_rand($characters)];
+        }
+        return $cookieString;
     }
 }

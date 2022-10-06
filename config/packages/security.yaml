@@ -18,7 +18,7 @@ security:
         main:
             entry_point: form_login
             custom_authenticators:
-                - App\Security\GoogleAuthenticator
+                - App\Security\Login3waAuthenticator
             lazy: true
             provider: app_user_provider
             # provider: two_factor_provider
