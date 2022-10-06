@@ -68,7 +68,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                 SELECT
                 users.firstname, users.lastname, users.username, users.email, users.access, cookies.cookie
                 FROM users
-                NATURAL JOIN cookies
+                LEFT JOIN cookies
                 ON users.id = cookies.id_user
                 WHERE cookies.cookie = :cookie
                 ";
