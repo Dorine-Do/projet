@@ -14,8 +14,6 @@ function getStudentsByModuleFromAjax(sessionId, moduleId){
     fetch( 'dashboard/' + sessionId + '/' + moduleId, {method: 'GET'} )
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
-            console.log('stop')
             displayStudents(data)
         })
 }
@@ -24,7 +22,6 @@ function getQcmsDoneByStudentFromAjax(sessionId, moduleId, studentId){
     fetch( 'dashboard/' + sessionId + '/' + moduleId + '/' + studentId, {method: 'GET'} )
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
             displayQcmsDone(data)
         })
 }
@@ -33,7 +30,12 @@ function getQcmsDoneByStudentFromAjax(sessionId, moduleId, studentId){
 //Display
 function displayModules(data){
     levelDiv.style.display = 'block'
-    console.log(data)
+
+    selectModule.innerHTML = ""
+    let option = document.createElement('option')
+    option.innerHTML = 'Séléctionner un module'
+    selectModule.append(option)
+
     data.forEach( module => {
         let option = document.createElement('option')
         option.innerHTML = module['name']
@@ -75,6 +77,13 @@ function displayStudents(data){
 
     liStudentData = document.querySelectorAll('.liStudentData')
     positionLabelInput(liStudentData)
+    console.log(data)
+    if (data.length === 0){
+        let div = createElementSimple('div', 'noStudent')
+        div.innerHTML = "Aucun étudiant n'a encore de note dans cette session"
+        ulListStudents.append(div)
+    }
+
 }
 
 function displayQcmsDone(data){
@@ -212,12 +221,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
     namesLevel.forEach( input => {
         input.addEventListener('click', (e)=>{
             qcmsDiv = document.querySelector('.qcms')
-            console.log(qcmsDiv.style.display)
             if (qcmsDiv.style.display === 'block'){
                 qcmsDiv.style.display = "none"
                 ulListQcms.innerHTML = ""
             }
-            console.log('hi')
             liStudentsData = document.querySelectorAll('.liStudentData')
             liStudentsData.forEach( li => {
                let level = li.lastChild.dataset.level
