@@ -42,8 +42,11 @@ namespace App\Controller;
     class InstructorController extends AbstractController
     {
 
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        private $id = 1;
+        public function __construct(Security $security){
+            $this->security = $security;
+            $this->user = $security->getUser();
+            $this->id = $this->user->getId();
+        }
 
         #[Route('/instructor', name: 'welcome_instructor')]
         public function welcome(): Response
