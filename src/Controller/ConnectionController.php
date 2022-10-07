@@ -48,4 +48,11 @@ class ConnectionController extends AbstractController
 
         return $this->redirectToRoute( $dashboardRouteName );
     }
+
+    #[Route('logout', name: 'app_logout')]
+    public function logout()
+    {
+        header('location: https://login.3wa.io/logout');
+        exit();
+    }
 }

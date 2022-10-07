@@ -15,7 +15,7 @@ doctrine:
 #                server_version: '5.7'
 #                charset: utf8mb4
             dblogin:
-                url: '%env(resolve:DATABASE_SUIVI_URL)%'
+                url: '%env(resolve:DATABASE_LOGIN_URL)%'
                 # configure these for your database server
             #                driver: 'pdo_mysql'
             #                server_version: '5.7'
