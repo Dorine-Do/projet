@@ -27,6 +27,7 @@
     <div class="eleve">
         <p class="helloStudent">Salut,{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>
     </div>
+    <button id="reportBugBtn">Faire remonter un bug</button>
     <div class="logOut">
         <a href="{{path('app_logout')}}" ><img class="imgLogOut" src="{{asset('build/images/exit.png')}}" alt="Déconnexion"> </a>
     </div>

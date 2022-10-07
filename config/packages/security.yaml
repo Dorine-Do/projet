@@ -18,7 +18,7 @@ security:
         main:
             entry_point: form_login
             custom_authenticators:
-                - App\Security\GoogleAuthenticator
+                - App\Security\Login3waAuthenticator
             lazy: true
             provider: app_user_provider
             # provider: two_factor_provider
@@ -33,9 +33,11 @@ security:
                 check_path: app_connection
             logout:
                 path: app_logout
+            switch_user: { parameter: X-Switch-User }
         secured_area:
             form_login:
                 enable_csrf: true
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -52,8 +54,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/instructor, roles: ROLE_INSTRUCTOR }
-        - { path: ^/student, roles: ROLE_STUDENT }
+#        - { path: ^/instructor, roles: ROLE_INSTRUCTOR }
+#        - { path: ^/student, roles: ROLE_STUDENT }
 
 when@test:
     security:

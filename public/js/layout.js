@@ -1,0 +1,47 @@
+// vars
+let reportBugBtn, reportBugModale, closeReportBugModaleBtn, reportBugForm;
+
+// functions
+function showReportBugModale()
+{
+    reportBugModale.style.display = 'flex';
+}
+
+function hideReportBugModale(){
+    reportBugModale.style.display = 'none';
+}
+
+function ajaxSendBugReport(e)
+{
+    e.preventDefault();
+    let bugMsg      = e.target.querySelector('#reportBugMsg').value;
+    let bugUrl      = e.target.querySelector('#bugReportUrl').value;
+    let bugReporter = e.target.querySelector('#bugReportUserId').value;
+    console.log( bugMsg )
+    fetch( '/bug/report/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( { bugReporter, bugUrl, bugMsg } )
+    })
+     .then( response => response.json() )
+     .then( result => {
+        console.log(result);
+     })
+     .catch( error => console.log(error) );
+}
+
+// code principal
+
+document.addEventListener('DOMContentLoaded', function(){
+
+    reportBugBtn            = document.querySelector('#reportBugBtn');
+    reportBugModale         = document.querySelector('#reportBugModale');
+    closeReportBugModaleBtn = document.querySelector('#closeReportBugModaleBtn');
+    reportBugForm           = document.querySelector('#reportBugForm');
+
+    reportBugBtn.addEventListener('click', showReportBugModale);
+    closeReportBugModaleBtn.addEventListener('click', hideReportBugModale);
+    reportBugForm.addEventListener('submit', ajaxSendBugReport);
+});

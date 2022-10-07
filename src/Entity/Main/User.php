@@ -187,16 +187,16 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getSuiviId(): ?int
-    {
-        return $this->suiviId;
-    }
-
     public function setSuiviId(int $suiviId): self
     {
         $this->suiviId = $suiviId;
 
         return $this;
+    }
+
+    public function getSuiviId(): ?int
+    {
+        return $this->suiviId;
     }
 
     public function getCreatedAt(): ?\DateTime

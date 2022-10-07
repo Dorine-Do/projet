@@ -28,19 +28,26 @@
             {% endblock %}
             {% include('layout/footer.html.twig')%}
         </div>
-        <div id="g_id_onload"
-             data-client_id="939653659160-g2cn2cgin2ua2cgp33003np8quf1l7m1.apps.googleusercontent.com"
-             data-login_uri="http://localhost:8000"
-             data-auto_select="true"
-{#             data-username="{{ last_username }}"#}
-             data-context="signin">
+
+        <div id="reportBugModale">
+            <div>
+                <button id="closeReportBugModaleBtn" class="button">Fermer</button>
+                <h3>Signaler un bug</h3>
+                <form id="reportBugForm">
+                    {% if app.user %}
+                        <input type="hidden" id="bugReportUserId" value="{{app.user.id}}" name="userEmail">
+                    {% endif %}
+                    <input type="hidden" id="bugReportUrl" value="{{path(app.request.get('_route'))}}" name="bugReportLink">
+                    <textarea name="reportBugMsg" id="reportBugMsg" cols="30" rows="10"></textarea>
+                    <button type="submit" class="errorSubmitBtn">Envoyer</button>
+                </form>
+            </div>
         </div>
-        <script src="https://accounts.google.com/gsi/client" async defer></script>
-        <script src="{{ asset('js/onetap.js') }}"></script>
-        <script src="{{ asset('js/disconnect.js') }}"></script>
+
          {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+        <script src="{{ asset('js/layout.js') }}"></script>
     </body>
    
 </html>
