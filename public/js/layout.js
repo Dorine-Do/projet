@@ -24,7 +24,11 @@ function ajaxSendBugReport(e)
     })
      .then( response => response.json() )
      .then( result => {
-        console.log(result);
+         alert( result );
+         hideReportBugModale();
+         document.querySelector('#reportBugMsg').value = '';
+         document.querySelector('#bugReportUrl').value = '';
+         document.querySelector('#bugReportUserId').value = '';
      })
      .catch( error => console.log(error) );
 }
