@@ -69,22 +69,22 @@ class SuiviFixtures extends Fixture
         $this->initSuiviData();
 
         //Sessions
-        $this->generateSessions( $manager );
+//        $this->generateSessions( $manager );
 
         //Modules
-        $this->generateModules( $manager );
+//        $this->generateModules( $manager );
 
         //LinksSessionModule
-        $this->generateLinksSessionModule( $manager );
+//        $this->generateLinksSessionModule( $manager );
 
         //Instructors
         $this->generateInstructors( $manager );
 
         //Students
-        $this->generateStudents( $manager );
+//        $this->generateStudents( $manager );
 
         // LinksSessionStudent
-        $this->generateLinksSessionStudent( $manager );
+//        $this->generateLinksSessionStudent( $manager );
 
         // LinksInstructorSessionModule
         // $this->generateLinkInstructorSessionModule( $manager );
@@ -543,16 +543,10 @@ class SuiviFixtures extends Fixture
             $instructor->setBirthDate( $suiviInstructors['birthdate'] );
             $instructor->setPhone( $suiviInstructors['phone'] );
             $instructor->setEmail( $suiviInstructors['email'] );
-            $instructor->setPassword(
-                $this->userPasswordHasherInterface->hashPassword(
-                    $instructor, "password"
-                )
-            );
             $instructor->setMoodleId( $suiviInstructors['id_moodle'] );
             $instructor->setSuiviId( $suiviInstructors['id'] );
             $instructor->setIsReferent( $suiviInstructors['isReferent'] );
             $instructor->setRoles(['ROLE_INSTRUCTOR']);
-            $instructor->setEmail3wa($suiviInstructors['email3wa']);
             $manager->persist($instructor);
         }
         $manager->flush();
@@ -569,15 +563,9 @@ class SuiviFixtures extends Fixture
             $student->setLastname( $suiviStudent['last_name'] );
             $student->setBirthDate( $suiviStudent['birthdate'] );
             $student->setBadges( $suiviStudent['badges'] );
-            $student->setEmail3wa($suiviStudent['email3wa']);
             $student->setEmail($suiviStudent['email']);
             $student->setMoodleId( $suiviStudent['id_moodle'] );
             $student->setSuiviId( $suiviStudent['id'] );
-            $student->setPassword(
-                $this->userPasswordHasherInterface->hashPassword(
-                    $student, "password"
-                )
-            );
             $student->setRoles(['ROLE_STUDENT']);
             $manager->persist($student);
 
