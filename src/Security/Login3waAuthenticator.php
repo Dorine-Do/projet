@@ -136,11 +136,11 @@ class Login3waAuthenticator extends AbstractAuthenticator
             $cookieExpires->modify('+1 day');
             $cookieExpires->setTime(5,0,0,1);
 
-            $cookieYouUp = Cookie::create('cookieYouUp')
+/*            $cookieYouUp = Cookie::create('cookieYouUp')
                 ->withValue( $cookieString )
                 ->withExpires( $cookieExpires )
                 ->withDomain('you-up.3wa.com')
-                ->withSecure(true);
+                ->withSecure(true);*/
 
             $dbCookieYouUp = $this->cookieRepo->findOneBy( ['user' => $user] );
 
