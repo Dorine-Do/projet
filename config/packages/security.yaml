@@ -33,6 +33,7 @@ security:
                 check_path: app_connection
             logout:
                 path: app_logout
+            switch_user: { parameter: X-Switch-User }
         secured_area:
             form_login:
                 enable_csrf: true
