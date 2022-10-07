@@ -100,6 +100,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                         $newUser->setEmail('email');
                         $newUser->setPhone( $dbSuiviUser['phone'] ?: null );
                         $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
+                        $newUser->setSuiviId( $dbSuiviUser['id'] );
                         $newUser->setRoles( ['ROLE_INSTRUCTOR'] );
                         break;
                     case 'admin':
@@ -108,6 +109,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                         $newUser->setLastName( $dbSuiviUser['lastname'] );
                         $newUser->setEmail('email');
                         $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
+                        $newUser->setSuiviId( $dbSuiviUser['id'] );
                         $newUser->setRoles( ['ROLE_ADMIN'] );
                         break;
                     default:
@@ -116,6 +118,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                         $newUser->setLastName( $dbSuiviUser['lastname'] );
                         $newUser->setEmail('email');
                         $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
+                        $newUser->setSuiviId( $dbSuiviUser['id'] );
                         $newUser->setRoles( ['ROLE_STUDENT'] );
                         break;
                 }
