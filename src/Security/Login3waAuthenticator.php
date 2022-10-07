@@ -177,7 +177,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     protected function generateCookieString( $length = 32 )
     {
-        $characters = explode('', '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+        $characters = str_split( '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
         $cookieString = '';
         for( $n = 0; $n < $length; $n++ )
         {
