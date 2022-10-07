@@ -80,7 +80,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                 WHERE cookies.cookie = :cookie
                 ";
 
-            $dbLoginUser = $this->rawSqlRequestToExtDb( $sqlReqDblogin, [ 'cookie' => $_COOKIE['cookie'] ], 'dblogin' );
+            $dbLoginUser = $this->rawSqlRequestToExtDb( $sqlReqDblogin, [ 'cookie' => $_COOKIE['cookie'] ], 'dblogin' )[0];
 
             // if userLogin doesn't exist in youUp db
             if( !$this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] ) )
