@@ -5,6 +5,7 @@ use App\Entity\Main\Admin;
 use App\Entity\Main\Instructor;
 use App\Entity\Main\Student;
 use App\Entity\Main\User;
+use App\Repository\CookieRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -32,6 +33,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
     private ManagerRegistry $managerRegistry;
     private UserRepository $userRepo;
     private ManagerRegistry $doctrine;
+    private CookieRepository $cookieRepo;
 
     public function __construct(
         ClientRegistry $clientRegistry,
@@ -39,7 +41,8 @@ class Login3waAuthenticator extends AbstractAuthenticator
         RouterInterface $router,
         ManagerRegistry $managerRegistry,
         UserRepository $userRepo,
-        ManagerRegistry $doctrine
+        ManagerRegistry $doctrine,
+        CookieRepository $cookieRepo
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -48,6 +51,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         $this->managerRegistry = $managerRegistry;
         $this->userRepo = $userRepo;
         $this->doctrine = $doctrine;
+        $this->cookieRepo = $cookieRepo;
     }
 
     public function supports(Request $request): ?bool
@@ -70,8 +74,8 @@ class Login3waAuthenticator extends AbstractAuthenticator
             $sqlReqDblogin = "
                 SELECT
                 users.firstname, users.lastname, users.username, users.email, users.access, cookies.cookie
-                FROM users
-                LEFT JOIN cookies
+                FROM cookies
+                LEFT JOIN users
                 ON users.id = cookies.id_user
                 WHERE cookies.cookie = :cookie
                 ";
@@ -135,7 +139,12 @@ class Login3waAuthenticator extends AbstractAuthenticator
                 ->withDomain('you-up.3wa.com')
                 ->withSecure(true);
 
-            $dbCookieYouUp = new \App\Entity\Main\Cookie();
+            $dbCookieYouUp = $this->cookieRepo->findOneBy( ['user' => $user] );
+
+            if( !$dbCookieYouUp )
+            {
+                $dbCookieYouUp = new \App\Entity\Main\Cookie();
+            }
             $dbCookieYouUp->setCookie($cookieString);
             $dbCookieYouUp->setCreatedAt( new \DateTime() );
             $dbCookieYouUp->setUser($user);
@@ -154,7 +163,9 @@ class Login3waAuthenticator extends AbstractAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         // on success, let the request continue
-        return null;
+        //        return null;
+        header('Location: /dashboard/check');
+        exit();
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
