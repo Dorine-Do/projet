@@ -51,6 +51,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         $this->managerRegistry = $managerRegistry;
         $this->userRepo = $userRepo;
         $this->doctrine = $doctrine;
+        $this->cookieRepo = $cookieRepo;
     }
 
     public function supports(Request $request): ?bool
