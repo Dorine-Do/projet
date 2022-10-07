@@ -57,85 +57,98 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        // if user isn't logged in 3wa.io ( cookie isn't set )
-        if ( !isset($_COOKIE['cookie']) ) {
-            header('Location: https://login.3wa.io');
-            exit();
-        }
+        $cookieString = $this->generateCookieString();
 
-        // get user by cookie in dblogin
-        $sqlReqDblogin = `
+        return new SelfValidatingPassport(new UserBadge($cookieString, function() use ($cookieString) {
+            // if user isn't logged in 3wa.io ( cookie isn't set )
+            if ( !isset($_COOKIE['cookie']) ) {
+                header('Location: https://login.3wa.io/youup');
+                exit();
+            }
+
+            // get user by cookie in dblogin
+            $sqlReqDblogin = "
                 SELECT
                 users.firstname, users.lastname, users.username, users.email, users.access, cookies.cookie
                 FROM users
-                NATURAL JOIN cookies
+                LEFT JOIN cookies
                 ON users.id = cookies.id_user
-                WHERE cookies.cookie = :cookie`;
+                WHERE cookies.cookie = :cookie
+                ";
 
-        $dbLoginUser = $this->rawSqlRequestToExtDb( $sqlReqDblogin, [ 'cookie' => $_COOKIE['cookie'] ], 'dblogin' )[0];
+            $dbLoginUser = $this->rawSqlRequestToExtDb( $sqlReqDblogin, [ 'cookie' => $_COOKIE['cookie'] ], 'dblogin' )[0];
 
-        // if userLogin doesn't exist in youUp db
-        if( !$this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] ) )
-        {
-            // get user data from dbsuivi
-            $sqlReqDbsuivi = `SELECT firstname, lastname, email, access, phone, id_moodle, id FROM users`;
-
-            $dbSuiviUser = $this->rawSqlRequestToExtDb( $sqlReqDbsuivi, [], 'dbsuivi' )[0];
-
-            // check access type
-            switch( $dbSuiviUser['access'] )
+            // if userLogin doesn't exist in youUp db
+            if( !$this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] ) )
             {
-                case 'teacher':
-                    $newUser = new Instructor();
-                    $newUser->setFirstName( $dbSuiviUser['firstname'] );
-                    $newUser->setLastName( $dbSuiviUser['lastname'] );
-                    $newUser->setEmail('email');
-                    $newUser->setPhone( $dbSuiviUser['phone'] ?: null );
-                    $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
-                    $newUser->setRoles( ['ROLE_INSTRUCTOR'] );
-                    break;
-                case 'admin':
-                    $newUser = new Admin();
-                    $newUser->setFirstName( $dbSuiviUser['firstname'] );
-                    $newUser->setLastName( $dbSuiviUser['lastname'] );
-                    $newUser->setEmail('email');
-                    $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
-                    $newUser->setRoles( ['ROLE_ADMIN'] );
-                    break;
-                default:
-                    $newUser = new Student();
-                    $newUser->setFirstName( $dbSuiviUser['firstname'] );
-                    $newUser->setLastName( $dbSuiviUser['lastname'] );
-                    $newUser->setEmail('email');
-                    $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
-                    $newUser->setRoles( ['ROLE_STUDENT'] );
-                    break;
+                // get user data from dbsuivi
+                $sqlReqDbsuivi = "SELECT firstname, lastname, email, access, phone, id_moodle, id FROM users WHERE email = :email";
+
+                $dbSuiviUser = $this->rawSqlRequestToExtDb( $sqlReqDbsuivi, [ 'email' => $dbLoginUser['email'] ], 'dbsuivi' )[0];
+
+                // check access type
+                switch( $dbSuiviUser['access'] )
+                {
+                    case 'teacher':
+                        $newUser = new Instructor();
+                        $newUser->setFirstName( $dbSuiviUser['firstname'] );
+                        $newUser->setLastName( $dbSuiviUser['lastname'] );
+                        $newUser->setEmail('email');
+                        $newUser->setPhone( $dbSuiviUser['phone'] ?: null );
+                        $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
+                        $newUser->setRoles( ['ROLE_INSTRUCTOR'] );
+                        break;
+                    case 'admin':
+                        $newUser = new Admin();
+                        $newUser->setFirstName( $dbSuiviUser['firstname'] );
+                        $newUser->setLastName( $dbSuiviUser['lastname'] );
+                        $newUser->setEmail('email');
+                        $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
+                        $newUser->setRoles( ['ROLE_ADMIN'] );
+                        break;
+                    default:
+                        $newUser = new Student();
+                        $newUser->setFirstName( $dbSuiviUser['firstname'] );
+                        $newUser->setLastName( $dbSuiviUser['lastname'] );
+                        $newUser->setEmail('email');
+                        $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
+                        $newUser->setRoles( ['ROLE_STUDENT'] );
+                        break;
+                }
+                $this->entityManager->persist($newUser);
+                $this->entityManager->flush();
+
+                $user = $this->userRepo->find( $newUser->getId() );
             }
-            $this->entityManager->persist($newUser);
+            else
+            {
+                $user = $this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] );
+            }
+
+            $cookieExpires = new \DateTime();
+            $cookieExpires->modify('+1 day');
+            $cookieExpires->setTime(5,0,0,1);
+
+            $cookieYouUp = Cookie::create('cookieYouUp')
+                ->withValue( $cookieString )
+                ->withExpires( $cookieExpires )
+                ->withDomain('you-up.3wa.com')
+                ->withSecure(true);
+
+            $dbCookieYouUp = new \App\Entity\Main\Cookie();
+            $dbCookieYouUp->setCookie($cookieString);
+            $dbCookieYouUp->setCreatedAt( new \DateTime() );
+            $dbCookieYouUp->setUser($user);
+
+            $this->entityManager->persist($dbCookieYouUp);
             $this->entityManager->flush();
 
-            $user = $this->userRepo->find( $newUser->getId() );
-        }
-        else
-        {
-            $user = $this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] );
-        }
+            $user->setCookie( $dbCookieYouUp );
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
-        $cookieExpires = new \DateTime();
-        $cookieExpires->modify('+1 day');
-        $cookieExpires->setTime(5,0,0,1);
-
-        $cookieYouUp = Cookie::create('cookieYouUp')
-            ->withValue( $this->generateCookieString() )
-            ->withExpires( $cookieExpires )
-            ->withDomain('you-up.3wa.com')
-            ->withSecure(true);
-
-        $user->setCookie( $cookieYouUp );
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
-        return new SelfValidatingPassport(new UserBadge($cookieYouUp, $user));
+            return $user;
+        }));
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
@@ -176,7 +189,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     protected function generateCookieString( $length = 32 )
     {
-        $characters = explode('', '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+        $characters = str_split( '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
         $cookieString = '';
         for( $n = 0; $n < $length; $n++ )
         {
