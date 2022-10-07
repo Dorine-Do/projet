@@ -57,7 +57,13 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        return new SelfValidatingPassport(new UserBadge($cookieYouUp, function(){
+        $cookieString = $this->generateCookieString();
+
+        $dbCookieYouUp = new \App\Entity\Main\Cookie();
+        $dbCookieYouUp->setCookie($cookieString);
+        $dbCookieYouUp->setCreatedAt( new \DateTime() );
+
+        return new SelfValidatingPassport(new UserBadge($cookieString, function() use ($cookieString, $dbCookieYouUp) {
             // if user isn't logged in 3wa.io ( cookie isn't set )
             if ( !isset($_COOKIE['cookie']) ) {
                 header('Location: https://login.3wa.io/youup');
@@ -127,18 +133,13 @@ class Login3waAuthenticator extends AbstractAuthenticator
             $cookieExpires->modify('+1 day');
             $cookieExpires->setTime(5,0,0,1);
 
-            $cookieString = $this->generateCookieString();
-
             $cookieYouUp = Cookie::create('cookieYouUp')
                 ->withValue( $cookieString )
                 ->withExpires( $cookieExpires )
                 ->withDomain('you-up.3wa.com')
                 ->withSecure(true);
 
-            $dbCookieYouUp = new \App\Entity\Main\Cookie();
-            $dbCookieYouUp->setCookie($cookieString);
             $dbCookieYouUp->setUser($user);
-            $dbCookieYouUp->setCreatedAt( new \DateTime() );
 
             $this->entityManager->persist($dbCookieYouUp);
             $this->entityManager->flush();
