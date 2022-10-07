@@ -30,11 +30,13 @@ class StudentController extends AbstractController
 {
 
     private StudentRepository $studentRepo;
+    private UserRepository $userRepo;
     private Security $security;
 
 //    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-    public function __construct(StudentRepository $studentRepository, Security $security){
+    public function __construct(StudentRepository $studentRepository, UserRepository $userRepository, Security $security){
         $this->studentRepo = $studentRepository;
+        $this->userRepo = $userRepository;
         $this->security = $security;
     }
 
@@ -46,8 +48,8 @@ class StudentController extends AbstractController
     ): Response
     {
 
-        dd($this->security->getUser());
-        $student = $this->studentRepo->find($this->user->getId());
+//        dd($this->security->getUser());
+        $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $allAvailableQcmInstances = $student->getQcmInstances();
 
