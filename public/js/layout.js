@@ -14,12 +14,20 @@ function hideReportBugModale(){
 function ajaxSendBugReport(e)
 {
     e.preventDefault();
-    let bugMsg = e.target.querySelector('textarea').innerText;
+    let bugMsg      = e.target.querySelector('#reportBugMsg').value;
+    let bugUrl      = e.target.querySelector('#bugReportUrl').value;
+    let bugReporter = e.target.querySelector('#bugReportUserId').value;
     console.log( bugMsg )
-    fetch( '/bug-report/' + bugMsg, { method: 'GET' } )
+    fetch( '/bug/report/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( { bugReporter, bugUrl, bugMsg } )
+    })
      .then( response => response.json() )
      .then( result => {
-        console.log('Merci pour votre retour, un mail a été envoyé !');
+        console.log(result);
      })
      .catch( error => console.log(error) );
 }
