@@ -126,7 +126,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         $cookieExpires->modify('+1 day');
         $cookieExpires->setTime(5,0,0,1);
 
-        $cookieString = $this->generateCookieString()
+        $cookieString = $this->generateCookieString();
 
         $cookieYouUp = Cookie::create('cookieYouUp')
             ->withValue( $cookieString )
