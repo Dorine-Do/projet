@@ -200,7 +200,7 @@ class StudentController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        $student = $this->studentRepo->find($this->user->getId());
+        $student = $this->studentRepo->find($this->security->getUser()->getId());
 
         $qcm = $qcmRepository->find(['id' => ($qcmInstance->getQcm()->getId())]);
 
