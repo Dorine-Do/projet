@@ -23,6 +23,9 @@ class Instructor extends User
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Question::class)]
     private $questions;
 
+    #[ORM\OneToMany(mappedBy: 'student', targetEntity: QcmInstance::class)]
+    private $qcmInstances;
+
     public function __construct()
     {
         parent::__construct();
@@ -109,6 +112,36 @@ class Instructor extends User
             // set the owning side to null (unless already changed)
             if ($question->getAuthor() === $this) {
                 $question->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QcmInstance>
+     */
+    public function getQcmInstances(): Collection
+    {
+        return $this->qcmInstances;
+    }
+
+    public function addQcmInstance(QcmInstance $qcmInstance): self
+    {
+        if (!$this->qcmInstances->contains($qcmInstance)) {
+            $this->qcmInstances[] = $qcmInstance;
+            $qcmInstance->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQcmInstance(QcmInstance $qcmInstance): self
+    {
+        if ($this->qcmInstances->removeElement($qcmInstance)) {
+            // set the owning side to null (unless already changed)
+            if ($qcmInstance->getStudent() === $this) {
+                $qcmInstance->setStudent(null);
             }
         }
 
