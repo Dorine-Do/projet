@@ -74,8 +74,8 @@ class Login3waAuthenticator extends AbstractAuthenticator
             $sqlReqDblogin = "
                 SELECT
                 users.firstname, users.lastname, users.username, users.email, users.access, cookies.cookie
-                FROM users
-                LEFT JOIN cookies
+                FROM cookies
+                LEFT JOIN users
                 ON users.id = cookies.id_user
                 WHERE cookies.cookie = :cookie
                 ";
