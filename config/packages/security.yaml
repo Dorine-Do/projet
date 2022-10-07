@@ -7,9 +7,11 @@ security:
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
-            entity:
-                class: App\Entity\Main\User
-                property: email
+            id: App\Security\AppUserProvider
+#            entity:
+#                class: App\Entity\Main\User
+#                property: email
+#                id: email
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:

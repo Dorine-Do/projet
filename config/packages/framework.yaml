@@ -8,6 +8,13 @@ framework:
     # Remove or comment this section to explicitly disable session support.
     session:
         handler_id: null
+#        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
+        name: cookieYouUp
+        cookie_lifetime: 86400
+        cookie_httponly: false
+#        cookie_secure: true
+#        cookie_samesite: none
+        use_cookies: true
         cookie_secure: auto
         cookie_samesite: lax
         storage_factory_id: session.storage.factory.native
