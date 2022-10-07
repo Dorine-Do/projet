@@ -163,7 +163,9 @@ class Login3waAuthenticator extends AbstractAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         // on success, let the request continue
-        return null;
+        //        return null;
+        header('Location: /dashboard/check');
+        exit();
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
