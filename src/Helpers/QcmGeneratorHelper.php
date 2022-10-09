@@ -4,23 +4,27 @@ namespace App\Helpers;
 
 use App\Entity\Main\Module;
 use App\Entity\Main\Qcm;
+use App\Repository\InstructorRepository;
 use App\Repository\QuestionRepository;
 use Symfony\Component\Security\Core\Security;
 
 class QcmGeneratorHelper
 {
     private QuestionRepository $_questionRepo;
-    private Security $_security;
+    // private Security $_security;
     private int $_trainingQcmQuestionQuantity = 20;
     private int $_officialQcmQuestionQuantity = 42;
 
-    public function __construct( QuestionRepository $questionRepo, Security $security )
+    // public function __construct( QuestionRepository $questionRepo, Security $security )
+    public function __construct( QuestionRepository $questionRepo,InstructorRepository $insRepo)
     {
         $this->_questionRepo = $questionRepo;
-        $this->_security = $security;
+        // $this->instructorRepo =$instructorRepository;
+        // $this->_security = $security;
+        $this->insRepo = $insRepo;
     }
     /*TODO A enlever une fois que a connection avec google sera opérationnelle ( $instructorRepository )*/
-    public function generateRandomQcm( Module $module, $instructorRepository , bool $isTraining = true, int $difficulty = 2): Qcm
+    public function generateRandomQcm( Module $module , bool $isTraining = true, int $difficulty = 2): Qcm
     {
         if( $isTraining )
         {
@@ -42,8 +46,9 @@ class QcmGeneratorHelper
         $qcm = new Qcm();
         $qcm->setModule( $module );
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $qcm->setAuthor( $instructorRepository->find(1) );
-//      $qcm->setAuthor( $this->_security->getUser() );
+        // $qcm->setAuthor( $instructorRepository->find(2) );
+    //  $qcm->setAuthor( $this->_security->getUser() );
+     $qcm->setAuthor( $this->insRepo->find(1) );
         $qcm->setTitle( $title );
         $qcm->setDifficulty( $difficulty );
         $qcm->setIsOfficial( $isOfficial );

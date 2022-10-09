@@ -152,6 +152,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         "src",
         chevronHaut
       );
+      console.log("yes");
       // console.log(
       //   document.querySelectorAll(".proposalWordingP").dataset.status,
       //   "hi"

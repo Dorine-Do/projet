@@ -16,23 +16,51 @@
  
 
     <div class="partOne">
-        <p><span class="etape">Etape 1</span> Choix du qcm par module et par niveau</p>
+        <p><span class="etape">Etape 1</span> {{'qcm.choice'|trans}} par module et par niveau</p>
         {# form -> id : user.id => temporaire /// voir controller + var #}
         <form action="{{ path('instructor_create_qcm_perso') }}" method="GET">
-            <select class="selectModule" name="module">
+        {# {{dump(modules[0].id)}} #}
+            <div  class="select_option_choice_module">
+               <select class="selectModule" name="module">
                 {% for module in modules %}
                     <option value="null">Veuillez choisir un module</option>
                     <option value="{{ module.id }}">{{ module.title }}</option>
                 {% endfor %}
-            </select>
-            <button class="buttonGenerate" type="submit" >Générer le qcm</button>
+            </select> 
+            </div>
+          
+            <div class="choice_difficulties_and_type_of_qcm">
+                <div class="bloc_choice_difficulties">
+                        <div class="bloc_border_choice_difficulties">
+                        <ul class="list_choice_difficulties">
+                         {# {% for qcmLevel in qcmsLevel %}
+                             <input type="hidden" value="{{qcmLevel[0].difficulty}}"  name="qcm['difficulty]">
+                         {% endfor %} #}
+                          
+                            <input type="hidden" value="{{qcmsLevel[0]}}"  name="qcm['difficulty]">
+                        
+                            <li {% if qcmsLevel[0]== 1 %} data-difficulty-easy="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}>Facile </li>
+                            <li {% if qcmsLevel[0]== 2 %} data-difficulty-medium="{{qcmsLevel[0]}}" class='colorDifficulty'{% endif %}> Moyen</li>
+                            <li {% if qcmsLevel[0]== 3 %} data-difficulty-difficult="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}>Difficile</li>
+                        
+                        </ul>
+                        </div>
+                </div>
+                <div class="choice_type_of_qcm">
+                    <ul class="list_type_of_qcm">
+                        <li><button class="qcmOfficial" type="submit" >{{'button.generateQcmOfficial'|trans}}</button> </li>
+                        <li><button class="buttonGenerate" type="submit" >{{'button.generateQcmPersonalised'|trans}}</button></li>
+                    </ul>
+                </div>
+            </div>
+         
         </form>
 
          <hr>
 
 
 
-         <p><span class="etape">Etape 2</span> Qcm choisi</p>
+         <p><span class="etape">Etape 2</span>{{'qcm.choiced'|trans}}</p>
 
         <div class="showQcm">
             <button class="btnShowQcm">Voir mon qcm</button>
@@ -70,7 +98,7 @@
 
     <div class="contentPartTwo">
         <hr>
-        <p class="pStepThree"><span class="etape">Etape 2</span> Personnaliser son qcm</p>
+        <p class="pStepThree"><span class="etape">Etape 2</span> {{'button.toPersonnalised'|trans}}</p>
         <div class="btnToggle">
             <button class="btnCustom">Personnaliser</button>
         </div>
@@ -135,7 +163,7 @@
                     <div class="qcmChoisedSubDiv">
                         <div class="blocQcmChoisedLevel">
                             <div class="qcmChoisedLegend">
-                                QCM Choici
+                                {{'qcm.choiced'|trans}}
                                 <div class="qcmChoisedLevel" id="qcmChoisedLevel">
                                     Facile
                                 </div>
@@ -192,9 +220,9 @@
                     <div class="listQuestionTypedDiv">
                         <div class="btnChoiseQuestionType">
 
-                            <button class="btnQuestionsOfficial"> Questions officielles : {{officialQuestions|count}}</button>
+                            <button class="btnQuestionsOfficial">{{'button.myQcmsExercice'|trans}} : {{officialQuestions|count}}</button>
                            
-                            <button class="btnQuestionsPerso" > Questions personalisées </button>
+                            <button class="btnQuestionsPerso" > {{'button.myQuestionsCustom'|trans}} </button>
 
                         </div>
                         {#*************************************************************************************************#}
@@ -202,7 +230,7 @@
                         <div class="questionsOfficial">
                        
                             <ul>
-                            {{dump(qcmInstancesByQuestion)}}
+                            {# {{dump(qcmInstancesByQuestion)}} #}
                                 {% for question in officialQuestions %}
                                     
                                     <li class="officialQuestionLi" draggable="true">
@@ -340,7 +368,7 @@
             {% endif %}
         </div>
    </div>
-<input
+
 {% endblock %}
 {% block javascripts %}
     <script>
@@ -349,7 +377,7 @@
         let deleteImg = "{{asset('build/images/delete_close.png')}}"
       {#  let qcmInstanceQuestions= {{ qcmInstanceQuestionsCache|json_encode }}#}
 
-        let route = "{{ path('instructor_questions_update_fetch') }}
+        let route = "{{ path('instructor_questions_update_fetch') }}"
           {#id : user.id => temporaire /// voir controller + var #}
         let routeInstructorQcmFetch = "{{ path('instructor_qcm_create_fetch' ) }}"
  

@@ -38,7 +38,7 @@ namespace App\Controller;
     class InstructorController extends AbstractController
     {
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        private $id = 1;
+        private $id = 2;
 
 //    TODO future page à implémenter
         #[Route('/instructor', name: 'welcome_instructor')]
@@ -87,13 +87,19 @@ namespace App\Controller;
         #[Route('instructor/creations/qcms', name: 'instructor_display_qcms', methods: ['GET'])]
         public function displayQcms(
             QcmRepository $qcmRepo,
-            Security      $security
+            Security      $security,
+            InstructorRepository $ins
         ): Response
         {
+         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
+            // $qcms = $qcmRepo->findBy([
+            //     'author' => $security->getUser(),
+            // ]);
+            // dd($security->getUser());
             $qcms = $qcmRepo->findBy([
-                'author' => $security->getUser(),
+                'author' =>$this->id ,
             ]);
-
+         
             return $this->render('instructor/display_qcms.html.twig', [
                 'qcms' => $qcms,
             ]);
@@ -206,7 +212,7 @@ namespace App\Controller;
         {
 
 //          TODO A enlever une fois que a connection avec google sera opérationnelle
-            $user = $instructorRepository->find( $this->id );
+            $user = $instructorRepository->find( 2 );
 
             $questionEntity = new Question();
 
@@ -287,54 +293,52 @@ namespace App\Controller;
         QuestionRepository   $questionRepository,
         Security             $security,
         QcmRepository        $qcmRepo,
-        QcmInstanceRepository     $qcmInstanceRepository
+        QcmInstanceRepository     $qcmInstanceRepository,
+   
 
     ): Response
     {
-
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
         // $userId=$instructorRepository->find($id);
         // $userId = $this->getUser()->getId();
-        $userId =2;
+        $userId =1;
         $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
         $modules = [];
+        $qcmsLevel=[];
+
         foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
         {
             $modules[] = $linkInstructorSessionModule->getModule();
+              //   TEMPORAIRE -> recup qcm par module et par difficulté
+            //   $qcmsLevel[]=$linkInstructorSessionModule->getmodule()->getQcms();
+              foreach($linkInstructorSessionModule->getmodule()->getQcms() as $qcmLevel ) {
+                $qcmsLevel[]=$qcmLevel->getDifficulty();
+             }
+            
         }
-
+        // dd($qcmsLevel);
         /**********************************************************************************/
         // Get module choiced
+
         $module = null;
         if ($request->get('module'))
         {
             $module = $moduleRepository->find($request->get('module'));
+         
         }
 
+       
         if ($module)
         {
-            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
+            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $instructorRepository);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
-             //qcm instance
-            // $qcms = $qcmRepo->findBy(["module"=>$module->getId()]);
-            // $qcmInstances = $qcmInstanceRepository->findBy(["qcm"=>$qcms]);
             $qcms = $module->getQcms();
             $moduleQuestions = $module->getQuestions();
-
-
+                  
         }
-
-
-        // $qcmInstanceFromOfficialQcm=[];
-        // foreach($qcmInstances as $qcm){
-        //     $qcmInstanceFromOfficialQcm[]=["id"=>$qcm->getQcm()->getId(),"questions"=>$qcm->getQcm()->getQuestionsCache()];
-
-        // }
-        //pour chaque q recup les qcm lié et enregistré le nombr d'instance de c'est q en tant que val
-
 
         $qcmInstancesByQuestion = [];
         foreach($moduleQuestions as $moduleQuestion){
@@ -344,13 +348,7 @@ namespace App\Controller;
                 $count+=count($moduleQuestionQcm->getQcmInstances());
               }
              $qcmInstancesByQuestion[$moduleQuestion->getId()]=$count;
-            }
-
-
-
-
-
-
+        }
 
         /********************************************************************************/
         return $this->render('instructor/create_qcm_perso.html.twig', [
@@ -360,7 +358,7 @@ namespace App\Controller;
             'generatedQcm' => $module ? $generatedQcm : null,
             // temporaire voir todo pour connection
             'user'=>$userId,
-            // 'qcmInstanceFromOfficialQcm'=>$qcmInstanceFromOfficialQcm,
+            'qcmsLevel'=>$qcmsLevel,
             'qcms'=>$qcms,
             'qcmInstancesByQuestion'=>$qcmInstancesByQuestion
 
@@ -410,50 +408,7 @@ namespace App\Controller;
             /*TODO Débuger le jsonResponse*/
             return new JsonResponse($questionResponse);
         }
-    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
-    public function createQcmPersonalized(
-        Request              $request,
-        InstructorRepository $instructorRepository,
-        ModuleRepository     $moduleRepository,
-        QuestionRepository   $questionRepository,
-        Security             $security
-    ): Response
-    {
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $userId = $this->id;
-        $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
-
-        $modules = [];
-        foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
-        {
-            $modules[] = $linkInstructorSessionModule->getModule();
-        }
-
-        /**********************************************************************************/
-        // Get module choiced
-        $module = null;
-        if ($request->get('module'))
-        {
-            $module = $moduleRepository->find($request->get('module'));
-        }
-
-        if ($module)
-        {
-            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-            $generatedQcm = $qcmGenerator->generateRandomQcm($module);
-            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
-            $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
-        }
-
-        /********************************************************************************/
-        return $this->render('instructor/create_qcm_perso.html.twig', [
-            'modules' => $modules,
-            'customQuestions' => $module ? $customQuestions : null,
-            'officialQuestions' => $module ? $officialQuestions : null,
-            'generatedQcm' => $module ? $generatedQcm : null,
-        ]);
-    }
-
+   
     // methode Post non permise car route non trouvée donc method Get Ok
     #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
     public function createQcmFetch(
@@ -534,15 +489,7 @@ namespace App\Controller;
        
     }
 
-    #[Route('instructor/qcms', name: 'instructor_qcms', methods: ['GET'])]
-    public function displayQcms(
-        QcmRepository $qcmRepo,
-        Security      $security
-    ): Response
-    {
-        $qcms = $qcmRepo->findBy([
-            'author' => $security->getUser(),
-        ]);
+
 
         #[Route('instructor/qcms/create_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
         public function createOfficialQcm(
@@ -558,7 +505,7 @@ namespace App\Controller;
             $dayOfWeekEnd = array("Saturday", "Sunday");
 //            $userId = $security->getUser();
             /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-            $userId = 2;
+            $userId = 1;
             $sessionAndModuleByInstructor = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
             foreach ($sessionAndModuleByInstructor as $sessionAndModule)
@@ -620,12 +567,7 @@ namespace App\Controller;
                         $endTime = $endTime->add(new DateInterval("P1D"));
                     }
                     $qcmInstance->setEndTime($endTime);
-                    //mettre dans un tableau saturday sunday
-                    //et a partir de la endtdate  la convertir a un format mot et faire une condition
-                    // si la date contient un des jours du tableau (ou une condition swich pour voir si c'est égale a un des element ddans ) ajouter +1 ou +2 enfonction du jour pour que ça tombe un lundi
-
-                    //on recupère on crée une variable dans lequel on met le string de getcreatedat ,
-                    //puis on place la varible dans datetime puis on lei donne un format et ainsi de suite
+             
                 }
 
                 $manager->persist($qcmInstance);
