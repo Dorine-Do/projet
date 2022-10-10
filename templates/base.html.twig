@@ -35,9 +35,9 @@
                 <h3>Signaler un bug</h3>
                 <form id="reportBugForm">
                     {% if app.user %}
-                        <input type="hidden" id="bugReportUserId" value="{{app.user.id}}" name="userEmail">
+                        <input type="hidden" id="bugReportUserId" value="{{app.user.id}}" name="bugReportUserId">
                     {% endif %}
-                    <input type="hidden" id="bugReportUrl" value="" name="bugReportLink">
+                    <input type="hidden" id="bugReportUrl" value="" name="bugReportUrl">
 			<script>document.querySelector('#bugReportUrl').value = document.location.href</script>
                     <textarea name="reportBugMsg" id="reportBugMsg" cols="30" rows="10"></textarea>
                     <button type="submit" class="errorSubmitBtn">Envoyer</button>

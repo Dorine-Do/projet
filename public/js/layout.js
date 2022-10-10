@@ -14,20 +14,21 @@ function hideReportBugModale(){
 function ajaxSendBugReport(e)
 {
     e.preventDefault();
-    let bugMsg      = e.target.querySelector('#reportBugMsg').value;
-    let bugUrl      = e.target.querySelector('#bugReportUrl').value;
-    let bugReporter = e.target.querySelector('#bugReportUserId').value;
-    console.log( bugMsg )
-    fetch( '/bug/report/', {
+    reportBugForm = document.querySelector('#reportBugForm');
+    // let bugMsg      = e.target.querySelector('#reportBugMsg').value;
+    // let bugUrl      = e.target.querySelector('#bugReportUrl').value;
+    // let bugReporter = e.target.querySelector('#bugReportUserId').value;
+    fetch( '/bug/report', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify( { bugReporter, bugUrl, bugMsg } )
+        body: new FormData(reportBugForm)
     })
      .then( response => response.json() )
      .then( result => {
-        console.log(result);
+         alert( result );
+         hideReportBugModale();
+         document.querySelector('#reportBugMsg').value = '';
+         document.querySelector('#bugReportUrl').value = '';
+         document.querySelector('#bugReportUserId').value = '';
      })
      .catch( error => console.log(error) );
 }
