@@ -11,12 +11,23 @@ function hideReportBugModale(){
     reportBugModale.style.display = 'none';
 }
 
-function showMessage( message ) {
+function showMessage( message, msgType ) {
+    if( msgType === 'success' )
+    {
+        bugReportMessage.classList.add('successBorder');
+        bugReportMessage.classList.add('successMsg');
+    }
+    if( msgType === 'error' )
+    {
+        bugReportMessage.classList.add('errorBorder');
+        bugReportMessage.classList.add('errorMsg');
+    }
     bugReportMessage.innerHTML = `<p>${ message }</p>`;
     bugReportMessage.style.display = 'block';
     setTimeout( function(){
         bugReportMessage.style.display = 'none';
         bugReportMessage.innerHTML = '';
+        bugReportMessage.classList.remove(...bugReportMessage.classList);
     }, 3000 );
 }
 
@@ -24,9 +35,6 @@ function ajaxSendBugReport(e)
 {
     e.preventDefault();
     reportBugForm = document.querySelector('#reportBugForm');
-    // let bugMsg      = e.target.querySelector('#reportBugMsg').value;
-    // let bugUrl      = e.target.querySelector('#bugReportUrl').value;
-    // let bugReporter = e.target.querySelector('#bugReportUserId').value;
     fetch( '/bug/report', {
         method: 'POST',
         body: new FormData(reportBugForm)
@@ -34,12 +42,16 @@ function ajaxSendBugReport(e)
      .then( response => response.json() )
      .then( result => {
          hideReportBugModale();
-         showMessage( result );
+         let msgType = 'success';
+         showMessage( result, msgType );
          document.querySelector('#reportBugMsg').value = '';
          document.querySelector('#bugReportUrl').value = '';
          document.querySelector('#bugReportUserId').value = '';
      })
-     .catch( error => showMessage( 'Une erreur est survenue' ));
+     .catch( error => {
+         let msgType = 'error';
+         showMessage( 'Une erreur est survenue', msgType );
+     });
 }
 
 // code principal
