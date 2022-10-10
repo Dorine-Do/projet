@@ -62,7 +62,7 @@ hr {
   padding: 3em 0;
   display: grid;
   /* grid-template-rows: 1fr 1fr; */
-  grid-template-columns: 60% 40%;
+  grid-template-columns: 40% 60%;
   text-align: center;
   background: #fff4e4;
   border-radius: 0.5em;
@@ -80,6 +80,70 @@ hr {
   width: 85%;
   margin: auto;
   outline: none;
+  align-self: center;
+}
+.bloc_border_choice_difficulties {
+  border: 1px solid var(--pamplemousse);
+  border-radius: 50px;
+  padding: 5px;
+  width: 87%;
+  margin: auto;
+}
+.list_choice_difficulties {
+  background: white;
+  border-radius: 50px;
+  padding: 10px;
+}
+.list_choice_difficulties > li {
+  padding: 10px;
+  width: 50%;
+  background: var(--grey);
+  color: white;
+  margin: auto;
+  border-radius: 50px;
+}
+.colorDifficulty {
+  background: var(--vert) !important;
+}
+.choice_difficulties_and_type_of_qcm {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  grid-gap: 20px;
+}
+.list_choice_difficulties {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.list_type_of_qcm {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0;
+  padding: 0;
+}
+.list_type_of_qcm > li {
+  padding: 5px;
+}
+.select_option_choice_module {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.buttonGenerate,
+.qcmOfficial {
+  background-color: var(--grey);
+  color: white;
+  border-radius: 2em;
+  border: none;
+  padding: 1em 0;
+  font-size: var(--semi_normal);
+  width: 80%;
+  margin: auto;
+}
+
+.buttonGenerate:hover {
+  cursor: pointer;
+  background-color: var(--vert);
+  font-weight: bold;
 }
 
 .etape {
@@ -98,7 +162,8 @@ hr {
 /*GENERATE QCM*/
 /***************************************************************************************************/
 
-.btnCustom {
+.btnCustom,
+.btnShowQcm {
   background-color: var(--grey);
   color: white;
   border-radius: 2em;
@@ -115,7 +180,11 @@ hr {
   background-color: var(--vert);
   font-weight: bold;
 }
-
+.showQcm {
+  background-color: var(--fond);
+  padding: 2em;
+  border-radius: 0.5em;
+}
 /************************************************************************/
 /*CUSTOM SCROLL*/
 .backWhite {
@@ -541,7 +610,7 @@ hr {
 }
 
 .arrowLeft {
-   transform: rotate(180deg);
+  /* transform: rotate(131deg); */
   width: 50%;
 }
 
@@ -614,11 +683,10 @@ hr {
 
 .modifyP {
   display: grid;
-  grid-template-columns: 12% 70% 8% 10%;
+  grid-template-columns: 12% 65% 8% 15%;
   align-items: center;
-  width: 100%;
-  margin: 0 0 0.2em 0;
-  padding: 0;
+  grid-gap: 0.2em;
+  padding: 0 0.5em;
 }
 
 .modifyP textarea {
@@ -817,6 +885,6 @@ hr {
 @media screen and (min-width: 1000px) {
   .partOne,
   .contentPartTwo {
-    width: 70%;
+    width: 80%;
   }
 }
