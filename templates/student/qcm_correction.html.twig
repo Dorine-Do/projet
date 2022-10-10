@@ -36,7 +36,6 @@
         </div>
 
         <section>
-            {{ dump(qcmQuestions) }}
             {% for question in qcmQuestions %}
                 <div class="imageDiff">
                     <div class="trefle">
@@ -144,7 +143,7 @@
                                 data-id="{{resultId}}"
                                 value = {{instructorComment}}
                         >
-                        <p class="explainComment">Attention, votre commentaire sera lisible par l'élève dans son espace YouUp.</p>
+                        <p class="explainComment">Attention, votre commentaire sera lisible par votre formateur dans son espace YouUp.</p>
                         <p style ="display:none;" class="infoComment"></p>
                         <button class="addComment">Ajouter</button>
                     </div>
