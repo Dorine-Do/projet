@@ -302,6 +302,20 @@ pre {
   cursor: pointer;
 }
 
+#bugReportMessage {
+  display: none;
+  position: absolute;
+  width: fit-content;
+  height: fit-content;
+  padding: 48px;
+  border-radius: 24px;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background-color: var(--fond);
+  font-weight: bold;
+  border-width: 2px;
+}
 
 /**************************RECTANGLES***************************/
 

@@ -68,13 +68,16 @@ class SuiviFixtures extends Fixture
     {
         $this->initSuiviData();
 
-        //Session
+        //Sessions
 //        $this->generateSessions( $manager );
 
-        //LinkSessionModule
+        //Modules
+//        $this->generateModules( $manager );
+
+        //LinksSessionModule
 //        $this->generateLinksSessionModule( $manager );
 
-        //Instructeur
+        //Instructors
 //        $this->generateInstructors( $manager );
 
         //Student
