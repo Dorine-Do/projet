@@ -71,7 +71,7 @@ class AppFixtures extends Fixture
 //        $this->generateStudents( $manager );
 
         //Question + Proposal
-//        $this->generateQuestions( $manager );
+        $this->generateQuestions( $manager );
 
         //Qcm
 //        $this->generateQcm( $manager );
@@ -150,7 +150,7 @@ class AppFixtures extends Fixture
             $instructor->setLastname($instructorLastName);
             $instructor->setBirthDate( $this->faker->dateTimeBetween('-40 years', '-18 years') );
             $instructor->setPhone($this->faker->numerify('+33########'));
-            $instructor->setEmail($this->faker->email());
+            $instructor->setEmail(strtolower($this->faker->email()));
             $instructor->setMoodleId($this->faker->randomNumber(5, true));
             $instructor->setSuiviId($this->faker->randomNumber(5, true));
             $instructor->setIsReferent($this->faker->numberBetween(0, 1));
@@ -186,7 +186,7 @@ class AppFixtures extends Fixture
                 array_rand($dbModules,1) => "Explore",
                 array_rand($dbModules,1) => "Domine",
             ]);
-            $student->setEmail($studentFirstName . '.' . $studentLastName . '@yahoo.fr');
+            $student->setEmail(strtolower($studentFirstName . '.' . $studentLastName . '@yahoo.fr'));
             $student->setMoodleId( $this->faker->randomNumber(5, true) );
             $student->setSuiviId( $this->faker->randomNumber(5, true) );
             $student->setRoles(['ROLE_STUDENT']);
@@ -206,15 +206,15 @@ class AppFixtures extends Fixture
 
     public function generateQuestions( $manager ) :void
     {
-        $dbModules  = $this->moduleRepository->findAll();
+        $dbModules  = $this->moduleRepository->find(44);
         $dbInstructors = $this->instructorRepository->findAll();
 
         // 10 questions par module
-        foreach ($dbModules as $dbModule){
-            for ($i=0; $i<10; $i++)
+//        foreach ($dbModules as $dbModule){
+            for ($i=0; $i<50; $i++)
             {
                 $question = new Question();
-                $question->setModule($dbModule);
+                $question->setModule($dbModules);
                 $question->setWording( $this->faker->sentence() );
                 $question->setAuthor( $dbInstructors[array_rand($dbInstructors)] );
                 $question->setIsEnabled( $this->faker->numberBetween(0, 1) );
@@ -233,7 +233,7 @@ class AppFixtures extends Fixture
 
                 $manager->persist($question);
             }
-        }
+//        }
         $manager->flush();
     }
 
