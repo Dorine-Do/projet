@@ -532,7 +532,11 @@ class StudentController extends AbstractController
     ): Response
     {
 
-        $modules = $this->studentRepo->moduleMaxScore($this->id);
+        $result = $this->studentRepo->resultMaxScore($this->id);
+        $modules = [];
+        foreach ( $result as $res){
+             $modules[] = $this->studentRepo->moduleMaxScore($res['id']);
+        }
 
         return $this->render('student/level_modules.html.twig', [
             'modules' => $modules
