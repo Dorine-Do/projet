@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Main\Module;
+use App\Entity\Main\Result;
 use App\Entity\Main\Student;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -72,21 +74,40 @@ class StudentRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Student[] Returns an array of Student objects
+     * @return Result[] Returns an array of Student objects
      */
-    public function moduleMaxScore($id): array
+    public function resultMaxScore($id): array
     {
         return $this->createQueryBuilder('s')
-            ->select('m.id, m.title, MAX(r.score), r.level')
+            ->select('MAX(r.score) as score, r.id as id')
             ->innerJoin('s.qcmInstances', 'qi')
             ->innerJoin('qi.result', 'r')
             ->innerJoin('qi.qcm', 'q')
             ->innerJoin('q.module', 'm')
             ->where('s.id = :id')
+            ->andWhere('q.isOfficial = 1')
             ->groupBy('m.id')
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @return Module[] Returns an array of Student objects
+     */
+    public function moduleMaxScore($id): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select('m.title, m.id, r.level')
+            ->innerJoin('s.qcmInstances', 'qi')
+            ->innerJoin('qi.result', 'r')
+            ->innerJoin('qi.qcm', 'q')
+            ->innerJoin('q.module', 'm')
+            ->where('r.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
     /**

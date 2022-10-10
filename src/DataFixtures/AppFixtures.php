@@ -206,15 +206,15 @@ class AppFixtures extends Fixture
 
     public function generateQuestions( $manager ) :void
     {
-        $dbModules  = $this->moduleRepository->find(4);
+        $dbModules  = $this->moduleRepository->findAll();
         $dbInstructors = $this->instructorRepository->findAll();
 
         // 10 questions par module
-//        foreach ($dbModules as $dbModule){
+        foreach ($dbModules as $dbModule){
             for ($i=0; $i<50; $i++)
             {
                 $question = new Question();
-                $question->setModule($dbModules);
+                $question->setModule($dbModule);
                 $question->setWording( $this->faker->sentence() );
                 $question->setAuthor( $dbInstructors[array_rand($dbInstructors)] );
                 $question->setIsEnabled( $this->faker->numberBetween(0, 1) );
@@ -233,7 +233,7 @@ class AppFixtures extends Fixture
 
                 $manager->persist($question);
             }
-//        }
+        }
         $manager->flush();
     }
 
@@ -317,6 +317,7 @@ class AppFixtures extends Fixture
                 "id"                => $randomQuestion->getId(),
                 "wording"           => $randomQuestion->getWording(),
                 "isMultiple"        => $randomQuestion->getIsMultiple(),
+                "difficulty"        => $randomQuestion->getDifficulty(),
                 "proposals"         => $arrayAnswers
             ];
         }
