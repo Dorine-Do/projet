@@ -887,6 +887,6 @@ hr {
 @media screen and (min-width: 1000px) {
   .partOne,
   .contentPartTwo {
-    width: 70%;
+    width: 80%;
   }
 }
