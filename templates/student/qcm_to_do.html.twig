@@ -37,7 +37,6 @@
 
         <form action="{{ path('student_qcm_to_do', { 'qcmInstance': idQcmInstance }) }}" name="formulaire">
             {% for question in questionsAnswers %}
-                {{ dump(question) }}
                 <div class="imageDiff">
                     <div class="trefle">
                         {% if question.difficulty is same as 1 %}
