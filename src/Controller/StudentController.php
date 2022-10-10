@@ -143,7 +143,7 @@ class StudentController extends AbstractController
         LinkInstructorSessionModuleRepository $linkSessionModuleRepo
     ): Response
     {
-        $student = $this->studentRepo->find($this->user->getId());
+        $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $studentQcmInstances = $student->getQcmInstances();
         $studentResults = [];
@@ -392,7 +392,7 @@ class StudentController extends AbstractController
         $module = $moduleRepo->find( $request->get('module') );
         $difficulty = (int) $request->get('difficulty');
 
-        $student = $this->studentRepo->find($this->user->getId());
+        $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student,true, $difficulty);
@@ -427,7 +427,7 @@ class StudentController extends AbstractController
     ): Response
     {
 
-        $student = $this->studentRepo->find($this->user->getId());
+        $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student );

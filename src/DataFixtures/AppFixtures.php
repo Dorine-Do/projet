@@ -206,7 +206,7 @@ class AppFixtures extends Fixture
 
     public function generateQuestions( $manager ) :void
     {
-        $dbModules  = $this->moduleRepository->find(44);
+        $dbModules  = $this->moduleRepository->find(4);
         $dbInstructors = $this->instructorRepository->findAll();
 
         // 10 questions par module
