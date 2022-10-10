@@ -97,7 +97,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                         $newUser = new Instructor();
                         $newUser->setFirstName( $dbSuiviUser['firstname'] );
                         $newUser->setLastName( $dbSuiviUser['lastname'] );
-                        $newUser->setEmail('email');
+                        $newUser->setEmail($dbSuiviUser['email']);
                         $newUser->setPhone( $dbSuiviUser['phone'] ?: null );
                         $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
                         $newUser->setSuiviId( $dbSuiviUser['id'] );
