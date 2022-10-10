@@ -32,6 +32,7 @@ class StudentController extends AbstractController
     private StudentRepository $studentRepo;
     private UserRepository $userRepo;
     private Security $security;
+    private int $id;
 
 //    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
     public function __construct(StudentRepository $studentRepository, UserRepository $userRepository, Security $security){
@@ -49,8 +50,6 @@ class StudentController extends AbstractController
         ModuleRepository $moduleRepo,
     ): Response
     {
-
-//        dd($this->security->getUser());
         $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $allAvailableQcmInstances = $student->getQcmInstances();
@@ -527,11 +526,8 @@ class StudentController extends AbstractController
     }
 
     #[Route('student/level/', name: 'student_level', methods: ['GET'])]
-    public function levelStudentByModule(
-
-    ): Response
+    public function levelStudentByModule(): Response
     {
-
         $modules = $this->studentRepo->moduleMaxScore($this->id);
 
         return $this->render('student/level_modules.html.twig', [
