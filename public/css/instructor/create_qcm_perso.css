@@ -180,13 +180,11 @@ hr {
   background-color: var(--vert);
   font-weight: bold;
 }
-
 .showQcm {
   background-color: var(--fond);
   padding: 2em;
   border-radius: 0.5em;
 }
-
 /************************************************************************/
 /*CUSTOM SCROLL*/
 .backWhite {

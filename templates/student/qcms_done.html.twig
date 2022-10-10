@@ -37,7 +37,7 @@
             </p>
         </div>
         <select name="module" id="select_module">
-            <option value="">{{ 'module.filter'|trans }}</option>
+            <option value="all">{{ 'module.filter'|trans }}</option>
             {% for module in modules %}
                 <option value="module">{{module.title}}</option>
             {% endfor %}
@@ -62,6 +62,17 @@
                     Moyen
                 {% elseif qcmDone.qcm.difficulty is same as 3 %}
                     Difficle
+                {% endif %}
+            </p>
+        </div>
+        <div>
+            <p class="typeQcm">
+                {% if qcmDone.type is same as 'official' %}
+                    <img class="badge" src="{{asset('build/images/officiel.png')}}">
+                {% elseif qcmDone.type is same as 'trainning' %}
+                    <img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">
+                {% elseif qcmDone.type is same as 'exercice' %}
+                    <img class="badge" src="{{asset('build/images/non-officiel.png')}}">
                 {% endif %}
             </p>
         </div>

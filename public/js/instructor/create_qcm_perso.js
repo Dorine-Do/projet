@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   // /////////////////////// SHOW QCM
 
   let btnShowQcm = document.querySelector(".btnShowQcm");
+  //let btnShowQcm = document.querySelector("#btnShowQcm");
   let showQcm = document.querySelector(".backWhite");
 
   btnShowQcm.addEventListener("click", function (e) {
@@ -78,6 +79,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     questionQcmChoicedSpan[a].style.color = "green";
   }
 
+  // ////////////// QUESTIONS OFFICIELS/ PERSONNALISED COUNT
+  // console.log(listQuestionsOfficials.length);
   let btnQuestionsOfficial = document.querySelector(".btnQuestionsOfficial");
 
   // Event sur les button de choix du type de question****************************************************************
@@ -152,7 +155,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         "src",
         chevronHaut
       );
-      console.log("yes");
       // console.log(
       //   document.querySelectorAll(".proposalWordingP").dataset.status,
       //   "hi"
@@ -175,7 +177,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       let questionModify =
         img.parentNode.parentNode.parentNode.lastElementChild.lastElementChild
           .lastElementChild;
-      console.log(questionModify, "hello");
+
       //Css
       //   proposalWordingDiv.style.flexDirection = "column";
       //   let nPropPartTwo = proposalWordingDiv.querySelectorAll(".nPropPartTwo");

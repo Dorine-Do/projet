@@ -4,6 +4,7 @@ namespace App\Entity\Main;
 
 use App\Repository\ResultRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ResultRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -14,13 +15,14 @@ class Result
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTime $submittedAt;
 
     #[ORM\Column(type: 'json')]
     private $answers = [];
 
     #[ORM\Column(type: 'smallint')]
+    #[Groups(['user:read'])]
     private $score;
 
     #[ORM\Column(type: 'text', nullable: true)]

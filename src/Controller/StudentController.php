@@ -8,6 +8,7 @@ use App\Entity\Main\Module;
 use App\Entity\Main\Qcm;
 use App\Entity\Main\QcmInstance;
 use App\Entity\Main\Result;
+use App\Entity\Main\User;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\LinkInstructorSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
@@ -17,6 +18,7 @@ use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\ResultRepository;
 use App\Repository\StudentRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,10 +28,16 @@ use Symfony\Component\Security\Core\Security;
 
 class StudentController extends AbstractController
 {
+
+    private StudentRepository $studentRepo;
+    private UserRepository $userRepo;
+    private Security $security;
+
 //    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-    public function __construct(StudentRepository $studentRepository){
+    public function __construct(StudentRepository $studentRepository, UserRepository $userRepository, Security $security){
         $this->studentRepo = $studentRepository;
-        $this->id = 11;
+        $this->userRepo = $userRepository;
+        $this->security = $security;
     }
 
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
@@ -40,7 +48,8 @@ class StudentController extends AbstractController
     ): Response
     {
 
-        $student = $this->studentRepo->find($this->id);
+//        dd($this->security->getUser());
+        $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $allAvailableQcmInstances = $student->getQcmInstances();
 
@@ -49,11 +58,15 @@ class StudentController extends AbstractController
                 $qcmInstance->getQcm()->getIsOfficial() == true
                 && $qcmInstance->getStartTime() < new \DateTime()
                 && $qcmInstance->getEndTime() > new \DateTime()
-                && $qcmInstance->getQcm()->getIsEnabled() == true ;
+                && $qcmInstance->getQcm()->getIsEnabled() == true
+                && $qcmInstance->getResult() === null;
         });
 
         $unofficialQcmInstances = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
-            return $qcmInstance->getQcm()->getIsOfficial() == false;
+            return
+                $qcmInstance->getQcm()->getIsOfficial() == false
+                && $qcmInstance->getResult() === null
+            ;
         });
 
         $studentQcmInstances = $student->getQcmInstances();
@@ -128,9 +141,7 @@ class StudentController extends AbstractController
         LinkInstructorSessionModuleRepository $linkSessionModuleRepo
     ): Response
     {
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $student = $this->studentRepo->find($this->id);
-//        $student = $this->getUser();
+        $student = $this->studentRepo->find($this->user->getId());
 
         $studentQcmInstances = $student->getQcmInstances();
         $studentResults = [];
@@ -143,10 +154,28 @@ class StudentController extends AbstractController
         foreach($studentResults as $studentResult)
         {
             $qcmInstance = $studentResult->getQcmInstance();
+            if($qcmInstance->getQcm()->getIsOfficial() === true)
+            {
+                $type = 'official';
+            }
+            elseif
+            (
+                $qcmInstance->getQcm()->getIsOfficial() === false
+                && $qcmInstance->getQcm()->getAuthor()->getId() === $student->getId()
+            )
+            {
+                $type = 'trainning';
+            }
+            else
+            {
+                $type = 'exercice';
+            }
+
             $qcmsDone[] = [
                 'qcm'    => $qcmInstance->getQcm(),
                 'result' => $studentResult,
                 'module' => $qcmInstance->getQcm()->getModule()->getTitle(),
+                'type' => $type
             ];
         }
 
@@ -171,9 +200,8 @@ class StudentController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $student = $this->studentRepo->find($this->id);
-//        $student = $this->getUser();
+        $student = $this->studentRepo->find($this->security->getUser()->getId());
+
         $qcm = $qcmRepository->find(['id' => ($qcmInstance->getQcm()->getId())]);
 
         $questionsCache = $qcm->getQuestionsCache();
@@ -203,18 +231,21 @@ class StudentController extends AbstractController
                                 )
                                 {
                                     $countIsCorrectAnswer++;
+                                    $questionsCache[$questionCacheKey]['isCorrect'] = true;
                                     $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 1;
                                     $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
                                 }
                                 // Si case cochée par l'etudiant
                                 elseif( $studentAnswerValue === $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id'] )
                                 {
+                                    $questionsCache[$questionCacheKey]['isCorrect'] = false;
                                     $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 1;
                                     $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                                 }
                                 // Si pas case cochée par l'etudiant
                                 else
                                 {
+                                    $questionsCache[$questionCacheKey]['isCorrect'] = false;
                                     $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 0;
                                     $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                                 }
@@ -244,15 +275,20 @@ class StudentController extends AbstractController
                                 if( in_array( $studentAnswer, $dbAnswersCheck['good'] ) )
                                 {
                                     $goodAnswersCount++;
-                                    $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
+
                                 }
                                 elseif( in_array($studentAnswer, $dbAnswersCheck['bad']) )
                                 {
                                     $badAnswersCount++;
-                                    $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
+
+                                }
+                                else{
+                                    $badAnswersCount++;
+
                                 }
                             }
 
+                            // Pour savoir quelles réponses à coché l'étudiant
                             foreach ($questionsCache[$questionCacheKey]['proposals'] as $answerDbKey => $answerDbValue)
                             {
                                 if( in_array($answerDbValue['id'], $studentAnswerValue) )
@@ -265,14 +301,14 @@ class StudentController extends AbstractController
                                 }
                             }
 
-
-                            /*TODO A tester Dorine (si isCorrect est bien ajouté au tableau / Problème de co avec Google Auth peux pas tester) */
                             if( $goodAnswersCount === count($dbAnswersCheck['good']) && $badAnswersCount === 0 )
                             {
                                 $countIsCorrectAnswer ++;
-                                $questionsCache[$questionCacheKey]['isCorrect'] = true;
+                                $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
+
                             }else{
-                                $questionsCache[$questionCacheKey]['isCorrect'] = false;
+                                $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
+
                             }
                         }
                     }
@@ -318,7 +354,7 @@ class StudentController extends AbstractController
             $result->setIsFirstTry($isFirstTry);
 
             $result->setAnswers($questionsCache);
-//            dd($resultRequest);
+
             if (trim($resultRequest['comment_student'] === "")){
                 $result->setStudentComment(null);
             }else{
@@ -347,16 +383,17 @@ class StudentController extends AbstractController
         ModuleRepository $moduleRepo,
         QuestionRepository $questionRepo,
         Security $security,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        UserRepository      $userRepository
     ): Response
     {
         $module = $moduleRepo->find( $request->get('module') );
         $difficulty = (int) $request->get('difficulty');
 
-        $student = $this->getUser();
+        $student = $this->studentRepo->find($this->user->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, true, $difficulty, $this->studentRepo );
+        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $userRepository,true, $difficulty);
 
         $manager->persist( $trainingQcm );
         $manager->flush();
@@ -383,13 +420,15 @@ class StudentController extends AbstractController
         QuestionRepository $questionRepo,
         Module $module,
         Security $security,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        UserRepository $userRepository
     ): Response
     {
-        $student = $this->getUser();
+
+        $student = $this->studentRepo->find($this->user->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $retryQcm = $qcmGenerator->generateRandomQcm( $module );
+        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $userRepository );
 
         $manager->persist( $retryQcm );
         $manager->flush();
@@ -421,7 +460,9 @@ class StudentController extends AbstractController
     ): Response
     {
         $qcmInstance = new QcmInstance();
-        $qcmInstance->setStudent( $this->getUser() );
+        $student = $this->studentRepo->find($this->user->getId());
+        $qcmInstance->setStudent( $student );
+//        $qcmInstance->setStudent( $this->getUser() );
         $qcmInstance->setQcm( $qcm );
         $qcmInstance->setStartTime( new \DateTime() );
         $endTime = new \DateTime();
@@ -448,7 +489,6 @@ class StudentController extends AbstractController
         $qcmInstance = $result->getQcmInstance();
         $qcm = $qcmInstance->getQcm();
         $qcmQuestions = [];
-
         foreach( $dbAnswers as $dbAnswer )
         {
             $question = $questionRepo->find( $dbAnswer['id'] );
@@ -489,9 +529,7 @@ class StudentController extends AbstractController
 
     ): Response
     {
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $student = $this->studentRepo->find($this->id);
-//        $student = $this->getUser();
+        $student = $this->studentRepo->find($this->user->getId());
 
         $modules = $this->studentRepo->moduleMaxScore($student->getId());
 
@@ -505,9 +543,7 @@ class StudentController extends AbstractController
 
     ): Response
     {
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $student = $this->studentRepo->find($this->id);
-//        $student = $this->getUser();
+        $student = $this->studentRepo->find($this->user->getId());
 
         $isOfficialQcms = $this->studentRepo->isOfficialQcmLevel($student->getId());
 //        dd($isOfficialQcms);
@@ -607,6 +643,15 @@ class StudentController extends AbstractController
         ]);
     }
 
+    #[Route('student/dashboard', name: 'student_dashboard', methods: ['GET'])]
+    public function studentDashboard(
+
+    ): Response
+    {
+        return $this->render('student/welcome_student.html.twig', [
+
+        ]);
+    }
 
 
 }

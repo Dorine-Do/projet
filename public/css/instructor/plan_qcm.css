@@ -71,7 +71,7 @@ ul, .backgroundEtape, .allDate{
     padding: 0 5px;
 }
 
-.container{
+.containerPlanQcm{
     max-width: 90%;
     display: block;
     margin-left: auto;
@@ -101,7 +101,8 @@ ul, .backgroundEtape, .allDate{
 
 #qcm-students{
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .5em;
 }
 
 #qcm-students input{

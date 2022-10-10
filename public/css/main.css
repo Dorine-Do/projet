@@ -65,6 +65,288 @@ pre {
   border-radius: 8px;
 }
 
+/**************************CIRCLES***************************/
+
+.circle {
+  border-radius: 50%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+}
+
+.orangeCircle {
+  background-color: var(--pamplemousse);
+  margin-right: 15px;
+  height: 60px;
+  width: 60px;
+  color: var(--fond);
+}
+
+.smallOrangeCircle {
+  background-color: var(--pamplemousse);
+  height: 50px;
+  width: 50px;
+}
+
+.whiteCircle {
+  background-color: white;
+  margin-right: 8px;
+}
+
+.greyCircle {
+  background-color: var(--grey);
+  color: white;
+}
+
+.greenCircle {
+  background-color: var(--vert);
+  color: white;
+}
+
+/**************************UTILS***************************/
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/**************************BUTTONS***************************/
+
+.button{
+  background-color: var(--grey);
+  color: white;
+  border-radius: 50px;
+  border: none;
+  padding: 10px;
+  width: 10em;
+  margin-bottom: 15px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-family: 'Alumni Sans', sans-serif;
+}
+
+
+.button:hover{
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.smallButton {
+  width: 27%;
+}
+
+.mediumButton {
+  width: 70%;
+  padding: 1em 0;
+  font-weight: bold;
+}
+
+.largeButton {
+  width: 100%;
+  padding: 1em 0;
+  font-weight: bold;
+  font-size: var(--normal);
+}
+
+.badgeButton {
+  width: 100%;
+}
+
+.trainingButton {
+  position: absolute;
+  bottom: -60px;
+  left: 17.25%;
+}
+
+.greyButton {
+  background-color: var(--grey);
+  color: white;
+}
+
+.greyButton:hover {
+  background-color: var(--vert);
+}
+
+.greenButton {
+  background-color: var(--vert);
+  font-size: var(--normal);
+}
+
+.boldGreyButton {
+  background-color: var(--grey);
+  box-shadow: 5px 5px 8px -4px gray;
+  border: 1px solid var(--fond);
+}
+
+.greyButton:hover {
+  background-color: var(--vert);
+  font-weight: bold;
+  box-shadow: none;
+}
+
+.fondBoldButton {
+  background-color: var(--fond);
+  color: var(--writing);
+  font-size: var(--normal);
+  border-radius: 13px;
+  padding: 10px 115px;
+  width: 54%;
+}
+
+.fondBoldButton:hover {
+  background-color: var(--vert);
+  font-weight: bold;
+  color: white;
+}
+
+/**************************REPORTBUG***************************/
+
+#reportBugBtn{
+  background-color: var(--pamplemousse);
+  color: var(--grey);
+  border-radius: 50px;
+  border: none;
+  padding: 10px;
+  width: 10em;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-family: 'Alumni Sans', sans-serif;
+  font-weight: bold;
+}
+
+
+#reportBugBtn:hover{
+  font-weight: bold;
+  cursor: pointer;
+  background-color: var(--fond);
+}
+
+#reportBugModale {
+  display: none;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #333333d3;
+  backdrop-filter:blur(5px);
+}
+
+#reportBugModale > div {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  height: 360px;
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 24px;
+}
+
+#reportBugModale form {
+  width: 100%;
+}
+
+#closeReportBugModaleBtn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+#closeReportBugModaleBtn:hover {
+  background-color: tomato;
+  cursor: pointer;
+}
+
+#reportBugMsg {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  resize : none;
+  width: 100%;
+}
+
+.errorSubmitBtn {
+  background-color: var(--vert);
+  color: white;
+  border-radius: 50px;
+  border: none;
+  padding: 10px;
+  width: 10em;
+  margin: auto;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-family: 'Alumni Sans', sans-serif;
+}
+
+.errorSubmitBtn:hover {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+/**************************RECTANGLES***************************/
+
+
+.Rectangle {
+  background-color: var(--pamplemousse);
+  padding: 20px 10px;
+  text-align: left;
+  border-radius: 8px;
+  margin-right: 1em;
+  width: fit-content;
+}
+
+.largeRectange {
+  width: 34%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/**************************STEPS***************************/
+
+.step {
+  background: #ffac8f;
+  display: inline-block;
+  text-align: center;
+  width: 50px;
+  padding: 10px;
+  border-radius: 50px;
+  color: white;
+  margin-right: 10px;
+}
+
+.mediumStep {
+  padding: 0.5em 1em;
+}
+
+.largeStep {
+  padding: 15px 25px;
+}
+
+/**************************OTHER***************************/
+
+
+
 @media screen and (max-width: 450px) {
   /* .container {
     width: 93%;

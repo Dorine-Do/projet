@@ -11,7 +11,8 @@
 
         {#/* TODO A enlever une fois que a connection avec google sera opérationnelle*/#}
         {% if user is same as 'student' %}
-            <a href="{{path('student_qcms')}}" class="tab">{{ 'header.dashboard'|trans }}</a>
+            <a href="{{path('student_qcms')}}" class="tab">{{ 'header.qcms'|trans }}</a>
+            <a href="{{path('student_dashboard')}}" class="tab">{{ 'header.dashboard'|trans }}</a>
         {% elseif user is same as 'instructor' %}
             <a href="{{path('welcome_instructor')}}" class="tab">{{ 'header.dashboard'|trans }}</a>
             <a href="#" class="tab">{{ 'header.planning'|trans }}</a>
@@ -26,6 +27,7 @@
     <div class="eleve">
         <p class="helloStudent">Salut,{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>
     </div>
+    <button id="reportBugBtn">Faire remonter un bug</button>
     <div class="logOut">
         <a href="{{path('app_logout')}}" ><img class="imgLogOut" src="{{asset('build/images/exit.png')}}" alt="Déconnexion"> </a>
     </div>

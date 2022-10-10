@@ -15,7 +15,7 @@ class Session
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['session:read'])] //évite les ref circulaires 
+    #[Groups(['session:read'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
@@ -25,10 +25,10 @@ class Session
     #[ORM\Column(type: 'smallint')]
     private $schoolYear;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTime $createdAt;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $updatedAt;
 
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkSessionStudent::class)]

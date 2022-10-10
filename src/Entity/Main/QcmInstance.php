@@ -20,10 +20,10 @@ class QcmInstance
     #[ORM\Column(type: 'datetime')]
     private \DateTime $endTime;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTime $createdAt;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $updatedAt;
 
     #[ORM\ManyToOne(targetEntity: Student::class, inversedBy: 'qcmInstances')]
@@ -108,7 +108,8 @@ class QcmInstance
         return $this->student;
     }
 
-    public function setStudent(?Student $student): self
+    // TODO : typer en Student au lieu de User en dehors de la beta
+    public function setStudent(?User $student): self
     {
         $this->student = $student;
 

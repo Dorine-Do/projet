@@ -23,9 +23,11 @@ class Qcm
     private string $title;
 
     #[ORM\Column(type: 'smallint')]
+    #[Groups(['qcm:read'])]
     private int $difficulty;
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['qcm:read'])]
     private $isOfficial;
 
     #[ORM\Column(type: 'boolean')]
@@ -37,10 +39,11 @@ class Qcm
     #[ORM\Column(type: 'json')]
     private $questionsCache = [];
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private \DateTime $createdAt;
 
-    #[ORM\Column(type: 'datetime')]
+    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[Groups(['qcm:read'])]
     private $updatedAt;
 
     #[ORM\OneToMany(mappedBy: 'qcm', targetEntity: QcmInstance::class)]
@@ -57,6 +60,10 @@ class Qcm
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'qcms')]
     #[ORM\JoinColumn(nullable: false)]
     private $author;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'qcms')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $distributedBy;
 
     public function __construct()
     {
@@ -154,24 +161,24 @@ class Qcm
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(\DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -252,6 +259,18 @@ class Qcm
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getDistributedBy(): ?User
+    {
+        return $this->distributedBy;
+    }
+
+    public function setDistributedBy(?User $user): self
+    {
+        $this->distributedBy = $user;
 
         return $this;
     }

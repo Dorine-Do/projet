@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Instructor extends User
 {
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['user:read'])]
     private $isReferent;
 
     #[ORM\Column(type: 'string', length: 12, nullable: true)]
@@ -21,6 +22,9 @@ class Instructor extends User
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Question::class)]
     private $questions;
+
+    #[ORM\OneToMany(mappedBy: 'student', targetEntity: QcmInstance::class)]
+    private $qcmInstances;
 
     public function __construct()
     {
@@ -108,6 +112,36 @@ class Instructor extends User
             // set the owning side to null (unless already changed)
             if ($question->getAuthor() === $this) {
                 $question->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QcmInstance>
+     */
+    public function getQcmInstances(): Collection
+    {
+        return $this->qcmInstances;
+    }
+
+    public function addQcmInstance(QcmInstance $qcmInstance): self
+    {
+        if (!$this->qcmInstances->contains($qcmInstance)) {
+            $this->qcmInstances[] = $qcmInstance;
+            $qcmInstance->setStudent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQcmInstance(QcmInstance $qcmInstance): self
+    {
+        if ($this->qcmInstances->removeElement($qcmInstance)) {
+            // set the owning side to null (unless already changed)
+            if ($qcmInstance->getStudent() === $this) {
+                $qcmInstance->setStudent(null);
             }
         }
 

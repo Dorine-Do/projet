@@ -8,9 +8,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         realise.forEach( qcm => {
             let moduleQcm = qcm.querySelector('.moduleQcm')
-            console.log(moduleQcm.textContent.trim())
-            console.log(selectedValue)
-            if (selectedValue === 'Filtre par module'){
+            if (selectedValue === 'Filtrer par module'){
                 qcm.style.display = 'flex'
             }else if(moduleQcm.textContent.trim() !== selectedValue){
                 qcm.style.display = 'none'
@@ -18,9 +16,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 qcm.style.display = 'flex'
             }
         })
-
-
-
     }
 
     const mouseEnter = (e) =>{

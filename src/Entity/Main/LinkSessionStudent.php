@@ -8,26 +8,20 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: LinkSessionStudentRepository::class)]
 class LinkSessionStudent
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
 
     #[ORM\Column(type: 'boolean')]
     private $isEnabled;
 
+    #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Session::class, inversedBy: 'linkSessionStudents')]
     #[ORM\JoinColumn(nullable: false)]
     private $session;
 
+    #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Student::class, inversedBy: 'linkSessionStudents')]
     #[ORM\JoinColumn(nullable: false)]
     private $student;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function isEnabled(): ?bool
     {

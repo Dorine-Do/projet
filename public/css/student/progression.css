@@ -9,6 +9,8 @@
     border-radius: 5px;
     overflow-x: scroll ;
     box-shadow: 0 0 24px -2px var(--grey);
+    left: -5%;
+    width: 110%;
 }
 
 .timeLine{
@@ -20,6 +22,7 @@
     height: 18.9em;
     border-radius: 5px;
     overflow-x: hidden;
+    width: 94em;
 }
 
 .isOfficialQcm{
@@ -43,6 +46,11 @@
 /*    flex-direction: column-reverse;*/
 /*    margin: 1em auto;*/
 /*}*/
+
+.infoQcm{
+    width: 86%;
+    z-index: 2;
+}
 
 .infoTimeLine{
     padding: .5em 0;
@@ -133,134 +141,82 @@
 }
 
 
-
-/**********************************************************************************************************************/
-/*TimeLine*/
-
-/*.containerTimeLine{*/
-/*    background: var(--fond);*/
-/*    position: relative;*/
-/*    margin: 5em 0;*/
-/*    border-radius: 5px;*/
-/*}*/
-
-/*.timeLine{*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    flex-wrap: nowrap;*/
-/*    justify-content: flex-start;*/
-/*    align-items: baseline;*/
-/*    overflow-x: scroll ;*/
-/*    width: 100%;*/
-/*    box-shadow: 0 0 24px -2px var(--grey);*/
-/*    border-radius: 5px;*/
-/*}*/
-
-/*.isOfficialQcm{*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    align-items: center;*/
-/*    min-width: 20%;*/
-/*    padding: 0;*/
-/*    position: relative;*/
-/*    margin-right: 2em;*/
-/*}*/
-
-/*!*.timeLine div:nth-child(odd){*!*/
-/*!*    align-self: end;*!*/
-/*!*    flex-direction: column-reverse;*!*/
-/*!*    margin: 1em auto;*!*/
-/*!*}*!*/
-
-/*.infoTimeLine{*/
-/*    padding: .5em 0;*/
-/*    border-radius: 13px;*/
-/*    width: 90%;*/
-/*    text-align: center;*/
-/*    margin: .2em 0;*/
-/*}*/
-
-/*.moduleTitle{*/
-/*    border: 1px solid var(--pamplemousse);*/
-/*    z-index: 1;*/
-/*    background: var(--fond);*/
-/*}*/
-
-/*.iTrainning{*/
-/*    background-color: var(--pamplemousse);*/
-/*    z-index: 1;*/
-/*}*/
-/*.iTrainning:hover{*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.passOrNot{*/
-/*    width: 18%;*/
-/*    background: var(--pamplemousse);*/
-/*    text-align: center;*/
-/*    border-radius: 50%;*/
-/*    padding: 5% 0;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*.lineX{*/
-/*    height: .2em;*/
-/*    background: var(--grey);*/
-/*    position: absolute;*/
-/*    top: 48.5%;*/
-/*    width: 90%;*/
-/*    border-radius: 13px;*/
-/*}*/
-/*.lineY{*/
-/*    background: var(--grey);*/
-/*    width: .1em;*/
-/*    height: 6em;*/
-/*    position: absolute;*/
-/*}*/
-
-/*.divEven,*/
-/*.divOdd{*/
-/*    display: flex;*/
-/*    width: 90%;*/
-/*    height: 8em;*/
-/*}*/
-
-/*.divEven{*/
-/*    margin-left: 7em;*/
-/*    margin-top: 1em;*/
-
-/*}*/
-
-/*.divOdd{*/
-/*    margin-bottom: 1em;*/
-
-/*}*/
-
-/*.divOdd div{*/
-/*    flex-direction: column-reverse;*/
-/*}*/
+@media screen and (max-width: 780px) {
 
 
-/*!************************************************************************!*/
-/*!*CUSTOM SCROLL*!*/
 
-/*!* Works on Firefox *!*/
-/*.timeLine{*/
-/*    scrollbar-width: thin;*/
-/*    scrollbar-color: var(--grey) var(--fond);*/
-/*}*/
+}
 
-/*!* Works on Chrome, Edge, and Safari *!*/
-/*.timeLine::-webkit-scrollbar {*/
-/*    width: 12px;*/
-/*}*/
+@media screen and (max-width: 450px) {
+    .containerTimeLine{
+        overflow-x: initial;
+        overflow-y: scroll;
+        height: 30em;
+        width: 90%;
+        margin: 1em auto;
+        position: static;
+    }
+    .lineX {
+        top: 80%;
+        left: 188px;
+        width: 1%;
+        height: 30em;
+    }
+    .timeLine{
+        display: block;
+        width: auto;
+        height: auto;
+        margin: 0;
+        padding: .5em 0;
+    }
+    .isOfficialQcm{
+        margin: 0;
+        width: 59%;
+        min-width: 5em;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .lineY{
+        background: var(--pamplemousse);
+        width: 5em;
+        height: 1.5px;
+        top: 25px;
+        right: 21px;
+    }
 
-/*.timeLine::-webkit-scrollbar-track {*/
-/*    border-radius: 5px;*/
-/*}*/
+    .infoQcm{
+        width: 59%;
+    }
 
-/*.timeLine::-webkit-scrollbar-thumb {*/
-/*    background-color: var(--grey);*/
-/*    border-radius: 20px;*/
-/*    border: 3px solid var(--grey);*/
-/*}*/
+    .passOrNot{
+        margin: 0;
+    }
+
+    .infoTimeLine{
+        width: 100%;
+        position: relative;
+    }
+
+    .passOrNot{
+        width: 21%;
+        align-self: self-start;
+        margin: .2em 0;
+    }
+
+    .isOfficialQcmOdd{
+        right: -41%;
+        flex-direction: row-reverse;
+    }
+
+    .pBadge{
+        text-align: center;
+        margin: 0 auto;
+        padding: .5em 0;
+        margin-bottom: 1em;
+        width: 25%;
+    }
+
+
+
+}

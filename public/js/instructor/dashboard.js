@@ -14,8 +14,6 @@ function getStudentsByModuleFromAjax(sessionId, moduleId){
     fetch( 'dashboard/' + sessionId + '/' + moduleId, {method: 'GET'} )
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
-            console.log('stop')
             displayStudents(data)
         })
 }
@@ -24,7 +22,6 @@ function getQcmsDoneByStudentFromAjax(sessionId, moduleId, studentId){
     fetch( 'dashboard/' + sessionId + '/' + moduleId + '/' + studentId, {method: 'GET'} )
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
             displayQcmsDone(data)
         })
 }
@@ -33,7 +30,12 @@ function getQcmsDoneByStudentFromAjax(sessionId, moduleId, studentId){
 //Display
 function displayModules(data){
     levelDiv.style.display = 'block'
-    console.log(data)
+
+    selectModule.innerHTML = ""
+    let option = document.createElement('option')
+    option.innerHTML = 'Séléctionner un module'
+    selectModule.append(option)
+
     data.forEach( module => {
         let option = document.createElement('option')
         option.innerHTML = module['name']
@@ -48,13 +50,13 @@ function displayStudents(data){
         let div = createElementSimple('div', 'divStudentData')
         let liStudentData = createElementSimple('li', 'liStudentData')
 
-        let checkbox = document.createElement('input')
-        checkbox.classList.add('checkboxStudent')
-        checkbox.setAttribute('type', `checkbox`)
-        checkbox.setAttribute('name', 'student')
-        checkbox.setAttribute('id', `student${student.id}`)
-        checkbox.setAttribute('value', `${student.id}`)
-        checkbox.addEventListener('click', (e) => {
+        let radio = document.createElement('input')
+        radio.classList.add('checkboxStudent')
+        radio.setAttribute('type', `radio`)
+        radio.setAttribute('name', 'student')
+        radio.setAttribute('id', `student${student.id}`)
+        radio.setAttribute('value', `${student.id}`)
+        radio.addEventListener('click', (e) => {
             getQcmsDoneByStudentFromAjax(sessionId, moduleId, e.target.value)
         })
 
@@ -68,19 +70,26 @@ function displayStudents(data){
         let img = createElementSimple('img', 'imgLevel')
         img = dislayImgLevel(student.level, img, liStudentData)
 
-        liStudentData.append(checkbox, label, input)
+        liStudentData.append(radio, label, input)
         div.append(liStudentData, img)
         ulListStudents.append(div)
     })
 
     liStudentData = document.querySelectorAll('.liStudentData')
     positionLabelInput(liStudentData)
+    console.log(data)
+    if (data.length === 0){
+        let div = createElementSimple('div', 'noStudent')
+        div.innerHTML = "Aucun étudiant n'a encore de note dans cette session"
+        ulListStudents.append(div)
+    }
+
 }
 
 function displayQcmsDone(data){
     qcmsDiv.style.display = 'block'
     ulListQcms = qcmsDiv.querySelector('.ulListQcms')
-
+    ulListQcms.innerHTML = ""
     data.forEach( qcm => {
         let li = createElementSimple('li', 'liQcmDone')
         li.addEventListener('click', (e) => {
@@ -204,13 +213,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
     levelDiv.style.display = 'none'
     studentsDiv = document.querySelector('.students')
     studentsDiv.style.display = 'none'
-    qcmsDiv = document.querySelector('.Qcms')
+    qcmsDiv = document.querySelector('.qcms')
     qcmsDiv.style.display = 'none'
 
     // Display block or none (par rapport à la séléction des levels au click)
     namesLevel = document.querySelectorAll('.nameLevel')
     namesLevel.forEach( input => {
         input.addEventListener('click', (e)=>{
+            qcmsDiv = document.querySelector('.qcms')
+            if (qcmsDiv.style.display === 'block'){
+                qcmsDiv.style.display = "none"
+                ulListQcms.innerHTML = ""
+            }
             liStudentsData = document.querySelectorAll('.liStudentData')
             liStudentsData.forEach( li => {
                let level = li.lastChild.dataset.level
@@ -243,6 +257,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         studentsDiv.style.display = 'block'
         if (moduleId !== e.target.value){
             ulListStudents = studentsDiv.querySelector('.ulListStudents')
+            ulListStudents.innerHTML = ""
             moduleId = e.target.value
             getStudentsByModuleFromAjax(sessionId, moduleId)
         }
