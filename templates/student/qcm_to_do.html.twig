@@ -37,9 +37,16 @@
 
         <form action="{{ path('student_qcm_to_do', { 'qcmInstance': idQcmInstance }) }}" name="formulaire">
             {% for question in questionsAnswers %}
+                {{ dump(question) }}
                 <div class="imageDiff">
                     <div class="trefle">
-                    <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                        {% if question.difficulty is same as 1 %}
+                            <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="difficile">
+                        {% elseif question.difficulty is same as 2 %}
+                            <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="difficile">
+                        {% elseif question.difficulty is same as 3 %}
+                            <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                        {% endif %}
                     </div>
                     <div>
                     <p class="question"><span class="numeroForm">1</span>
