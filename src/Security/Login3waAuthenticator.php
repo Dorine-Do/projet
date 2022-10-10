@@ -132,10 +132,6 @@ class Login3waAuthenticator extends AbstractAuthenticator
                 $user = $this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] );
             }
 
-            $cookieExpires = new \DateTime();
-            $cookieExpires->modify('+1 day');
-            $cookieExpires->setTime(5,0,0,1);
-
             $dbCookieYouUp = $this->cookieRepo->findOneBy( ['user' => $user] );
 
             if( !$dbCookieYouUp )
