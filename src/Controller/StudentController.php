@@ -38,6 +38,8 @@ class StudentController extends AbstractController
         $this->studentRepo = $studentRepository;
         $this->userRepo = $userRepository;
         $this->security = $security;
+        $this->user = $this->security->getUser();
+        $this->id = $this->security->getUser()->getId();
     }
 
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
@@ -393,7 +395,7 @@ class StudentController extends AbstractController
         $student = $this->studentRepo->find($this->user->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $userRepository,true, $difficulty);
+        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student,true, $difficulty);
 
         $manager->persist( $trainingQcm );
         $manager->flush();
@@ -428,7 +430,7 @@ class StudentController extends AbstractController
         $student = $this->studentRepo->find($this->user->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $userRepository );
+        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student );
 
         $manager->persist( $retryQcm );
         $manager->flush();
@@ -529,9 +531,8 @@ class StudentController extends AbstractController
 
     ): Response
     {
-        $student = $this->studentRepo->find($this->user->getId());
 
-        $modules = $this->studentRepo->moduleMaxScore($student->getId());
+        $modules = $this->studentRepo->moduleMaxScore($this->id);
 
         return $this->render('student/level_modules.html.twig', [
             'modules' => $modules
@@ -543,9 +544,7 @@ class StudentController extends AbstractController
 
     ): Response
     {
-        $student = $this->studentRepo->find($this->user->getId());
-
-        $isOfficialQcms = $this->studentRepo->isOfficialQcmLevel($student->getId());
+        $isOfficialQcms = $this->studentRepo->isOfficialQcmLevel($this->id);
 //        dd($isOfficialQcms);
         $isOfficialQcms[] = [
             "qcmId" => 6,

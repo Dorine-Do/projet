@@ -6,6 +6,7 @@ use App\Entity\Main\Module;
 use App\Entity\Main\Qcm;
 use App\Repository\InstructorRepository;
 use App\Repository\QuestionRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\Security;
 
 class QcmGeneratorHelper
@@ -24,7 +25,7 @@ class QcmGeneratorHelper
         $this->insRepo = $insRepo;
     }
     /*TODO A enlever une fois que a connection avec google sera opérationnelle ( $instructorRepository )*/
-    public function generateRandomQcm( Module $module , bool $isTraining = true, int $difficulty = 2): Qcm
+    public function generateRandomQcm( Module $module, $user , bool $isTraining = true, int $difficulty = 2): Qcm
     {
         if( $isTraining )
         {
@@ -49,6 +50,7 @@ class QcmGeneratorHelper
         // $qcm->setAuthor( $instructorRepository->find(2) );
     //  $qcm->setAuthor( $this->_security->getUser() );
      $qcm->setAuthor( $this->insRepo->find(1) );
+        $qcm->setDistributedBy($user);
         $qcm->setTitle( $title );
         $qcm->setDifficulty( $difficulty );
         $qcm->setIsOfficial( $isOfficial );

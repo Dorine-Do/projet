@@ -42,7 +42,8 @@ namespace App\Controller;
     class InstructorController extends AbstractController
     {
 
-        public function __construct(Security $security){
+        public function __construct(Security $security, UserRepository $userRepository){
+            $this->userRepo = $userRepository;
             $this->security = $security;
             $this->user = $security->getUser();
             // $this->id = $this->user->getId();
@@ -103,7 +104,7 @@ namespace App\Controller;
             //     'author' => $security->getUser(),
             // ]);
             $qcms = $qcmRepo->findBy([
-                'author' =>$this->id ,
+                'author' => $security->getUser(),
             ]);
 
             return $this->render('instructor/display_qcms.html.twig', [
@@ -291,6 +292,8 @@ namespace App\Controller;
                     'instructorAddQuestion',
                     'La question a été généré avec succès'
                 );
+
+
                 return $this->redirectToRoute('instructor_display_questions');
 
         }
@@ -355,7 +358,7 @@ namespace App\Controller;
         Security             $security,
         QcmRepository        $qcmRepo,
         QcmInstanceRepository     $qcmInstanceRepository,
-
+        UserRepository $userRepository
 
     ): Response
     {
@@ -381,12 +384,10 @@ namespace App\Controller;
 
         /**********************************************************************************/
         // Get module choiced
-
         $module = null;
         if ($request->get('module'))
         {
             $module = $moduleRepository->find($request->get('module'));
-
         }
 
 
@@ -394,6 +395,8 @@ namespace App\Controller;
         {
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $instructorRepository);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
+            //$qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
+            //$generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->user);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
             $qcms = $module->getQcms();
@@ -416,7 +419,7 @@ namespace App\Controller;
 
 
 
-        
+
         /********************************************************************************/
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => $modules,
@@ -443,7 +446,6 @@ namespace App\Controller;
         ModuleRepository       $moduleRepository,
         EntityManagerInterface $entityManager,
         QcmGeneratorHelper $generatorHelper
-
     ): Response
     {
 
@@ -515,7 +517,6 @@ namespace App\Controller;
     }
 
 
-
         #[Route('instructor/qcms/create_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
         public function createOfficialQcm(
             Security               $security,
@@ -549,6 +550,7 @@ namespace App\Controller;
                 $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
                 /*TODO A enlever une fois que a connection avec google sera opérationnelle ( $instructorRepository )*/
                 $qcm = $qcmGenerator->generateRandomQcm($module,$instructorRepository, false);
+               // $qcm = $qcmGenerator->generateRandomQcm($module,$this->user, false);
                 $manager->persist($qcm);
 
                 $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
@@ -658,7 +660,6 @@ namespace App\Controller;
                 $students = array_map(function ($LinkSessionStudent) {
                     return $LinkSessionStudent->getStudent();
                 }, $LinksSessionStudent);
-
                 return $this->json($students, 200, [], ['groups' => 'user:read']);
             }
             return new JsonResponse();
@@ -739,6 +740,7 @@ namespace App\Controller;
             ModuleRepository $moduleRepository,
         ):JsonResponse
         {
+
             $modules = $moduleRepository->getModuleSessions($session->getId());
             $modulesName = [];
             foreach ( $modules as $module ){
