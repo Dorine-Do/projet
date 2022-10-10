@@ -1,5 +1,5 @@
 // vars
-let reportBugBtn, reportBugModale, closeReportBugModaleBtn, reportBugForm;
+let reportBugBtn, reportBugModale, closeReportBugModaleBtn, reportBugForm, bugReportMessage;
 
 // functions
 function showReportBugModale()
@@ -9,6 +9,15 @@ function showReportBugModale()
 
 function hideReportBugModale(){
     reportBugModale.style.display = 'none';
+}
+
+function showMessage( message ) {
+    bugReportMessage.innerHTML = `<p>${ message }</p>`;
+    bugReportMessage.style.display = 'block';
+    setTimeout( function(){
+        bugReportMessage.style.display = 'none';
+        bugReportMessage.innerHTML = '';
+    }, 3000 );
 }
 
 function ajaxSendBugReport(e)
@@ -24,13 +33,13 @@ function ajaxSendBugReport(e)
     })
      .then( response => response.json() )
      .then( result => {
-         alert( result );
          hideReportBugModale();
+         showMessage( result );
          document.querySelector('#reportBugMsg').value = '';
          document.querySelector('#bugReportUrl').value = '';
          document.querySelector('#bugReportUserId').value = '';
      })
-     .catch( error => console.log(error) );
+     .catch( error => showMessage( 'Une erreur est survenue' ));
 }
 
 // code principal
@@ -41,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function(){
     reportBugModale         = document.querySelector('#reportBugModale');
     closeReportBugModaleBtn = document.querySelector('#closeReportBugModaleBtn');
     reportBugForm           = document.querySelector('#reportBugForm');
+    bugReportMessage        = document.querySelector('#bugReportMessage');
 
     reportBugBtn.addEventListener('click', showReportBugModale);
     closeReportBugModaleBtn.addEventListener('click', hideReportBugModale);
