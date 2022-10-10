@@ -78,7 +78,7 @@ class SuiviFixtures extends Fixture
 //        $this->generateLinksSessionModule( $manager );
 
         //Instructors
-        $this->generateInstructors( $manager );
+//        $this->generateInstructors( $manager );
 
         //Students
 //        $this->generateStudents( $manager );

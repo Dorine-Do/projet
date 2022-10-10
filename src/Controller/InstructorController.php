@@ -45,6 +45,7 @@ namespace App\Controller;
         public function __construct(Security $security, UserRepository $userRepository){
             $this->userRepo = $userRepository;
             $this->security = $security;
+            $this->user = $this->security->getUser();
             $this->id = $this->security->getUser()->getId();
         }
 
@@ -334,7 +335,7 @@ namespace App\Controller;
 
         if ($module) {
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-            $generatedQcm = $qcmGenerator->generateRandomQcm($module, $userRepository);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->user);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $this->id]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
             //qcm instance
@@ -531,7 +532,7 @@ namespace App\Controller;
                 $module = $moduleRepository->find($formData["module"]);
                 $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
                 /*TODO A enlever une fois que a connection avec google sera opérationnelle ( $instructorRepository )*/
-                $qcm = $qcmGenerator->generateRandomQcm($module,$instructorRepository, false);
+                $qcm = $qcmGenerator->generateRandomQcm($module,$this->user, false);
                 $manager->persist($qcm);
 
                 $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
