@@ -56,19 +56,19 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Module
-        $this->generateModules( $manager );
+//        $this->generateModules( $manager );
 
         //Session
-        $this->generateSessions( $manager );
+//        $this->generateSessions( $manager );
 
         //LinkSessionModule
-        $this->generateLinksSessionModule( $manager );
+//        $this->generateLinksSessionModule( $manager );
 
         //Instructeur
-        $this->generateInstructors( $manager );
+//        $this->generateInstructors( $manager );
 
         //Student
-        $this->generateStudents( $manager );
+//        $this->generateStudents( $manager );
 
         //Question + Proposal
 //        $this->generateQuestions( $manager );
@@ -272,7 +272,9 @@ class AppFixtures extends Fixture
         foreach ($relatedModule->getLinksInstructorSessionModule() as $test){
             $instructors[] = $test->getInstructor();
         }
-        $qcm->setAuthor($instructors[array_rand($instructors)]);
+        $choicedInstructor = $instructors[array_rand($instructors)];
+        $qcm->setAuthor($choicedInstructor);
+        $qcm->setDistributedBy($choicedInstructor);
         $qcm->setIsPublic( $this->faker->numberBetween(0, 1) );
 
         $arrayQuestionAnswers = [];
