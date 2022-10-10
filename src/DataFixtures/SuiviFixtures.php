@@ -78,9 +78,9 @@ class SuiviFixtures extends Fixture
 //        $this->generateLinksSessionModule( $manager );
 
         //Instructors
-        $this->generateInstructors( $manager );
+//        $this->generateInstructors( $manager );
 
-        //Students
+        //Student
 //        $this->generateStudents( $manager );
 
         // LinksSessionStudent
@@ -542,7 +542,7 @@ class SuiviFixtures extends Fixture
             $instructor->setLastname($suiviInstructors['last_name']);
             $instructor->setBirthDate( $suiviInstructors['birthdate'] );
             $instructor->setPhone( $suiviInstructors['phone'] );
-            $instructor->setEmail( $suiviInstructors['email'] );
+            $instructor->setEmail( strtolower($suiviInstructors['email']) );
             $instructor->setMoodleId( $suiviInstructors['id_moodle'] );
             $instructor->setSuiviId( $suiviInstructors['id'] );
             $instructor->setIsReferent( $suiviInstructors['isReferent'] );
@@ -563,7 +563,7 @@ class SuiviFixtures extends Fixture
             $student->setLastname( $suiviStudent['last_name'] );
             $student->setBirthDate( $suiviStudent['birthdate'] );
             $student->setBadges( $suiviStudent['badges'] );
-            $student->setEmail($suiviStudent['email']);
+            $student->setEmail(strtolower($suiviStudent['email']));
             $student->setMoodleId( $suiviStudent['id_moodle'] );
             $student->setSuiviId( $suiviStudent['id'] );
             $student->setRoles(['ROLE_STUDENT']);

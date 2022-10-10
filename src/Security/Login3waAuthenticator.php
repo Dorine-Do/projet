@@ -100,6 +100,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                         $newUser->setEmail('email');
                         $newUser->setPhone( $dbSuiviUser['phone'] ?: null );
                         $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
+                        $newUser->setSuiviId( $dbSuiviUser['id'] );
                         $newUser->setRoles( ['ROLE_INSTRUCTOR'] );
                         break;
                     case 'admin':
@@ -108,6 +109,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                         $newUser->setLastName( $dbSuiviUser['lastname'] );
                         $newUser->setEmail('email');
                         $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
+                        $newUser->setSuiviId( $dbSuiviUser['id'] );
                         $newUser->setRoles( ['ROLE_ADMIN'] );
                         break;
                     default:
@@ -116,6 +118,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                         $newUser->setLastName( $dbSuiviUser['lastname'] );
                         $newUser->setEmail('email');
                         $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
+                        $newUser->setSuiviId( $dbSuiviUser['id'] );
                         $newUser->setRoles( ['ROLE_STUDENT'] );
                         break;
                 }
@@ -128,16 +131,6 @@ class Login3waAuthenticator extends AbstractAuthenticator
             {
                 $user = $this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] );
             }
-
-            $cookieExpires = new \DateTime();
-            $cookieExpires->modify('+1 day');
-            $cookieExpires->setTime(5,0,0,1);
-
-            $cookieYouUp = Cookie::create('cookieYouUp')
-                ->withValue( $cookieString )
-                ->withExpires( $cookieExpires )
-                ->withDomain('you-up.3wa.com')
-                ->withSecure(true);
 
             $dbCookieYouUp = $this->cookieRepo->findOneBy( ['user' => $user] );
 

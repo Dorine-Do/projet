@@ -7,9 +7,11 @@ security:
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
-            entity:
-                class: App\Entity\Main\User
-                property: email
+            id: App\Security\AppUserProvider
+#            entity:
+#                class: App\Entity\Main\User
+#                property: email
+#                id: email
         # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
@@ -33,9 +35,11 @@ security:
                 check_path: app_connection
             logout:
                 path: app_logout
+            switch_user: { parameter: X-Switch-User }
         secured_area:
             form_login:
                 enable_csrf: true
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

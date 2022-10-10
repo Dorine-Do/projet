@@ -8,6 +8,7 @@ use App\Entity\Main\Module;
 use App\Entity\Main\Qcm;
 use App\Entity\Main\QcmInstance;
 use App\Entity\Main\Result;
+use App\Entity\Main\User;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\LinkInstructorSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
@@ -27,10 +28,18 @@ use Symfony\Component\Security\Core\Security;
 
 class StudentController extends AbstractController
 {
+
+    private StudentRepository $studentRepo;
+    private UserRepository $userRepo;
+    private Security $security;
+
 //    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-    public function __construct(StudentRepository $studentRepository){
+    public function __construct(StudentRepository $studentRepository, UserRepository $userRepository, Security $security){
         $this->studentRepo = $studentRepository;
-        $this->id = 37;
+        $this->userRepo = $userRepository;
+        $this->security = $security;
+        $this->user = $this->security->getUser();
+        $this->id = $this->security->getUser()->getId();
     }
 
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
@@ -40,8 +49,9 @@ class StudentController extends AbstractController
         ModuleRepository $moduleRepo,
     ): Response
     {
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $student = $this->studentRepo->find($this->id);
+
+//        dd($this->security->getUser());
+        $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $allAvailableQcmInstances = $student->getQcmInstances();
 
@@ -133,9 +143,7 @@ class StudentController extends AbstractController
         LinkInstructorSessionModuleRepository $linkSessionModuleRepo
     ): Response
     {
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $student = $this->studentRepo->find($this->id);
-//        $student = $this->getUser();
+        $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $studentQcmInstances = $student->getQcmInstances();
         $studentResults = [];
@@ -194,9 +202,8 @@ class StudentController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $student = $this->studentRepo->find($this->id);
-//        $student = $this->getUser();
+        $student = $this->studentRepo->find($this->security->getUser()->getId());
+
         $qcm = $qcmRepository->find(['id' => ($qcmInstance->getQcm()->getId())]);
 
         $questionsCache = $qcm->getQuestionsCache();
@@ -385,13 +392,10 @@ class StudentController extends AbstractController
         $module = $moduleRepo->find( $request->get('module') );
         $difficulty = (int) $request->get('difficulty');
 
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $student = $this->studentRepo->find($this->id);
-
-//        $student = $this->getUser();
+        $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $userRepository,true, $difficulty);
+        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student,true, $difficulty);
 
         $manager->persist( $trainingQcm );
         $manager->flush();
@@ -423,12 +427,10 @@ class StudentController extends AbstractController
     ): Response
     {
 
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $student = $this->studentRepo->find($this->id);
-//        $student = $this->getUser();
+        $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $userRepository );
+        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student );
 
         $manager->persist( $retryQcm );
         $manager->flush();
@@ -460,8 +462,7 @@ class StudentController extends AbstractController
     ): Response
     {
         $qcmInstance = new QcmInstance();
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $student = $this->studentRepo->find($this->id);
+        $student = $this->studentRepo->find($this->user->getId());
         $qcmInstance->setStudent( $student );
 //        $qcmInstance->setStudent( $this->getUser() );
         $qcmInstance->setQcm( $qcm );
@@ -530,11 +531,8 @@ class StudentController extends AbstractController
 
     ): Response
     {
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $student = $this->studentRepo->find($this->id);
-//        $student = $this->getUser();
 
-        $modules = $this->studentRepo->moduleMaxScore($student->getId());
+        $modules = $this->studentRepo->moduleMaxScore($this->id);
 
         return $this->render('student/level_modules.html.twig', [
             'modules' => $modules
@@ -546,11 +544,7 @@ class StudentController extends AbstractController
 
     ): Response
     {
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $student = $this->studentRepo->find($this->id);
-//        $student = $this->getUser();
-
-        $isOfficialQcms = $this->studentRepo->isOfficialQcmLevel($student->getId());
+        $isOfficialQcms = $this->studentRepo->isOfficialQcmLevel($this->id);
 //        dd($isOfficialQcms);
         $isOfficialQcms[] = [
             "qcmId" => 6,

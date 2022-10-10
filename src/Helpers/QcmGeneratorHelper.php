@@ -21,7 +21,7 @@ class QcmGeneratorHelper
         $this->_security = $security;
     }
     /*TODO A enlever une fois que a connection avec google sera opérationnelle ( $instructorRepository )*/
-    public function generateRandomQcm( Module $module, UserRepository $userRepository , bool $isTraining = true, int $difficulty = 2): Qcm
+    public function generateRandomQcm( Module $module, $user , bool $isTraining = true, int $difficulty = 2): Qcm
     {
         if( $isTraining )
         {
@@ -43,8 +43,9 @@ class QcmGeneratorHelper
         $qcm = new Qcm();
         $qcm->setModule( $module );
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        $qcm->setAuthor( $userRepository->find(11) );
+        $qcm->setAuthor( $user );
 //      $qcm->setAuthor( $this->_security->getUser() );
+        $qcm->setDistributedBy($user);
         $qcm->setTitle( $title );
         $qcm->setDifficulty( $difficulty );
         $qcm->setIsOfficial( $isOfficial );

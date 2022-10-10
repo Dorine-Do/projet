@@ -299,4 +299,28 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+	die();
+        return serialize(array(
+            $this->id,
+            $this->email,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+	die();
+        list (
+            $this->id,
+            $this->email,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
+    }
 }
