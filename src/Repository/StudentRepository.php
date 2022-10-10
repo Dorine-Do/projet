@@ -86,8 +86,7 @@ class StudentRepository extends ServiceEntityRepository
             ->groupBy('m.id')
             ->setParameter('id', $id)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     /**

@@ -525,7 +525,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/level/', name: 'student_level', methods: ['GET'])]
+    #[Route('/student/level/', name: 'student_level', methods: ['GET'])]
     public function levelStudentByModule(): Response
     {
         $modules = $this->studentRepo->moduleMaxScore($this->id);
@@ -541,7 +541,6 @@ class StudentController extends AbstractController
     ): Response
     {
         $isOfficialQcms = $this->studentRepo->isOfficialQcmLevel($this->id);
-//        dd($isOfficialQcms);
         $isOfficialQcms[] = [
             "qcmId" => 6,
                 "qcmTitle" => "Qcm1",
