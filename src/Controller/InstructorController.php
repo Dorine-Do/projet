@@ -42,10 +42,10 @@ namespace App\Controller;
     class InstructorController extends AbstractController
     {
 
-        public function __construct(Security $security){
+        public function __construct(Security $security, UserRepository $userRepository){
+            $this->userRepo = $userRepository;
             $this->security = $security;
-            $this->user = $security->getUser();
-            $this->id = $this->user->getId();
+            $this->id = $this->security->getUser()->getId();
         }
 
         #[Route('/instructor', name: 'welcome_instructor')]

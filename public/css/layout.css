@@ -167,3 +167,11 @@ header{
 .errorMsg {
   color: tomato;
 }
+
+.successBorder {
+  border: 1px solid var(--vert);
+}
+
+.successMsg {
+  color: var(--vert);
+}
