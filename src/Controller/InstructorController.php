@@ -102,7 +102,6 @@ namespace App\Controller;
             // $qcms = $qcmRepo->findBy([
             //     'author' => $security->getUser(),
             // ]);
-            // dd($security->getUser());
             $qcms = $qcmRepo->findBy([
                 'author' =>$this->id ,
             ]);
