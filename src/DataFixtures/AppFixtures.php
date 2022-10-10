@@ -65,7 +65,7 @@ class AppFixtures extends Fixture
 //        $this->generateLinksSessionModule( $manager );
 
         //Instructeur
-//        $this->generateInstructors( $manager );
+        $this->generateInstructors( $manager );
 
         //Student
 //        $this->generateStudents( $manager );
@@ -150,7 +150,7 @@ class AppFixtures extends Fixture
             $instructor->setLastname($instructorLastName);
             $instructor->setBirthDate( $this->faker->dateTimeBetween('-40 years', '-18 years') );
             $instructor->setPhone($this->faker->numerify('+33########'));
-            $instructor->setEmail($this->faker->email());
+            $instructor->setEmail(strtolower($this->faker->email()));
             $instructor->setMoodleId($this->faker->randomNumber(5, true));
             $instructor->setSuiviId($this->faker->randomNumber(5, true));
             $instructor->setIsReferent($this->faker->numberBetween(0, 1));
@@ -186,7 +186,7 @@ class AppFixtures extends Fixture
                 array_rand($dbModules,1) => "Explore",
                 array_rand($dbModules,1) => "Domine",
             ]);
-            $student->setEmail($studentFirstName . '.' . $studentLastName . '@yahoo.fr');
+            $student->setEmail(strtolower($studentFirstName . '.' . $studentLastName . '@yahoo.fr'));
             $student->setMoodleId( $this->faker->randomNumber(5, true) );
             $student->setSuiviId( $this->faker->randomNumber(5, true) );
             $student->setRoles(['ROLE_STUDENT']);
