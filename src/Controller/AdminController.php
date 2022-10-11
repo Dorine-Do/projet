@@ -144,23 +144,17 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setCreatedAt(new \DateTime());
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
 
             $entityManager->persist($user);
 
             if( in_array( 'student', $user->getRoles() ) || in_array( 'instructor', $user->getRoles() ) || in_array( 'admin', $user->getRoles() )  )
             {
                 $student = new Student();
-                $student->setIdModule( $user->getIdMoodle() );
+                $student->getMoodleId( $user->getMoodleId() );
                 $student->setFirstName( $user->getFirstName() );
                 $student->setLastName( $user->getLastName() );
                 $student->setBirthDate( $user->getBirthDate() );
-                $student->setMail3wa( $user->getFirstName() . '.' . $user->getLastName() . '@3wa.io' );
+                $student->setEmail( $user->getFirstName() . '.' . $user->getLastName() . '@3wa.io' );
                 $student->setCreatedAtValue();
 
                 $entityManager->persist($student);
@@ -170,8 +164,7 @@ class AdminController extends AbstractController
                     $instructor->setFirstName( $user->getFirstName() );
                     $instructor->setLastName( $user->getLastName() );
                     $instructor->setBirthDate( $user->getBirthDate() );
-                    $instructor->setPhoneNumber( '0600000000' );
-                    $instructor->setPassword( $user->getPassword() );
+                    $instructor->setPhone( '0600000000' );
                     $instructor->setEmail( $user->getEmail() );
                     $instructor->setCreatedAtValue();
 
