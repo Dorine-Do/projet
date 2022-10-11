@@ -133,7 +133,7 @@ class AdminController extends AbstractController
         ]);
     }
 
-    // TODO: Probablement à supprimer
+    // TODO: Probablement à supprimer (voir avec Pascal)
     #[Route('/admin/new-user', name: 'app_new_user')]
     public function newUser(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
     {
