@@ -24,12 +24,12 @@
 
     <h1> -  {{ 'title.weclome'|trans }} - </h1>
     <div class="accueilDiv">
-       <div class="sectionOne">
-           <div class="hrefDiv">
+        <div class="sectionOne">
+            <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
-                    <a href="{{ path('my_creations')}}" class="accueilA">{{ 'button.myCreation'|trans }}</a>
+                   <a href="{{ path('my_creations')}}" class="accueilA">{{ 'button.myCreation'|trans }}</a>
                 </div>
-           </div>
+            </div>
         </div>
         <div class="sectionTwo">
             <div class="hrefDiv">
@@ -37,7 +37,7 @@
                     <a href="{{ path('instructor_plan_qcm') }}" class="accueilA"> {{ 'button.planQcmExercice'|trans }}</a>
                 </div>
             </div>
-       </div>
+        </div>
         <div class="sectionThrees">
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
@@ -53,23 +53,23 @@
             </div>
         </div>
     </div>
-        <div class="sectionThree">
-            <div class="hrefDiv">
-                <div class="hrefDecorationDiv">
-                    <a href="{{ path('instructor_create_question') }}" class="accueilA">{{ 'button.createQuestion'|trans }}</a>
-                </div>
-            </div>
-            <div class="hrefDiv">
-                <div class="hrefDecorationDiv">
-                    <a href="{{ path('instructor_create_qcm_perso') }}" class="accueilA"> {{ 'button.createQcmCustom'|trans }}</a>
-                </div>
-            </div>
-            <div class="hrefDiv">
-                <div class="hrefDecorationDiv">
-                    <a href="{{ path('instructor_create_qcm') }}" class="accueilA"> {{ 'button.generateQcmOfficial'|trans }}</a>
-                </div>
+    <div class="sectionThree">
+        <div class="hrefDiv">
+            <div class="hrefDecorationDiv">
+                <a href="{{ path('instructor_create_question') }}" class="accueilA">{{ 'button.createQuestion'|trans }}</a>
             </div>
         </div>
+        <div class="hrefDiv">
+            <div class="hrefDecorationDiv">
+                <a href="{{ path('instructor_create_qcm_perso') }}" class="accueilA"> {{ 'button.createQcmCustom'|trans }}</a>
+            </div>
+        </div>
+        <div class="hrefDiv">
+            <div class="hrefDecorationDiv">
+                <a href="{{ path('instructor_create_qcm') }}" class="accueilA"> {{ 'button.generateQcmOfficial'|trans }}</a>
+            </div>
+        </div>
+    </div>
 
 {% block javascripts %}
 {# temporaire #}

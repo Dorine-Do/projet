@@ -184,7 +184,6 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
-        // TODO Check this
         return new RedirectResponse(
             '/connect/', // might be the site, where users choose their oauth provider
             Response::HTTP_TEMPORARY_REDIRECT
