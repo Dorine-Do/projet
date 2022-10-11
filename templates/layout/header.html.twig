@@ -6,7 +6,6 @@
     <img class="logo" src="{{asset('build/images/logo_officiel.png')}}">
     <nav class="choix">
 
-        {#/* TODO A enlever une fois que a connection avec google sera opérationnelle*/#}
         {% if 'ROLE_STUDENT' in app.user.roles  %}
             <a href="{{path('student_qcms')}}" class="tab">{{ 'header.qcms'|trans }}</a>
             <a href="{{path('student_dashboard')}}" class="tab">{{ 'header.dashboard'|trans }}</a>
@@ -15,11 +14,6 @@
             <a href="#" class="tab">{{ 'header.planning'|trans }}</a>
         {% endif %}
 
-
-{#        {% if app.user %}#}
-{#        <a href="{{path('welcome_instructor')}}" class="tab">{{ 'header.dashboard'|trans }}</a>#}
-{#        <a href="#" class="tab">{{ 'header.planning'|trans }}</a>#}
-{#        {% endif %}#}
     </nav>
     <div class="eleve">
         <p class="helloStudent">Salut,{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>

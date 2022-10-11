@@ -384,7 +384,8 @@ class StudentController extends AbstractController
         ModuleRepository $moduleRepo,
         QuestionRepository $questionRepo,
         Security $security,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        UserRepository $userRepository
     ): Response
     {
         $module = $moduleRepo->find( $request->get('module') );
@@ -393,7 +394,7 @@ class StudentController extends AbstractController
         $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student,true, $difficulty);
+        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository ,true, $difficulty);
 
         $manager->persist( $trainingQcm );
         $manager->flush();
@@ -420,14 +421,15 @@ class StudentController extends AbstractController
         QuestionRepository $questionRepo,
         Module $module,
         Security $security,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        UserRepository $userRepository
     ): Response
     {
 
         $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student );
+        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository );
 
         $manager->persist( $retryQcm );
         $manager->flush();
@@ -540,9 +542,7 @@ class StudentController extends AbstractController
     }
 
     #[Route('student/progression/', name: 'student_progression', methods: ['GET'])]
-    public function progressionStudent(
-
-    ): Response
+    public function progressionStudent(): Response
     {
         $isOfficialQcms = $this->studentRepo->isOfficialQcmLevel($this->id);
         $isOfficialQcms[] = [

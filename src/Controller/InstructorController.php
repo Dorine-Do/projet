@@ -333,34 +333,26 @@ namespace App\Controller;
             $module = $moduleRepository->find($request->get('module'));
         }
 
-        if ($module) {
-            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-            $generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->user);
+
+        if ($module)
+        {
+            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $instructorRepository);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->user, $userRepository);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $this->id]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
-            //qcm instance
-            // $qcms = $qcmRepo->findBy(["module"=>$module->getId()]);
-            // $qcmInstances = $qcmInstanceRepository->findBy(["qcm"=>$qcms]);
             $qcms = $module->getQcms();
             $moduleQuestions = $module->getQuestions();
 
-            // $qcmInstanceFromOfficialQcm=[];
-            // foreach($qcmInstances as $qcm){
-            //     $qcmInstanceFromOfficialQcm[]=["id"=>$qcm->getQcm()->getId(),"questions"=>$qcm->getQcm()->getQuestionsCache()];
+        }
 
-            // }
-            //pour chaque q recup les qcm lié et enregistré le nombr d'instance de c'est q en tant que val
+        $qcmInstancesByQuestion = [];
+        foreach($moduleQuestions as $moduleQuestion){
 
-
-            $qcmInstancesByQuestion = [];
-            foreach ($moduleQuestions as $moduleQuestion) {
-
-                $count = 0;
-                foreach ($moduleQuestion->getQcms() as $moduleQuestionQcm) {
-                    $count += count($moduleQuestionQcm->getQcmInstances());
-                }
-                $qcmInstancesByQuestion[$moduleQuestion->getId()] = $count;
-            }
+            $count=0;
+            foreach($moduleQuestion->getQcms() as $moduleQuestionQcm ) {
+                $count+=count($moduleQuestionQcm->getQcmInstances());
+              }
+             $qcmInstancesByQuestion[$moduleQuestion->getId()]=$count;
         }
 
         /********************************************************************************/
@@ -500,7 +492,6 @@ namespace App\Controller;
 
     }
 
-
         #[Route('instructor/qcms/create_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
         public function createOfficialQcm(
             Security               $security,
@@ -509,12 +500,11 @@ namespace App\Controller;
             Request                $request,
             QuestionRepository     $questionRepository,
             ModuleRepository       $moduleRepository,
+            UserRepository         $userRepository,
             EntityManagerInterface $manager
         ): Response
         {
             $dayOfWeekEnd = array("Saturday", "Sunday");
-//            $userId = $security->getUser();
-            /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
             $sessionAndModuleByInstructor = $instructorRepository->find($this->id)->getLinksInstructorSessionModule();
 
             foreach ($sessionAndModuleByInstructor as $sessionAndModule)
@@ -531,8 +521,7 @@ namespace App\Controller;
             {
                 $module = $moduleRepository->find($formData["module"]);
                 $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-                /*TODO A enlever une fois que a connection avec google sera opérationnelle ( $instructorRepository )*/
-                $qcm = $qcmGenerator->generateRandomQcm($module,$this->user, false);
+                $qcm = $qcmGenerator->generateRandomQcm($module,$this->user, $userRepository , false);
                 $manager->persist($qcm);
 
                 $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
@@ -553,6 +542,7 @@ namespace App\Controller;
 
                     //START TIME AND END TIME
                     $dayOfCreationOfQcmInstance = $qcmInstance->getCreatedAt();
+
                     if ($dayOfCreationOfQcmInstance)
                     {
                         $dateOfCreationFormat = date_format($dayOfCreationOfQcmInstance, "Y-m-d H:i:s");
@@ -583,7 +573,6 @@ namespace App\Controller;
                         //on recupère on crée une variable dans lequel on met le string de getcreatedat ,
                         //puis on place la varible dans datetime puis on lei donne un format et ainsi de suite
                     }
-
                     $manager->persist($qcmInstance);
                     $manager->flush();
 
@@ -704,9 +693,9 @@ namespace App\Controller;
         ):Response
         {
             $userId = $this->id;
-            $sessionAndModuleByInstructor = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+            $sessionsAndModulesByInstructors = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
-            foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor)
+            foreach ($sessionsAndModulesByInstructors as $sessionAndModuleByInstructor)
             {
                 $sessions = $sessionRepository->getInstructorSessions($userId);
                 $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
@@ -755,7 +744,7 @@ namespace App\Controller;
                         $studentResponse[] = $student;
                     }
                 }
-                dump($studentResponse);
+//                dd($studentResponse);
 
                 return $this->json($studentResponse, 200, [], ['groups' => 'user:read']);
             }
