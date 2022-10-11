@@ -85,7 +85,6 @@ function fetchStudents(){
                     let li = document.createElement('li')
                     let name = document.createElement('p')
                     let img = document.createElement('img')
-                    let span = document.createElement('span')
 
                     li.className = 'liStudent'
                     ulStudent.className = 'studentQcm'
@@ -95,6 +94,8 @@ function fetchStudents(){
 
                     name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : '
 
+                    li.append(name)
+
                     if(score < 25){
                         img.src = decouvre
                         img.className = 'decouvre'
@@ -102,8 +103,7 @@ function fetchStudents(){
                         img.addEventListener('mouseenter', mouseEnter);
                         img.addEventListener('mousemove', mouseMouve);
                         img.addEventListener('mouseout', mouseOut);
-                        span.append(img)
-                        name.append(span)
+                        li.append(img)
                     }else if(score >= 25 && score < 50){
                         img.src = explore
                         img.className = 'explore'
@@ -111,8 +111,7 @@ function fetchStudents(){
                         img.addEventListener('mouseenter', mouseEnter);
                         img.addEventListener('mousemove', mouseMouve);
                         img.addEventListener('mouseout', mouseOut);
-                        span.append(img)
-                        name.append(span)
+                        li.append(img)
                     }else if(score >= 50 && score < 75){
                         img.src = maitrise
                         img.className = 'maitrise'
@@ -120,8 +119,7 @@ function fetchStudents(){
                         img.addEventListener('mouseenter', mouseEnter);
                         img.addEventListener('mousemove', mouseMouve);
                         img.addEventListener('mouseout', mouseOut);
-                        span.append(img)
-                        name.append(span)
+                        li.append(img)
                     }else if(score >= 75 && score <= 100){
                         img.src = domine
                         img.className = 'domine'
@@ -129,8 +127,7 @@ function fetchStudents(){
                         img.addEventListener('mouseenter', mouseEnter);
                         img.addEventListener('mousemove', mouseMouve);
                         img.addEventListener('mouseout', mouseOut);
-                        span.append(img)
-                        name.append(span)
+                        li.append(img)
                     }else{
                         name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : Non effectué'
                     }
@@ -138,7 +135,6 @@ function fetchStudents(){
                     studentsContainer.append(ulStudent)
                     ulStudent.append(li)
 
-                    li.append(name)
                 })
             }
         })

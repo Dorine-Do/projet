@@ -492,7 +492,6 @@ namespace App\Controller;
 
     }
 
-
         #[Route('instructor/qcms/create_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
         public function createOfficialQcm(
             Security               $security,
@@ -506,8 +505,6 @@ namespace App\Controller;
         ): Response
         {
             $dayOfWeekEnd = array("Saturday", "Sunday");
-//            $userId = $security->getUser();
-            /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
             $sessionAndModuleByInstructor = $instructorRepository->find($this->id)->getLinksInstructorSessionModule();
 
             foreach ($sessionAndModuleByInstructor as $sessionAndModule)
@@ -696,9 +693,9 @@ namespace App\Controller;
         ):Response
         {
             $userId = $this->id;
-            $sessionAndModuleByInstructor = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+            $sessionsAndModulesByInstructors = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
-            foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor)
+            foreach ($sessionsAndModulesByInstructors as $sessionAndModuleByInstructor)
             {
                 $sessions = $sessionRepository->getInstructorSessions($userId);
                 $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
@@ -747,7 +744,7 @@ namespace App\Controller;
                         $studentResponse[] = $student;
                     }
                 }
-                dump($studentResponse);
+//                dd($studentResponse);
 
                 return $this->json($studentResponse, 200, [], ['groups' => 'user:read']);
             }
