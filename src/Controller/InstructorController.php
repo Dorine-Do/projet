@@ -337,8 +337,8 @@ namespace App\Controller;
         if ($module)
         {
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $instructorRepository);
-            $generatedQcm = $qcmGenerator->generateRandomQcm($module);
-            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->user, $userRepository);
+            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $this->id]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
             $qcms = $module->getQcms();
             $moduleQuestions = $module->getQuestions();
@@ -501,6 +501,7 @@ namespace App\Controller;
             Request                $request,
             QuestionRepository     $questionRepository,
             ModuleRepository       $moduleRepository,
+            UserRepository         $userRepository,
             EntityManagerInterface $manager
         ): Response
         {
@@ -523,8 +524,7 @@ namespace App\Controller;
             {
                 $module = $moduleRepository->find($formData["module"]);
                 $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-                /*TODO A enlever une fois que a connection avec google sera opérationnelle ( $instructorRepository )*/
-                $qcm = $qcmGenerator->generateRandomQcm($module,$this->user, false);
+                $qcm = $qcmGenerator->generateRandomQcm($module,$this->user, $userRepository , false);
                 $manager->persist($qcm);
 
                 $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
@@ -545,6 +545,7 @@ namespace App\Controller;
 
                     //START TIME AND END TIME
                     $dayOfCreationOfQcmInstance = $qcmInstance->getCreatedAt();
+
                     if ($dayOfCreationOfQcmInstance)
                     {
                         $dateOfCreationFormat = date_format($dayOfCreationOfQcmInstance, "Y-m-d H:i:s");
@@ -575,7 +576,6 @@ namespace App\Controller;
                         //on recupère on crée une variable dans lequel on met le string de getcreatedat ,
                         //puis on place la varible dans datetime puis on lei donne un format et ainsi de suite
                     }
-
                     $manager->persist($qcmInstance);
                     $manager->flush();
 
