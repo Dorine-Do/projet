@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", (event) => {
+  // console.log(qcmInstances);
+
   // display none
   let questionsCustom = document.querySelector(".questionsCustom");
   questionsCustom.classList.add("displayNone");
@@ -18,7 +20,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   // /////////////////////// SHOW QCM
 
-  let btnShowQcm = document.querySelector("#btnShowQcm");
+  let btnShowQcm = document.querySelector(".btnShowQcm");
+  //let btnShowQcm = document.querySelector("#btnShowQcm");
   let showQcm = document.querySelector(".backWhite");
 
   btnShowQcm.addEventListener("click", function (e) {
@@ -141,6 +144,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   });
 
   let dbValues = [];
+  //correct answer précoché
 
   // event pour modifier une question*********************************************************************************
   let modifyQuestionImgDiv = document.querySelectorAll(".modifyQuestionImgDiv");
@@ -151,6 +155,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
         "src",
         chevronHaut
       );
+      // console.log(
+      //   document.querySelectorAll(".proposalWordingP").dataset.status,
+      //   "hi"
+      // );
       //   console.log(
       //     img.parentNode.previousElementSibling.firstElementChild,
       //     "hello"
@@ -251,6 +259,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
             });
           }
         });
+      }
+      //proposal input précoché voir data-status dans twig
+
+      for (let dataNumber = 0; dataNumber < children.length; dataNumber++) {
+        if (children[dataNumber].dataset.status == 1) {
+          let dataChildren = children[dataNumber];
+          if (
+            dataChildren.children[2].localName === "input" &&
+            dataChildren.children[2].classList.value === "checkBoxIsCorrect"
+          ) {
+            dataChildren.children[2].checked = true;
+          }
+        }
       }
     });
   });
@@ -625,3 +646,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
   }
 });
+
+// TODO
+// info bouton modif une question retiré
+// faire un event au survol pour signifier ce changement

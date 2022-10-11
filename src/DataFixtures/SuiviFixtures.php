@@ -80,7 +80,7 @@ class SuiviFixtures extends Fixture
         //Instructors
 //        $this->generateInstructors( $manager );
 
-        //Students
+        //Student
 //        $this->generateStudents( $manager );
 
         // LinksSessionStudent
@@ -90,7 +90,7 @@ class SuiviFixtures extends Fixture
         // $this->generateLinkInstructorSessionModule( $manager );
 
         //Question + Proposal
-//        $this->generateQuestions( $manager );
+        // $this->generateQuestions( $manager );
 
         //Qcm
         // $this->generateQcm( $manager );

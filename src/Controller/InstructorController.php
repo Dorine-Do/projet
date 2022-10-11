@@ -333,34 +333,26 @@ namespace App\Controller;
             $module = $moduleRepository->find($request->get('module'));
         }
 
-        if ($module) {
-            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-            $generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->user);
-            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $this->id]);
+
+        if ($module)
+        {
+            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $instructorRepository);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module);
+            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
-            //qcm instance
-            // $qcms = $qcmRepo->findBy(["module"=>$module->getId()]);
-            // $qcmInstances = $qcmInstanceRepository->findBy(["qcm"=>$qcms]);
             $qcms = $module->getQcms();
             $moduleQuestions = $module->getQuestions();
 
-            // $qcmInstanceFromOfficialQcm=[];
-            // foreach($qcmInstances as $qcm){
-            //     $qcmInstanceFromOfficialQcm[]=["id"=>$qcm->getQcm()->getId(),"questions"=>$qcm->getQcm()->getQuestionsCache()];
+        }
 
-            // }
-            //pour chaque q recup les qcm lié et enregistré le nombr d'instance de c'est q en tant que val
+        $qcmInstancesByQuestion = [];
+        foreach($moduleQuestions as $moduleQuestion){
 
-
-            $qcmInstancesByQuestion = [];
-            foreach ($moduleQuestions as $moduleQuestion) {
-
-                $count = 0;
-                foreach ($moduleQuestion->getQcms() as $moduleQuestionQcm) {
-                    $count += count($moduleQuestionQcm->getQcmInstances());
-                }
-                $qcmInstancesByQuestion[$moduleQuestion->getId()] = $count;
-            }
+            $count=0;
+            foreach($moduleQuestion->getQcms() as $moduleQuestionQcm ) {
+                $count+=count($moduleQuestionQcm->getQcmInstances());
+              }
+             $qcmInstancesByQuestion[$moduleQuestion->getId()]=$count;
         }
 
         /********************************************************************************/

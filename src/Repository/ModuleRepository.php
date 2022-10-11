@@ -96,7 +96,10 @@ class ModuleRepository extends ServiceEntityRepository
     //     ;
     // }
 
-    public function getModules( $instructor )
+
+    // public function getModules( $instructor )
+    // {
+    public function getModules(  )
     {
         return $this->createQueryBuilder('m')
             ->select('m')

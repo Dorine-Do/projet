@@ -56,7 +56,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Module
-//        $this->generateModules( $manager );
+    //    $this->generateModules( $manager );
 
         //Session
 //        $this->generateSessions( $manager );
