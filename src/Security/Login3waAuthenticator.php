@@ -72,7 +72,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
             if( $stringBeginning[0] === 'C:' ) {
                 return $this->userRepo->find(1);
             }
-            // ---------------------------------------------------------------------------------------------------------
+            // TODO end delete in production ---------------------------------------------------------------------------
 
             // if user isn't logged in 3wa.io ( cookie isn't set )
             if ( !isset($_COOKIE['cookie']) ) {
