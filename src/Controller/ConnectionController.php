@@ -54,10 +54,4 @@ class ConnectionController extends AbstractController
         header('location: https://login.3wa.io/logout');
         exit();
     }
-
-    #[Route('/not-found', name: 'app_not_found')]
-    public function notFound()
-    {
-        return $this->render("error/error.html.twig");
-    }
 }
