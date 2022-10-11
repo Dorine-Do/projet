@@ -540,9 +540,7 @@ class StudentController extends AbstractController
     }
 
     #[Route('student/progression/', name: 'student_progression', methods: ['GET'])]
-    public function progressionStudent(
-
-    ): Response
+    public function progressionStudent(): Response
     {
         $isOfficialQcms = $this->studentRepo->isOfficialQcmLevel($this->id);
         $isOfficialQcms[] = [
