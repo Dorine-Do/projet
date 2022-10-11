@@ -50,7 +50,7 @@ class StudentController extends AbstractController
         ModuleRepository $moduleRepo,
     ): Response
     {
-        $student = $this->userRepo->find($this->security->getUser()->getId());
+        $student = $this->studentRepo->find($this->security->getUser()->getId());
 
         $allAvailableQcmInstances = $student->getQcmInstances();
 
@@ -384,8 +384,7 @@ class StudentController extends AbstractController
         ModuleRepository $moduleRepo,
         QuestionRepository $questionRepo,
         Security $security,
-        EntityManagerInterface $manager,
-        UserRepository      $userRepository
+        EntityManagerInterface $manager
     ): Response
     {
         $module = $moduleRepo->find( $request->get('module') );
@@ -421,8 +420,7 @@ class StudentController extends AbstractController
         QuestionRepository $questionRepo,
         Module $module,
         Security $security,
-        EntityManagerInterface $manager,
-        UserRepository $userRepository
+        EntityManagerInterface $manager
     ): Response
     {
 
