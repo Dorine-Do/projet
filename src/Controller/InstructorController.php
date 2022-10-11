@@ -50,7 +50,7 @@ namespace App\Controller;
         }
 
         #[Route('/instructor', name: 'welcome_instructor')]
-        public function welcome(): Response
+        public function welcome(Request $request): Response
         {
             return $this->render('instructor/welcome_instructor.html.twig', []);
         }

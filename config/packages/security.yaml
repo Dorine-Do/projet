@@ -49,7 +49,7 @@ security:
 
     role_hierarchy:
         ROLE_STUDENT: ROLE_USER
-        ROLE_INSTRUCTOR: ROLE_USER
+        ROLE_INSTRUCTOR: ROLE_STUDENT
         ROLE_ADMIN: [ ROLE_STUDENT, ROLE_INSTRUCTOR, ROLE_ALLOWED_TO_SWITCH ]
 
     # Easy way to control access for large sections of your site

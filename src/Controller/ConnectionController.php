@@ -26,7 +26,6 @@ class ConnectionController extends AbstractController
     public function roleChecking( Security $security): Response
     {
         $user = $security->getUser();
-
         $userRoles = $user->getRoles();
 
         if( in_array('ROLE_ADMIN', $userRoles) )
@@ -49,7 +48,7 @@ class ConnectionController extends AbstractController
         return $this->redirectToRoute( $dashboardRouteName );
     }
 
-    #[Route('logout', name: 'app_logout')]
+    #[Route('/logout', name: 'app_logout')]
     public function logout()
     {
         header('location: https://login.3wa.io/logout');
