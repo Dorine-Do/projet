@@ -32,9 +32,17 @@
     <div class="fourZeroFour">
         <p>404</p>
     </div>
-    <div>
-        <a href="{{ path('welcome_instructor') }}" class="return">Retour à l'accueil</a>
-    </div>
+        <div>
+            {% if "ROLE_ADMIN" in app.user.roles %}
+                <a href="{{ path('app_admin') }}" class="return">Retour à l'accueil</a>
+            {% elseif "ROLE_INSTRUCTOR" in app.user.roles  %}
+                <a href="{{ path('welcome_instructor') }}" class="return">Retour à l'accueil</a>
+            {% elseif "ROLE_STUDENT" in app.user.roles  %}
+                <a href="{{ path('student_qcms') }}" class="return">Retour à l'accueil</a>
+            {%else%}
+                <a href="{{ path('app_connection') }}" class="return">Retour à l'accueil</a>
+            {% endif %}
+        </div>
     <div>
         <img src="" alt="">
         <img src="" alt="">
