@@ -70,7 +70,6 @@ namespace App\Controller;
             $proposals = [];
             $resumeProposal = [];
 
-            /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
             $questions = $questionRepository->findBy(['author' => $this->id]);
             foreach( $questions as $question )
             {
@@ -215,7 +214,6 @@ namespace App\Controller;
         ): Response
         {
 
-//          TODO A enlever une fois que a connection avec google sera opérationnelle
             $user = $instructorRepository->find( $this->id );
 
             $questionEntity = new Question();
@@ -295,8 +293,6 @@ namespace App\Controller;
             return $this->render('instructor/create_question.html.twig', [
                 'form' => $form->createView(),
                 "add" => true,
-//                TODO A enlever une fois que a connection avec google sera opérationnelle
-                'user' => $user
             ]);
             }
 
