@@ -10,41 +10,36 @@
 
     <h1>Mon niveau</h1>
 
-    <div class="containerLegend">
-        <div class="titleLegend">
             <p class="etape"><span>1</span> Légende des niveaux </p>
-        </div>
-        <div class="divLegend">
-            <div>
-                <div class="DivImgLegend">
+                <div class="divLegend">
+                    <div class="imgLegend">
                     <img src="{{asset('build/images/arbre_decouvre.png')}}" alt="Graine d'arbre" class="decouvre">
-                    <img src="{{asset('build/images/arbre_explore.png')}}" alt="Jeune pousse d'arbre">
-                    <img src="{{asset('build/images/arbre_maitrise.png')}}" alt="arbre adulte">
-                    <img src="{{asset('build/images/arbre_domine.png')}}" alt="arbre adulte fleuri">
-                </div>
-                <div class="divpLegend">
                     <p class="pLegend">
                         Découvre
                     </p>
+                    </div>
+                    <div class="imgLegend">
+                    <img src="{{asset('build/images/arbre_explore.png')}}" alt="Jeune pousse d'arbre">
                     <p class="pLegend">
                         Explore
                     </p>
+                    </div>
+                    <div class="imgLegend">
+                    <img src="{{asset('build/images/arbre_maitrise.png')}}" alt="arbre adulte">
                     <p class="pLegend">
                         Maîtrise
                     </p>
-                    <p class="pLegend">
-                        Domine
-                    </p>
+                    </div>
+                    <div class="imgLegend">
+                    <img src="{{asset('build/images/arbre_domine.png')}}" alt="arbre adulte fleuri">
+                    <p class="pLegend">Domine</p>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
     <div class="containerLevel">
         <div>
             <p class="etape"><span>2</span> Ensemble des modules terminés avec ton niveau </p>
         </div>
-        {% for module in modules[0] %}
+        {% for module in modules %}
             <div class="divLevel">
                 <div class="divModule">
                     <p class="moduleName">
