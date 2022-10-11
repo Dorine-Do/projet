@@ -26,7 +26,6 @@ class ConnectionController extends AbstractController
     public function roleChecking( Security $security): Response
     {
         $user = $security->getUser();
-
         $userRoles = $user->getRoles();
 
         if( in_array('ROLE_ADMIN', $userRoles) )
