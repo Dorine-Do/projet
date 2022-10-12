@@ -47,7 +47,6 @@ class SessionRepository extends ServiceEntityRepository
             ->join(LinkInstructorSessionModule::class, 'lism')
             ->where('lism.instructor = :instructor' )
             ->andWhere( 'lism.session = s.id' )
-//           /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
             ->setParameter('instructor', $id )
             ->getQuery()
             ->getResult();

@@ -24,17 +24,13 @@
     color: var(--fond);
 }
 
-.DivImgLegend{
-    display: flex;
-    justify-content: space-around;
-    padding-top: 1em;
-    height: 82px;
-    width: 1500px;
+img{
+    width: 25%;
+    height: 97%;
 }
 
-img{
-    width: 5%;
-    height: 97%;
+.decouvre{
+    width: 13%;
 }
 
 .divModule img{
@@ -48,17 +44,22 @@ img{
     justify-content: space-around;
     background: var(--fond);
     border-radius: 13px;
+    align-items: center;
+    text-align: center;
+}
+
+.imgLegend{
+    width: 24%;
+    padding: 1em;
 }
 
 .pLegend{
-    padding: .2em;
-    background: var(--rose);
-    border-radius: 5px;
-    width: 16%;
-    text-align: center;
-    font-weight: 500;
+    background-color: var(--rose);
+    padding: 6px 18px;
+    border-radius: 8px;
+    width: fit-content;
+    margin: 15px auto auto auto;
 }
-
 /*********************************************************************************/
 /*Level*/
 
@@ -121,12 +122,8 @@ img{
 }
 
 @media screen and (max-width: 1200px) {
-    .DivImgLegend {
-        width: 1000px;
-    }
-
     img {
-        width: 8%;
+        width: 25%;
         height: 90%;
     }
 
@@ -156,36 +153,34 @@ img{
 
 @media screen and (max-width: 780px) {
 
-    .DivImgLegend {
-        width: 700px;
-    }
 
     .etape span {
         width: 9%;
     }
 
-    .divModule img {
-        width: 11%;
-        height: 33%;
-        margin-left: 20px;
+    img{
+        width: 44%
+    }
+
+    .decouvre{
+        width: 22%;
+        height: 98%;
     }
 }
 
 @media screen and (max-width: 450px) {
 
-    .DivImgLegend {
-        width: 400px;
-        margin-left: 33px;
+    img{
+        width: 60%
     }
 
-    .DivImgLegend img:first-child {
-        width: 9%;
-        height: 90%;
+    .decouvre{
+        width: 28%;
     }
 
-    img {
-        width: 14%;
-        height: 97%;
+    .imgLegend{
+        height: 95%;
+        padding: 10px;
     }
 
     .divLevel {

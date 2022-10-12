@@ -50,7 +50,7 @@ namespace App\Controller;
         }
 
         #[Route('/instructor', name: 'welcome_instructor')]
-        public function welcome(): Response
+        public function welcome(Request $request): Response
         {
             return $this->render('instructor/welcome_instructor.html.twig', []);
         }
@@ -70,8 +70,7 @@ namespace App\Controller;
             $proposals = [];
             $resumeProposal = [];
 
-            /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-            $questions = $questionRepository->findBy(['author' => $this->id]);
+            $questions = $questionRepository->findBy(['author' => $this->security->getUser()->getId()]);
             foreach( $questions as $question )
             {
                 $question_id = $question->getId();
@@ -95,8 +94,7 @@ namespace App\Controller;
         #[Route('instructor/creations/qcms', name: 'instructor_display_qcms', methods: ['GET'])]
         public function displayQcms(
             QcmRepository $qcmRepo,
-            Security      $security,
-            InstructorRepository $ins
+            Security      $security
         ): Response
         {
          /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
@@ -218,9 +216,9 @@ namespace App\Controller;
         ): Response
         {
 
-//          TODO A enlever une fois que a connection avec google sera opérationnelle
-            $user = $instructorRepository->find( 2 );
-            //$user = $instructorRepository->find( $this->id );
+            $user = $instructorRepository->find( $this->security->getUser());
+
+            //$user = $instructorRepository->find(1);
             $questionEntity = new Question();
 
             $proposal1 = new Proposal();
@@ -290,8 +288,6 @@ namespace App\Controller;
                     'instructorAddQuestion',
                     'La question a été généré avec succès'
                 );
-
-
                 return $this->redirectToRoute('instructor_display_questions');
 
         }
@@ -304,45 +300,45 @@ namespace App\Controller;
         ]);
     }
 
-        #[Route('instructor/questions/upDate_fetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
-        public function upDateQuestionFetch(
-            ValidatorInterface     $validator,
-            Request                $request,
-            InstructorRepository   $instructorRepository,
-            ModuleRepository       $moduleRepository,
-            QuestionRepository     $questionRepository,
-            EntityManagerInterface $entityManager
-        ): Response
+    #[Route('instructor/questions/upDate_fetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
+    public function upDateQuestionFetch(
+        ValidatorInterface     $validator,
+        Request                $request,
+        InstructorRepository   $instructorRepository,
+        ModuleRepository       $moduleRepository,
+        QuestionRepository     $questionRepository,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+        $data = (array) json_decode($request->getContent());
+        $question = new Question();
+        $module = $moduleRepository->find($data['module']);
+        $question->setModule($module);
+        $question->setWording($data['wording']);
+        $question->setIsMultiple($data['isMultiple']);
+        $question->setDifficulty(1);
+        $question->setExplanation('null');
+        $author = $instructorRepository->find($this->getUser()->getId());
+        $question->setAuthor($author);
+        $question->setIsMandatory(0);
+        $question->setIsOfficial(0);
+        $question->setIsEnabled(1);
+
+        foreach ($data['proposals'] as $proposal)
         {
-            $data = (array) json_decode($request->getContent());
-            $question = new Question();
-            $module = $moduleRepository->find($data['module']);
-            $question->setModule($module);
-            $question->setWording($data['wording']);
-            $question->setIsMultiple($data['isMultiple']);
-            $question->setDifficulty(1);
-            $question->setExplanation('null');
-            $author = $instructorRepository->find($this->getUser()->getId());
-            $question->setAuthor($author);
-            $question->setIsMandatory(0);
-            $question->setIsOfficial(0);
-            $question->setIsEnabled(1);
+            $newProposal = new Proposal();
+            $newProposal->setWording($proposal->wording);
+            $newProposal->setIsCorrectAnswer($proposal->isCorrectAnswer);
+            $validator->validate($newProposal);
+            $question->addProposal($newProposal);
+        };
 
-            foreach ($data['proposals'] as $proposal)
-            {
-                $newProposal = new Proposal();
-                $newProposal->setWording($proposal->wording);
-                $newProposal->setIsCorrectAnswer($proposal->isCorrectAnswer);
-                $validator->validate($newProposal);
-                $question->addProposal($newProposal);
-            };
+        $validator->validate($question);
 
-            $validator->validate($question);
+        $entityManager->persist($question);
+        $entityManager->flush();
 
-            $entityManager->persist($question);
-            $entityManager->flush();
-
-            $questionResponse = $questionRepository->find($question->getId());
+        $questionResponse = $questionRepository->find($question->getId());
 
             /*TODO Débuger le jsonResponse*/
             return new JsonResponse($questionResponse);
@@ -379,7 +375,7 @@ namespace App\Controller;
             //  }
 
         }
-       
+
 
         /**********************************************************************************/
         // Get module choiced
@@ -389,16 +385,16 @@ namespace App\Controller;
             $module = $moduleRepository->find($request->get('module'));
             foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
             {
-               
+
                   foreach($linkInstructorSessionModule->getmodule()->getQcms() as $qcmLevel ) {
                     $qcmsLevel[]=$qcmLevel->getDifficulty();
                  }
-    
+
             }
-            
-          
+
+
         }
-  
+
 
         if ($module)
         {
@@ -408,14 +404,14 @@ namespace App\Controller;
             //$generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->user);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
-           
-            // !!!!! tester l'existence de la variable module sinon erreur 
+
+            // !!!!! tester l'existence de la variable module sinon erreur
             if (isset($module)){
                 $qcms = $module->getQcms();
                 $moduleQuestions = $module->getQuestions();
                 $qcmInstancesByQuestion = [];
                 foreach($moduleQuestions as $moduleQuestion){
-        
+
                     $count=0;
                     foreach($moduleQuestion->getQcms() as $moduleQuestionQcm ) {
                         $count+=count($moduleQuestionQcm->getQcmInstances());
@@ -423,19 +419,19 @@ namespace App\Controller;
                     $qcmInstancesByQuestion[$moduleQuestion->getId()]=$count;
                 }
             }
-            
+
         }
-        
-           
-            
-         
-        
+
+
+
+
+
         // if(empty($_POST['module'])){
         //     dd("ERROR");
         // }else{
         //     dd($_POST['module'][0]);
         // }
-   
+
         // dd($request->query->get('id'));
 
 
@@ -468,6 +464,7 @@ namespace App\Controller;
         ModuleRepository       $moduleRepository,
         EntityManagerInterface $entityManager,
         QcmGeneratorHelper $generatorHelper
+
     ): Response
     {
 
@@ -502,7 +499,7 @@ namespace App\Controller;
 
             /*TODO voir avec Mathieu pour utiliser le hepler pour cette partie*/
         $questionsCache = $generatorHelper->generateQuestionCache($data['questions']);
-//         
+//
 
             $qcm->setQuestionsCache($questionsCache);
 
@@ -531,7 +528,7 @@ namespace App\Controller;
         ): Response
         {
                 $dayOfWeekEnd = array("Saturday", "Sunday");
-                
+
                 $sessionAndModuleByInstructor = $instructorRepository->find($this->id)->getLinksInstructorSessionModule();
 
                 foreach ($sessionAndModuleByInstructor as $sessionAndModule)
@@ -541,18 +538,18 @@ namespace App\Controller;
                     $sessions = $sessionRepository->findBy(['id' => $sessionId]);
                     $modules = $moduleRepository->findBy(['id' => $moduleId]);
                 }
-          
+
 
                 $formData = $request->query->all();
                 if (count($formData) != 0)
                 {
                     $module = $moduleRepository->find($formData["module"]);
-                   
+
                     $qcmGenerator = new QcmGeneratorHelper($questionRepository,$userRepository,$security);
-                    
+
                     $qcm = $qcmGenerator->generateRandomQcm($module, false);
                     $manager->persist($qcm);
-                    
+
 
                     $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
                     $students = [];
@@ -561,22 +558,22 @@ namespace App\Controller;
                     {
                         $students[] = $linkSessionStudent->getStudent();
                     }
-                    
+
                     $qcmInstance = new QcmInstance();
-             
+
                     foreach ($students as $student)
                     {
-                        
-                        
-                        
+
+
+
                         $qcmInstance->setStudent($student);
                         $qcmInstance->setQcm($qcm);
                         $qcmInstance->setCreatedAtValue();
                         $qcmInstance->setUpdateAtValue();
-                   
+
                         //START TIME AND END TIME
                         $dayOfCreationOfQcmInstance = $qcmInstance->getCreatedAt();
-                      
+
                         if ($dayOfCreationOfQcmInstance)
                         {
                             $dateOfCreationFormat = date_format($dayOfCreationOfQcmInstance, "Y-m-d H:i:s");
@@ -601,9 +598,9 @@ namespace App\Controller;
                             }
                             $qcmInstance->setEndTime($endTime);
                         }
-                     
+
                     }
-                    
+
                     $manager->persist($qcmInstance);
                     $manager->flush();
 
@@ -616,7 +613,7 @@ namespace App\Controller;
                     return $this->redirectToRoute('welcome_instructor');
                 }
 
-            
+
 
                 return $this->render('instructor/generate_official_qcm.html.twig', [
                     'sessions' => $sessions,
@@ -627,10 +624,7 @@ namespace App\Controller;
         #[Route('instructor/plan_qcm', name: 'instructor_plan_qcm', methods: ['GET', 'POST'])]
         public function planQcm(SessionRepository $sessionRepo): Response
         {
-            /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-            $instructorSessions = $sessionRepo->getInstructorSessions($this->id);
-
-//            $instructorSessions = $sessionRepo->getInstructorSessions($this->getUser());
+            $instructorSessions = $sessionRepo->getInstructorSessions($this->security->getUser()->getId());
 
             return $this->render('instructor/plan_qcm.html.twig', [
                 'instructorSessions' => $instructorSessions,
@@ -667,6 +661,7 @@ namespace App\Controller;
                 $students = array_map(function ($LinkSessionStudent) {
                     return $LinkSessionStudent->getStudent();
                 }, $LinksSessionStudent);
+
                 return $this->json($students, 200, [], ['groups' => 'user:read']);
             }
             return new JsonResponse();
@@ -724,10 +719,10 @@ namespace App\Controller;
             QcmRepository               $qcmRepository,
         ):Response
         {
-            $userId = $this->id;
-            $sessionAndModuleByInstructor = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+            $userId = $this->security->getUser()->getId();
+            $sessionsAndModulesByInstructors = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
-            foreach ($sessionAndModuleByInstructor as $sessionAndModuleByInstructor)
+            foreach ($sessionsAndModulesByInstructors as $sessionAndModuleByInstructor)
             {
                 $sessions = $sessionRepository->getInstructorSessions($userId);
                 $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
@@ -747,7 +742,6 @@ namespace App\Controller;
             ModuleRepository $moduleRepository,
         ):JsonResponse
         {
-
             $modules = $moduleRepository->getModuleSessions($session->getId());
             $modulesName = [];
             foreach ( $modules as $module ){
@@ -776,7 +770,7 @@ namespace App\Controller;
                         $studentResponse[] = $student;
                     }
                 }
-                dump($studentResponse);
+//                dd($studentResponse);
 
                 return $this->json($studentResponse, 200, [], ['groups' => 'user:read']);
             }
@@ -785,14 +779,11 @@ namespace App\Controller;
 
         #[Route('instructor/dashboard',name:'instructor_dashboard',methods:['GET'])]
         public function dashboard(
-            InstructorRepository        $instructorRepository,
             SessionRepository           $sessionRepository,
             ModuleRepository            $moduleRepository,
         ):Response
         {
-            /*TODO A enlever et mettre à jour quand connexion google sera rétablie */
-            $userId = $this->id;
-            $sessions = $sessionRepository->getInstructorSessions($userId);
+            $sessions = $sessionRepository->getInstructorSessions($this->security->getUser()->getId());
             $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
 
             return $this->render('instructor/dashboard.html.twig', [

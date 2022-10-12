@@ -59,22 +59,22 @@ class AppFixtures extends Fixture
     //    $this->generateModules( $manager );
 
         //Session
-    //    $this->generateSessions( $manager );
+//        $this->generateSessions( $manager );
 
         //LinkSessionModule
-    //    $this->generateLinksSessionModule( $manager );
+//        $this->generateLinksSessionModule( $manager );
 
         //Instructeur
-    //    $this->generateInstructors( $manager );
+//        $this->generateInstructors( $manager );
 
         //Student
-    //    $this->generateStudents( $manager );
+//        $this->generateStudents( $manager );
 
         //Question + Proposal
         $this->generateQuestions( $manager );
 
         //Qcm
-       $this->generateQcm( $manager );
+//        $this->generateQcm( $manager );
 
         //Qcm avec le module de démo (réelles data)
 //        $this->generateQcmWithSpecifyModule($manager);
@@ -210,7 +210,7 @@ class AppFixtures extends Fixture
         $dbInstructors = $this->instructorRepository->findAll();
 
         // 10 questions par module
-       foreach ($dbModules as $dbModule){
+        foreach ($dbModules as $dbModule){
             for ($i=0; $i<50; $i++)
             {
                 $question = new Question();
@@ -233,7 +233,7 @@ class AppFixtures extends Fixture
 
                 $manager->persist($question);
             }
-       }
+        }
         $manager->flush();
     }
 
@@ -317,6 +317,7 @@ class AppFixtures extends Fixture
                 "id"                => $randomQuestion->getId(),
                 "wording"           => $randomQuestion->getWording(),
                 "isMultiple"        => $randomQuestion->getIsMultiple(),
+                "difficulty"        => $randomQuestion->getDifficulty(),
                 "proposals"         => $arrayAnswers
             ];
         }

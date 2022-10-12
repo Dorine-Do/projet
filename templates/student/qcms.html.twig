@@ -16,16 +16,13 @@
                 <div class="divQcm">
                     <h2><img class="badge" src="{{asset('build/images/officiel.png')}}">{{ 'qcm.todo'|trans }}</h2>
                     <div class="inter">
-                    <p>
-                        <strong>{{ 'qcm.name'|trans }} : </strong>
-			{#{% set qcm = qcmOfTheWeek[random(qcmOfTheWeek|length)] %}
-			{{ qcm.qcm.title }}#}
-                        {% for qcm in qcmOfTheWeek %} {{qcm.qcm.title}} {% endfor %}
-                    </p>
-			{#<a class="button" href="{{ path('student_qcm_to_do', { qcmInstance: qcm.id }) }}">{{ 'qcm.do'|trans }}</a>#}
-                    {% for qcm in qcmOfTheWeek %}
-                        <a class="button" href="{{ path('student_qcm_to_do', { qcmInstance: qcm.id }) }}">{{ 'qcm.do'|trans }}</a>
-                    {% endfor %}
+                        <p>
+                            <strong>{{ 'qcm.name'|trans }} : </strong>
+                            {% for qcm in qcmOfTheWeek %} {{qcm.qcm.title}} {% endfor %}
+                        </p>
+                        {% for qcm in qcmOfTheWeek %}
+                            <a class="button" href="{{ path('student_qcm_to_do', { qcmInstance: qcm.id }) }}">{{ 'qcm.do'|trans }}</a>
+                        {% endfor %}
 
                     </div>
                 </div>
@@ -107,6 +104,5 @@
 {% endblock %}
 
 {% block javascripts %}
-
     <script type="text/javascript" src="{{ asset('js/student/studentQcms.js') }}"></script>
 {% endblock %}

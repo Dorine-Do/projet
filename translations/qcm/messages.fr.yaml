@@ -9,7 +9,7 @@ qcm:
   toPersonnalised: Personnaliser son qcm
   choice: Choix du qcm
   dones: QCM Réalisés
-  donesExplain: En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les qcm que tu as terminés, voir tes réponses fausses et t'entrainer à les refaire.
+  donesExplain: En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les qcm que tu as terminé, voir tes réponses fausses et t'entraîner à les refaire.
   iChance: Je retente ma chance
   chanceExplain: Si tu as obtenu "découvre" ou "explore" à un des qcm, tu peux tenter d'obtenir à nouveau ton badge et l'ajouter à ta collection en repassant un qcm du module en question.
   tryAgainExplain: /!\ Repasser le qcm pour obtenir le badge du module ne changera pas le niveau obtenu lors du QCM officiel

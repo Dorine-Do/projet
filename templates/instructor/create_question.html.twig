@@ -109,10 +109,7 @@
                 {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
             </td>
         </tr>
-{#        TODO mettre en place le if pour vérifier si le user est bien un admin ou un prof référent (google connexion nessecaire)#}
-{#        {% if app.user.isReferent is same as true %}#}
-        {# TODO A enlever une fois que a connection avec google sera opérationnelle #}
-        {% if user.isReferent is same as true or 'ROLE_ADMIN' in user.roles %}
+        {% if app.user.isReferent or 'ROLE_ADMIN' in app.user.roles %}
             <tr>
                 <td colspan="2" class="premier">
                     <p class="etape">
@@ -125,10 +122,7 @@
                 </td>
             </tr>
         {% endif %}
-        {#        TODO mettre en place le if pour vérifier si le user est bien un admin ou un prof référent (google connexion nessecaire)#}
-        {#        {% if app.user.isReferent is same as true %}#}
-        {# TODO A enlever une fois que a connection avec google sera opérationnelle #}
-        {% if 'ROLE_ADMIN' in user.roles %}
+        {% if 'ROLE_ADMIN' in app.user.roles %}
         <tr>
             <td colspan="2" class="premier">
                 <p class="etape">

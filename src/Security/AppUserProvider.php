@@ -70,8 +70,6 @@ class AppUserProvider implements UserProviderInterface, PasswordUpgraderInterfac
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
-        // TODO: when hashed passwords are in use, this method should:
-        // 1. persist the new password in the user storage
-        // 2. update the $user object with $user->setPassword($newHashedPassword);
+        // empty cause no password used : login.3wa.io
     }
 }

@@ -1,0 +1,42 @@
+
+{% block stylesheets %}
+    <link href="{{asset('css/error.css')}}" rel="stylesheet">
+{% endblock %}
+
+
+{% block body %}
+    <header>
+        <img src="{{asset('build/images/logo_officiel.png')}}" alt="logo youup">
+        <img src="{{asset('build/images/oiseau.png')}}" alt="oiseau" class="oiseau">
+        <img src="{{asset('build/images/champi.png')}}" alt="champi" class="champi">
+        <img src="{{asset('build/images/logo.png')}}" alt="logo" class="logo">
+    </header>
+
+
+    <div>
+        <p class="php">PHP</p>
+        <p class="js">JS</p>
+    </div>
+    <div>
+        <p class="python">PYTHON</p>
+        <p class="react">REACT</p>
+    </div>
+    <div>
+        <p class="node">Node JS</p>
+        <p class="cPlus">C++</p>
+        <p class="css">CSS</p>
+    </div>
+    <div class="erreur">
+        <p>Erreur</p>
+    </div>
+    <div class="fourZeroFour">
+        <p>404</p>
+    </div>
+        <div>
+            <a href="{{ path('app_connection') }}" class="return">Retour à l'accueil</a>
+        </div>
+    <div>
+        <img src="" alt="">
+        <img src="" alt="">
+    </div>
+{% endblock %}

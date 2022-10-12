@@ -36,23 +36,23 @@ select {
     padding: 50px;
     margin: auto;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 0fr);
+    justify-content: space-around;
 }
 
 .liStudent{
     height: 70px;
     display: flex;
     align-items: center;
-    margin: 17px auto;
-    width: 82%;
-    justify-content: space-around;
-    border-bottom: 1px solid var(--writing);
+    margin: .5em;
+    width: 12em;
+    justify-content: center;
 }
 
 .liStudent:hover{
     border-radius: 50px;
     background-color: var(--pamplemousse);
-    padding: 5px 25px;
+    padding: 5px 15px;
     color: white;
     font-weight: bold;
     border: none;
@@ -66,7 +66,7 @@ select {
 .liStudent:nth-child(even):hover{
     border-radius: 50px;
     background-color: var(--pamplemousse);
-    padding: 5px 25px;
+    padding: 5px 15px;
     color: white;
     font-weight: bold;
     border: none;
@@ -138,8 +138,7 @@ select {
 }
 
 img{
-    width: 35px;
-    height: 45px;
+    height: 50px;
 }
 
 .firstName{

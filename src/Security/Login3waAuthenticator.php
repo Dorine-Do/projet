@@ -61,9 +61,19 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
+
+
         $cookieString = $this->generateCookieString();
 
-        return new SelfValidatingPassport(new UserBadge($cookieString, function() use ($cookieString) {
+        return new SelfValidatingPassport(new UserBadge($cookieString, function() use ($request, $cookieString) {
+
+            // TODO delete in production -------------------------------------------------------------------------------
+            $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
+            if( $stringBeginning[0] === 'C:' ) {
+                return $this->userRepo->find(2);
+            }
+            // TODO end delete in production ---------------------------------------------------------------------------
+
             // if user isn't logged in 3wa.io ( cookie isn't set )
             if ( !isset($_COOKIE['cookie']) ) {
                 header('Location: https://login.3wa.io/youup');
@@ -97,7 +107,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                         $newUser = new Instructor();
                         $newUser->setFirstName( $dbSuiviUser['firstname'] );
                         $newUser->setLastName( $dbSuiviUser['lastname'] );
-                        $newUser->setEmail('email');
+                        $newUser->setEmail($dbSuiviUser['email']);
                         $newUser->setPhone( $dbSuiviUser['phone'] ?: null );
                         $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
                         $newUser->setSuiviId( $dbSuiviUser['id'] );
@@ -107,7 +117,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                         $newUser = new Admin();
                         $newUser->setFirstName( $dbSuiviUser['firstname'] );
                         $newUser->setLastName( $dbSuiviUser['lastname'] );
-                        $newUser->setEmail('email');
+                        $newUser->setEmail($dbSuiviUser['email']);
                         $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
                         $newUser->setSuiviId( $dbSuiviUser['id'] );
                         $newUser->setRoles( ['ROLE_ADMIN'] );
@@ -116,7 +126,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                         $newUser = new Student();
                         $newUser->setFirstName( $dbSuiviUser['firstname'] );
                         $newUser->setLastName( $dbSuiviUser['lastname'] );
-                        $newUser->setEmail('email');
+                        $newUser->setEmail($dbSuiviUser['email']);
                         $newUser->setMoodleId( $dbSuiviUser['id_moodle'] );
                         $newUser->setSuiviId( $dbSuiviUser['id'] );
                         $newUser->setRoles( ['ROLE_STUDENT'] );
@@ -174,7 +184,6 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
-        // TODO Check this
         return new RedirectResponse(
             '/connect/', // might be the site, where users choose their oauth provider
             Response::HTTP_TEMPORARY_REDIRECT

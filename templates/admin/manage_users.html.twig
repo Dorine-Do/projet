@@ -33,7 +33,7 @@
                     
                         <tr>
                             <td>{{ user.firstname }} {{ user.lastname }}</td>
-                            <td>{{ user.email3wa }}</td>
+                            <td>{{ user.email }}</td>
                             <td>
                                 {% if 'ROLE_ADMIN' in user.roles %}
                                     Admin
@@ -45,8 +45,8 @@
                             </td>
                             <td>{{ user.createdAt | date('d/m/Y') }}</td>
                             <td>
-                                <button class="userDetailsBtn greyButton" data-user="{{ user.id }}">Détails</button>
-                                <button class="editRoleBtn greyButton" data-user="{{ user.id }}" data-role="{{ user.roles[0] }}">Changer le rôle</button>
+                                <button class="userDetailsBtn button greyButton" data-user="{{ user.id }}">Détails</button>
+                                <button class="editRoleBtn button greyButton" data-user="{{ user.id }}" data-role="{{ user.roles[0] }}">Changer le rôle</button>
                             </td>
                         </tr>
                         
