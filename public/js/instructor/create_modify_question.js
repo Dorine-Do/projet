@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   function clickRemove() {
     this.parentElement.remove();
     let alphabet = ["A", "B", "C", "D", "E", "F"];
-    let p_letters = document.querySelectorAll(".pLetter");
+    let p_letters = document.querySelectorAll(".circle");
     let count = 0;
     p_letters.forEach((p) => {
       let letters = p.textContent;
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let letter = alphabet.slice(begin, end);
 
     let p = document.createElement("p");
-    p.className = "pLetter";
+    p.className = "circle greyCircle";
     p.innerHTML = letter;
 
     div_proposal.firstElementChild.insertBefore(p, label);

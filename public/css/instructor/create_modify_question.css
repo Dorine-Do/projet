@@ -335,6 +335,10 @@ label {
   align-items: center;
 }
 
+.greyCircle{
+  margin: auto;
+}
+
 /******************************************* PARTIE DESACTIVE LA QUESTION ************************************************/
 
 .formOption {
