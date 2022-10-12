@@ -21,6 +21,7 @@
     </nav>
     <div class="eleve">
         <p class="helloStudent">Salut,{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>
+        {# {{dump(app.user)}} #}
     </div>
     <button id="reportBugBtn">Faire remonter un bug</button>
     <div class="logOut">

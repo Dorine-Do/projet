@@ -52,6 +52,8 @@ namespace App\Controller;
         #[Route('/instructor', name: 'welcome_instructor')]
         public function welcome(Request $request): Response
         {
+        //     dump($request);
+        //    dd($this->user);
             return $this->render('instructor/welcome_instructor.html.twig', []);
         }
 
@@ -358,8 +360,8 @@ namespace App\Controller;
     {
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
         // $userId=$instructorRepository->find($id);
-        // $userId = $this->getUser()->getId();
-        $userId =1;
+        $userId = $this->getUser();
+        // $userId =1;
         $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
         $modules = [];
@@ -472,9 +474,9 @@ namespace App\Controller;
         $data = (array)json_decode($request->getContent());
         $qcm = new Qcm();
           /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-          $author=$instructorRepository->find(2);
+        //   $author=$instructorRepository->find(2);
           //$author=$instructorRepository->find($this->id);
-        // $author = $instructorRepository->find($this->getUser()->getId());
+        $author = $instructorRepository->find($this->getUser()->getId());
         $qcm->setAuthor($author);
 
         $qcm->setTitle($data['name']);

@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use phpDocumentor\Reflection\Types\Object_;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -42,7 +43,8 @@ class Login3waAuthenticator extends AbstractAuthenticator
         ManagerRegistry $managerRegistry,
         UserRepository $userRepo,
         ManagerRegistry $doctrine,
-        CookieRepository $cookieRepo
+        CookieRepository $cookieRepo,
+        Security $security
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -52,6 +54,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         $this->userRepo = $userRepo;
         $this->doctrine = $doctrine;
         $this->cookieRepo = $cookieRepo;
+        $this->security =$security;
     }
 
     public function supports(Request $request): ?bool
@@ -70,7 +73,9 @@ class Login3waAuthenticator extends AbstractAuthenticator
             // TODO delete in production -------------------------------------------------------------------------------
             $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
             if( $stringBeginning[0] === 'C:' ) {
-                return $this->userRepo->find(2);
+                // return $this->userRepo->find(2);
+                //user connecté
+                return $this->userRepo->find($this->security->getUser()->getId());
             }
             // TODO end delete in production ---------------------------------------------------------------------------
 
