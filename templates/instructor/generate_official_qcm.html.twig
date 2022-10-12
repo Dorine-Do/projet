@@ -15,7 +15,6 @@
         <div class="bloc_choice_session_and_module">
 
           <ul id="sessions-list" class="list_sessions">
-    {#        <input type="hidden" value="{{sessions[0].id}}"  name="session" >#}
             {% for session in sessions %}
 
             <li data-sessionid="{{session.id}}">{{session.name}}</li>
