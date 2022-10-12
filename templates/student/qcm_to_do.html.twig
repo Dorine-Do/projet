@@ -23,15 +23,15 @@
         <div class="premiereDiv">
             <div class="diff">
                 <p>{{ 'difficulty.easy'|trans }}</p>
-                <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="facile">
+                <img src="{{asset('build/images/trefle_facile.svg')}}" alt="facile">
             </div>
             <div class="diff">
                 <p>{{ 'difficulty.medium'|trans }}</p>
-                <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="moyen">
+                <img src="{{asset('build/images/trefle_moyen.svg')}}" alt="moyen">
             </div>
             <div class="diff">
                 <p>{{ 'difficulty.difficult'|trans }}</p>
-                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                <img src="{{asset('build/images/difficil_difficile.svg')}}" alt="difficile">
             </div>
         </div>
 
@@ -40,11 +40,11 @@
                 <div class="imageDiff">
                     <div class="trefle">
                         {% if question.difficulty is same as 1 %}
-                            <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="difficile">
+                            <img src="{{asset('build/images/trefle_facile.svg')}}" alt="difficile">
                         {% elseif question.difficulty is same as 2 %}
-                            <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="difficile">
+                            <img src="{{asset('build/images/trefle_moyen.svg')}}" alt="difficile">
                         {% elseif question.difficulty is same as 3 %}
-                            <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                            <img src="{{asset('build/images/difficil_difficile.svg')}}" alt="difficile">
                         {% endif %}
                     </div>
                     <div>
@@ -59,14 +59,14 @@
                         <div class="reponse">
                             <input type="radio" for='{{ proposal.id}}' name="{{ question.id }}" value="{{ proposal.id }}">
                             <div class="divReponse">
-                                <label for="{{ proposal.id }}">{{ proposal.wording | raw }}</label>
+                                <label for="{{ question.id }}">{{ proposal.wording | raw }}</label>
                             </div>
                         </div>
                     {% else %}
                         <div class="reponse">
                             <input type="checkbox" for='{{ proposal.id}}' name="{{question.id}}[]" value="{{ proposal.id }}">
                             <div class="divReponse">
-                                <label for="{{ proposal.id }}">{{ proposal.wording | raw }}</label>
+                                <label for="{{ question.id }}[]">{{ proposal.wording | raw }}</label>
                             </div>
                         </div>
                     {% endif %}
