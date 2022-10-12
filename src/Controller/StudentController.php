@@ -343,7 +343,7 @@ class StudentController extends AbstractController
             $qcmInstances = $qcm->getQcmInstances()->filter( function( $qcmInstance ) use ($student) {
                 return $qcmInstance->getStudent() === $student;
             });
-            if( $qcmInstances && $qcm->getIsOfficial() )
+            if( count($qcmInstances) > 1 && $qcm->getIsOfficial() )
             {
                 $isFirstTry = false;
             }
