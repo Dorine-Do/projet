@@ -26,6 +26,14 @@ tbody{
 
 /********************************************************* CSS SUR LES ELEMENTS DU FORM ***************************************/
 
+#create_question_explanation {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    resize: none;
+    width: 100%;
+}
+
 #create_question_module{
     padding: 1em 2em;
     border: none;
@@ -221,6 +229,14 @@ input[type="radio"]:checked {
     width: 5%;
     height: 12%;
     margin: 1em auto;
+}
+
+.align {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .divProposal label{
