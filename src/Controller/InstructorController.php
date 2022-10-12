@@ -206,9 +206,7 @@ namespace App\Controller;
         public function createQuestion(
             Request                $request,
             EntityManagerInterface $manager,
-            InstructorRepository $instructorRepository,
-            QuestionRepository     $questionRepository,
-            MailerInterface         $mailer
+            InstructorRepository $instructorRepository
         ): Response
         {
 
@@ -443,7 +441,6 @@ namespace App\Controller;
 
         /*redirection voir js*/
         $this->addFlash('success', 'Le qcm a bien été modifiée.');
-        // // return $this->redirectToRoute('instructor_display_questions');
         return $this->json("ok",200);
 
     }
@@ -462,23 +459,26 @@ namespace App\Controller;
         {
             $dayOfWeekEnd = array("Saturday", "Sunday");
             $sessionAndModuleByInstructor = $instructorRepository->find($this->security->getUser()->getId())->getLinksInstructorSessionModule();
-            $sessionsId = [];
-            $modulesId = [];
-            foreach ($sessionAndModuleByInstructor as $sessionAndModule)
-            {
-                $sessionsId[] = $sessionAndModule->getSession()->getId();
-                $modulesId[] = $sessionAndModule->getModule()->getId();
-            }
-            $sessionsId = array_unique($sessionsId);
-            $modulesId = array_unique($modulesId);
             $sessions = [];
             $modules = [];
-            foreach ( $sessionsId as $id ){
-                $sessions[] = $sessionRepository->findBy(['id' => $id])[0];
+            foreach ($sessionAndModuleByInstructor as $sessionAndModule)
+            {
+                $sessions[] = $sessionAndModule->getSession()->getId();
+                $modules[] = $sessionAndModule->getModule()->getId();
             }
-            foreach ($modulesId as $id){
-                $modules[] = $moduleRepository->findBy(['id' => $id])[0];
-            }
+            $sessions = array_unique($sessions);
+            $modules = array_unique($modules);
+            $sessions = [];
+            $modules = [];
+
+            $sessions = array_map( function($session) use ($sessionRepository) {
+                return $sessionRepository->findOneBy(['id' => $session]);
+            }, $sessions);
+
+            $modules = array_map( function($module) use ($moduleRepository) {
+                return $moduleRepository->findOneBy(['id' => $module]);
+            }, $modules );
+
             $formData = $request->query->all();
 
             if (count($formData) != 0)
@@ -705,7 +705,6 @@ namespace App\Controller;
                         $studentResponse[] = $student;
                     }
                 }
-//                dd($studentResponse);
 
                 return $this->json($studentResponse, 200, [], ['groups' => 'user:read']);
             }
@@ -773,16 +772,9 @@ namespace App\Controller;
             EntityManagerInterface $manager
         ):JsonResponse
         {
-//            dd($comment);
             $result->setInstructorComment($comment);
             $manager->flush();
             return $this->json('Le commentaire a bien été ajouté');
 
         }
-
-
-
-
-
-
     }
