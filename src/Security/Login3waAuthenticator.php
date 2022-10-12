@@ -11,7 +11,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use phpDocumentor\Reflection\Types\Object_;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -43,8 +42,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         ManagerRegistry $managerRegistry,
         UserRepository $userRepo,
         ManagerRegistry $doctrine,
-        CookieRepository $cookieRepo,
-        Security $security
+        CookieRepository $cookieRepo
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -54,7 +52,6 @@ class Login3waAuthenticator extends AbstractAuthenticator
         $this->userRepo = $userRepo;
         $this->doctrine = $doctrine;
         $this->cookieRepo = $cookieRepo;
-        $this->security =$security;
     }
 
     public function supports(Request $request): ?bool
@@ -73,9 +70,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
             // TODO delete in production -------------------------------------------------------------------------------
             $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
             if( $stringBeginning[0] === 'C:' ) {
-                // return $this->userRepo->find(2);
-                //user connecté
-                return $this->userRepo->find($this->security->getUser()->getId());
+                return $this->userRepo->find(1);
             }
             // TODO end delete in production ---------------------------------------------------------------------------
 
@@ -189,6 +184,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
+        // TODO Check this
         return new RedirectResponse(
             '/connect/', // might be the site, where users choose their oauth provider
             Response::HTTP_TEMPORARY_REDIRECT
