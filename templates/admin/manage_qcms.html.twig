@@ -16,7 +16,7 @@
 
         <section class="tableContainer">
             <div class="createBtnContainer">
-                <a href="{{ path('instructor_create_qcm_perso') }}" class="button">Créer un QCM</a>
+                <a href="{{ path('instructor_create_qcm_perso') }}" class="showStudentsBtn button greyButton">Créer un QCM</a>
             </div>
             <table id="tableToSort" class="qcmsTable">
                 <thead>
@@ -37,7 +37,7 @@
                             <td>{{ qcm.difficulty }}</td>
                             <td>{{ qcm.createdAt | date('d/m/Y') }}</td>
                             <td>
-                                <a href="#" class="button">Stats</a>
+                                <a href="#" class="showStudentsBtn button greyButton">Stats</a>
 {#                                <a href="{{ path('', {'qcm': qcm.id}) }}" class="greyButton">Editer</a>#}
                             </td>
                         </tr>
