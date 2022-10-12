@@ -6,40 +6,38 @@
 
 {% block body %}
 
-<div class="container_create_qcm">
-<h1>- {{ 'title.iCreateQcm'|trans }} -</h1>
+  <div class="container_create_qcm">
+  <h1>- {{ 'title.iCreateQcm'|trans }} -</h1>
 
-  <main class="content_qcm_creation">
-    <p class="step_one"><span>{{ 'title.step1'|trans }}</span>{{ 'title.chooseSession'|trans }}</p>
-    <form method="GET" action="{{path('instructor_create_qcm')}}">
-    <div class="bloc_choice_session_and_module">
-    
-      <ul class="list_sessions">
-{#        <input type="hidden" value="{{sessions[0].id}}"  name="session" >#}
-        {% for session in sessions %}
-    
-        <li data-session-id="{{session.id}}">{{session.name}}</li>
- 
-        {% endfor %}
-      </ul>
-      
-    </div>
-    <p class="step_two"><span>{{ 'title.step2'|trans }}</span>{{ 'title.chooseModule'|trans }}</p>
-    <div class="select_module">
-        <select name="module" id="module">
-         {% for module in modules %}
-          <option value="{{module.id}}">{{module.title}}</option>
-          {% endfor %}
-        </select>
-      </div>
-    <p class="step_three"><span>{{ 'title.step3'|trans }}</span>{{ 'title.validate'|trans }}</p>
-    <div class="bloc_generate_qcm">
-      <button type="submit">{{ 'button.generateQcm'|trans }}</button>
-    </div>
-    </form>
-  </main>
-</div>
-{% block javascripts %}
- 
-{% endblock %}
+    <main class="content_qcm_creation">
+      <p class="step_one"><span>{{ 'title.step1'|trans }}</span>{{ 'title.chooseSession'|trans }}</p>
+      <form method="GET" action="{{path('instructor_create_qcm')}}">
+        <div class="bloc_choice_session_and_module">
+
+          <ul id="sessions-list" class="list_sessions">
+    {#        <input type="hidden" value="{{sessions[0].id}}"  name="session" >#}
+            {% for session in sessions %}
+
+            <li data-sessionId="{{session.id}}">{{session.name}}</li>
+
+            {% endfor %}
+          </ul>
+
+        </div>
+        <p class="step_two"><span>{{ 'title.step2'|trans }}</span>{{ 'title.chooseModule'|trans }}</p>
+        <div class="select_module">
+            <select name="module" id="module">
+              <option value="0">{{ 'module.beforeChoice'|trans }}</option>
+            </select>
+          </div>
+        <p class="step_three"><span>{{ 'title.step3'|trans }}</span>{{ 'title.validate'|trans }}</p>
+        <div class="bloc_generate_qcm">
+          <button type="submit">{{ 'button.generateQcm'|trans }}</button>
+        </div>
+      </form>
+    </main>
+  </div>
+  {% block javascripts %}
+    <script src="{{ asset('js/instructor/generateOfficialQcm.js') }}"></script>
+  {% endblock %}
 {% endblock %}

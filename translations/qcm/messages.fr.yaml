@@ -35,6 +35,7 @@ module:
   choice: Choix du module
   filter: Filtrer par module
   plsChoice: Veuillez sélectionner un module
+  beforeChoice: Selectionnez une session pour choisir un module
 
 question:
   plsChoice:
