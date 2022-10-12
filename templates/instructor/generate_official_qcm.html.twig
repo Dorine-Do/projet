@@ -7,26 +7,14 @@
 {% block body %}
 
 <div class="container_create_qcm">
-<h1>{{ 'title.iCreateQcm'|trans }}</h1>
-  {# <nav class="create_qcm">
-    <div>ici logo</div>
-    <ul class="list_buttons_nav">
-      <Li>Créer un qcm</Li>
-      <Li>Mon planning</Li>
-      <Li>Tableau de bord</Li>
-      <Li>Gestion qcm</Li>
-    </ul>
+<h1>- {{ 'title.iCreateQcm'|trans }} -</h1>
 
-  </nav> #}
   <main class="content_qcm_creation">
     <p class="step_one"><span>{{ 'title.step1'|trans }}</span>{{ 'title.chooseSession'|trans }}</p>
     <form method="GET" action="{{path('instructor_create_qcm')}}">
     <div class="bloc_choice_session_and_module">
     
       <ul class="list_sessions">
-      {# Input caché pour permettre d'envoyer les données du li dans le form au clic  voir script
-         au clic id est envoyé dans le value du input 
-       #}
         <input type="hidden" value="{{sessions[0].id}}"  name="session" >
         {% for session in sessions %}
     
