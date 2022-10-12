@@ -262,6 +262,11 @@ progress {
 
 textarea {
     overflow: auto;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    resize: none;
+    width: 100%;
 }
 
 /**

@@ -123,6 +123,14 @@ input[type="radio"]:checked {
   border-radius: 10px;
 }
 
+.align {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 
 /********************************************************* CSS SUR LES ELEMENTS DU FORM ***************************************/
 form {
