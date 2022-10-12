@@ -257,17 +257,14 @@ namespace App\Controller;
                 {
                     $questionEntity->setIsMultiple("false");
                 }
-
                 if(!in_array('ROLE_ADMIN', $user->getRoles()))
                 {
                     $questionEntity->setIsMandatory(0);
-
-                    if($user->isReferent() === 0)
+                    if(!$user->isReferent())
                     {
                         $questionEntity->setIsOfficial(0);
                     }
                 }
-
                 $questionEntity->setAuthor($user);
                 $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
 
