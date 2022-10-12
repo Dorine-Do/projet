@@ -4,7 +4,7 @@ function fetchModules(e)
 {
     let sessionId = e.target.dataset.sessionId;
 
-    fetch( `../instructor/qcm-planner/getSessionModules/${sessionId}` )
+    fetch( `../../instructor/qcm-planner/getSessionModules/${sessionId}` )
         .then( response => response.json() )
         .then( modules => displayModulesOptions(modules) );
 }
