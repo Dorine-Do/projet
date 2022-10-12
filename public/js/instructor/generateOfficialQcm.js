@@ -2,7 +2,7 @@ let sessionsLis, moduleSelect;
 
 function fetchModules()
 {
-    let sessionId = this.dataset.sessionId;
+    let sessionId = this.dataset.sessionid;
 
     fetch( `../../instructor/qcm-planner/getSessionModules/${sessionId}` )
         .then( response => response.json() )
