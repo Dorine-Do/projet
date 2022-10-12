@@ -46,7 +46,7 @@ namespace App\Controller;
             $this->userRepo = $userRepository;
             $this->security = $security;
             $this->user = $security->getUser();
-            // $this->id = $this->user->getId();
+            $this->id = $this->user->getId();
         }
 
         #[Route('/instructor', name: 'welcome_instructor')]
@@ -100,9 +100,7 @@ namespace App\Controller;
         ): Response
         {
          /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-            // $qcms = $qcmRepo->findBy([
-            //     'author' => $security->getUser(),
-            // ]);
+
             $qcms = $qcmRepo->findBy([
                 'author' => $security->getUser(),
             ]);
@@ -376,11 +374,12 @@ namespace App\Controller;
             $modules[] = $linkInstructorSessionModule->getModule();
               //   TEMPORAIRE -> recup qcm par module et par difficulté
             //   $qcmsLevel[]=$linkInstructorSessionModule->getmodule()->getQcms();
-              foreach($linkInstructorSessionModule->getmodule()->getQcms() as $qcmLevel ) {
-                $qcmsLevel[]=$qcmLevel->getDifficulty();
-             }
+            //   foreach($linkInstructorSessionModule->getmodule()->getQcms() as $qcmLevel ) {
+            //     $qcmsLevel[]=$qcmLevel->getDifficulty();
+            //  }
 
         }
+       
 
         /**********************************************************************************/
         // Get module choiced
@@ -388,33 +387,56 @@ namespace App\Controller;
         if ($request->get('module'))
         {
             $module = $moduleRepository->find($request->get('module'));
+            foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
+            {
+               
+                  foreach($linkInstructorSessionModule->getmodule()->getQcms() as $qcmLevel ) {
+                    $qcmsLevel[]=$qcmLevel->getDifficulty();
+                 }
+    
+            }
+            
+          
         }
-
+  
 
         if ($module)
         {
-            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $instructorRepository);
+            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $userRepository,$security);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module);
             //$qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             //$generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->user);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
-            $qcms = $module->getQcms();
-            $moduleQuestions = $module->getQuestions();
-
+           
+            // !!!!! tester l'existence de la variable module sinon erreur 
+            if (isset($module)){
+                $qcms = $module->getQcms();
+                $moduleQuestions = $module->getQuestions();
+                $qcmInstancesByQuestion = [];
+                foreach($moduleQuestions as $moduleQuestion){
+        
+                    $count=0;
+                    foreach($moduleQuestion->getQcms() as $moduleQuestionQcm ) {
+                        $count+=count($moduleQuestionQcm->getQcmInstances());
+                    }
+                    $qcmInstancesByQuestion[$moduleQuestion->getId()]=$count;
+                }
+            }
+            
         }
-
-        $qcmInstancesByQuestion = [];
-        foreach($moduleQuestions as $moduleQuestion){
-
-            $count=0;
-            foreach($moduleQuestion->getQcms() as $moduleQuestionQcm ) {
-                $count+=count($moduleQuestionQcm->getQcmInstances());
-              }
-             $qcmInstancesByQuestion[$moduleQuestion->getId()]=$count;
-        }
-
-
+        
+           
+            
+         
+        
+        // if(empty($_POST['module'])){
+        //     dd("ERROR");
+        // }else{
+        //     dd($_POST['module'][0]);
+        // }
+   
+        // dd($request->query->get('id'));
 
 
 
@@ -422,15 +444,15 @@ namespace App\Controller;
 
         /********************************************************************************/
         return $this->render('instructor/create_qcm_perso.html.twig', [
-            'modules' => $modules,
+            'modules' => empty($modules ) ? null : $modules, // condition 1 + condition 2 + condition 3 sinon erreur
             'customQuestions' => $module ? $customQuestions : null,
             'officialQuestions' => $module ? $officialQuestions : null,
             'generatedQcm' => $module ? $generatedQcm : null,
             // temporaire voir todo pour connection
             'user'=>$userId,
-            'qcmsLevel'=>$qcmsLevel,
-            'qcms'=>$qcms,
-            'qcmInstancesByQuestion'=>$qcmInstancesByQuestion
+            'qcmsLevel'=>$qcmsLevel == [] ? null : $qcmsLevel,
+            'qcms'=>empty($qcm ) ? null : $qcms,// condition 2
+            'qcmInstancesByQuestion'=>!isset($qcmInstancesByQuestion )? null : $qcmInstancesByQuestion // condition 3
 
         ]);
     }
@@ -480,28 +502,7 @@ namespace App\Controller;
 
             /*TODO voir avec Mathieu pour utiliser le hepler pour cette partie*/
         $questionsCache = $generatorHelper->generateQuestionCache($data['questions']);
-//            $questionsCache = [];
-//            foreach ($data['questions'] as $question)
-//            {
-//                $question = $questionRepository->find($question->id);
-//                $questionProposals = $question->getProposals();
-//                $proposalsCache = [];
-//                foreach ($questionProposals as $questionProposal)
-//                {
-//                    $proposalsCache[] = [
-//                        'id' => $questionProposal->getId(),
-//                        'wording' => $questionProposal->getWording(),
-//                        'isCorrectAnswer' => $questionProposal->getIsCorrectAnswer(),
-//                    ];
-//                }
-//                $questionsCache[] = [
-//                    'id' => $question->getId(),
-//                    'wording' => $question->getWording(),
-//                    'isMultiple' => $question->getIsMultiple(),
-//                    'difficulty' => $question->getDifficulty(),
-//                    'proposals' => $proposalsCache
-//                ];
-//            }
+//         
 
             $qcm->setQuestionsCache($questionsCache);
 
@@ -525,96 +526,102 @@ namespace App\Controller;
             Request                $request,
             QuestionRepository     $questionRepository,
             ModuleRepository       $moduleRepository,
-            EntityManagerInterface $manager
+            EntityManagerInterface $manager,
+            UserRepository         $userRepository
         ): Response
         {
-            $dayOfWeekEnd = array("Saturday", "Sunday");
-//            $userId = $security->getUser();
-            /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-            $userId = 1;
-            $sessionAndModuleByInstructor = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+                $dayOfWeekEnd = array("Saturday", "Sunday");
+                
+                $sessionAndModuleByInstructor = $instructorRepository->find($this->id)->getLinksInstructorSessionModule();
 
-            foreach ($sessionAndModuleByInstructor as $sessionAndModule)
-            {
-                $sessionId = $sessionAndModule->getSession()->getId();
-                $moduleId = $sessionAndModule->getModule()->getId();
-                $sessions = $sessionRepository->findBy(['id' => $sessionId]);
-                $modules = $moduleRepository->findBy(['id' => $moduleId]);
-            }
-
-            $formData = $request->query->all();
-
-            if (count($formData) != 0)
-            {
-                $module = $moduleRepository->find($formData["module"]);
-                $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-                /*TODO A enlever une fois que a connection avec google sera opérationnelle ( $instructorRepository )*/
-                $qcm = $qcmGenerator->generateRandomQcm($module,$instructorRepository, false);
-               // $qcm = $qcmGenerator->generateRandomQcm($module,$this->user, false);
-                $manager->persist($qcm);
-
-                $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
-                $students = [];
-
-                foreach ($linksSessionStudent as $linkSessionStudent)
+                foreach ($sessionAndModuleByInstructor as $sessionAndModule)
                 {
-                    $students[] = $linkSessionStudent->getStudent();
+                    $sessionId = $sessionAndModule->getSession()->getId();
+                    $moduleId = $sessionAndModule->getModule()->getId();
+                    $sessions = $sessionRepository->findBy(['id' => $sessionId]);
+                    $modules = $moduleRepository->findBy(['id' => $moduleId]);
                 }
+          
 
-                foreach ($students as $student)
+                $formData = $request->query->all();
+                if (count($formData) != 0)
                 {
+                    $module = $moduleRepository->find($formData["module"]);
+                   
+                    $qcmGenerator = new QcmGeneratorHelper($questionRepository,$userRepository,$security);
+                    
+                    $qcm = $qcmGenerator->generateRandomQcm($module, false);
+                    $manager->persist($qcm);
+                    
+
+                    $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
+                    $students = [];
+
+                    foreach ($linksSessionStudent as $linkSessionStudent)
+                    {
+                        $students[] = $linkSessionStudent->getStudent();
+                    }
+                    
                     $qcmInstance = new QcmInstance();
-                    $qcmInstance->setStudent($student);
-                    $qcmInstance->setQcm($qcm);
-                    $qcmInstance->setCreatedAtValue();
-                    $qcmInstance->setUpdateAtValue();
-
-                //START TIME AND END TIME
-                $dayOfCreationOfQcmInstance = $qcmInstance->getCreatedAt();
-                if ($dayOfCreationOfQcmInstance)
-                {
-                    $dateOfCreationFormat = date_format($dayOfCreationOfQcmInstance, "Y-m-d H:i:s");
-                    $newDateTimeForStartTime = date("Y-m-d 13:00:00", strtotime($dateOfCreationFormat . '+ 5 days'));
-                    $startTime = new \DateTime($newDateTimeForStartTime);
-                    $qcmInstance->setStartTime($startTime);
-                    $newDateTimeForEndTime = date("Y-m-d H:i:s", strtotime($newDateTimeForStartTime . '+ 4hours'));
-                    $endTime = new \Datetime($newDateTimeForEndTime);
-
-                    //  DAY ADDITION IF ENDTIME = A DAY OF WEEK  voir array -> dayOfweek
-                    $endTimeTextualFormat = date_format($endTime, 'l');
-                    if ($endTime && $endTimeTextualFormat === $dayOfWeekEnd[0])
+             
+                    foreach ($students as $student)
                     {
-                        $endTime = date_format($endTime, "Y-m-d H:i:s");
-                        $endTimeFormatNum = date("Y-m-d H:i:s", strtotime($endTime . '+ 2 days'));
-                        $endTime = new \DateTime($endTimeFormatNum);
-                    }
-                    elseif ($endTime && $endTimeTextualFormat === $dayOfWeekEnd[1])
-                    {
-                        //autre methode si format de celle ci gardé sinon la convertir en celle d'en haut
-                        $endTime = $endTime->add(new DateInterval("P1D"));
-                    }
-                    $qcmInstance->setEndTime($endTime);
+                        
+                        
+                        
+                        $qcmInstance->setStudent($student);
+                        $qcmInstance->setQcm($qcm);
+                        $qcmInstance->setCreatedAtValue();
+                        $qcmInstance->setUpdateAtValue();
+                   
+                        //START TIME AND END TIME
+                        $dayOfCreationOfQcmInstance = $qcmInstance->getCreatedAt();
+                      
+                        if ($dayOfCreationOfQcmInstance)
+                        {
+                            $dateOfCreationFormat = date_format($dayOfCreationOfQcmInstance, "Y-m-d H:i:s");
+                            $newDateTimeForStartTime = date("Y-m-d 13:00:00", strtotime($dateOfCreationFormat . '+ 5 days'));
+                            $startTime = new \DateTime($newDateTimeForStartTime);
+                            $qcmInstance->setStartTime($startTime);
+                            $newDateTimeForEndTime = date("Y-m-d H:i:s", strtotime($newDateTimeForStartTime . '+ 4hours'));
+                            $endTime = new \Datetime($newDateTimeForEndTime);
 
+                            //  DAY ADDITION IF ENDTIME = A DAY OF WEEK  voir array -> dayOfweek
+                            $endTimeTextualFormat = date_format($endTime, 'l');
+                            if ($endTime && $endTimeTextualFormat === $dayOfWeekEnd[0])
+                            {
+                                $endTime = date_format($endTime, "Y-m-d H:i:s");
+                                $endTimeFormatNum = date("Y-m-d H:i:s", strtotime($endTime . '+ 2 days'));
+                                $endTime = new \DateTime($endTimeFormatNum);
+                            }
+                            elseif ($endTime && $endTimeTextualFormat === $dayOfWeekEnd[1])
+                            {
+                                //autre methode si format de celle ci gardé sinon la convertir en celle d'en haut
+                                $endTime = $endTime->add(new DateInterval("P1D"));
+                            }
+                            $qcmInstance->setEndTime($endTime);
+                        }
+                     
+                    }
+                    
+                    $manager->persist($qcmInstance);
+                    $manager->flush();
+
+                    //  redirect to route avec flash
+                    $this->addFlash(
+                        'instructorAddQcm',
+                    // 'success',
+                        'Le qcm a été généré avec succès'
+                    );
+                    return $this->redirectToRoute('welcome_instructor');
                 }
 
-                $manager->persist($qcmInstance);
-                $manager->flush();
+            
 
-                //  redirect to route avec flash
-                $this->addFlash(
-                    'instructorAddQcm',
-                   // 'success',
-                    'Le qcm a été généré avec succès'
-                );
-                return $this->redirectToRoute('welcome_instructor');
-            }
-
-        }
-
-            return $this->render('instructor/generate_official_qcm.html.twig', [
-                'sessions' => $sessions,
-                'modules' => $modules,
-            ]);
+                return $this->render('instructor/generate_official_qcm.html.twig', [
+                    'sessions' => $sessions,
+                    'modules' => $modules,
+                ]);
         }
 
         #[Route('instructor/plan_qcm', name: 'instructor_plan_qcm', methods: ['GET', 'POST'])]
@@ -840,7 +847,7 @@ namespace App\Controller;
             EntityManagerInterface $manager
         ):JsonResponse
         {
-//            dd($comment);
+
             $result->setInstructorComment($comment);
             $manager->flush();
             return $this->json('Le commentaire a bien été ajouté');

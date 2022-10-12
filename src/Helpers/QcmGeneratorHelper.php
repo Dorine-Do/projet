@@ -7,9 +7,11 @@ use App\Entity\Main\Qcm;
 use App\Repository\InstructorRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security as ConfigurationSecurity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Security;
 
-class QcmGeneratorHelper
+class QcmGeneratorHelper 
 {
     private QuestionRepository $_questionRepo;
     // private Security $_security;
@@ -17,15 +19,18 @@ class QcmGeneratorHelper
     private int $_officialQcmQuestionQuantity = 42;
 
     // public function __construct( QuestionRepository $questionRepo, Security $security )
-    public function __construct( QuestionRepository $questionRepo,InstructorRepository $insRepo)
+     /*TODO A enlever une fois que a connection avec google sera opérationnelle ( $instructorRepository )*/
+    public function __construct( QuestionRepository $questionRepo,UserRepository $userRepo,Security $security)
     {
         $this->_questionRepo = $questionRepo;
         // $this->instructorRepo =$instructorRepository;
-        // $this->_security = $security;
-        $this->insRepo = $insRepo;
+        $this->_security = $security;
+        $this->userRepo = $userRepo;
+        $this->id = $this->_security->getUser()->getId();
+      
     }
     /*TODO A enlever une fois que a connection avec google sera opérationnelle ( $instructorRepository )*/
-    public function generateRandomQcm( Module $module, $user , bool $isTraining = true, int $difficulty = 2): Qcm
+    public function generateRandomQcm( Module $module, bool $isTraining = true, int $difficulty = 2): Qcm
     {
         if( $isTraining )
         {
@@ -47,10 +52,10 @@ class QcmGeneratorHelper
         $qcm = new Qcm();
         $qcm->setModule( $module );
         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        // $qcm->setAuthor( $instructorRepository->find(2) );
-    //  $qcm->setAuthor( $this->_security->getUser() );
-     $qcm->setAuthor( $this->insRepo->find(1) );
-        $qcm->setDistributedBy($user);
+        $qcm->setAuthor(  $this->userRepo->find($this->id) );
+        $qcm->setDistributedBy( $this->userRepo->find($this->id) );
+        // $qcm->setAuthor( $this->_security->getUser );
+        // $qcm->setDistributedBy($this->_security->getUser );
         $qcm->setTitle( $title );
         $qcm->setDifficulty( $difficulty );
         $qcm->setIsOfficial( $isOfficial );

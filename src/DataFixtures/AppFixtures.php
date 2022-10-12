@@ -56,25 +56,25 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Module
-//        $this->generateModules( $manager );
+    //    $this->generateModules( $manager );
 
         //Session
-//        $this->generateSessions( $manager );
+    //    $this->generateSessions( $manager );
 
         //LinkSessionModule
-//        $this->generateLinksSessionModule( $manager );
+    //    $this->generateLinksSessionModule( $manager );
 
         //Instructeur
-//        $this->generateInstructors( $manager );
+    //    $this->generateInstructors( $manager );
 
         //Student
-//        $this->generateStudents( $manager );
+    //    $this->generateStudents( $manager );
 
         //Question + Proposal
         $this->generateQuestions( $manager );
 
         //Qcm
-//        $this->generateQcm( $manager );
+       $this->generateQcm( $manager );
 
         //Qcm avec le module de démo (réelles data)
 //        $this->generateQcmWithSpecifyModule($manager);
@@ -206,15 +206,15 @@ class AppFixtures extends Fixture
 
     public function generateQuestions( $manager ) :void
     {
-        $dbModules  = $this->moduleRepository->find(44);
+        $dbModules  = $this->moduleRepository->findAll();
         $dbInstructors = $this->instructorRepository->findAll();
 
         // 10 questions par module
-//        foreach ($dbModules as $dbModule){
+       foreach ($dbModules as $dbModule){
             for ($i=0; $i<50; $i++)
             {
                 $question = new Question();
-                $question->setModule($dbModules);
+                $question->setModule($dbModule);
                 $question->setWording( $this->faker->sentence() );
                 $question->setAuthor( $dbInstructors[array_rand($dbInstructors)] );
                 $question->setIsEnabled( $this->faker->numberBetween(0, 1) );
@@ -233,7 +233,7 @@ class AppFixtures extends Fixture
 
                 $manager->persist($question);
             }
-//        }
+       }
         $manager->flush();
     }
 

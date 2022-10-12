@@ -30,10 +30,10 @@
         <form action="{{ path('instructor_create_qcm_perso') }}" method="GET">
         {# {{dump(modules[0].id)}} #}
             <div  class="select_option_choice_module">
-               <select class="selectModule" name="module">
+               <select class="selectModule" name="module" >
                 {% for module in modules %}
                     <option value="null">Veuillez choisir un module</option>
-                    <option value="{{ module.id }}">{{ module.title }}</option>
+                    <option value="{{module.id}}" id="module" name="module">{{ module.title }}</option>
                 {% endfor %}
             </select>
             </div>
@@ -46,11 +46,11 @@
                              <input type="hidden" value="{{qcmLevel[0].difficulty}}"  name="qcm['difficulty]">
                          {% endfor %} #}
 
-                            <input type="hidden" value="{{qcmsLevel[0]}}"  name="qcm['difficulty]">
-
-                            <li {% if qcmsLevel[0]== 1 %} data-difficulty-easy="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}>Facile </li>
-                            <li {% if qcmsLevel[0]== 2 %} data-difficulty-medium="{{qcmsLevel[0]}}" class='colorDifficulty'{% endif %}> Moyen</li>
-                            <li {% if qcmsLevel[0]== 3 %} data-difficulty-difficult="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}>Difficile</li>
+                            <input type="hidden" value="{{qcmsLevel == null ? qcmsLevel: qcmsLevel[0]}}"  name="qcm['difficulty]">
+                            
+                            <li {% if qcmsLevel == null %} data-difficulty-easy="null" {% elseif qcmsLevel[0]== 1 %} data-difficulty-easy="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}>Facile </li>
+                            <li {% if qcmsLevel == null %} data-difficulty-easy="null" {% elseif qcmsLevel[0]== 2 %} data-difficulty-easy="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}> Moyen</li>
+                            <li{% if qcmsLevel == null %} data-difficulty-easy="null" {% elseif qcmsLevel[0]== 3 %} data-difficulty-easy="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}>Difficile</li>
 
                         </ul>
                         </div>
@@ -64,7 +64,7 @@
             </div>
 
         </form>
-
+ {{dump(app.request.query)}}
          <hr>
 
 
