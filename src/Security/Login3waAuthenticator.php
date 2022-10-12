@@ -75,7 +75,8 @@ class Login3waAuthenticator extends AbstractAuthenticator
             if( $stringBeginning[0] === 'C:' ) {
                 // return $this->userRepo->find(2);
                 //user connecté
-                return $this->userRepo->find($this->security->getUser()->getId());
+                // return $this->userRepo->find($this->security->getUser()->getId());
+                return $this->userRepo->find(31);
             }
             // TODO end delete in production ---------------------------------------------------------------------------
 

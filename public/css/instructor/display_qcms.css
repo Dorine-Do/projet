@@ -1,4 +1,4 @@
-@import url("./main.css");
+@import url("../main.css");
 
 ul {
   margin: 0;
@@ -139,7 +139,9 @@ ul {
   text-align: center;
   /* shape-outside: circle(50%) margin-box; */
 }
-
+.defaultBg {
+  background: var(--pamplemousse) !important;
+}
 .active_li {
   background: var(--pamplemousse) !important;
 }

@@ -1,3 +1,4 @@
+
 //ONLOAD ET NON DOM CHARGEMENT 1 FOIS ET NON 2 COMME DOM CAR ERREUR ET PROBLEME D AFFICHAGE
 window.onload = function (event) {
   let spanFlashAddIns = document.querySelector(".flash-notice div");
@@ -93,116 +94,65 @@ window.onload = function (event) {
       }
     });
   });
-
   ////////////////////
   // DECLARATION DE VARIABLE
 
   let liBtnQcm = document.querySelectorAll(".li_btn_qcm  ");
+  let liBtnQcmOnly = document.querySelector(".li_btn_qcm  ");
   let ulBtnQcm = document.querySelector(".list_btn_qcm  ");
-  // console.log(liBtnQcm);
+  console.log(liBtnQcm);
   let questionsLi = document.querySelectorAll(".list_questions li");
   let questionsLiOne = document.querySelector(".list_questions li");
   let questionsSpans = document.querySelectorAll(".list_questions li span");
   let questionslist = document.querySelector(".list_questions ");
   let forBtnQcm;
-  let blocUlQcm = document.querySelector(".bloc_qcm ");
-  let blocUlQuestion = document.querySelector(".bloc-toggle-ul-question");
+  let blocUlQcm = document.querySelector(".bloc_qcm .divQcm ");
+  let blocUlQuestion = document.querySelector(
+    ".bloc-toggle-ul-question .divQuestions"
+  );
   let navLinkChoice = document.querySelector(".choix");
   let linkQcmGiven = document.querySelector(".qcmGiven");
   let linkCreation = document.querySelector(".creation");
-  // let liCreate = (questionslist.innerHTML = "<li></li>");
-  // console.log(liCreate);
 
-  //calcule height pour scroll active
-  //Condition pour que la suite des instructions ne blocque pas sur les autres pages
-  if (blocUlQcm) {
-    let blocUlQcmHeight = blocUlQcm.getBoundingClientRect().height;
-  }
-  if (blocUlQuestion) {
-    let blocUlQuestionHeight = blocUlQuestion.getBoundingClientRect().height;
-  }
-  if (ulBtnQcm) {
-    let ulQcmHeight = ulBtnQcm.getBoundingClientRect().height;
-  }
-  if (questionslist) {
-    let ulQuestionHeight = questionslist.getBoundingClientRect().height;
-  }
-
-  ////////////////////
-  // HOVER DECLENCHEMENT SCROLL-Y
-  blocUlQcm.addEventListener("mouseover", function () {
-    if (ulQcmHeight > blocUlQcmHeight + 10) {
-      blocUlQcm.classList.add("scroll_active");
-    }
-  });
-  blocUlQcm.addEventListener("mouseout", function () {
-    blocUlQcm.classList.remove("scroll_active");
-  });
-
-  blocUlQuestion.addEventListener("mouseover", function () {
-    if (ulQuestionHeight > blocUlQuestionHeight + 5) {
-      blocUlQuestion.classList.add("scroll_active");
-    }
-  });
-  blocUlQuestion.addEventListener("mouseout", function () {
-    blocUlQuestion.classList.remove("scroll_active");
-  });
-
-  ////////////////////
-  //  NUMEROTATION DES QUESTIONS
-  for (
-    let numQuestion = 0;
-    numQuestion < questionsSpans.length;
-    numQuestion++
-  ) {
-    questionsSpans[numQuestion].innerHTML = 1 + numQuestion;
-  }
-
-  /////////////////////
-  //  TEST url
-  if (window.location.href.includes(location.pathname)) {
-    linkCreation.classList.add("activeBorderLinkNav");
-    navLinkChoice.style.width = "90%";
-    navLinkChoice.style.gridTemplateColumns = "repeat(4,1fr)";
-    linkCreation.style.display = "inline";
-    linkQcmGiven.style.display = "inline";
-  }
-
-  ///////////////////
   // SELECTION UNIQUE DES BOUTONS QCMS ET DISPLAY DE LA LISTE DES QUESTIONS LIEES
 
-  for (forBtnQcm = 0; forBtnQcm < liBtnQcm.length; forBtnQcm++) {
-    // TEST
-    // let questionsCache = JSON.parse(liBtnQcm[forBtnQcm].dataset.questionsCache);
-    // for (let forWording = 0; forWording < questionsCache.length; forWording++) {
-    //   // questionslist.innerHTML = `<li><span>${forWording + 1}</span>${
-    //   //   questionsCache[forWording].wording
-    //   // }</li>`;
-    //   questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
-    //     questionsCache[forWording].wording
-    //   }`;
-    // }
-    //  click
-    liBtnQcm[forBtnQcm].addEventListener("click", function (e) {
-      // let eTarget = this.dataset.id;
-      let questionsCache = JSON.parse(this.dataset.questionsCache);
-      console.log(questionsCache);
-      for (
-        let forQuestionCache = 0;
-        forQuestionCache < questionsCache.length;
-        forQuestionCache++
-      ) {
-        console.log(questionsCache[forQuestionCache].wording);
-      }
+  let questionsCacheDefaultId = JSON.parse(liBtnQcmOnly.dataset.questionsCache);
+  console.log(questionsCacheDefaultId, "hello");
 
+  // TODO refactoriser avec uniquement la numerotation des spans car li par defaut fait voir twig
+  for (
+    let forWording = 0;
+    forWording < questionsCacheDefaultId.length;
+    forWording++
+  ) {
+    questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
+      questionsCacheDefaultId[forWording].wording
+    }`;
+  }
+
+  for (forBtnQcm = 0; forBtnQcm < liBtnQcm.length; forBtnQcm++) {
+    //NUMEROTATION SPAN PAR DeFAUT
+    // let questionsCache = JSON.parse(liBtnQcm[forBtnQcm].dataset.questionsCache);
+    console.log(questionsCacheDefaultId, "ya");
+    //AFFICHAGGE PAR DEFAUT SELON ID PAR DEFAUT
+
+    //BACKGROUND BTN PAR DEFAUT
+    if ((liBtnQcmOnly.dataset.id = 8)) {
+      liBtnQcmOnly.classList.add("defaultBg");
+      console.log(liBtnQcmOnly.classList);
+    }
+    //LI REMPLISSAGE QUESTION AU CLIC
+
+    liBtnQcm[forBtnQcm].addEventListener("click", function (e) {
+      let questionsCache = JSON.parse(this.dataset.questionsCache);
+      let dataQcmId = e.target.dataset.id;
+      console.log(dataQcmId, "id");
+      //NUMEROTATION SPAN APReS REMPLISSAGE LI
       for (
         let forWording = 0;
         forWording < questionsCache.length;
         forWording++
       ) {
-        // questionslist.innerHTML = `<li><span>${forWording + 1}</span>${
-        //   questionsCache[forWording].wording
-        // }</li>`;
         questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
           questionsCache[forWording].wording
         }`;
@@ -213,11 +163,66 @@ window.onload = function (event) {
       for (forBtnQcm = 0; forBtnQcm < liBtnQcm.length; forBtnQcm++) {
         if (this.dataset.id == liBtnQcm[forBtnQcm].dataset.id) {
           // questionslist.dataset.id = `${eTarget}`;
+
           liBtnQcm[forBtnQcm].classList.add("active_li");
+          if (this.dataset.id !== 8) {
+            liBtnQcmOnly.classList.remove("defaultBg");
+          }
         } else {
           liBtnQcm[forBtnQcm].classList.remove("active_li");
         }
       }
     });
   }
+  //calcule height pour scroll active
+  //Condition pour que la suite des instructions ne blocque pas sur les autres pages
+  if (blocUlQcm) {
+    let blocUlQcmHeight = blocUlQcm.getBoundingClientRect().height;
+
+    blocUlQcm.addEventListener("mouseover", function () {
+      if (ulBtnQcm) {
+        let ulQcmHeight = ulBtnQcm.getBoundingClientRect().height;
+        if (ulQcmHeight > blocUlQcmHeight + 10) {
+          blocUlQcm.classList.add("scroll_active");
+        }
+      }
+    });
+  }
+  if (blocUlQuestion) {
+    console.log(blocUlQuestion.children, "hello");
+    let blocUlQuestionHeight = blocUlQuestion.getBoundingClientRect().height;
+    if (questionslist) {
+      let ulQuestionHeight = questionslist.getBoundingClientRect().height;
+      blocUlQuestion.addEventListener("mouseover", function () {
+        if (ulQuestionHeight > blocUlQuestionHeight + 5) {
+          blocUlQuestion.classList.add("scroll_active");
+        }
+      });
+      // console.log(ulQuestionHeight);
+    }
+  }
+
+  ////////////////////
+  // HOVER DECLENCHEMENT SCROLL-Y
+
+  blocUlQcm.addEventListener("mouseout", function () {
+    blocUlQcm.classList.remove("scroll_active");
+  });
+
+  blocUlQuestion.addEventListener("mouseout", function () {
+    blocUlQuestion.classList.remove("scroll_active");
+  });
 };
+// if ((liBtnQcmOnly.dataset.id = 8)) {
+//   console.log(questionsCacheDefaultId);
+//   for (
+//     let forWording = 0;
+//     forWording < questionsCacheDefaultId.length;
+//     forWording++
+//   ) {
+
+//     questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
+//       questionsCacheDefaultId[forWording].wording
+//     }`;
+//   }
+// }

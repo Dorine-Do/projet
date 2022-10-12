@@ -8,6 +8,9 @@
 {% block body %}
  <h1>{{ 'title.myQcmExercice'|trans }}</h1>
 <main class="container_qcm_and_questions_management">
+
+
+
     <div class=" blocIndice">
       <p class="indiceToSelectQcm ">
           <span>{{ 'title.step1'|trans }}</span> {{ 'title.iQcmSelect'|trans }}
@@ -22,6 +25,8 @@
           <div class="divQcm">
             <ul class="list_btn_qcm">
             {% for qcm in qcms %}
+            {# {{dump(qcm.id)}} #}
+            {# {{dump(qcm.questionsCache)}} #}
             {# data-parent voir css ::after #}
                     <li class="li_btn_qcm" data-id="{{qcm.id}}" data-questions-cache="{{qcm.questionsCache|json_encode}}" data-parent="{{ qcm.difficulty == 1 ? 'facile'}}{{ qcm.difficulty == 2 ? 'moyen'}}{{ qcm.difficulty == 3 ? 'difficile'}}" >
                         {{qcm.title|raw }}
@@ -35,9 +40,10 @@
             <div class="divQuestions">
                 <ul class="list_questions"  data-qcms="{{ qcms|json_encode|e('html_attr')}}">
                    {% for qcm in qcms %}
-                        {% for question in qcm.getQuestions() %}
-
-                            <li  data-id='{{question.id}}'> {#  data-id temporaire#}
+                        {% if qcm.id == 8 %}
+                        {% for question in qcm.getQuestionsCache() %}
+                         
+                            <li data-qcm-id="{{qcm.id}}" data-id='{{question.id}}'> {#  data-id temporaire#}
 
                             <span class="qcm_question_number"></span>
                             {{question.wording|raw }}
@@ -45,7 +51,7 @@
                             </li>
 
                         {% endfor %}
-
+                   {% endif %}
                    {% endfor %}
 
                 {# pour afficher les question en fonction de l'id des qcm
@@ -58,6 +64,8 @@
     </div>
 <main>
 {% block javascripts %}
+    {# // <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script> #}
+ 
     <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script>
  
 {% endblock %}
