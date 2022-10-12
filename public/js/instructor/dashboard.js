@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     selectModule.addEventListener('change', (e) => {
         studentsDiv.style.display = 'block'
         if (moduleId !== e.target.value){
-            ulListQcms.innerHTML = '';
+            qcmsDiv.style.display = 'none';
             ulListStudents = studentsDiv.querySelector('.ulListStudents')
             ulListStudents.innerHTML = ""
             moduleId = e.target.value
