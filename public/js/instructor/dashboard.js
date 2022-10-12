@@ -256,14 +256,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
     selectModule.addEventListener('change', (e) => {
         studentsDiv.style.display = 'block'
         if (moduleId !== e.target.value){
+            ulListQcms.innerHTML = '';
             ulListStudents = studentsDiv.querySelector('.ulListStudents')
             ulListStudents.innerHTML = ""
             moduleId = e.target.value
             getStudentsByModuleFromAjax(sessionId, moduleId)
         }
     })
-
-
-
 
 });
