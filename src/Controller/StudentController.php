@@ -172,7 +172,8 @@ class StudentController extends AbstractController
                 'qcm'    => $qcmInstance->getQcm(),
                 'result' => $studentResult,
                 'module' => $qcmInstance->getQcm()->getModule()->getTitle(),
-                'type' => $type
+                'type' => $type,
+                'isFirstTry' => $studentResult->isFirstTry()
             ];
         }
 
@@ -305,7 +306,6 @@ class StudentController extends AbstractController
 
                             }else{
                                 $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
-
                             }
                         }
                     }
@@ -459,7 +459,6 @@ class StudentController extends AbstractController
         $qcmInstance = new QcmInstance();
         $student = $this->studentRepo->find( $this->security->getUser()->getId() );
         $qcmInstance->setStudent( $student );
-//        $qcmInstance->setStudent( $this->getUser() );
         $qcmInstance->setQcm( $qcm );
         $qcmInstance->setStartTime( new \DateTime() );
         $endTime = new \DateTime();
