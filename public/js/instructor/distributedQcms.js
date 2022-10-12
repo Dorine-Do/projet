@@ -71,7 +71,7 @@ function fetchQcms(e){
         })
 }
 
-function fetchStudents(){
+function fetchStudents(e){
     fetch('distributed_students/' + this.dataset.qcm, {method: 'GET'})
         .then((response) => response.json())
         .then((studentsResults) => {
@@ -132,9 +132,12 @@ function fetchStudents(){
                         name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : Non effectué'
                     }
 
-                    studentsContainer.append(ulStudent)
-                    ulStudent.append(li)
+                    studentsContainer.append(ulStudent);
+                    ulStudent.append(li);
 
+                    li.addEventListener('click', function(){
+                        window.location.href = '/student/qcm/correction/' + e.target.dataset.qcm;
+                    });
                 })
             }
         })
