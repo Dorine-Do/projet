@@ -128,7 +128,7 @@
                 <ul class="stickerInfo">
                     <li><span>{{ 'question.notice'|trans }} : </span>  {{ 'question.goal'|trans }}</li>
                     <li><span> {{ 'question.warning'|trans }} : </span>  {{ 'question.warningExplain'|trans }}</li>
-                    <li><span>{{ 'question.reminder'|trans }} : </span>  {{ 'question.infoPublished'|trans }}</li>
+                    <li><span>{{ 'question.reminder'|trans }} : </span>  {{ 'question.infoNoPublished'|trans }}</li>
                 </ul>
             </div>
         </div>
@@ -225,13 +225,38 @@
                         {{ form_widget(form.is_enabled) }}
                     </td>
                 </tr>
+                {% if app.user.isReferent or 'ROLE_ADMIN' in app.user.roles %}
+                    <tr>
+                        <td colspan="2" class="premier">
+                            <p class="etape">
+                                <span class="numeroForm">Option</span>
+                                {{ 'question.isOfficial'|trans }}
+                            </p>
+                        </td>
+                        <td colspan="2" class="second">
+                            {{ form_widget(form.is_official) }} {{ 'question.isOfficialExplain'|trans }}
+                        </td>
+                    </tr>
+                {% endif %}
+                {% if 'ROLE_ADMIN' in app.user.roles %}
+                    <tr>
+                        <td colspan="2" class="premier">
+                            <p class="etape">
+                                <span class="numeroForm">Option</span>
+                                {{ 'question.isMandatoty'|trans }}
+                            </p>
+                        </td>
+                        <td colspan="2" class="second">
+                            {{ form_widget(form.is_mandatory) }} {{ 'question.isMandatoryExplain'|trans }}
+                        </td>
+                    </tr>
+                {% endif %}
                 <tr>
                     <td colspan="2">
-                        <button type="button" class="button largeButton greyButton">{{ 'button.validate'|trans }}</button>
+                        <button id="valid" type="button" class="button largeButton greyButton">{{ 'button.validate'|trans }}</button>
                     </td>
                 </tr>
             </table>
-            {{form_rest(form)}}
             {{ form_end(form) }}
         </div>
 

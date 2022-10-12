@@ -32,15 +32,11 @@ class StudentController extends AbstractController
     private StudentRepository $studentRepo;
     private UserRepository $userRepo;
     private Security $security;
-    private int $id;
 
-//    /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
     public function __construct(StudentRepository $studentRepository, UserRepository $userRepository, Security $security){
         $this->studentRepo = $studentRepository;
         $this->userRepo = $userRepository;
         $this->security = $security;
-        $this->user = $this->security->getUser();
-        $this->id = $this->security->getUser()->getId();
     }
 
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
@@ -384,7 +380,8 @@ class StudentController extends AbstractController
         ModuleRepository $moduleRepo,
         QuestionRepository $questionRepo,
         Security $security,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        UserRepository $userRepository
     ): Response
     {
         $module = $moduleRepo->find( $request->get('module') );
@@ -393,7 +390,7 @@ class StudentController extends AbstractController
         $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student,true, $difficulty);
+        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository ,true, $difficulty);
 
         $manager->persist( $trainingQcm );
         $manager->flush();
@@ -420,14 +417,15 @@ class StudentController extends AbstractController
         QuestionRepository $questionRepo,
         Module $module,
         Security $security,
-        EntityManagerInterface $manager
+        EntityManagerInterface $manager,
+        UserRepository $userRepository
     ): Response
     {
 
         $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student );
+        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository );
 
         $manager->persist( $retryQcm );
         $manager->flush();
@@ -459,7 +457,7 @@ class StudentController extends AbstractController
     ): Response
     {
         $qcmInstance = new QcmInstance();
-        $student = $this->studentRepo->find($this->user->getId());
+        $student = $this->studentRepo->find( $this->security->getUser()->getId() );
         $qcmInstance->setStudent( $student );
 //        $qcmInstance->setStudent( $this->getUser() );
         $qcmInstance->setQcm( $qcm );
@@ -526,23 +524,29 @@ class StudentController extends AbstractController
     #[Route('/student/level/', name: 'student_level', methods: ['GET'])]
     public function levelStudentByModule(): Response
     {
-        $modules = $this->studentRepo->moduleMaxScore($this->id);
+        $modules = $this->studentRepo->moduleMaxScore( $this->security->getUser()->getId() );
+        if( $modules !== [] )
+        {
+            $result = $this->studentRepo->resultMaxScore( $this->security->getUser()->getId() );
 
-        $result = $this->studentRepo->resultMaxScore($this->id);
-        $modules = [];
-        foreach ( $result as $res){
-             $modules[] = $this->studentRepo->moduleMaxScore($res['id']);
+            if( $result )
+            {
+                $modules = [];
+                foreach ( $result as $res){
+                    $modules[] = $this->studentRepo->moduleMaxScore($res['id']);
+                }
+            }
         }
 
         return $this->render('student/level_modules.html.twig', [
-            'modules' => $modules
+            'modules' => $modules !== [] ? $modules : false
         ]);
     }
 
     #[Route('student/progression/', name: 'student_progression', methods: ['GET'])]
     public function progressionStudent(): Response
     {
-        $isOfficialQcms = $this->studentRepo->isOfficialQcmLevel($this->id);
+        $isOfficialQcms = $this->studentRepo->isOfficialQcmLevel( $this->security->getUser()->getId() );
         $isOfficialQcms[] = [
             "qcmId" => 6,
                 "qcmTitle" => "Qcm1",

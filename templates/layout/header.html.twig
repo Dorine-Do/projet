@@ -3,30 +3,30 @@
 {% endblock %}
 
 <header>
+
     <img class="logo" src="{{asset('build/images/logo_officiel.png')}}">
     <nav class="choix">
 
-        {#/* TODO A enlever une fois que a connection avec google sera opérationnelle*/#}
-        {% if 'ROLE_STUDENT' in app.user.roles  %}
+        {% if 'ROLE_STUDENT' in app.user.roles %}
             <a href="{{path('student_qcms')}}" class="tab">{{ 'header.qcms'|trans }}</a>
             <a href="{{path('student_dashboard')}}" class="tab">{{ 'header.dashboard'|trans }}</a>
         {% elseif 'ROLE_INSTRUCTOR' in app.user.roles %}
             <a href="{{path('welcome_instructor')}}" class="tab">{{ 'header.dashboard'|trans }}</a>
             <a href="#" class="tab">{{ 'header.planning'|trans }}</a>
+        {% elseif 'ROLE_ADMIN' in app.user.roles %}
+            <a href="{{path('app_admin')}}" class="tab">Dashboard</a>
+            <a href="#" class="tab">Stats</a>
         {% endif %}
 
-
-{#        {% if app.user %}#}
-{#        <a href="{{path('welcome_instructor')}}" class="tab">{{ 'header.dashboard'|trans }}</a>#}
-{#        <a href="#" class="tab">{{ 'header.planning'|trans }}</a>#}
-{#        {% endif %}#}
     </nav>
     <div class="eleve">
         <p class="helloStudent">Salut,{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>
+        {# {{dump(app.user)}} #}
     </div>
     <button id="reportBugBtn">Faire remonter un bug</button>
     <div class="logOut">
         <a href="{{path('app_logout')}}" ><img class="imgLogOut" src="{{asset('build/images/exit.png')}}" alt="Déconnexion"> </a>
     </div>
+
 </header>
 

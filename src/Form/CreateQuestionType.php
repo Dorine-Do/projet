@@ -37,14 +37,12 @@ class CreateQuestionType extends AbstractType
 
     private $security;
     private $manager;
-    private $user;
 
 
     public function __construct( Security $security ,EntityManagerInterface $manager, UserRepository $userRepository)
     {
         $this->security = $security;
-        $this->manager=$manager;
-        $this->user = $userRepository->find(1);
+        $this->manager = $manager;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -153,27 +151,18 @@ class CreateQuestionType extends AbstractType
             ])
         ;
 
-
-
-        //if (in_array('ROLE_ADMIN', $this->security->getUser()->getRoles())){
-        /* TODO A enlever quand la connexion via google sera opperationelle */
-        if (in_array('ROLE_ADMIN', $this->user->getRoles())){
+        if (in_array('ROLE_ADMIN', $this->security->getUser()->getRoles())){
             $builder
                     ->add('is_mandatory', CheckboxType::class, [
                         'required' => false,
                         'label' => false,
                     ]);
         }
-        //if (
-        //  in_array('ROLE_ADMIN', $this->security->getUser()->getRoles()) ||
-        //  $this->security->getUser()->isReferent &&
-        //  in_array('ROLE_INSTRUCTOR', $this->security->getUser()->getRoles())
-        //){
-        /* TODO A enlever quand la connexion via google sera opperationelle */
+
         if (
-            $this->user->isReferent() &&
-            in_array('ROLE_INSTRUCTOR', $this->user->getRoles()) ||
-            in_array('ROLE_ADMIN', $this->user->getRoles())
+            $this->security->getUser()->isReferent() &&
+            in_array('ROLE_INSTRUCTOR', $this->security->getUser()->getRoles()) ||
+            in_array('ROLE_ADMIN', $this->security->getUser()->getRoles())
         )
         {
             $builder
