@@ -462,15 +462,23 @@ namespace App\Controller;
         {
             $dayOfWeekEnd = array("Saturday", "Sunday");
             $sessionAndModuleByInstructor = $instructorRepository->find($this->security->getUser()->getId())->getLinksInstructorSessionModule();
-
+            $sessionsId = [];
+            $modulesId = [];
             foreach ($sessionAndModuleByInstructor as $sessionAndModule)
             {
-                $sessionId = $sessionAndModule->getSession()->getId();
-                $moduleId = $sessionAndModule->getModule()->getId();
-                $sessions = $sessionRepository->findBy(['id' => $sessionId]);
-                $modules = $moduleRepository->findBy(['id' => $moduleId]);
+                $sessionsId[] = $sessionAndModule->getSession()->getId();
+                $modulesId[] = $sessionAndModule->getModule()->getId();
             }
-
+            $sessionsId = array_unique($sessionsId);
+            $modulesId = array_unique($modulesId);
+            $sessions = [];
+            $modules = [];
+            foreach ( $sessionsId as $id ){
+                $sessions[] = $sessionRepository->findBy(['id' => $id])[0];
+            }
+            foreach ($modulesId as $id){
+                $modules[] = $moduleRepository->findBy(['id' => $id])[0];
+            }
             $formData = $request->query->all();
 
             if (count($formData) != 0)
