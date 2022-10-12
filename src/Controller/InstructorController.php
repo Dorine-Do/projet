@@ -251,12 +251,13 @@ namespace App\Controller;
                 }
                 if ($count > 1)
                 {
-                    $questionEntity->setIsMultiple("true");
+                    $questionEntity->setIsMultiple(1);
                 }
                 elseif ($count == 1)
                 {
-                    $questionEntity->setIsMultiple("false");
+                    $questionEntity->setIsMultiple(0);
                 }
+
                 if(!in_array('ROLE_ADMIN', $user->getRoles()))
                 {
                     $questionEntity->setIsMandatory(0);
