@@ -144,7 +144,7 @@ title:
   levelByQuestionDifficulty: Le niveau est déterminé automatiquement par la difficulté des questions
   qcmPersonalizedTitle: Donner un titre au qcm personnalisé
   qcmUseByOtherTeacher: Ce qcm pourra t'il être utilisé par d'autres formateurs?
-  qcmPlan: QCMs Plannifiés
+  qcmPlan: QCMs distribués
 
   general:
     studentInterface: Mon interface apprenant
