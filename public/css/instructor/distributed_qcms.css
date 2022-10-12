@@ -124,6 +124,13 @@ select {
     font-family: 'Alumni Sans', sans-serif;
 }
 
+.align {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
 #qcms-module{
     display: none;
     background-color: var(--fond);
@@ -181,11 +188,31 @@ img{
         flex-direction: column;
         padding: 0;
     }
+
+    #session-choice {
+        text-transform: none;
+        width: 60%;
+    }
+
+    #module-choice {
+        text-transform: none;
+        width: 60%;
+    }
 }
 
 @media screen and (max-width: 450px) {
     #students-qcm{
         column-count: 1;
+    }
+
+    #session-choice {
+        text-transform: none;
+        width: 76%;
+    }
+
+    #module-choice {
+        text-transform: none;
+        width: 76%;
     }
 
     select{
