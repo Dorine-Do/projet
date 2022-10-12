@@ -215,13 +215,25 @@
                         {{ form_widget(form.is_enabled) }}
                     </td>
                 </tr>
+                {% if 'ROLE_ADMIN' in app.user.roles %}
+                    <tr>
+                        <td colspan="2" class="premier">
+                            <p class="etape">
+                                <span class="numeroForm">Option</span>
+                                {{ 'question.isMandatoty'|trans }}
+                            </p>
+                        </td>
+                        <td colspan="2" class="second">
+                            {{ form_widget(form.is_mandatory) }} {{ 'question.isMandatoryExplain'|trans }}
+                        </td>
+                    </tr>
+                {% endif %}
                 <tr>
                     <td colspan="2">
                         <button id="valid" type="button" class="button largeButton greyButton">{{ 'button.validate'|trans }}</button>
                     </td>
                 </tr>
             </table>
-            {{form_rest(form)}}
             {{ form_end(form) }}
         </div>
 
