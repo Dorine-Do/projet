@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     <link href="{{asset('build/app.css')}}" rel="stylesheet">
-    <link href="{{asset('css/instructor/create_question.css')}}" rel="stylesheet">
+    <link href="{{asset('css/instructor/create_modify_question.css')}}" rel="stylesheet">
     <link href="{{asset('css/instructor/ckeditor_overwrite.css')}}" rel="stylesheet">
 {% endblock %}
 
@@ -214,22 +214,19 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p class="align">
-                            <span class="circle orangeCircle">6</span>
+                            <span class="circle orangeCircle">Option</span>
                             {{ 'question.desactivate'|trans }}
                         </p>
-                        <p class="center">
-                            {{ 'question.desactivateExplain'|trans }}
-                        </p>
                     </td>
-                    <td colspan="2" class="option">
-                        {{ form_widget(form.is_enabled) }}
+                    <td colspan="2" class="second">
+                        {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
                     </td>
                 </tr>
                 {% if app.user.isReferent or 'ROLE_ADMIN' in app.user.roles %}
                     <tr>
                         <td colspan="2" class="premier">
-                            <p class="etape">
-                                <span class="numeroForm">Option</span>
+                            <p class="align">
+                                <span class="circle orangeCircle">Option</span>
                                 {{ 'question.isOfficial'|trans }}
                             </p>
                         </td>
