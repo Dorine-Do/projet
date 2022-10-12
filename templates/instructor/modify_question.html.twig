@@ -215,6 +215,19 @@
                         {{ form_widget(form.is_enabled) }}
                     </td>
                 </tr>
+                {% if app.user.isReferent or 'ROLE_ADMIN' in app.user.roles %}
+                    <tr>
+                        <td colspan="2" class="premier">
+                            <p class="etape">
+                                <span class="numeroForm">Option</span>
+                                {{ 'question.isOfficial'|trans }}
+                            </p>
+                        </td>
+                        <td colspan="2" class="second">
+                            {{ form_widget(form.is_official) }} {{ 'question.isOfficialExplain'|trans }}
+                        </td>
+                    </tr>
+                {% endif %}
                 {% if 'ROLE_ADMIN' in app.user.roles %}
                     <tr>
                         <td colspan="2" class="premier">
