@@ -234,7 +234,11 @@ class StudentController extends AbstractController
                                     $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
                                 }
                                 // Si case cochée par l'etudiant
-                                elseif( $studentAnswerValue === $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id'] )
+                                elseif(
+                                    !$questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isCorrectAnswer']
+                                    &&
+                                    $studentAnswerValue === $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id']
+                                )
                                 {
                                     $questionsCache[$questionCacheKey]['isCorrect'] = false;
                                     $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 1;
@@ -339,7 +343,7 @@ class StudentController extends AbstractController
             $qcmInstances = $qcm->getQcmInstances()->filter( function( $qcmInstance ) use ($student) {
                 return $qcmInstance->getStudent() === $student;
             });
-            if( $qcmInstances && $qcm->getIsOfficial() )
+            if( count($qcmInstances) > 1 && $qcm->getIsOfficial() )
             {
                 $isFirstTry = false;
             }
