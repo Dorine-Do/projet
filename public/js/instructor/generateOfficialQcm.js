@@ -15,7 +15,7 @@ function displayModulesOptions(modules)
 
     moduleSelect.innerHTML = '';
 
-    modules.foreach( module => {
+    modules.forEach( module => {
         let option = document.createElement('option');
         option.value = module.id;
         option.innerText = module.title;
