@@ -1,6 +1,6 @@
 let sessionsLis, moduleSelect;
 
-function fetchModules()
+function fetchModules(e)
 {
     let sessionId = e.target.dataset.sessionId;
 
