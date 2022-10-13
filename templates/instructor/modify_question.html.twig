@@ -218,8 +218,10 @@
                             {{ 'question.desactivate'|trans }}
                         </p>
                     </td>
-                    <td colspan="2" class="second">
-                        {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
+                    <td colspan="2" class="option">
+                        <p class="center">
+                            {{ 'question.desactivateExplain'|trans }} {{ form_widget(form.is_enabled) }}
+                        </p>
                     </td>
                 </tr>
                 {% if app.user.isReferent or 'ROLE_ADMIN' in app.user.roles %}
