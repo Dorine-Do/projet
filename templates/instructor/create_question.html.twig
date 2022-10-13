@@ -113,8 +113,8 @@
         {% if app.user.isReferent or 'ROLE_ADMIN' in app.user.roles %}
             <tr>
                 <td colspan="2" class="premier">
-                    <p class="etape">
-                        <span class="numeroForm">Option</span>
+                    <p class="align">
+                        <span class="circle orangeCircle">Option</span>
                         {{ 'question.isOfficial'|trans }}
                     </p>
                 </td>
@@ -126,8 +126,8 @@
         {% if 'ROLE_ADMIN' in app.user.roles %}
         <tr>
             <td colspan="2" class="premier">
-                <p class="etape">
-                    <span class="numeroForm">Option</span>
+                <p class="align">
+                    <span class="circle orangeCircle">Option</span>
                     {{ 'question.isMandatoty'|trans }}
                 </p>
             </td>
