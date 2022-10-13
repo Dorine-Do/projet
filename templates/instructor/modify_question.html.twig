@@ -217,12 +217,11 @@
                             <span class="circle orangeCircle">6</span>
                             {{ 'question.desactivate'|trans }}
                         </p>
-                        <p class="center">
-                            {{ 'question.desactivateExplain'|trans }}
-                        </p>
                     </td>
                     <td colspan="2" class="option">
-                        {{ form_widget(form.is_enabled) }}
+                        <p class="center">
+                            {{ 'question.desactivateExplain'|trans }} {{ form_widget(form.is_enabled) }}
+                        </p>
                     </td>
                 </tr>
                 {% if app.user.isReferent or 'ROLE_ADMIN' in app.user.roles %}

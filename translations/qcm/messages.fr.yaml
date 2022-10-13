@@ -1,29 +1,29 @@
 qcm:
   title: QCM
-  choiced: qcm choisi
-  name: Nom du qcm
-  do: Faire le qcm
-  todo: Qcm à faire
+  choiced: QCM choisi
+  name: Nom du QCM
+  do: Faire le QCM
+  todo: QCM à faire
   official: QCM officiel
   inter: QCM d'exercice
-  toPersonnalised: Personnaliser son qcm
-  choice: Choix du qcm
+  toPersonnalised: Personnaliser son QCM
+  choice: Choix du QCM
   dones: QCM Réalisés
-  donesExplain: En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les qcm que tu as terminé, voir tes réponses fausses et t'entraîner à les refaire.
+  donesExplain: En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les QCM que tu as terminé, voir tes réponses fausses et t'entraîner à les refaire.
   iChance: Je retente ma chance
-  chanceExplain: Si tu as obtenu "découvre" ou "explore" à un des qcm, tu peux tenter d'obtenir à nouveau ton badge et l'ajouter à ta collection en repassant un qcm du module en question.
-  tryAgainExplain: /!\ Repasser le qcm pour obtenir le badge du module ne changera pas le niveau obtenu lors du QCM officiel
-  trainning: QCM d'entrainement
+  chanceExplain: Si tu as obtenu "Découvre" ou "Explore" à un des QCM, tu peux tenter d'obtenir à nouveau ton badge et l'ajouter à ta collection en repassant un QCM du module en question.
+  tryAgainExplain: /!\ Repasser le QCM pour obtenir le badge du module ne changera pas le niveau obtenu lors du QCM officiel
+  trainning: QCM d'entraînement
   iTrainning: Je m'entraîne
-  questionConfirmQcm: Voulez vous vraiment confirmer ce QCM ?
+  questionConfirmQcm: Voulez-vous vraiment confirmer ce QCM ?
   finish: LE QCM EST TERMINÉ
   correction: Correction
-  iSelecteQcm: Je sélectionne mon qcm
-  displayQuestionByChoisedQcm: Affichage de mes questions en fonction du qcms choisi
+  iSelecteQcm: Je sélectionne mon QCM
+  displayQuestionByChoisedQcm: Affichage de mes questions en fonction du QCM choisi
   chooseStudents: Choix du ou des élèves pouvant faire le QCM
   doAllQestions: Merci de répondre à toutes les questions pour valider le QCM...
-  distributed: Qcms distribué
-  chooseQcmModuleLevel: Choix du qcm par module et par niveau
+  distributed: QCMs distribués
+  chooseQcmModuleLevel: Choix du QCM par module et par niveau
 
 difficulty:
   easy: Facile
@@ -37,11 +37,10 @@ module:
   plsChoice: Veuillez sélectionner un module
 
 question:
-  plsChoice:
   wording: Intitulé de la question
   difficulty: Difficulté de la question
   desactivate: Désactiver la question
-  desactivateExplain: La question ne sera plus dans la liste des questions pouvant être ajoutée à un qcm
+  desactivateExplain: La question ne sera plus dans la liste des questions pouvant êtres ajoutées à un QCM
   iCreate: Je crée ma question
   listePerso: Liste des questions personalisées
   iCorrectModify: Je corrige/modifie ma question
@@ -49,17 +48,17 @@ question:
   warning: Attention
   notice: À noter
   reminder: Rappel
-  warningExplain: Lorsqu'une question est crée,puis distribuée aux élèves, celle-ci ne peut plus être modifiée ou supprimée.
+  warningExplain: Lorsqu'une question est créée,puis distribuée aux élèves, celle-ci ne peut plus être modifiée ou supprimée.
   infoPublished: La question que vous souhaitez modifier a déjà été diffusée aux élèves, il n'est donc plus possible de la modifier.
-  infoNoPublished: La question que vous venez de créer n'a pas encore été distribué aux élèves, vous pouvez donc la modifier.
+  infoNoPublished: La question que vous venez de créer n'a pas encore été distribuée aux élèves, vous pouvez donc la modifier.
   firstDatePublished: 1ère date de diffusion
   session: Classe
   create: Créer une question
   selectQuestionToChooseModule: Selectionnez une session pour choisir un module
   isOfficial: Question officielle
-  isOfficialExplain: La question sera créée en tant que question officielle. Elle sera disponible pour créer des qcm officiel.
+  isOfficialExplain: La question sera créée en tant que question officielle. Elle sera disponible pour créer des QCM officiels.
   isMandatoty: Question obligatoire
-  isMandatoryExplain: La question apparaitra obligatoirement dans tous les qcms finaux du module à laquelle celle-ci appartient.
+  isMandatoryExplain: La question apparaîtra obligatoirement dans tous les QCM finaux du module à laquelle celle-ci appartient.
   explanation: Explication de la réponse juste
 
 proposal:
@@ -68,7 +67,7 @@ proposal:
 session:
   choice: Choix de la classe
   sessionModule: Selectionnez une session pour choisir un module
-  popStudentList: La liste des élèves apparaitra ici lorsque vous aurez choisi une session.
+  popStudentList: La liste des élèves apparaîtra ici lorsque vous aurez choisi une session.
 
 date:
   choice: Choix des dates
@@ -80,17 +79,17 @@ button:
   delete: Supprimer
   addProposal: Ajouter une réponse
   createQuestion: Créer une question
-  createQcmCustom: Créer un qcm d'exercice
-  generateQcm: Générer un qcm
-  generateQcmOfficial: Générer un qcm officiel
-  generateQcmPersonalised: Générer un qcm personnalisé
+  createQcmCustom: Créer un QCM d'exercice
+  generateQcm: Générer un QCM
+  generateQcmOfficial: Générer un QCM officiel
+  generateQcmPersonalised: Générer un QCM personnalisé
   tryAgain: J'essaie d'obtenir mon badge
   viewAnswers: Voir les réponses
-  doAgain: Refaire le qcm
+  doAgain: Refaire le QCM
   back: Retour
-  planQcmExercice: Planifier un qcm d'exercice
+  planQcmExercice: Planifier un QCM d'exercice
   myQuestionsCustom: Mes questions personnalisées
-  myQcmsExercice: Mes qcms d'exercice
+  myQcmsExercice: Mes QCM d'exercice
   myCreation: Mes créations
   connect: Se connecter
   distributeQcmToSelectedStudents: Distribuer le QCM aux élèves sélectionnés
@@ -108,7 +107,7 @@ button:
 header:
   dashboard: Tableau de bord
   planning: Planning
-  qcms: Qcms
+  qcms: QCMs
 
 title:
   weclome: Accueil
@@ -118,12 +117,12 @@ title:
   listQuestions: Liste des questions
   modifyQuestions: Modification de mes questions
   creations: Mes créations
-  planQcm: Programmer la planification d'un qcm
-  myQcmExercice: Mes Qcm d'exercices
-  connexion: connexion
+  planQcm: Programmer la planification d'un QCM
+  myQcmExercice: Mes QCM d'exercice
+  connexion: Connexion
   AdminDashboard: Admin dashboard
-  createCustomQcm: Créer un QCM personalisé
-  iCreateQcm: Je crée un qcm
+  createCustomQcm: Créer un QCM personnalisé
+  iCreateQcm: Je crée un QCM
   myComment: Mon commentaire
   trainerComment: Commentaire du formateur
   stickerInfos: Sticker infos
@@ -132,22 +131,22 @@ title:
   step3: Étape 3
   step4: Étape 4
   step5: Étape 5
-  myQcms: Mes qcms
+  myQcms: Mes QCM
   myQuestions: Mes questions
-  iQcmSelect: Je sélectionne mon qcm
-  displayMyQuestions: Affichage de mes questions en fonction du qcms choisi
+  iQcmSelect: Je sélectionne mon QCM
+  displayMyQuestions: Affichage de mes questions en fonction du QCM choisi
   chooseSession: Choix de la session
   chooseModule: Choix du module
   validate: Valider
   qcmChoosed: QCM choisi
   qcmPersonalized: Personnaliser son QCM
   levelByQuestionDifficulty: Le niveau est déterminé automatiquement par la difficulté des questions
-  qcmPersonalizedTitle: Donner un titre au qcm personnalisé
-  qcmUseByOtherTeacher: Ce qcm pourra t'il être utilisé par d'autres formateurs?
+  qcmPersonalizedTitle: Donner un titre au QCM personnalisé
+  qcmUseByOtherTeacher: Ce QCM pourra-t-il être utilisé par d'autres formateurs?
   qcmPlan: QCMs Plannifiés
 
   general:
     studentInterface: Mon interface apprenant
-    chooseQcm: Choix du qcm par module et par niveau
-    clickFrameToCloseTab: clique sur le cadre pour fermer l'onglet
+    chooseQcm: Choix du QCM par module et par niveau
+    clickFrameToCloseTab: Clique sur le cadre pour fermer l'onglet
     espaceQcm: Mon espace QCM
