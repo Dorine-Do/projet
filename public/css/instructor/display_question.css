@@ -22,8 +22,8 @@
 }
 /* ********************************FLASH NOTICE*********************************************** */
 
-.flash-notice > div,
-.flash-notice-qcm-perso > div {
+.flashNotice > div,
+.flashNoticeQuestionPerso > div {
   background: var(--pamplemousse);
   padding: 20px 0;
   border-radius: 5px;
@@ -35,14 +35,14 @@
   text-align: center;
 }
 
-.flash-notice span,
-.flash-notice-qcm-perso span {
+.flashNotice span,
+.flashNoticeQuestionPerso span {
   font-size: 15px;
   color: grey;
 }
 
-.flash-notice,
-.flash-notice-qcm-perso {
+.flashNotice,
+.flashNoticeQuestionPerso {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -128,7 +128,7 @@
   border: 1px solid var(--fond);
   padding: 2em;
   border-radius: 5px;
-  height: 50em;
+  height: 50%;
   overflow-y: scroll;
 }
 

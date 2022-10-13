@@ -4,7 +4,7 @@
 
 <header>
 
-    <img class="logo" src="{{asset('build/images/logo_officiel.png')}}">
+    <img class="logo" src="{{asset('build/images/logo_sans_fond.svg')}}">
     <nav class="choix">
 
         {% if 'ROLE_STUDENT' in app.user.roles %}
@@ -25,7 +25,7 @@
     </div>
     <button id="reportBugBtn">Faire remonter un bug</button>
     <div class="logOut">
-        <a href="{{path('app_logout')}}" ><img class="imgLogOut" src="{{asset('build/images/exit.png')}}" alt="Déconnexion"> </a>
+        <a href="{{path('app_logout')}}" ><img class="imgLogOut" src="{{asset('build/images/exit.svg')}}" alt="Déconnexion"> </a>
     </div>
 
 </header>

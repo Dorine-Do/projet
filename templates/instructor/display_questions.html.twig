@@ -13,7 +13,7 @@
     {# read and display just one flash message type #}
     {% for message in app.flashes('instructorAddQuestion') %}
     
-        <div class="flash-notice">
+        <div class="flashNotice">
         <div>
             {{message}} </br>
             <span>clic sur le cadre pour fermer l'onglet</span>
@@ -24,7 +24,7 @@
     {# flash for create qcm perso #}
     {% for message in app.flashes('success') %}
 
-        <div class="flash-notice-qcm-perso">
+        <div class="flashNoticeQuestionPerso">
         <div>
             {{message}} </br>
             <span>clic sur le cadre pour fermer l'onglet</span>
@@ -43,29 +43,19 @@
                         <li class="liWording">
                             <p class="difficulty">
                                 {% if question.difficulty.value == 1 %}
-                                    <img class="difficultyIcone" src="{{ asset('build/images/trefle_facile_bon_vert.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
+                                    <img class="difficultyIcone" src="{{ asset('build/images/trefle_facile.svg') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
                                 {% elseif question.difficulty.value == 2 %}
-                                    <img class="difficultyIcone" src="{{ asset('build/images/trefle_moyen_bon_vert.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
+                                    <img class="difficultyIcone" src="{{ asset('build/images/trefle_moyen.svg') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
                                 {% else %}
-                                    <img class="difficultyIcone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
+                                    <img class="difficultyIcone" src="{{ asset('build/images/difficil_difficile.svg') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
                                 {% endif %}
                             </p>
                             <span class="spanQuestion">{{ question.wording | raw }}</span>
                             <div class="divChevron">
-                                <img class="imgChevron" src="{{ asset('build/images/chevron_bas.png') }}" alt="chevron ouvrant" data-status="false" data-id="{{ question.id }}">
+                                <img class="imgChevron" src="{{ asset('build/images/chevron_bas.svg') }}" alt="chevron ouvrant" data-status="false" data-id="{{ question.id }}">
                             </div>
                         </li>
-                        {# <div class="divJs">
-                        </div> #}
-
                     </div>
-                    {# <div class="divProposals">
-                        {% for proposal in proposals  %}
-                            {% if question.id == proposal.id_question %}
-                                <p>{{ proposal.wording }}</p>
-                            {% endif %}
-                        {% endfor %}
-                    </div> #}
                     <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/Modify.3fce5468.png') }}" alt="bouton de modification de la question"></a>
                     <div class="blocDivProposal">
                         <div class="divJs">
@@ -93,11 +83,8 @@
 {% endblock %}
 
 {% block javascripts %}
-    {# // <script type="text/javascript" src="{{ asset('js/instructor/instructorIndex.js') }}"></script> #}
- <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script>
     <script>
-  let chevronHaut = "{{asset('build/images/chevron_haut.png')}}"
-        let chevronBas = "{{asset('build/images/chevron_bas.png')}}"
         let proposals = {{proposals|json_encode|raw}};
     </script>
 {% endblock %}

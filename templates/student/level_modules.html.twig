@@ -10,44 +10,50 @@
 
     <h1>Mon niveau</h1>
 
-            <p class="etape"><span>1</span> Légende des niveaux </p>
-                <div class="divLegend">
-                    <div class="imgLegend">
-                    <img src="{{asset('build/images/arbre_decouvre.png')}}" alt="Graine d'arbre" class="decouvre">
-                    <p class="pLegend">
-                        Découvre
-                    </p>
-                    <p class="pLegend">
-                        Explore
-                    </p>
-                    <p class="pLegend">
-                        Maîtrise
-                    </p>
-                    </div>
-                    <div class="imgLegend">
-                    <img src="{{asset('build/images/arbre_domine.png')}}" alt="arbre adulte fleuri">
-                    <p class="pLegend">Domine</p>
-                    </div>
-                </div>
+    <p class="etape"><span>1</span> Légende des niveaux </p>
+    <div class="divLegend">
+        <div class="imgLegend">
+            <img src="{{asset('build/images/arbre_decouvre.svg')}}" alt="Graine d'arbre" class="decouvre">
+            <p class="pLegend">
+                Découvre
+            </p>
+        </div>
+        <div class="imgLegend">
+            <img src="{{asset('build/images/arbre_explore.svg')}}" alt="Jeune pousse d'arbre">
+            <p class="pLegend">
+                Explore
+            </p>
+        </div>
+        <div class="imgLegend">
+            <img src="{{asset('build/images/arbre_maîtrise.svg')}}" alt="arbre adulte">
+            <p class="pLegend">
+                Maîtrise
+            </p>
+        </div>
+        <div class="imgLegend">
+            <img src="{{asset('build/images/arbre_domine.svg')}}" alt="arbre adulte fleuri">
+            <p class="pLegend">Domine</p>
+        </div>
+    </div>
     <div class="containerLevel">
         <div>
             <p class="etape"><span>2</span> Ensemble des modules terminés avec ton niveau </p>
         </div>
         {% if modules %}
-            {% for module in modules[0] %}
+            {% for module in modules %}
                 <div class="divLevel">
                     <div class="divModule">
                         <p class="moduleName">
                             Nom du module : {{ module.title }}
                         </p>
                         {% if module.level is same as 1 %}
-                            <img src="{{asset('build/images/arbre_decouvre.png')}}" alt="Graine d'arbre" class="decouvre">
+                            <img src="{{asset('build/images/arbre_decouvre.svg')}}" alt="Graine d'arbre" class="decouvre">
                         {% elseif module.level is same as 2 %}
-                            <img src="{{asset('build/images/arbre_explore.png')}}" alt="Jeune pousse d'arbre">
+                            <img src="{{asset('build/images/arbre_explore.svg')}}" alt="Jeune pousse d'arbre">
                         {% elseif module.level is same as 3 %}
-                            <img src="{{asset('build/images/arbre_maitrise.png')}}" alt="arbre adulte">
+                            <img src="{{asset('build/images/arbre_maîtrise.svg')}}" alt="arbre adulte">
                         {% elseif module.level is same as 4 %}
-                            <img src="{{asset('build/images/arbre_domine.png')}}" alt="arbre adulte fleuri">
+                            <img src="{{asset('build/images/arbre_domine.svg')}}" alt="arbre adulte fleuri">
                         {% endif %}
                     </div>
                     <div class="divLink">

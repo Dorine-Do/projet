@@ -35,6 +35,7 @@ module:
   choice: Choix du module
   filter: Filtrer par module
   plsChoice: Veuillez sélectionner un module
+  beforeChoice: Selectionnez une session pour choisir un module
 
 question:
   wording: Intitulé de la question
@@ -122,7 +123,7 @@ title:
   connexion: Connexion
   AdminDashboard: Admin dashboard
   createCustomQcm: Créer un QCM personnalisé
-  iCreateQcm: Je crée un QCM
+  iCreateQcm: Je génère un QCM officiel
   myComment: Mon commentaire
   trainerComment: Commentaire du formateur
   stickerInfos: Sticker infos
@@ -143,7 +144,7 @@ title:
   levelByQuestionDifficulty: Le niveau est déterminé automatiquement par la difficulté des questions
   qcmPersonalizedTitle: Donner un titre au QCM personnalisé
   qcmUseByOtherTeacher: Ce QCM pourra-t-il être utilisé par d'autres formateurs?
-  qcmPlan: QCMs Plannifiés
+  qcmPlan: QCMs distribués
 
   general:
     studentInterface: Mon interface apprenant

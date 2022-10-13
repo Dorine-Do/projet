@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     <link href="{{asset('build/app.css')}}" rel="stylesheet">
-    <link href="{{asset('css/instructor/create_question.css')}}" rel="stylesheet">
+    <link href="{{asset('css/instructor/create_modify_question.css')}}" rel="stylesheet">
     <link href="{{asset('css/instructor/ckeditor_overwrite.css')}}" rel="stylesheet">
 {% endblock %}
 
@@ -27,7 +27,7 @@
                      <li><span> {{ 'question.warning'|trans }} : </span>, {{ 'question.warningExplain'|trans }}</li>
                      <li><span>{{ 'question.reminder'|trans }} : </span> {{ 'question.infoPublished'|trans }}</li>
                      <li><span>{{ 'question.firstDatePublished'|trans }} : </span> {{distribute}}</li>
-                     <li><span>{{ 'question.session'|trans }} : </span> {{dump(session)}}</li>
+                     <li><span>{{ 'question.session'|trans }} : </span> {{session}}</li>
                  </ul>
              </div>
         </div>
@@ -227,8 +227,8 @@
                 {% if app.user.isReferent or 'ROLE_ADMIN' in app.user.roles %}
                     <tr>
                         <td colspan="2" class="premier">
-                            <p class="etape">
-                                <span class="numeroForm">Option</span>
+                            <p class="align">
+                                <span class="circle orangeCircle">Option</span>
                                 {{ 'question.isOfficial'|trans }}
                             </p>
                         </td>
@@ -266,7 +266,7 @@
     <script>
         let add = {{add|json_encode}};
         let imgPath = [];
-        imgPath.push('{{asset('build/images/trefle_facile_bon_vert.png')}}', '{{asset('build/images/trefle_moyen_bon_vert.png')}}', '{{asset('build/images/trefle_difficile_bon_vert.png')}}')
+        imgPath.push('{{asset('build/images/trefle_facile.svg')}}', '{{asset('build/images/trefle_moyen.svg')}}', '{{asset('build/images/difficil_difficile.svg')}}')
     </script>
 
     <script type="text/javascript" src="{{ asset('js/instructor/question_form_error_handling.js') }}"></script>

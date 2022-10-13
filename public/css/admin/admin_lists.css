@@ -110,6 +110,8 @@
 
 .dataTables_paginate a:hover {
     background-color: #FFAC8F;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 /* QUESTIONS TABLE */
@@ -229,4 +231,26 @@
 #sessionStudentsModale.hideModale,
 #sessionModulesModale.hideModale {
     display: none;
+}
+
+thead tr:first-child{
+    border-top: 1px solid var(--writing);
+}
+
+tr{
+    border-bottom: 1px solid var(--writing);
+    border-right: 1px solid var(--writing);
+    border-left: 1px solid var(--writing);
+}
+
+select.form-control{
+    background-color: var(--pamplemousse);
+    border: none;
+    padding: 5px 0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+label{
+    font-weight: bold;
 }
