@@ -55,23 +55,12 @@ function submitQcm()
     let form = document.querySelector('form');
     let modal = document.getElementById("my-modal");
     let comment = document.getElementById("comment-modal");
+    modal.style.display = "none";
+    comment.style.display = "none";
 
     let textaera = comment.querySelector('textarea')
     form.append(textaera);
-    if(textaera.value === ""){
-        let p = document.createElement('p')
-        let modalConfirm = document.querySelector('.modalConfirm')
-        p.innerHTML = 'Veuillez saisir un commentaire'
-        modalConfirm.append(p)
-        submitQcm();
-    }else{
-        form.submit();
-        modal.style.display = "none";
-        comment.style.display = "none";
-    }
-
-
-
+    form.submit();
 }
 
 function hideModals()
