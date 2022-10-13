@@ -7,6 +7,7 @@ body {
   margin: 20px auto 100px auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  width: 80%;
 }
 
 .hrefDiv {
@@ -90,10 +91,16 @@ body {
 }
 
 .sectionThree {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 30px;
-  grid-column: 1/3;
+  display: flex;
+  justify-content: space-around;
+}
+
+.hrefDivSecond{
+  background-color: var(--pamplemousse);
+  padding: 1em 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 3px 1px gray;
+  width: 20%;
 }
 
 @media screen and (max-width: 1200px) {

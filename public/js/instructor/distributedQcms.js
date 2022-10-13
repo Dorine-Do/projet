@@ -75,68 +75,71 @@ function fetchStudents(e){
     fetch('distributed_students/' + this.dataset.qcm, {method: 'GET'})
         .then((response) => response.json())
         .then((studentsResults) => {
-            console.log(studentsResults)
-            if(studentsResults === null){
-                studentsContainer.innerHTML = "Aucun étudiant n'a effectué ce qcm"
-            }else{
                 studentsContainer.innerHTML = ''
-                let ulStudent = document.createElement('ul')
-                studentsResults.forEach( studentResult => {
-                    let li = document.createElement('li')
-                    let name = document.createElement('p')
-                    let img = document.createElement('img')
+                if (typeof studentsResults === 'string'){
+                    let p = document.createElement('p')
+                    p.classList.add('noStudent')
+                    p.innerHTML = "Aucun étudiant n'a encore de note sur ce QCM"
+                    studentsContainer.append(p)
+                }else{
+                    let ulStudent = document.createElement('ul')
+                    studentsResults.forEach( studentResult => {
 
-                    li.className = 'liStudent'
-                    ulStudent.className = 'studentQcm'
-                    name.className = 'firstName'
+                        let li = document.createElement('li')
+                        let name = document.createElement('p')
+                        let img = document.createElement('img')
 
-                    let score = studentResult.result ? studentResult.result.score : 'QCM pas encore effectué'
+                        li.className = 'liStudent'
+                        ulStudent.className = 'studentQcm'
+                        name.className = 'firstName'
 
-                    name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : '
+                        let score = studentResult.result ? studentResult.result.score : 'QCM pas encore effectué'
 
-                    li.append(name)
+                        name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : '
 
-                    if(score < 25){
-                        img.src = decouvre
-                        img.className = 'decouvre'
-                        img.dataset.level = 'Découvre'
-                        img.addEventListener('mouseenter', mouseEnter);
-                        img.addEventListener('mousemove', mouseMouve);
-                        img.addEventListener('mouseout', mouseOut);
-                        li.append(img)
-                    }else if(score >= 25 && score < 50){
-                        img.src = explore
-                        img.className = 'explore'
-                        img.dataset.level = 'Explore'
-                        img.addEventListener('mouseenter', mouseEnter);
-                        img.addEventListener('mousemove', mouseMouve);
-                        img.addEventListener('mouseout', mouseOut);
-                        li.append(img)
-                    }else if(score >= 50 && score < 75){
-                        img.src = maitrise
-                        img.className = 'maitrise'
-                        img.dataset.level = 'Maitrise'
-                        img.addEventListener('mouseenter', mouseEnter);
-                        img.addEventListener('mousemove', mouseMouve);
-                        img.addEventListener('mouseout', mouseOut);
-                        li.append(img)
-                    }else if(score >= 75 && score <= 100){
-                        img.src = domine
-                        img.className = 'domine'
-                        img.dataset.level = 'Domine'
-                        img.addEventListener('mouseenter', mouseEnter);
-                        img.addEventListener('mousemove', mouseMouve);
-                        img.addEventListener('mouseout', mouseOut);
-                        li.append(img)
-                    }else{
-                        name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : Non effectué'
-                    }
+                        li.append(name)
 
-                    studentsContainer.append(ulStudent);
-                    ulStudent.append(li);
+                        if(score < 25){
+                            img.src = decouvre
+                            img.className = 'decouvre'
+                            img.dataset.level = 'Découvre'
+                            img.addEventListener('mouseenter', mouseEnter);
+                            img.addEventListener('mousemove', mouseMouve);
+                            img.addEventListener('mouseout', mouseOut);
+                            li.append(img)
+                        }else if(score >= 25 && score < 50){
+                            img.src = explore
+                            img.className = 'explore'
+                            img.dataset.level = 'Explore'
+                            img.addEventListener('mouseenter', mouseEnter);
+                            img.addEventListener('mousemove', mouseMouve);
+                            img.addEventListener('mouseout', mouseOut);
+                            li.append(img)
+                        }else if(score >= 50 && score < 75){
+                            img.src = maitrise
+                            img.className = 'maitrise'
+                            img.dataset.level = 'Maitrise'
+                            img.addEventListener('mouseenter', mouseEnter);
+                            img.addEventListener('mousemove', mouseMouve);
+                            img.addEventListener('mouseout', mouseOut);
+                            li.append(img)
+                        }else if(score >= 75 && score <= 100){
+                            img.src = domine
+                            img.className = 'domine'
+                            img.dataset.level = 'Domine'
+                            img.addEventListener('mouseenter', mouseEnter);
+                            img.addEventListener('mousemove', mouseMouve);
+                            img.addEventListener('mouseout', mouseOut);
+                            li.append(img)
+                        }else{
+                            name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : Non effectué'
+                        }
 
-                    li.addEventListener('click', function(){
-                        window.location.href = '/student/qcm/correction/' + e.target.dataset.qcm;
+                        studentsContainer.append(ulStudent);
+                        ulStudent.append(li);
+
+                        li.addEventListener('click', function(){
+                            window.location.href = '/student/qcm/correction/' + e.target.dataset.qcm;
                     });
                 })
             }
