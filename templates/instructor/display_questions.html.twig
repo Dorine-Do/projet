@@ -55,17 +55,7 @@
                                 <img class="imgChevron" src="{{ asset('build/images/chevron_bas.svg') }}" alt="chevron ouvrant" data-status="false" data-id="{{ question.id }}">
                             </div>
                         </li>
-                        {# <div class="divJs">
-                        </div> #}
-
                     </div>
-                    {# <div class="divProposals">
-                        {% for proposal in proposals  %}
-                            {% if question.id == proposal.id_question %}
-                                <p>{{ proposal.wording }}</p>
-                            {% endif %}
-                        {% endfor %}
-                    </div> #}
                     <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/Modify.3fce5468.png') }}" alt="bouton de modification de la question"></a>
                     <div class="blocDivProposal">
                         <div class="divJs">
@@ -93,10 +83,9 @@
 {% endblock %}
 
 {% block javascripts %}
-    {# // <script type="text/javascript" src="{{ asset('js/instructor/instructorIndex.js') }}"></script> #}
- <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script>
     <script>
-  let chevronHaut = "{{asset('build/images/chevron_haut.svg')}}"
+        let chevronHaut = "{{asset('build/images/chevron_haut.svg')}}"
         let chevronBas = "{{asset('build/images/chevron_bas.svg')}}"
         let proposals = {{proposals|json_encode|raw}};
     </script>
