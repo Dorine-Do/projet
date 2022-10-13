@@ -356,8 +356,11 @@ class StudentController extends AbstractController
 
             $result->setAnswers($questionsCache);
 
-            $result->setStudentComment(trim($resultRequest['comment_student']));
-
+            if (trim($resultRequest['comment_student'] === "")){
+                $result->setStudentComment(null);
+            }else{
+                $result->setStudentComment(trim($resultRequest['comment_student']));
+            }
             $result->setInstructorComment(null);
 
             $em->persist($result);
