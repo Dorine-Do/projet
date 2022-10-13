@@ -13,7 +13,7 @@
     {# read and display just one flash message type #}
     {% for message in app.flashes('instructorAddQuestion') %}
     
-        <div class="flash-notice">
+        <div class="flashNotice">
         <div>
             {{message}} </br>
             <span>clic sur le cadre pour fermer l'onglet</span>
@@ -24,7 +24,7 @@
     {# flash for create qcm perso #}
     {% for message in app.flashes('success') %}
 
-        <div class="flash-notice-qcm-perso">
+        <div class="flashNoticeQuestionPerso">
         <div>
             {{message}} </br>
             <span>clic sur le cadre pour fermer l'onglet</span>
@@ -85,8 +85,6 @@
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script>
     <script>
-        let chevronHaut = "{{asset('build/images/chevron_haut.svg')}}"
-        let chevronBas = "{{asset('build/images/chevron_bas.svg')}}"
         let proposals = {{proposals|json_encode|raw}};
     </script>
 {% endblock %}
