@@ -81,7 +81,7 @@
                                     <label data-correction="green">{{ proposal.wording | raw }}</label>
                                 </div>
                             </div>
-                        {% elseif proposal.isStudentAnswer and proposal.isCorrectAnswer == false %}
+                        {% elseif proposal.isStudentAnswer and proposal.isCorrectAnswer is same as false %}
                             <div class="reponseCorrection">
                                 {% if not question.isMultiple %}
                                     <input type="radio" checked disabled>
