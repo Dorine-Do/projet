@@ -3,7 +3,7 @@ let sessionsLis, moduleSelect;
 function fetchModules()
 {
     let sessionId = this.dataset.sessionid;
-
+    document.querySelector('#sessionToDistribute').value = sessionId;
     fetch( `../../instructor/qcm-planner/getSessionModules/${sessionId}` )
         .then( response => response.json() )
         .then( modules => displayModulesOptions(modules) );

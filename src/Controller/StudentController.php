@@ -172,7 +172,8 @@ class StudentController extends AbstractController
                 'qcm'    => $qcmInstance->getQcm(),
                 'result' => $studentResult,
                 'module' => $qcmInstance->getQcm()->getModule()->getTitle(),
-                'type' => $type
+                'type' => $type,
+                'isFirstTry' => $studentResult->isFirstTry()
             ];
         }
 
@@ -233,7 +234,11 @@ class StudentController extends AbstractController
                                     $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
                                 }
                                 // Si case cochée par l'etudiant
-                                elseif( $studentAnswerValue === $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id'] )
+                                elseif(
+                                    !$questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isCorrectAnswer']
+                                    &&
+                                    $studentAnswerValue === $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id']
+                                )
                                 {
                                     $questionsCache[$questionCacheKey]['isCorrect'] = false;
                                     $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 1;
@@ -305,7 +310,6 @@ class StudentController extends AbstractController
 
                             }else{
                                 $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
-
                             }
                         }
                     }
@@ -339,7 +343,7 @@ class StudentController extends AbstractController
             $qcmInstances = $qcm->getQcmInstances()->filter( function( $qcmInstance ) use ($student) {
                 return $qcmInstance->getStudent() === $student;
             });
-            if( $qcmInstances && $qcm->getIsOfficial() )
+            if( count($qcmInstances) > 1 && $qcm->getIsOfficial() )
             {
                 $isFirstTry = false;
             }
@@ -459,7 +463,6 @@ class StudentController extends AbstractController
         $qcmInstance = new QcmInstance();
         $student = $this->studentRepo->find( $this->security->getUser()->getId() );
         $qcmInstance->setStudent( $student );
-//        $qcmInstance->setStudent( $this->getUser() );
         $qcmInstance->setQcm( $qcm );
         $qcmInstance->setStartTime( new \DateTime() );
         $endTime = new \DateTime();
