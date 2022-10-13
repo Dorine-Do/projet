@@ -706,7 +706,13 @@ namespace App\Controller;
                     }
                 }
 
-                return $this->json($studentResponse, 200, [], ['groups' => 'user:read']);
+                if($studentResponse){
+                    return $this->json($studentResponse, 200, [], ['groups' => 'user:read']);
+                }
+
+                $noStudent = 'Aucun étudiant';
+                return $this->json($noStudent);
+
             }
             return new JsonResponse();
         }

@@ -117,7 +117,7 @@ select{
 }
 
 .divLevel img{
-    width: 34%;
+    width: 45%;
 }
 
 .divLevel img:hover{
@@ -153,6 +153,15 @@ select{
 
 .date{
     font-size: var(--normal);
+}
+
+
+.noResult{
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-top: 10%;
+    margin-bottom: 10%;
 }
 
 @media screen and (max-width: 1200px) {

@@ -79,7 +79,7 @@ function displayStudents(data){
     positionLabelInput(liStudentData)
     console.log(data)
     if (data.length === 0){
-        let div = createElementSimple('div', 'noStudent')
+        let div = createElementSimple('p', 'noStudent')
         div.innerHTML = "Aucun étudiant n'a encore de note dans cette session"
         ulListStudents.append(div)
     }
