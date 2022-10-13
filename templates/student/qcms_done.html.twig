@@ -67,7 +67,6 @@
         </div>
         <div>
             <p class="typeQcm">
-                {{ dump(qcmDone) }}
                 {% if qcmDone.type is same as 'official' and qcmDone.isFirstTry is same as true %}
                     <img class="badge" src="{{asset('build/images/officiel.svg')}}">
                 {% elseif

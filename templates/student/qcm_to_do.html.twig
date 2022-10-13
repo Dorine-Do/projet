@@ -57,14 +57,14 @@
                 {% for proposal in question.proposals %}
                     {% if not question.isMultiple %}
                         <div class="reponse">
-                            <input type="radio" for='{{ proposal.id}}' name="{{ question.id }}" value="{{ proposal.id }}">
+                            <input type="radio" id='{{ proposal.id}}' name="{{ question.id }}" value="{{ proposal.id }}">
                             <div class="divReponse">
                                 <label for="{{ question.id }}">{{ proposal.wording | raw }}</label>
                             </div>
                         </div>
                     {% else %}
                         <div class="reponse">
-                            <input type="checkbox" for='{{ proposal.id}}' name="{{question.id}}[]" value="{{ proposal.id }}">
+                            <input type="checkbox" id='{{ proposal.id}}' name="{{question.id}}[]" value="{{ proposal.id }}">
                             <div class="divReponse">
                                 <label for="{{ question.id }}[]">{{ proposal.wording | raw }}</label>
                             </div>
@@ -83,7 +83,7 @@
         <div id="error-modal" style="display: none">
             <div class="overlay"></div>
             <div class="modalContent">
-                <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}">
+                <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}" alt="Logo officiel YouUp">
                 <p>
                     Merci de répondre à toutes les questions pour valider le QCM...
                 </p>
@@ -94,7 +94,7 @@
         <div id="my-modal" class="modalContainer">
             <div class="overlay"></div>
             <div class="modalContent">
-                <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}">
+                <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}" alt="Logo officiel YouUp">
                 <p>{{ 'qcm.finish'|trans }}</p>
                 <p>{{ 'qcm.questionConfirmQcm'|trans }}</p>
                 <div class="buttonPop">
