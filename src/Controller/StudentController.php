@@ -59,35 +59,13 @@ class StudentController extends AbstractController
                 && $qcmInstance->getResult() === null;
         });
 
-        $unofficialQcmInstances = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
+        $unofficialQcmNotDone = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ) use ($student){
             return
-                $qcmInstance->getQcm()->getIsOfficial() == false
+                $qcmInstance->getQcm()->getIsOfficial() === false
                 && $qcmInstance->getResult() === null
-            ;
+                && $qcmInstance->getQcm()->getAuthor() !== $student
+                ;
         });
-
-        $studentQcmInstances = $student->getQcmInstances();
-        $qcmResults = [];
-        foreach ($studentQcmInstances as $studentQcmInstance){
-            if ($studentQcmInstance->getResult() !== null){
-                $qcmResults[]= $studentQcmInstance->getResult();
-            }
-        }
-        $unofficialQcmInstancesDone = [];
-        foreach ($qcmResults as $qcmResult)
-        {
-            if( !$qcmResult->getQcmInstance()->getQcm()->getIsOfficial() ) {
-                $unofficialQcmInstancesDone[] = $qcmResult->getQcmInstance();
-            }
-        }
-        $unofficialQcmNotDone = [];
-        foreach( $unofficialQcmInstances as $unofficialQcmInstance )
-        {
-            if( !in_array($unofficialQcmInstance, $unofficialQcmInstancesDone) )
-            {
-                $unofficialQcmNotDone[] = $unofficialQcmInstance;
-            }
-        }
 
         $studentSession = $linkSessionStudentRepo->findOneBy([ 'student' => $student->getId(), 'isEnabled'=> 1] )->getSession();
         $sessionModules = $linkSessionModuleRepo->findBy([ 'session' => $studentSession->getId() ]);
@@ -218,6 +196,7 @@ class StudentController extends AbstractController
                         // Radio
                         if ( !$questionsCache[$questionCacheKey]['isMultiple'] )
                         {
+                            $radioIsCorrect = 0;
                             $studentAnswerValue = intval($studentAnswerValue);
                             foreach ($questionsCache[$questionCacheKey]['proposals'] as $proposalKey => $proposal)
                             {
@@ -228,10 +207,8 @@ class StudentController extends AbstractController
                                     $studentAnswerValue === $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id']
                                 )
                                 {
-                                    $countIsCorrectAnswer++;
-                                    $questionsCache[$questionCacheKey]['isCorrect'] = true;
                                     $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 1;
-                                    $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
+                                    $radioIsCorrect ++ ;
                                 }
                                 // Si case cochée par l'etudiant
                                 elseif(
@@ -240,17 +217,23 @@ class StudentController extends AbstractController
                                     $studentAnswerValue === $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id']
                                 )
                                 {
-                                    $questionsCache[$questionCacheKey]['isCorrect'] = false;
                                     $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 1;
-                                    $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                                 }
                                 // Si pas case cochée par l'etudiant
                                 else
                                 {
-                                    $questionsCache[$questionCacheKey]['isCorrect'] = false;
                                     $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 0;
-                                    $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                                 }
+                            }
+                            // Si l'étudiant a répondu juste
+                            if ($radioIsCorrect !== 0)
+                            {
+                                $countIsCorrectAnswer++;
+                                $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
+                            }
+                            else
+                            {
+                                $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                             }
                         } // CheckBox
                         else
@@ -307,7 +290,6 @@ class StudentController extends AbstractController
                             {
                                 $countIsCorrectAnswer ++;
                                 $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
-
                             }else{
                                 $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                             }
@@ -426,7 +408,7 @@ class StudentController extends AbstractController
     ): Response
     {
 
-        $student = $this->userRepo->find($this->security->getUser()->getId());
+        $student = $this->studentRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository );
@@ -493,6 +475,7 @@ class StudentController extends AbstractController
         {
             $question = $questionRepo->find( $dbAnswer['id'] );
             $proposals = [];
+
             foreach( $dbAnswer['proposals'] as $answer )
             {
                 $proposal = $proposalRepo->find( $answer['id'] );
