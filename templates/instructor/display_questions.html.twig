@@ -36,7 +36,9 @@
     <div class="blocQuestions">
      <div class="divQuestions">
         <ul class="ulQuestions">
- 
+            {% if questions == null %}
+                <p>Vous n'avez pas encore créer de question</p>
+            {% endif %}
             {% for question in questions %}
                 <div class="divQuestion">
                     <div class="divQuestionChevron">

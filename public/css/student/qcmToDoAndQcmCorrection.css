@@ -311,7 +311,7 @@ img{
 }
 
 #comment-modal textarea{
-    margin-bottom: 15px;
+    margin: auto;
     height: 50%;
     width: 90%;
     padding: 15px;
