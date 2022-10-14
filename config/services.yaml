@@ -13,7 +13,8 @@ services:
 
     Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler:
         arguments:
-            - '%env(DATABASE_URL)%'
+#            - '%env(DATABASE_URL)%'
+            - 'mysql:dbname=youup, host=localhost:3306'
             - { db_table: 'cookies', db_username: 'root', db_password: '', db_id_col: 'id', db_data_col: 'cookie', db_time_col: 'created_at', db_lifetime_col: 'lifetime' }
 
     # makes classes in src/ available to be used as services
