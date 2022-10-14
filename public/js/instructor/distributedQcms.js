@@ -24,10 +24,10 @@ function fetchQcms(e){
     fetch('../qcm-planner/getModuleQcms/' + e.target.value, {method: 'GET'})
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
+
             qcmsContainer.innerHTML = ''
             data.forEach( qcm => {
-                console.log(qcm)
+
                 ul = document.createElement('ul')
                 let name = document.createElement('li')
                 let difficulty = document.createElement('li')
@@ -75,6 +75,7 @@ function fetchStudents(e){
     fetch('distributed_students/' + this.dataset.qcm, {method: 'GET'})
         .then((response) => response.json())
         .then((studentsResults) => {
+            console.log("studentsResults" ,studentsResults)
                 studentsContainer.innerHTML = ''
                 if (typeof studentsResults === 'string'){
                     let p = document.createElement('p')
@@ -138,9 +139,10 @@ function fetchStudents(e){
                         studentsContainer.append(ulStudent);
                         ulStudent.append(li);
 
-                        li.addEventListener('click', function(){
+                        li.addEventListener('click', function(e){
+                            console.log(e.target)
                             console.log('dataset' , e.target.dataset.qcm)
-                            //window.location.href = '/student/qcm/correction/' + e.target.dataset.qcm;
+                            // window.location.href = '/student/qcm/correction/' + e.target.dataset.qcm;
                     });
                 })
             }
