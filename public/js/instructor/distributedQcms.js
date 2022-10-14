@@ -1,4 +1,4 @@
-let selectSession, selectModule, qcmsContainer, ul, qcmsName, studentsContainer
+let selectSession, selectModule, qcmsContainer, ul, qcmsName, studentsContainer, redirect
 
 
 function fetchModules(e){
@@ -39,8 +39,11 @@ function fetchQcms(e){
                 difficulty.className = 'difficulty'
                 date.className = 'date'
 
+
                 name.innerHTML = qcm.title
                 name.dataset.qcm = qcm.id
+                name.dataset.anchor = "#students-qcm"
+                name.id = qcm.id
                 qcmsContainer.append(ul)
 
                 if(qcm.difficulty === 1){
@@ -67,6 +70,16 @@ function fetchQcms(e){
                 }
 
 
+                document.querySelectorAll('li.button').forEach(button => {
+                    button.addEventListener('click', function (e) {
+                        e.preventDefault();
+
+                        document.querySelector(this.dataset.anchor).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    });
+                });
+
             })
         })
 }
@@ -82,6 +95,7 @@ function fetchStudents(e){
                     p.classList.add('noStudent')
                     p.innerHTML = "Aucun étudiant n'a encore de note sur ce QCM"
                     studentsContainer.append(p)
+                    window.scrollTo(0,document.body.scrollHeight);
                 }else{
                     let ulStudent = document.createElement('ul')
                     studentsResults.forEach( studentResult => {
@@ -144,6 +158,7 @@ function fetchStudents(e){
                             console.log('dataset' , e.target.dataset.qcm)
                             // window.location.href = '/student/qcm/correction/' + e.target.dataset.qcm;
                     });
+                        window.scrollTo(0,document.body.scrollHeight);
                 })
             }
         })
@@ -154,6 +169,7 @@ function showQcmsStudent()
     qcmsContainer.style.display = "block";
     studentsContainer.style.display = "block";
 }
+
 
 const mouseEnter = (e) =>{
     let pInfo = document.createElement('p');
