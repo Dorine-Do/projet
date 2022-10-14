@@ -21,7 +21,7 @@ final class Version20221014094311 extends AbstractMigration
     {
         $this->addSql('CREATE TABLE `cookies` (
             `id` VARCHAR(128) NOT NULL PRIMARY KEY,
-            `user` VARCHAR(180) NOT NULL
+            `user` VARCHAR(180) NOT NULL,
             `cookie` BLOB NOT NULL,
             `created_at` INTEGER UNSIGNED NOT NULL,
             `lifetime` MEDIUMINT NOT NULL
