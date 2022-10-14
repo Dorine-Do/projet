@@ -1,4 +1,4 @@
-let selectSession, selectModule, qcmsContainer, ul, qcmsName, studentsContainer
+let selectSession, selectModule, qcmsContainer, ul, qcmsName, studentsContainer, redirect, divLegend
 
 
 function fetchModules(e){
@@ -26,6 +26,7 @@ function fetchQcms(e){
         .then((data) => {
             console.log(data)
             qcmsContainer.innerHTML = ''
+            qcmsContainer.append(divLegend)
             data.forEach( qcm => {
                 console.log(qcm)
                 ul = document.createElement('ul')
@@ -41,6 +42,8 @@ function fetchQcms(e){
 
                 name.innerHTML = qcm.title
                 name.dataset.qcm = qcm.id
+                name.dataset.anchor = "#students-qcm"
+                name.id = qcm.id
                 qcmsContainer.append(ul)
 
                 if(qcm.difficulty === 1){
@@ -65,7 +68,15 @@ function fetchQcms(e){
                 for(let i = 0; i<qcmsName.length; i++){
                     qcmsName[i].addEventListener('click', fetchStudents)
                 }
+                document.querySelectorAll('li.button').forEach(button => {
+                    button.addEventListener('click', function (e) {
+                        e.preventDefault();
 
+                        document.querySelector(this.dataset.anchor).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    });
+                });
 
             })
         })
@@ -81,6 +92,7 @@ function fetchStudents(e){
                     p.classList.add('noStudent')
                     p.innerHTML = "Aucun étudiant n'a encore de note sur ce QCM"
                     studentsContainer.append(p)
+                    window.scrollTo(0,document.body.scrollHeight);
                 }else{
                     let ulStudent = document.createElement('ul')
                     studentsResults.forEach( studentResult => {
@@ -141,6 +153,7 @@ function fetchStudents(e){
                         li.addEventListener('click', function(){
                             window.location.href = '/student/qcm/correction/' + e.target.dataset.qcm;
                     });
+                        window.scrollTo(0,document.body.scrollHeight);
                 })
             }
         })
@@ -150,7 +163,9 @@ function showQcmsStudent()
 {
     qcmsContainer.style.display = "block";
     studentsContainer.style.display = "block";
+    divLegend.style.display = "flex"
 }
+
 
 const mouseEnter = (e) =>{
     let pInfo = document.createElement('p');
@@ -180,6 +195,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     selectSession = document.getElementById('session-choice')
     selectModule = document.getElementById('module-choice')
     qcmsContainer = document.getElementById('qcms-module')
+    divLegend = document.getElementById('div-legend')
     studentsContainer = document.getElementById('students-qcm')
     selectSession.addEventListener('change', fetchModules)
     selectModule.addEventListener('change', fetchQcms)
