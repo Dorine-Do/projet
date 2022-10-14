@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -142,22 +145,25 @@ class Login3waAuthenticator extends AbstractAuthenticator
                 $user = $this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] );
             }
 
-            $dbCookieYouUp = $this->cookieRepo->findOneBy( ['user' => $user] );
+            $sessionStorage = new NativeSessionStorage([], new NativeFileSessionHandler());
+            $session = new Session($sessionStorage);
 
-            if( !$dbCookieYouUp )
-            {
-                $dbCookieYouUp = new \App\Entity\Main\Cookie();
-            }
-            $dbCookieYouUp->setCookie($cookieString);
-            $dbCookieYouUp->setCreatedAt( new \DateTime() );
-            $dbCookieYouUp->setUser($user);
-
-            $this->entityManager->persist($dbCookieYouUp);
-            $this->entityManager->flush();
-
-            $user->setCookie( $dbCookieYouUp );
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+//            $dbCookieYouUp = $this->cookieRepo->findOneBy( ['user' => $user] );
+//
+//            if( !$dbCookieYouUp )
+//            {
+//                $dbCookieYouUp = new \App\Entity\Main\Cookie();
+//            }
+//            $dbCookieYouUp->setCookie($cookieString);
+//            $dbCookieYouUp->setCreatedAt( new \DateTime() );
+//            $dbCookieYouUp->setUser($user);
+//
+//            $this->entityManager->persist($dbCookieYouUp);
+//            $this->entityManager->flush();
+//
+//            $user->setCookie( $dbCookieYouUp );
+//            $this->entityManager->persist($user);
+//            $this->entityManager->flush();
 
             return $user;
         }));
