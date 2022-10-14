@@ -24,7 +24,7 @@ final class Version20221014094311 extends AbstractMigration
             `user` VARCHAR(180) NOT NULL,
             `cookie` BLOB NOT NULL,
             `created_at` INTEGER UNSIGNED NOT NULL,
-            `lifetime` BIGINT NOT NULL
+            `lifetime` BIGINT NOT NULL,
             INDEX `cookies_sess_lifetime_idx` (`lifetime`)
         ) COLLATE utf8_bin, ENGINE = InnoDB;');
     }
