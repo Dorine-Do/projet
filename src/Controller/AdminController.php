@@ -8,6 +8,7 @@ use App\Entity\Main\Session;
 use App\Entity\Main\Student;
 use App\Entity\Main\User;
 use App\Form\RegistrationFormType;
+use App\Repository\BugReportRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
@@ -206,5 +207,13 @@ class AdminController extends AbstractController
         }
         return $stmt->executeQuery()->fetchAllAssociative();
 
+    }
+
+    #[Route('admin/bug-reports', name: 'admin_bug_reports')]
+    public function bugReports( BugReportRepository $bugReportRepo ): Response
+    {
+        return $this->render('admin/bug_reports.html.twig', [
+            'reportedBugs' => $bugReportRepo->findAll()
+        ]);
     }
 }
