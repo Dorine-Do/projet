@@ -139,7 +139,8 @@ function fetchStudents(e){
                         ulStudent.append(li);
 
                         li.addEventListener('click', function(){
-                            window.location.href = '/student/qcm/correction/' + e.target.dataset.qcm;
+                            console.log('dataset' , e.target.dataset.qcm)
+                            //window.location.href = '/student/qcm/correction/' + e.target.dataset.qcm;
                     });
                 })
             }
