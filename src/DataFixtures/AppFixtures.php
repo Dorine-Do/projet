@@ -55,19 +55,19 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Module
-//        $this->generateModules( $manager );
+        $this->generateModules( $manager );
 
         //Session
-//        $this->generateSessions( $manager );
+        $this->generateSessions( $manager );
 
         //LinkSessionModule
-//        $this->generateLinksSessionModule( $manager );
+        $this->generateLinksSessionModule( $manager );
 
         //Instructeur
-//        $this->generateInstructors( $manager );
+        $this->generateInstructors( $manager );
 
         //Student
-//        $this->generateStudents( $manager );
+        $this->generateStudents( $manager );
 
         //Question + Proposal
 //        $this->generateQuestions( $manager );
@@ -79,7 +79,7 @@ class AppFixtures extends Fixture
 //        $this->generateQcmInstances( $manager );
 
         // Results
-        $this->generateResults( $manager );
+//        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
