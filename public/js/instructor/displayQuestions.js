@@ -1,4 +1,3 @@
-
 //ONLOAD ET NON DOM CHARGEMENT 1 FOIS ET NON 2 COMME DOM CAR ERREUR ET PROBLEME D AFFICHAGE
 window.onload = function (event) {
   let spanFlashAddIns = document.querySelector(".flash-notice div");
@@ -137,10 +136,11 @@ window.onload = function (event) {
     //AFFICHAGGE PAR DEFAUT SELON ID PAR DEFAUT
 
     //BACKGROUND BTN PAR DEFAUT
-    if ((liBtnQcmOnly.dataset.id = 8)) {
+    if (liBtnQcmOnly.dataset.id == liBtnQcm[0].dataset.id) {
       liBtnQcmOnly.classList.add("defaultBg");
-      console.log(liBtnQcmOnly.classList);
+      // console.log(liBtnQcmOnly.dataset.id, "reussi");
     }
+
     //LI REMPLISSAGE QUESTION AU CLIC
 
     liBtnQcm[forBtnQcm].addEventListener("click", function (e) {
@@ -165,7 +165,7 @@ window.onload = function (event) {
           // questionslist.dataset.id = `${eTarget}`;
 
           liBtnQcm[forBtnQcm].classList.add("active_li");
-          if (this.dataset.id !== 8) {
+          if (this.dataset.id !== liBtnQcm[0].dataset.id) {
             liBtnQcmOnly.classList.remove("defaultBg");
           }
         } else {

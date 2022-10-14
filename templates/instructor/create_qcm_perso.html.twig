@@ -13,6 +13,7 @@
 
     <h1>- {{ 'title.createCustomQcm'|trans }} -</h1>
 
+
     <div class="partOne">
 
         <p><span class="etape">{{ 'title.step1'|trans }}</span>{{ 'qcm.chooseQcmModuleLevel'|trans }}</p>
@@ -33,7 +34,7 @@
                <select class="selectModule" name="module" >
                 {% for module in modules %}
                     <option value="null">Veuillez choisir un module</option>
-                    <option value="{{module.id}}" id="module" name="module">{{ module.title }}</option>
+                    <option value="{{module.id}}" >{{ module.title }}</option>
                 {% endfor %}
             </select>
             </div>
@@ -46,7 +47,7 @@
                              <input type="hidden" value="{{qcmLevel[0].difficulty}}"  name="qcm['difficulty]">
                          {% endfor %} #}
 
-                            <input type="hidden" value="{{qcmsLevel == null ? qcmsLevel: qcmsLevel[0]}}"  name="qcm['difficulty]">
+                            <input type="hidden" value="{{qcmsLevel == null ? qcmsLevel: qcmsLevel[0]}}" >
                             
                             <li {% if qcmsLevel == null %} data-difficulty-easy="null" {% elseif qcmsLevel[0]== 1 %} data-difficulty-easy="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}>Facile </li>
                             <li {% if qcmsLevel == null %} data-difficulty-easy="null" {% elseif qcmsLevel[0]== 2 %} data-difficulty-easy="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}> Moyen</li>
@@ -64,7 +65,7 @@
             </div>
 
         </form>
- {{dump(app.request.query)}}
+ {# {{dump(app.request.query)}} #}
          <hr>
 
 
@@ -242,7 +243,7 @@
                             <ul>
                             {# {{dump(qcmInstancesByQuestion)}} #}
                                 {% for question in officialQuestions %}
-                                    
+                                     {{dump(question)}}
                                     <li class="officialQuestionLi" draggable="true">
                                         <div class="OfficialQuestionWordingDiv questionWordingDiv ">
                                             <div class="qcmChoisedTreffleP">
@@ -277,7 +278,7 @@
                                                 <p class="responselabel">Les réponses</p>
                                                 {% set countLetter = 0 %}
                                                 {% for proposal in question.proposals %}
-                                 
+                                                   
                                                     <p class =" officialProposalWordingP proposalWordingP " data-status="{{proposal.isCorrectAnswer|number_format }}" data-id="{{proposal.id}}" >
                                                         <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span class="spanWording" >{{ proposal.wording | raw }} </span>
                                                     </p>
@@ -326,14 +327,11 @@
                                             </div>
                                         </div>
                                         <div>
-<<<<<<<<< Temporary merge branch 1
-=========
-                                         
->>>>>>>>> Temporary merge branch 2
+
                                             <div class="OfficialProposalWordingDiv proposalWordingDiv">
                                                 {% set countLetter = 0 %}
                                                 {% for proposal in question.proposals %}
-                                             
+                                                
                                                     <p class="officialProposalWordingP proposalWordingP " data-id="{{proposal.id}}" >
                                                         <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span class="spanWording" >{{ proposal.wording | raw }}</span>
                                                     </p>

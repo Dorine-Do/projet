@@ -400,8 +400,8 @@ namespace App\Controller;
 
         if ($module)
         {
-            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $userRepository,$security);
-            $generatedQcm = $qcmGenerator->generateRandomQcm($module);
+            $qcmGenerator = new QcmGeneratorHelper($questionRepository,$security);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module,$this->user, $userRepository);
             //$qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             //$generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->user);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
@@ -428,17 +428,6 @@ namespace App\Controller;
 
 
 
-        // if(empty($_POST['module'])){
-        //     dd("ERROR");
-        // }else{
-        //     dd($_POST['module'][0]);
-        // }
-
-        // dd($request->query->get('id'));
-
-
-
-
 
         /********************************************************************************/
         return $this->render('instructor/create_qcm_perso.html.twig', [
@@ -457,7 +446,7 @@ namespace App\Controller;
 
 
     // methode Post non permise car route non trouvée donc method Get Ok
-    #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
+    #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['GET','POST'])]
     public function createQcmFetch(
         ValidatorInterface     $validator,
         Request                $request,
@@ -465,7 +454,9 @@ namespace App\Controller;
         QuestionRepository     $questionRepository,
         ModuleRepository       $moduleRepository,
         EntityManagerInterface $entityManager,
-        QcmGeneratorHelper $generatorHelper
+        Security $security,
+        UserRepository $userRepository
+
 
     ): Response
     {
@@ -476,7 +467,7 @@ namespace App\Controller;
           /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
         //   $author=$instructorRepository->find(2);
           //$author=$instructorRepository->find($this->id);
-        $author = $instructorRepository->find($this->getUser()->getId());
+        $author = $instructorRepository->find($this->getUser());
         $qcm->setAuthor($author);
 
         $qcm->setTitle($data['name']);
@@ -493,6 +484,7 @@ namespace App\Controller;
             $level = 3;
         }
         $qcm->setDifficulty($level);
+        $qcm->setDistributedBy($userRepository->find($this->user->getId()));
         $qcm->setIsEnabled(1);
         $qcm->setIsOfficial(0);
         $qcm->setIsPublic($data['isPublic']);
@@ -500,13 +492,18 @@ namespace App\Controller;
         $qcm->setModule($module);
 
             /*TODO voir avec Mathieu pour utiliser le hepler pour cette partie*/
-        $questionsCache = $generatorHelper->generateQuestionCache($data['questions']);
-//
+      
+         $questions=[];
+            foreach($data["questions"] as $question){
+            $questions[]= $questionRepository->find($question->id);
+            }
+        $qcmGenerator = new QcmGeneratorHelper($questionRepository,$security);
+        $questionsCache= $qcmGenerator->generateQuestionCache($questions);
 
-            $qcm->setQuestionsCache($questionsCache);
-
+        $qcm->setQuestionsCache($questionsCache);
         $validator->validate($qcm);
         $entityManager->persist($qcm);
+
         $entityManager->flush();
 
         /*redirection voir js*/

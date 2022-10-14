@@ -430,11 +430,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
         if (liQcmChoicedInOfficialQcm) {
           for (let i = 0; i < liQcmChoicedInOfficialQcm.length; i++) {
             console.log(
-              (btnQuestionsOfficial.innerHTML = `Questions officielles :${
+              ((btnQuestionsOfficial.innerHTML = `Questions officielles :${
                 listQuestionsOfficials.length +
                 liQcmChoicedInOfficialQcm.length -
                 liQcmOfficialInQcmChoiced.length
-              }`)
+              }`),
+              "yeah")
             );
           }
         }
@@ -477,6 +478,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         level: level,
         wording: wording,
       });
+      console.log(questionsSelect["question"]);
     });
     console.log(routeInstructorQcmFetch);
     console.log(questionsSelect);
@@ -490,7 +492,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
       .then((res) => res.json())
       .then((result) => {
         if (result == "ok") {
-          window.location.href = "https://127.0.0.1:8000/instructor/questions";
+          window.location.href =
+            "https://127.0.0.1:8000/instructor/creations/questions";
         }
       });
   });
