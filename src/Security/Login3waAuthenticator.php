@@ -17,7 +17,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
 use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -37,6 +39,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
     private UserRepository $userRepo;
     private ManagerRegistry $doctrine;
     private CookieRepository $cookieRepo;
+    private SessionInterface $session;
 
     public function __construct(
         ClientRegistry $clientRegistry,
@@ -45,7 +48,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         ManagerRegistry $managerRegistry,
         UserRepository $userRepo,
         ManagerRegistry $doctrine,
-        CookieRepository $cookieRepo
+        CookieRepository $cookieRepo,
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -64,8 +67,6 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-
-
         $cookieString = $this->generateCookieString();
 
         return new SelfValidatingPassport(new UserBadge($cookieString, function() use ($request, $cookieString) {
