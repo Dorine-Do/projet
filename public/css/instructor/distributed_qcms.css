@@ -162,6 +162,14 @@ img{
     border-radius: 7px;
 }
 
+#div-legend {
+    display: none;
+    justify-content: space-around;
+    align-items: center;
+    width: 80%;
+    margin: 30px auto;
+}
+
 @media screen and (max-width: 780px) {
 
     .button{
