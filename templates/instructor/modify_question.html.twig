@@ -214,12 +214,14 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p class="align">
-                            <span class="circle orangeCircle">Option</span>
+                            <span class="circle orangeCircle">6</span>
                             {{ 'question.desactivate'|trans }}
                         </p>
                     </td>
-                    <td colspan="2" class="second">
-                        {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
+                    <td colspan="2" class="option">
+                        <p class="center">
+                            {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
+                        </p>
                     </td>
                 </tr>
                 {% if app.user.isReferent or 'ROLE_ADMIN' in app.user.roles %}

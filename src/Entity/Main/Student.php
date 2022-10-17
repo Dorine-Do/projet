@@ -72,6 +72,10 @@ class Student extends User
      */
     public function getQcmInstances(): Collection
     {
+        if($this->qcmInstances === null)
+        {
+            $this->qcmInstances = new ArrayCollection();
+        }
         return $this->qcmInstances;
     }
 

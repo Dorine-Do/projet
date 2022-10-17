@@ -36,30 +36,33 @@ document.addEventListener("DOMContentLoaded", (event) => {
     })
 
     let btnAddComment = document.querySelector('.addComment')
-    btnAddComment.addEventListener('click', (e) => {
+    if (btnAddComment !== null){
+        btnAddComment.addEventListener('click', (e) => {
 
-        let parent = e.target.parentNode
-        let pInfoComment = parent.querySelector('.infoComment')
-        let input = parent.querySelector('input')
+            let parent = e.target.parentNode
+            let pInfoComment = parent.querySelector('.infoComment')
+            let input = parent.querySelector('input')
 
-        let result = input.dataset.id
-        let comment = input.value
+            let result = input.dataset.id
+            let comment = input.value
 
-        if (comment === ""){
-            pInfoComment.style.display = 'block'
-            pInfoComment.innerHTML = "Veuillez remplir le formulaire d'ajout de commentaire avant de le soumettre"
-            pInfoComment.style.color = 'red'
-        }else {
-            pInfoComment.style.display = 'none'
-        }
-        fetch(`https://127.0.0.1:8000/instructor/qcm_student/correction/${result}/${comment}`)
-            .then((response) => response.json())
-            .then((data) => {
+            if (comment === ""){
                 pInfoComment.style.display = 'block'
-                pInfoComment.innerHTML = data
-                pInfoComment.style.color = '#93ad6e'
-                input.value = comment
+                pInfoComment.innerHTML = "Veuillez remplir le formulaire d'ajout de commentaire avant de le soumettre"
+                pInfoComment.style.color = 'red'
+            }else {
+                pInfoComment.style.display = 'none'
+            }
+            fetch(`https://127.0.0.1:8000/instructor/qcm_student/correction/${result}/${comment}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    pInfoComment.style.display = 'block'
+                    pInfoComment.innerHTML = data
+                    pInfoComment.style.color = '#93ad6e'
+                    input.value = comment
 
-            });
-    })
+                });
+        })
+    }
+
 })

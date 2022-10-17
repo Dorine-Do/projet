@@ -43,7 +43,6 @@ class QcmGeneratorHelper
         $qcm = new Qcm();
         $qcm->setModule( $module );
         $qcm->setAuthor( $userRepository->find($user->getId()) );
-        $qcm->setDistributedBy($userRepository->find($user->getId()));
         $qcm->setTitle( $title );
         $qcm->setDifficulty( $difficulty );
         $qcm->setIsOfficial( $isOfficial );

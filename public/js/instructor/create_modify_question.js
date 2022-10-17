@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   function clickRemove() {
     this.parentElement.remove();
     let alphabet = ["A", "B", "C", "D", "E", "F"];
-    let p_letters = document.querySelectorAll(".circle");
+    let p_letters = document.querySelectorAll(".pletter");
     let count = 0;
     p_letters.forEach((p) => {
       let letters = p.textContent;
@@ -139,13 +139,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let alphabet = ["A", "B", "C", "D", "E", "F", "G", "H"];
 
-    let end = parseInt(indexData, 10) + 1; // 4 +1 = 5    '4' + 1 = 41
+    let end = parseInt(indexData, 10) + 1; // 4 + 1 = 5    '4' + 1 = 41
     let begin = indexData;
 
     let letter = alphabet.slice(begin, end);
 
     let p = document.createElement("p");
-    p.className = "circle greyCircle";
+    p.className = "circle greyCircle pletter";
     p.innerHTML = letter;
 
     div_proposal.firstElementChild.insertBefore(p, label);
@@ -184,9 +184,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
   // *******************************************************************************************************
   // IMAGE TREFFLES
 
-  let badgesParent = document.getElementById("create_question_difficulty");
   let badgesInput = document.querySelectorAll(".divInputLabel input");
-  let badges = document.querySelectorAll(".divInputLabel");
 
   for (
     let forBadgesInput = 0;
@@ -202,12 +200,4 @@ document.addEventListener("DOMContentLoaded", (event) => {
       }
     }
   }
-  // badgesLabel[0].insertAdjacentHTML("afterbegin", `<img  src=${imgPath[0]}>`);
-
-  // console.log(logo);
-  // for (const [key, value] of Object.entries(badges)) {
-  //   let logo = document.createElement("img");
-  //   logo.setAttribute("src", imgPath[key]);
-  //   badgesParent.insertBefore(logo, value);
-  // }
 });
