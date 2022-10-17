@@ -104,6 +104,11 @@ function fetchStudents(e){
                         let name = document.createElement('p')
                         let img = document.createElement('img')
 
+                        if (studentResult.result !== null)
+                        {
+                            li.dataset.resultid = studentResult.result.id
+                        }
+
                         li.className = 'liStudent'
                         ulStudent.className = 'studentQcm'
                         name.className = 'firstName'
@@ -154,9 +159,9 @@ function fetchStudents(e){
                         ulStudent.append(li);
 
                         li.addEventListener('click', function(e){
-                            console.log(e.target)
-                            console.log('dataset' , e.target.dataset.qcm)
-                            // window.location.href = '/student/qcm/correction/' + e.target.dataset.qcm;
+                            if (this.dataset.resultid){
+                                window.location.href = '/student/qcm/correction/' + this.dataset.resultid;
+                            }
                     });
                         window.scrollTo(0,document.body.scrollHeight);
                 })

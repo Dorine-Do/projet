@@ -1,5 +1,4 @@
 let sessionfields, moduleField, qcmField, studentsFields, startDateField, endDateField, qcmData, selectedSession = null;
-let sessionfields, moduleField, qcmField, studentsFields, startDateField, endDateField, qcmData, selectedSession = null;
 
 async function updateModulesFromAjax( session, field )
 {

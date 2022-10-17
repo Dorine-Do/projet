@@ -55,31 +55,31 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Module
-        $this->generateModules( $manager );
+//        $this->generateModules( $manager );
 
         //Session
-        $this->generateSessions( $manager );
+//        $this->generateSessions( $manager );
 
         //LinkSessionModule
-        $this->generateLinksSessionModule( $manager );
+//        $this->generateLinksSessionModule( $manager );
 
         //Instructeur
-        $this->generateInstructors( $manager );
+//        $this->generateInstructors( $manager );
 
         //Student
-        $this->generateStudents( $manager );
+//        $this->generateStudents( $manager );
 
         //Question + Proposal
-//        $this->generateQuestions( $manager );
+        $this->generateQuestions( $manager );
 
         //Qcm
-//        $this->generateQcm( $manager );
+        $this->generateQcm( $manager );
 
         // QcmInstances
-//        $this->generateQcmInstances( $manager );
+        $this->generateQcmInstances( $manager );
 
         // Results
-//        $this->generateResults( $manager );
+        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
@@ -211,7 +211,7 @@ class AppFixtures extends Fixture
                 $question->setAuthor( $dbInstructors[array_rand($dbInstructors)] );
                 $question->setIsEnabled( 1 );
                 $question->setIsMandatory(0);
-                $question->setIsOfficial(0);
+                $question->setIsOfficial(1);
                 $count = $this->generateProposals($manager, $question);
                 $question->setDifficulty($this->faker->numberBetween(1, 3));
                 $question->setExplanation($this->faker->paragraph());
