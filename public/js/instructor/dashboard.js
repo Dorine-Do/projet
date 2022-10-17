@@ -10,7 +10,6 @@ function getModuleBySessionFromAjax(sessionId){
         });
 }
 
-
 function getStudentsByModuleFromAjax(sessionId, moduleId){
     fetch( 'dashboard/' + sessionId + '/' + moduleId, {method: 'GET'} )
         .then((response) => response.json())
@@ -18,7 +17,6 @@ function getStudentsByModuleFromAjax(sessionId, moduleId){
             displayStudents(data)
         })
 }
-
 
 function getQcmsDoneByStudentFromAjax(sessionId, moduleId, studentId){
     fetch( 'dashboard/' + sessionId + '/' + moduleId + '/' + studentId, {method: 'GET'} )
@@ -45,7 +43,6 @@ function displayModules(data){
         selectModule.append(option)
     } )
 }
-
 
 function displayStudents(data){
     ulListStudents.innerHTML = ''
@@ -88,7 +85,6 @@ function displayStudents(data){
     }
 
 }
-
 
 function displayQcmsDone(data){
     qcmsDiv.style.display = 'block'
@@ -147,12 +143,15 @@ function createElementSimple(elementName,className, textContent = null){
     return createdElement
 }
 
-
 function dislayImgLevel(level, img,  parent = null){
     if( level === 1 )
     {
         img.setAttribute('alt', 'Graine avec petit pousse')
         img.setAttribute('src', decouvre)
+        img.dataset.level = "Découvre";
+        img.addEventListener('mouseenter', mouseEnter);
+        img.addEventListener('mousemove', mouseMouve);
+        img.addEventListener('mouseout', mouseOut);
         if ( parent === null){
             img.setAttribute('id', 'ImgDecouvre')
         }
@@ -161,21 +160,33 @@ function dislayImgLevel(level, img,  parent = null){
     {
         img.setAttribute('alt', 'Jeune arbre')
         img.setAttribute('src', explore)
+        img.dataset.level = "Explore";
+        img.addEventListener('mouseenter', mouseEnter);
+        img.addEventListener('mousemove', mouseMouve);
+        img.addEventListener('mouseout', mouseOut);
     }
     else if( level === 3 )
     {
         img.setAttribute('alt', 'arbre adulte')
         img.setAttribute('src', maitrise)
+        img.dataset.level = "Maîtrise";
+        img.addEventListener('mouseenter', mouseEnter);
+        img.addEventListener('mousemove', mouseMouve);
+        img.addEventListener('mouseout', mouseOut);
+
     }
     else if( level === 4 )
     {
         img.setAttribute('alt', 'arbre adulte fleuri')
         img.setAttribute('src', domine)
+        img.dataset.level = "Domine";
+        img.addEventListener('mouseenter', mouseEnter);
+        img.addEventListener('mousemove', mouseMouve);
+        img.addEventListener('mouseout', mouseOut);
     }
 
     return img
 }
-
 
 function positionLabelInput(parent){
     parent.forEach( element => {
@@ -206,32 +217,50 @@ function positionLabelInput(parent){
     })
 }
 
-
-function showStudentByModules(e){
-    studentsDiv.style.display = 'block'
-    if (moduleId !== e.target.value){
-        qcmsDiv.style.display = 'none';
-        ulListStudents = studentsDiv.querySelector('.ulListStudents')
-        ulListStudents.innerHTML = ""
-        moduleId = e.target.value
-        getStudentsByModuleFromAjax(sessionId, moduleId)
-    }
+function showAll(){
+    divLegend.style.display = "flex"
 }
 
-
-function showModulesBySessions(){
-    nameSession.forEach( input => {
-        input.addEventListener('click', (e)=>{
-            if (sessionId !== e.target.value){
-                sessionId = e.target.value
-                getModuleBySessionFromAjax(sessionId)
-            }
-        })
-    })
+const mouseEnter = (e) =>{
+    let pInfo = document.createElement('p');
+    pInfo.style.position = 'absolute'
+    pInfo.setAttribute('id', 'infoHover')
+    pInfo.classList.add('imgHover')
+    pInfo.innerHTML = e.target.dataset.level
+    e.target.parentNode.append(pInfo)
+    pInfo.style.left = e.pageX + 'px';
+    pInfo.style.top = e.pageY + 'px';
 }
 
+const mouseMouve = (e) =>{
+    let pInfo = document.getElementById('infoHover');
+    pInfo.style.left = e.layerX + 'px';
+    pInfo.style.top = e.layerY + 'px';
+}
 
-function displayContact(){
+const mouseOut = (e) =>{
+    let pInfo = document.getElementById('infoHover');
+    pInfo.remove()
+}
+
+document.addEventListener("DOMContentLoaded", (event) => {
+
+    divLegend = document.getElementById("div-legend");
+    // Position des label par rapport a leur input
+    liSession = document.querySelectorAll('.liSession')
+    positionLabelInput(liSession)
+    liLevel = document.querySelectorAll('.liLevel')
+    positionLabelInput(liLevel)
+
+    levelDiv = document.querySelector('.level')
+    levelDiv.style.display = 'none'
+    studentsDiv = document.querySelector('.students')
+    studentsDiv.style.display = 'none'
+    qcmsDiv = document.querySelector('.qcms')
+    qcmsDiv.style.display = 'none'
+
+    // Display block or none (par rapport à la séléction des levels au click)
+    namesLevel = document.querySelectorAll('.nameLevel')
     namesLevel.forEach( input => {
         input.addEventListener('click', (e)=>{
             qcmsDiv = document.querySelector('.qcms')
@@ -253,28 +282,29 @@ function displayContact(){
             })
         })
     })
-}
 
-
-
-document.addEventListener("DOMContentLoaded", (event) => {
-
-    liSession = document.querySelectorAll('.liSession')
-    liLevel = document.querySelectorAll('.liLevel')
+    // Display module par rapport à la session séléctionnée
     nameSession = document.querySelectorAll('.nameSession')
-    namesLevel = document.querySelectorAll('.nameLevel')
-    levelDiv = document.querySelector('.level')
-    studentsDiv = document.querySelector('.students')
-    qcmsDiv = document.querySelector('.qcms')
-    selectModule = document.getElementById('module-choice')
+    nameSession.forEach( input => {
+        input.addEventListener('click', (e)=>{
+            if (sessionId !== e.target.value){
+                sessionId = e.target.value
+                getModuleBySessionFromAjax(sessionId)
+            }
+        })
+    } )
 
-    selectModule.addEventListener('change', showStudentByModules)
-    positionLabelInput(liSession)
-    positionLabelInput(liLevel)
-    levelDiv.style.display = 'none'
-    studentsDiv.style.display = 'none'
-    qcmsDiv.style.display = 'none'
-    displayContact();
-    showModulesBySessions();
+    // Display student par rapport au module séléctioné
+    selectModule = document.getElementById('module-choice')
+    selectModule.addEventListener('change', (e) => {
+        studentsDiv.style.display = 'block'
+        if (moduleId !== e.target.value){
+            qcmsDiv.style.display = 'none';
+            ulListStudents = studentsDiv.querySelector('.ulListStudents')
+            ulListStudents.innerHTML = ""
+            moduleId = e.target.value
+            getStudentsByModuleFromAjax(sessionId, moduleId)
+        }
+    })
 
 });

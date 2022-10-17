@@ -88,12 +88,13 @@
         <tr>
             <td colspan="2" class="premier">
                 <div class="align">
-                    <div class="circle orangeCircle">5</div>
+                    <div class="circle orangeCircle" >5</div>
+                    <p class="etape">
+                        <span class="numeroForm"></span>
+                        {{ 'question.explanation'|trans }}
+                    </p>
                 </div>
-                <p class="etape">
-                    <span class="numeroForm"></span>
-                    {{ 'question.explanation'|trans }}
-                </p>
+
             </td>
             <td colspan="2" class="second">
                 {{form_widget(form.explanation)}}
@@ -107,7 +108,9 @@
                 </p>
             </td>
             <td colspan="2" class="second">
-                {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
+                <p class="option">
+                    {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
+                </p>
             </td>
         </tr>
         {% if app.user.isReferent or 'ROLE_ADMIN' in app.user.roles %}
@@ -138,7 +141,7 @@
         {% endif %}
         <tr>
             <td colspan="2">
-                <button id="valid" type="button" class="button largeButton greyButton">{{ 'button.validate'|trans }}</button>
+                <button id="valid" type="button" class="button largeButton greyButton marginTopButton">{{ 'button.validate'|trans }}</button>
             </td>
         </tr>
     </table>

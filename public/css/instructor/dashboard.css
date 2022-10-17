@@ -82,6 +82,18 @@
     margin: 50px auto;
 }
 
+.legend {
+    width: 20%;
+}
+
+#div-legend {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    float: left;
+    width: 100%;
+}
+
 /**********************************************************************************************************************/
 /* Session / Level / Students */
 .nameSession{
