@@ -97,6 +97,7 @@ namespace App\Controller;
         {
             $qcms = $qcmRepo->findBy([
                 'author' => $security->getUser(),
+                'isOfficial' => false
             ]);
 
             return $this->render('instructor/display_qcms.html.twig', [
