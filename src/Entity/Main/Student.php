@@ -74,7 +74,7 @@ class Student extends User
     {
         if($this->qcmInstances === null)
         {
-            $arr = new ArrayCollection();
+            $this->qcmInstances = new ArrayCollection();
         }
         return $this->qcmInstances;
     }
