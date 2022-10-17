@@ -97,6 +97,7 @@ namespace App\Controller;
         {
             $qcms = $qcmRepo->findBy([
                 'author' => $security->getUser(),
+                'isOfficial' => false
             ]);
 
             return $this->render('instructor/display_qcms.html.twig', [
@@ -445,8 +446,8 @@ namespace App\Controller;
 
     }
 
-        #[Route('instructor/qcms/create_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
-        public function createOfficialQcm(
+        #[Route('instructor/qcms/generate_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
+        public function generateOfficialQcm(
             Security               $security,
             SessionRepository      $sessionRepository,
             InstructorRepository   $instructorRepository,
@@ -468,8 +469,6 @@ namespace App\Controller;
             }
             $sessions = array_unique($sessions);
             $modules = array_unique($modules);
-            $sessions = [];
-            $modules = [];
 
             $sessions = array_map( function($session) use ($sessionRepository) {
                 return $sessionRepository->findOneBy(['id' => $session]);
@@ -500,6 +499,8 @@ namespace App\Controller;
                 {
                     $qcmInstance = new QcmInstance();
                     $qcmInstance->setStudent($student);
+                    /* TODO à voir si ça foncitonne */
+                    $qcmInstance->setDistributedBy($userRepository->find($this->security->getUser()->getId()));
                     $qcmInstance->setQcm($qcm);
                     $qcmInstance->setCreatedAtValue();
                     $qcmInstance->setUpdateAtValue();
@@ -619,7 +620,8 @@ namespace App\Controller;
             Request                $request,
             QcmRepository          $qcmRepo,
             StudentRepository      $studentRepo,
-            EntityManagerInterface $manager
+            EntityManagerInterface $manager,
+            UserRepository         $userRepository
         ): Response
         {
             $qcm = $qcmRepo->find(intval($request->get('qcm')));
@@ -632,6 +634,8 @@ namespace App\Controller;
             {
                 $qcmInstance = new QcmInstance();
                 $qcmInstance->setStudent($student);
+                /* TODO à voir si ça fonctionne */
+                $qcmInstance->setDistributedBy($userRepository->find($this->security->getUser()->getId()));
                 $qcmInstance->setQcm($qcm);
                 $qcmInstance->setStartTime($startTime);
                 $qcmInstance->setEndTime($endTime);

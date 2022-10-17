@@ -55,7 +55,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Module
-    //    $this->generateModules( $manager );
+//        $this->generateModules( $manager );
 
         //Session
 //        $this->generateSessions( $manager );
@@ -76,10 +76,10 @@ class AppFixtures extends Fixture
         $this->generateQcm( $manager );
 
         // QcmInstances
-//        $this->generateQcmInstances( $manager );
+        $this->generateQcmInstances( $manager );
 
         // Results
-//        $this->generateResults( $manager );
+        $this->generateResults( $manager );
 
 //        $this->generateJson();
     }
@@ -201,8 +201,7 @@ class AppFixtures extends Fixture
     {
         $dbModules  = $this->moduleRepository->findAll();
         $dbInstructors = $this->instructorRepository->findAll();
-
-        // 10 questions par module
+        // 50 questions par module
         foreach ($dbModules as $dbModule){
             for ($i=0; $i<50; $i++)
             {
@@ -210,9 +209,9 @@ class AppFixtures extends Fixture
                 $question->setModule($dbModule);
                 $question->setWording( $this->faker->sentence() );
                 $question->setAuthor( $dbInstructors[array_rand($dbInstructors)] );
-                $question->setIsEnabled( $this->faker->numberBetween(0, 1) );
+                $question->setIsEnabled( 1 );
                 $question->setIsMandatory(0);
-                $question->setIsOfficial(0);
+                $question->setIsOfficial(1);
                 $count = $this->generateProposals($manager, $question);
                 $question->setDifficulty($this->faker->numberBetween(1, 3));
                 $question->setExplanation($this->faker->paragraph());
@@ -267,7 +266,6 @@ class AppFixtures extends Fixture
         }
         $choicedInstructor = $instructors[array_rand($instructors)];
         $qcm->setAuthor($choicedInstructor);
-        $qcm->setDistributedBy($choicedInstructor);
         $qcm->setIsPublic( $this->faker->numberBetween(0, 1) );
 
         $arrayQuestionAnswers = [];
@@ -335,6 +333,8 @@ class AppFixtures extends Fixture
     public function generateQcmInstances( $manager ) :void
     {
         $dbQcms = $this->qcmRepository->findAll();
+        $dbInstructors = $this->instructorRepository->findAll();
+
         $dbStudents = $this->studentRepository->findByEnabled();
         for( $i = 0; $i < 10; $i++ )
         {
@@ -345,6 +345,7 @@ class AppFixtures extends Fixture
             $qcmInstance->setStartTime( $this->faker->dateTimeBetween('-1 year', 'now') );
             $qcmInstance->setEndTime( $this->faker->dateTimeBetween('now', '+1 month') );
             $qcmInstance->setStudent($dbStudents[array_rand($dbStudents,1)]);
+            $qcmInstance->setDistributedBy($dbInstructors[array_rand($dbInstructors)]);
             $manager->persist($qcmInstance);
         }
         $manager->flush();
@@ -401,7 +402,7 @@ class AppFixtures extends Fixture
                     'id'          => $questionAnswer['id'],
                     'wording'     => $questionAnswer['wording'],
                     'isMultiple'  => $questionAnswer['isMultiple'],
-                    'isCorrect' => rand(0,1),
+                    'student_answer_correct' => rand(0,1),
                     'proposals'   => $proposalDetails,
 
                 ];

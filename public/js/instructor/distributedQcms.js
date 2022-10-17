@@ -24,11 +24,11 @@ function fetchQcms(e){
     fetch('../qcm-planner/getModuleQcms/' + e.target.value, {method: 'GET'})
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
+
             qcmsContainer.innerHTML = ''
             qcmsContainer.append(divLegend)
             data.forEach( qcm => {
-                console.log(qcm)
+
                 ul = document.createElement('ul')
                 let name = document.createElement('li')
                 let difficulty = document.createElement('li')
@@ -86,6 +86,7 @@ function fetchStudents(e){
     fetch('distributed_students/' + this.dataset.qcm, {method: 'GET'})
         .then((response) => response.json())
         .then((studentsResults) => {
+            console.log("studentsResults" ,studentsResults)
                 studentsContainer.innerHTML = ''
                 if (typeof studentsResults === 'string'){
                     let p = document.createElement('p')
@@ -100,6 +101,11 @@ function fetchStudents(e){
                         let li = document.createElement('li')
                         let name = document.createElement('p')
                         let img = document.createElement('img')
+
+                        if (studentResult.result !== null)
+                        {
+                            li.dataset.resultid = studentResult.result.id
+                        }
 
                         li.className = 'liStudent'
                         ulStudent.className = 'studentQcm'
@@ -150,8 +156,10 @@ function fetchStudents(e){
                         studentsContainer.append(ulStudent);
                         ulStudent.append(li);
 
-                        li.addEventListener('click', function(){
-                            window.location.href = '/student/qcm/correction/' + e.target.dataset.qcm;
+                        li.addEventListener('click', function(e){
+                            if (this.dataset.resultid){
+                                window.location.href = '/student/qcm/correction/' + this.dataset.resultid;
+                            }
                     });
                         window.scrollTo(0,document.body.scrollHeight);
                 })

@@ -128,7 +128,7 @@
   border: 1px solid var(--fond);
   padding: 2em;
   border-radius: 5px;
-  height: 50%;
+  height: 50em;
   overflow-y: scroll;
 }
 

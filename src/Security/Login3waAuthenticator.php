@@ -16,6 +16,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -34,6 +39,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
     private UserRepository $userRepo;
     private ManagerRegistry $doctrine;
     private CookieRepository $cookieRepo;
+    private SessionInterface $session;
 
     public function __construct(
         ClientRegistry $clientRegistry,
@@ -42,7 +48,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         ManagerRegistry $managerRegistry,
         UserRepository $userRepo,
         ManagerRegistry $doctrine,
-        CookieRepository $cookieRepo
+        CookieRepository $cookieRepo,
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -61,18 +67,16 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-
-
         $cookieString = $this->generateCookieString();
 
         return new SelfValidatingPassport(new UserBadge($cookieString, function() use ($request, $cookieString) {
 
-            // TODO delete in production -------------------------------------------------------------------------------
-            $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
-            if( $stringBeginning[0] === 'C:' ) {
-                return $this->userRepo->find(1);
-            }
-            // TODO end delete in production ---------------------------------------------------------------------------
+//            // TODO delete in production -------------------------------------------------------------------------------
+//            $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
+//            if( $stringBeginning[0] === 'C:' ) {
+//                return $this->userRepo->find(1);
+//            }
+//            // TODO end delete in production ---------------------------------------------------------------------------
 
             // if user isn't logged in 3wa.io ( cookie isn't set )
             if ( !isset($_COOKIE['cookie']) ) {
@@ -142,22 +146,8 @@ class Login3waAuthenticator extends AbstractAuthenticator
                 $user = $this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] );
             }
 
-            $dbCookieYouUp = $this->cookieRepo->findOneBy( ['user' => $user] );
-
-            if( !$dbCookieYouUp )
-            {
-                $dbCookieYouUp = new \App\Entity\Main\Cookie();
-            }
-            $dbCookieYouUp->setCookie($cookieString);
-            $dbCookieYouUp->setCreatedAt( new \DateTime() );
-            $dbCookieYouUp->setUser($user);
-
-            $this->entityManager->persist($dbCookieYouUp);
-            $this->entityManager->flush();
-
-            $user->setCookie( $dbCookieYouUp );
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+//            $sessionStorage = new NativeSessionStorage([], new NativeFileSessionHandler());
+//            $session = new Session($sessionStorage);
 
             return $user;
         }));

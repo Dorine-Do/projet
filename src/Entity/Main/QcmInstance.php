@@ -37,6 +37,10 @@ class QcmInstance
     #[ORM\JoinColumn(nullable: false)]
     private $qcm;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'qcmInstances')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $distributedBy;
+
     #[ORM\PrePersist]
     public function setCreatedAtValue():void
     {
@@ -140,6 +144,18 @@ class QcmInstance
     public function setQcm(?Qcm $qcm): self
     {
         $this->qcm = $qcm;
+
+        return $this;
+    }
+
+    public function getDistributedBy(): ?User
+    {
+        return $this->distributedBy;
+    }
+
+    public function setDistributedBy(?User $user): self
+    {
+        $this->distributedBy = $user;
 
         return $this;
     }

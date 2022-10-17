@@ -59,6 +59,9 @@ class User implements UserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Qcm::class)]
     private $qcms;
 
+    #[ORM\OneToMany(mappedBy: 'distributedBy', targetEntity: QcmInstance::class)]
+    private $qcmInstances;
+
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Cookie $cookie = null;
 
@@ -252,6 +255,37 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, QcmInstance>
+     */
+    public function getQcmInstances(): Collection
+    {
+        return $this->qcmInstances;
+    }
+
+    public function addQcmInstance(QcmInstance $qcmInstance): self
+    {
+        if (!$this->qcmInstances->contains($qcmInstance)) {
+            $this->qcmInstances[] = $qcmInstance;
+            $qcmInstance->setDistributedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQcmInstance(QcmInstance $qcmInstance): self
+    {
+        if ($this->qcmInstances->removeElement($qcmInstance)) {
+            // set the owning side to null (unless already changed)
+            if ($qcmInstance->getDistributedBy() === $this) {
+                $qcmInstance->setDistributedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
 
     public function getCookie(): ?Cookie
     {

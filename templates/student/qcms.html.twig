@@ -31,9 +31,11 @@
                     <div id="drill_choices" class="inter">
                         <select name="qcm" class="selectEntrainement">
                             <option value="">-- {{ 'qcm.choice'|trans }} --</option>
-                            {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
-                                <option value="{{ unofficialQcmInstanceNotDone.id }}">{{unofficialQcmInstanceNotDone.qcm.title}}</option>
-                            {% endfor %}
+                            {% if unofficialQcmInstancesNotDone %}
+                                {% for unofficialQcmInstanceNotDone in unofficialQcmInstancesNotDone %}
+                                    <option value="{{ unofficialQcmInstanceNotDone.id }}">{{unofficialQcmInstanceNotDone.qcm.title}}</option>
+                                {% endfor %}
+                            {% endif %}
                         </select>
                         <button class="buttonExercice">{{ 'qcm.todo'|trans }}</button>
                     </div>
@@ -44,9 +46,11 @@
                 <div id="training_choices" class="training">
                     <select name="module" class="selectModule">
                         <option value="">-- {{ 'module.choice'|trans }} --</option>
-                        {% for sessionModule in sessionModules %}
-                            <option value="{{ sessionModule.id }}">{{sessionModule.title}}</option>
-                        {% endfor %}
+                        {% if sessionModules %}
+                            {% for sessionModule in sessionModules %}
+                                <option value="{{ sessionModule.id }}">{{sessionModule.title}}</option>
+                            {% endfor %}
+                        {% endif %}
                     </select>
                     <div class="difficult">
                         <div class="difficultySubDiv">
@@ -88,9 +92,11 @@
                     <div class="lastDiv">
                         <select name="module" class="selectEntrainement">
                             <option value="">-- {{ 'module.choice'|trans }} --</option>
-                            {% for retryableModule in retryableModules %}
-                                <option value="{{ retryableModule.id }}">{{retryableModule.title}}</option>
-                            {% endfor %}
+                            {% if retryableModules %}
+                                {% for retryableModule in retryableModules %}
+                                    <option value="{{ retryableModule.id }}">{{retryableModule.title}}</option>
+                                {% endfor %}
+                            {% endif %}
                         </select>
                     </div>
                     <button class="buttonBadge">{{ 'button.tryAgain'|trans }}</button>
