@@ -39,24 +39,24 @@
             <div class="divQuestions">
                 <ul class="list_questions"  data-qcms="{{ qcms|json_encode|e('html_attr')}}">
                    {% for qcm in qcms %}
-                        {% if qcm.id != qcms[0].id %}
+                        {% if qcm.id == qcms[0].id %}
 
-                        {% for question in qcm.getQuestionsCache() %}
-                         
-                            <li data-qcm-id="{{qcms[0].id == qcm.id ? qcm.id : qcms[0].id}}" data-id='{{question.id}}'> {#  data-id temporaire#}
+                            {% for question in qcm.getQuestionsCache() %}
+                            
+                                <li data-qcm-id="{{ qcm.id}}" data-id='{{question.id}}'> 
 
-                            <span class="qcm_question_number"></span>
-                            {{question.wording|raw }}
+                                <span class="qcm_question_number"></span>
+                                {{question.wording|raw }}
 
-                            </li>
+                                </li>
 
-                        {% endfor %}
-                   {% endif %}
+                            {% endfor %}
+                        
+                       {% endif %}
+                       
                    {% endfor %}
 
-                {# pour afficher les question en fonction de l'id des qcm
-                dans le js deplacer les li dans le ul avec l'id corespondant au clic  et cacher l'autre
-                sino au clic du bouton cacher l'ul ne corespondant pas a l'id du bouton cliqué #}
+               
                 </ul>
             </div>
         </div>

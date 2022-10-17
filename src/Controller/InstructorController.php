@@ -100,9 +100,10 @@ namespace App\Controller;
         ): Response
         {
          /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-
+         
             $qcms = $qcmRepo->findBy([
                 'author' => $security->getUser(),
+                'isOfficial'=>false
             ]);
 
             return $this->render('instructor/display_qcms.html.twig', [
