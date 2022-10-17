@@ -1,4 +1,4 @@
-let selectSession, selectModule, qcmsContainer, ul, qcmsName, studentsContainer, redirect
+let selectSession, selectModule, qcmsContainer, ul, qcmsName, studentsContainer, redirect, divLegend
 
 
 function fetchModules(e){
@@ -26,6 +26,7 @@ function fetchQcms(e){
         .then((data) => {
 
             qcmsContainer.innerHTML = ''
+            qcmsContainer.append(divLegend)
             data.forEach( qcm => {
 
                 ul = document.createElement('ul')
@@ -38,7 +39,6 @@ function fetchQcms(e){
                 isOfficial.className = 'official'
                 difficulty.className = 'difficulty'
                 date.className = 'date'
-
 
                 name.innerHTML = qcm.title
                 name.dataset.qcm = qcm.id
@@ -68,8 +68,6 @@ function fetchQcms(e){
                 for(let i = 0; i<qcmsName.length; i++){
                     qcmsName[i].addEventListener('click', fetchStudents)
                 }
-
-
                 document.querySelectorAll('li.button').forEach(button => {
                     button.addEventListener('click', function (e) {
                         e.preventDefault();
@@ -173,6 +171,7 @@ function showQcmsStudent()
 {
     qcmsContainer.style.display = "block";
     studentsContainer.style.display = "block";
+    divLegend.style.display = "flex"
 }
 
 
@@ -204,6 +203,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     selectSession = document.getElementById('session-choice')
     selectModule = document.getElementById('module-choice')
     qcmsContainer = document.getElementById('qcms-module')
+    divLegend = document.getElementById('div-legend')
     studentsContainer = document.getElementById('students-qcm')
     selectSession.addEventListener('change', fetchModules)
     selectModule.addEventListener('change', fetchQcms)
