@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", (event) => {
     let select = document.getElementById('select_module');
+    let selectDate = document.getElementById('select_date')
     let imgLevel = document.querySelectorAll('.divLevel img')
+
+
 
     function getSelectValue(){
         let selectedValue = select.options[select.selectedIndex].text
@@ -16,6 +19,20 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 qcm.style.display = 'flex'
             }
         })
+    }
+
+    function getSelectedValueByDate(){
+        let selectedValue = selectDate.options[selectDate.selectedIndex].value
+        let container = document.getElementById('container_result')
+
+        if(selectedValue === 'all'){
+            container.style.display = 'flex'
+        }else if(selectedValue === 'recent'){
+            container.style.flexDirection = 'column'
+        }else{
+            container.style.flexDirection = 'column-reverse'
+        }
+
     }
 
     const mouseEnter = (e) =>{
@@ -48,5 +65,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         img.addEventListener('mouseout', mouseOut);
     })
     select.addEventListener('change', getSelectValue)
+    selectDate.addEventListener('change', getSelectedValueByDate)
 
 })
