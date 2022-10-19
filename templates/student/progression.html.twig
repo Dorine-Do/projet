@@ -20,7 +20,7 @@
                     <div class="lineY"></div>
                     <div class="infoQcm">
                         <p class="infoTimeLine moduleTitle" data-id = "{{ isOfficialQcm.moduleId }}"> {{ isOfficialQcm.moduleTitle }} </p>
-                        <p class="infoTimeLine iTrainning"> Je m'entraine </p>
+                        <p class="infoTimeLine iTrainning"> {{ 'qcm.iTrainning'|trans }} </p>
                     </div>
 
                     {% if isOfficialQcm.level is same as 1  or isOfficialQcm.level is same as 2%}
@@ -32,7 +32,7 @@
             {% endfor %}
         </div>
     </div>
-    <h2>- Mes badges d'encouragement -</h2>
+    <h2>{{ 'title.myInducementBadges'|trans }}</h2>
     <div class="containerBadges">
         <div class="splitBadges">
             {% for badge in app.user.badges %}
@@ -51,8 +51,8 @@
         </div>
     </div>
 
-    <a href="" class="certif">Ma certification</a>
-    <p class="lilMessage">* Se débloquera une fois que tu auras effectué tout les qcms.</p>
+    <a href="" class="certif">{{ 'title.myCertification'|trans }}</a>
+    <p class="lilMessage">*{{ 'title.unlockWhenQcmDone'|trans }}</p>
 {% endblock %}
 {% block javascripts %}
     <script>

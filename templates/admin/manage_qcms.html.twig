@@ -11,21 +11,21 @@
     <main class="admin_content">
 
         <section>
-            <h1>Gestion des QCMs</h1>
+            <h1>{{ 'title.qcmManagement'|trans }}</h1>
         </section>
 
         <section class="tableContainer">
             <div class="createBtnContainer">
-                <a href="{{ path('instructor_create_qcm_perso') }}" class="showStudentsBtn button greyButton">Créer un QCM</a>
+                <a href="{{ path('instructor_create_qcm_perso') }}" class="showStudentsBtn button greyButton">{{ 'button.createQcm'|trans }}</a>
             </div>
             <table id="tableToSort" class="qcmsTable">
                 <thead>
                     <tr>
-                        <th>Titre</th>
-                        <th>Auteur</th>
-                        <th>Difficulté</th>
-                        <th>Date</th>
-                        <th>Actions</th>
+                        <th>{{ 'title.title'|trans }}</th>
+                        <th>{{ 'title.author'|trans }}</th>
+                        <th>{{ 'title.difficulty'|trans }}</th>
+                        <th>{{ 'title.date'|trans }}</th>
+                        <th>{{ 'title.actions'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,7 +37,7 @@
                             <td>{{ qcm.difficulty }}</td>
                             <td>{{ qcm.createdAt | date('d/m/Y') }}</td>
                             <td>
-                                <a href="#" class="showStudentsBtn button greyButton">Stats</a>
+                                <a href="#" class="showStudentsBtn button greyButton">{{ 'button.stats'|trans }}</a>
 {#                                <a href="{{ path('', {'qcm': qcm.id}) }}" class="greyButton">Editer</a>#}
                             </td>
                         </tr>

@@ -8,11 +8,11 @@
 
 {% block body %}
 
-    <h1 class="titleDashboard">- Tableau de bord -</h1>
+    <h1 class="titleDashboard">- {{ 'header.dashboard'|trans }} -</h1>
 
     <section>
         <p class="title">
-            Session
+            {{ 'title.session'|trans }}
         </p>
         <ul class="choiceSession">
             {% for session in sessions %}
@@ -23,32 +23,32 @@
         </ul>
     </section>
 
-        <h4 class="title">Niveau</h4>
+        <h4 class="title">{{ 'title.level'|trans }}</h4>
     <div class="level">
         <select id="module-choice" name="module">
-            <option value="0">Selectionnez un module</option>
+            <option value="0">{{ 'title.selectModule'|trans }}</option>
         </select>
         <ul class="choiceLevel">
             <li class="liLevel">
-                <input class="nameLevel" id="allLevel" type="radio" name="level" value="0"><label for="allLevel">Tous les niveau</label>
+                <input class="nameLevel" id="allLevel" type="radio" name="level" value="0"><label for="allLevel">{{ 'button.allLevels'|trans }}</label>
             </li>
             <li class="liLevel">
-                <input class="nameLevel" id="decouvre" type="radio" name="level" value="1"><label for="decouvre">Découvre</label>
+                <input class="nameLevel" id="decouvre" type="radio" name="level" value="1"><label for="decouvre">{{ 'button.decouvre'|trans }}</label>
             </li>
             <li class="liLevel">
-                <input class="nameLevel" id="explore" type="radio" name="level" value="2"><label for="explore">Explore</label>
+                <input class="nameLevel" id="explore" type="radio" name="level" value="2"><label for="explore">{{ 'button.explore'|trans }}</label>
             </li>
             <li class="liLevel">
-                <input class="nameLevel" id="maitrise" type="radio" name="level" value="3"><label for="maitrise">Maîtrise</label>
+                <input class="nameLevel" id="maitrise" type="radio" name="level" value="3"><label for="maitrise">{{ 'button.maitrise'|trans }}</label>
             </li>
             <li class="liLevel">
-                <input class="nameLevel" id="domine" type="radio" name="level" value="4"><label for="domine">Domine</label>
+                <input class="nameLevel" id="domine" type="radio" name="level" value="4"><label for="domine">{{ 'button.domine'|trans }}</label>
             </li>
         </ul>
     </div>
 
     <div class="students">
-        <h4 class="title">Liste des élèves</h4>
+        <h4 class="title">{{ 'title.studentList'|trans }}</h4>
         <div class="studentsList">
             <ul class="ulListStudents"></ul>
         </div>
@@ -57,11 +57,11 @@
     <div class="qcms">
         <h4>Qcms effectués</h4>
                 <ul id="div-legend">
-                    <li class="legend">Difficulté</li>
-                    <li class="legend">QCM Type</li>
-                    <li class="legend">Module</li>
-                    <li class="legend">Date</li>
-                    <li class="legend">Note</li>
+                    <li class="legend">{{ 'title.difficulty'|trans }}</li>
+                    <li class="legend">{{ 'title.qcmType'|trans }}</li>
+                    <li class="legend">{{ 'title.module'|trans }}</li>
+                    <li class="legend">{{ 'title.date'|trans }}</li>
+                    <li class="legend">{{ 'title.note'|trans }}</li>
                 </ul>
         <div class="QcmsList">
             <ul class="ulListQcms"></ul>

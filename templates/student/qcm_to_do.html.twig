@@ -85,7 +85,7 @@
             <div class="modalContent">
                 <img class="logoPop" src="{{asset('build/images/logo_sans_fond.svg')}}">
                 <p>
-                    Merci de répondre à toutes les questions pour valider le QCM...
+                    {{ 'tittle.answerToValid'|trans }}
                 </p>
                 <button type="button" class="cancelBtn" id="cancel-error-qcm-btn">{{ 'button.back'|trans }}</button>
             </div>
@@ -108,7 +108,7 @@
             <div class="overlay"></div>
             <div class="modalConfirm">
                 <img class="logoPop" src="{{asset('build/images/logo_sans_fond.svg')}}" alt="logo de Youup">
-                <p>Je laisse mon commentaire à propos de ce QCM</p>
+                <p>{{ 'title.myCommentary'|trans }}</p>
                 <textarea type="text" name="comment_student"></textarea>
                 <div class="buttonPop">
                     <button type="button" class="confirmBtn" id="confirm-qcm-btn">{{ 'button.validate'|trans }}</button>
