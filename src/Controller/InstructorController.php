@@ -317,8 +317,8 @@ namespace App\Controller;
 
         if ($module)
         {
-            $qcmGenerator = new QcmGeneratorHelper($questionRepository);
-            $generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->security->getUser(), $userRepository);
+            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $this->security);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->security->getUser(), $userRepository, 'training');
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $this->security->getUser()->getId()]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
             $qcms = $module->getQcms();
@@ -484,7 +484,7 @@ namespace App\Controller;
             {
                 $module = $moduleRepository->find($formData["module"]);
                 $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-                $qcm = $qcmGenerator->generateRandomQcm($module,$this->security->getUser(), $userRepository , false);
+                $qcm = $qcmGenerator->generateRandomQcm($module,$this->security->getUser(), $userRepository , 'official');
                 $manager->persist($qcm);
 
                 $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();

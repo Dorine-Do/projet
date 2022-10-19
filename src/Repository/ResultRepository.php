@@ -61,6 +61,30 @@ class ResultRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @return Result[] Returns an array of Result objects
+     */
+    public function getOfficialQcmsSuccessByModule($userId, $titleModule): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select("r.id, r.score")
+            ->innerJoin('r.qcmInstance', 'qi')
+            ->innerJoin('qi.student', 's')
+            ->innerJoin('s.linksSessionStudent', 'lss')
+            ->innerJoin('qi.qcm', 'q')
+            ->innerJoin('q.module', 'm')
+            ->where('s.id = :userId')
+            ->andWhere('q.isOfficial = true')
+            ->andWhere('lss.isEnabled = true')
+            ->andWhere('r.score >= 50')
+            ->andWhere('m.title LIKE :titleModule')
+            ->setParameter('userId', $userId)
+            ->setParameter('titleModule', '%'.$titleModule.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Result[] Returns an array of Result objects
 //     */

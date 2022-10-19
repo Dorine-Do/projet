@@ -40,29 +40,30 @@ class ModuleRepository extends ServiceEntityRepository
         }
     }
 
-    public function getAccomplishedModules( int $student_id ): array
+    public function getRetryableModules( int $student_id ): array
     {
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = '
-            SELECT module.id, module.weeks, module.title, module.created_at, module.updated_at
-            FROM user
-            INNER JOIN qcm_instance ON qcm_instance.student_id = user.id
-            INNER JOIN qcm ON qcm_instance.qcm_id = qcm.id
-            INNER JOIN result ON result.qcm_instance_id = qcm_instance.id
-            INNER JOIN module ON qcm.module_id = module.id
-            INNER JOIN link_session_module ON link_session_module.module_id = module.id
-            WHERE result.score >= 50 AND link_session_module.end_date <= now() AND qcm.is_official = true AND user.id = :student_id
+            SELECT module.id as moduleId, MAX(result.score) as maxModuleOfficialScore FROM module
+            LEFT JOIN qcm ON module.id = qcm.module_id
+            LEFT JOIN qcm_instance ON qcm_instance.qcm_id = qcm.id
+            LEFT JOIN user ON qcm_instance.student_id = user.id
+            LEFT JOIN link_session_student ON link_session_student.student_id = user.id
+            LEFT JOIN result ON result.qcm_instance_id = qcm_instance.id
+            WHERE user.id = 11 AND link_session_student.is_enabled = true AND qcm.is_official = true
+            GROUP BY module.id
+            HAVING maxModuleOfficialScore IS NULL OR maxModuleOfficialScore < 50            
         ';
 
         $stmt = $conn->prepare($sql);
 
-        $resultSet = $stmt->executeQuery(['student_id' => $student_id]);
+        $resultSet = $stmt->executeQuery();
 
         return $resultSet->fetchAllAssociative();
     }
 
-    public function getModuleSessions($id)
+        public function getModuleSessions($id)
     {
         return $this->createQueryBuilder('m')
             ->select('m')
@@ -72,6 +73,27 @@ class ModuleRepository extends ServiceEntityRepository
             ->setParameter('session', $id )
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @return Module[] Returns an array of Module objects
+     */
+    public function getModulesByModuleBaseName($userId, $titleModule): array
+    {
+        return $this->createQueryBuilder('m')
+            ->select("DISTINCT m.id as mId, m.title")
+            ->innerJoin('m.qcms', 'q')
+            ->innerJoin('q.qcmInstances', 'qi')
+            ->innerJoin('qi.student', 's')
+            ->innerJoin('s.linksSessionStudent', 'lss')
+            ->where('s.id = :userId')
+            ->andWhere('lss.isEnabled = true')
+            ->andWhere('m.title LIKE :titleModule')
+            ->setParameter('userId', $userId)
+            ->setParameter('titleModule', '%'.$titleModule.'%')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
 
@@ -92,22 +114,8 @@ class ModuleRepository extends ServiceEntityRepository
     //        '
     //     )->setParameter(':instructor',$instructorId)
     //     ;
-
-    //     ;
     // }
 
-
-    // public function getModules( $instructor )
-    // {
-    public function getModules(  )
-    {
-        return $this->createQueryBuilder('m')
-            ->select('m')
-            ->join(LinkInstructorSessionModule::class, 'lism')
-            ->where('lism.instructor = :instructor' )
-            ->andWhere( 'lism.module = m.id' )
-            ->setParameter('instructor', $instructor->getId() );
-    }
 //    /**
 //     * @return Module[] Returns an array of Module objects
 //     */
