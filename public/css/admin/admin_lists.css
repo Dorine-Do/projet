@@ -2,6 +2,10 @@
     ADMIN TABLES
 ***/
 
+table{
+    border-spacing: 0;
+}
+
 #admin_content {
     width: 100%;
 }
@@ -111,7 +115,6 @@
 .dataTables_paginate a:hover {
     background-color: #FFAC8F;
     cursor: pointer;
-    font-weight: bold;
 }
 
 /* QUESTIONS TABLE */
@@ -255,6 +258,23 @@ label{
     font-weight: bold;
 }
 
+#closeSessionStudentsBtn,
+#closeSessionModulesBtn,
+#closeUserDetailsBtn{
+    background-color: var(--pamplemousse);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: var(--writing);
+    border: 2px solid var(--grey);
+    cursor: pointer;
+}
+
+.currentModule{
+    background-color: var(--pamplemousse);
+}
+
+
 @media screen and (max-width: 1200px) {
 
     .tableContainer {
@@ -289,6 +309,7 @@ label{
         width: 100vw;
         overflow-x: scroll;
         padding: 30px 0;
+        margin-left: 50px;
     }
 
     #tableToSort thead, #tableToSort tbody {
