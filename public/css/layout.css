@@ -2,9 +2,12 @@
 
 header{
   display: flex;
+  position: sticky;
   justify-content: space-between;
   margin: 0 20px 50px 20px;
   align-items: center;
+  background-color: white;
+  top: 0;
 }
 
 /**************************************** LOGO ********************************************************/
@@ -93,6 +96,11 @@ header{
 }
 
 @media screen and (max-width: 780px) {
+
+  header{
+    position: relative;
+  }
+
   .logo{
     width: 20%;
     height: 10%;
@@ -132,6 +140,7 @@ header{
     display: flex;
     flex-direction: column-reverse;
     margin: auto;
+    position: relative;
   }
 
   .eleve{
