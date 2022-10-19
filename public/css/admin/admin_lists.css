@@ -254,3 +254,46 @@ select.form-control{
 label{
     font-weight: bold;
 }
+
+@media screen and (max-width: 1200px) {
+
+    .tableContainer {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 780px) {
+
+    #tableToSort_length,
+    #tableToSort_filter,
+    .dataTables_info,
+    .dataTables_paginate{
+        text-align: center;
+    }
+
+    #tableToSort{
+        width: 100vw;
+        overflow-x: scroll;
+        padding: 30px 0;
+    }
+
+    #tableToSort thead, #tableToSort tbody {
+        display: block;
+        width: 1000px;
+        padding-right: 50px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    #tableToSort{
+        width: 100vw;
+        overflow-x: scroll;
+        padding: 30px 0;
+    }
+
+    #tableToSort thead, #tableToSort tbody {
+        display: block;
+        width: 1200px;
+        padding-right: 50px;
+    }
+}

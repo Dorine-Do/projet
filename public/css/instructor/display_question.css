@@ -222,6 +222,7 @@
 .blocContentProposal > p:last-child {
   padding: 0.5em;
   margin: 0;
+  width: 3%;
 }
 .pLetter {
   margin: 0;
@@ -286,6 +287,7 @@
   .divQuestion {
     margin: 1em auto;
     display: flex;
+    width: 85%;
   }
 
   .ulQuestions {
@@ -298,9 +300,8 @@
   }
 
   .buttonModify {
-    height: 52px;
-    width: 37px;
-    margin: auto;
+    height: 105px;
+    width: 52px;
   }
 }
 .blocQuestions {
@@ -341,7 +342,7 @@
 
   .buttonModify {
     height: 52px;
-    width: 37px;
+    margin-right: 44%;
   }
 
   .divJs {

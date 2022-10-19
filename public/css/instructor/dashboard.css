@@ -136,10 +136,10 @@
 .choiceSession{
     display: grid;
     background-color: var(--fond);
-    width: 85%;
+    width: 100%;
     padding: 8px 32px;
     margin: 50px auto;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
 }
 
 .choiceLevel{
@@ -242,4 +242,67 @@
 
 .noStudent{
     margin-bottom: 20%;
+}
+
+@media screen and (max-width: 1200px) {
+    .choiceSession {
+        display: grid;
+        background-color: var(--fond);
+        width: 85%;
+        padding: 8px 80px;
+        margin: 50px auto;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .choiceLevel{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 5px 100px;
+    }
+
+    #module-choice{
+        width: 84%;
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .choiceSession {
+        display: grid;
+        background-color: var(--fond);
+        width: 100%;
+        padding: 8px 80px;
+        margin: 50px auto;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .choiceLevel{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        padding: 5px 100px;
+    }
+
+    #module-choice{
+        width: 84%;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .choiceSession {
+        display: grid;
+        background-color: var(--fond);
+        width: 100%;
+        padding: 8px 100px;
+        margin: 50px auto;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .choiceLevel{
+        display: flex;
+        flex-direction: column;
+        padding: 5px 100px;
+    }
+
+    #module-choice{
+        width: 84%;
+    }
 }
