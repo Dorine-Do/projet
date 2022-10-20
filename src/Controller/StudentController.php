@@ -547,7 +547,6 @@ class StudentController extends AbstractController
         $linkSessionStudent = $linkSessionStudentRepository->findBy(['student'=>11, 'isEnabled'=>1]);
 
         $result = $resultRepository->resultWithQcmOfficialByModule( $this->security->getUser()->getId(), $linkSessionStudent[0]->getSession()->getId() );
-
         // Créer un tableau de tableau avec comme key le nom de base des modules
         $moduleGroups = [];
 
@@ -566,7 +565,7 @@ class StudentController extends AbstractController
             }
         }
 
-        // Trier par date
+        // Trier par numéro de module
         foreach ( $moduleGroups  as $key => $moduleGroup )
         {
             usort($moduleGroup, function ($a, $b) {
@@ -600,24 +599,23 @@ class StudentController extends AbstractController
             $totalScore = $totalNotePonderated / $totalPonderation;
             $moduleGroups[$key]['totalScore'] = $totalScore;
 
-            if( $totalPonderation < 25 )
+            if( $totalScore < 25 )
             {
                 $moduleGroups[$key]['level'] = 1;
             }
-            elseif( $totalPonderation >= 25 && $totalPonderation < 50 )
+            elseif( $totalScore >= 25 && $totalScore < 50 )
             {
                 $moduleGroups[$key]['level'] = 2;
             }
-            elseif( $totalPonderation >= 50 && $totalPonderation < 75 )
+            elseif( $totalScore >= 50 && $totalScore < 75 )
             {
                 $moduleGroups[$key]['level'] = 3;
             }
-            elseif( $totalPonderation >= 75 && $totalPonderation <= 100 )
+            elseif( $totalScore >= 75 && $totalScore <= 100 )
             {
                 $moduleGroups[$key]['level'] = 4;
             }
         }
-        dd($moduleGroups);
 
         return $this->render('student/level_modules.html.twig', [
             'moduleGroups' => $moduleGroups !== [] ? $moduleGroups : false
