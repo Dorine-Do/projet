@@ -93,11 +93,15 @@ function divIsOfficialManagment(){
                 // Si il y a un changement de module, afficher le logo YouUp si l'étudiant à réussi à avoir la moyenne au moins
                 // une fois aux qcms de fin de semaine.
                 else {
+                    console.log('pBadgeChange')
+
                     let pBadge = createInterCaseBagde(levelMaxByModule, 'left')
                     divIsOfficials[i].parentNode.insertBefore(pBadge,divIsOfficials[i])
                     divPrev = divIsOfficials[i].querySelector('.moduleTitle').dataset.id
                     levelMaxByModule = 0
+                    console.log(i)
                     i --
+                    console.log(i)
                 }
             }
             // Dernière Div (ligne 46 : divIsOfficials.length + 1). Le +1 sert à verifier si le dernier qcm est le dernier
@@ -107,8 +111,10 @@ function divIsOfficialManagment(){
                 let now = new Date()
                 let endDate = new Date(divIsOfficials[i-1].dataset.enddate)
                 if (endDate < now){
+                    console.log('pBadgeSup')
                     let pBadge = createInterCaseBagde(levelMaxByModule, 'left')
                     divIsOfficials[i-1].parentNode.append(pBadge)
+
                 }
             }
         }
@@ -124,14 +130,6 @@ function divIsOfficialManagment(){
 }
 
 function windowSize420(){
-    // let lastElement1 = timeLine.lastElementChild.getBoundingClientRect().y / 16
-    // let firstElement1 = timeLine.firstElementChild.getBoundingClientRect().y / 16
-    // console.log('timeLine.lastElementChild', timeLine.lastElementChild)
-    // console.log('lastElement', lastElement1)
-    // console.log('firstElement', firstElement1)
-    // diffLeft = lastElement1 - firstElement1
-    // console.log(diffLeft)
-    // timeLine.style.height = diffLeft + 10 + 'em'
     timeLine.style.display = 'flex'
     timeLine.style.flexDirection = 'column'
 
@@ -160,6 +158,7 @@ function windowSize420(){
                 // Si il y a un changement de module, afficher le logo YouUp si l'étudiant à réussi à avoir la moyenne au moins
                 // une fois aux qcms de fin de semaine.
                 else {
+                    console.log('pBadge')
                     let pBadge = createInterCaseBagde(levelMaxByModule, 'top')
                     divIsOfficials[i].parentNode.insertBefore(pBadge,divIsOfficials[i])
                     divPrev = divIsOfficials[i].querySelector('.moduleTitle').dataset.id
@@ -182,16 +181,6 @@ function windowSize420(){
             divPrev = divIsOfficials[i].querySelector('.moduleTitle').dataset.id
         }
     }
-
-    // let lastElement = timeLine.lastElementChild.getBoundingClientRect().y / 16
-    // let firstElement = timeLine.firstElementChild.getBoundingClientRect().y / 16
-    // console.log('timeLine.lastElementChild', timeLine.lastElementChild)
-    // console.log('lastElement', lastElement)
-    // console.log('firstElement', firstElement)
-    //
-    // diffLeft = lastElement - firstElement
-    // console.log(diffLeft)
-    // timeLine.style.height = diffLeft + 'em'
 }
 
 function windowSizeSup420(){

@@ -544,7 +544,7 @@ class StudentController extends AbstractController
     public function levelStudentByModule(ModuleRepository $moduleRepository, ResultRepository $resultRepository, LinkSessionStudentRepository $linkSessionStudentRepository): Response
     {
 
-        $linkSessionStudent = $linkSessionStudentRepository->findBy(['student'=>11, 'isEnabled'=>1]);
+        $linkSessionStudent = $linkSessionStudentRepository->findBy(['student'=>$this->security->getUser()->getId(), 'isEnabled'=>1]);
 
         $result = $resultRepository->resultWithQcmOfficialByModule( $this->security->getUser()->getId(), $linkSessionStudent[0]->getSession()->getId() );
         // Créer un tableau de tableau avec comme key le nom de base des modules
@@ -623,9 +623,14 @@ class StudentController extends AbstractController
     }
 
     #[Route('student/progression/', name: 'student_progression', methods: ['GET'])]
-    public function progressionStudent(): Response
+    public function progressionStudent( LinkSessionStudentRepository $linkSessionStudentRepository, ResultRepository $resultRepository ): Response
     {
-        $isOfficialQcms = $this->studentRepo->isOfficialQcmLevel( $this->security->getUser()->getId() );
+        $linkSessionStudent = $linkSessionStudentRepository->findBy(['student'=>$this->security->getUser()->getId(), 'isEnabled'=>1]);
+
+
+        $isOfficialQcms = $resultRepository->isOfficialQcmLevel( $this->security->getUser()->getId(), $linkSessionStudent[0]->getSession()->getId() );
+
+
         $isOfficialQcms[] = [
             "qcmId" => 6,
                 "qcmTitle" => "Qcm1",

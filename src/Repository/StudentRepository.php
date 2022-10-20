@@ -73,35 +73,7 @@ class StudentRepository extends ServiceEntityRepository
             ;
     }
 
-    /**
-     * @return Student[] Returns an array of Student objects
-     */
-    public function isOfficialQcmLevel($id): array
-    {
-        return $this->createQueryBuilder('s')
-            ->select(
-                "q.id as qcmId,
-                 q.title as qcmTitle,
-                 qi.id as qcmInstanceId, 
-                 r.id as resultID, 
-                 m.id as moduleId, 
-                 m.title as moduleTitle,
-                 r.level,
-                 DATE_FORMAT(lsm.startDate,'%Y-%m-%d') as startDat,
-                 DATE_FORMAT(lsm.endDate,'%Y-%m-%d') as endDate
-                 ")
-            ->innerJoin('s.qcmInstances', 'qi')
-            ->innerJoin('qi.result', 'r')
-            ->innerJoin('qi.qcm', 'q')
-            ->innerJoin('q.module', 'm')
-            ->innerJoin('m.linksSessionModule', 'lsm')
-            ->where('s.id = :id')
-            ->andWhere('q.isOfficial = true')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getResult()
-            ;
-    }
+
 
     /*
      * SELECT module.id, module.name ,MAX(result.score) FROM `user`
