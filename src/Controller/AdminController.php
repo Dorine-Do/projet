@@ -12,6 +12,7 @@ use App\Repository\BugReportRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
+use App\Repository\ResultRepository;
 use App\Repository\SessionRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -262,5 +263,55 @@ class AdminController extends AbstractController
         }
 
         return $this->json( $ratesByModule );
+    }
+
+    #[Route('admin/stats/fetch/stacks-success-rate' ,name: 'admin_fetch_stacks_success_rate', methods: ['GET'])]
+    public function fetchStacksSuccessRate(ModuleRepository $moduleRepo) : JsonResponse
+    {
+        $ratesByStack = [];
+        $modules = $moduleRepo->findAll();
+
+        $stacksNotUniq = array_map( function($module){
+            return preg_replace('/[0-9]+/', '' ,$module->getTitle() );
+        }, $modules );
+
+        $stacks = array_unique( $stacksNotUniq );
+
+        foreach( $stacks as $stack )
+        {
+            $stackModules = $moduleRepo->findAllModulesByBaseName($stack);
+
+            $stackScores = [];
+            $stackOverFiftyScores = [];
+            foreach( $stackModules as $module )
+            {
+                $moduleOfficialQcms = $module->getQcms()->filter(function($qcm){
+                    return $qcm->getIsOfficial();
+                });
+
+                $scores = [];
+                foreach( $moduleOfficialQcms as $moduleOfficialQcm)
+                {
+                    $qcmInstances = $moduleOfficialQcm->getQcmInstances();
+                    foreach( $qcmInstances as $qcmInstance )
+                    {
+                        $result = $qcmInstance->getResult();
+                        if( $result )
+                        {
+                            $scores[] = $result->getScore();
+                        }
+                    }
+                }
+                $stackScores = array_merge( $stackScores, $scores );
+                $stackOverFiftyScores = array_merge( $stackOverFiftyScores, array_filter($scores, function($score){ return $score >= 50; }) );
+            }
+            $ratesByStack[] = [
+                'title' => $stack,
+                'averageScore' => count($stackScores) > 0 ? array_sum($stackScores) / count($stackScores) : 0,
+                'successRate' => count($stackScores) > 0 ? count($stackOverFiftyScores) / count($stackScores) : 0,
+            ];
+        }
+
+        return $this->json( $ratesByStack );
     }
 }
