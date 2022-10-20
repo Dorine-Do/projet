@@ -41,6 +41,14 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/stats', name: 'app_admin_stats')]
+    public function stats(): Response
+    {
+        return $this->render('admin/stats.html.twig', [
+            'controller_name' => 'AdminController',
+        ]);
+    }
+
     #[Route('admin/manage-qcms', name: 'admin_manage_qcms')]
     public function manageQcms( QcmRepository $qcmRepo ): Response
     {
@@ -314,4 +322,6 @@ class AdminController extends AbstractController
 
         return $this->json( $ratesByStack );
     }
+
+
 }

@@ -26,16 +26,25 @@ function displayModulesStats()
 
             let averageScoreDataset = {
                 label: 'Note moyenne',
-                backgroundColor: '#fff4e4',
+                backgroundColor: '#ffac8f',
                 data: averageScores,
             }
 
-            const ctxModules = document.getElementById('modules-chart').getContext('2d');
-            new Chart( ctxModules, {
+            const ctxRateModules = document.getElementById('modules-rate-chart').getContext('2d');
+            new Chart( ctxRateModules, {
                 type: 'bar',
                 data: {
                     labels,
-                    datasets: [successRateDataset, averageScoreDataset]
+                    datasets: [successRateDataset ]
+                }
+            });
+
+            const ctxAverageModules = document.getElementById('modules-average-chart').getContext('2d');
+            new Chart( ctxAverageModules, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [ averageScoreDataset]
                 }
             });
     } )
@@ -71,16 +80,25 @@ function displayStacksStats()
 
             let averageScoreDataset = {
                 label: 'Note moyenne',
-                backgroundColor: '#fff4e4',
+                backgroundColor: '#ffac8f',
                 data: averageScores,
             }
 
-            const ctxStacks = document.getElementById('stacks-chart').getContext('2d');
-            new Chart( ctxStacks, {
+            const ctxRateStacks = document.getElementById('stacks-rate-chart').getContext('2d');
+            new Chart( ctxRateStacks, {
                 type: 'bar',
                 data: {
                     labels,
-                    datasets: [successRateDataset, averageScoreDataset]
+                    datasets: [successRateDataset]
+                }
+            });
+
+            const ctxAverageStacks = document.getElementById('stacks-average-chart').getContext('2d');
+            new Chart( ctxAverageStacks, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [averageScoreDataset]
                 }
             });
         } )
