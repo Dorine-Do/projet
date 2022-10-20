@@ -549,82 +549,78 @@ class StudentController extends AbstractController
         $result = $resultRepository->resultWithQcmOfficialByModule( $this->security->getUser()->getId(), $linkSessionStudent[0]->getSession()->getId() );
 
         // Créer un tableau de tableau avec comme key le nom de base des modules
-        $modules = [];
+        $moduleGroups = [];
 
         foreach ($result as $res)
         {
-            $moduleBaseName = preg_replace('/[0-9]+/', '' ,$res['title'] );
-            $isExistKey = array_key_exists($moduleBaseName, $modules );
+            $moduleGroupName = preg_replace('/[0-9]+/', '' ,$res['title'] );
+            $isExistKey = array_key_exists($moduleGroupName, $moduleGroups );
             if ($isExistKey)
             {
-                $modules[$moduleBaseName][] = $res;
+                $moduleGroups[$moduleGroupName][] = $res;
             }
             else
             {
-                $modules[$moduleBaseName] = [];
-                $modules[$moduleBaseName][] = $res;
+                $moduleGroups[$moduleGroupName] = [];
+                $moduleGroups[$moduleGroupName][] = $res;
             }
         }
 
         // Trier par date
-        foreach ( $modules  as $module )
+        foreach ( $moduleGroups  as $key => $moduleGroup )
         {
-            usort($module, fn ($a, $b ) => strtotime($a["endDate"]->format('Y-m-d H:i:s')) - strtotime($b["endDate"]->format('Y-m-d H:i:s')));
+            usort($moduleGroup, function ($a, $b) {
+                $nrbModuleA = preg_replace('/[A-Z]+/', '' ,$a['title'] );
+                $nrbModuleB = preg_replace('/[A-Z]+/', '' ,$b['title'] );
 
-            if (count($module) > 2)
-            {
-                $nbrSemaines= count($module);
-                $ratioOtherScore = ($nbrSemaines) / 2;
-                dd($ratioOtherScore);
-            }
-
-
-            $totalScoreWithRation = null;
-            $indexSemaines = 1;
-            foreach ($module as $key => $result)
-            {
-                dump($key);
-                if ($key === (count($module)-1))
+                if ($nrbModuleA < $nrbModuleB)
                 {
-                    $lastResultScore = $result['score'] * 0.50 ;
-                    dump('$lastResultScore', $lastResultScore);
-                    $totalScoreWithRation += $lastResultScore;
-                    dump('$totalScoreWithRation', $totalScoreWithRation);
-                    $module['totalScore'] = $totalScoreWithRation;
-                    dump($module);
-                }
-                elseif ($key === (count($module) - 2))
-                {
-                    $beforeLastResultScore = $result['score'] * 0.25 ;
-                    dump('$beforeLastResultScore', $beforeLastResultScore);
-                    $totalScoreWithRation += $beforeLastResultScore;
-                }
-                elseif ($key === 0 || $key === 1)
-                {
-                    $OtherResultScore = $result['score'] * $ratioOtherScore ;
-                    dump('$OtherResultScore', $OtherResultScore);
-                    $totalScoreWithRation += $OtherResultScore;
+                    return -1;
                 }
                 else
                 {
-                    $OtherResultScore = $result['score'] * ($ratioOtherScore * ( 2 * $indexSemaines )) ;
-                    $totalScoreWithRation += $OtherResultScore ;
-                    $indexSemaines += 2;
+                    return 1;
+                }
+            } );
+
+            $totalPonderation = 0;
+            $totalNotePonderated = 0;
+            $ponderation = 1;
+            foreach ($moduleGroup as $index => $res)
+            {
+                if ($index > 1)
+                {
+                    $ponderation *= 2;
                 }
 
+                $totalNotePonderated += ($res['score'] * $ponderation);
+                $totalPonderation += $ponderation;
+            }
 
+            $totalScore = $totalNotePonderated / $totalPonderation;
+            $moduleGroups[$key]['totalScore'] = $totalScore;
+
+            if( $totalPonderation < 25 )
+            {
+                $moduleGroups[$key]['level'] = 1;
+            }
+            elseif( $totalPonderation >= 25 && $totalPonderation < 50 )
+            {
+                $moduleGroups[$key]['level'] = 2;
+            }
+            elseif( $totalPonderation >= 50 && $totalPonderation < 75 )
+            {
+                $moduleGroups[$key]['level'] = 3;
+            }
+            elseif( $totalPonderation >= 75 && $totalPonderation <= 100 )
+            {
+                $moduleGroups[$key]['level'] = 4;
             }
         }
-
-
-
-
-
-
-            dd($modules);
+        dd($moduleGroups);
 
         return $this->render('student/level_modules.html.twig', [
-            'modules' => $modules !== [] ? $modules : false
+            'moduleGroups' => $moduleGroups !== [] ? $moduleGroups : false
         ]);
     }
 
