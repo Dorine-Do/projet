@@ -35,19 +35,13 @@
     <h2>{{ 'title.myInducementBadges'|trans }}</h2>
     <div class="containerBadges">
         <div class="splitBadges">
-            {% for badge in app.user.badges %}
-                {% if badge == 'PHP' %}
-                    <img src="{{asset("build/images/badges/Php.svg")}}" class="badges" alt="badge php">
-                {% elseif badge == 'React' %}
-                    <img src="{{asset("build/images/badges/React.svg")}}" class="badges" alt="badge react">
-                {% elseif badge == 'JS' %}
-                    <img src="{{asset("build/images/badges/Javascript.svg")}}" class="badges" alt="badge js">
-                {% elseif badge == 'NodeJS' %}
-                    <img src="{{asset("build/images/badges/Node_js.svg")}}" class="badges" alt="badge nodejs">
-                {% elseif badge == 'Symfony' %}
-                    <img src="{{asset("build/images/badges/Symfony.svg")}}" class="badges" alt="badge symfony">
-                {% endif %}
-            {% endfor %}
+            {% if app.user.badges != null and app.user.badges != [] %}
+                {% for badge in app.user.badges %}
+                    {% set var = 'build/images/badges/'~badge %}
+                    <img src="{{ asset(var) }}" alt="badge gagné" class="badges">
+                {% endfor %}
+            {% endif %}
+
         </div>
     </div>
 

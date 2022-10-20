@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin | BugReports{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/admin/admin_lists.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <main class="admin_content">
+
+        <section>
+            <h1>Statistiques de modules</h1>
+        </section>
+
+        <canvas id="modules-chart" style="max-width: 50%; max-height: 500px;"></canvas>
+
+    </main>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.esm.js"></script>
+    <script type="module" src="{{ asset('js/admin/stats/modulesStats.js') }}"></script>
+{% endblock %}

@@ -14,11 +14,13 @@ use App\Repository\LinkInstructorSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
+use App\Repository\QcmInstanceRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\ResultRepository;
 use App\Repository\StudentRepository;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,6 +51,7 @@ class StudentController extends AbstractController
         $student = $this->studentRepo->find($this->security->getUser()->getId());
 
         $allAvailableQcmInstances = $student->getQcmInstances();
+        /********************************************************************************************************/
 
         $officialQcmOfTheWeek = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
             return
@@ -58,6 +61,7 @@ class StudentController extends AbstractController
                 && $qcmInstance->getQcm()->getIsEnabled() == true
                 && $qcmInstance->getResult() === null;
         });
+        /********************************************************************************************************/
 
         $unofficialQcmNotDone = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ) use ($student){
             return
@@ -66,6 +70,7 @@ class StudentController extends AbstractController
                 && $qcmInstance->getQcm()->getAuthor() !== $student
                 ;
         });
+        /********************************************************************************************************/
 
         $studentSession = $linkSessionStudentRepo->findOneBy([ 'student' => $student->getId(), 'isEnabled'=> 1] )->getSession();
         $sessionModules = $linkSessionModuleRepo->findBy([ 'session' => $studentSession->getId() ]);
@@ -73,37 +78,19 @@ class StudentController extends AbstractController
         {
             $sessionModules[$key] = $sessionModule->getModule();
         }
+        /********************************************************************************************************/
 
-        $endedLinkSessionModules = $studentSession->getLinksSessionModule()->filter(function(LinkSessionModule $linkSessionModule){
-            return $linkSessionModule->getEndDate() < new \DateTime();
-        });
+        $retryableModules = $moduleRepo->getRetryableModules( $student->getId() );
 
-        $endedModules = [];
-        foreach($endedLinkSessionModules as $endedLinkSessionModule)
-        {
-            $endedModules[] = $endedLinkSessionModule->getModule();
-        }
+        $retryableModules = array_map( function ( $retryableModule ) use ($moduleRepo) {
+            return $moduleRepo->find($retryableModule['moduleId']);
+        }, $retryableModules );
 
-        $accomplishedModules = $moduleRepo->getAccomplishedModules( $student->getId() );
-
-        $accomplishedModulesIds = [];
-        foreach($accomplishedModules as $accomplishedModule)
-        {
-            $accomplishedModulesIds[] = $accomplishedModule['id'];
-        }
-
-        $retryableModules = [];
-        foreach( $endedModules as $endedModule )
-        {
-            if( !in_array( $endedModule->getId(), $accomplishedModulesIds ) )
-            {
-                $retryableModules[] = $endedModule;
-            }
-        }
+        $retryableModules = array_unique($retryableModules);
 
         return $this->render('student/qcms.html.twig', [
             'student'                       => $student,
-            'qcmOfTheWeek'                  => $officialQcmOfTheWeek,
+            'qcmOfTheWeek'                  => $officialQcmOfTheWeek ,
             'unofficialQcmInstancesNotDone' => $unofficialQcmNotDone,
             'sessionModules'                => $sessionModules,
             'retryableModules'              => $retryableModules,
@@ -113,12 +100,16 @@ class StudentController extends AbstractController
     #[Route('student/qcms/done', name: 'student_qcms_done', methods: ['GET'])]
     public function qcmsDone(
         LinkSessionStudentRepository $linkSessionStudentRepo,
-        LinkInstructorSessionModuleRepository $linkSessionModuleRepo
+        LinkInstructorSessionModuleRepository $linkSessionModuleRepo,
+        QcmInstanceRepository $qcmInstanceRepository
     ): Response
     {
-        $student = $this->userRepo->find($this->security->getUser()->getId());
+        $student = $this->studentRepo->find($this->security->getUser()->getId());
 
-        $studentQcmInstances = $student->getQcmInstances();
+        $studentQcmInstances = $qcmInstanceRepository->getQcmInstancesByStudent($this->security->getUser()->getId());
+        /*TODO Code fonctionnel normalement, a été remplacer par la ligne de haut dessus temporairement */
+//        $studentQcmInstances = $student->getQcmInstances();
+
         $studentResults = [];
         foreach ($studentQcmInstances as $studentQcmInstance){
             if ($studentQcmInstance->getResult() !== null){
@@ -126,12 +117,22 @@ class StudentController extends AbstractController
             }
         }
         $qcmsDone = [];
+
         foreach($studentResults as $studentResult)
         {
             $qcmInstance = $studentResult->getQcmInstance();
-            if($qcmInstance->getQcm()->getIsOfficial() === true)
+
+            if($qcmInstance->getQcm()->getIsOfficial() === true && $qcmInstance->getQcm()->getIsPublic() === true )
             {
                 $type = 'official';
+            }
+            elseif
+            (
+                $qcmInstance->getQcm()->getIsOfficial() === true
+                && $qcmInstance->getQcm()->getAuthor()->getId() === $student->getId()
+            )
+            {
+                $type = 'retryBadge';
             }
             elseif
             (
@@ -168,14 +169,18 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcms/qcmToDo/{qcmInstance}', name: 'student_qcm_to_do', methods: ['GET', 'POST'])]
+    #[Route('student/qcms/qcmToDo/{qcmInstance}/{isForBadge}', name: 'student_qcm_to_do', methods: ['GET', 'POST'])]
     public function QcmToDo(
         QcmInstance $qcmInstance,
         QcmRepository $qcmRepository,
+        ModuleRepository $moduleRepository,
+        ResultRepository $resultRepository,
         Request $request,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        $isForBadge = null
     ): Response
     {
+
         $student = $this->studentRepo->find($this->security->getUser()->getId());
 
         $qcm = $qcmRepository->find(['id' => ($qcmInstance->getQcm()->getId())]);
@@ -325,7 +330,7 @@ class StudentController extends AbstractController
             $qcmInstances = $qcm->getQcmInstances()->filter( function( $qcmInstance ) use ($student) {
                 return $qcmInstance->getStudent() === $student;
             });
-            if( count($qcmInstances) > 1 && $qcm->getIsOfficial() )
+            if( (count($qcmInstances) > 1 && $qcm->getIsOfficial()) || ($qcmInstance->getDistributedBy() === $student) )
             {
                 $isFirstTry = false;
             }
@@ -349,6 +354,34 @@ class StudentController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Le qcm a bien été enregistré.');
+
+            if (
+                ($qcmInstance->getQcm()->getIsOfficial() && !$isForBadge)
+                ||
+                ($qcmInstance->getQcm()->getIsOfficial() && $isForBadge)
+            )
+            {
+                $titleModule = $qcmInstance->getQcm()->getModule()->getTitle();
+                $moduleBaseName = preg_replace('/[0-9]+/', '' ,$titleModule );
+
+                $modules = $moduleRepository->getModulesByModuleBaseName($student->getId(), $moduleBaseName);
+                $qcmsSuccess = $resultRepository->getOfficialQcmsSuccessByModule($student->getId(), $moduleBaseName);
+
+                if (count($modules) === count($qcmsSuccess))
+                {
+                    $studentBadges = $student->getBadges();
+                    if (!$studentBadges)
+                    {
+                        $studentBadges = [];
+                    }
+
+                    $studentBadges[] = strtoupper($moduleBaseName) . '.svg';
+                    $student->setBadges($studentBadges);
+                    $em->persist($student);
+                    $em->flush();
+                }
+            }
+
             return $this->redirectToRoute('student_qcms_done');
         }
 
@@ -356,7 +389,8 @@ class StudentController extends AbstractController
             'idQcmInstance' => $qcmInstance->getId(),
             'nameQcmInstance' => $qcmInstance->getQcm()->getTitle(),
             'titleModule'=> $qcm->getModule()->getTitle(),
-            'questionsAnswers' => $questionsCache
+            'questionsAnswers' => $questionsCache,
+            'isForBadge' => $isForBadge
         ]);
     }
 
@@ -376,7 +410,7 @@ class StudentController extends AbstractController
         $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository ,true, $difficulty);
+        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository ,'training', $difficulty);
 
         $manager->persist( $trainingQcm );
         $manager->flush();
@@ -411,13 +445,13 @@ class StudentController extends AbstractController
         $student = $this->studentRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository );
-
+        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository, 'retry' );
         $manager->persist( $retryQcm );
         $manager->flush();
 
         $qcmInstanceRetry = new QcmInstance();
         $qcmInstanceRetry->setStudent( $student );
+        $qcmInstanceRetry->setDistributedBy( $student );
         $qcmInstanceRetry->setQcm( $retryQcm );
         $qcmInstanceRetry->setStartTime( new \DateTime() );
         $endTime = new \DateTime();
@@ -428,11 +462,9 @@ class StudentController extends AbstractController
         $manager->persist( $qcmInstanceRetry );
         $manager->flush();
 
-        $manager->persist( $qcmInstanceRetry );
-        $manager->flush();
-
         return $this->redirectToRoute('student_qcm_to_do', [
             'qcmInstance'    => $qcmInstanceRetry->getId(),
+            'isForBadge'     => 1
         ]);
     }
 
