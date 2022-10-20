@@ -216,4 +216,13 @@ class AdminController extends AbstractController
             'reportedBugs' => $bugReportRepo->findAll()
         ]);
     }
+
+    #[Route('admin/stats/modules' ,name: 'admin_stats_modules')]
+    public function statsModules(ModuleRepository $moduleRepo) : Response
+    {
+
+        return $this->render('admin/stats/modules.html.twig', [
+            'modules' => $moduleRepo->findAll(),
+        ]);
+    }
 }
