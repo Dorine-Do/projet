@@ -211,7 +211,7 @@ class AppFixtures extends Fixture
                 $question->setAuthor( $dbInstructors[array_rand($dbInstructors)] );
                 $question->setIsEnabled( 1 );
                 $question->setIsMandatory(0);
-                $question->setIsOfficial(1);
+                $question->setIsOfficial(0);
                 $count = $this->generateProposals($manager, $question);
                 $question->setDifficulty($this->faker->numberBetween(1, 3));
                 $question->setExplanation($this->faker->paragraph());
