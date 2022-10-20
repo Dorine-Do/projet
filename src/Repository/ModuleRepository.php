@@ -96,6 +96,24 @@ class ModuleRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @return Module[] Returns an array of Student objects
+     */
+    public function moduleMaxScore($id): array
+    {
+        return $this->createQueryBuilder('m')
+            ->select('m.title, m.id, r.level')
+            ->innerJoin('m.qcms', 'q')
+            ->innerJoin('q.qcmInstances', 'qi')
+            ->innerJoin('qi.result', 'r')
+            ->innerJoin('qi.student', 's')
+            ->where('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
     //    /**
     //  * @throws ORMException

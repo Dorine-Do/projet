@@ -74,43 +74,6 @@ class StudentRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Result[] Returns an array of Student objects
-     */
-    public function resultMaxScore($id): array
-    {
-        return $this->createQueryBuilder('s')
-            ->select('MAX(r.score) as score, r.id as id')
-            ->innerJoin('s.qcmInstances', 'qi')
-            ->innerJoin('qi.result', 'r')
-            ->innerJoin('qi.qcm', 'q')
-            ->innerJoin('q.module', 'm')
-            ->where('s.id = :id')
-            ->andWhere('q.isOfficial = 1')
-            ->groupBy('m.id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getResult();
-    }
-
-    /**
-     * @return Module[] Returns an array of Student objects
-     */
-    public function moduleMaxScore($id): array
-    {
-        return $this->createQueryBuilder('s')
-            ->select('m.title, m.id, r.level')
-            ->innerJoin('s.qcmInstances', 'qi')
-            ->innerJoin('qi.result', 'r')
-            ->innerJoin('qi.qcm', 'q')
-            ->innerJoin('q.module', 'm')
-            ->where('r.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
-    /**
      * @return Student[] Returns an array of Student objects
      */
     public function isOfficialQcmLevel($id): array

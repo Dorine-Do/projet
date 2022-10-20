@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Enum\Level;
 use App\Entity\Main\LinkSessionModule;
+use App\Entity\Main\LinkSessionStudent;
 use App\Entity\Main\Module;
 use App\Entity\Main\Qcm;
 use App\Entity\Main\QcmInstance;
@@ -407,7 +408,7 @@ class StudentController extends AbstractController
         $module = $moduleRepo->find( $request->get('module') );
         $difficulty = (int) $request->get('difficulty');
 
-        $student = $this->userRepo->find($this->security->getUser()->getId());
+        $student = $this->studentRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository ,'training', $difficulty);
@@ -496,7 +497,7 @@ class StudentController extends AbstractController
     public function qcmCorrection(
         Result $result,
         QuestionRepository $questionRepo,
-        ProposalRepository $proposalRepo
+        ProposalRepository $proposalRepo,
     ): Response
     {
         $dbAnswers = $result->getAnswers();
@@ -540,21 +541,87 @@ class StudentController extends AbstractController
     }
 
     #[Route('/student/level/', name: 'student_level', methods: ['GET'])]
-    public function levelStudentByModule(): Response
+    public function levelStudentByModule(ModuleRepository $moduleRepository, ResultRepository $resultRepository, LinkSessionStudentRepository $linkSessionStudentRepository): Response
     {
-        $modules = $this->studentRepo->moduleMaxScore( $this->security->getUser()->getId() );
-        if( $modules !== [] )
-        {
-            $result = $this->studentRepo->resultMaxScore( $this->security->getUser()->getId() );
 
-            if( $result )
+        $linkSessionStudent = $linkSessionStudentRepository->findBy(['student'=>11, 'isEnabled'=>1]);
+
+        $result = $resultRepository->resultWithQcmOfficialByModule( $this->security->getUser()->getId(), $linkSessionStudent[0]->getSession()->getId() );
+
+        // Créer un tableau de tableau avec comme key le nom de base des modules
+        $modules = [];
+
+        foreach ($result as $res)
+        {
+            $moduleBaseName = preg_replace('/[0-9]+/', '' ,$res['title'] );
+            $isExistKey = array_key_exists($moduleBaseName, $modules );
+            if ($isExistKey)
             {
-                $modules = [];
-                foreach ( $result as $res){
-                    $modules[] = $this->studentRepo->moduleMaxScore($res['id']);
-                }
+                $modules[$moduleBaseName][] = $res;
+            }
+            else
+            {
+                $modules[$moduleBaseName] = [];
+                $modules[$moduleBaseName][] = $res;
             }
         }
+
+        // Trier par date
+        foreach ( $modules  as $module )
+        {
+            usort($module, fn ($a, $b ) => strtotime($a["endDate"]->format('Y-m-d H:i:s')) - strtotime($b["endDate"]->format('Y-m-d H:i:s')));
+
+            if (count($module) > 2)
+            {
+                $nbrSemaines= count($module);
+                $ratioOtherScore = ($nbrSemaines) / 2;
+                dd($ratioOtherScore);
+            }
+
+
+            $totalScoreWithRation = null;
+            $indexSemaines = 1;
+            foreach ($module as $key => $result)
+            {
+                dump($key);
+                if ($key === (count($module)-1))
+                {
+                    $lastResultScore = $result['score'] * 0.50 ;
+                    dump('$lastResultScore', $lastResultScore);
+                    $totalScoreWithRation += $lastResultScore;
+                    dump('$totalScoreWithRation', $totalScoreWithRation);
+                    $module['totalScore'] = $totalScoreWithRation;
+                    dump($module);
+                }
+                elseif ($key === (count($module) - 2))
+                {
+                    $beforeLastResultScore = $result['score'] * 0.25 ;
+                    dump('$beforeLastResultScore', $beforeLastResultScore);
+                    $totalScoreWithRation += $beforeLastResultScore;
+                }
+                elseif ($key === 0 || $key === 1)
+                {
+                    $OtherResultScore = $result['score'] * $ratioOtherScore ;
+                    dump('$OtherResultScore', $OtherResultScore);
+                    $totalScoreWithRation += $OtherResultScore;
+                }
+                else
+                {
+                    $OtherResultScore = $result['score'] * ($ratioOtherScore * ( 2 * $indexSemaines )) ;
+                    $totalScoreWithRation += $OtherResultScore ;
+                    $indexSemaines += 2;
+                }
+
+
+            }
+        }
+
+
+
+
+
+
+            dd($modules);
 
         return $this->render('student/level_modules.html.twig', [
             'modules' => $modules !== [] ? $modules : false
