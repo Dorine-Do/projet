@@ -214,10 +214,10 @@ ul, .backgroundEtape, .allDate{
         left: 39%;
     }
 
-    .liSession label{
-        position: relative;
+    .liSession label {
+        position: absolute;
         bottom: 18%;
-        right: 17%;
+        left: 30%;
         color: white;
     }
 }

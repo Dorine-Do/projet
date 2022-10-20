@@ -43,6 +43,18 @@
             {% endfor %}
         </select>
     </div>
+    <div>
+        <p>
+            <span class="numeroForm">2</span>
+            Filtrer par date :
+        </p>
+    </div>
+    <select name="date" id="select_date">
+        <option value="all">Filtrer par date</option>
+        <option value="recent">Plus récent</option>
+        <option value="ancien">Moins récent</option>
+    </select>
+    </div>
     <span class="ligne"></span>
     <p>
         <span class="numeroForm">2</span>
@@ -53,63 +65,65 @@
         <p class="noResult">{{ 'title.noResult'|trans }}</p>
     {% endif %}
 
+    <div id="container_result">
 {% for qcmDone in qcmsDone %}
-    <div class="realise">
-        <div class="levelAndModule">
-            <p class="moduleQcm">
-                {{qcmDone.module}}
-            </p>
-            <p class="difficultyQcm">
-                {% if qcmDone.qcm.difficulty is same as 1 %}
-                    {{ 'difficulty.easy'|trans }}
-                {% elseif qcmDone.qcm.difficulty is same as 2 %}
-                    {{ 'difficulty.medium'|trans }}
-                {% elseif qcmDone.qcm.difficulty is same as 3 %}
-                    {{ 'difficulty.dificult'|trans }}
-                {% endif %}
-            </p>
-        </div>
-        <div>
-            <p class="typeQcm">
-                {% if qcmDone.type is same as 'official' and qcmDone.isFirstTry is same as true %}
-                    <img class="badge" src="{{asset('build/images/officiel.svg')}}">
-                {% elseif
-                    qcmDone.type is same as 'trainning' or
-                    qcmDone.type is same as 'official' and
-                    qcmDone.isFirstTry is same as false
-                %}
-                    <img class="badge" src="{{asset('build/images/qcm_entrainement.svg')}}">
-                {% elseif qcmDone.type is same as 'exercice' %}
-                    <img class="badge" src="{{asset('build/images/non-officiel.svg')}}">
-                {% endif %}
-            </p>
-        </div>
+        <div class="realise">
+            <div class="levelAndModule">
+                <p class="moduleQcm">
+                    {{qcmDone.module}}
+                </p>
+                <p class="difficultyQcm">
+                    {% if qcmDone.qcm.difficulty is same as 1 %}
+                        {{ 'difficulty.easy'|trans }}
+                    {% elseif qcmDone.qcm.difficulty is same as 2 %}
+                        {{ 'difficulty.medium'|trans }}
+                    {% elseif qcmDone.qcm.difficulty is same as 3 %}
+                        {{ 'difficulty.dificult'|trans }}
+                    {% endif %}
+                </p>
+            </div>
+            <div>
+                <p class="typeQcm">
+                    {% if qcmDone.type is same as 'official' and qcmDone.isFirstTry is same as true %}
+                        <img class="badge" src="{{asset('build/images/officiel.svg')}}">
+                    {% elseif
+                        qcmDone.type is same as 'trainning' or
+                        qcmDone.type is same as 'official' and
+                        qcmDone.isFirstTry is same as false
+                    %}
+                        <img class="badge" src="{{asset('build/images/qcm_entrainement.svg')}}">
+                    {% elseif qcmDone.type is same as 'exercice' %}
+                        <img class="badge" src="{{asset('build/images/non-officiel.svg')}}">
+                    {% endif %}
+                </p>
+            </div>
 
-        <div class="nomQcm">
-            <p>
-                {{ 'qcm.name'|trans }} : {{qcmDone.qcm.title}}
-            </p>
+            <div class="nomQcm">
+                <p>
+                    {{ 'qcm.name'|trans }} : {{qcmDone.qcm.title}}
+                </p>
+            </div>
+            <div class="divLevel">
+                {% if qcmDone.result.score < 25 %}
+                    <img data-level="Découvre" src="{{asset('build/images/arbre_decouvre.svg')}}" alt="Graine d'un arbre">
+                {% elseif qcmDone.result.score >= 25 and qcmDone.result.score < 50 %}
+                    <img data-level="Explore" src="{{asset('build/images/arbre_explore.svg')}}" alt="Petite pousse">
+                {% elseif qcmDone.result.score >= 50 and qcmDone.result.score < 75 %}
+                    <img data-level="Maîtrise" src="{{asset('build/images/arbre_maîtrise.svg')}}" alt="Jeune arbre">
+                {% elseif qcmDone.result.score >= 75 and qcmDone.result.score < 100 %}
+                    <img data-level="Domine" src="{{asset('build/images/arbre_domine.svg')}}" alt="Bel arbre fleuri">
+                {% endif %}
+            </div>
+            <div class="date">
+                {{qcmDone.result.getSubmittedAt()|date('d/m/Y')}}
+            </div>
+            <div class="divButton">
+                <a class="button" href="{{ path('student_qcm_correction', {result: qcmDone.result.id} ) }}">{{ 'button.viewAnswers'|trans }}</a>
+                <a class="button" href="{{ path('student_retry_same_qcm', {qcm: qcmDone.qcm.id} ) }}">{{ 'button.doAgain'|trans }}</a>
+            </div>
         </div>
-        <div class="divLevel">
-            {% if qcmDone.result.score < 25 %}
-                <img data-level="Découvre" src="{{asset('build/images/arbre_decouvre.svg')}}" alt="Graine d'un arbre">
-            {% elseif qcmDone.result.score >= 25 and qcmDone.result.score < 50 %}
-                <img data-level="Explore" src="{{asset('build/images/arbre_explore.svg')}}" alt="Petite pousse">
-            {% elseif qcmDone.result.score >= 50 and qcmDone.result.score < 75 %}
-                <img data-level="Maîtrise" src="{{asset('build/images/arbre_maitrise.svg')}}" alt="Jeune arbre">
-            {% elseif qcmDone.result.score >= 75 and qcmDone.result.score < 100 %}
-                <img data-level="Domine" src="{{asset('build/images/arbre_domine.svg')}}" alt="Bel arbre fleuri">
-            {% endif %}
-        </div>
-        <div class="date">
-            {{qcmDone.result.getSubmittedAt()|date('d/m/Y')}}
-        </div>
-        <div class="divButton">
-            <a class="button" href="{{ path('student_qcm_correction', {result: qcmDone.result.id} ) }}">{{ 'button.viewAnswers'|trans }}</a>
-            <a class="button" href="{{ path('student_retry_same_qcm', {qcm: qcmDone.qcm.id} ) }}">{{ 'button.doAgain'|trans }}</a>
-        </div>
-    </div>
 {% endfor %}
+    </div>
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/student/qcmsDone.js') }}"></script>
