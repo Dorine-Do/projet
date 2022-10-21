@@ -244,6 +244,13 @@
     margin-bottom: 20%;
 }
 
+#div-legend{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 30px auto;
+}
+
 @media screen and (max-width: 1200px) {
     .choiceSession {
         display: grid;

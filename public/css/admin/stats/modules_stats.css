@@ -1,0 +1,68 @@
+@import url("../../main.css");
+
+h2{
+    text-shadow: 2px 0 0 var(--pamplemousse), 2px 2px 0 var(--pamplemousse), 0 2px 0 var(--pamplemousse), -2px 2px 0 var(--pamplemousse), -2px 0 0 var(--pamplemousse), -2px -2px 0 var(--pamplemousse), 0 -2px 0 var(--pamplemousse), 2px -2px 0 var(--pamplemousse);
+    color: var(--fond);
+    text-decoration: underline;
+    font-size: 1.8em;
+    text-align: center;
+}
+
+h3{
+    text-decoration: underline;
+    text-align: center
+}
+
+.stats-group {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.stats-group > h2 {
+    width: 100%;
+}
+
+.stats-group > div {
+    width: 45%;
+    margin:0;
+    padding: 8px;
+}
+
+.stats-group > div > canvas {
+    width: 100%;
+    height: 300px;
+}
+
+.stats-group{
+    margin: 72px auto;
+    background-color: var(--fond);
+    border: 1px solid var(--grey);
+    padding: 32px 0;
+}
+
+@media screen and (max-width: 1200px) {
+    .stats-group{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .graph{
+        width: 95%;
+    }
+
+    #modules-rate-chart{
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 780px) {
+
+}
