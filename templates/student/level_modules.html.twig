@@ -39,12 +39,12 @@
         <div>
             <p class="etape"><span>2</span> Ensemble des modules terminés avec ton niveau </p>
         </div>
-        {% if modules %}
-            {% for module in modules %}
+        {% if moduleGroups %}
+            {% for key, module in moduleGroups %}
                 <div class="divLevel">
                     <div class="divModule">
                         <p class="moduleName">
-                            Nom du module : {{ module.title }}
+                            Nom du module : {{ key }}
                         </p>
                         {% if module.level is same as 1 %}
                             <img src="{{asset('build/images/arbre_decouvre.svg')}}" alt="Graine d'arbre" class="decouvre">

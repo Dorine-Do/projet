@@ -96,6 +96,19 @@ class ModuleRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @return Module[] Returns an array of Module objects
+     */
+    public function findAllModulesByBaseName( $titleModule ): array
+    {
+        return $this->createQueryBuilder('m')
+            ->select("m")
+            ->andWhere('m.title LIKE :titleModule')
+            ->setParameter('titleModule', '%'.$titleModule.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
     //    /**
     //  * @throws ORMException
