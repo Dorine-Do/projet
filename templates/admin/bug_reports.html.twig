@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin | BugReports{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/admin/admin_lists.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <main class="admin_content">
+
+        <section>
+            <h1>Report de bug</h1>
+        </section>
+
+        <section class="tableContainer">
+            <table id="tableToSort" class="qcmsTable">
+                <thead>
+                <tr>
+                    <th>Nom du chercheur</th>
+                    <th>Bug ?</th>
+                    <th>Date de création</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for bug in reportedBugs %}
+
+                    <tr>
+                        <td>{{ bug.user.firstName }} {{ bug.user.lastName }}</td>
+                        <td>{{ bug.message}}</td>
+                        <td>{{ bug.createdAt|date("d/m/Y")}}</td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/admin/tableSorter.js') }}"></script>
+{% endblock %}

@@ -40,7 +40,6 @@ class AppFixtures extends Fixture
     protected array $ChoicesLevel = [ Level::Discover, Level::Explore, Level::Master, Level::Dominate];
 
     public function __construct (
-        private UserPasswordHasherInterface $userPasswordHasherInterface,
         private InstructorRepository $instructorRepository,
         private ModuleRepository $moduleRepository,
         private SessionRepository $sessionRepository,
@@ -56,7 +55,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         //Module
-    //    $this->generateModules( $manager );
+//        $this->generateModules( $manager );
 
         //Session
 //        $this->generateSessions( $manager );
@@ -71,19 +70,13 @@ class AppFixtures extends Fixture
 //        $this->generateStudents( $manager );
 
         //Question + Proposal
-        $this->generateQuestions( $manager );
+//        $this->generateQuestions( $manager );
 
         //Qcm
-//        $this->generateQcm( $manager );
-
-        //Qcm avec le module de démo (réelles data)
-//        $this->generateQcmWithSpecifyModule($manager);
+        $this->generateQcm( $manager );
 
         // QcmInstances
 //        $this->generateQcmInstances( $manager );
-
-        //QcmInstance avec le module de démo (réelles data)
-//        $this->generateQcmInstancesWithSpecifyModule($manager);
 
         // Results
 //        $this->generateResults( $manager );
@@ -208,8 +201,7 @@ class AppFixtures extends Fixture
     {
         $dbModules  = $this->moduleRepository->findAll();
         $dbInstructors = $this->instructorRepository->findAll();
-
-        // 10 questions par module
+        // 50 questions par module
         foreach ($dbModules as $dbModule){
             for ($i=0; $i<50; $i++)
             {
@@ -217,9 +209,9 @@ class AppFixtures extends Fixture
                 $question->setModule($dbModule);
                 $question->setWording( $this->faker->sentence() );
                 $question->setAuthor( $dbInstructors[array_rand($dbInstructors)] );
-                $question->setIsEnabled( $this->faker->numberBetween(0, 1) );
+                $question->setIsEnabled( 1 );
                 $question->setIsMandatory(0);
-                $question->setIsOfficial(0);
+                $question->setIsOfficial(1);
                 $count = $this->generateProposals($manager, $question);
                 $question->setDifficulty($this->faker->numberBetween(1, 3));
                 $question->setExplanation($this->faker->paragraph());
@@ -274,7 +266,6 @@ class AppFixtures extends Fixture
         }
         $choicedInstructor = $instructors[array_rand($instructors)];
         $qcm->setAuthor($choicedInstructor);
-        $qcm->setDistributedBy($choicedInstructor);
         $qcm->setIsPublic( $this->faker->numberBetween(0, 1) );
 
         $arrayQuestionAnswers = [];
@@ -339,90 +330,11 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    public function generateQcmWithSpecifyModule($manager) :void
-    {
-        $dbModule = $this->moduleRepository->find(11);
-        $dbInstructors = $dbModule->getInstructors();
-        $key = $dbModule->getInstructors()->getKeys();
-
-        $qcm = new Qcm();
-
-        $qcm->setEnabled('1');
-        $qcm->setModule($dbModule);
-        $qcm->setIsOfficial( $this->faker->numberBetween(0, 1) );
-        $qcm->setName( $this->faker->word() );
-        $qcm->setAuthorId( $dbInstructors[array_rand($key)]->getId() );
-        $qcm->setPublic( $this->faker->numberBetween(0, 1) );
-
-        $arrayQuestionAnswers = [];
-        $arrayDifficulty=[];
-        $questions = [];
-        while(count($questions) == 0){
-            $questions = $this->questionRepository->findBy( [ 'module' => $dbModule->getId() ] );
-        }
-
-        $pickedQuestions = [];
-        for( $i = 0; $i < 5; $i++ )
-        {
-            $isInArray = true;
-            $randomQuestion = $questions[array_rand($questions)];
-
-            while ($isInArray){
-                if(in_array($randomQuestion->getId(), $pickedQuestions)){
-                    $randomQuestion = $questions[array_rand($questions)];
-                }else{
-                    $isInArray = false;
-                    $pickedQuestions[] = $randomQuestion->getId();
-                }
-            }
-            $qcm->addQuestion($randomQuestion);
-            $answers = $randomQuestion->getProposals();
-            $difficulty = $randomQuestion->getDifficulty()->value;
-            array_push($arrayDifficulty, $difficulty);
-            $arrayAnswers = [];
-            foreach ($answers as $answer){
-                array_push($arrayAnswers, ["id" => $answer->getId(), "wording" => $answer->getWording(), "is_correct" => $answer->getIsCorrect()]);
-            }
-
-            $questionAnswer =
-                [
-                    [
-                        "question"=>
-                            [
-                                "id"=> $randomQuestion->getId(),
-                                "wording"=>$randomQuestion->getWording(),
-                                "responce_type"=>$randomQuestion->getResponseType(),
-                                "proposals"=>
-                                    $arrayAnswers
-                            ],
-                    ]
-                ];
-            $questionAnswerJson = json_encode($questionAnswer);
-            array_push($arrayQuestionAnswers,$questionAnswerJson);
-        }
-        $qcm->setQuestionsAnswers($arrayQuestionAnswers);
-
-        $nrbValues = array_count_values($arrayDifficulty);
-        $valueKey = array_search(max($nrbValues),$nrbValues);
-        switch ($valueKey){
-            case "Facile":
-                $qcm->setDifficulty(Difficulty::Easy);
-                break;
-            case "Moyen":
-                $qcm->setDifficulty(Difficulty::Medium);
-                break;
-            case "Difficile":
-                $qcm->setDifficulty(Difficulty::Difficult);
-                break;
-        }
-
-        $manager->persist($qcm);
-        $manager->flush();
-    }
-
     public function generateQcmInstances( $manager ) :void
     {
         $dbQcms = $this->qcmRepository->findAll();
+        $dbInstructors = $this->instructorRepository->findAll();
+
         $dbStudents = $this->studentRepository->findByEnabled();
         for( $i = 0; $i < 10; $i++ )
         {
@@ -433,25 +345,7 @@ class AppFixtures extends Fixture
             $qcmInstance->setStartTime( $this->faker->dateTimeBetween('-1 year', 'now') );
             $qcmInstance->setEndTime( $this->faker->dateTimeBetween('now', '+1 month') );
             $qcmInstance->setStudent($dbStudents[array_rand($dbStudents,1)]);
-            $manager->persist($qcmInstance);
-        }
-        $manager->flush();
-    }
-
-    public function generateQcmInstancesWithSpecifyModule( $manager ) :void
-    {
-        $dbQcms = $this->qcmRepository->findBy(['module' => 11]);
-
-        $dbStudents = $this->studentRepository->findByEnabled();
-        for( $i = 0; $i < 3; $i++ )
-        {
-            $relatedQcm = $dbQcms[array_rand($dbQcms)];
-
-            $qcmInstance = new QcmInstance();
-            $qcmInstance->setQcm( $relatedQcm );
-            $qcmInstance->setStartTime( $this->faker->dateTimeBetween('-1 year', 'now') );
-            $qcmInstance->setEndTime( $this->faker->dateTimeBetween('now', '+1 month') );
-            $qcmInstance->setStudent($dbStudents[array_rand($dbStudents,1)]);
+            $qcmInstance->setDistributedBy($dbInstructors[array_rand($dbInstructors)]);
             $manager->persist($qcmInstance);
         }
         $manager->flush();
@@ -508,7 +402,7 @@ class AppFixtures extends Fixture
                     'id'          => $questionAnswer['id'],
                     'wording'     => $questionAnswer['wording'],
                     'isMultiple'  => $questionAnswer['isMultiple'],
-                    'isCorrect' => rand(0,1),
+                    'student_answer_correct' => rand(0,1),
                     'proposals'   => $proposalDetails,
 
                 ];

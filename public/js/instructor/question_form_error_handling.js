@@ -134,7 +134,7 @@ function checkCreateQuestionForm(e)
 
 document.addEventListener('DOMContentLoaded', function(){
 
-    createQuestionFormSubmit = document.querySelector( 'form[name="create_question"] button.valid' );
+    createQuestionFormSubmit = document.getElementById('valid')
     createQuestionFormSubmit.addEventListener('click', checkCreateQuestionForm)
 
 });

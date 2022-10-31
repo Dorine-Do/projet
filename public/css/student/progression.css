@@ -31,21 +31,14 @@
     align-items: center;
     min-width: 14em;
     padding: 0;
-    margin: 1em 0;
+    margin: 1.5em 0;
     position: relative;
 }
 
 .isOfficialQcmOdd{
     align-self: end;
     flex-direction: column-reverse;
-    margin: 1em auto;
 }
-
-/*.timeLine div:nth-child(odd){*/
-/*    align-self: end;*/
-/*    flex-direction: column-reverse;*/
-/*    margin: 1em auto;*/
-/*}*/
 
 .infoQcm{
     width: 86%;
@@ -100,11 +93,11 @@
 .pBadge{
     position: relative;
     bottom: -7em;
-    width: 17%;
     border: 1px solid var(--pamplemousse);
     border-radius: 30px;
     padding: .1em 1em;
     background: var(--fond);
+    margin: 0 4em;
 }
 
 .wrong{
@@ -141,9 +134,59 @@
 }
 
 
+/*******************************BADGES***********************/
+
+.badges{
+    width: 17%;
+    height: 200px;
+}
+
+.containerBadges{
+    background-color: var(--fond);
+    border: 2px solid var(--pamplemousse);
+    border-radius: 16px;
+    padding: 1em;
+    margin-left: 0;
+    margin-bottom: 40px;
+}
+
+.splitBadges{
+    background-color: white;
+    display: flex;
+    padding: 1em;
+}
+
+.certif{
+    text-align: center;
+    background-color: var(--pamplemousse);
+    padding: 12px 108px;
+    border-radius: 16px;
+    font-size: 1.5em;
+}
+
+.lilMessage{
+    font-size: 0.8em;
+}
+
+@media screen and (max-width: 1200px) {
+
+}
+
 @media screen and (max-width: 780px) {
+    .badges{
+        width: 20%;
+        height: 200px;
+        margin: 0 5px;
+    }
 
+    .splitBadges{
+        padding: 8px;
+    }
 
+    .certif{
+        padding: 8px 72px;
+        font-size: 1.3em;
+    }
 
 }
 
@@ -157,13 +200,12 @@
         position: static;
     }
     .lineX {
-        top: 80%;
-        left: 188px;
+        top: 100%;
+        left: 199px;
         width: 1%;
-        height: 30em;
+        height: 29em;
     }
     .timeLine{
-        display: block;
         width: auto;
         height: auto;
         margin: 0;
@@ -179,10 +221,10 @@
     }
     .lineY{
         background: var(--pamplemousse);
-        width: 5em;
+        width: 7em;
         height: 1.5px;
         top: 25px;
-        right: 21px;
+        right: 31px;
     }
 
     .infoQcm{
@@ -205,8 +247,8 @@
     }
 
     .isOfficialQcmOdd{
-        right: -41%;
         flex-direction: row-reverse;
+        align-self: self-end;
     }
 
     .pBadge{
@@ -217,6 +259,34 @@
         width: 25%;
     }
 
+    .badges{
+        width: 95%;
+        height: 200px;
+        margin: 0 5px;
+    }
 
+    .splitBadges{
+        padding: 8px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .certif{
+        padding: 8px 72px;
+        font-size: 1.3em;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 30%;
+    }
+
+    .containerBadges{
+        width: 85%;
+        margin: auto auto 40px auto;
+    }
+    
+    .lilMessage{
+        text-align: center;
+    }
 
 }

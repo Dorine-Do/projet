@@ -6,81 +6,38 @@
 
 {% block body %}
 
-<div class="container_create_qcm">
-<h1>{{ 'title.iCreateQcm'|trans }}</h1>
-  {# <nav class="create_qcm">
-    <div>ici logo</div>
-    <ul class="list_buttons_nav">
-      <Li>Créer un qcm</Li>
-      <Li>Mon planning</Li>
-      <Li>Tableau de bord</Li>
-      <Li>Gestion qcm</Li>
-    </ul>
+  <div class="container_create_qcm">
+  <h1>- {{ 'title.iCreateQcm'|trans }} -</h1>
 
-  </nav> #}
-  <main class="content_qcm_creation">
-    <p class="step_one"><span>{{ 'title.step1'|trans }}</span>{{ 'title.chooseSession'|trans }}</p>
-    <form method="GET" action="{{path('instructor_create_qcm')}}">
-    <div class="bloc_choice_session_and_module">
-    
-      <ul class="list_sessions">
-      {# Input caché pour permettre d'envoyer les données du li dans le form au clic  voir script
-         au clic id est envoyé dans le value du input 
-       #}
-        <input type="hidden" value="{{sessions[0].id}}"  name="session" >
-        {% for session in sessions %}
-    
-        <li data-session-id="{{session.id}}">{{session.name}}</li>
- 
-        {% endfor %}
-      </ul>
-      
-    </div>
-    <p class="step_two"><span>{{ 'title.step2'|trans }}</span>{{ 'title.chooseModule'|trans }}</p>
-    <div class="select_module">
-        <select name="module" id="module">
-         {% for module in modules %}
-          <option value="{{module.id}}">{{module.title}}</option>
-          {% endfor %}
-        </select>
-      </div>
-    <p class="step_three"><span>{{ 'title.step3'|trans }}</span>{{ 'title.validate'|trans }}</p>
-    <div class="bloc_generate_qcm">
-      <button type="submit">{{ 'button.generateQcm'|trans }}</button>
-    </div>
-    </form>
-  </main>
-</div>
-{% block javascripts %}
-{# temporaire #}
-    <script>
-    window.onload = function (event) {
-      // querySelectorAll -> si plusieurs input
-         let sessionInput = document.querySelector(".list_sessions input");
-         let sessionLiAll = document.querySelectorAll(".list_sessions li ");
-         let navLinkChoice = document.querySelector(".choix");
-          let linkQcmGiven = document.querySelector(".qcmGiven");
-          let linkCreation = document.querySelector(".creation");
+    <main class="content_qcm_creation">
+      <p class="step_one"><span>{{ 'title.step1'|trans }}</span>{{ 'title.chooseSession'|trans }}</p>
+      <form method="GET" action="{{path('instructor_create_qcm')}}">
+        <div class="bloc_choice_session_and_module">
 
-         for(let forSessionLi = 0; forSessionLi < sessionLiAll.length ; forSessionLi++){
-           sessionLiAll[forSessionLi].addEventListener("click",function(e){
-             let sessionLiId= this.dataset.sessionId;
-             sessionInput.value=`${sessionLiId}`
-           })
-         }
+          <ul id="sessions-list" class="list_sessions">
+            <input id="sessionToDistribute" type="hidden" value="{{sessions[0].id}}"  name="session" >
+            {% for session in sessions %}
 
-       /////////////////////
-      //  TEST url
-      if (window.location.href.includes(location.pathname)) {
-        // linkCreation.classList.add('activeBorderLinkNav')
-        navLinkChoice.style.width = "90%";
-        navLinkChoice.style.gridTemplateColumns = "repeat(4,1fr)";
-        linkCreation.style.display = "inline";
-        linkQcmGiven.style.display = "inline";
-      }
+            <li data-sessionid="{{session.id}}">{{session.name}}</li>
 
-    }
-    </script>
- 
-{% endblock %}
+            {% endfor %}
+          </ul>
+
+        </div>
+        <p class="step_two"><span>{{ 'title.step2'|trans }}</span>{{ 'title.chooseModule'|trans }}</p>
+        <div class="select_module">
+            <select name="module" id="module">
+              <option value="0">{{ 'module.beforeChoice'|trans }}</option>
+            </select>
+          </div>
+        <p class="step_three"><span>{{ 'title.step3'|trans }}</span>{{ 'title.validate'|trans }}</p>
+        <div class="bloc_generate_qcm">
+          <button type="submit">{{ 'button.generateQcm'|trans }}</button>
+        </div>
+      </form>
+    </main>
+  </div>
+  {% block javascripts %}
+    <script src="{{ asset('js/instructor/generateOfficialQcm.js') }}"></script>
+  {% endblock %}
 {% endblock %}

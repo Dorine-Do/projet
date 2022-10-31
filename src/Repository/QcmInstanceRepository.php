@@ -53,13 +53,24 @@ class QcmInstanceRepository extends ServiceEntityRepository
                 SELECT IDENTITY (r.qcmInstance)
                 FROM App\Entity\Main\Result r
             )
-
         ')
             ->getResult();
+        }
 
-
-
+    /**
+     * @return QcmInstance[] Returns an array of Student objects
+     */
+    public function getQcmInstancesByStudent($id): array
+    {
+        return $this->createQueryBuilder('qi')
+            ->innerJoin('qi.student', 's')
+            ->where('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
     }
+
 
 //    /**
 //     * @return QcmInstance[] Returns an array of QcmInstance objects
