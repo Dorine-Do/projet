@@ -34,6 +34,7 @@
                             <td>
                                 <button class="showStudentsBtn button greyButton" data-session="{{ session.id }}">Edudiants</button>
                                 <button class="shwoModulesBtn button greyButton" data-session="{{ session.id }}">Modules</button>
+                                <a class="button greyButton" href="{{ path('admin_stats_session', { 'session': session.id } ) }}">Stats</a>
                             </td>
                         </tr>
                         
