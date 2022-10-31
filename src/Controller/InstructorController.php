@@ -351,10 +351,9 @@ namespace App\Controller;
 
     ): Response
     {
-        /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        // $userId=$instructorRepository->find($id);
+       
         $userId = $this->getUser();
-        // $userId =1;
+      
         $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
         $modules = [];
@@ -393,8 +392,8 @@ namespace App\Controller;
 
         if ($module)
         {
-            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $userRepository,$security);
-            $generatedQcm = $qcmGenerator->generateRandomQcm($module);
+            $qcmGenerator = new QcmGeneratorHelper($questionRepository,$security);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module,$security->getUser(),$userRepository);
             //$qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             //$generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->user);
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
@@ -421,16 +420,7 @@ namespace App\Controller;
 
 
 
-        // if(empty($_POST['module'])){
-        //     dd("ERROR");
-        // }else{
-        //     dd($_POST['module'][0]);
-        // }
-
-        // dd($request->query->get('id'));
-
-
-
+      
 
 
         /********************************************************************************/
