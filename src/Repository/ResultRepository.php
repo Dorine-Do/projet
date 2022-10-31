@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Main\Module;
 use App\Entity\Main\Result;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -141,6 +142,44 @@ class ResultRepository extends ServiceEntityRepository
             ->setParameter('idSession', $idSession)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @return Module[] Returns an array of Student objects
+     */
+    public function isOfficialQcmLevel($idStudent,$idSession): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select(
+                "q.id as qcmId,
+                 q.title as qcmTitle,
+                 qi.id as qcmInstanceId, 
+                 r.id as resultID, 
+                 m.id as moduleId, 
+                 m.title as moduleTitle,
+                 r.level,
+                 DATE_FORMAT(lsm.startDate,'%Y-%m-%d') as startDat,
+                 DATE_FORMAT(lsm.endDate,'%Y-%m-%d') as endDate
+                 ")
+            ->innerJoin('r.qcmInstance', 'qi')
+            ->innerJoin('qi.qcm', 'q')
+            ->innerJoin('q.module', 'm')
+            ->innerJoin('m.linksSessionModule', 'lsm')
+            ->innerJoin('qi.student', 's')
+            ->innerJoin('s.linksSessionStudent', 'lss')
+            ->innerJoin('lss.session', 'se')
+            ->where('s.id = :idStudent')
+            ->andwhere('lsm.session = :idSession')
+            ->andWhere('q.isOfficial = 1')
+            ->andWhere('q.isPublic = 1')
+            ->andWhere('r.isFirstTry = 1')
+            ->andWhere('lss.isEnabled = 1')
+            ->andWhere('lsm.endDate <= CURRENT_DATE()')
+            ->setParameter('idStudent', $idStudent)
+            ->setParameter('idSession', $idSession)
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
 //    /**
