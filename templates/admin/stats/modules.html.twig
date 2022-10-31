@@ -4,58 +4,33 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('css/admin/admin_lists.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/stats/modules_stats.css') }}">
 {% endblock %}
 
 {% block body %}
-    <style>
-        .stats-group {
-            display: flex;
-            width: 100%;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .stats-group > h2 {
-            width: 100%;
-        }
-
-        .stats-group > div {
-            width: 45%;
-            margin:0;
-            padding: 8px;
-        }
-
-        .stats-group > div > canvas {
-            width: 100%;
-            height: 300px;
-        }
-    </style>
     <main class="admin_content">
-
         <section>
             <h1>Statistiques de modules</h1>
         </section>
 
         <section class="stats-group">
             <h2>Stacks</h2>
-            <div>
+            <div class="graph">
                 <h3>Taux de réussite par stack</h3>
                 <canvas id="stacks-rate-chart"></canvas>
             </div>
-            <div>
+            <div class="graph">
                 <h3>Note moyenne par stack</h3>
                 <canvas id="stacks-average-chart"></canvas>
             </div>
         </section>
         <section class="stats-group">
             <h2>Modules</h2>
-            <div>
+            <div class="graph">
                 <h3>Taux de réussite par module</h3>
                 <canvas id="modules-rate-chart"></canvas>
             </div>
-            <div>
+            <div class="graph">
                 <h3>Note moyenne par module</h3>
                 <canvas id="modules-average-chart"></canvas>
             </div>

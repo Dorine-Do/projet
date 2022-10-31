@@ -227,18 +227,41 @@ img{
         width: 89%;
     }
 
-    .qcmStudent{
-        display: block;
-        column-count: 2;
-        padding: 0;
+    #qcms-module{
+        background-color: var(--fond);
+        padding: 20px;
+        margin: 50px 0 0 0;
+        width: 1000px;
     }
 
-    .difficulty{
+    .overflowX{
+        width: 100vw;
+        overflow-x: scroll;
+}
+
+    .difficulty, .date, .official{
         width: 5em;
     }
-    
+
+    ul#div-legend li:first-child{
+        margin-left: 45px;
+    }
+
+    ul#div-legend li:nth-child(2){
+        margin-left: 55px;
+    }
+
+    ul#div-legend li:nth-child(3){
+        margin-left: 15px;
+    }
+
+    ul#div-legend li:last-child{
+        margin-left: 10px;
+    }
+
     .date{
         text-align: center;
+        width: 5em;
     }
 }
 

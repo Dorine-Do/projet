@@ -1,9 +1,9 @@
 //ONLOAD ET NON DOM CHARGEMENT 1 FOIS ET NON 2 COMME DOM CAR ERREUR ET PROBLEME D AFFICHAGE
 window.onload = function (event) {
-  let spanFlashAddIns = document.querySelector(".flashNotice div");
-  let addFlashIns = document.querySelector(".flashNotice ");
-  let spanFlashQuestionPerso = document.querySelector(".flashNoticeQuestionPerso div");
-  let addFlashQuestionPerso = document.querySelector(".flashNoticeQuestionPerso ");
+  let spanFlashAddIns = document.querySelector(".flash-notice div");
+  let addFlashIns = document.querySelector(".flash-notice ");
+  let spanFlashQcmPerso = document.querySelector(".flash-notice-qcm-perso div");
+  let addFlashQcmPerso = document.querySelector(".flash-notice-qcm-perso ");
 
   ///////////////////////FLASH MESSAGE
   if (spanFlashAddIns) {
@@ -11,9 +11,9 @@ window.onload = function (event) {
       addFlashIns.style.display = "none";
     });
   }
-  if (spanFlashQuestionPerso) {
-    spanFlashQuestionPerso.addEventListener("click", function () {
-      addFlashQuestionPerso.style.display = "none";
+  if (spanFlashQcmPerso) {
+    spanFlashQcmPerso.addEventListener("click", function () {
+      addFlashQcmPerso.style.display = "none";
     });
   }
 
@@ -22,13 +22,18 @@ window.onload = function (event) {
   div_proposals.forEach((div) => {
     div.style.display = "none";
   });
+  ///////////DIV PARENT PROPOSALS
+  let divParentProposal = document.querySelectorAll(".blocDivProposal");
 
   let p_prop;
   let chevrons = document.querySelectorAll(".imgChevron");
 
   chevrons.forEach((chevron) => {
     chevron.addEventListener("click", (e) => {
-      let div_question = e.target.parentElement.parentElement.parentElement.parentElement.childNodes[5];
+      let div_question =
+        e.target.parentElement.parentElement.parentElement.parentElement
+          .childNodes[5];
+      // let div_question =  e.target.parentElement.parentElement.parentElement.parentElement
       div_question.style.display = "block";
       let div_js = div_question.querySelector(".divJs");
       // return false un boolean si status !== 'true' et true si === true

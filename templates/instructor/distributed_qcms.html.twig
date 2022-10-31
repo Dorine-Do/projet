@@ -33,13 +33,15 @@
         </select>
     </div>
 
-    <div id="qcms-module">
-        <ul id="div-legend">
-            <li class="legendTypeDifficulty">Module</li>
-            <li class="legendDate">Date</li>
-            <li class="legendModule">Type</li>
-            <li class="legendNote">Difficulté</li>
-        </ul>
+    <div class="overflowX">
+        <div id="qcms-module">
+            <ul id="div-legend">
+                <li class="legendTypeDifficulty">Module</li>
+                <li class="legendDate">Date</li>
+                <li class="legendModule">Type</li>
+                <li class="legendNote">Difficulté</li>
+            </ul>
+        </div>
     </div>
     <div id="students-qcm">
 
@@ -52,7 +54,7 @@
     <script>
         let decouvre = "{{asset('build/images/arbre_decouvre.svg')}}"
         let explore = "{{asset('build/images/arbre_explore.svg')}}"
-        let maitrise = "{{asset('build/images/arbre_maitrise.svg')}}"
+        let maitrise = "{{asset('build/images/arbre_maîtrise.svg')}}"
         let domine = "{{asset('build/images/arbre_domine.svg')}}"
     </script>
     <script type="text/javascript" src="{{ asset('js/instructor/distributedQcms.js') }}"></script>

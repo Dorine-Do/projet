@@ -278,75 +278,12 @@ namespace App\Controller;
                     'instructorAddQuestion',
                     'La question a été généré avec succès'
                 );
-
-
                 return $this->redirectToRoute('instructor_display_questions');
 
-            }
-            return $this->render('instructor/create_question.html.twig', [
-                'form' => $form->createView(),
-                "add" => true,
-            ]);
-            }
-
-    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
-    public function createQcmPersonalized(
-        Request              $request,
-        InstructorRepository $instructorRepository,
-        ModuleRepository     $moduleRepository,
-        QuestionRepository   $questionRepository,
-        UserRepository $userRepository
-    ): Response
-    {
-
-        $linksInstructorSessionModule = $instructorRepository->find($this->security->getUser()->getId())->getLinksInstructorSessionModule();
-
-        $modules = [];
-        foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
-        {
-            $modules[] = $linkInstructorSessionModule->getModule();
         }
-        /**********************************************************************************/
-        // Get module choiced
-        $module = null;
-        if ($request->get('module'))
-        {
-            $module = $moduleRepository->find($request->get('module'));
-        }
-
-
-        if ($module)
-        {
-            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $this->security);
-            $generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->security->getUser(), $userRepository, 'training');
-            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $this->security->getUser()->getId()]);
-            $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
-            $qcms = $module->getQcms();
-            $moduleQuestions = $module->getQuestions();
-
-        }
-
-        $qcmInstancesByQuestion = [];
-        foreach($moduleQuestions as $moduleQuestion){
-
-            $count=0;
-            foreach($moduleQuestion->getQcms() as $moduleQuestionQcm ) {
-                $count+=count($moduleQuestionQcm->getQcmInstances());
-              }
-             $qcmInstancesByQuestion[$moduleQuestion->getId()]=$count;
-        }
-
-        /********************************************************************************/
-        return $this->render('instructor/create_qcm_perso.html.twig', [
-            'modules' => $modules,
-            'customQuestions' => $module ? $customQuestions : null,
-            'officialQuestions' => $module ? $officialQuestions : null,
-            'generatedQcm' => $module ? $generatedQcm : null,
-            // temporaire voir todo pour connection
-            'user'=>$this->security->getUser()->getId(),
-            // 'qcmInstanceFromOfficialQcm'=>$qcmInstanceFromOfficialQcm,
-            'qcms'=> $module ? $qcms : null,
-            'qcmInstancesByQuestion'=> $module ? $qcmInstancesByQuestion : null
+        return $this->render('instructor/create_question.html.twig', [
+            'form' => $form->createView(),
+            "add" => true
         ]);
     }
 
@@ -390,11 +327,112 @@ namespace App\Controller;
 
         $questionResponse = $questionRepository->find($question->getId());
 
-        return new JsonResponse($questionResponse);
+            /*TODO Débuger le jsonResponse*/
+            return new JsonResponse($questionResponse);
+        }
+    #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
+    public function createQcmPersonalized(
+        Request              $request,
+        InstructorRepository $instructorRepository,
+        ModuleRepository     $moduleRepository,
+        QuestionRepository   $questionRepository,
+        Security             $security,
+        QcmRepository        $qcmRepo,
+        QcmInstanceRepository     $qcmInstanceRepository,
+        UserRepository $userRepository
+
+    ): Response
+    {
+
+        $userId = $this->getUser();
+
+        $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+
+        $modules = [];
+        $qcmsLevel=[];
+
+        foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
+        {
+            $modules[] = $linkInstructorSessionModule->getModule();
+              //   TEMPORAIRE -> recup qcm par module et par difficulté
+            //   $qcmsLevel[]=$linkInstructorSessionModule->getmodule()->getQcms();
+            //   foreach($linkInstructorSessionModule->getmodule()->getQcms() as $qcmLevel ) {
+            //     $qcmsLevel[]=$qcmLevel->getDifficulty();
+            //  }
+
+        }
+
+
+        /**********************************************************************************/
+        // Get module choiced
+        $module = null;
+        if ($request->get('module'))
+        {
+            $module = $moduleRepository->find($request->get('module'));
+            foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
+            {
+
+                  foreach($linkInstructorSessionModule->getmodule()->getQcms() as $qcmLevel ) {
+                    $qcmsLevel[]=$qcmLevel->getDifficulty();
+                 }
+
+            }
+
+
+        }
+
+
+        if ($module)
+        {
+            $qcmGenerator = new QcmGeneratorHelper($questionRepository,$security);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module,$security->getUser(),$userRepository);
+            //$qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
+            //$generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->user);
+            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $userId]);
+            $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
+
+            // !!!!! tester l'existence de la variable module sinon erreur
+            if (isset($module)){
+                $qcms = $module->getQcms();
+                $moduleQuestions = $module->getQuestions();
+                $qcmInstancesByQuestion = [];
+                foreach($moduleQuestions as $moduleQuestion){
+
+                    $count=0;
+                    foreach($moduleQuestion->getQcms() as $moduleQuestionQcm ) {
+                        $count+=count($moduleQuestionQcm->getQcmInstances());
+                    }
+                    $qcmInstancesByQuestion[$moduleQuestion->getId()]=$count;
+                }
+            }
+
+        }
+
+
+
+
+
+
+
+
+        /********************************************************************************/
+        return $this->render('instructor/create_qcm_perso.html.twig', [
+            'modules' => empty($modules ) ? null : $modules, // condition 1 + condition 2 + condition 3 sinon erreur
+            'customQuestions' => $module ? $customQuestions : null,
+            'officialQuestions' => $module ? $officialQuestions : null,
+            'generatedQcm' => $module ? $generatedQcm : null,
+            // temporaire voir todo pour connection
+            'user'=>$userId,
+            'qcmsLevel'=>$qcmsLevel == [] ? null : $qcmsLevel,
+            'qcms'=>empty($qcm ) ? null : $qcms,// condition 2
+            'qcmInstancesByQuestion'=>!isset($qcmInstancesByQuestion )? null : $qcmInstancesByQuestion // condition 3
+
+        ]);
     }
 
+
     // methode Post non permise car route non trouvée donc method Get Ok
-    #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['GET','POST'])]
+    #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
     public function createQcmFetch(
         ValidatorInterface     $validator,
         Request                $request,
@@ -403,6 +441,7 @@ namespace App\Controller;
         ModuleRepository       $moduleRepository,
         EntityManagerInterface $entityManager,
         QcmGeneratorHelper $generatorHelper
+
     ): Response
     {
 
@@ -442,6 +481,7 @@ namespace App\Controller;
 
         /*redirection voir js*/
         $this->addFlash('success', 'Le qcm a bien été modifiée.');
+        // // return $this->redirectToRoute('instructor_display_questions');
         return $this->json("ok",200);
 
     }
@@ -454,8 +494,8 @@ namespace App\Controller;
             Request                $request,
             QuestionRepository     $questionRepository,
             ModuleRepository       $moduleRepository,
-            UserRepository         $userRepository,
-            EntityManagerInterface $manager
+            EntityManagerInterface $manager,
+            UserRepository         $userRepository
         ): Response
         {
             $dayOfWeekEnd = array("Saturday", "Sunday");
@@ -597,6 +637,7 @@ namespace App\Controller;
                 $students = array_map(function ($LinkSessionStudent) {
                     return $LinkSessionStudent->getStudent();
                 }, $LinksSessionStudent);
+
                 return $this->json($students, 200, [], ['groups' => 'user:read']);
             }
             return new JsonResponse();
@@ -680,7 +721,6 @@ namespace App\Controller;
             ModuleRepository $moduleRepository,
         ):JsonResponse
         {
-
             $modules = $moduleRepository->getModuleSessions($session->getId());
             $modulesName = [];
             foreach ( $modules as $module ){
@@ -782,6 +822,7 @@ namespace App\Controller;
             EntityManagerInterface $manager
         ):JsonResponse
         {
+
             $result->setInstructorComment($comment);
             $manager->flush();
             return $this->json('Le commentaire a bien été ajouté');

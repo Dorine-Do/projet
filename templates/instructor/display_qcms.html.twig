@@ -12,12 +12,12 @@
 
 
     <div class=" blocIndice">
-        <p class="indiceToSelectQcm ">
-            <span>{{ 'title.step1'|trans }}</span> {{ 'title.iQcmSelect'|trans }}
-        </p>
-        <p class="indiceToShowQuestions ">
-            <span>{{'title.step2'|trans }}</span> {{ 'title.displayMyQuestions'|trans }}
-        </p>
+      <p class="indiceToSelectQcm ">
+          <span>{{ 'title.step1'|trans }}</span> {{ 'title.iQcmSelect'|trans }}
+      </p>
+      <p class="indiceToShowQuestions ">
+          <span>{{'title.step2'|trans }}</span> {{ 'title.displayMyQuestions'|trans }}
+      </p>
     </div>
 
     <div class="bloc_display_question_by_qcm">
@@ -35,7 +35,7 @@
                 </ul>
             </div>
         </div>
-        <div class="bloc-toggle-ul-question">
+       <div class="bloc-toggle-ul-question">
             <div class="divQuestions">
                 <ul class="list_questions"  data-qcms="{{ qcms|json_encode|e('html_attr')}}">
                    {% for qcm in qcms %}
