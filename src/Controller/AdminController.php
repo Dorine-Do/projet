@@ -4,13 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Main\Admin;
 use App\Entity\Main\Instructor;
+use App\Entity\Main\LinkInstructorSessionModule;
 use App\Entity\Main\LinkSessionModule;
 use App\Entity\Main\Session;
 use App\Entity\Main\Student;
 use App\Entity\Main\User;
 use App\Form\RegistrationFormType;
 use App\Repository\BugReportRepository;
+use App\Repository\LinkInstructorSessionModuleRepository;
 use App\Repository\LinkSessionModuleRepository;
+use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\QcmRepository;
 use App\Repository\QuestionRepository;
@@ -230,7 +233,7 @@ class AdminController extends AbstractController
 
     // STATS -----------------------------------------------------------------------------------------------------------
 
-    // Modules
+    // Modules stats
     #[Route('admin/stats/modules' ,name: 'admin_stats_modules')]
     public function statsModules(ModuleRepository $moduleRepo) : Response
     {
@@ -325,9 +328,9 @@ class AdminController extends AbstractController
         return $this->json( $ratesByStack );
     }
 
-    // Session
+    // Session stats
     #[Route('admin/stats/session/{session}' ,name: 'admin_stats_session')]
-    public function statsSessions(Session $session, ModuleRepository $moduleRepo) : Response
+    public function statsSession(Session $session) : Response
     {
         return $this->render('admin/stats/session.html.twig', [
             'session' => $session,
@@ -335,7 +338,10 @@ class AdminController extends AbstractController
     }
 
     #[Route('admin/stats/fetch/session-modules-success-rate/{session}' ,name: 'admin_fetch_session_modules_success_rate', methods: ['GET'])]
-    public function fetchSessionModulesSuccessRate(Session $session, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo) : JsonResponse
+    public function fetchSessionModulesSuccessRate(
+        Session $session,
+        LinkSessionModuleRepository $linkSessionModuleRepo
+    ) : JsonResponse
     {
         $ratesByModule = [];
 
@@ -379,7 +385,11 @@ class AdminController extends AbstractController
     }
 
     #[Route('admin/stats/fetch/session-stacks-success-rate/{session}' ,name: 'admin_fetch_session_stacks_success_rate', methods: ['GET'])]
-    public function fetchSessionStacksSuccessRate(Session $session, LinkSessionModuleRepository $linkSessionModuleRepo, ModuleRepository $moduleRepo) : JsonResponse
+    public function fetchSessionStacksSuccessRate(
+        Session $session,
+        LinkSessionModuleRepository $linkSessionModuleRepo,
+        ModuleRepository $moduleRepo
+    ) : JsonResponse
     {
         $ratesByStack = [];
 
@@ -420,6 +430,287 @@ class AdminController extends AbstractController
                         if( $result )
                         {
                             $scores[] = $result->getScore();
+                        }
+                    }
+                }
+                $stackScores = array_merge( $stackScores, $scores );
+                $stackOverFiftyScores = array_merge( $stackOverFiftyScores, array_filter($scores, function($score){ return $score >= 50; }) );
+            }
+            $ratesByStack[] = [
+                'title' => $stack,
+                'averageScore' => count($stackScores) > 0 ? array_sum($stackScores) / count($stackScores) : 0,
+                'successRate' => count($stackScores) > 0 ? count($stackOverFiftyScores) / count($stackScores) : 0,
+            ];
+        }
+
+        return $this->json( $ratesByStack );
+    }
+
+    // Student stats
+    #[Route('admin/stats/student/{student}' ,name: 'admin_stats_student')]
+    public function statsStudent(Student $student) : Response
+    {
+        return $this->render('admin/stats/student.html.twig', [
+            'student' => $student,
+        ]);
+    }
+
+    #[Route('admin/stats/fetch/student-modules-success-rate/{student}' ,name: 'admin_fetch_session_modules_success_rate', methods: ['GET'])]
+    public function fetchStudentModulesSuccessRate(
+        Student $student,
+        LinkSessionStudentRepository $linkSessionStudentRepo
+    ) : JsonResponse
+    {
+        $ratesByModule = [];
+
+        $linksSessionStudent = $linkSessionStudentRepo->findBy( ['student' => $student] );
+
+        $sessions = [];
+
+        foreach( $linksSessionStudent as $linkSessionStudent )
+        {
+            $sessions[] = $linkSessionStudent->getSession();
+        }
+
+        $linksSessionModule = [];
+
+        foreach( $sessions as $session )
+        {
+            $linksSessionModule = array_merge( $linksSessionModule, $session->getLinksSessionModule()->toArray() );
+        }
+
+        $modules = [];
+
+        foreach( $linksSessionModule as $linkSessionModule )
+        {
+            $modules[] = $linkSessionModule->getModule();
+        }
+
+        foreach( $modules as $module )
+        {
+            $moduleOfficialQcms = $module->getQcms()->filter(function($qcm){
+                return $qcm->getIsOfficial();
+            });
+
+            $scores = [];
+            foreach( $moduleOfficialQcms as $moduleOfficialQcm)
+            {
+                $qcmInstances = $moduleOfficialQcm->getQcmInstances();
+                foreach( $qcmInstances as $qcmInstance )
+                {
+                    $result = $qcmInstance->getResult();
+                    if( $result )
+                    {
+                        $scores[] = $result->getScore();
+                    }
+                }
+            }
+            $scoresOverFifty = array_filter($scores, function($score){ return $score >= 50; });
+            $ratesByModule[] = [
+                'title' => $module->getTitle(),
+                'averageScore' => count($scores) > 0 ? array_sum($scores) / count($scores) : 0,
+                'successRate' => count($scores) > 0 ? count($scoresOverFifty) / count($scores) : 0,
+            ];
+        }
+
+        return $this->json( $ratesByModule );
+    }
+
+    #[Route('admin/stats/fetch/student-stacks-success-rate/{student}' ,name: 'admin_fetch_student_stacks_success_rate', methods: ['GET'])]
+    public function fetchStudentStacksSuccessRate(
+        Student $student,
+        LinkSessionStudentRepository $linkSessionStudentRepo,
+        ModuleRepository $moduleRepo
+    ) : JsonResponse
+    {
+        $ratesByStack = [];
+
+        $linksSessionStudent = $linkSessionStudentRepo->findBy( ['student' => $student] );
+
+        $sessions = [];
+
+        foreach( $linksSessionStudent as $linkSessionStudent )
+        {
+            $sessions[] = $linkSessionStudent->getSession();
+        }
+
+        $linksSessionModule = [];
+
+        foreach( $sessions as $session )
+        {
+            $linksSessionModule = array_merge( $linksSessionModule, $session->getLinksSessionModule()->toArray() );
+        }
+
+        $modules = [];
+
+        foreach( $linksSessionModule as $linkSessionModule )
+        {
+            $modules[] = $linkSessionModule->getModule();
+        }
+
+        $stacksNotUniq = array_map( function($module){
+            return preg_replace('/[0-9]+/', '' ,$module->getTitle() );
+        }, $modules );
+
+        $stacks = array_unique( $stacksNotUniq );
+
+        foreach( $stacks as $stack )
+        {
+            $stackModules = $moduleRepo->findAllModulesByBaseName($stack);
+
+            $stackScores = [];
+            $stackOverFiftyScores = [];
+            foreach( $stackModules as $module )
+            {
+                $moduleOfficialQcms = $module->getQcms()->filter(function($qcm){
+                    return $qcm->getIsOfficial();
+                });
+
+                $scores = [];
+                foreach( $moduleOfficialQcms as $moduleOfficialQcm)
+                {
+                    $qcmInstances = $moduleOfficialQcm->getQcmInstances();
+                    foreach( $qcmInstances as $qcmInstance )
+                    {
+                        $result = $qcmInstance->getResult();
+                        if( $result )
+                        {
+                            $scores[] = $result->getScore();
+                        }
+                    }
+                }
+                $stackScores = array_merge( $stackScores, $scores );
+                $stackOverFiftyScores = array_merge( $stackOverFiftyScores, array_filter($scores, function($score){ return $score >= 50; }) );
+            }
+            $ratesByStack[] = [
+                'title' => $stack,
+                'averageScore' => count($stackScores) > 0 ? array_sum($stackScores) / count($stackScores) : 0,
+                'successRate' => count($stackScores) > 0 ? count($stackOverFiftyScores) / count($stackScores) : 0,
+            ];
+        }
+
+        return $this->json( $ratesByStack );
+    }
+
+    // Instructor stats
+    #[Route('admin/stats/instructor/{instructor}' ,name: 'admin_stats_instructor')]
+    public function statsInstructor(Instructor $instructor) : Response
+    {
+        return $this->render('admin/stats/instructor.html.twig', [
+            'instructor' => $instructor,
+        ]);
+    }
+
+    #[Route('admin/stats/fetch/instructor-modules-success-rate/{instructor}' ,name: 'admin_fetch_instructor_modules_success_rate', methods: ['GET'])]
+    public function fetchInstructorModulesSuccessRate(
+        Instructor $instructor,
+        LinkInstructorSessionModuleRepository $linkInstructorSessionModuleRepo
+    ) : JsonResponse
+    {
+        $ratesByModule = [];
+
+        $linksInstructorSessionModule = $linkInstructorSessionModuleRepo->findBy( ['instructor' => $instructor] );
+
+        $modules = [];
+        $students = [];
+        foreach( $linksInstructorSessionModule as $linkInstructorSessionModule )
+        {
+            $modules[] = $linkInstructorSessionModule->getModule();
+            $linksSessionStudent = $linkInstructorSessionModule->getSession()->getLinksSessionStudent();
+            foreach ( $linksSessionStudent as $linkSessionStudent )
+            {
+                $students[] = $linkSessionStudent->getStudent();
+            }
+        }
+
+        foreach( $modules as $module )
+        {
+            $moduleOfficialQcms = $module->getQcms()->filter(function($qcm){
+                return $qcm->getIsOfficial();
+            });
+
+            $scores = [];
+            foreach( $moduleOfficialQcms as $moduleOfficialQcm)
+            {
+
+                $qcmInstances = $moduleOfficialQcm->getQcmInstances();
+                foreach( $qcmInstances as $qcmInstance )
+                {
+                    if( in_array( $qcmInstance->getStudent(), $students) )
+                    {
+                        $result = $qcmInstance->getResult();
+                        if( $result )
+                        {
+                            $scores[] = $result->getScore();
+                        }
+                    }
+                }
+            }
+            $scoresOverFifty = array_filter($scores, function($score){ return $score >= 50; });
+            $ratesByModule[] = [
+                'title' => $module->getTitle(),
+                'averageScore' => count($scores) > 0 ? array_sum($scores) / count($scores) : 0,
+                'successRate' => count($scores) > 0 ? count($scoresOverFifty) / count($scores) : 0,
+            ];
+        }
+
+        return $this->json( $ratesByModule );
+    }
+
+    #[Route('admin/stats/fetch/instructor-stacks-success-rate/{instructor}' ,name: 'admin_fetch_instructor_stacks_success_rate', methods: ['GET'])]
+    public function fetchInstructorStacksSuccessRate(
+        Instructor $instructor,
+        LinkInstructorSessionModuleRepository $linkInstructorSessionModuleRepo,
+        ModuleRepository $moduleRepo
+    ) : JsonResponse
+    {
+        $ratesByStack = [];
+
+        $linksInstructorSessionModule = $linkInstructorSessionModuleRepo->findBy( ['instructor' => $instructor] );
+
+        $modules = [];
+        $students = [];
+        foreach( $linksInstructorSessionModule as $linkInstructorSessionModule )
+        {
+            $modules[] = $linkInstructorSessionModule->getModule();
+            $linksSessionStudent = $linkInstructorSessionModule->getSession()->getLinksSessionStudent();
+            foreach ( $linksSessionStudent as $linkSessionStudent )
+            {
+                $students[] = $linkSessionStudent->getStudent();
+            }
+        }
+
+        $stacksNotUniq = array_map( function($module){
+            return preg_replace('/[0-9]+/', '' ,$module->getTitle() );
+        }, $modules );
+
+        $stacks = array_unique( $stacksNotUniq );
+
+        foreach( $stacks as $stack )
+        {
+            $stackModules = $moduleRepo->findAllModulesByBaseName($stack);
+
+            $stackScores = [];
+            $stackOverFiftyScores = [];
+            foreach( $stackModules as $module )
+            {
+                $moduleOfficialQcms = $module->getQcms()->filter(function($qcm){
+                    return $qcm->getIsOfficial();
+                });
+
+                $scores = [];
+                foreach( $moduleOfficialQcms as $moduleOfficialQcm)
+                {
+                    $qcmInstances = $moduleOfficialQcm->getQcmInstances();
+                    foreach( $qcmInstances as $qcmInstance )
+                    {
+                        if( in_array( $qcmInstance->getStudent() , $students ) )
+                        {
+                            $result = $qcmInstance->getResult();
+                            if( $result )
+                            {
+                                $scores[] = $result->getScore();
+                            }
                         }
                     }
                 }
