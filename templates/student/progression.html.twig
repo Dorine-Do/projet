@@ -12,23 +12,37 @@
     <div class="containerTimeLine">
         <div class="lineX"></div>
         <div class="timeLine">
-            {% for isOfficialQcm in isOfficialQcms %}
-                <div class="isOfficialQcm"
-                     data-level = "{{ isOfficialQcm.level }}"
-                     data-endDate = "{{ isOfficialQcm.endDate }}"
-                >
-                    <div class="lineY"></div>
-                    <div class="infoQcm">
-                        <p class="infoTimeLine moduleTitle" data-id = "{{ isOfficialQcm.moduleId }}"> {{ isOfficialQcm.moduleTitle }} </p>
-                        <p class="infoTimeLine iTrainning"> Je m'entraine </p>
-                    </div>
-
-                    {% if isOfficialQcm.level is same as 1  or isOfficialQcm.level is same as 2%}
-                        <p class="passOrNot">X</p>
+            {% set getBadge = "" %}
+            {% for moduleGroup in moduleGroups %}
+                {% for key, qcm in moduleGroup %}
+                    {% if not key is same as 'getBadge' %}
+                        <div class="isOfficialQcm groupElementTimeLine"
+                             data-level = "{{ qcm.level }}"
+                             data-endDate = "{{ qcm.endDate }}"
+                        >
+                            <div class="lineY"></div>
+                            <div class="infoQcm">
+                                <p class="infoTimeLine moduleTitle" data-id = "{{ qcm.moduleId }}"> {{ qcm.moduleTitle }} </p>
+                                <a href="{{ path('student_qcm_training', {module: qcm.moduleId} ) }}"><p class="infoTimeLine iTrainning"> Je m'entraine </p></a>
+                            </div>
+                        {% if qcm.level is same as 1 or qcm.level is same as 2%}
+                            <p class="passOrNot">X</p>
+                        {% else %}
+                            <p class="passOrNot">V</p>
+                        {% endif %}
+                        </div>
                     {% else %}
-                        <p class="passOrNot">V</p>
+                        {% set getBadge = qcm %}
                     {% endif %}
-                </div>
+                {% endfor %}
+                    <p class="pBadge groupElementTimeLine">
+                    {% if getBadge is same as true %}
+                        <img src="{{asset('build/images/logo_sans_fond.svg')}}" alt="Logo YouUp" class="imgYouUp">
+                    {% else %}
+                        <img src="{{asset('build/images/wrongTemporaire.svg')}}" alt="Croix" class="wrong">
+                    </p>
+
+                {% endif %}
             {% endfor %}
         </div>
     </div>
@@ -50,7 +64,7 @@
 {% endblock %}
 {% block javascripts %}
     <script>
-        let isOfficialQcms = {{ isOfficialQcms|json_encode|raw }};
+        let moduleGroups = {{ moduleGroups|json_encode|raw }};
         let logo = "{{asset('build/images/logo_sans_fond.svg')}}";
         let wrong = "{{asset('build/images/wrongTemporaire.svg')}}";
     </script>
