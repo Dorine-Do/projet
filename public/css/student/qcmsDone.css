@@ -164,6 +164,11 @@ select{
     margin-bottom: 10%;
 }
 
+#container_result{
+    display: flex;
+    flex-direction: column;
+}
+
 @media screen and (max-width: 1200px) {
     .realise{
         padding: 1em;
