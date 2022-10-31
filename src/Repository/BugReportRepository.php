@@ -39,6 +39,14 @@ class BugReportRepository extends ServiceEntityRepository
         }
     }
 
+    protected function rawSqlRequestToExtDb( $sql, $params = [], $extDb = 'dbsuivi' ) {
+        $conn = $this->doctrine->getConnection($extDb);
+        return $conn
+            ->prepare($sql)
+            ->executeQuery($params)
+            ->fetchAll();
+    }
+
 //    /**
 //     * @return BugReport[] Returns an array of BugReport objects
 //     */

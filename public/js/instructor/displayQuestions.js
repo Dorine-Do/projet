@@ -59,24 +59,9 @@ window.onload = function (event) {
             p_prop.innerHTML = proposal.wording;
             p_prop.classList.add("blocContentProposal");
 
-            // console.log(p_prop.insertBefore(p, p_prop.lastElementChild));
-            // p_prop.lastElementChild.insertAdjacentElement("beforebegin", p);
-            // p_prop.insertBefore(p, p_prop.lastElementChild);
-            // console.log(p_prop.lastElementChild, "ici");
             div_js.append(p, p_prop);
             // INSERTION DU PLETTER DEVANT LE PWORDING
             p_prop.insertBefore(p, p_prop.lastElementChild);
-            console.log(p_prop.lastElementChild.nodeName);
-            // WORDING SANS P
-            if (
-              p_prop.childNodes[0].nodeName == "#text" &&
-              p_prop.lastElementChild.className ==
-                p_prop.childNodes[1].className
-            ) {
-              let wordingText = p_prop.childNodes[0].data;
-              p_prop.innerHTML = `<p>${wordingText}</p>`;
-              p_prop.insertBefore(p, p_prop.lastElementChild);
-            }
 
             count++;
           }
@@ -223,16 +208,3 @@ window.onload = function (event) {
     blocUlQuestion.classList.remove("scroll_active");
   });
 };
-// if ((liBtnQcmOnly.dataset.id = 8)) {
-//   console.log(questionsCacheDefaultId);
-//   for (
-//     let forWording = 0;
-//     forWording < questionsCacheDefaultId.length;
-//     forWording++
-//   ) {
-
-//     questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
-//       questionsCacheDefaultId[forWording].wording
-//     }`;
-//   }
-// }

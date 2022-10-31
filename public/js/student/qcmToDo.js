@@ -75,6 +75,7 @@ function hideModals()
 
 
 
+
 document.addEventListener("DOMContentLoaded", (event) => {
     let numeroForm = document.querySelectorAll('.numeroForm')
     let allReponse = document.querySelectorAll('.allReponse')
@@ -85,12 +86,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let cancelErrorBtn = document.getElementById('cancel-error-qcm-btn')
     let confirmPopup = document.getElementById('confirm-comment-btn')
     let cancelComment = document.getElementById('cancel-comment-btn')
+    let divReponses = document.querySelectorAll('.divReponse')
     valid.addEventListener('click', showModal);
     confirmQcm.addEventListener('click', submitQcm);
     cancelBtn.addEventListener('click', hideModals);
     cancelComment.addEventListener('click', submitQcm);
     cancelErrorBtn.addEventListener('click', hideModals);
     confirmPopup.addEventListener('click', showValidationComment)
+
+    divReponses.forEach(response => {
+        response.addEventListener('click', function (){
+            response.closest('.reponse').querySelector('input').click()
+        })
+    })
 
     // Numéro question
     let countNum = 1

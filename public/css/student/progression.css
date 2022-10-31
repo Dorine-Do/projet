@@ -141,9 +141,59 @@
 }
 
 
+/*******************************BADGES***********************/
+
+.badges{
+    width: 17%;
+    height: 200px;
+}
+
+.containerBadges{
+    background-color: var(--fond);
+    border: 2px solid var(--pamplemousse);
+    border-radius: 16px;
+    padding: 1em;
+    margin-left: 0;
+    margin-bottom: 40px;
+}
+
+.splitBadges{
+    background-color: white;
+    display: flex;
+    padding: 1em;
+}
+
+.certif{
+    text-align: center;
+    background-color: var(--pamplemousse);
+    padding: 12px 108px;
+    border-radius: 16px;
+    font-size: 1.5em;
+}
+
+.lilMessage{
+    font-size: 0.8em;
+}
+
+@media screen and (max-width: 1200px) {
+
+}
+
 @media screen and (max-width: 780px) {
+    .badges{
+        width: 20%;
+        height: 200px;
+        margin: 0 5px;
+    }
 
+    .splitBadges{
+        padding: 8px;
+    }
 
+    .certif{
+        padding: 8px 72px;
+        font-size: 1.3em;
+    }
 
 }
 
@@ -217,6 +267,34 @@
         width: 25%;
     }
 
+    .badges{
+        width: 95%;
+        height: 200px;
+        margin: 0 5px;
+    }
 
+    .splitBadges{
+        padding: 8px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .certif{
+        padding: 8px 72px;
+        font-size: 1.3em;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 30%;
+    }
+
+    .containerBadges{
+        width: 85%;
+        margin: auto auto 40px auto;
+    }
+    
+    .lilMessage{
+        text-align: center;
+    }
 
 }

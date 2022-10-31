@@ -61,6 +61,88 @@ class ResultRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @return Result[] Returns an array of Result objects
+     */
+    public function getOfficialQcmsSuccessByModule($userId, $titleModule): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select("r.id, r.score")
+            ->innerJoin('r.qcmInstance', 'qi')
+            ->innerJoin('qi.student', 's')
+            ->innerJoin('s.linksSessionStudent', 'lss')
+            ->innerJoin('qi.qcm', 'q')
+            ->innerJoin('q.module', 'm')
+            ->where('s.id = :userId')
+            ->andWhere('q.isOfficial = true')
+            ->andWhere('lss.isEnabled = true')
+            ->andWhere('r.score >= 50')
+            ->andWhere('m.title LIKE :titleModule')
+            ->setParameter('userId', $userId)
+            ->setParameter('titleModule', '%'.$titleModule.'%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @return Result[] Returns an array of Student objects
+     */
+    public function resultMaxScore($id): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('MAX(r.score) as score, r.id as id, r.level')
+            ->innerJoin('r.qcmInstance', 'qi')
+            ->innerJoin('qi.qcm', 'q')
+            ->innerJoin('q.module', 'm')
+            ->innerJoin('qi.student', 's')
+            ->where('s.id = :id')
+            ->andWhere('q.isOfficial = 1')
+            ->groupBy('m.id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Result[] Returns an array of Student objects
+     */
+    public function resultWithQcmOfficialByModule($idStudent, $idSession): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('
+                r.id as resultId, 
+                r.level, 
+                r.score,
+                s.id as studentId,
+                se.id as sessionId, 
+                m.id as moduleId, 
+                m.title, 
+                q.id as qId, 
+                qi.id as qiId,
+                lsm.startDate,
+                lsm.endDate'
+            )
+            ->innerJoin('r.qcmInstance', 'qi')
+            ->innerJoin('qi.qcm', 'q')
+            ->innerJoin('q.module', 'm')
+            ->innerJoin('m.linksSessionModule', 'lsm')
+            ->innerJoin('qi.student', 's')
+            ->innerJoin('s.linksSessionStudent', 'lss')
+            ->innerJoin('lss.session', 'se')
+            ->where('s.id = :idStudent')
+            ->andwhere('lsm.session = :idSession')
+            ->andWhere('q.isOfficial = 1')
+            ->andWhere('q.isPublic = 1')
+            ->andWhere('r.isFirstTry = 1')
+            ->andWhere('lss.isEnabled = 1')
+            ->andWhere('lsm.endDate <= CURRENT_DATE()')
+            ->setParameter('idStudent', $idStudent)
+            ->setParameter('idSession', $idSession)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Result[] Returns an array of Result objects
 //     */

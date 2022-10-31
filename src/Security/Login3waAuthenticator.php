@@ -11,12 +11,16 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use phpDocumentor\Reflection\Types\Object_;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -35,6 +39,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
     private UserRepository $userRepo;
     private ManagerRegistry $doctrine;
     private CookieRepository $cookieRepo;
+    private SessionInterface $session;
 
     public function __construct(
         ClientRegistry $clientRegistry,
@@ -75,8 +80,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
             if( $stringBeginning[0] === 'C:' ) {
                 // return $this->userRepo->find(2);
                 //user connecté
-                // return $this->userRepo->find($this->security->getUser()->getId());
-                return $this->userRepo->find(31);
+                return $this->userRepo->find($this->security->getUser()->getId());
             }
             // TODO end delete in production ---------------------------------------------------------------------------
 
@@ -148,22 +152,8 @@ class Login3waAuthenticator extends AbstractAuthenticator
                 $user = $this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] );
             }
 
-            $dbCookieYouUp = $this->cookieRepo->findOneBy( ['user' => $user] );
-
-            if( !$dbCookieYouUp )
-            {
-                $dbCookieYouUp = new \App\Entity\Main\Cookie();
-            }
-            $dbCookieYouUp->setCookie($cookieString);
-            $dbCookieYouUp->setCreatedAt( new \DateTime() );
-            $dbCookieYouUp->setUser($user);
-
-            $this->entityManager->persist($dbCookieYouUp);
-            $this->entityManager->flush();
-
-            $user->setCookie( $dbCookieYouUp );
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+//            $sessionStorage = new NativeSessionStorage([], new NativeFileSessionHandler());
+//            $session = new Session($sessionStorage);
 
             return $user;
         }));
@@ -190,6 +180,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
+        // TODO Check this
         return new RedirectResponse(
             '/connect/', // might be the site, where users choose their oauth provider
             Response::HTTP_TEMPORARY_REDIRECT

@@ -23,28 +23,28 @@
         <div class="premiereDiv">
             <div class="diff">
                 <p>{{ 'difficulty.easy'|trans }}</p>
-                <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="facile">
+                <img src="{{asset('build/images/trefle_facile.svg')}}" alt="facile">
             </div>
             <div class="diff">
                 <p>{{ 'difficulty.medium'|trans }}</p>
-                <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="moyen">
+                <img src="{{asset('build/images/trefle_moyen.svg')}}" alt="moyen">
             </div>
             <div class="diff">
                 <p>{{ 'difficulty.difficult'|trans }}</p>
-                <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                <img src="{{asset('build/images/difficil_difficile.svg')}}" alt="difficile">
             </div>
         </div>
 
-        <form action="{{ path('student_qcm_to_do', { 'qcmInstance': idQcmInstance }) }}" name="formulaire">
+        <form action="{{ path('student_qcm_to_do', { 'qcmInstance': idQcmInstance , 'isForBadge':isForBadge}) }}" name="formulaire">
             {% for question in questionsAnswers %}
                 <div class="imageDiff">
                     <div class="trefle">
                         {% if question.difficulty is same as 1 %}
-                            <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="difficile">
+                            <img src="{{asset('build/images/trefle_facile.svg')}}" alt="difficile">
                         {% elseif question.difficulty is same as 2 %}
-                            <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="difficile">
+                            <img src="{{asset('build/images/trefle_moyen.svg')}}" alt="difficile">
                         {% elseif question.difficulty is same as 3 %}
-                            <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                            <img src="{{asset('build/images/difficil_difficile.svg')}}" alt="difficile">
                         {% endif %}
                     </div>
                     <div>
@@ -57,16 +57,16 @@
                 {% for proposal in question.proposals %}
                     {% if not question.isMultiple %}
                         <div class="reponse">
-                            <input type="radio" for='{{ proposal.id}}' name="{{ question.id }}" value="{{ proposal.id }}">
+                            <input type="radio" id='{{ proposal.id}}' name="{{ question.id }}" value="{{ proposal.id }}">
                             <div class="divReponse">
-                                <label for="{{ proposal.id }}">{{ proposal.wording | raw }}</label>
+                                <label for="{{ question.id }}">{{ proposal.wording | raw }}</label>
                             </div>
                         </div>
                     {% else %}
                         <div class="reponse">
-                            <input type="checkbox" for='{{ proposal.id}}' name="{{question.id}}[]" value="{{ proposal.id }}">
+                            <input type="checkbox" id='{{ proposal.id}}' name="{{question.id}}[]" value="{{ proposal.id }}">
                             <div class="divReponse">
-                                <label for="{{ proposal.id }}">{{ proposal.wording | raw }}</label>
+                                <label for="{{ question.id }}[]">{{ proposal.wording | raw }}</label>
                             </div>
                         </div>
                     {% endif %}
@@ -83,7 +83,7 @@
         <div id="error-modal" style="display: none">
             <div class="overlay"></div>
             <div class="modalContent">
-                <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}">
+                <img class="logoPop" src="{{asset('build/images/logo_sans_fond.svg')}}">
                 <p>
                     Merci de répondre à toutes les questions pour valider le QCM...
                 </p>
@@ -94,7 +94,7 @@
         <div id="my-modal" class="modalContainer">
             <div class="overlay"></div>
             <div class="modalContent">
-                <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}">
+                <img class="logoPop" src="{{asset('build/images/logo_sans_fond.svg')}}">
                 <p>{{ 'qcm.finish'|trans }}</p>
                 <p>{{ 'qcm.questionConfirmQcm'|trans }}</p>
                 <div class="buttonPop">
@@ -107,7 +107,7 @@
         <div id="comment-modal" class="modalContainer">
             <div class="overlay"></div>
             <div class="modalConfirm">
-                <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}" alt="logo de Youup">
+                <img class="logoPop" src="{{asset('build/images/logo_sans_fond.svg')}}" alt="logo de Youup">
                 <p>Je laisse mon commentaire à propos de ce QCM</p>
                 <textarea type="text" name="comment_student"></textarea>
                 <div class="buttonPop">

@@ -21,16 +21,23 @@ class QcmGeneratorHelper
         $this->_questionRepo = $questionRepo;
         $this->_security = $security;
     }
-    public function generateRandomQcm( Module $module, $user , UserRepository $userRepository , bool $isTraining = true, int $difficulty = 2): Qcm
+    public function generateRandomQcm( Module $module, $user , UserRepository $userRepository ,string $type = 'training', int $difficulty = 2): Qcm
     {
-        if( $isTraining )
+        if( $type === 'training' )
         {
             $title = 'QCM - Entrainement - ' . $module->getTitle() . ' - ' . date('Ymd H:i');
             $isOfficial = false;
             $isPublic = false;
             $questions = $this->generateTrainingQcmQuestions( $module );
         }
-        else
+        if( $type === 'retry' )
+        {
+            $title = 'QCM - Retentative - ' . $module->getTitle() . ' - ' . date('Ymd H:i');
+            $isOfficial = true;
+            $isPublic = false;
+            $questions = $this->generateTrainingQcmQuestions( $module );
+        }
+        if( $type === 'official' )
         {
             $title = 'QCM - Officiel - ' . $module->getTitle();
             $isOfficial = true;
@@ -43,7 +50,6 @@ class QcmGeneratorHelper
         $qcm = new Qcm();
         $qcm->setModule( $module );
         $qcm->setAuthor( $userRepository->find($user->getId()) );
-        $qcm->setDistributedBy($userRepository->find($user->getId()));
         $qcm->setTitle( $title );
         $qcm->setDifficulty( $difficulty );
         $qcm->setIsOfficial( $isOfficial );

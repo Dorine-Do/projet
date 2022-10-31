@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - stats{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/instructor/welcome_instructor.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <h1>- Statistiques -</h1>
+    <div class="accueilDiv">
+        <div class="sectionOne">
+            <div class="hrefDiv">
+                <div class="hrefDecorationDiv">
+                    <a href="{{ path('admin_stats_modules')}}" class="accueilA">Modules</a>
+                </div>
+            </div>
+            <div class="hrefDiv">
+                <div class="hrefDecorationDiv">
+                    <a href="{{ path('admin_stats_sessions')}}" class="accueilA">Modules</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

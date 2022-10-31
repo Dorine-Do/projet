@@ -32,12 +32,27 @@
             {% endfor %}
         </div>
     </div>
+    <h2>- Mes badges d'encouragement -</h2>
+    <div class="containerBadges">
+        <div class="splitBadges">
+            {% if app.user.badges != null and app.user.badges != [] %}
+                {% for badge in app.user.badges %}
+                    {% set var = 'build/images/badges/'~badge %}
+                    <img src="{{ asset(var) }}" alt="badge gagné" class="badges">
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+
+    <a href="" class="certif">Ma certification</a>
+    <p class="lilMessage">* Se débloquera une fois que tu auras effectué tout les qcms.</p>
 {% endblock %}
 {% block javascripts %}
     <script>
         let isOfficialQcms = {{ isOfficialQcms|json_encode|raw }};
-        let logo = "{{asset('build/images/logo_officiel.png')}}";
-        let wrong = "{{asset('build/images/wrongTemporaire.png')}}";
+        let logo = "{{asset('build/images/logo_sans_fond.svg')}}";
+        let wrong = "{{asset('build/images/wrongTemporaire.svg')}}";
     </script>
     <script type="text/javascript" src="{{ asset('js/student/progression.js') }}"></script>
 {% endblock %}

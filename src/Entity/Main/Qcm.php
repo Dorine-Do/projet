@@ -61,9 +61,6 @@ class Qcm
     #[ORM\JoinColumn(nullable: false)]
     private $author;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'qcms')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $distributedBy;
 
     public function __construct()
     {
@@ -259,18 +256,6 @@ class Qcm
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
-
-        return $this;
-    }
-
-    public function getDistributedBy(): ?User
-    {
-        return $this->distributedBy;
-    }
-
-    public function setDistributedBy(?User $user): self
-    {
-        $this->distributedBy = $user;
 
         return $this;
     }

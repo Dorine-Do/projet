@@ -11,7 +11,7 @@
 {% block body %}
     <h1>- {{ 'title.qcmPlan'|trans }} -</h1>
 
-    <p>
+    <p class="align">
         <span class="circle orangeCircle">1</span> {{ 'session.choice'|trans }}
     </p>
     <div class="firstSelect">
@@ -24,7 +24,7 @@
     </div>
 
 
-    <p>
+    <p class="align">
         <span class="circle orangeCircle">2</span> {{ 'module.choice'|trans }}
     </p>
     <div class="secondSelect">
@@ -32,9 +32,14 @@
             <option value="0">{{ 'module.plsChoice'|trans }}</option>
         </select>
     </div>
+
     <div id="qcms-module">
-
-
+        <ul id="div-legend">
+            <li class="legendTypeDifficulty">Module</li>
+            <li class="legendDate">Date</li>
+            <li class="legendModule">Type</li>
+            <li class="legendNote">Difficulté</li>
+        </ul>
     </div>
     <div id="students-qcm">
 
@@ -45,10 +50,10 @@
 
 {% block javascripts %}
     <script>
-        let decouvre = "{{asset('build/images/arbre_decouvre.png')}}"
-        let explore = "{{asset('build/images/arbre_explore.png')}}"
-        let maitrise = "{{asset('build/images/arbre_maitrise.png')}}"
-        let domine = "{{asset('build/images/arbre_domine.png')}}"
+        let decouvre = "{{asset('build/images/arbre_decouvre.svg')}}"
+        let explore = "{{asset('build/images/arbre_explore.svg')}}"
+        let maitrise = "{{asset('build/images/arbre_maitrise.svg')}}"
+        let domine = "{{asset('build/images/arbre_domine.svg')}}"
     </script>
     <script type="text/javascript" src="{{ asset('js/instructor/distributedQcms.js') }}"></script>
 
