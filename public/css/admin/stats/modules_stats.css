@@ -7,12 +7,6 @@ h2{
     font-size: 1.8em;
     text-align: center;
 }
-
-h3{
-    text-decoration: underline;
-    text-align: center
-}
-
 .stats-group {
     display: flex;
     width: 100%;
@@ -20,28 +14,30 @@ h3{
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    margin: 72px auto;
+    background-color: var(--fond);
+    border: 1px solid var(--grey);
+    padding: 32px 0;
 }
 
 .stats-group > h2 {
     width: 100%;
 }
 
-.stats-group > div {
+.stats-group h3{
+    text-decoration: underline;
+    text-align: center
+}
+
+.stats-group .graph{
     width: 45%;
     margin:0;
     padding: 8px;
 }
 
-.stats-group > div > canvas {
+.stats-group .graph > canvas {
     width: 100%;
     height: 300px;
-}
-
-.stats-group{
-    margin: 72px auto;
-    background-color: var(--fond);
-    border: 1px solid var(--grey);
-    padding: 32px 0;
 }
 
 @media screen and (max-width: 1200px) {
@@ -54,15 +50,25 @@ h3{
         align-items: center;
     }
 
-    .graph{
-        width: 95%;
-    }
-
-    #modules-rate-chart{
-        width: 95%;
+    .stats-group .graph{
+        width: 90%;
     }
 }
 
 @media screen and (max-width: 780px) {
 
+    .stats-group{
+       flex-direction: row;
+    }
+}
+
+@media screen and (max-width: 576px) {
+
+    .stats-group{
+        flex-direction: column;
+    }
+
+    .stats-group .graph{
+        width: 90%;
+    }
 }
