@@ -395,14 +395,15 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcm/training', name: 'student_qcm_training', methods: ['GET']) ]
+    #[Route('student/qcm/training/module', name: 'student_qcm_training', methods: ['GET']) ]
     public function qcmTraining(
         Request $request,
         ModuleRepository $moduleRepo,
         QuestionRepository $questionRepo,
         Security $security,
         EntityManagerInterface $manager,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        $module = null
     ): Response
     {
         $module = $moduleRepo->find( $request->get('module') );
@@ -418,6 +419,7 @@ class StudentController extends AbstractController
 
         $trainingQcmInstance = new QcmInstance();
         $trainingQcmInstance->setStudent( $student );
+        $trainingQcmInstance->setDistributedBy( $student );
         $trainingQcmInstance->setQcm( $trainingQcm );
         $trainingQcmInstance->setStartTime( new \DateTime() );
         $endTime = new \DateTime();
@@ -568,7 +570,7 @@ class StudentController extends AbstractController
         // Trier par numéro de module
         foreach ( $moduleGroups  as $key => $moduleGroup )
         {
-            usort($moduleGroup, function ($a, $b) {
+            usort($moduleGroups[$key], function ($a, $b) {
                 $nrbModuleA = preg_replace('/[A-Z]+/', '' ,$a['title'] );
                 $nrbModuleB = preg_replace('/[A-Z]+/', '' ,$b['title'] );
 
@@ -627,28 +629,26 @@ class StudentController extends AbstractController
     {
         $linkSessionStudent = $linkSessionStudentRepository->findBy(['student'=>$this->security->getUser()->getId(), 'isEnabled'=>1]);
 
-
         $isOfficialQcms = $resultRepository->isOfficialQcmLevel( $this->security->getUser()->getId(), $linkSessionStudent[0]->getSession()->getId() );
-
 
         $isOfficialQcms[] = [
             "qcmId" => 6,
-                "qcmTitle" => "Qcm1",
-                "qcmInstanceId" => 10,
-                "resultID" => 7,
-                "moduleId" => 6,
-                "moduleTitle" => "Titre de Module 6",
-                "level" => 1,
-                "startDat" => "2021-12-12",
-                "endDate" => "2022-08-27"
+            "qcmTitle" => "Qcm1",
+            "qcmInstanceId" => 10,
+            "resultID" => 7,
+            "moduleId" => 25,
+            "moduleTitle" => "NODE4",
+            "level" => 1,
+            "startDat" => "2021-12-12",
+            "endDate" => "2022-08-27"
         ];
         $isOfficialQcms[] = [
             "qcmId" => 7,
             "qcmTitle" => "Qcm2",
             "qcmInstanceId" => 11,
             "resultID" => 8,
-            "moduleId" => 6,
-            "moduleTitle" => "Titre de Module 6",
+            "moduleId" => 24,
+            "moduleTitle" => "NODE3",
             "level" => 4,
             "startDat" => "2021-12-12",
             "endDate" => "2022-08-27"
@@ -658,8 +658,8 @@ class StudentController extends AbstractController
             "qcmTitle" => "Qcm3",
             "qcmInstanceId" => 12,
             "resultID" => 9,
-            "moduleId" => 7,
-            "moduleTitle" => "Titre de Module 7",
+            "moduleId" => 20,
+            "moduleTitle" => "NODE2",
             "level" => 1,
             "startDat" => "2021-12-12",
             "endDate" => "2022-08-27"
@@ -669,8 +669,8 @@ class StudentController extends AbstractController
             "qcmTitle" => "Qcm4",
             "qcmInstanceId" => 13,
             "resultID" => 10,
-            "moduleId" => 7,
-            "moduleTitle" => "Titre de Module 7",
+            "moduleId" => 19,
+            "moduleTitle" => "NODE1",
             "level" => 2,
             "startDat" => "2021-12-12",
             "endDate" => "2022-08-27"
@@ -680,8 +680,8 @@ class StudentController extends AbstractController
             "qcmTitle" => "Qcm4",
             "qcmInstanceId" => 13,
             "resultID" => 10,
-            "moduleId" => 8,
-            "moduleTitle" => "Titre de Module 8",
+            "moduleId" => 18,
+            "moduleTitle" => "JS6",
             "level" => 1,
             "startDat" => "2021-12-12",
             "endDate" => "2022-08-27"
@@ -691,8 +691,8 @@ class StudentController extends AbstractController
             "qcmTitle" => "Qcm4",
             "qcmInstanceId" => 14,
             "resultID" => 11,
-            "moduleId" => 8,
-            "moduleTitle" => "Titre de Module 8",
+            "moduleId" => 23,
+            "moduleTitle" => "JS5",
             "level" => 4,
             "startDat" => "2021-12-12",
             "endDate" => "2022-08-27"
@@ -702,28 +702,70 @@ class StudentController extends AbstractController
             "qcmTitle" => "Qcm4",
             "qcmInstanceId" => 15,
             "resultID" => 12,
-            "moduleId" => 9,
-            "moduleTitle" => "Titre de Module 9",
+            "moduleId" =>22,
+            "moduleTitle" => "JS4",
             "level" => 4,
             "startDat" => "2021-12-12",
             "endDate" => "2022-08-27"
         ];
-        /*
-         * array:1 [▼
-              0 => array:7 [▼
-                "qcmId" => 5
-                "qcmTitle" => "et"
-                "qcmInstanceId" => 9
-                "resultID" => 6
-                "moduleId" => 6
-                "moduleTitle" => "ipsum"
-                "level" => 4
-              ]
-            ]
-         */
+
+        $moduleGroups = [];
+
+        foreach ($isOfficialQcms as $res)
+        {
+            $moduleGroupName = preg_replace('/[0-9]+/', '' ,$res['moduleTitle'] );
+            $isExistKey = array_key_exists($moduleGroupName, $moduleGroups );
+            if ($isExistKey)
+            {
+                $moduleGroups[$moduleGroupName][] = $res;
+            }
+            else
+            {
+                $moduleGroups[$moduleGroupName] = [];
+                $moduleGroups[$moduleGroupName][] = $res;
+            }
+        }
+
+        // Trier par numero de module (Ex : JS1)
+        foreach ( $moduleGroups as $key => $moduleGroup )
+        {
+            usort($moduleGroups[$key], function ($a, $b) {
+                $moduleNumberA = preg_replace('/[A-Z]+/', '' ,$a['moduleTitle'] );
+                $moduleNumberB = preg_replace('/[A-Z]+/', '' ,$b['moduleTitle'] );
+
+                if (intval($moduleNumberA) < intval($moduleNumberB))
+                {
+                    return -1;
+                }
+                else
+                {
+                    return 1;
+                }
+            });
+
+            $countQcmsSuccess = 0;
+            $countQcms = 0;
+            foreach ( $moduleGroups[$key] as $res)
+            {
+                if ($res['level'] === 3 || $res['level'] === 4)
+                {
+                    $countQcmsSuccess ++;
+                }
+                $countQcms ++;
+            }
+
+            if ($countQcmsSuccess === $countQcms)
+            {
+                $moduleGroups[$key]['getBadge'] = true;
+            }
+            else
+            {
+                $moduleGroups[$key]['getBadge'] = false;
+            }
+        }
 
         return $this->render('student/progression.html.twig', [
-            'isOfficialQcms' => $isOfficialQcms
+            'moduleGroups' => $moduleGroups
         ]);
     }
 
