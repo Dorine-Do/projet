@@ -545,9 +545,9 @@ namespace App\Controller;
                 {
                     $module = $moduleRepository->find($formData["module"]);
 
-                    $qcmGenerator = new QcmGeneratorHelper($questionRepository,$userRepository,$security);
+                    $qcmGenerator = new QcmGeneratorHelper($questionRepository,$security);
 
-                    $qcm = $qcmGenerator->generateRandomQcm($module, false);
+                    $qcm = $qcmGenerator->generateRandomQcm($module,$this->user,$userRepository, false);
                     $manager->persist($qcm);
 
 

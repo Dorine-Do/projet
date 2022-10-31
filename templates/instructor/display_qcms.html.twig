@@ -39,6 +39,7 @@
             <div class="divQuestions">
                 <ul class="list_questions"  data-qcms="{{ qcms|json_encode|e('html_attr')}}">
                    {% for qcm in qcms %}
+                   {{qcm.id}}
                         {% if qcm.id == qcms[0].id %}
 
                             {% for question in qcm.getQuestionsCache() %}
@@ -51,9 +52,36 @@
                                 </li>
 
                             {% endfor %}
+                        {# si tout qcm 
                         
+                        {% if qcm.id == 8 %}
+
+                            {% for question in qcm.getQuestionsCache() %}
+                            
+                                <li data-qcm-id="{{ qcm.id}}" data-id='{{question.id}}'> 
+
+                                <span class="qcm_question_number"></span>
+                                {{question.wording|raw }}
+
+                                </li>
+
+                            {% endfor %} #}
                        {% endif %}
+                        {# {% if qcm.id != qcms[0].id %}
+                        
                        
+                           {% for question in qcm.getQuestionsCache() %}
+                            
+                                <li data-qcm-id="{{qcms[0].id == qcm.id ? qcm.id : qcms[0].id}}" data-id='{{question.id}}'> 
+
+                                <span class="qcm_question_number"></span>
+                                {{question.wording|raw }}
+
+                                </li>
+
+                            {% endfor %}
+                      
+                       {% endif %} #}
                    {% endfor %}
 
                

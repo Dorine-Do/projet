@@ -47,7 +47,7 @@
                              <input type="hidden" value="{{qcmLevel[0].difficulty}}"  name="qcm['difficulty]">
                          {% endfor %} #}
 
-                            <input type="hidden" value="{{qcmsLevel == null ? qcmsLevel: qcmsLevel[0]}}" >
+                            {# <input type="hidden" value="{{qcmsLevel == null ? qcmsLevel: qcmsLevel[0]}}" > #}
                             
                             <li {% if qcmsLevel == null %} data-difficulty-easy="null" {% elseif qcmsLevel[0]== 1 %} data-difficulty-easy="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}>Facile </li>
                             <li {% if qcmsLevel == null %} data-difficulty-easy="null" {% elseif qcmsLevel[0]== 2 %} data-difficulty-easy="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}> Moyen</li>

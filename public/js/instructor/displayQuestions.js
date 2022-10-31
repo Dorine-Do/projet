@@ -136,7 +136,10 @@ window.onload = function (event) {
     //AFFICHAGGE PAR DEFAUT SELON ID PAR DEFAUT
 
     //BACKGROUND BTN PAR DEFAUT
-
+    // if (liBtnQcmOnly.dataset.id == liBtnQcm[0].dataset.id) {
+    //   liBtnQcmOnly.classList.add("defaultBg");
+    //   // console.log(liBtnQcmOnly.dataset.id, "reussi");
+    // }
     if (liBtnQcmOnly.dataset.id == liBtnQcm[0].dataset.id) {
       liBtnQcmOnly.classList.add("defaultBg");
       console.log(liBtnQcmOnly.dataset.id, "reussi");
@@ -166,7 +169,9 @@ window.onload = function (event) {
           // questionslist.dataset.id = `${eTarget}`;
 
           liBtnQcm[forBtnQcm].classList.add("active_li");
-
+          // if (this.dataset.id !== liBtnQcm[0].dataset.id) {
+          //   liBtnQcmOnly.classList.remove("defaultBg");
+          // }
           if (
             (this.dataset.id == liBtnQcm[forBtnQcm].dataset.id) !==
             liBtnQcm[0].dataset.id
@@ -218,3 +223,16 @@ window.onload = function (event) {
     blocUlQuestion.classList.remove("scroll_active");
   });
 };
+// if ((liBtnQcmOnly.dataset.id = 8)) {
+//   console.log(questionsCacheDefaultId);
+//   for (
+//     let forWording = 0;
+//     forWording < questionsCacheDefaultId.length;
+//     forWording++
+//   ) {
+
+//     questionsLi[forWording].innerHTML = `<span>${forWording + 1}</span>${
+//       questionsCacheDefaultId[forWording].wording
+//     }`;
+//   }
+// }
