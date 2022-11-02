@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin | BugReports{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/admin/admin_lists.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <main class="admin_content">
+
+        <section>
+            <h1>Statistiques de {{ student.firstname }} {{ student.lastname }}</h1>
+            <input id="studentId" type="hidden" value="{{ student.id }}">
+        </section>
+
+        <section class="stats-group">
+            <h2>Stacks</h2>
+            <div>
+                <h3>Taux de réussite par stack</h3>
+                <canvas id="stacks-rate-chart"></canvas>
+            </div>
+            <div>
+                <h3>Note moyenne par stack</h3>
+                <canvas id="stacks-average-chart"></canvas>
+            </div>
+        </section>
+        <section class="stats-group">
+            <h2>Modules</h2>
+            <div>
+                <h3>Taux de réussite par module</h3>
+                <canvas id="modules-rate-chart"></canvas>
+            </div>
+            <div>
+                <h3>Note moyenne par module</h3>
+                <canvas id="modules-average-chart"></canvas>
+            </div>
+        </section>
+
+    </main>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.esm.js"></script>
+    <script type="module" src="{{ asset('js/admin/stats/studentStats.js') }}"></script>
+{% endblock %}

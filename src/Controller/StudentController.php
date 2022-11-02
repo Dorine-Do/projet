@@ -406,8 +406,7 @@ class StudentController extends AbstractController
         QuestionRepository $questionRepo,
         Security $security,
         EntityManagerInterface $manager,
-        UserRepository $userRepository,
-//        $module = null
+        UserRepository $userRepository
     ): Response
     {
         $module = $moduleRepo->find( $request->get('module') );

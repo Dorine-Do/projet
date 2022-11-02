@@ -107,19 +107,11 @@ function openUserDetailsModale(user)
         </p>
         <h3>Contact et infos</h3>
         <p>
-            <b>Email 3WA :</b> ${ user.email3wa }
-        </p>
-        <p>
             <b>Email :</b> ${ user.email }
         </p>
         <p>
             <b>Date de naissance :</b> ${ birthdate.toLocaleDateString() }
         </p>
-        <div>
-        <!-- TODO: Lier les liens aux pages correspondantes (id en paramètre) -->
-            <a href="#">Statistiques</a>
-            <a href="#">Voir la session</a>
-        </div>
     `;
 
     userDetailsModale.classList.remove('hideModale');
