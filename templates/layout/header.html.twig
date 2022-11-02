@@ -15,7 +15,7 @@
             <a href="#" class="tab">{{ 'header.planning'|trans }}</a>
         {% elseif 'ROLE_ADMIN' in app.user.roles %}
             <a href="{{path('app_admin')}}" class="tab">Dashboard</a>
-            <a href="#" class="tab">Stats</a>
+            <a href="{{ path('app_admin_stats') }}" class="tab">Stats</a>
         {% endif %}
 
     </nav>

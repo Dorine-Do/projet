@@ -1,12 +1,12 @@
-async function fetchModulesSuccessRate()
+async function fetchInstructorModulesSuccessRate()
 {
-    return await fetch( './fetch/modules-success-rate' )
+    return await fetch( '../fetch/instructor-modules-success-rate/' + document.querySelector('#instructorId').value )
         .then( response => response.json() )
 }
 
 function displayModulesStats()
 {
-    fetchModulesSuccessRate()
+    fetchInstructorModulesSuccessRate()
         .then( data => {
             let labels = [];
             let successRates = [];
@@ -52,15 +52,15 @@ function displayModulesStats()
 
 }
 
-async function fetchStacksSuccessRate()
+async function fetchInstructorStacksSuccessRate()
 {
-    return await fetch( './fetch/stacks-success-rate' )
+    return await fetch( '../fetch/instructor-stacks-success-rate/' + document.querySelector('#instructorId').value )
         .then( response => response.json() )
 }
 
 function displayStacksStats()
 {
-    fetchStacksSuccessRate()
+    fetchInstructorStacksSuccessRate()
         .then( data => {
             let labels = [];
             let successRates = [];
