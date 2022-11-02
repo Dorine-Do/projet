@@ -82,8 +82,6 @@ class AdminController extends AbstractController
     public function ajaxFetchUsers(
         User $user,
         EntityManagerInterface $manager,
-        UserRepository $userRepo,
-        Request $request,
         $role
     ): JsonResponse
     {
@@ -148,9 +146,12 @@ class AdminController extends AbstractController
         ]);
     }
 
-    // TODO: Probablement à supprimer (voir avec Pascal)
+    // TODO: Probablement à supprimer / relier à la DB de suivi (voir avec Pascal)
     #[Route('/admin/new-user', name: 'app_new_user')]
-    public function newUser(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager): Response
+    public function newUser(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
