@@ -47,12 +47,9 @@ function displayModules(data){
         selectModule.append(option)
     } )
 
-    // document.getElementById('module-choice').addEventListener('change', function (e) {
-    //         console.log(e.target.dataset.anchor)
-    //         document.querySelector(e.target.dataset.anchor).scrollIntoView({
-    //             behavior: 'smooth'
-    //         });
-    //     });
+    document.getElementById('section-module').scrollIntoView({
+        behavior: 'smooth'
+    });
 }
 
 
@@ -96,17 +93,9 @@ function displayStudents(data){
         ulListStudents.append(div)
     }
 
-    document.querySelectorAll('input.checkboxStudent').forEach(button => {
-        button.addEventListener('click', function (e) {
-            e.preventDefault();
-            console.log(this.dataset.anchor)
-            document.querySelector(this.dataset.anchor).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
+    document.getElementById('section-students').scrollIntoView({
+        behavior: 'smooth'
     });
-
-    window.scrollTo(0,document.body.scrollHeight);
 
 }
 
@@ -152,10 +141,17 @@ function displayQcmsDone(data){
         let imgLevel = createElementSimple('img', 'qcmImgLevel')
         imgLevel = dislayImgLevel(qcm.level, imgLevel)
 
-        li.append(pDifficulty, pIsOfficial, pTitle, pDate, imgLevel)
+        let p = document.createElement('p')
+        p.classList.add('pImageLevel')
+
+        p.append(imgLevel)
+        li.append(pDifficulty, pIsOfficial, pTitle, pDate, p)
         ulListQcms.append(li)
     })
-    window.scrollTo(0,document.body.scrollHeight);
+
+    document.getElementById('section-qcms').scrollIntoView({
+        behavior: 'smooth'
+    });
 }
 
 
@@ -176,7 +172,7 @@ function dislayImgLevel(level, img,  parent = null){
         img.setAttribute('alt', 'Graine avec petit pousse')
         img.setAttribute('src', decouvre)
         if ( parent === null){
-            img.setAttribute('id', 'ImgDecouvre')
+            img.setAttribute('id', 'img-decouvre')
         }
     }
     else if( level === 2 )
@@ -197,7 +193,6 @@ function dislayImgLevel(level, img,  parent = null){
 
     return img
 }
-
 
 function positionLabelInput(parent){
     parent.forEach( element => {
@@ -228,7 +223,6 @@ function positionLabelInput(parent){
     })
 }
 
-
 function showStudentByModules(e){
     studentsDiv.style.display = 'block'
     if (moduleId !== e.target.value){
@@ -240,7 +234,6 @@ function showStudentByModules(e){
     }
 }
 
-
 function showModulesBySessions(){
     nameSession.forEach( input => {
         input.addEventListener('click', (e)=>{
@@ -251,7 +244,6 @@ function showModulesBySessions(){
         })
     })
 }
-
 
 function displayContact(){
     namesLevel.forEach( input => {

@@ -84,6 +84,13 @@
 
 /**********************************************************************************************************************/
 /* Session / Level / Students */
+
+.sectionChoice{
+    background-color: var(--fond);
+    padding: 1em 0;
+    margin: 1em 0;
+}
+
 .nameSession{
     -moz-appearance: none;
     border-radius: 7px;
@@ -135,11 +142,9 @@
 
 .choiceSession{
     display: grid;
-    background-color: var(--fond);
     width: 100%;
-    padding: 8px 32px;
-    margin: 50px auto;
     grid-template-columns: repeat(5, 1fr);
+    padding: 0;
 }
 
 .choiceLevel{
@@ -151,7 +156,7 @@
 .liLevel,
 .liStudentData{
     position: relative;
-    margin-right: .5em;
+    margin: auto;
 }
 
 .liStudentData{
@@ -236,12 +241,21 @@
     border-radius: 13px;
 }
 
-.qcmImgLevel{
-    width: 8%;
+.pImageLevel{
+    width: 3em;
+    text-align: center;
 }
 
-#ImgDecouvre{
-    width: 4%;
+.qcms .qcmImgLevel{
+    width: 100%;
+}
+
+#img-decouvre{
+    width: 60%;
+}
+
+.qcmImgLevel{
+    width: 8%;
 }
 
 .noStudent{
