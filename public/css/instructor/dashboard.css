@@ -191,14 +191,14 @@
 }
 
 .ulListStudents{
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .divStudentData{
     display: flex;
     align-items: center;
-    width: 29%;
+    width: 80%;
     position: relative;
     margin: 2em 0;
     background-color: var(--fond);
@@ -214,6 +214,10 @@
 .imgLevel{
     position: absolute;
     right: 0;
+}
+
+.labelStudent{
+    margin-top: 3px;
 }
 
 /**********************************************************************************************************************/

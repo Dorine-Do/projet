@@ -52,6 +52,10 @@ class StudentController extends AbstractController
         $student = $this->studentRepo->find($this->security->getUser()->getId());
 
         $allAvailableQcmInstances = $student->getQcmInstances();
+
+//        if($allAvailableQcmInstances === null){
+//            $allAvailableQcmInstances->addFlash('error', 'Vous ne possédez aucun QCM');
+//        }
         /********************************************************************************************************/
 
         $officialQcmOfTheWeek = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
