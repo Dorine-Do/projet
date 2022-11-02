@@ -108,7 +108,7 @@ function displayStacksStats()
 
 document.addEventListener('DOMContentLoaded', function(){
 
-    displayModulesStats();
     displayStacksStats();
+    displayModulesStats();
 
 });
