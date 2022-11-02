@@ -42,8 +42,17 @@ function displayModules(data){
         let option = document.createElement('option')
         option.innerHTML = module['name']
         option.value = module['id']
+        option.id = 'option-module'
+        option.dataset.anchor = '#option-module'
         selectModule.append(option)
     } )
+
+    // document.getElementById('module-choice').addEventListener('change', function (e) {
+    //         console.log(e.target.dataset.anchor)
+    //         document.querySelector(e.target.dataset.anchor).scrollIntoView({
+    //             behavior: 'smooth'
+    //         });
+    //     });
 }
 
 
@@ -59,8 +68,9 @@ function displayStudents(data){
         radio.setAttribute('name', 'student')
         radio.setAttribute('id', `student${student.id}`)
         radio.setAttribute('value', `${student.id}`)
+        radio.dataset.anchor = '#qcms-list'
         radio.addEventListener('click', (e) => {
-            getQcmsDoneByStudentFromAjax(sessionId, moduleId, e.target.value)
+            getQcmsDoneByStudentFromAjax(sessionId, moduleId, e.target.value, e)
         })
 
         let label = createElementSimple('label', 'labelStudent', `${student.firstName} ${student.lastName}`)
@@ -80,12 +90,23 @@ function displayStudents(data){
 
     liStudentData = document.querySelectorAll('.liStudentData')
     positionLabelInput(liStudentData)
-    console.log(data)
     if (data.length === 0){
         let div = createElementSimple('p', 'noStudent')
         div.innerHTML = "Aucun étudiant n'a encore de note dans cette session"
         ulListStudents.append(div)
     }
+
+    document.querySelectorAll('input.checkboxStudent').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+            console.log(this.dataset.anchor)
+            document.querySelector(this.dataset.anchor).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    window.scrollTo(0,document.body.scrollHeight);
 
 }
 
@@ -134,6 +155,7 @@ function displayQcmsDone(data){
         li.append(pDifficulty, pIsOfficial, pTitle, pDate, imgLevel)
         ulListQcms.append(li)
     })
+    window.scrollTo(0,document.body.scrollHeight);
 }
 
 

@@ -395,7 +395,7 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcm/training/module', name: 'student_qcm_training', methods: ['GET']) ]
+    #[Route('student/qcm/training', name: 'student_qcm_training', methods: ['GET']) ]
     public function qcmTraining(
         Request $request,
         ModuleRepository $moduleRepo,
@@ -403,7 +403,7 @@ class StudentController extends AbstractController
         Security $security,
         EntityManagerInterface $manager,
         UserRepository $userRepository,
-        $module = null
+//        $module = null
     ): Response
     {
         $module = $moduleRepo->find( $request->get('module') );
