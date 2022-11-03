@@ -602,12 +602,20 @@ namespace App\Controller;
             return new JsonResponse();
         }
 
-        #[Route('instructor/qcm-planner/getModuleQcms/{module}', name: 'instructor_get_module_qcms_ajax', methods: ['GET'])]
+        #[Route('instructor/qcm-planner/getModuleQcms/{module}/{distributed}', name: 'instructor_get_module_qcms_ajax', methods: ['GET'])]
         public function ajaxGetModuleQcms(
-            Module $module = null
+            InstructorRepository $instructorRepository,
+            QcmRepository $qcmRepository,
+            Module $module = null,
+            $distributed = null,
         ): JsonResponse
         {
-            if ($module)
+            if ($module && $distributed)
+            {
+                $qcms = $qcmRepository->getQcmDistributedByUser($this->getUser()->getId(), $module->getId() );
+                return $this->json($qcms, 200, [], ['groups' => 'qcm:read']);
+            }
+            elseif ($module)
             {
                 $qcms = $module->getQcms();
                 return $this->json($qcms, 200, [], ['groups' => 'qcm:read']);
@@ -698,7 +706,8 @@ namespace App\Controller;
                 $students = array_map( function($qcmInstance){
                     return [
                         'student' => $qcmInstance->getStudent(),
-                        'result' => $qcmInstance->getResult()
+                        'result' => $qcmInstance->getResult(),
+                        'distributedAt' => $qcmInstance->getCreatedAt(),
                     ];
                 }, $qcmInstances);
                 $studentResponse = [];
