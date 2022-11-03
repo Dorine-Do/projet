@@ -39,16 +39,6 @@ class UsersRepository extends ServiceEntityRepository
         }
     }
 
-    public function findUserByString($str)
-    {
-        return $this->createQueryBuilder('u')
-            ->select('u')
-            ->where('u.lastname LIKE :str' )
-            ->orWhere('u.firstname LIKE :str')
-            ->setParameter('str', '%'.$str.'%')
-            ->getQuery()
-            ->getResult();
-    }
 //    /**
 //     * @return Users[] Returns an array of Users objects
 //     */
