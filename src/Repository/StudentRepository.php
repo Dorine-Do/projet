@@ -73,6 +73,16 @@ class StudentRepository extends ServiceEntityRepository
             ;
     }
 
+    public function findInstructorByString($str)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->where('s.lastname LIKE :str' )
+            ->andWhere('s.firstname LIKE :str')
+            ->setParameter('str', '%'.$str.'%')
+            ->getQuery()
+            ->getResult();
+    }
 
 
     /*

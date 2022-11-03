@@ -694,7 +694,7 @@ namespace App\Controller;
             Qcm $qcm = null
         ): JsonResponse
         {
-            if ($qcm)
+            if (!$qcm->getIsOfficial() && $qcm->getIsEnabled() && !$qcm->getIsPublic())
             {
                 $qcmInstances = $qcm->getQcmInstances()->toArray();
                 $students = array_map( function($qcmInstance){

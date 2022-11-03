@@ -51,6 +51,16 @@ class SessionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findSessionByString($str)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->where('s.name LIKE :str' )
+            ->setParameter('str', '%'.$str.'%')
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */
