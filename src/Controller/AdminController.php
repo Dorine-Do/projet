@@ -773,15 +773,23 @@ class AdminController extends AbstractController
         if ($searchtype === "session")
         {
             $searchResults = $sessionRepository->findSessionByString($searchtherm);
+            return $this->json($searchResults, 200, [], ['groups' => 'session:read']);
         }
         elseif ($searchtype === "apprenant" || $searchtype === "formateur")
         {
             $searchResults = $userRepository->findUserByString($searchtherm);
+            if ($searchtype === "apprenant") {
+                $searchResults = array_filter($searchResults, function ($searchResult){
+                    return in_array("ROLE_STUDENT", $searchResult->getRoles());
+                });
+            }
+            elseif ($searchtype === "formateur") {
+                $searchResults = array_filter($searchResults, function ($searchResult){
+                    return in_array("ROLE_INSTRUCTOR", $searchResult->getRoles());
+                });
+            }
+            return $this->json($searchResults, 200, [], ['groups' => 'user:read']);
         }
-        else
-        {
-
-        }
-        return $this->json($searchResults, 200, [], ['groups' => 'session:read']);
+        return $this->json($searchResults);
     }
 }
