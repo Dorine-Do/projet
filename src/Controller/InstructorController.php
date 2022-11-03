@@ -694,8 +694,6 @@ namespace App\Controller;
             Qcm $qcm = null
         ): JsonResponse
         {
-            if (!$qcm->getIsOfficial() && $qcm->getIsEnabled() && !$qcm->getIsPublic())
-            {
                 $qcmInstances = $qcm->getQcmInstances()->toArray();
                 $students = array_map( function($qcmInstance){
                     return [
@@ -716,9 +714,6 @@ namespace App\Controller;
 
                 $noStudent = 'Aucun étudiant';
                 return $this->json($noStudent);
-
-            }
-            return new JsonResponse();
         }
 
         #[Route('instructor/dashboard',name:'instructor_dashboard',methods:['GET'])]

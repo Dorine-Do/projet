@@ -140,6 +140,10 @@
     border-radius: 1em;
 }
 
+.checkboxStudent:checked + label{
+    color: white;
+}
+
 .choiceSession{
     display: grid;
     width: 100%;
@@ -206,8 +210,8 @@
     width: 80%;
     position: relative;
     margin: 2em 0;
-    background-color: var(--fond);
-    border-radius: 7px;
+    background-color: var(--pamplemousse);
+    border-radius: 16px;
 }
 
 .divStudentData:hover{
@@ -267,6 +271,15 @@
     justify-content: space-around;
     align-items: center;
     margin: 30px auto;
+}
+
+#infoHover{
+    background-color: var(--pamplemousse);
+    color: white;
+    padding: 6px;
+    font-weight: bold;
+    cursor: help;
+    border-radius: 7px;
 }
 
 @media screen and (max-width: 1200px) {

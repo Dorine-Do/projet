@@ -1,26 +1,37 @@
 @import url('../main.css');
 
+.sectionChoice{
+    padding: 1em 2em;
+    margin: 1em 0 5em 0;
+}
+
 select {
-    padding: 0.8em;
-    width: 30%;
+    width: 17em;
     margin: auto;
     border-radius: 10px;
     box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.2);
     outline: none;
     text-align: center;
-    border: none;
-}
-
-.container{
-    width: 90%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    cursor: pointer;
+    background: var(--fond);
+    border: 2px solid var(--grand);
+    color: var(--grey);
+    font-weight: 500;
+    padding: .7em 0
 }
 
 .firstSelect, .secondSelect{
     display: flex;
     justify-content: center;
+}
+
+.separator{
+    width: 69%;
+    height: 5px;
+    background: var(--fond);
+    border-radius: 9px;
+    margin: auto;
+    margin-top: 3em;
 }
 
 .qcmStudent{
@@ -30,13 +41,18 @@ select {
     border-bottom: 2px dashed var(--grey);
     width: 80%;
     margin: 30px auto;
+    padding: 1em 0;
+}
+
+.qcmStudent li{
+    margin: 0;
 }
 
 .studentQcm{
-    padding: 50px;
+    padding: 0 1em;
     margin: auto;
-    display: grid;
-    grid-template-columns: repeat(3, 0fr);
+    display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
 }
 
@@ -44,29 +60,15 @@ select {
     height: 70px;
     display: flex;
     align-items: center;
-    margin: .5em;
-    width: 12em;
+    margin: .5em 0;
     justify-content: center;
+    border-bottom: 2px solid var(--pamplemousse);
+    min-width: 25%;
 }
 
 .liStudent:hover{
     border-radius: 50px;
     background-color: var(--pamplemousse);
-    padding: 5px 15px;
-    color: white;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-}
-
-.liStudent:nth-child(even){
-    background-color: white;
-}
-
-.liStudent:nth-child(even):hover{
-    border-radius: 50px;
-    background-color: var(--pamplemousse);
-    padding: 5px 15px;
     color: white;
     font-weight: bold;
     border: none;
@@ -131,17 +133,36 @@ select {
     margin-top: 20px;
 }
 
+.qcmsTitle{
+    border-radius: 30px;
+    margin: 0 auto 2em;
+    text-align: center;
+    padding: .5em;
+    color: white;
+    font-weight: 500;
+    background-color: var(--pamplemousse);
+    width: 75%;
+}
+
+.overflowX{
+    background-color: var(--fond);
+    padding: 2em 0;
+}
+
 #qcms-module{
     display: none;
+    padding: 0 20px;
+}
+
+.sectionStudents{
     background-color: var(--fond);
-    padding: 20px;
-    margin: 50px 0;
+    margin-top: 2em;
+    padding: 2em 0;
 }
 
 #students-qcm{
-    background-color: var(--fond);
-    padding: 20px;
-    margin: 50px 0;
+    padding: 0 20px;
+    margin: 0 0 2em;
 }
 
 img{
@@ -167,7 +188,24 @@ img{
     justify-content: space-around;
     align-items: center;
     width: 80%;
-    margin: 30px auto;
+    margin: 0 auto;
+    border-radius: 5px;
+    padding: 0;
+    background: var(--pamplemousse);
+    color: white;
+    text-align: center;
+}
+
+.legendTypeDifficulty{
+    width : 10em;
+    padding: 10px;
+}
+
+.legendDate,
+.legendModule,
+.legendNote{
+    width : 6em;
+    padding: 10px;
 }
 
 @media screen and (max-width: 780px) {
@@ -176,25 +214,17 @@ img{
         width: 6em;
     }
 
+    .qcmStudent,
+    #div-legend{
+        width: 100%;
+    }
+
     .difficulty{
         width: 4em;
     }
 
     .official{
         width: 5em;
-    }
-
-    #students-qcm{
-        column-count: 2;
-    }
-
-    .studentQcm {
-        margin: auto;
-        display: flex;
-        text-align: center;
-        align-items: center;
-        flex-direction: column;
-        padding: 0;
     }
 
     #session-choice {
@@ -209,18 +239,11 @@ img{
 }
 
 @media screen and (max-width: 450px) {
-    #students-qcm{
-        column-count: 1;
-    }
 
-    #session-choice {
+    #session-choice,
+    #module-choice{
         text-transform: none;
-        width: 76%;
-    }
-
-    #module-choice {
-        text-transform: none;
-        width: 76%;
+        width: 100%;
     }
 
     select{
@@ -229,9 +252,9 @@ img{
 
     #qcms-module{
         background-color: var(--fond);
-        padding: 20px;
+        padding: 20px 0;
         margin: 50px 0 0 0;
-        width: 1000px;
+        width: 100% ;
     }
 
     .overflowX{
@@ -243,20 +266,30 @@ img{
         width: 5em;
     }
 
-    ul#div-legend li:first-child{
-        margin-left: 45px;
+    #div-legend{
+        width: 100%;
+        flex-direction: column;
     }
 
-    ul#div-legend li:nth-child(2){
-        margin-left: 55px;
+    #div-legend li{
+        width: 100%;
+        border-bottom: 1px solid var(--fond);
     }
 
-    ul#div-legend li:nth-child(3){
-        margin-left: 15px;
+    .qcmStudent{
+        width: 100%;
+        flex-direction: column;
+        gap: 1em;
+        margin: .2em auto;
     }
 
-    ul#div-legend li:last-child{
-        margin-left: 10px;
+    .qcmStudent > :first-child{
+        width: 79%;
+    }
+
+    .liStudent{
+        min-width: 45%;
+        padding: 0 .2em;
     }
 
     .date{

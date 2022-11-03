@@ -171,6 +171,7 @@ function dislayImgLevel(level, img,  parent = null){
     {
         img.setAttribute('alt', 'Graine avec petit pousse')
         img.setAttribute('src', decouvre)
+        img.dataset.level = 'Découvre'
         if ( parent === null){
             img.setAttribute('id', 'img-decouvre')
         }
@@ -179,17 +180,24 @@ function dislayImgLevel(level, img,  parent = null){
     {
         img.setAttribute('alt', 'Jeune arbre')
         img.setAttribute('src', explore)
+        img.dataset.level = 'Explore'
     }
     else if( level === 3 )
     {
         img.setAttribute('alt', 'arbre adulte')
         img.setAttribute('src', maitrise)
+        img.dataset.level = 'Maîtrise'
     }
     else if( level === 4 )
     {
         img.setAttribute('alt', 'arbre adulte fleuri')
         img.setAttribute('src', domine)
+        img.dataset.level = 'Domine'
     }
+
+    img.addEventListener('mouseenter', mouseEnter);
+    img.addEventListener('mousemove', mouseMouve);
+    img.addEventListener('mouseout', mouseOut);
 
     return img
 }
@@ -206,7 +214,11 @@ function positionLabelInput(parent){
         let widthLabel = label.getBoundingClientRect().width
         let heightLabel = label.getBoundingClientRect().height
 
-        label.style.top = ((heightInput/2)-(heightLabel/2)) + 'px'
+        label.style.top = ((heightInput/2)-(heightLabel/2) - 2) + 'px'
+
+        if (element.className === 'liStudentData'){
+            label.style.left = 11 + 'px'
+        }
 
         if (widthInput < widthLabel){
             input.style.width = (widthLabel + 10) + 'px'
@@ -267,6 +279,30 @@ function displayContact(){
             })
         })
     })
+}
+
+const mouseEnter = (e) =>{
+    let pInfo = document.createElement('p');
+    pInfo.style.position = 'absolute'
+    pInfo.setAttribute('id', 'infoHover')
+    pInfo.classList.add('imgHover')
+    pInfo.innerHTML = e.target.dataset.level
+    e.target.parentNode.append(pInfo)
+    console.log(e)
+    console.log(e.pageX)
+    pInfo.style.left = e.target.pageX + 'px';
+    pInfo.style.top = e.target.pageY + 'px';
+}
+
+const mouseMouve = (e) =>{
+    let pInfo = document.getElementById('infoHover');
+    pInfo.style.left = e.layerX + 'px';
+    pInfo.style.top = e.layerY + 'px';
+}
+
+const mouseOut = (e) =>{
+    let pInfo = document.getElementById('infoHover');
+    pInfo.remove()
 }
 
 

@@ -5,7 +5,6 @@ function fetchModules(e){
     fetch( 'distributed_qcms/' + e.target.value, {method: 'GET'} )
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
             selectModule.innerHTML = ''
             let option = document.createElement('option')
             option.innerHTML = 'Sélectionnez un module'
@@ -17,6 +16,10 @@ function fetchModules(e){
                 option.value = module['id']
                 selectModule.append(option)
             })
+
+            document.getElementById('sectionModule').scrollIntoView({
+                behavior: 'smooth'
+            });
         })
 }
 
@@ -25,9 +28,13 @@ function fetchQcms(e){
         .then((response) => response.json())
         .then((data) => {
 
+            let qcmsWithoutRetry = data.filter( function (qcm){
+                return !qcm.title.includes('Retentative')
+            } )
+
             qcmsContainer.innerHTML = ''
             qcmsContainer.append(divLegend)
-            data.forEach( qcm => {
+            qcmsWithoutRetry.forEach( qcm => {
 
                 ul = document.createElement('ul')
                 let name = document.createElement('li')
@@ -68,17 +75,11 @@ function fetchQcms(e){
                 for(let i = 0; i<qcmsName.length; i++){
                     qcmsName[i].addEventListener('click', fetchStudents)
                 }
-                document.querySelectorAll('li.button').forEach(button => {
-                    button.addEventListener('click', function (e) {
-                        e.preventDefault();
-
-                        document.querySelector(this.dataset.anchor).scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    });
-                });
 
             })
+            document.getElementById('sectionQcms').scrollIntoView({
+                behavior: 'smooth'
+            });
         })
 }
 
@@ -87,82 +88,83 @@ function fetchStudents(e){
         .then((response) => response.json())
         .then((studentsResults) => {
             console.log("studentsResults" ,studentsResults)
-                studentsContainer.innerHTML = ''
-                if (typeof studentsResults === 'string'){
-                    let p = document.createElement('p')
-                    p.classList.add('noStudent')
-                    p.innerHTML = "Aucun étudiant n'a encore de note sur ce QCM"
-                    studentsContainer.append(p)
-                    window.scrollTo(0,document.body.scrollHeight);
-                }else{
-                    let ulStudent = document.createElement('ul')
-                    studentsResults.forEach( studentResult => {
+            studentsContainer.innerHTML = ''
+            if (typeof studentsResults === 'string'){
+                let p = document.createElement('p')
+                p.classList.add('noStudent')
+                p.innerHTML = "Aucun étudiant n'a encore de note sur ce QCM"
+                studentsContainer.append(p)
 
-                        let li = document.createElement('li')
-                        let name = document.createElement('p')
-                        let img = document.createElement('img')
+                document.getElementById('sectionStudents').scrollIntoView({
+                    behavior: 'smooth'
+                });
 
-                        if (studentResult.result !== null)
-                        {
-                            li.dataset.resultid = studentResult.result.id
-                        }
+            }else{
+                let ulStudent = document.createElement('ul')
+                studentsResults.forEach( studentResult => {
 
-                        li.className = 'liStudent'
-                        ulStudent.className = 'studentQcm'
-                        name.className = 'firstName'
+                    let li = document.createElement('li')
+                    let name = document.createElement('p')
+                    let img = document.createElement('img')
 
-                        let score = studentResult.result ? studentResult.result.score : 'QCM pas encore effectué'
+                    if (studentResult.result !== null)
+                    {
+                        li.dataset.resultid = studentResult.result.id
+                    }
 
-                        name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : '
+                    li.className = 'liStudent'
+                    ulStudent.className = 'studentQcm'
+                    name.className = 'firstName'
 
-                        li.append(name)
+                    let score = studentResult.result ? studentResult.result.score : 'QCM pas encore effectué'
 
-                        if(score < 25){
-                            img.src = decouvre
-                            img.className = 'decouvre'
-                            img.dataset.level = 'Découvre'
-                            img.addEventListener('mouseenter', mouseEnter);
-                            img.addEventListener('mousemove', mouseMouve);
-                            img.addEventListener('mouseout', mouseOut);
-                            li.append(img)
-                        }else if(score >= 25 && score < 50){
-                            img.src = explore
-                            img.className = 'explore'
-                            img.dataset.level = 'Explore'
-                            img.addEventListener('mouseenter', mouseEnter);
-                            img.addEventListener('mousemove', mouseMouve);
-                            img.addEventListener('mouseout', mouseOut);
-                            li.append(img)
-                        }else if(score >= 50 && score < 75){
-                            img.src = maitrise
-                            img.className = 'maitrise'
-                            img.dataset.level = 'Maitrise'
-                            img.addEventListener('mouseenter', mouseEnter);
-                            img.addEventListener('mousemove', mouseMouve);
-                            img.addEventListener('mouseout', mouseOut);
-                            li.append(img)
-                        }else if(score >= 75 && score <= 100){
-                            img.src = domine
-                            img.className = 'domine'
-                            img.dataset.level = 'Domine'
-                            img.addEventListener('mouseenter', mouseEnter);
-                            img.addEventListener('mousemove', mouseMouve);
-                            img.addEventListener('mouseout', mouseOut);
-                            li.append(img)
-                        }else{
-                            name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : Non effectué'
-                        }
+                    name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : '
 
-                        studentsContainer.append(ulStudent);
-                        ulStudent.append(li);
+                    li.append(name)
 
-                        li.addEventListener('click', function(e){
-                            if (this.dataset.resultid){
-                                window.location.href = '/student/qcm/correction/' + this.dataset.resultid;
-                            }
-                    });
-                        window.scrollTo(0,document.body.scrollHeight);
+                    if(score < 25){
+                        img.src = decouvre
+                        img.className = 'decouvre'
+                        img.dataset.level = 'Découvre'
+                        img.addEventListener('mouseenter', mouseEnter);
+                        img.addEventListener('mousemove', mouseMouve);
+                        img.addEventListener('mouseout', mouseOut);
+                        li.append(img)
+                    }else if(score >= 25 && score < 50){
+                        img.src = explore
+                        img.className = 'explore'
+                        img.dataset.level = 'Explore'
+                        img.addEventListener('mouseenter', mouseEnter);
+                        img.addEventListener('mousemove', mouseMouve);
+                        img.addEventListener('mouseout', mouseOut);
+                        li.append(img)
+                    }else if(score >= 50 && score < 75){
+                        img.src = maitrise
+                        img.className = 'maitrise'
+                        img.dataset.level = 'Maitrise'
+                        img.addEventListener('mouseenter', mouseEnter);
+                        img.addEventListener('mousemove', mouseMouve);
+                        img.addEventListener('mouseout', mouseOut);
+                        li.append(img)
+                    }else if(score >= 75 && score <= 100){
+                        img.src = domine
+                        img.className = 'domine'
+                        img.dataset.level = 'Domine'
+                        img.addEventListener('mouseenter', mouseEnter);
+                        img.addEventListener('mousemove', mouseMouve);
+                        img.addEventListener('mouseout', mouseOut);
+                        li.append(img)
+                    }else{
+                        name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : Non effectué'
+                    }
+
+                    studentsContainer.append(ulStudent);
+                    ulStudent.append(li);
+
                 })
+                document.getElementById('sectionStudents').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         })
 }
