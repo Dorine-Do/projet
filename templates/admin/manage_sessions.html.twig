@@ -11,17 +11,17 @@
     <main class="admin_content">
 
         <section>
-            <h1>Gestion des sessions</h1>
+            <h1>{{ 'title.sessionsManagement'|trans }}</h1>
         </section>
 
         <section class="tableContainer">
             <table id="tableToSort" class="qcmsTable">
                 <thead>
                     <tr>
-                        <th>Nom</th>
-                        <th>Année</th>
-                        <th>Créée le</th>
-                        <th>Actions</th>
+                        <th>{{ 'title.name'|trans }}</th>
+                        <th>{{ 'title.year'|trans }}</th>
+                        <th>{{ 'title.createdAd'|trans }}</th>
+                        <th>{{ 'title.actions'|trans }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,8 +32,8 @@
                             <td>{{ session.schoolYear }}</td>
                             <td>{{ session.createdAt | date('d/m/Y') }}</td>
                             <td>
-                                <button class="showStudentsBtn button greyButton" data-session="{{ session.id }}">Edudiants</button>
-                                <button class="shwoModulesBtn button greyButton" data-session="{{ session.id }}">Modules</button>
+                                <button class="showStudentsBtn button greyButton" data-session="{{ session.id }}">{{ 'button.students'|trans }}</button>
+                                <button class="showModulesBtn button greyButton" data-session="{{ session.id }}">{{ 'button.modules'|trans }}</button>
                                 <a class="button greyButton" href="{{ path('admin_stats_session', { 'session': session.id } ) }}">Stats</a>
                             </td>
                         </tr>
@@ -63,9 +63,9 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Titre</th>
-                                <th>Du</th>
-                                <th>Au</th>
+                                <th>{{ 'title.title'|trans }}</th>
+                                <th>{{ 'title.from'|trans }}</th>
+                                <th>{{ 'title.to'|trans }}</th>
                             </tr>
                         </thead>
                         <tbody>

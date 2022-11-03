@@ -20,10 +20,10 @@
 
     </nav>
     <div class="eleve">
-        <p class="helloStudent">Salut,{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>
+        <p class="helloStudent">{{ 'title.hello'|trans }},{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>
         {# {{dump(app.user)}} #}
     </div>
-    <button id="reportBugBtn">Faire remonter un bug</button>
+    <button id="reportBugBtn">{{ 'button.reportBug'|trans }}</button>
     <div class="logOut">
         <a href="{{path('app_logout')}}" ><img class="imgLogOut" src="{{asset('build/images/exit.svg')}}" alt="Déconnexion"> </a>
     </div>
