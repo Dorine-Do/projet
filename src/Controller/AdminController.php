@@ -727,4 +727,27 @@ class AdminController extends AbstractController
 
         return $this->json( $ratesByStack );
     }
+    #[Route('admin/stats/fetch/search/{searchtype}/{searchtherm}' ,name: 'admin_fetch_statssearch', methods: ['GET'])]
+    public function  ajaxStatsSearch(
+        $searchtype,
+        $searchtherm,
+        UserRepository $userRepository,
+        SessionRepository $sessionRepository,
+    ) : JsonResponse
+    {
+        $searchResults = [];
+        if ($searchtype === "session")
+        {
+            $searchResults = $sessionRepository->findSessionByString($searchtherm);
+        }
+        elseif ($searchtype === "apprenant" || $searchtype === "formateur")
+        {
+            $searchResults = $userRepository->findUserByString($searchtherm);
+        }
+        else
+        {
+
+        }
+        return $this->json($searchResults);
+    }
 }
