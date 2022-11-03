@@ -1,5 +1,5 @@
 let liSession, liLevel, levelDiv, studentsDiv, qcmsDiv = null
-let namesLevel, levelChoice, liStudentsData, nameSession, moduleId, sessionId, selectModule, ulListQcms, ulListStudents, liStudentData = null
+let namesLevel, levelChoice, liStudentsData, nameSession, moduleId, sessionId, selectModule, ulListQcms, ulListStudents, liStudentData, divLegend = null
 
 //Ajax
 function getModuleBySessionFromAjax(sessionId){
@@ -91,6 +91,7 @@ function displayStudents(data){
 
 
 function displayQcmsDone(data){
+    divLegend.style.display = "flex"
     qcmsDiv.style.display = 'block'
     ulListQcms = qcmsDiv.querySelector('.ulListQcms')
     ulListQcms.innerHTML = ""
@@ -133,6 +134,7 @@ function displayQcmsDone(data){
 
         li.append(pDifficulty, pIsOfficial, pTitle, pDate, imgLevel)
         ulListQcms.append(li)
+
     })
 }
 
@@ -256,7 +258,6 @@ function displayContact(){
 }
 
 
-
 document.addEventListener("DOMContentLoaded", (event) => {
 
     liSession = document.querySelectorAll('.liSession')
@@ -267,6 +268,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     studentsDiv = document.querySelector('.students')
     qcmsDiv = document.querySelector('.qcms')
     selectModule = document.getElementById('module-choice')
+    divLegend = document.getElementById('div-legend')
 
     selectModule.addEventListener('change', showStudentByModules)
     positionLabelInput(liSession)

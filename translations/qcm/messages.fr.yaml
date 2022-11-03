@@ -202,15 +202,15 @@ title:
   noModuleDone: Aucun module n'est terminé.
   myInducementBadges: Mes badges d'encouragement
   myCertification: Ma certification
-  unlockWhenQcmDone:  Se débloquera une fois que tu auras effectué tout les qcms.
-  explanation: Explication
+  unlockWhenQcmDone:  Se débloquera une fois que tu auras effectué tous les qcms.
+  explanation: Explications
   addCommentary: Ajouter un commentaire
   commentaryWillBeSeeable: Attention, votre commentaire sera lisible par l'élève dans son espace YouUp.
   studentCommentary: Commentaire de l'élève
   answerToValid: Merci de répondre à toutes les questions pour valider le QCM...
   myCommentary: Je laisse mon commentaire à propos de ce QCM
   qcm: QCM
-  noResult: Aucun Resultat
+  noResult: Aucun Résultat
   bugReport: Report de bug
   searcherName: Nom du chercheur
   creationDate: Date de création
