@@ -782,6 +782,6 @@ class AdminController extends AbstractController
         {
 
         }
-        return $this->json($searchResults);
+        return $this->json($searchResults, 200, [], ['groups' => 'session:read']);
     }
 }
