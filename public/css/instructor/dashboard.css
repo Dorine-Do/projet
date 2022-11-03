@@ -98,6 +98,13 @@
 
 /**********************************************************************************************************************/
 /* Session / Level / Students */
+
+.sectionChoice{
+    background-color: var(--fond);
+    padding: 1em 0;
+    margin: 1em 0;
+}
+
 .nameSession{
     -moz-appearance: none;
     border-radius: 7px;
@@ -149,11 +156,9 @@
 
 .choiceSession{
     display: grid;
-    background-color: var(--fond);
     width: 100%;
-    padding: 8px 32px;
-    margin: 50px auto;
     grid-template-columns: repeat(5, 1fr);
+    padding: 0;
 }
 
 .choiceLevel{
@@ -165,7 +170,7 @@
 .liLevel,
 .liStudentData{
     position: relative;
-    margin-right: .5em;
+    margin: auto;
 }
 
 .liStudentData{
@@ -205,14 +210,14 @@
 }
 
 .ulListStudents{
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .divStudentData{
     display: flex;
     align-items: center;
-    width: 29%;
+    width: 80%;
     position: relative;
     margin: 2em 0;
     background-color: var(--fond);
@@ -228,6 +233,10 @@
 .imgLevel{
     position: absolute;
     right: 0;
+}
+
+.labelStudent{
+    margin-top: 3px;
 }
 
 /**********************************************************************************************************************/
@@ -246,16 +255,32 @@
     border-radius: 13px;
 }
 
+.pImageLevel{
+    width: 3em;
+    text-align: center;
+}
+
+.qcms .qcmImgLevel{
+    width: 100%;
+}
+
+#img-decouvre{
+    width: 60%;
+}
+
 .qcmImgLevel{
     width: 8%;
 }
 
-#ImgDecouvre{
-    width: 4%;
-}
-
 .noStudent{
     margin-bottom: 20%;
+}
+
+#div-legend{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 30px auto;
 }
 
 @media screen and (max-width: 1200px) {

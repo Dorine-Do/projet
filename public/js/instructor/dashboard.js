@@ -42,8 +42,14 @@ function displayModules(data){
         let option = document.createElement('option')
         option.innerHTML = module['name']
         option.value = module['id']
+        option.id = 'option-module'
+        option.dataset.anchor = '#option-module'
         selectModule.append(option)
     } )
+
+    document.getElementById('section-module').scrollIntoView({
+        behavior: 'smooth'
+    });
 }
 
 
@@ -59,8 +65,9 @@ function displayStudents(data){
         radio.setAttribute('name', 'student')
         radio.setAttribute('id', `student${student.id}`)
         radio.setAttribute('value', `${student.id}`)
+        radio.dataset.anchor = '#qcms-list'
         radio.addEventListener('click', (e) => {
-            getQcmsDoneByStudentFromAjax(sessionId, moduleId, e.target.value)
+            getQcmsDoneByStudentFromAjax(sessionId, moduleId, e.target.value, e)
         })
 
         let label = createElementSimple('label', 'labelStudent', `${student.firstName} ${student.lastName}`)
@@ -80,12 +87,15 @@ function displayStudents(data){
 
     liStudentData = document.querySelectorAll('.liStudentData')
     positionLabelInput(liStudentData)
-    console.log(data)
     if (data.length === 0){
         let div = createElementSimple('p', 'noStudent')
         div.innerHTML = "Aucun étudiant n'a encore de note dans cette session"
         ulListStudents.append(div)
     }
+
+    document.getElementById('section-students').scrollIntoView({
+        behavior: 'smooth'
+    });
 
 }
 
@@ -132,10 +142,18 @@ function displayQcmsDone(data){
         let imgLevel = createElementSimple('img', 'qcmImgLevel')
         imgLevel = dislayImgLevel(qcm.level, imgLevel)
 
-        li.append(pDifficulty, pIsOfficial, pTitle, pDate, imgLevel)
+        let p = document.createElement('p')
+        p.classList.add('pImageLevel')
+
+        p.append(imgLevel)
+        li.append(pDifficulty, pIsOfficial, pTitle, pDate, p)
         ulListQcms.append(li)
 
     })
+
+    document.getElementById('section-qcms').scrollIntoView({
+        behavior: 'smooth'
+    });
 }
 
 
@@ -156,7 +174,7 @@ function dislayImgLevel(level, img,  parent = null){
         img.setAttribute('alt', 'Graine avec petit pousse')
         img.setAttribute('src', decouvre)
         if ( parent === null){
-            img.setAttribute('id', 'ImgDecouvre')
+            img.setAttribute('id', 'img-decouvre')
         }
     }
     else if( level === 2 )
@@ -177,7 +195,6 @@ function dislayImgLevel(level, img,  parent = null){
 
     return img
 }
-
 
 function positionLabelInput(parent){
     parent.forEach( element => {
@@ -208,7 +225,6 @@ function positionLabelInput(parent){
     })
 }
 
-
 function showStudentByModules(e){
     studentsDiv.style.display = 'block'
     if (moduleId !== e.target.value){
@@ -220,7 +236,6 @@ function showStudentByModules(e){
     }
 }
 
-
 function showModulesBySessions(){
     nameSession.forEach( input => {
         input.addEventListener('click', (e)=>{
@@ -231,7 +246,6 @@ function showModulesBySessions(){
         })
     })
 }
-
 
 function displayContact(){
     namesLevel.forEach( input => {
