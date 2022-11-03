@@ -96,7 +96,41 @@ class AdminController extends AbstractController
     #[Route('admin/user-details/{user}', name: 'admin_user_details_ajax')]
     public function ajaxUserDetails( User $user ): JsonResponse
     {
-        return $this->json( $user, 200, [],['groups' => 'user:read'] );
+        $conn = $this->doctrine->getConnection('dbsuivi');
+        if( in_array('ROLE_INSTRUCTOR', $user->getRoles()) )
+        {
+            $sql = "SELECT sessions.name as sessionName
+                FROM daily
+                LEFT JOIN sessions ON daily.id_session = sessions.id
+                LEFT JOIN users ON daily.id_user = users.id
+                WHERE users.email = :useremail AND daily.date >= NOW()
+                ";
+            $params = [
+                'useremail' => 'matthieu.fergola@gmail.com'
+            ];
+            $currentSession = $conn
+                ->prepare($sql)
+                ->executeQuery($params)
+                ->fetchAll();
+        }
+        elseif ( in_array('ROLE_STUDENT', $user->getRoles()) )
+        {
+            $sql = "SELECT sessions.name as sessionName
+                FROM daily
+                LEFT JOIN sessions ON daily.id_session = sessions.id
+                LEFT JOIN link_students_daily ON link_students_daily.id_daily = daily.id  
+                WHERE users.email = :useremail AND daily.date >= NOW()
+                ";
+            $params = [
+                'useremail' => 'dorine.journet@3wa.io'
+            ];
+            $currentSession = $conn
+                ->prepare($sql)
+                ->executeQuery($params)
+                ->fetchAll();
+        }
+
+        return $this->json( [$user, $currentSession], 200, [],['groups' => 'user:read'] );
     }
 
     #[Route('admin/manage-sessions', name: 'admin_manage_sessions')]
