@@ -46,106 +46,86 @@ class QcmRepository extends ServiceEntityRepository
      * @throws OptimisticLockException
      */
     public function getTestQuestion()
-       {
+    {
         $qcmBdd = $this->getEntityManager();
         return $qcmBdd->createQuery('
         SELECT q
-        FROM App\Entity\Main\Qcm q
-       
-        
-       
-       
-     ')
-         
-          
+        FROM App\Entity\Main\Qcm q      
+        ')
             ->getResult();
-       }
+    }
+
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-      public function testQcm()
-       {
-        $qcmBdd = $this->getEntityManager();
-        return $qcmBdd->createQuery('
-        SELECT q.id, q.title
-        FROM App\Entity\Main\Qcm q
-     ')
+        public function testQcm()
+        {
+            $qcmBdd = $this->getEntityManager();
+            return $qcmBdd->createQuery('
+            SELECT q.id, q.title
+            FROM App\Entity\Main\Qcm q
+        ')
             ->getResult();
-       }
+        }
+
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
     public function getQcmByInstructor()
-       {
+    {
         $qcmBdd = $this->getEntityManager();
         return $qcmBdd->createQuery('
         SELECT q.title, q.difficulty
         FROM App\Entity\Main\Qcm q
-       
-       
-     ')
-         
-          
+        ')
             ->getResult();
-       }
+    }
 
-
-       /**
+    /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-       public function findByQcmId(int $qcmId): ?Qcm
-       {
-           $entityManager = $this->getEntityManager();
-   
-           $query = $entityManager->createQuery(
-               'SELECT q, qu
-               FROM App\Entity\Main\Qcm q
-               INNER JOIN q.questions qu
+    public function findByQcmId(int $qcmId): ?Qcm
+    {
+        $entityManager = $this->getEntityManager();
 
-               WHERE  q.id = :id
-               
-              '
-               
-           )
-           ->setParameter('id', $qcmId)
-          ;
-   
-           return $query->getOneOrNullResult();
-       }
+        $query = $entityManager->createQuery(
+            'SELECT q, qu
+            FROM App\Entity\Main\Qcm q
+            INNER JOIN q.questions qu
+            WHERE  q.id = :id
+        ')
+        ->setParameter('id', $qcmId);
 
-       /**
+        return $query->getOneOrNullResult();
+    }
+
+    /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-       public function findByQcmIdAuthor(int $id_author): ?Qcm
-       {
-           $entityManager = $this->getEntityManager();
-   
-           $query = $entityManager->createQuery(
-               'SELECT q, qu
-               FROM App\Entity\Main\Qcm q
-               INNER JOIN q.questions qu
-               WHERE q.author = :id_author
+    public function findByQcmIdAuthor(int $id_author): ?Qcm
+    {
+        $entityManager = $this->getEntityManager();
 
-               
-              '
-               
-           )
-           ->setParameter('id_author', $id_author)
-  
-          ;
-   
-          return $query->getOneOrNullResult();
-           
-       }
+        $query = $entityManager->createQuery(
+            'SELECT q, qu
+            FROM App\Entity\Main\Qcm q
+            INNER JOIN q.questions qu
+            WHERE q.author = :id_author
+        ')
+        ->setParameter('id_author', $id_author);
 
-  /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
+        return $query->getOneOrNullResult();
+
+    }
+
+    /**
+    * @throws ORMException
+    * @throws OptimisticLockException
+    */
     public function test(int $id_author,int  $qcmId): ?Qcm
     {
         $entityManager = $this->getEntityManager();
@@ -156,16 +136,11 @@ class QcmRepository extends ServiceEntityRepository
             INNER JOIN q.questions qu
             WHERE q.author = :id_author
             AND  q.id = :id
-            
-           '
-            
-        )
+           ')
         ->setParameter('id', $qcmId)
-        ->setParameter('id_author', $id_author)
+        ->setParameter('id_author', $id_author);
 
-       ;
-
-       return $query->getResult();
+        return $query->getResult();
         
     }
 
@@ -180,25 +155,43 @@ class QcmRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-        /**
-         * @return Qcm[] Returns an array of Qcm objects
-         */
-        public function getQcmsByStudentAndModule($moduleId, $studentId): array
+    /**
+     * @return Qcm[] Returns an array of Qcm objects
+     */
+    public function getQcmsByStudentAndModule($moduleId, $studentId): array
     {
+        return $this->createQueryBuilder('q')
+        ->select('qi.id, r.level, m.title, q.difficulty, q.isOfficial, r.submittedAt, r.id as resultId')
+        ->innerJoin('q.qcmInstances', 'qi')
+        ->innerJoin('qi.student', 's')
+        ->innerJoin('qi.result', 'r')
+        ->innerJoin('q.module', 'm')
+        ->where('s.id = :student_id')
+        ->andWhere('m.id = :module_id')
+        ->setParameter('student_id', $studentId)
+        ->setParameter('module_id', $moduleId)
+        ->getQuery()
+        ->getResult()
+        ;
+    }
 
-            return $this->createQueryBuilder('q')
-            ->select('qi.id, r.level, m.title, q.difficulty, q.isOfficial, r.submittedAt, r.id as resultId')
-            ->innerJoin('q.qcmInstances', 'qi')
-            ->innerJoin('qi.student', 's')
-            ->innerJoin('qi.result', 'r')
-            ->innerJoin('q.module', 'm')
-            ->where('s.id = :student_id')
-            ->andWhere('m.id = :module_id')
-            ->setParameter('student_id', $studentId)
-            ->setParameter('module_id', $moduleId)
+    /**
+     * @return Qcm[] Returns an array of Qcm objects
+     */
+    public function getQcmDistributedByUser($userId, $moduleId) :array
+    {
+        return $this->createQueryBuilder('q')
+            ->select('DISTINCT q')
+            ->innerJoin(QcmInstance::class, 'qcmi')
+            ->where('q.isOfficial = 1')
+            ->orWhere('q.isOfficial = 0')
+            ->andWhere('q.isEnabled = 1')
+            ->andWhere('qcmi.distributedBy = :userId')
+            ->andWhere('q.module = :moduleId')
+            ->setParameter('userId', $userId)
+            ->setParameter('moduleId', $moduleId)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
 //    /**

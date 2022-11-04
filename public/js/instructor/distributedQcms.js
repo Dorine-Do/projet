@@ -24,7 +24,7 @@ function fetchModules(e){
 }
 
 function fetchQcms(e){
-    fetch('../qcm-planner/getModuleQcms/' + e.target.value, {method: 'GET'})
+    fetch('../qcm-planner/getModuleQcms/' + e.target.value + '/true', {method: 'GET'})
         .then((response) => response.json())
         .then((data) => {
 
@@ -40,16 +40,14 @@ function fetchQcms(e){
                 let name = document.createElement('li')
                 let difficulty = document.createElement('li')
                 let isOfficial = document.createElement('li')
-                let date = document.createElement('li')
+
                 ul.className = 'qcmStudent'
                 name.className = 'button'
                 isOfficial.className = 'official'
                 difficulty.className = 'difficulty'
-                date.className = 'date'
 
                 name.innerHTML = qcm.title
                 name.dataset.qcm = qcm.id
-                name.dataset.anchor = "#students-qcm"
                 name.id = qcm.id
                 qcmsContainer.append(ul)
 
@@ -64,12 +62,10 @@ function fetchQcms(e){
                 if(qcm.isOfficial === true){
                     isOfficial.innerHTML = 'Officiel'
                 }else{
-                    isOfficial.innerHTML = 'Entrainement'
+                    isOfficial.innerHTML = 'Exerice'
                 }
 
-                let dateToDisplay = new Date(qcm.updatedAt)
-                date.innerHTML = dateToDisplay.toLocaleDateString()
-                ul.append(name, date, isOfficial, difficulty)
+                ul.append(name, isOfficial, difficulty)
 
                 qcmsName = document.getElementsByClassName('button')
                 for(let i = 0; i<qcmsName.length; i++){
@@ -87,7 +83,7 @@ function fetchStudents(e){
     fetch('distributed_students/' + this.dataset.qcm, {method: 'GET'})
         .then((response) => response.json())
         .then((studentsResults) => {
-            console.log("studentsResults" ,studentsResults)
+            console.log(studentsResults)
             studentsContainer.innerHTML = ''
             if (typeof studentsResults === 'string'){
                 let p = document.createElement('p')
@@ -104,59 +100,70 @@ function fetchStudents(e){
                 studentsResults.forEach( studentResult => {
 
                     let li = document.createElement('li')
+                    let div = document.createElement('div')
+                    let container = document.createElement('div')
                     let name = document.createElement('p')
                     let img = document.createElement('img')
-
-                    if (studentResult.result !== null)
-                    {
-                        li.dataset.resultid = studentResult.result.id
-                    }
+                    let date = document.createElement('p')
+                    let button = document.createElement('button')
 
                     li.className = 'liStudent'
+                    div.className = 'containerDiv'
+                    container.classList = 'containerInfo'
                     ulStudent.className = 'studentQcm'
                     name.className = 'firstName'
+                    date.className = 'distributedAt'
+                    button.className = 'viewAnswers'
 
                     let score = studentResult.result ? studentResult.result.score : 'QCM pas encore effectué'
 
                     name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : '
+                    container.append(name)
 
-                    li.append(name)
+                    let dateToDisplay = new Date(studentResult.distributedAt)
+                    date.innerHTML = dateToDisplay.toLocaleDateString()
+                    container.append(date)
 
                     if(score < 25){
                         img.src = decouvre
                         img.className = 'decouvre'
                         img.dataset.level = 'Découvre'
-                        img.addEventListener('mouseenter', mouseEnter);
-                        img.addEventListener('mousemove', mouseMouve);
-                        img.addEventListener('mouseout', mouseOut);
-                        li.append(img)
                     }else if(score >= 25 && score < 50){
                         img.src = explore
                         img.className = 'explore'
                         img.dataset.level = 'Explore'
-                        img.addEventListener('mouseenter', mouseEnter);
-                        img.addEventListener('mousemove', mouseMouve);
-                        img.addEventListener('mouseout', mouseOut);
-                        li.append(img)
                     }else if(score >= 50 && score < 75){
                         img.src = maitrise
                         img.className = 'maitrise'
                         img.dataset.level = 'Maitrise'
-                        img.addEventListener('mouseenter', mouseEnter);
-                        img.addEventListener('mousemove', mouseMouve);
-                        img.addEventListener('mouseout', mouseOut);
-                        li.append(img)
                     }else if(score >= 75 && score <= 100){
                         img.src = domine
                         img.className = 'domine'
                         img.dataset.level = 'Domine'
-                        img.addEventListener('mouseenter', mouseEnter);
-                        img.addEventListener('mousemove', mouseMouve);
-                        img.addEventListener('mouseout', mouseOut);
-                        li.append(img)
-                    }else{
-                        name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : Non effectué'
                     }
+
+                    img.addEventListener('mouseenter', mouseEnter);
+                    img.addEventListener('mousemove', mouseMouve);
+                    img.addEventListener('mouseout', mouseOut);
+
+                    li.append(img)
+                    div.append(container)
+                    if (studentResult.result !== null){
+                        button.innerText = 'Voir les réponses'
+                        button.dataset.resultid = studentResult.result.id
+
+                        button.addEventListener('click', (e)=>{
+                            window.location.href = '/student/qcm/correction/' + e.target.dataset.resultid
+                        })
+                        div.append(button)
+                    }else{
+                        let notDone = document.createElement('p')
+                        notDone.className = 'notDone'
+                        notDone.innerText = 'Non effectué'
+                        div.append(notDone)
+                    }
+
+                    li.append(div)
 
                     studentsContainer.append(ulStudent);
                     ulStudent.append(li);
