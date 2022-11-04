@@ -364,33 +364,35 @@ namespace App\Controller;
             $modules[] = $linkInstructorSessionModule->getModule();
               //   TEMPORAIRE -> recup qcm par module et par difficulté
             //   $qcmsLevel[]=$linkInstructorSessionModule->getmodule()->getQcms();
-            //   foreach($linkInstructorSessionModule->getmodule()->getQcms() as $qcmLevel ) {
-            //     $qcmsLevel[]=$qcmLevel->getDifficulty();
-            //  }
+              foreach($linkInstructorSessionModule->getmodule()->getQcms() as $qcmLevel ) {
+                $qcmsLevel[]=$qcmLevel->getDifficulty();
+             }
 
         }
-
 
         /**********************************************************************************/
         // Get module choiced
         $module = null;
-        if ($request->get('module'))
+        if ($request->get('module')  )
         {
             $module = $moduleRepository->find($request->get('module'));
-            foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
-            {
-
-                  foreach($linkInstructorSessionModule->getmodule()->getQcms() as $qcmLevel ) {
-                    $qcmsLevel[]=$qcmLevel->getDifficulty();
-                 }
-
-            }
+           
+            // $request->get('module')->getQcms();
+            // SI CHOIX MODULE 
+            // $qcmsT=[];
+            // foreach($module->getQcms() as $qcmTest ) {
+            //     $qcmsT[]=$qcmTest->getDifficulty();
+            //  }
+       
+            $qcmId =$qcmRepo->findBy(["difficulty"=>$request->get('qcm'),"module"=>$module->getId()]);
+            // dd( $qcmId);
 
 
         }
+        // dump($qcmRepo->find($request->get('qcm.difficulty')));
+//  dd( $qcmId[0]);
 
-
-        if ($module)
+        if ($module  && $qcmId[0])
         {
             $qcmGenerator = new QcmGeneratorHelper($questionRepository,$security);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module,$security->getUser(),$userRepository);
@@ -432,7 +434,8 @@ namespace App\Controller;
             // temporaire voir todo pour connection
             'user'=>$userId,
             'qcmsLevel'=>$qcmsLevel == [] ? null : $qcmsLevel,
-            'qcms'=>empty($qcm ) ? null : $qcms,// condition 2
+            // 'qcms'=>empty($qcm ) ? null : $qcms,// condition 2
+            'qcms'=>!isset($qcms)? null :$qcms,
             'qcmInstancesByQuestion'=>!isset($qcmInstancesByQuestion )? null : $qcmInstancesByQuestion // condition 3
 
         ]);
