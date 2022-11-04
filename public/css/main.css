@@ -251,7 +251,7 @@ pre {
 }
 
 #statsModale {
-  display: flex;
+  display: none;
 }
 
 #reportBugModale > div, #statsModale > div {
@@ -323,6 +323,32 @@ pre {
   background-color: var(--fond);
   font-weight: bold;
   border-width: 2px;
+}
+
+#searchResults{
+  width: 90%;
+  background-color: var(--fond);
+  border: 1px solid var(--writing);
+  margin: 20px auto;
+  text-align: left;
+  padding: 1em;
+  border-radius: 8px;
+  height: 59%;
+  overflow-y: scroll;
+}
+
+#searchResults li{
+  padding: 8px;
+  margin: 15px auto;
+  font-size: 1em;
+}
+
+#searchResults li:hover{
+  cursor: pointer;
+  background-color: var(--pamplemousse);
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
 /*.stats {*/

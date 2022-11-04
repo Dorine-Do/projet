@@ -6,6 +6,8 @@ use App\Entity\Main\Admin;
 use App\Entity\Main\Instructor;
 use App\Entity\Main\LinkInstructorSessionModule;
 use App\Entity\Main\LinkSessionModule;
+use App\Entity\Main\Qcm;
+use App\Entity\Main\QcmInstance;
 use App\Entity\Main\Session;
 use App\Entity\Main\Student;
 use App\Entity\Main\User;
@@ -57,8 +59,11 @@ class AdminController extends AbstractController
     #[Route('admin/manage-qcms', name: 'admin_manage_qcms')]
     public function manageQcms( QcmRepository $qcmRepo ): Response
     {
+
+        $qcms = $qcmRepo->findAll();
+
         return $this->render('admin/manage_qcms.html.twig', [
-            'qcms' => $qcmRepo->findAll()
+            'qcms' => $qcms,
         ]);
     }
 

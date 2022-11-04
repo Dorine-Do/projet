@@ -21,11 +21,11 @@
             <table id="tableToSort" class="qcmsTable">
                 <thead>
                     <tr>
-                        <th>{{ 'title.users'|trans }}</th>
-                        <th>{{ 'title.3waMail'|trans }}</th>
-                        <th>{{ 'title.role'|trans }}</th>
-                        <th>{{ 'title.registerSince'|trans }}</th>
-                        <th>{{ 'title.actions'|trans }}</th>
+                        <th>{{ 'title.users'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.3waMail'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.role'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.registerSince'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.actions'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -47,8 +47,6 @@
                             <td>
                                 <button class="userDetailsBtn button greyButton" data-user="{{ user.id }}">{{ 'button.details'|trans }}</button>
                                 <button class="editRoleBtn button greyButton" data-user="{{ user.id }}" data-role="{{ user.roles[0] }}">{{ 'button.changeRole'|trans }}</button>
-                                <button class="userDetailsBtn button greyButton" data-user="{{ user.id }}">Détails</button>
-                                <button class="editRoleBtn button greyButton" data-user="{{ user.id }}" data-role="{{ user.roles[0] }}">Changer le rôle</button>
                                 {% if 'ROLE_INSTRUCTOR' in user.roles %}
                                     <a class="button greyButton" href="{{ path( 'admin_stats_instructor', {'instructor': user.id} ) }}">Stats</a>
                                 {% elseif 'ROLE_STUDENT' in user.roles %}

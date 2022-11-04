@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Main\Module;
 use App\Entity\Main\Qcm;
+use App\Entity\Main\QcmInstance;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -199,7 +200,6 @@ class QcmRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-
 
 //    /**
 //     * @return Qcm[] Returns an array of Qcm objects
