@@ -28,7 +28,75 @@ body {
   color: var(--grey);
   font-family: "Alumni Sans", sans-serif;
   font-size: 20px;
+  position: relative;
 }
+
+/* modal explaination */
+.bloc_modal_explaination {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(241, 160, 135, 0.411);
+  display: none;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  z-index: 99;
+}
+.pTitle {
+  padding: 0.5em 0;
+}
+.modal {
+  background: white;
+  border-radius: 10px;
+  padding: 2em;
+  position: relative;
+}
+.modal > img {
+  width: 25px;
+  position: absolute;
+  right: 2%;
+  top: 3%;
+}
+.pTitle {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600;
+}
+.notice {
+  background: var(--fond);
+  border-radius: 10px;
+  padding: 1em;
+}
+.notice > img {
+  width: 40px;
+  transform: translateY(10px);
+}
+.notice > span {
+  font-size: 22px;
+  font-weight: 600;
+  /* text-decoration: underline; */
+}
+.modal_difficulty_level {
+  width: 100%;
+}
+
+.modal_difficulty_level tr td {
+  padding: 0.5em;
+  text-align: center;
+}
+.modal_difficulty_level tr:first-child td div {
+  border-radius: 2em;
+  padding: 0.8em;
+  background: var(--grey);
+  color: white;
+  width: 60%;
+  margin: auto;
+}
+.rules {
+  padding: 1.5em 0.8em 01em;
+}
+
 /* 
 .container{
     width: 85%;
@@ -117,7 +185,7 @@ pre {
 
 /**************************BUTTONS***************************/
 
-.button{
+.button {
   background-color: var(--grey);
   color: white;
   border-radius: 50px;
@@ -129,11 +197,10 @@ pre {
   justify-content: center;
   align-items: center;
   display: flex;
-  font-family: 'Alumni Sans', sans-serif;
+  font-family: "Alumni Sans", sans-serif;
 }
 
-
-.button:hover{
+.button:hover {
   font-weight: bold;
   cursor: pointer;
 }
@@ -208,7 +275,7 @@ pre {
 
 /**************************REPORTBUG***************************/
 
-#reportBugBtn{
+#reportBugBtn {
   background-color: var(--pamplemousse);
   color: var(--grey);
   border-radius: 50px;
@@ -221,12 +288,11 @@ pre {
   justify-content: center;
   align-items: center;
   display: flex;
-  font-family: 'Alumni Sans', sans-serif;
+  font-family: "Alumni Sans", sans-serif;
   font-weight: bold;
 }
 
-
-#reportBugBtn:hover{
+#reportBugBtn:hover {
   font-weight: bold;
   cursor: pointer;
   background-color: var(--fond);
@@ -243,7 +309,7 @@ pre {
   width: 100vw;
   height: 100vh;
   background: #333333d3;
-  backdrop-filter:blur(5px);
+  backdrop-filter: blur(5px);
 }
 
 #reportBugModale > div {
@@ -278,7 +344,7 @@ pre {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
-  resize : none;
+  resize: none;
   width: 100%;
 }
 
@@ -294,7 +360,7 @@ pre {
   justify-content: center;
   align-items: center;
   display: flex;
-  font-family: 'Alumni Sans', sans-serif;
+  font-family: "Alumni Sans", sans-serif;
 }
 
 .errorSubmitBtn:hover {
@@ -318,7 +384,6 @@ pre {
 }
 
 /**************************RECTANGLES***************************/
-
 
 .Rectangle {
   background-color: var(--pamplemousse);
@@ -359,21 +424,16 @@ pre {
 
 /**************************OTHER***************************/
 
-
-
 @media screen and (max-width: 780px) {
-
   #closeReportBugModaleBtn {
     position: absolute;
     top: 16px;
     right: 16px;
     width: 7em;
   }
-
 }
 
 @media screen and (max-width: 450px) {
-
   #closeReportBugModaleBtn {
     position: absolute;
     top: 10px;
@@ -381,5 +441,4 @@ pre {
     padding: 7px;
     width: 4em;
   }
-
 }

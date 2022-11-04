@@ -3,21 +3,47 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   // display none
   let questionsCustom = document.querySelector(".questionsCustom");
-  questionsCustom.classList.add("displayNone");
+  if (questionsCustom) {
+    questionsCustom.classList.add("displayNone");
+  }
 
   let proposalWordingDiv = document.querySelectorAll(".proposalWordingDiv");
-  proposalWordingDiv.forEach((div) => {
-    div.classList.add("displayNone");
-  });
+  if (proposalWordingDiv) {
+    proposalWordingDiv.forEach((div) => {
+      div.classList.add("displayNone");
+    });
+  }
 
   let questionModify = document.querySelectorAll(".questionModify");
-  questionModify.forEach((question) => {
-    question.classList.add("displayNone");
-  });
+  if (questionModify) {
+    questionModify.forEach((question) => {
+      question.classList.add("displayNone");
+    });
+  }
 
   let partTwo = document.querySelector(".partTwo");
-  partTwo.classList.add("displayNone");
+  if (partTwo) {
+    partTwo.classList.add("displayNone");
+  }
 
+  ////////////////////////// Modal explaination
+  let modalExplaination = document.querySelector(".bloc_modal_explaination");
+  let crossExplaination = document.querySelector(".modal > img");
+  let btnExplaination = document.querySelector(
+    ".contentExplicationAndLegend button"
+  );
+  let moduleChoice = document.querySelectorAll(".selectModule option");
+  console.log(moduleChoice);
+  if (window.location.href.includes(location.pathname)) {
+    btnExplaination.addEventListener("click", function (e) {
+      modalExplaination.style.display = "flex";
+    });
+    if (modalExplaination) {
+      crossExplaination.addEventListener("click", function (e) {
+        modalExplaination.style.display = "none";
+      });
+    }
+  }
   // /////////////////////// SHOW QCM
 
   let btnShowQcm = document.querySelector(".btnShowQcm");
@@ -41,6 +67,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
   let buttonQuestionType = document.querySelectorAll(
     ".btnChoiseQuestionType button"
   );
+
+  // ///////////MODULE PAR NIVEAU DE DIFFICULTE DE QCM
+
+  let btnDifficultyQcmModule = document.querySelectorAll(
+    ".list_choice_difficulties li"
+  );
+  let inputDifficulty = document.querySelectorAll(
+    ".list_choice_difficulties input"
+  );
+
+  btnDifficultyQcmModule.forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      console.log(e.target.dataset.difficulty);
+      inputDifficulty.value = `${e.target.dataset.difficulty}`;
+
+      console.log((inputDifficulty.value = `${e.target.dataset.difficulty}`));
+    });
+  });
 
   //Event faire apparaitre la partie 2********************************************************************************
   let btnToggle = document.querySelector(".btnToggle");
@@ -376,11 +420,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
         );
         if (liQcmChoicedInOfficialQcm) {
           for (let i = 0; i < liQcmChoicedInOfficialQcm.length; i++) {
-            console.log(
-              (btnQuestionsOfficial.innerHTML = `Questions officielles :${
-                listQuestionsOfficials.length + liQcmChoicedInOfficialQcm.length
-              }`)
-            );
+            btnQuestionsOfficial.innerHTML = `Questions officielles :${
+              listQuestionsOfficials.length + liQcmChoicedInOfficialQcm.length
+            }`;
           }
         }
       } else {
@@ -421,22 +463,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
         //count questions officiel dans question choisie
         // FAIRE UNE FONCTION TOTALE DE listQuestionsOfficials.length +liQcmChoicedInOfficialQcm.length dans la fonction de déplacement vers ldroite et la rappeler en bas
         //
-        let liQcmChoicedInOfficialQcm = document.querySelectorAll(
-          ".questionsOfficial .qcmChoisedLi"
-        );
+        let liQcmChoicedInOfficialQcm =
+          document.querySelectorAll(".qcmChoisedLi");
         let liQcmOfficialInQcmChoiced = document.querySelectorAll(
           ".qcmChoisedMain .officialQuestionLi"
         );
         if (liQcmChoicedInOfficialQcm) {
+          console.log(liQcmChoicedInOfficialQcm, "yo");
           for (let i = 0; i < liQcmChoicedInOfficialQcm.length; i++) {
-            console.log(
-              ((btnQuestionsOfficial.innerHTML = `Questions officielles :${
-                listQuestionsOfficials.length +
-                liQcmChoicedInOfficialQcm.length -
-                liQcmOfficialInQcmChoiced.length
-              }`),
-              "yeah")
-            );
+            btnQuestionsOfficial.innerHTML = `Questions officielles :${
+              listQuestionsOfficials.length +
+              liQcmChoicedInOfficialQcm.length -
+              liQcmOfficialInQcmChoiced.length
+            }`;
           }
         }
       }

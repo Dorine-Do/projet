@@ -11,6 +11,8 @@
     {% set count = 0 %}
     {% set letters = ["A", "B", "C", "D", "E", "F"] %}
 
+
+
     <h1>- {{ 'title.createCustomQcm'|trans }} -</h1>
 
 
@@ -18,16 +20,6 @@
 
         <p><span class="etape">{{ 'title.step1'|trans }}</span>{{ 'qcm.chooseQcmModuleLevel'|trans }}</p>
 
-        {# form -> id : user.id => temporaire /// voir controller + var #}
-        {#  <form action="{{ path('instructor_create_qcm_perso',{ 'id': user}) }}" method="GET">
-            <select class="selectModule" name="module">
-                    <option value="null">{{ 'module.plsChoice'|trans }}</option>
-                {% for module in modules %}
-                    <option value="{{ module.id }}">{{ module.title }}</option>
-                {% endfor %}
-            </select>
-            <button class="button greyButton" id="btnShowQcm" type="submit" >{{ 'button.generateQcm'|trans }}</button>
-        </form>#}
         <form action="{{ path('instructor_create_qcm_perso') }}" method="GET">
         {# {{dump(modules[0].id)}} #}
             <div  class="select_option_choice_module">
@@ -38,7 +30,9 @@
                 {% endfor %}
             </select>
             </div>
-
+             {% for qcm in qcms %}
+{{dump(qcm.difficulty)}}
+ {% endfor %} 
             <div class="choice_difficulties_and_type_of_qcm">
                 <div class="bloc_choice_difficulties">
                         <div class="bloc_border_choice_difficulties">
@@ -47,18 +41,21 @@
                              <input type="hidden" value="{{qcmLevel[0].difficulty}}"  name="qcm['difficulty]">
                          {% endfor %} #}
 
-                            {# <input type="hidden" value="{{qcmsLevel == null ? qcmsLevel: qcmsLevel[0]}}" > #}
-                            
-                            <li {% if qcmsLevel == null %} data-difficulty-easy="null" {% elseif qcmsLevel[0]== 1 %} data-difficulty-easy="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}>Facile </li>
-                            <li {% if qcmsLevel == null %} data-difficulty-easy="null" {% elseif qcmsLevel[0]== 2 %} data-difficulty-easy="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}> Moyen</li>
-                            <li{% if qcmsLevel == null %} data-difficulty-easy="null" {% elseif qcmsLevel[0]== 3 %} data-difficulty-easy="{{qcmsLevel[0]}}"  class='colorDifficulty'{% endif %}>Difficile</li>
+                            {# <input type="hidden" name="qcm[difficulty]" value="{{qcmsLevel == null ? qcmsLevel: 2}}" > #}
+                            <input type="hidden" name="qcm[difficulty]" value="2" >
+                             {# {% for qcmLevel in qcmsLevel %} #}
+                            <li   data-difficulty="1" class='colorDifficulty'>Facile </li>
+                             {# {% endfor %}  #}
+                            <li  data-difficulty="2" >Moyen</li>
+                            <li  data-difficulty="3" >Difficile </li>
+                           
 
                         </ul>
                         </div>
                 </div>
                 <div class="choice_type_of_qcm">
                     <ul class="list_type_of_qcm">
-                        <li><button class="qcmOfficial" type="submit" >{{'button.generateQcmOfficial'|trans}}</button> </li>
+                        {# <li><button class="qcmOfficial" type="submit" >{{'button.generateQcmOfficial'|trans}}</button> </li> #}
                         <li><button class="buttonGenerate" type="submit" >{{'button.generateQcmPersonalised'|trans}}</button></li>
                     </ul>
                 </div>
@@ -76,6 +73,7 @@
             <button class="btnShowQcm">{{ 'button.seeQcm'|trans }}</button>
             <div class="backWhite">
               {% if generatedQcm is not null %}
+              {{dump(generatedQcm)}}
                 <ul>
                     {% for question in generatedQcm.questionsCache %}
                         {% set count = count + 1 %}

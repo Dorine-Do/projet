@@ -16,6 +16,44 @@
     </head>
 
     <body>
+        {# modal explication #}
+
+        <div class="bloc_modal_explaination">
+        <div class="modal">
+            <img src="{{asset('build/images/croix.png')}}" alt="rappel" srcset="">
+            <div>
+                <p class="pTitle">- Modifier un qcm -</p>
+                <div>
+                    <p class="notice">
+                        <img src="{{asset('build/images/notification.png')}}" alt="rappel" srcset="">
+                        <span> Petit rappel:</span> <br/><br/>
+                        Les qcms sélectionnés  ont tous un niveau de difficulté allant de facile , moyen ou difficile 
+                        déterminés par le niveau de difficulté des questions. <br/>
+                        A noter que, cela est également valable  après personnalisation.
+                    </p>
+                    <p class="rules">
+                        1/ Lors de la modification(personnalisation) d'un qcm, il est possible de :<br/>
+                        - retirer ou d'ajouter une ou plusieurs questions 
+                    <p>
+                </div>
+                </div>
+            <div>
+                <p class="pTitle">- Niveau du qcm -</p>
+                <table class="modal_difficulty_level">
+                  <tr>
+                    <td><div>Facile</div></td>
+                    <td><div>Moyen</div></td>
+                    <td><div>Difficile</div></td>
+                  </tr>
+                  <tr>
+                    <td>Minimum X question</td>
+                    <td>Minimum X question</td>
+                    <td>Minimum X question</td>
+                  </tr>
+                </table>
+            </div>
+        </div>
+        </div>
     {% include('layout/header.html.twig')%}
         <div class="container">
             {%for message in app.flashes('success')%}

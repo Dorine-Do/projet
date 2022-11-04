@@ -1,6 +1,6 @@
-@import url('main.css');
+@import url("main.css");
 
-header{
+header {
   display: flex;
   position: sticky;
   justify-content: space-between;
@@ -12,14 +12,14 @@ header{
 
 /**************************************** LOGO ********************************************************/
 
-.logo{
+.logo {
   width: 170px;
   height: 80px;
 }
 
 /**************************************** MENU AVEC LES DEUX "BOUTONS" *************************************************/
 
-.choix{
+.choix {
   background-color: var(--pamplemousse);
   border-radius: 13px;
   padding: 13px 0;
@@ -37,58 +37,57 @@ header{
   text-align: center;
   font-weight: bold;
   padding: 1em 0;
-  margin: 10px
+  margin: 10px;
 }
 
-
-.choix a:hover{
+.choix a:hover {
   background-color: var(--fond);
 }
 
 /************************************** RECTANGLE ELEVE DYNAMIQUE HAUT A DROITE **********************************/
 
-.eleve{
+.eleve {
   width: 350px;
   border: 2px solid var(--pamplemousse);
   background-color: var(--fond);
   display: flex;
   align-items: center;
-  padding: .5em 0;
+  padding: 0.5em 0;
 }
 
-.imgLogOut{
+.imgLogOut {
   margin: 0;
 }
 
-.helloStudent{
+.helloStudent {
   font-weight: bold;
   font-size: var(--normal);
   margin: auto;
 }
 
 @media screen and (max-width: 1200px) {
-  .logo{
+  .logo {
     width: 150px;
     height: 70px;
   }
 
-  .choix{
+  .choix {
     height: 100%;
     width: 40%;
     margin-left: 110px;
   }
 
-  .eleve{
+  .eleve {
     height: 70px;
     width: 250px;
   }
 
-  .qcm{
+  .qcm {
     height: 20px;
     padding: 13px 80px;
   }
 
-  .tab{
+  .tab {
     height: 20px;
     width: 100px;
     padding: 13px 50px;
@@ -96,18 +95,17 @@ header{
 }
 
 @media screen and (max-width: 780px) {
-
-  header{
+  header {
     position: relative;
   }
 
-  .logo{
+  .logo {
     width: 20%;
     height: 10%;
     margin-top: 40px;
   }
 
-  .choix{
+  .choix {
     height: 100%;
     width: 40%;
     margin-left: 50px;
@@ -115,53 +113,53 @@ header{
     padding: 12px;
   }
 
-  .choix a{
+  .choix a {
     width: 78%;
   }
 
-  .tab{
+  .tab {
     width: 190px;
   }
 
-  .eleve{
+  .eleve {
     height: 60px;
     width: 200px;
     margin-left: 30px;
     margin-top: 40px;
   }
 
-  .helloStudent{
+  .helloStudent {
     margin-top: 18px;
   }
 }
 
 @media screen and (max-width: 450px) {
-  header{
+  header {
     display: flex;
     flex-direction: column-reverse;
     margin: auto;
     position: relative;
   }
 
-  .eleve{
+  .eleve {
     width: 98%;
     margin: 0 0 15px 0;
   }
 
-  .choix{
+  .choix {
     width: 93%;
     margin: 0 0 15px 0;
   }
 
-  .choix a{
+  .choix a {
     width: 85%;
   }
 
-  .tab{
+  .tab {
     width: 300px;
   }
 
-  .logo{
+  .logo {
     margin: 25px auto 0 auto;
     width: 190px;
     height: 90px;
