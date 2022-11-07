@@ -98,19 +98,30 @@
                     </td>
                 </tr>
                 <tr>
+                <td colspan="2" class="premier">
+                    <div class="align">
+                        <div class="circle orangeCircle">5</div>
+                        <p class="etape">
+                            <span class="numeroForm"></span>
+                            {{ 'question.explanation'|trans }}
+                        </p>
+                </td>
+                <td colspan="2" class="second">
+                    {{form_widget(form.explanation)}}
+                </td>
+                </tr>
+                <tr>
                     <td colspan="2" class="premier">
                         <div class="align">
-                            <div class="circle orangeCircle">5</div>
+                            <div class="circle orangeCircle">Option</div>
                             {{ 'question.desactivate'|trans }}
                         </div>
                     </td>
                     <td colspan="2" class="second">
                         {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
                     </td>
-                </tr>
-                <tr>
                     <td colspan="2">
-                        <button type="button" class="valid">{{ 'button.validate'|trans }}</button>
+                        <button id="valid" type="button" class="button largeButton greyButton marginTopButton">{{ 'button.validate'|trans }}</button>
                     </td>
                 </tr>
             </table>
@@ -214,7 +225,7 @@
                 <tr>
                     <td colspan="2" class="premier">
                         <p class="align">
-                            <span class="circle orangeCircle">6</span>
+                            <span class="circle orangeCircle">Option</span>
                             {{ 'question.desactivate'|trans }}
                         </p>
                     </td>
@@ -252,7 +263,7 @@
                 {% endif %}
                 <tr>
                     <td colspan="2">
-                        <button id="valid" type="button" class="button largeButton greyButton">{{ 'button.validate'|trans }}</button>
+                        <button id="valid" type="button" class="button largeButton greyButton marginTopButton">{{ 'button.validate'|trans }}</button>
                     </td>
                 </tr>
             </table>

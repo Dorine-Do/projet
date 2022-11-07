@@ -11,24 +11,24 @@
     <main id="admin_content">
 
         <section>
-            <h1>Gestion des questions</h1>
+            <h1>{{ 'title.questionsManagement'|trans }}</h1>
         </section>
 
         <section class="tableContainer">
             <div class="createBtnContainer">
-                <a href="{{ path('instructor_create_question') }}" class="button">Créer une question</a>
+                <a href="{{ path('instructor_create_question') }}" class="button">{{ 'question.create'|trans }}</a>
             </div>
             <table id="tableToSort" class="questionsTable">
                 <thead>
                     <tr>
-                        <th>Module</th>
-                        <th>Enoncé</th>
-                        <th>Difficulté</th>
-                        <th>Officielle</th>
-                        <th>Obligatoire</th>
-                        <th>Auteur</th>
-                        <th>Date</th>
-                        <th>Actions</th>
+                        <th>{{ 'title.module'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.statement'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.difficulty'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.official'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.obligatory'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.author'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.date'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.actions'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,7 +56,7 @@
                             <td>{{ question.createdAt | date('d/m/Y') }}</td>
                             <td>
                                 <a href="#" class="button">Stats</a>
-                                <a href="{{ path('instructor_modify_question', {'question': question.id}) }}" class="button">Editer</a>
+                                <a href="{{ path('instructor_modify_question', {'question': question.id}) }}" class="button">{{ 'button.edit'|trans }}</a>
                             </td>
                         </tr>
 

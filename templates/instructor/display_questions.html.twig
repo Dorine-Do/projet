@@ -16,7 +16,7 @@
         <div class="flashNotice">
         <div>
             {{message}} </br>
-            <span>clic sur le cadre pour fermer l'onglet</span>
+            <span>{{ 'title.clickToClose'|trans }}</span>
         </div>
         </div>
     {% endfor %}
@@ -27,7 +27,7 @@
         <div class="flashNoticeQuestionPerso">
         <div>
             {{message}} </br>
-            <span>clic sur le cadre pour fermer l'onglet</span>
+            <span>{{ 'title.clickToClose'|trans }}</span>
         </div>
         </div>
     {% endfor %}
@@ -37,7 +37,7 @@
      <div class="divQuestions">
         <ul class="ulQuestions">
             {% if questions == null %}
-                <p>Vous n'avez pas encore créer de question</p>
+                <p>{{ 'title.notCreateQuestionAlready'|trans }}</p>
             {% endif %}
             {% for question in questions %}
                 <div class="divQuestion">

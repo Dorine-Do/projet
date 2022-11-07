@@ -64,11 +64,11 @@
     <span class="ligne"></span>
     <p>
         <span class="numeroForm">2</span>
-        Qcm
+        {{ 'title.qcm'|trans }}
     </p>
 
     {% if qcmsDone == null %}
-        <p class="noResult">Aucun résultat</p>
+        <p class="noResult">{{ 'title.noResult'|trans }}</p>
     {% endif %}
 
     <div id="container_result">
@@ -80,11 +80,11 @@
                 </p>
                 <p class="difficultyQcm">
                     {% if qcmDone.qcm.difficulty is same as 1 %}
-                        Facile
+                        {{ 'difficulty.easy'|trans }}
                     {% elseif qcmDone.qcm.difficulty is same as 2 %}
-                        Moyen
+                        {{ 'difficulty.medium'|trans }}
                     {% elseif qcmDone.qcm.difficulty is same as 3 %}
-                        Difficle
+                        {{ 'difficulty.dificult'|trans }}
                     {% endif %}
                 </p>
             </div>

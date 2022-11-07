@@ -6,6 +6,8 @@ use App\Entity\Main\Admin;
 use App\Entity\Main\Instructor;
 use App\Entity\Main\LinkInstructorSessionModule;
 use App\Entity\Main\LinkSessionModule;
+use App\Entity\Main\Qcm;
+use App\Entity\Main\QcmInstance;
 use App\Entity\Main\Session;
 use App\Entity\Main\Student;
 use App\Entity\Main\User;
@@ -57,8 +59,11 @@ class AdminController extends AbstractController
     #[Route('admin/manage-qcms', name: 'admin_manage_qcms')]
     public function manageQcms( QcmRepository $qcmRepo ): Response
     {
+
+        $qcms = $qcmRepo->findAll();
+
         return $this->render('admin/manage_qcms.html.twig', [
-            'qcms' => $qcmRepo->findAll()
+            'qcms' => $qcms,
         ]);
     }
 
@@ -96,7 +101,41 @@ class AdminController extends AbstractController
     #[Route('admin/user-details/{user}', name: 'admin_user_details_ajax')]
     public function ajaxUserDetails( User $user ): JsonResponse
     {
-        return $this->json( $user, 200, [],['groups' => 'user:read'] );
+        $conn = $this->doctrine->getConnection('dbsuivi');
+        if( in_array('ROLE_INSTRUCTOR', $user->getRoles()) )
+        {
+            $sql = "SELECT sessions.name as sessionName
+                FROM daily
+                LEFT JOIN sessions ON daily.id_session = sessions.id
+                LEFT JOIN users ON daily.id_user = users.id
+                WHERE users.email = :useremail AND daily.date >= NOW()
+                ";
+            $params = [
+                'useremail' => 'matthieu.fergola@gmail.com'
+            ];
+            $currentSession = $conn
+                ->prepare($sql)
+                ->executeQuery($params)
+                ->fetchAll();
+        }
+        elseif ( in_array('ROLE_STUDENT', $user->getRoles()) )
+        {
+            $sql = "SELECT sessions.name as sessionName
+                FROM daily
+                LEFT JOIN sessions ON daily.id_session = sessions.id
+                LEFT JOIN link_students_daily ON link_students_daily.id_daily = daily.id  
+                WHERE users.email = :useremail AND daily.date >= NOW()
+                ";
+            $params = [
+                'useremail' => 'dorine.journet@3wa.io'
+            ];
+            $currentSession = $conn
+                ->prepare($sql)
+                ->executeQuery($params)
+                ->fetchAll();
+        }
+
+        return $this->json( [$user, $currentSession], 200, [],['groups' => 'user:read'] );
     }
 
     #[Route('admin/manage-sessions', name: 'admin_manage_sessions')]
@@ -726,5 +765,36 @@ class AdminController extends AbstractController
         }
 
         return $this->json( $ratesByStack );
+    }
+    #[Route('admin/stats/fetch/search/{searchtype}/{searchtherm}' ,name: 'admin_fetch_statssearch', methods: ['GET'])]
+    public function  ajaxStatsSearch(
+        $searchtype,
+        $searchtherm,
+        UserRepository $userRepository,
+        SessionRepository $sessionRepository,
+    ) : JsonResponse
+    {
+        $searchResults = [];
+        if ($searchtype === "session")
+        {
+            $searchResults = $sessionRepository->findSessionByString($searchtherm);
+            return $this->json($searchResults, 200, [], ['groups' => 'session:read']);
+        }
+        elseif ($searchtype === "apprenant" || $searchtype === "formateur")
+        {
+            $searchResults = $userRepository->findUserByString($searchtherm);
+            if ($searchtype === "apprenant") {
+                $searchResults = array_filter($searchResults, function ($searchResult){
+                    return in_array("ROLE_STUDENT", $searchResult->getRoles());
+                });
+            }
+            elseif ($searchtype === "formateur") {
+                $searchResults = array_filter($searchResults, function ($searchResult){
+                    return in_array("ROLE_INSTRUCTOR", $searchResult->getRoles());
+                });
+            }
+            return $this->json($searchResults, 200, [], ['groups' => 'user:read']);
+        }
+        return $this->json($searchResults);
     }
 }

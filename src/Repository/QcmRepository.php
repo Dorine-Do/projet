@@ -194,7 +194,6 @@ class QcmRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-
 //    /**
 //     * @return Qcm[] Returns an array of Qcm objects
 //     */

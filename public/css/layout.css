@@ -4,10 +4,11 @@ header{
   display: flex;
   position: sticky;
   justify-content: space-between;
-  margin: 0 20px 50px 20px;
+  padding: 10px 20px 10px 20px;
   align-items: center;
   background-color: white;
   top: 0;
+  z-index: 1;
 }
 
 /**************************************** LOGO ********************************************************/

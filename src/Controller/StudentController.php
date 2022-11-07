@@ -49,32 +49,33 @@ class StudentController extends AbstractController
         ModuleRepository $moduleRepo,
     ): Response
     {
+
         $student = $this->studentRepo->find($this->security->getUser()->getId());
 
         $allAvailableQcmInstances = $student->getQcmInstances();
 
-//        if($allAvailableQcmInstances === null){
-//            $allAvailableQcmInstances->addFlash('error', 'Vous ne possédez aucun QCM');
-//        }
-        /********************************************************************************************************/
+        if($allAvailableQcmInstances){
+            /********************************************************************************************************/
 
-        $officialQcmOfTheWeek = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
-            return
-                $qcmInstance->getQcm()->getIsOfficial() == true
-                && $qcmInstance->getStartTime() < new \DateTime()
-                && $qcmInstance->getEndTime() > new \DateTime()
-                && $qcmInstance->getQcm()->getIsEnabled() == true
-                && $qcmInstance->getResult() === null;
-        });
-        /********************************************************************************************************/
+            $officialQcmOfTheWeek = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
+                return
+                    $qcmInstance->getQcm()->getIsOfficial() == true
+                    && $qcmInstance->getStartTime() < new \DateTime()
+                    && $qcmInstance->getEndTime() > new \DateTime()
+                    && $qcmInstance->getQcm()->getIsEnabled() == true
+                    && $qcmInstance->getResult() === null;
+            });
+            /********************************************************************************************************/
 
-        $unofficialQcmNotDone = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ) use ($student){
-            return
-                $qcmInstance->getQcm()->getIsOfficial() === false
-                && $qcmInstance->getResult() === null
-                && $qcmInstance->getQcm()->getAuthor() !== $student
-                ;
-        });
+            $unofficialQcmNotDone = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ) use ($student){
+                return
+                    $qcmInstance->getQcm()->getIsOfficial() === false
+                    && $qcmInstance->getResult() === null
+                    && $qcmInstance->getQcm()->getAuthor() !== $student
+                    ;
+            });
+        }
+
         /********************************************************************************************************/
 
         $studentSession = $linkSessionStudentRepo->findOneBy([ 'student' => $student->getId(), 'isEnabled'=> 1] )->getSession();
@@ -95,8 +96,8 @@ class StudentController extends AbstractController
 
         return $this->render('student/qcms.html.twig', [
             'student'                       => $student,
-            'qcmOfTheWeek'                  => $officialQcmOfTheWeek ,
-            'unofficialQcmInstancesNotDone' => $unofficialQcmNotDone,
+            'qcmOfTheWeek'                  => $officialQcmOfTheWeek ? $officialQcmOfTheWeek : [],
+            'unofficialQcmInstancesNotDone' => $unofficialQcmNotDone ? $unofficialQcmNotDone : [],
             'sessionModules'                => $sessionModules,
             'retryableModules'              => $retryableModules,
         ]);
