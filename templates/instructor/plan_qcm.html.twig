@@ -6,13 +6,15 @@
     <link href="{{asset('css/instructor/ckeditor_overwrite.css')}}" rel="stylesheet">
 {% endblock %}
 
+{% block title %}Planifier un qcm{% endblock %}
+
 {% block body %}
     <h1> {{ 'title.planQcm'|trans }} </h1>
-    <div class="containerPlanQcm">
+    <div class="subContainer">
         <form action="{{ path('instructor_distribue_qcm') }}" method="post">
-            <section>
+            <section class="sectionChoice">
                 <p>
-                    <span class="etape">{{ 'title.step1'|trans }}</span> {{ 'session.choice'|trans }}
+                    <span class="step">Etape 1</span> {{ 'session.choice'|trans }}
                 </p>
                 <ul class="choixClasse">
                     {% for session in instructorSessions %}
@@ -22,37 +24,37 @@
                     {% endfor %}
                 </ul>
             </section>
-            <section>
+            <section class="sectionChoice">
                 <p>
-                    <span class="etape">{{ 'title.step2'|trans }}</span> {{ 'module.choice'|trans }}
+                    <span class="step">Etape 2</span> {{ 'module.choice'|trans }}
                 </p>
                 <div class="backgroundEtape">
-                    <select id="module-choice" name="module">
+                    <select class="selectVarFond" id="module-choice" name="module">
                         <option value="0">{{ 'module.beforeChoice'|trans }}</option>
                     </select>
                 </div>
             </section>
-            <section>
+            <section class="sectionChoice">
                 <p>
-                    <span class="etape">{{ 'title.step3'|trans }}</span> {{ 'qcm.choice'|trans }}
+                    <span class="step">{{ 'title.step3'|trans }}</span> {{ 'qcm.choice'|trans }}
                 </p>
                 <div class="backgroundEtape">
-                    <select id="qcm-choice" name="qcm">
+                    <select class="selectVarFond" id="qcm-choice" name="qcm">
                         <option value="0">{{ 'module.selectModuleToChooseQcm'|trans }}</option>
                     </select>
                 </div>
             </section>
-            <section>
+            <section class="sectionChoice">
                 <p>
-                    <span class="etape">{{ 'title.step4'|trans }}</span> {{ 'module.chooseStudentsQcm'|trans }}
+                    <span class="step">{{ 'title.step4'|trans }}</span> {{ 'module.chooseStudentsQcm'|trans }}
                     <ul id="qcm-students">
                         <li>{{ 'title.studentListWillAppear'|trans }}</li>
                     </ul>
                 </p>
             </section>
-            <section>
+            <section class="sectionChoice">
                 <p>
-                    <span class="etape">{{ 'title.step5'|trans }}</span> {{ 'title.chooseDates'|trans }}
+                    <span class="step">{{ 'title.step5'|trans }}</span> {{ 'title.chooseDates'|trans }}
                 </p>
                 <div class="allDate">
                     <div class="date">

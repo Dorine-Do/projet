@@ -11,24 +11,14 @@
     margin: auto;
     font-weight: bold;
     color: white;
-}
-
-#module-choice{
-    background-color: white;
-    padding: 1em;
-    width: 33%;
-    border: none;
-    box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    display: block;
-    margin: 10px auto;
+    margin-bottom: 1em;;
 }
 
 .level{
     background-color: var(--fond);
-    padding: 16px;
-    margin: 50px auto;
+    margin: 0 auto 1em;
     display: flex;
+    text-align: center;
 }
 
 .pIsOfficial{
@@ -159,15 +149,15 @@
 }
 
 .choiceSession{
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(5, 1fr);
-    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin: 0;
 }
 
 .choiceLevel{
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .liSession,
@@ -297,64 +287,13 @@
 }
 
 @media screen and (max-width: 1200px) {
-    .choiceSession {
-        display: grid;
-        background-color: var(--fond);
-        width: 85%;
-        padding: 8px 80px;
-        margin: 50px auto;
-        grid-template-columns: repeat(3, 1fr);
-    }
 
-    .choiceLevel{
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        padding: 5px 100px;
-    }
-
-    #module-choice{
-        width: 84%;
-    }
 }
 
 @media screen and (max-width: 780px) {
-    .choiceSession {
-        display: grid;
-        background-color: var(--fond);
-        width: 100%;
-        padding: 8px 80px;
-        margin: 50px auto;
-        grid-template-columns: repeat(2, 1fr);
-    }
 
-    .choiceLevel{
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        padding: 5px 100px;
-    }
-
-    #module-choice{
-        width: 84%;
-    }
 }
 
 @media screen and (max-width: 450px) {
-    .choiceSession {
-        display: grid;
-        background-color: var(--fond);
-        width: 100%;
-        padding: 8px 100px;
-        margin: 50px auto;
-        grid-template-columns: repeat(1, 1fr);
-    }
 
-    .choiceLevel{
-        display: flex;
-        flex-direction: column;
-        padding: 5px 100px;
-    }
-
-    #module-choice{
-        width: 84%;
-    }
 }
