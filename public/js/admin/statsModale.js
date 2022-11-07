@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     statsModale =document.getElementById("statsModale");
     searchBtns =document.getElementsByClassName("searchBtn");
     searchInput =document.querySelector("#statsModale input");
-    resultsContainer = document.querySelector("#searchResults");
+    resultsContainer =document.querySelector("#searchResults");
     closeStatsModaleBtn.addEventListener("click", hideStatsModale);
 
 
