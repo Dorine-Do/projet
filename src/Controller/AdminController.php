@@ -165,19 +165,40 @@ class AdminController extends AbstractController
     }
 
     #[Route('admin/session-modules/{session}', name: 'admin_session_modules_ajax')]
-    public function ajaxSessionModules( Session $session ): JsonResponse
+    public function ajaxSessionModules( Session $session, LinkInstructorSessionModuleRepository $linkInstructorSessionModuleRepo ): JsonResponse
     {
         $linksSessionModule = $session->getLinksSessionModule();
-
+//        $conn = $this->doctrine->getConnection('dbsuivi');
+//        $sql = "SELECT DISTINCT sessions.name as name, daily.date
+//                FROM daily
+//                LEFT JOIN sessions ON daily.id_session = sessions.id
+//                LEFT JOIN users ON daily.id_user = users.id
+//                WHERE users.email = :useremail AND daily.date >= NOW()
+//                ORDER BY daily.date
+//                ";
+//        $params = [
+//            'useremail' =>
+//            ];
+//        $currentSession = $conn
+//            ->prepare($sql)
+//            ->executeQuery($params)
+//            ->fetchAll();
         $modules = [];
-
         foreach( $linksSessionModule as $linkSessionModule )
         {
+
+            $linksInstructorSessionModule = $linkInstructorSessionModuleRepo->findBy(['session' => $linkSessionModule->getSession(), 'module' => $linkSessionModule->getModule()]);
+
+            $moduleInstructors = array_map(function( $linkInstructorSessionModule ){
+                return $linkInstructorSessionModule->getInstructor();
+            }, $linksInstructorSessionModule);
+
             $modules[] = [
                 'id' => $linkSessionModule->getModule()->getId(),
                 'title' => $linkSessionModule->getModule()->getTitle(),
                 'startDate' => $linkSessionModule->getStartDate(),
-                'endDate' => $linkSessionModule->getEndDate()
+                'endDate' => $linkSessionModule->getEndDate(),
+                'instructors' => $moduleInstructors
             ];
         }
 
