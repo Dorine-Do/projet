@@ -61,6 +61,21 @@ class SessionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findSessionByQcm($qcmId)
+    {
+        return $this->createQueryBuilder('s')
+            ->select("s.id as sId, s.name")
+            ->innerJoin('s.linksSessionStudent', 'lss')
+            ->innerJoin('lss.student', 'st')
+            ->innerJoin('st.qcmInstances', 'qi')
+            ->innerJoin('qi.qcm', 'q')
+            ->where('q.id = :qcmId')
+            ->andWhere('q.isOfficial = true')
+            ->setParameter('qcmId', $qcmId)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */
