@@ -187,8 +187,7 @@ class AdminController extends AbstractController
         foreach( $linksSessionModule as $linkSessionModule )
         {
 
-            $linksInstructorSessionModule = $linkInstructorSessionModuleRepo->findBy(['session' => $linkSessionModule->getSession(), 'module' => $linkSessionModule->getModule()]);
-
+            $linksInstructorSessionModule = $linkInstructorSessionModuleRepo->findBy(['session' => $linkSessionModule->getSession()->getId(), 'module' => $linkSessionModule->getModule()->getId()]);
             $moduleInstructors = array_map(function( $linkInstructorSessionModule ){
                 return $linkInstructorSessionModule->getInstructor();
             }, $linksInstructorSessionModule);
