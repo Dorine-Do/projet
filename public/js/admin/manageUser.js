@@ -67,12 +67,13 @@ async function fetchUserData()
 {
     await fetch( 'user-details/'+ this.dataset.user, { method: 'GET' })
         .then(response => response.json())
-        .then( user => openUserDetailsModale(user) )
+        .then( data => openUserDetailsModale(data) )
 }
 
-function openUserDetailsModale(user)
+function openUserDetailsModale(data)
 {
-    console.log(user);
+    const { user, currentSession } = data;
+    console.log(user, currentSession);
     let roleToDisplay = '';
     if( user.roles.includes('ROLE_ADMIN') )
     {
@@ -97,7 +98,7 @@ function openUserDetailsModale(user)
             <b>Rôle :</b> ${ roleToDisplay }
         </p>
         <p>
-            <b>Session actuelle :</b>
+            <b>Session actuelle : ${ currentSession ? currentSession.name.toUpperCase() : 'N\'est inscrit sur aucune session sur la journée' }</b>
         </p>
         <p>
             <b>Inscription :</b> ${ createdAt.toLocaleDateString() }
