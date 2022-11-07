@@ -5,22 +5,12 @@ body {
   margin: 0;
 }
 
-.container_create_qcm {
-}
-
 /*******GENERAL*******/
 
 ul {
   list-style: none;
   margin: 0;
 }
-
-/* **************** */
-
-/* .list_buttons_nav,
-.content_qcm_creation {
-  margin: auto;
-} */
 
 /* ************ NAV ***********/
 
@@ -48,40 +38,12 @@ ul {
   margin: auto;
 }
 
-.bloc_step_one {
-}
-.step_one {
-  padding: 5px 15px;
-}
-.content_qcm_creation {
-  padding: 1em 0 2em;
-}
 .bloc_choice_session_and_module,
 .bloc_date_qcm_given,
 .bloc_generate_qcm {
   background: #fff4e4;
   border-radius: 10px;
   text-align: center;
-}
-
-.list_sessions {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 5px;
-  grid-gap: 10px;
-}
-
-.list_sessions > li {
-  background: grey;
-  color: white;
-  padding: 25px;
-  width: 80%;
-  margin: auto;
-  border-radius: 5px;
-}
-
-.list_sessions > li:hover {
-  cursor: pointer;
 }
 
 .select_module {
@@ -131,12 +93,6 @@ ul {
   cursor: pointer;
 }
 
-.step_one,
-.step_two,
-.step_three {
-  padding: 40px 5px 20px;
-}
-
 span {
   background: #ffac8f;
   padding: 15px 25px;
@@ -166,8 +122,6 @@ span {
     border-radius: 20px;
   }
 
-  .bloc_step_one {
-  }
   .list_buttons_nav {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -177,10 +131,7 @@ span {
       10% [col-start] 80% [col-middle] 10%[col-end]
     );
   }
-  .content_qcm_creation {
-    width: 79%;
-    margin: auto;
-  }
+
   .bloc_choice_session_and_module,
   .bloc_date_qcm_given,
   .bloc_generate_qcm {

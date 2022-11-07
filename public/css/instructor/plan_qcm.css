@@ -23,27 +23,16 @@ ul, .backgroundEtape, .allDate{
     border: 1px solid #ccc;
     background-color: var(--grey);
     height: 70px;
+    cursor: pointer;
 }
 
 .nameSession:checked{
     background-color: var(--vert);
 }
 
-.choixClasse{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1em;
-    margin: 0;
-}
-
 .liSession{
     position: relative;
     margin-right: .5em;
-}
-
-.liSession input:hover,
-.liSession label:hover{
-    cursor: pointer;
 }
 
 .liSession label{
@@ -52,6 +41,7 @@ ul, .backgroundEtape, .allDate{
     display: block;
     text-align: center;
     padding: 0 5px;
+    cursor: pointer;
 }
 
 .valid{

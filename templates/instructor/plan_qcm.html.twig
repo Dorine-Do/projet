@@ -16,7 +16,7 @@
                 <p>
                     <span class="step">Etape 1</span> {{ 'session.choice'|trans }}
                 </p>
-                <ul class="choixClasse">
+                <ul class="sessionChoice">
                     {% for session in instructorSessions %}
                         <li class="liSession">
                             <input class="nameSession" id="{{ session.name }}" type="radio" name="session" value="{{ session.id }}"><label for="{{ session.name }}">{{ session.name }}</label>

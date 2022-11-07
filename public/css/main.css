@@ -66,9 +66,48 @@ pre {
   border-radius: 8px;
 }
 
+/*********************SESSION CHOICE*******************************/
 .sectionChoice{
   padding: 1em 2em;
   margin-bottom: 3em;
+}
+
+.sessionChoice{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1em;
+  background-color: var(--fond);
+  padding: 25px;
+  margin: 0;
+}
+
+.nameSession{
+  -moz-appearance: none;
+  border-radius: 7px;
+  width: 12em;
+  border: 1px solid #ccc;
+  background-color: var(--grey);
+  height: 70px;
+  cursor: pointer;
+}
+
+.nameSession:checked{
+  background-color: var(--vert);
+}
+
+.liSession{
+  position: relative;
+  margin-right: .5em;
+}
+
+.liSession label{
+  position: absolute;
+  color: white;
+  display: block;
+  text-align: center;
+  padding: 0 5px;
+  cursor: pointer;
 }
 
 /************************SELECT******************************/
