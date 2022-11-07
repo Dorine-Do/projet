@@ -1,5 +1,5 @@
 let liSession, liLevel, levelDiv, studentsDiv, qcmsDiv = null
-let namesLevel, levelChoice, liStudentsData, nameSession, moduleId, sessionId, selectModule, ulListQcms, ulListStudents, liStudentData, divLegend = null
+let namesLevel, levelChoice, liStudentsData, nameSession, moduleId, sessionId, selectModule, ulListQcms, ulListStudents, liStudentData = null
 
 //Ajax
 function getModuleBySessionFromAjax(sessionId){
@@ -101,7 +101,6 @@ function displayStudents(data){
 
 
 function displayQcmsDone(data){
-    divLegend.style.display = "flex"
     qcmsDiv.style.display = 'block'
     ulListQcms = qcmsDiv.querySelector('.ulListQcms')
     ulListQcms.innerHTML = ""
@@ -148,7 +147,6 @@ function displayQcmsDone(data){
         p.append(imgLevel)
         li.append(pDifficulty, pIsOfficial, pTitle, pDate, p)
         ulListQcms.append(li)
-
     })
 
     document.getElementById('section-qcms').scrollIntoView({
@@ -291,8 +289,8 @@ const mouseEnter = (e) =>{
     e.target.parentNode.append(pInfo)
     console.log(e)
     console.log(e.pageX)
-    pInfo.style.left = e.target.pageX + 'px';
-    pInfo.style.top = e.target.pageY + 'px';
+    pInfo.style.left = e.pageX + 'px';
+    pInfo.style.top = e.pageY + 'px';
 }
 
 const mouseMouve = (e) =>{
@@ -307,6 +305,7 @@ const mouseOut = (e) =>{
 }
 
 
+
 document.addEventListener("DOMContentLoaded", (event) => {
 
     liSession = document.querySelectorAll('.liSession')
@@ -317,7 +316,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     studentsDiv = document.querySelector('.students')
     qcmsDiv = document.querySelector('.qcms')
     selectModule = document.getElementById('module-choice')
-    divLegend = document.getElementById('div-legend')
 
     selectModule.addEventListener('change', showStudentByModules)
     positionLabelInput(liSession)
