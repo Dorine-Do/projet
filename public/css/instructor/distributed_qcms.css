@@ -2,27 +2,14 @@
 
 .sectionChoice{
     padding: 1em 2em;
-    margin: 1em 0 5em 0;
-}
-
-select {
-    width: 17em;
-    margin: auto;
-    border-radius: 10px;
-    box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.2);
-    outline: none;
-    text-align: center;
-    cursor: pointer;
-    background: var(--fond);
-    border: 2px solid var(--grand);
-    color: var(--grey);
-    font-weight: 500;
-    padding: .7em 0
+    margin-bottom: 3em;
 }
 
 .firstSelect, .secondSelect{
     display: flex;
     justify-content: center;
+    background-color: var(--fond);
+    padding: 25px;
 }
 
 .separator{
@@ -63,7 +50,7 @@ select {
     justify-content: center;
     border: 2px solid var(--pamplemousse);
     min-width: 22%;
-    padding: 1em 0;
+    padding: 1em;
     border-radius: 22px;
     gap: 1em;
 }
@@ -263,7 +250,6 @@ select {
 
     #session-choice,
     #module-choice{
-        text-transform: none;
         width: 100%;
     }
 

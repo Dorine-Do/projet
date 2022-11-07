@@ -165,7 +165,6 @@ function createElementSimple(elementName,className, textContent = null){
     return createdElement
 }
 
-
 function dislayImgLevel(level, img,  parent = null){
     if( level === 1 )
     {
