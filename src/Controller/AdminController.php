@@ -6,6 +6,8 @@ use App\Entity\Main\Admin;
 use App\Entity\Main\Instructor;
 use App\Entity\Main\LinkInstructorSessionModule;
 use App\Entity\Main\LinkSessionModule;
+use App\Entity\Main\Qcm;
+use App\Entity\Main\QcmInstance;
 use App\Entity\Main\Session;
 use App\Entity\Main\Student;
 use App\Entity\Main\User;
@@ -47,8 +49,10 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/stats', name: 'app_admin_stats')]
-    public function stats(): Response
+    public function stats(SessionRepository $sessionRepository): Response
     {
+        $findSessionByQcm = $sessionRepository->findSessionByQcm(1);
+        dd($findSessionByQcm);
         return $this->render('admin/stats.html.twig', [
             'controller_name' => 'AdminController',
         ]);
@@ -57,8 +61,11 @@ class AdminController extends AbstractController
     #[Route('admin/manage-qcms', name: 'admin_manage_qcms')]
     public function manageQcms( QcmRepository $qcmRepo ): Response
     {
+
+        $qcms = $qcmRepo->findAll();
+
         return $this->render('admin/manage_qcms.html.twig', [
-            'qcms' => $qcmRepo->findAll()
+            'qcms' => $qcms,
         ]);
     }
 
@@ -760,5 +767,36 @@ class AdminController extends AbstractController
         }
 
         return $this->json( $ratesByStack );
+    }
+    #[Route('admin/stats/fetch/search/{searchtype}/{searchtherm}' ,name: 'admin_fetch_statssearch', methods: ['GET'])]
+    public function  ajaxStatsSearch(
+        $searchtype,
+        $searchtherm,
+        UserRepository $userRepository,
+        SessionRepository $sessionRepository,
+    ) : JsonResponse
+    {
+        $searchResults = [];
+        if ($searchtype === "session")
+        {
+            $searchResults = $sessionRepository->findSessionByString($searchtherm);
+            return $this->json($searchResults, 200, [], ['groups' => 'session:read']);
+        }
+        elseif ($searchtype === "apprenant" || $searcht²²ype === "formateur")
+        {
+            $searchResults = $userRepository->findUserByString($searchtherm);
+            if ($searchtype === "apprenant") {
+                $searchResults = array_filter($searchResults, function ($searchResult){
+                    return in_array("ROLE_STUDENT", $searchResult->getRoles());
+                });
+            }
+            elseif ($searchtype === "formateur") {
+                $searchResults = array_filter($searchResults, function ($searchResult){
+                    return in_array("ROLE_INSTRUCTOR", $searchResult->getRoles());
+                });
+            }
+            return $this->json($searchResults, 200, [], ['groups' => 'user:read']);
+        }
+        return $this->json($searchResults);
     }
 }

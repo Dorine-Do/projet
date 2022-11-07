@@ -11,24 +11,14 @@
     margin: auto;
     font-weight: bold;
     color: white;
-}
-
-#module-choice{
-    background-color: white;
-    padding: 1em;
-    width: 33%;
-    border: none;
-    box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    display: block;
-    margin: 10px auto;
+    margin-bottom: 1em;;
 }
 
 .level{
     background-color: var(--fond);
-    padding: 16px;
-    margin: 50px auto;
+    margin: 0 auto 1em;
     display: flex;
+    text-align: center;
 }
 
 .pIsOfficial{
@@ -82,8 +72,29 @@
     margin: 50px auto;
 }
 
+.legend {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#div-legend {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
 /**********************************************************************************************************************/
 /* Session / Level / Students */
+
+.sectionChoice{
+    background-color: var(--fond);
+    padding: 1em 0;
+    margin: 1em 0;
+}
+
 .nameSession{
     -moz-appearance: none;
     border-radius: 7px;
@@ -133,25 +144,27 @@
     border-radius: 1em;
 }
 
+.checkboxStudent:checked + label{
+    color: white;
+}
+
 .choiceSession{
-    display: grid;
-    background-color: var(--fond);
-    width: 85%;
-    padding: 8px 32px;
-    margin: 50px auto;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    margin: 0;
 }
 
 .choiceLevel{
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .liSession,
 .liLevel,
 .liStudentData{
     position: relative;
-    margin-right: .5em;
+    margin: auto;
 }
 
 .liStudentData{
@@ -191,18 +204,18 @@
 }
 
 .ulListStudents{
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .divStudentData{
     display: flex;
     align-items: center;
-    width: 29%;
+    width: 80%;
     position: relative;
     margin: 2em 0;
-    background-color: var(--fond);
-    border-radius: 7px;
+    background-color: var(--pamplemousse);
+    border-radius: 16px;
 }
 
 .divStudentData:hover{
@@ -214,6 +227,10 @@
 .imgLevel{
     position: absolute;
     right: 0;
+}
+
+.labelStudent{
+    margin-top: 3px;
 }
 
 /**********************************************************************************************************************/
@@ -232,14 +249,51 @@
     border-radius: 13px;
 }
 
+.pImageLevel{
+    width: 3em;
+    text-align: center;
+}
+
+.qcms .qcmImgLevel{
+    width: 100%;
+}
+
+#img-decouvre{
+    width: 60%;
+}
+
 .qcmImgLevel{
     width: 8%;
 }
 
-#ImgDecouvre{
-    width: 4%;
-}
-
 .noStudent{
     margin-bottom: 20%;
+}
+
+#div-legend{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 30px auto;
+}
+
+#infoHover{
+    background-color: var(--pamplemousse);
+    color: white;
+    padding: 6px;
+    font-weight: bold;
+    cursor: help;
+    border-radius: 7px;
+}
+
+@media screen and (max-width: 1200px) {
+
+}
+
+@media screen and (max-width: 780px) {
+
+}
+
+@media screen and (max-width: 450px) {
+
 }

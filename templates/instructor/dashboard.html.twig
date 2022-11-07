@@ -10,7 +10,7 @@
 
     <h1 class="titleDashboard">- Tableau de bord -</h1>
 
-    <section>
+    <section class="sectionChoice" id="section-session">
         <p class="title">
             Session
         </p>
@@ -23,43 +23,51 @@
         </ul>
     </section>
 
+    <section class="sectionChoice" id="section-module">
         <h4 class="title">Niveau</h4>
-    <div class="level">
-        <select id="module-choice" name="module">
-            <option value="0">Selectionnez un module</option>
-        </select>
-        <ul class="choiceLevel">
-            <li class="liLevel">
-                <input class="nameLevel" id="allLevel" type="radio" name="level" value="0"><label for="allLevel">Tous les niveau</label>
-            </li>
-            <li class="liLevel">
-                <input class="nameLevel" id="decouvre" type="radio" name="level" value="1"><label for="decouvre">Découvre</label>
-            </li>
-            <li class="liLevel">
-                <input class="nameLevel" id="explore" type="radio" name="level" value="2"><label for="explore">Explore</label>
-            </li>
-            <li class="liLevel">
-                <input class="nameLevel" id="maitrise" type="radio" name="level" value="3"><label for="maitrise">Maîtrise</label>
-            </li>
-            <li class="liLevel">
-                <input class="nameLevel" id="domine" type="radio" name="level" value="4"><label for="domine">Domine</label>
-            </li>
-        </ul>
-    </div>
-
-    <div class="students">
-        <h4 class="title">Liste des élèves</h4>
-        <div class="studentsList">
-            <ul class="ulListStudents"></ul>
+        <div class="level">
+            <select class="selectVarFond" id="module-choice" name="module">
+                <option value="0">Selectionnez un module</option>
+            </select>
+            <ul class="choiceLevel">
+                <li class="liLevel">
+                    <input class="nameLevel" id="allLevel" type="radio" name="level" value="0"><label for="allLevel">Tous les niveau</label>
+                </li>
+                <li class="liLevel">
+                    <input class="nameLevel" id="decouvre" type="radio" name="level" value="1"><label for="decouvre">Découvre</label>
+                </li>
+                <li class="liLevel">
+                    <input class="nameLevel" id="explore" type="radio" name="level" value="2"><label for="explore">Explore</label>
+                </li>
+                <li class="liLevel">
+                    <input class="nameLevel" id="maitrise" type="radio" name="level" value="3"><label for="maitrise">Maîtrise</label>
+                </li>
+                <li class="liLevel">
+                    <input class="nameLevel" id="domine" type="radio" name="level" value="4"><label for="domine">Domine</label>
+                </li>
+            </ul>
         </div>
-    </div>
 
-    <div class="qcms">
-        <h4>Qcms effectués</h4>
-        <div class="QcmsList">
-            <ul class="ulListQcms"></ul>
+    </section>
+
+    <section class="sectionChoice" id="section-students">
+        <h4 class="title">{{ 'title.studentList'|trans }}</h4>
+        <div class="students">
+            <div class="studentsList">
+                <ul class="ulListStudents"></ul>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section class="sectionChoice" id="section-qcms">
+        <h4 class="title">Qcms effectués</h4>
+        <div class="qcms">
+            <div class="QcmsList" id="qcms-list">
+                <ul class="ulListQcms"></ul>
+            </div>
+        </div>
+    </section>
+
 {% endblock %}
 
 {% block javascripts %}

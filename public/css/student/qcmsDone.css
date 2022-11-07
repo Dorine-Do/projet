@@ -27,10 +27,11 @@ h1, h2{
 
 .premiereDiv{
     background-color: var(--fond);
-    width: 90%;
+    width: 97%;
     margin: 75px auto 75px auto;
     display: flex;
     justify-content: center;
+    padding: 1.1em;
 }
 
 .divBadge{
@@ -162,6 +163,11 @@ select{
     font-weight: bold;
     margin-top: 10%;
     margin-bottom: 10%;
+}
+
+#container_result{
+    display: flex;
+    flex-direction: column;
 }
 
 @media screen and (max-width: 1200px) {

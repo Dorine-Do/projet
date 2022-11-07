@@ -48,9 +48,9 @@
                     </div>
                     <div>
                         {% if question.isCorrect %}
-                            <p class="bravo">Bravo!</p>
+                            <p class="bravo">{{ 'general.bravo'|trans }}!</p>
                         {% else %}
-                            <p class="oups">Oups</p>
+                            <p class="oups">{{ 'general.oups'|trans }}</p>
                         {% endif %}
                     </div>
 
@@ -107,7 +107,7 @@
                     {% endfor %}
                 </div>
                 <div class="explanation">
-                    <h4>Explication</h4>
+                    <h4>{{ 'title.explanation'|trans }}</h4>
                     <p>
                         {{ question.explanation }}
                     </p>
@@ -130,7 +130,7 @@
                 {% elseif 'ROLE_INSTRUCTOR' in app.user.roles %}
                     <div class="containerComment">
                         <div>
-                            <h4>Ajouter un commentaire </h4>
+                            <h4>{{ 'title.addCommentary'|trans }}</h4>
                             <input
                                     class="comment"
                                     name="instructorComment"
@@ -138,12 +138,12 @@
                                     data-id="{{resultId}}"
                                     value = {{instructorComment}}
                             >
-                            <p class="explainComment">Attention, votre commentaire sera lisible par l'élève dans son espace YouUp.</p>
+                            <p class="explainComment">{{ 'title.commentaryWillBeSeeable'|trans }}</p>
                             <p style ="display:none;" class="infoComment"></p>
-                            <button class="addComment">Ajouter</button>
+                            <button class="addComment">{{ 'button.add'|trans }}</button>
                         </div>
                         <div>
-                            <h4>Commentaire de l'élève </h4>
+                            <h4>{{ 'title.studentCommentary'|trans }}</h4>
                             <p class="comment">
                                 {{ studentComment }}
                             </p>

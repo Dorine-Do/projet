@@ -16,5 +16,41 @@
                 </div>
             </div>
         </div>
+        <div class="sectionOne">
+            <div class="hrefDiv">
+                <div class="hrefDecorationDiv">
+                    <a href="#" data-searchtype="session" class="accueilA searchBtn">Sessions</a>
+                </div>
+            </div>
+        </div>
+        <div class="sectionOne">
+            <div class="hrefDiv">
+                <div class="hrefDecorationDiv">
+                    <a href="#" data-searchtype="apprenant" class="accueilA searchBtn">Apprenants</a>
+                </div>
+            </div>
+        </div>
+        <div class="sectionOne">
+            <div class="hrefDiv">
+                <div class="hrefDecorationDiv">
+                    <a href="#" data-searchtype="formateur" class="accueilA searchBtn">Formateurs</a>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div id="statsModale">
+        <div class="stats">
+            <button id="closeStatsModaleBtn" class="button">{{ 'button.close'|trans }}</button>
+            <h3>Rechercher</h3>
+            <input type="search" data-searchtype="">
+            <ul id="searchResults">
+
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/admin/statsModale.js') }}"></script>
 {% endblock %}

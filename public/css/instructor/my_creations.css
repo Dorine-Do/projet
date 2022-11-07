@@ -51,10 +51,18 @@
   /* border-radius: 10px; */
 }
 .blocLinkDecorative > a {
-  padding: 20px 120px;
+  padding: 20px 0;
 }
 .blocLinkDecorative:hover {
   padding: 29px 0;
   border-radius: 10px;
   border: 2px solid var(--fond);
+}
+
+@media screen and (max-width: 450px) {
+  .container_my_creations {
+    display: flex;
+    flex-direction: column;
+  }
+
 }

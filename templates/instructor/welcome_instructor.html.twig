@@ -6,7 +6,7 @@
 
 
 
-{% block title %}{{ 'head.dashboard'|trans }}{% endblock %}
+{% block title %}{{ 'header.dashboard'|trans }}{% endblock %}
 
 {% block body %}
 
@@ -17,7 +17,7 @@
     <div class="flash-notice">
        <div>
         {{message}} </br>
-        <span>clic sur le cadre pour fermer l'onglet</span>
+        <span>{{ 'tittle.clickToClose'|trans }}</span>
        </div>
     </div>
 {% endfor %}

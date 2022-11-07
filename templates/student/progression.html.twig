@@ -23,7 +23,7 @@
                             <div class="lineY"></div>
                             <div class="infoQcm">
                                 <p class="infoTimeLine moduleTitle" data-id = "{{ qcm.moduleId }}"> {{ qcm.moduleTitle }} </p>
-                                <a href="{{ path('student_qcm_training', {module: qcm.moduleId} ) }}"><p class="infoTimeLine iTrainning"> Je m'entraine </p></a>
+                                <a href="{{ path('student_qcm_training', {module: qcm.moduleId} ) }}"><p class="infoTimeLine iTrainning"> {{ 'qcm.iTrainning'|trans }} </p></a>
                             </div>
                         {% if qcm.level is same as 1 or qcm.level is same as 2%}
                             <p class="passOrNot">X</p>
@@ -46,7 +46,7 @@
             {% endfor %}
         </div>
     </div>
-    <h2>- Mes badges d'encouragement -</h2>
+    <h2>{{ 'title.myInducementBadges'|trans }}</h2>
     <div class="containerBadges">
         <div class="splitBadges">
             {% if app.user.badges != null and app.user.badges != [] %}
@@ -59,8 +59,8 @@
         </div>
     </div>
 
-    <a href="" class="certif">Ma certification</a>
-    <p class="lilMessage">* Se débloquera une fois que tu auras effectué tout les qcms.</p>
+    <a href="" class="certif">{{ 'title.myCertification'|trans }}</a>
+    <p class="lilMessage">*{{ 'title.unlockWhenQcmDone'|trans }}</p>
 {% endblock %}
 {% block javascripts %}
     <script>

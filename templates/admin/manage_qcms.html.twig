@@ -11,35 +11,43 @@
     <main class="admin_content">
 
         <section>
-            <h1>Gestion des QCMs</h1>
+            <h1>{{ 'title.qcmManagement'|trans }}</h1>
         </section>
 
         <section class="tableContainer">
             <div class="createBtnContainer">
-                <a href="{{ path('instructor_create_qcm_perso') }}" class="showStudentsBtn button greyButton">Créer un QCM</a>
+                <a href="{{ path('instructor_create_qcm_perso') }}" class="showStudentsBtn button greyButton">{{ 'button.createQcm'|trans }}</a>
             </div>
             <table id="tableToSort" class="qcmsTable">
                 <thead>
                     <tr>
-                        <th>Titre</th>
-                        <th>Auteur</th>
-                        <th>Difficulté</th>
-                        <th>Date</th>
-                        <th>Actions</th>
+                        <th>{{ 'title.title'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.author'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.difficulty'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.date'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>Type <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>Module <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for qcm in qcms %}
-                    
                         <tr>
                             <td>{{ qcm.title }}</td>
                             <td>{{ qcm.author.firstname }} {{ qcm.author.lastname }}</td>
                             <td>{{ qcm.difficulty }}</td>
                             <td>{{ qcm.createdAt | date('d/m/Y') }}</td>
-                            <td>
-                                <a href="#" class="showStudentsBtn button greyButton">Stats</a>
-{#                                <a href="{{ path('', {'qcm': qcm.id}) }}" class="greyButton">Editer</a>#}
-                            </td>
+                            {% if qcm.isOfficial == 0 and qcm.isEnabled == 1 and qcm.isPublic == 0 %}
+                                <td>Qcm d'entrainement</td>
+                            {% elseif qcm.isOfficial == 1 and qcm.isEnabled == 1 and qcm.isPublic == 1  %}
+                                <td>Qcm officiel</td>
+                            {% elseif qcm.isOfficial == 0 and qcm.isEnabled == 1 %}
+                                <td>Qcm d'exercice</td>
+                            {% elseif qcm.isEnabled == 0 %}
+                                <td>Qcm désactivé</td>
+                            {% else %}
+                                <td>Erreur dans le type de QCM</td>
+                            {% endif %}
+                            <td>{{qcm.module.title}}</td>
                         </tr>
                         
                     {% endfor %}

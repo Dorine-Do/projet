@@ -29,11 +29,12 @@ body {
   font-family: "Alumni Sans", sans-serif;
   font-size: 20px;
 }
-/* 
-.container{
-    width: 85%;
-    margin: auto;
-} */
+
+.subContainer{
+  max-width: 90%;
+  margin: auto;
+  margin-top: 3em;
+}
 ul {
   list-style: none;
 }
@@ -63,6 +64,28 @@ pre {
   color: #d2ccc9;
   padding: 16px;
   border-radius: 8px;
+}
+
+.sectionChoice{
+  padding: 1em 2em;
+  margin-bottom: 3em;
+}
+
+/************************SELECT******************************/
+
+.selectVarFond{
+  width: 17em;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.2);
+  outline: none;
+  text-align: center;
+  cursor: pointer;
+  background: white;
+  border: 2px solid var(--pamplemousse);
+  color: var(--grey);
+  font-weight: 500;
+  padding: .7em 0
 }
 
 /**************************CIRCLES***************************/
@@ -174,6 +197,10 @@ pre {
   background-color: var(--vert);
 }
 
+.marginTopButton {
+  margin-top: 20px;
+}
+
 .greenButton {
   background-color: var(--vert);
   font-size: var(--normal);
@@ -232,7 +259,7 @@ pre {
   background-color: var(--fond);
 }
 
-#reportBugModale {
+#reportBugModale, #statsModale {
   display: none;
   flex-direction: row;
   justify-content: center;
@@ -246,7 +273,11 @@ pre {
   backdrop-filter:blur(5px);
 }
 
-#reportBugModale > div {
+#statsModale {
+  display: none;
+}
+
+#reportBugModale > div, #statsModale > div {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -259,17 +290,17 @@ pre {
   border-radius: 24px;
 }
 
-#reportBugModale form {
+#reportBugModale form, #statsModale form {
   width: 100%;
 }
 
-#closeReportBugModaleBtn {
+#closeReportBugModaleBtn, #closeStatsModaleBtn {
   position: absolute;
   top: 16px;
   right: 16px;
 }
 
-#closeReportBugModaleBtn:hover {
+#closeReportBugModaleBtn:hover, #closeStatsModaleBtn:hover {
   background-color: tomato;
   cursor: pointer;
 }
@@ -316,6 +347,37 @@ pre {
   font-weight: bold;
   border-width: 2px;
 }
+
+#searchResults{
+  width: 90%;
+  background-color: var(--fond);
+  border: 1px solid var(--writing);
+  margin: 20px auto;
+  text-align: left;
+  padding: 1em;
+  border-radius: 8px;
+  height: 59%;
+  overflow-y: scroll;
+}
+
+#searchResults li{
+  padding: 8px;
+  margin: 15px auto;
+  font-size: 1em;
+}
+
+#searchResults li:hover{
+  cursor: pointer;
+  background-color: var(--pamplemousse);
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+/*.stats {*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*}*/
 
 /**************************RECTANGLES***************************/
 

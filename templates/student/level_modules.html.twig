@@ -8,36 +8,36 @@
 
 {% block body %}
 
-    <h1>Mon niveau</h1>
+    <h1>{{ 'title.myLevel'|trans }}</h1>
 
-    <p class="etape"><span>1</span> Légende des niveaux </p>
+    <p class="etape"><span>1</span> {{ 'title.legendLevels'|trans }} </p>
     <div class="divLegend">
         <div class="imgLegend">
             <img src="{{asset('build/images/arbre_decouvre.svg')}}" alt="Graine d'arbre" class="decouvre">
             <p class="pLegend">
-                Découvre
+                {{ 'title.decouvre'|trans }}
             </p>
         </div>
         <div class="imgLegend">
             <img src="{{asset('build/images/arbre_explore.svg')}}" alt="Jeune pousse d'arbre">
             <p class="pLegend">
-                Explore
+                {{ 'title.explore'|trans }}
             </p>
         </div>
         <div class="imgLegend">
             <img src="{{asset('build/images/arbre_maitrise.svg')}}" alt="arbre adulte">
             <p class="pLegend">
-                Maîtrise
+                {{ 'title.maitrise'|trans }}
             </p>
         </div>
         <div class="imgLegend">
             <img src="{{asset('build/images/arbre_domine.svg')}}" alt="arbre adulte fleuri">
-            <p class="pLegend">Domine</p>
+            <p class="pLegend">{{ 'title.domine'|trans }}</p>
         </div>
     </div>
     <div class="containerLevel">
         <div>
-            <p class="etape"><span>2</span> Ensemble des modules terminés avec ton niveau </p>
+            <p class="etape"><span>2</span> {{ 'title.moduleDoneWithLvl'|trans }} </p>
         </div>
         {% if moduleGroups %}
             {% for key, module in moduleGroups %}
@@ -57,20 +57,20 @@
                         {% endif %}
                     </div>
                     <div class="divLink">
-                        <h4>Pour progresser</h4>
+                        <h4>{{ 'title.toProgress'|trans }}</h4>
                         <div>
                             <p>
-                                Lien vers la doc mdn
+                                {{ 'title.mdnDocLink'|trans }}
                             </p>
                             <p>
-                                lien vers la doc 3wa
+                                {{ 'title.3waDocLink'|trans }}
                             </p>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         {% else %}
-            <p>Aucun module n'est terminé.</p>
+            <p>{{ 'title.noModuleDone'|trans }}</p>
         {% endif %}
     </div>
 

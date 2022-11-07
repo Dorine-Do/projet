@@ -107,11 +107,10 @@ input[type="radio"]:checked {
   flex-direction: column;
 }
 
-.option {
+.yarn watch {
   background-color: var(--fond);
   padding: 2em;
   border-radius: 10px;
-  text-align: center;
   background: var(--fond);
 }
 
@@ -354,7 +353,6 @@ label {
 
 /******************************************************** VALIDATION *****************************************************************/
 tr:last-child > td {
-  padding: 1.5em 0;
   text-align: center;
 }
 

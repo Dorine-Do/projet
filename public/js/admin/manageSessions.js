@@ -73,7 +73,13 @@ function displayModulesModale(modules)
         modules.forEach( module => {
             let startDate = new Date(module.startDate);
             let endDate = new Date(module.endDate);
+            let nowDate = new Date();
             let moduleRow = document.createElement('tr');
+
+            if(startDate.getTime() < nowDate.getTime() && endDate.getTime() > nowDate.getTime()){
+                moduleRow.classList.add('currentModule')
+            }
+
             moduleRow.innerHTML = `
                 <td>${ module.title }</td>
                 <td>${ startDate.toLocaleDateString() }</td>
