@@ -29,11 +29,12 @@ body {
   font-family: "Alumni Sans", sans-serif;
   font-size: 20px;
 }
-/* 
-.container{
-    width: 85%;
-    margin: auto;
-} */
+
+.subContainer{
+  max-width: 90%;
+  margin: auto;
+  margin-top: 3em;
+}
 ul {
   list-style: none;
 }
@@ -63,6 +64,28 @@ pre {
   color: #d2ccc9;
   padding: 16px;
   border-radius: 8px;
+}
+
+.sectionChoice{
+  padding: 1em 2em;
+  margin-bottom: 3em;
+}
+
+/************************SELECT******************************/
+
+.selectVarFond{
+  width: 17em;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.2);
+  outline: none;
+  text-align: center;
+  cursor: pointer;
+  background: white;
+  border: 2px solid var(--pamplemousse);
+  color: var(--grey);
+  font-weight: 500;
+  padding: .7em 0
 }
 
 /**************************CIRCLES***************************/

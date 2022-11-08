@@ -83,7 +83,6 @@ function fetchStudents(e){
     fetch('distributed_students/' + this.dataset.qcm, {method: 'GET'})
         .then((response) => response.json())
         .then((studentsResults) => {
-            console.log(studentsResults)
             studentsContainer.innerHTML = ''
             if (typeof studentsResults === 'string'){
                 let p = document.createElement('p')

@@ -26,12 +26,11 @@
                         <th>{{ 'title.difficulty'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
                         <th>{{ 'title.date'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
                         <th>Type <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
-                        <th>{{ 'title.actions'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>Module <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for qcm in qcms %}
-                    
                         <tr>
                             <td>{{ qcm.title }}</td>
                             <td>{{ qcm.author.firstname }} {{ qcm.author.lastname }}</td>
@@ -48,10 +47,7 @@
                             {% else %}
                                 <td>Erreur dans le type de QCM</td>
                             {% endif %}
-                            <td>
-                                <a href="#" class="showStudentsBtn button greyButton">{{ 'button.stats'|trans }}</a>
-{#                                <a href="{{ path('', {'qcm': qcm.id}) }}" class="greyButton">Editer</a>#}
-                            </td>
+                            <td>{{qcm.module.title}}</td>
                         </tr>
                         
                     {% endfor %}

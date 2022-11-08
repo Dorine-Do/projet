@@ -104,40 +104,45 @@ class AdminController extends AbstractController
     public function ajaxUserDetails( User $user ): JsonResponse
     {
         $conn = $this->doctrine->getConnection('dbsuivi');
-        if( in_array('ROLE_INSTRUCTOR', $user->getRoles()) )
+        if( in_array('ROLE_INSTRUCTOR', $user->getRoles()) || in_array('ROLE_ADMIN', $user->getRoles()) )
         {
-            $sql = "SELECT sessions.name as sessionName
+            $sql = "SELECT DISTINCT sessions.name as name, daily.date
                 FROM daily
                 LEFT JOIN sessions ON daily.id_session = sessions.id
                 LEFT JOIN users ON daily.id_user = users.id
                 WHERE users.email = :useremail AND daily.date >= NOW()
+                ORDER BY daily.date
+                LIMIT 1
                 ";
             $params = [
-                'useremail' => 'matthieu.fergola@gmail.com'
+                'useremail' => $user->getEmail()
             ];
             $currentSession = $conn
                 ->prepare($sql)
                 ->executeQuery($params)
-                ->fetchAll();
+                ->fetch();
         }
         elseif ( in_array('ROLE_STUDENT', $user->getRoles()) )
         {
-            $sql = "SELECT sessions.name as sessionName
+            $sql = "SELECT DISTINCT sessions.name as name, daily.date, users.email
                 FROM daily
                 LEFT JOIN sessions ON daily.id_session = sessions.id
-                LEFT JOIN link_students_daily ON link_students_daily.id_daily = daily.id  
+                LEFT JOIN link_students_daily ON link_students_daily.id_daily = daily.id
+                LEFT JOIN users ON users.id = daily.id_user
                 WHERE users.email = :useremail AND daily.date >= NOW()
+                ORDER BY daily.date
+                LIMIT 1
                 ";
             $params = [
-                'useremail' => 'dorine.journet@3wa.io'
+                'useremail' => $user->getEmail()
             ];
             $currentSession = $conn
                 ->prepare($sql)
                 ->executeQuery($params)
-                ->fetchAll();
+                ->fetch();
         }
 
-        return $this->json( [$user, $currentSession], 200, [],['groups' => 'user:read'] );
+        return $this->json( ['user' => $user, 'currentSession' => $currentSession], 200, [],['groups' => 'user:read'] );
     }
 
     #[Route('admin/manage-sessions', name: 'admin_manage_sessions')]
@@ -160,19 +165,40 @@ class AdminController extends AbstractController
     }
 
     #[Route('admin/session-modules/{session}', name: 'admin_session_modules_ajax')]
-    public function ajaxSessionModules( Session $session ): JsonResponse
+    public function ajaxSessionModules( Session $session, LinkInstructorSessionModuleRepository $linkInstructorSessionModuleRepo ): JsonResponse
     {
         $linksSessionModule = $session->getLinksSessionModule();
-
+//        $conn = $this->doctrine->getConnection('dbsuivi');
+//        $sql = "SELECT DISTINCT sessions.name as name, daily.date
+//                FROM daily
+//                LEFT JOIN sessions ON daily.id_session = sessions.id
+//                LEFT JOIN users ON daily.id_user = users.id
+//                WHERE users.email = :useremail AND daily.date >= NOW()
+//                ORDER BY daily.date
+//                ";
+//        $params = [
+//            'useremail' =>
+//            ];
+//        $currentSession = $conn
+//            ->prepare($sql)
+//            ->executeQuery($params)
+//            ->fetchAll();
         $modules = [];
-
         foreach( $linksSessionModule as $linkSessionModule )
         {
+
+            $linksInstructorSessionModule = $linkInstructorSessionModuleRepo->findBy(['session' => $linkSessionModule->getSession(), 'module' => $linkSessionModule->getModule()]);
+
+            $moduleInstructors = array_map(function( $linkInstructorSessionModule ){
+                return $linkInstructorSessionModule->getInstructor();
+            }, $linksInstructorSessionModule);
+
             $modules[] = [
                 'id' => $linkSessionModule->getModule()->getId(),
                 'title' => $linkSessionModule->getModule()->getTitle(),
                 'startDate' => $linkSessionModule->getStartDate(),
-                'endDate' => $linkSessionModule->getEndDate()
+                'endDate' => $linkSessionModule->getEndDate(),
+                'instructors' => $moduleInstructors
             ];
         }
 
@@ -782,7 +808,7 @@ class AdminController extends AbstractController
             $searchResults = $sessionRepository->findSessionByString($searchtherm);
             return $this->json($searchResults, 200, [], ['groups' => 'session:read']);
         }
-        elseif ($searchtype === "apprenant" || $searchtype === "formateur")
+        elseif ($searchtype === "apprenant" || $searcht²²ype === "formateur")
         {
             $searchResults = $userRepository->findUserByString($searchtherm);
             if ($searchtype === "apprenant") {

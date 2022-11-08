@@ -82,6 +82,7 @@ function displayModulesModale(modules)
 
             moduleRow.innerHTML = `
                 <td>${ module.title }</td>
+                <td>${ modules.instructors ? module.instructors.forEach( instructor => instructor.firstName + ' ' + instructor.lastName ) : 'Aucun formateur' }</td>
                 <td>${ startDate.toLocaleDateString() }</td>
                 <td>${ endDate.toLocaleDateString() }</td>
             `;
@@ -107,7 +108,7 @@ function initSessionModules()
 {
     sessionModulesModale = document.querySelector('#sessionModulesModale');
     closeSessionModulesBtn = document.querySelector('#closeSessionModulesBtn');
-    showModulesBtns = document.querySelectorAll('.shwoModulesBtn');
+    showModulesBtns = document.querySelectorAll('.showModulesBtn');
     sessionModulesModaleContent = document.querySelector('#sessionModulesModaleContent table tbody');
 
     for( let btn = 0; btn < showModulesBtns.length; btn++)
