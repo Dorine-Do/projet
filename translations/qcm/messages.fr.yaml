@@ -23,6 +23,7 @@ qcm:
   chooseStudents: Choix du ou des élèves pouvant faire le QCM
   doAllQestions: Merci de répondre à toutes les questions pour valider le QCM...
   distributed: QCMs distribués
+  done: Qcms effectués
   chooseQcmModuleLevel: Choix du QCM par module et par niveau
   chooseStudentsQcm: Choix du ou des élèves pouvant faire le QCM
 
@@ -69,7 +70,6 @@ proposal:
   create: Créer les réponses
 
 session:
-  choice: Choix de la classe
   sessionModule: Selectionnez une session pour choisir un module
   popStudentList: La liste des élèves apparaîtra ici lorsque vous aurez choisi une session.
 
@@ -154,6 +154,7 @@ title:
   AdminDashboard: Admin dashboard
   createCustomQcm: Créer un QCM personnalisé
   iCreateQcm: Je génère un QCM officiel
+  generateQcmOfficial: Générer un qcm officiel
   myComment: Mon commentaire
   trainerComment: Commentaire du formateur
   stickerInfos: Sticker infos

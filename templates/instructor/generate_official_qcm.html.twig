@@ -4,40 +4,47 @@
     <link href="{{asset('css/instructor/generate_official_qcm.css')}}" rel="stylesheet">
 {% endblock %}
 
-{% block title %}Générer un qcm officiel{% endblock %}
+{% block title %}{{ 'title.generateQcmOfficial'|trans }}{% endblock %}
 
 {% block body %}
 
-  <h1>- {{ 'title.iCreateQcm'|trans }} -</h1>
+    <h1>- {{ 'title.generateQcmOfficial'|trans }} -</h1>
 
-    <main class="content_qcm_creation">
-      <p class="step_one"><span>{{ 'title.step1'|trans }}</span>{{ 'title.chooseSession'|trans }}</p>
-      <form method="GET" action="{{path('instructor_create_qcm')}}">
-        <div class="bloc_choice_session_and_module">
-
-          <ul id="sessions-list" class="list_sessions">
-            <input id="sessionToDistribute" type="hidden" value="{{sessions[0].id}}"  name="session" >
-            {% for session in sessions %}
-
-            <li data-sessionid="{{session.id}}">{{session.name}}</li>
-
-            {% endfor %}
-          </ul>
-
-        </div>
-        <p class="step_two"><span>{{ 'title.step2'|trans }}</span>{{ 'title.chooseModule'|trans }}</p>
-        <div class="select_module">
-            <select name="module" id="module">
-              <option value="0">{{ 'module.beforeChoice'|trans }}</option>
-            </select>
-          </div>
-        <p class="step_three"><span>{{ 'title.step3'|trans }}</span>{{ 'title.validate'|trans }}</p>
-        <div class="bloc_generate_qcm">
-          <button type="submit">{{ 'button.generateQcm'|trans }}</button>
-        </div>
-      </form>
+    <main class="subContainer">
+        <form method="GET" action="{{path('instructor_create_qcm')}}">
+            <section class="sectionChoice">
+                <p>
+                    <span class="step">{{ 'title.step1'|trans }}</span>{{ 'title.chooseSession'|trans }}
+                </p>
+                    <ul id="sessions-list" class="sessionChoice">
+                        {% for session in sessions %}
+                            <li class="liSession">
+                                <input class="nameSession" id="{{ session.name }}" type="radio" name="session" value="{{ session.id }}"><label for="{{ session.name }}">{{ session.name }}</label>
+                            </li>
+                        {% endfor %}
+                    </ul>
+            </section>
+            <section class="sectionChoice">
+                <p>
+                    <span class="step">{{ 'title.step2'|trans }}</span>{{ 'title.chooseModule'|trans }}
+                </p>
+                <div class="selectModule">
+                    <select class="selectVarFond" name="module" id="module">
+                        <option value="0">{{ 'module.beforeChoice'|trans }}</option>
+                    </select>
+                </div>
+            </section>
+            <section class="sectionChoice">
+                <p>
+                    <span class="step">{{ 'title.step3'|trans }}</span>{{ 'title.validate'|trans }}
+                </p>
+                <div class="blocGenerateQcm">
+                    <button type="submit">{{ 'button.generateQcm'|trans }}</button>
+                </div>
+            </section>
+        </form>
     </main>
-  {% block javascripts %}
-    <script src="{{ asset('js/instructor/generateOfficialQcm.js') }}"></script>
-  {% endblock %}
+    {% block javascripts %}
+        <script src="{{ asset('js/instructor/generateOfficialQcm.js') }}"></script>
+    {% endblock %}
 {% endblock %}

@@ -5,9 +5,6 @@ body {
   margin: 0;
 }
 
-.container_create_qcm {
-}
-
 /*******GENERAL*******/
 
 ul {
@@ -15,32 +12,7 @@ ul {
   margin: 0;
 }
 
-/* **************** */
-
-/* .list_buttons_nav,
-.content_qcm_creation {
-  margin: auto;
-} */
-
 /* ************ NAV ***********/
-
-.list_buttons_nav {
-  padding: 15px;
-  background: #ffac8f;
-  display: grid;
-  grid-gap: 20px;
-  text-align: center;
-  border-radius: 5px;
-}
-
-.list_buttons_nav > li {
-  padding: 25px;
-  border: 1px solid white;
-  border-radius: 5px;
-  /* box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.25),
-    inset 3px 3px 3px rgba(250, 250, 250, 0.25); */
-  color: white;
-}
 
 .create_qcm {
   display: grid;
@@ -48,76 +20,24 @@ ul {
   margin: auto;
 }
 
-.bloc_step_one {
-}
-.step_one {
-  padding: 5px 15px;
-}
-.content_qcm_creation {
-  padding: 1em 0 2em;
-}
-.bloc_choice_session_and_module,
-.bloc_date_qcm_given,
-.bloc_generate_qcm {
+.blocGenerateQcm {
   background: #fff4e4;
   border-radius: 10px;
   text-align: center;
 }
 
-.list_sessions {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 5px;
-  grid-gap: 10px;
-}
-
-.list_sessions > li {
-  background: grey;
-  color: white;
-  padding: 25px;
-  width: 80%;
-  margin: auto;
-  border-radius: 5px;
-}
-
-.list_sessions > li:hover {
-  cursor: pointer;
-  background-color: var(--vert);
-}
-
-.select_module {
+.selectModule {
   padding: 2.5em 0;
   text-align: center;
   background: #fff4e4;
   border-radius: 10px;
 }
 
-.select_module > select {
-  align-self: center;
-  padding: 1em;
-  width: 70%;
-  border: none;
-  box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
-  text-align: center;
-  outline: none;
-}
-
-.select_module > select:hover {
-  cursor: pointer;
-}
-
-.bloc_date_qcm_given,
-.bloc_generate_qcm {
+.blocGenerateQcm {
   padding: 2em 0;
 }
-.bloc_date_qcm_given > input {
-  padding: 25px;
-  border-radius: 5px;
-  border: none;
-  width: 48%;
-}
-.bloc_generate_qcm > button {
+
+.blocGenerateQcm > button {
   width: 70%;
   padding: 1.2em 0;
   outline: none;
@@ -128,14 +48,8 @@ ul {
   box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
-.bloc_generate_qcm > button:hover {
+.blocGenerateQcm > button:hover {
   cursor: pointer;
-}
-
-.step_one,
-.step_two,
-.step_three {
-  padding: 40px 5px 20px;
 }
 
 span {
@@ -145,49 +59,10 @@ span {
   margin-right: 10px;
   color: white;
 }
-.bloc_btn_validate {
-  padding: 20px 0;
-  text-align: center;
-}
-.bloc_btn_validate > button {
-  padding: 25px;
-  width: 48%;
-  background: #ffac8f;
-  border-radius: 50px;
-  outline: none;
-  color: white;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
-  border: none;
-}
-@media screen and (min-width: 650px) {
-  .list_buttons_nav {
-    border-radius: 20px;
-  }
-  .list_buttons_nav > li {
-    border-radius: 20px;
-  }
 
-  .bloc_step_one {
-  }
-  .list_buttons_nav {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  .create_qcm {
-    grid-template-columns: repeat(
-      3,
-      10% [col-start] 80% [col-middle] 10%[col-end]
-    );
-  }
-  .content_qcm_creation {
-    width: 79%;
-    margin: auto;
-  }
-  .bloc_choice_session_and_module,
-  .bloc_date_qcm_given,
-  .bloc_generate_qcm {
+@media screen and (min-width: 650px) {
+
+  .blocGenerateQcm {
     background: #fff4e4;
-  }
-  .bloc_choice_session_and_module {
-    padding: 15px 10px;
   }
 }

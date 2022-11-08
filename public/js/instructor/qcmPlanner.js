@@ -1,4 +1,4 @@
-let sessionfields, moduleField, qcmField, studentsFields, startDateField, endDateField, qcmData, selectedSession = null;
+let sessionfields, moduleField, qcmField, studentsFields, startDateField, endDateField, qcmData, selectedSession, divDate, btnValid = null;
 
 async function updateModulesFromAjax( session, field )
 {
@@ -65,6 +65,21 @@ function updateQcmSelect( field, fieldData )
     });
 }
 
+function submitForm(e){
+    let firstDate = new Date(startDateField.value)
+    let secondDate = new Date(endDateField.value)
+
+    if(secondDate.getTime() < firstDate.getTime()){
+        e.preventDefault()
+        let p = document.createElement('p')
+        p.innerHTML = "La date de fin ne peut pas être inférieure à la date de début"
+        p.style.color = 'red'
+        p.style.width = '100%'
+        p.style.textAlign = 'center'
+        divDate.append(p)
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function(){
 
     sessionfields   = document.querySelectorAll('input[name="session"]');
@@ -73,6 +88,10 @@ document.addEventListener('DOMContentLoaded', function(){
     studentsFields  = document.querySelector( '#qcm-students' );
     startDateField  = document.querySelector('#start-time');
     endDateField    = document.querySelector('#end-time');
+    divDate = document.querySelector('.allDate');
+    btnValid = document.querySelector('.valid');
+    btnValid.addEventListener('click', submitForm)
+
 
     sessionfields.forEach( sessionField => {
         sessionField.addEventListener('click', function(){

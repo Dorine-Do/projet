@@ -1,187 +1,244 @@
 @import url('main.css');
 
 header{
-  display: flex;
-  position: sticky;
-  justify-content: space-between;
-  padding: 10px 20px 10px 20px;
-  align-items: center;
-  background-color: white;
-  top: 0;
-  z-index: 1;
+    display: flex;
+    position: sticky;
+    justify-content: space-between;
+    padding: 10px 20px 10px 20px;
+    align-items: center;
+    background-color: white;
+    top: 0;
+    z-index: 1;
+    gap: .5em;
 }
 
-/**************************************** LOGO ********************************************************/
+/**************************************** LOGO + REOPRT BUB ********************************************************/
+.part1{
+    display: flex;
+    gap: 3em;
+}
 
 .logo{
-  width: 170px;
-  height: 80px;
+    height: 57px;
+}
+
+#reportBugBtn{
+    background-color: var(--pamplemousse);
+    color: var(--grey);
+    border-radius: 50px;
+    border: none;
+    padding: 10px;
+    width: 10em;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: 'Alumni Sans', sans-serif;
+    font-weight: bold;
+}
+
+
+#reportBugBtn:hover{
+    font-weight: bold;
+    cursor: pointer;
+    background-color: var(--fond);
 }
 
 /**************************************** MENU AVEC LES DEUX "BOUTONS" *************************************************/
 
-.choix{
-  background-color: var(--pamplemousse);
-  border-radius: 13px;
-  padding: 13px 0;
-  display: flex;
-  justify-content: space-around;
-  width: 40%;
-  margin-left: 180px;
-  align-items: center;
+.choice{
+    background-color: var(--pamplemousse);
+    border-radius: 13px;
+    padding: 13px 0;
+    display: flex;
+    justify-content: space-around;
+    width: 40%;
+    align-items: center;
+    position: absolute;
 }
 
-.choix a {
-  width: 50%;
-  border: 2px solid var(--fond);
-  border-radius: 13px;
-  text-align: center;
-  font-weight: bold;
-  padding: 1em 0;
-  margin: 10px
+.choice a {
+    width: 50%;
+    border: 2px solid var(--fond);
+    border-radius: 13px;
+    text-align: center;
+    font-weight: bold;
+    padding: .5em 0;
+    margin: 0 10px;
 }
 
 
-.choix a:hover{
-  background-color: var(--fond);
+.choice a:hover{
+    background-color: var(--fond);
 }
 
 /************************************** RECTANGLE ELEVE DYNAMIQUE HAUT A DROITE **********************************/
 
+.part3{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: .5em;
+}
+
 .eleve{
-  width: 350px;
-  border: 2px solid var(--pamplemousse);
-  background-color: var(--fond);
-  display: flex;
-  align-items: center;
-  padding: .5em 0;
+    min-width: 180px;
+    border: 2px solid var(--pamplemousse);
+    background-color: var(--fond);
+    display: flex;
+    align-items: center;
+    padding: .5em 1.2em;
+    border-radius: 5px;
+}
+
+.logOut{
+    text-align: center;
+}
+
+.logOut a{
+    display: block;
+    width:60%;
+    margin: auto;
 }
 
 .imgLogOut{
-  margin: 0;
+    margin: 0;
+    width: 100%;
 }
 
 .helloStudent{
-  font-weight: bold;
-  font-size: var(--normal);
-  margin: auto;
+    font-weight: bold;
+    font-size: var(--normal);
+    margin: auto;
 }
 
 @media screen and (max-width: 1200px) {
-  .logo{
-    width: 150px;
-    height: 70px;
-  }
 
-  .choix{
-    height: 100%;
-    width: 40%;
-    margin-left: 110px;
-  }
+    .part1{
+        gap : .5em;
+        flex-direction: column;
+        align-items: center;
+    }
 
-  .eleve{
-    height: 70px;
-    width: 250px;
-  }
+    .logo{
+        min-width: 150px;
+    }
 
-  .qcm{
-    height: 20px;
-    padding: 13px 80px;
-  }
+    #reportBugBtn{
+        padding: 5px;
+        margin: 0;
+    }
 
-  .tab{
-    height: 20px;
-    width: 100px;
-    padding: 13px 50px;
-  }
+    .choice{
+        min-width: 30%
+    }
+
+    .part3{
+        flex-direction: column-reverse;
+    }
+
+    .eleve{
+        padding: .2em 1.2em;
+    }
+
+    .qcm{
+        height: 20px;
+        padding: 13px 80px;
+    }
+
+    .tab{
+        height: 20px;
+        width: 100px;
+        padding: 13px 50px;
+    }
 }
 
 @media screen and (max-width: 780px) {
 
-  header{
-    position: relative;
-  }
+    header{
+        align-items: end;
+        margin-top: 1em;
+    }
 
-  .logo{
-    width: 20%;
-    height: 10%;
-    margin-top: 40px;
-  }
+    .part1, .part3{
+        width: 25%;
+    }
 
-  .choix{
-    height: 100%;
-    width: 40%;
-    margin-left: 50px;
-    flex-direction: column;
-    padding: 12px;
-  }
+    .logo{
+        width: 20%;
+    }
 
-  .choix a{
-    width: 78%;
-  }
+    .choice{
+        flex-direction: column;
+        gap: .5em;
+        width: 30%;
+    }
 
-  .tab{
-    width: 190px;
-  }
+    .choice a{
+        width: 78%;
+        margin: 0;
+    }
 
-  .eleve{
-    height: 60px;
-    width: 200px;
-    margin-left: 30px;
-    margin-top: 40px;
-  }
+    .eleve{
+        padding: .2em 0;
+    }
 
-  .helloStudent{
-    margin-top: 18px;
-  }
+    .tab{
+        width: 190px;
+    }
+
 }
 
 @media screen and (max-width: 450px) {
-  header{
-    display: flex;
-    flex-direction: column-reverse;
-    margin: auto;
-    position: relative;
-  }
+    header{
+        flex-direction: column;
+        margin: auto;
+        gap: 1em;
+        align-items: center;
+    }
 
-  .eleve{
-    width: 98%;
-    margin: 0 0 15px 0;
-  }
+    .part1, .part3{
+        width: 100%;
+    }
 
-  .choix{
-    width: 93%;
-    margin: 0 0 15px 0;
-  }
+    .choice{
+        position: initial;
+        width: 100%;
+    }
 
-  .choix a{
-    width: 85%;
-  }
+    .eleve{
+        width: 65%;
+    }
 
-  .tab{
-    width: 300px;
-  }
+    .choice a{
+        width: 85%;
+    }
 
-  .logo{
-    margin: 25px auto 0 auto;
-    width: 190px;
-    height: 90px;
-  }
+    .tab{
+        width: 300px;
+    }
+
+    .part3{
+        gap: 0;
+        flex-direction: revert;
+    }
 }
 
 /* ERRORS */
 .errorBorder {
-  border: 1px solid tomato;
+    border: 1px solid tomato;
 }
 
 .errorMsg {
-  color: tomato;
+    color: tomato;
 }
 
 .successBorder {
-  border: 1px solid var(--vert);
+    border: 1px solid var(--vert);
 }
 
 .successMsg {
-  color: var(--vert);
+    color: var(--vert);
 }
