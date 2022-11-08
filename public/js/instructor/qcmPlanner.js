@@ -75,6 +75,7 @@ function submitForm(e){
         p.innerHTML = "La date de fin ne peut pas être inférieure à la date de début"
         p.style.color = 'red'
         p.style.width = '100%'
+        p.style.textAlign = 'center'
         divDate.append(p)
     }
 }

@@ -6,15 +6,15 @@
     <link href="{{asset('css/instructor/ckeditor_overwrite.css')}}" rel="stylesheet">
 {% endblock %}
 
-{% block title %}Planifier un qcm{% endblock %}
+{% block title %}{{ 'title.planQcm'|trans }}{% endblock %}
 
 {% block body %}
-    <h1> {{ 'title.planQcm'|trans }} </h1>
+    <h1>- {{ 'title.planQcm'|trans }} -</h1>
     <div class="subContainer">
         <form action="{{ path('instructor_distribue_qcm') }}" method="post">
             <section class="sectionChoice">
                 <p>
-                    <span class="step">Etape 1</span> {{ 'session.choice'|trans }}
+                    <span class="step">{{ 'title.step1'|trans }}</span> {{ 'title.chooseSession'|trans }}
                 </p>
                 <ul class="sessionChoice">
                     {% for session in instructorSessions %}
@@ -26,7 +26,7 @@
             </section>
             <section class="sectionChoice">
                 <p>
-                    <span class="step">Etape 2</span> {{ 'module.choice'|trans }}
+                    <span class="step">{{ 'title.step2'|trans }}</span> {{ 'module.choice'|trans }}
                 </p>
                 <div class="backgroundEtape">
                     <select class="selectVarFond" id="module-choice" name="module">
@@ -46,7 +46,7 @@
             </section>
             <section class="sectionChoice">
                 <p>
-                    <span class="step">{{ 'title.step4'|trans }}</span> {{ 'module.chooseStudentsQcm'|trans }}
+                    <span class="step">{{ 'title.step4'|trans }}</span> {{ 'qcm.chooseStudentsQcm'|trans }}
                     <ul id="qcm-students">
                         <li>{{ 'title.studentListWillAppear'|trans }}</li>
                     </ul>
@@ -58,7 +58,7 @@
                 </p>
                 <div class="allDate">
                     <div class="date">
-                        <label for="start-time">{{ 'title.accessibleDates'|trans }}</label>
+                        <label for="start-time">{{ 'title.accessibleDate'|trans }}</label>
                         <input id="start-time" name="start-time" type="datetime-local">
                     </div>
                     <div class="date">
