@@ -617,7 +617,12 @@ namespace App\Controller;
             }
             elseif ($module)
             {
-                $qcms = $module->getQcms();
+                $qcms = $qcmRepository->findBy([
+                    'isOfficial' => 0,
+                    'isEnabled' => 1,
+                    'module' => $module,
+                    'author' => $this->getUser()
+                    ]);
                 return $this->json($qcms, 200, [], ['groups' => 'qcm:read']);
             }
             return new JsonResponse();
