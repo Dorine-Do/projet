@@ -55,7 +55,7 @@
                             <td>{{ question.author.firstname }} {{ question.author.lastname }}</td>
                             <td>{{ question.createdAt | date('d/m/Y') }}</td>
                             <td>
-                                <a href="#" class="button">Stats</a>
+                                <a href="#" class="button">{{ 'button.stats'|trans }}</a>
                                 <a href="{{ path('instructor_modify_question', {'question': question.id}) }}" class="button">{{ 'button.edit'|trans }}</a>
                             </td>
                         </tr>
