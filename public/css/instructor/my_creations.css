@@ -60,7 +60,7 @@
 }
 
 @media screen and (max-width: 450px) {
-  .container_my_creations {
+  .containerMyCreations {
     display: flex;
     flex-direction: column;
   }
