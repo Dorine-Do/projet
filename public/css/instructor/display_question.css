@@ -31,7 +31,6 @@
   font-weight: bold;
   align-self: center;
   width: 30%;
-  padding: 20px 0;
   text-align: center;
 }
 
@@ -224,15 +223,7 @@
   margin: 0;
   width: 3%;
 }
-.pLetter {
-  margin: 0;
-  padding: 0.5em;
-  /* height: 1.5em; */
-  background: var(--grey);
-  border-radius: 50%;
-  text-align: center;
-  color: white;
-}
+
 @media screen and (max-width: 1200px) {
   .liWording {
     background-color: var(--pamplemousse);
