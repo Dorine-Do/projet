@@ -89,22 +89,6 @@
 /**********************************************************************************************************************/
 /* Session / Level / Students */
 
-.sectionChoice{
-    background-color: var(--fond);
-    padding: 1em 0;
-    margin: 1em 0;
-}
-
-.nameSession{
-    -moz-appearance: none;
-    border-radius: 7px;
-    padding: 1em 200px;
-    width: 254px;
-    border: 1px solid #ccc;
-    background-color: var(--grey);
-    height: 70px;
-}
-
 .nameLevel{
     -moz-appearance: none;
     border-radius: 7px;
@@ -120,19 +104,12 @@
     width: 185px;
 }
 
-.nameSession label{
-    top: 23.5px;
-    width: 94%;
-    text-align: center;
-}
-
 .checkboxStudent{
     -moz-appearance: none;
     height: 40px;
     border-radius: 7px;
 }
 
-.nameSession:checked,
 .nameLevel:checked{
     background-color: var(--vert);
     color: white;
@@ -148,19 +125,11 @@
     color: white;
 }
 
-.choiceSession{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1em;
-    margin: 0;
-}
-
 .choiceLevel{
     display: flex;
     flex-wrap: wrap;
 }
 
-.liSession,
 .liLevel,
 .liStudentData{
     position: relative;
@@ -171,8 +140,6 @@
     width: 75%;
 }
 
-.liSession input:hover,
-.liSession label:hover,
 .liLevel input:hover,
 .liLevel label:hover,
 .liStudentData input:hover,
@@ -180,7 +147,6 @@
     cursor: pointer;
 }
 
-.liSession label,
 .liLevel label,
 .liStudentData label{
     position: absolute;
@@ -188,7 +154,7 @@
     text-align: center;
     padding: 0 5px;
 }
-.liSession label,
+
 .liLevel label{
     color: white;
 }

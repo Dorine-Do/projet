@@ -124,7 +124,7 @@ pre {
   border: 2px solid var(--pamplemousse);
   color: var(--grey);
   font-weight: 500;
-  padding: .7em 0
+  padding: .7em 0;
 }
 
 /**************************CIRCLES***************************/
