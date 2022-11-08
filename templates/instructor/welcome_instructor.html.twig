@@ -27,28 +27,36 @@
         <div class="section sectionOne">
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
-                   <a href="{{ path('my_creations')}}" class="accueilA">{{ 'button.myCreation'|trans }}</a>
+                    <p class="accueilP">
+                        <a href="{{ path('my_creations')}}" class="accueilA">{{ 'button.myCreation'|trans }}</a>
+                    </p>
                 </div>
             </div>
         </div>
-        <div class="section sectionTwo sectionTwoBis">
+        <div class="section sectionTwo">
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
-                    <a href="{{ path('instructor_plan_qcm') }}" class="accueilA"> {{ 'button.planQcmExercice'|trans }}</a>
+                    <p class="accueilP">
+                        <a href="{{ path('instructor_plan_qcm') }}" class="accueilA"> {{ 'button.planQcmExercice'|trans }}</a>
+                    </p>
                 </div>
             </div>
         </div>
         <div class="section sectionThrees">
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
-                    <a href="{{ path('instructor_dashboard') }}" class="accueilA"> {{ 'header.dashboard'|trans }}</a>
+                    <p class="accueilP">
+                        <a href="{{ path('instructor_dashboard') }}" class="accueilA"> {{ 'header.dashboard'|trans }}</a>
+                    </p>
                 </div>
             </div>
         </div>
         <div class="section sectionFour">
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
-                    <a href="{{ path('instructor_distributed_qcms') }}" class="accueilA"> {{ 'qcm.distributed'|trans }}</a>
+                    <p class="accueilP">
+                        <a href="{{ path('instructor_distributed_qcms') }}" class="accueilA"> {{ 'qcm.distributed'|trans }}</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -56,17 +64,23 @@
     <div class="section sectionThree">
         <div class="hrefDivSecond">
             <div class="hrefDecorationDiv">
-                <a href="{{ path('instructor_create_question') }}" class="accueilA">{{ 'button.createQuestion'|trans }}</a>
+                <p class="accueilP">
+                    <a href="{{ path('instructor_create_question') }}" class="accueilA">{{ 'button.createQuestion'|trans }}</a>
+                </p>
             </div>
         </div>
         <div class="hrefDivSecond">
             <div class="hrefDecorationDiv">
-                <a href="{{ path('instructor_create_qcm_perso') }}" class="accueilA"> {{ 'button.createQcmCustom'|trans }}</a>
+                <p class="accueilP">
+                    <a href="{{ path('instructor_create_qcm_perso') }}" class="accueilA"> {{ 'button.createQcmCustom'|trans }}</a>
+                </p>
             </div>
         </div>
         <div class="hrefDivSecond">
             <div class="hrefDecorationDiv">
-                <a href="{{ path('instructor_create_qcm') }}" class="accueilA"> {{ 'button.generateQcmOfficial'|trans }}</a>
+                <p class="accueilP">
+                    <a href="{{ path('instructor_create_qcm') }}" class="accueilA"> {{ 'button.generateQcmOfficial'|trans }}</a>
+                </p>
             </div>
         </div>
     </div>
@@ -77,16 +91,9 @@
     window.onload = function (event) {
          let span = document.querySelector(".flash-notice div");
          let addFlash = document.querySelector(".flash-notice ");
-         let hrefDecorationDiv = document.querySelector(".hrefDecorationDiv");
-         let hrefDiv = document.querySelector(".hrefDiv");
-
          span.addEventListener("click",function () {
              addFlash.style.display="none";
-
          })
-        //  hrefDecorationDiv.addEventListener("mouseover",function(){
-        //     hrefDiv.style.padding="20px"
-        //  })
     }
     </script>
  
