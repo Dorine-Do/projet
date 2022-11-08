@@ -82,6 +82,7 @@ ul {
 
 .list_sessions > li:hover {
   cursor: pointer;
+  background-color: var(--vert);
 }
 
 .select_module {

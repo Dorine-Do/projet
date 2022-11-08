@@ -20,7 +20,7 @@
                     <tr>
                         <th>{{ 'title.name'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
                         <th>{{ 'title.year'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
-                        <th>{{ 'title.createdAd'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.createdAt'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
                         <th>{{ 'title.actions'|trans }} <img src="{{asset('build/images/chevron_bas.svg')}}" alt="chevron" class="chevron"></th>
                     </tr>
                 </thead>
@@ -34,7 +34,7 @@
                             <td>
                                 <button class="showStudentsBtn button greyButton" data-session="{{ session.id }}">{{ 'button.students'|trans }}</button>
                                 <button class="showModulesBtn button greyButton" data-session="{{ session.id }}">{{ 'button.modules'|trans }}</button>
-                                <a class="button greyButton" href="{{ path('admin_stats_session', { 'session': session.id } ) }}">Stats</a>
+                                <a class="statsButton button greyButton" href="{{ path('admin_stats_session', { 'session': session.id } ) }}">Stats</a>
                             </td>
                         </tr>
                         
