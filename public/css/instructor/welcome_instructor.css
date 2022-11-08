@@ -8,31 +8,34 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   width: 80%;
-}
-
-.hrefDiv {
-  margin: auto;
-  background-color: var(--pamplemousse);
-  padding: 1em 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 3px 1px gray;
-  width: 90%;
-}
-
-.hrefDecorationDiv {
-  border-bottom: 2px solid var(--fond);
-  padding: 36px;
-}
-.hrefDecorationDiv:hover {
-  border-radius: 10px;
-  border: 2px solid var(--fond);
-  padding: 35px;
+  background: var(--fond);
+  border-radius: 20px;
 }
 
 .accueilA {
   width: 100%;
   display: inline-block;
   font-weight: 600;
+  padding: 3%;
+  background-color: var(--pamplemousse);
+  border-radius: 20px;
+  transition: .4s linear;
+}
+
+.accueilA:hover {
+  background-color: var(--fond);
+}
+
+.accueilA::before{
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 55px;
+  top: 0;
+  left: 0;
+  background-color: var(--fond);
+  z-index: 1;
+  transition: .4s linear;
 }
 
 .flash-notice > div {
@@ -83,9 +86,10 @@ body {
 .sectionTwo,
 .sectionThrees,
 .sectionFour{
-  background: var(--fond);
+  background: var(--pamplemousse);
   border-radius: 20px;
-  padding: 30px;
+  padding: 20px;
+  padding-right: 50px;
   margin: 30px;
   text-align: center;
 }
@@ -97,7 +101,8 @@ body {
 
 .hrefDivSecond{
   background-color: var(--pamplemousse);
-  padding: 1em 20px;
+  padding: 1em;
+  padding-right: 40px;
   border-radius: 5px;
   box-shadow: 0 0 3px 1px gray;
   width: 20%;

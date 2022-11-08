@@ -272,6 +272,10 @@ pre {
   color: white;
 }
 
+.statsButton {
+  width: 67%;
+}
+
 /**************************REPORTBUG***************************/
 
 #reportBugBtn{
