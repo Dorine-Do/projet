@@ -76,6 +76,20 @@ class SessionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findModuleByResult($resultId)
+    {
+        return $this->createQueryBuilder('m')
+            ->select("m.id as mId, m.name")
+            ->innerJoin('m.qcm', 'qcm')
+            ->innerJoin('qcm.qcmInstance', 'qi')
+            ->innerJoin('qi.result', 'r')
+            ->where('r.id = :rId')
+            ->andWhere('r.qcmInstanceId = true')
+            ->setParameter('resultId', $resultId)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */
