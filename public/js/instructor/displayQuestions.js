@@ -47,16 +47,19 @@ window.onload = function (event) {
             let begin = count;
             let letter = alphabet.slice(begin, end);
             let p = document.createElement("p");
-            p.className = "pLetter";
+            p.className = "circle greyCircle";
             p.innerHTML = letter;
 
-            p_prop = document.createElement("div");
+            p_prop = document.createElement("p");
             p_prop.innerHTML = proposal.wording;
             p_prop.classList.add("blocContentProposal");
 
-            div_js.append(p, p_prop);
+            let div_container = document.createElement("div")
+            div_container.className = "divProp"
+
             // INSERTION DU PLETTER DEVANT LE PWORDING
-            p_prop.insertBefore(p, p_prop.lastElementChild);
+            div_container.append(p, p_prop);
+            div_js.append(div_container);
 
             count++;
           }
