@@ -113,9 +113,12 @@ body {
 }
 
 @media screen and (max-width: 780px) {
+    .section{
+        padding: 1em;
+    }
+
   .hrefDiv{
-    width: 70%;
-    height: 80%;
+    width: 100%;
   }
 
   .accueilDiv{
@@ -152,6 +155,9 @@ body {
   .sectionTwo{
     width: 73%;
     margin: 10px auto 60px auto;
+  }
+  .sectionTwoBis{
+      margin: 30px;
   }
 
   .hrefDivSecond{

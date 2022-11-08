@@ -24,28 +24,28 @@
 
     <h1> -  {{ 'title.weclome'|trans }} - </h1>
     <div class="accueilDiv">
-        <div class="sectionOne">
+        <div class="section sectionOne">
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
                    <a href="{{ path('my_creations')}}" class="accueilA">{{ 'button.myCreation'|trans }}</a>
                 </div>
             </div>
         </div>
-        <div class="sectionTwo">
+        <div class="section sectionTwo sectionTwoBis">
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
                     <a href="{{ path('instructor_plan_qcm') }}" class="accueilA"> {{ 'button.planQcmExercice'|trans }}</a>
                 </div>
             </div>
         </div>
-        <div class="sectionThrees">
+        <div class="section sectionThrees">
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
                     <a href="{{ path('instructor_dashboard') }}" class="accueilA"> {{ 'header.dashboard'|trans }}</a>
                 </div>
             </div>
         </div>
-        <div class="sectionFour">
+        <div class="section sectionFour">
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
                     <a href="{{ path('instructor_distributed_qcms') }}" class="accueilA"> {{ 'qcm.distributed'|trans }}</a>
@@ -53,7 +53,7 @@
             </div>
         </div>
     </div>
-    <div class="sectionThree">
+    <div class="section sectionThree">
         <div class="hrefDivSecond">
             <div class="hrefDecorationDiv">
                 <a href="{{ path('instructor_create_question') }}" class="accueilA">{{ 'button.createQuestion'|trans }}</a>
