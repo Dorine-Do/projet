@@ -289,6 +289,10 @@ label{
     padding-top: 15px;
 }
 
+.showStudentsBtn{
+    margin: auto;
+}
+
 @media screen and (max-width: 1200px) {
 
     .tableContainer {

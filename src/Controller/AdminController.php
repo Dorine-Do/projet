@@ -52,7 +52,7 @@ class AdminController extends AbstractController
     public function stats(SessionRepository $sessionRepository): Response
     {
         $findSessionByQcm = $sessionRepository->findSessionByQcm(1);
-        dd($findSessionByQcm);
+
         return $this->render('admin/stats.html.twig', [
             'controller_name' => 'AdminController',
         ]);
