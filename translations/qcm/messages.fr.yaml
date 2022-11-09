@@ -6,7 +6,9 @@ qcm:
   todo: QCM à faire
   official: QCM officiel
   inter: QCM d'exercice
+  unactivated: QCM désactivé
   toPersonnalised: Personnaliser son QCM
+  errorTyep: Erreur dans le type de QCM
   choice: Choix du QCM
   dones: QCM Réalisés
   donesExplain: En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les QCM que tu as terminé, voir tes réponses fausses et t'entraîner à les refaire.

@@ -11,7 +11,7 @@
     <main class="admin_content">
 
         <section>
-            <h1>{{ 'title.qcmManagement'|trans }}</h1>
+            <h1>{{ 'button.qcmManagement'|trans }}</h1>
         </section>
 
         <section class="tableContainer">
@@ -37,15 +37,15 @@
                             <td>{{ qcm.difficulty }}</td>
                             <td>{{ qcm.createdAt | date('d/m/Y') }}</td>
                             {% if qcm.isOfficial == 0 and qcm.isEnabled == 1 and qcm.isPublic == 0 %}
-                                <td>Qcm d'entrainement</td>
+                                <td>{{ 'qcm.trainning'|trans }}</td>
                             {% elseif qcm.isOfficial == 1 and qcm.isEnabled == 1 and qcm.isPublic == 1  %}
-                                <td>Qcm officiel</td>
+                                <td>{{ 'button.official'|trans }}</td>
                             {% elseif qcm.isOfficial == 0 and qcm.isEnabled == 1 %}
-                                <td>Qcm d'exercice</td>
+                                <td>{{ 'qcm.inter'|trans }}</td>
                             {% elseif qcm.isEnabled == 0 %}
-                                <td>Qcm désactivé</td>
+                                <td>{{ 'qcm.unactivated'|trans }}</td>
                             {% else %}
-                                <td>Erreur dans le type de QCM</td>
+                                <td>{{ 'qcm.errorType'|trans }}</td>
                             {% endif %}
                             <td>{{qcm.module.title}}</td>
                         </tr>
