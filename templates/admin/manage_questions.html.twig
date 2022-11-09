@@ -37,7 +37,13 @@
                         <tr>
                             <td>{{ question.module.title }}</td>
                             <td>{{ question.wording | raw}}</td>
-                            <td>{{ question.difficulty.value }}</td>
+                            {% if question.difficulty.value == 1 %}
+                                <td>Facile</td>
+                            {% elseif question.difficulty.value == 2 %}
+                                <td>Moyen</td>
+                            {% elseif question.difficulty.value == 3 %}
+                                <td>Difficile</td>
+                            {% endif %}
                             <td>
                                 {% if question.isOfficial %}
                                     oui

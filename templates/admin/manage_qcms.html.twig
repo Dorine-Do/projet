@@ -34,7 +34,13 @@
                         <tr>
                             <td>{{ qcm.title }}</td>
                             <td>{{ qcm.author.firstname }} {{ qcm.author.lastname }}</td>
-                            <td>{{ qcm.difficulty }}</td>
+                            {% if qcm.difficulty == 1 %}
+                            <td>Facile</td>
+                            {% elseif qcm.difficulty == 2 %}
+                            <td>Moyen</td>
+                            {% elseif qcm.difficulty == 3 %}
+                            <td>Difficile</td>
+                            {% endif %}
                             <td>{{ qcm.createdAt | date('d/m/Y') }}</td>
                             {% if qcm.isOfficial == 0 and qcm.isEnabled == 1 and qcm.isPublic == 0 %}
                                 <td>Qcm d'entrainement</td>
