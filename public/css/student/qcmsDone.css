@@ -65,7 +65,7 @@ select{
 
 .officiel{
     display: flex;
-    justify-content: flex-end;
+    margin: 50px auto;
 }
 /***************************************** PARTIE AFFICHAGE QCM ******************************************/
 
