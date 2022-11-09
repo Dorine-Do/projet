@@ -1,5 +1,5 @@
-document.addEventListener("DOMContentLoaded", (event) => {
-  // console.log(qcmInstances);
+window.onload = function (event) {
+  console.log("hello");
 
   // display none
   let questionsCustom = document.querySelector(".questionsCustom");
@@ -33,21 +33,331 @@ document.addEventListener("DOMContentLoaded", (event) => {
     ".contentExplicationAndLegend button"
   );
   let moduleChoice = document.querySelectorAll(".selectModule option");
-  console.log(moduleChoice);
-  if (window.location.href.includes(location.pathname)) {
-    btnExplaination.addEventListener("click", function (e) {
-      modalExplaination.style.display = "flex";
-    });
+  let m = document.querySelector(".selectModule");
+  let params, newUrlWithParam;
+  //  recupération des données get dans l'url du select
+  // if (window.location.href.includes(location.pathname)) {
+  //   console.log(window.location.href);
+  //   let url = window.location.href;
+  //   // split("") sans paramètres découpe une chaine de caractère et la retourne dans un tableau
+  //   // split("#") avec le séparateur (caractère spéciaux ex reg ) retourne toute la chaîne de caractère sans la découper dans un tableau
+  //   // let queryString = url.split("#")[0].split("?");
+  //   let queryString = url.split("#")[0].split("?");
+
+  //   // split découpe l'url dans en retournant un tableau dont l'index est 0 sachant que c'est l'url sans param
+  //   // let queryString = url.split("?")[0];
+  //   // queryString = queryString.split("?");
+  //   // let arr = queryString.split("&");
+  //   let startParam = queryString[0] + "?";
+  //   console.log(startParam.split("?")[0]);
+  //   console.log(startParam);
+
+  //   console.log(url);
+
+  //   moduleChoice.forEach((o) => {
+  //     // remplacer par addEventListener("select") pour selct option
+  //     o.addEventListener("click", (e) => {
+  //       let firstKindOfParam = e.target.parentNode.name;
+
+  //       let secondKindOfFirstParam = e.target.value;
+  //       newUrlWithParam = new URL(
+  //         startParam + `${firstKindOfParam}=` + `${secondKindOfFirstParam}`
+  //       );
+  //       params = newUrlWithParam.search;
+  //       // paramètre ajouter a l'url sans recharger de la page
+  //       window.history.pushState({}, "", params);
+  //       // document.location.href = `${newUrlWithParam}`;
+
+  //       // if (e.target.dataset.qcmModuleCache) {
+  //       //   let dataQcmModule = JSON.parse(e.target.dataset.qcmModuleCache);
+
+  //       //   console.log("yep");
+  //       //   console.log(Object.values(dataQcmModule));
+  //       // }
+  //     });
+  //   });
+  // }
+
+  //  modal
+
+  if (window.location.href.includes(location.pathname) && btnExplaination) {
+    if (btnExplaination) {
+      btnExplaination.addEventListener("click", function (e) {
+        modalExplaination.style.display = "flex";
+      });
+    } else {
+      btnExplaination = null;
+    }
+
     if (modalExplaination) {
       crossExplaination.addEventListener("click", function (e) {
         modalExplaination.style.display = "none";
       });
     }
   }
+  console.log("hello");
+  let inputDifficulty = document.querySelector(".blocChoiceDifficulties input");
+
+  //Stop event  btn form si contrainte module qcm pas respecter
+
+  let btnValidModuleDifficulty = document.querySelector(".buttonGenerate");
+  // btnValidModuleDifficulty.addEventListener("click", function (e) {
+  //   if (inputDifficulty.value == "" ) {
+  //     e.preventDefault();
+  //     let pError = document.createElement("p");
+  //     pErrorText = pError.innerText = "veuillez selectionner un niveau";
+  //     document.querySelector(".choiceTypeOfQcm").append(pErrorText);
+  //   }
+  // });
+
+  // déclaration var fetch
+  let questionLiQuestionsCache = document.querySelectorAll(".questionLi");
+  let ulForQuestionsCache = document.querySelector(".backWhite ul ");
+  let wordindQuestionsCache = document.querySelectorAll(".questionWordingP ");
+  let ulQcmDragAndDropQuestionsCache = document.querySelector(
+    ".qcmChoisedMain ul "
+  );
+  let questionsOfficialQcm = document.querySelector(".questionsOfficial ");
+  let responselabel = document.querySelector(".responselabel ");
+
+  let letters = ["A", "B", "C", "D", "E", "F"];
+  btnValidModuleDifficulty.addEventListener("click", function (e) {
+    e.preventDefault();
+    // racine de l'url sans param
+    // let urlFetch = location.href.split("#")[0].split("?");
+    let moduleOption = document.getElementById("moduleOption");
+    let selectDifficulty = document.getElementById("qcmDifficulty");
+    // test 1
+    fetch(
+      `/instructor/qcms/random_fetch/${moduleOption.value}/${selectDifficulty.value}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => {
+        if (response) {
+          return response.json();
+          // console.log(response);
+          // console.log(response.json());
+          // console.log(response.bodyUsed);
+
+          // test.then((response) => console.log(response));
+
+          // return console.log(response);
+        }
+        // return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        console.log(data.randomQuestion.length);
+
+        // Object.keys(data.randomQuestion).forEach(function (question, index) {
+        //   // console.log((questionLiQuestionsCache.innerHTML = `${question}`));
+
+        //   questionLiQuestionsCache.innerHTML = `
+
+        //   <div class="questionWordingDiv">
+        //   <p class="questionWordingP">
+        //       <span class="numeroForm">{{ count }}</span>
+        //       ${question.wording}
+
+        //   </p>
+        //   <p class="chevronBasP">
+        //       <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg chevron">
+        //   </p>
+        // </div>
+        // <div class="proposalWordingDiv">
+        //     <p class="proposalWordingP"><span class="numeroProp">hello</span>
+        //       popo
+        //     </p>
+        // </div>
+
+        //   `;
+        //   // console.log(data.randomQuestion[question]); // affiche "3", "5", "7", "coucou"
+        //   // console.log(data.randomQuestion[index]); // affiche "3", "5", "7", undefined
+        // });
+        for (
+          let forQuestion = 0;
+          forQuestion < data.randomQuestion.length;
+          forQuestion++
+        ) {
+          ulForQuestionsCache.innerHTML += `
+            <li class="questionLi">
+              <div class="questionWordingDiv">
+                <p class="questionWordingP">
+                  <span class="numeroForm"> ${forQuestion + 1}</span>
+                  ${data.randomQuestion[forQuestion].wording}
+                </p>
+                <p class="chevronBasP">
+                  <img src="" alt="Chevron ouvrant" class="chevronBasImg chevron">
+                </p>
+              </div>
+              <div class="proposalWordingDiv">
+              </div>
+            </li >
+            `;
+          let proposalQuestionsCache = document.querySelectorAll(
+            ".proposalWordingDiv "
+          );
+          for (
+            let forProposal = 0;
+            forProposal < data.randomQuestion[forQuestion].proposals.length;
+            forProposal++
+          ) {
+            proposalQuestionsCache[forQuestion].innerHTML += `
+            
+              <p class="proposalWordingP"><span class="numeroProp">${
+                forProposal + 1
+              }</span>
+              ${data.randomQuestion[forQuestion].proposals[forProposal].wording}
+              </p>
+
+            `;
+          }
+
+          // DRAG AND DROP QCM QUESTIONS CACHE
+
+          ulQcmDragAndDropQuestionsCache.innerHTML += `
+                <li class="qcmChoisedLi"  draggable="true">
+                    <div class="qcmChoisedLiDiv">
+                        <div class="questionWordingDiv qcmChoisedQuestionWordingDiv">
+                            <p class="qcmChoisedTreffleP">
+                          
+                            </p>
+                            <p class="qcmChoisedQuestionWordingP questionWordingP" data-id = 
+                              <span> ${forQuestion + 1}</span>  
+                               ${data.randomQuestion[forQuestion].wording}
+                            </p>
+                            <p class="qcmChoisedchevronBasP">
+                                <img src="/build/images/chevron_bas.216a40a5.svg" alt="Chevron ouvrant" class="qcmChoisedchevronBasImg chevron">
+                            </p>
+                        </div>
+                        <div class="qcmChoisedProposalWordingDiv proposalWordingDiv">        
+                        </div>
+                    </div>
+                </li>
+        `;
+          let imgQcmChoisedTreffleP = document.querySelectorAll(
+            ".questionWordingDiv.qcmChoisedQuestionWordingDiv .qcmChoisedTreffleP "
+          );
+          if (data.randomQuestion[forQuestion].difficulty == 1) {
+            imgQcmChoisedTreffleP[
+              forQuestion
+            ].innerHTML += `<img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">`;
+          } else if (data.randomQuestion[forQuestion].difficulty == 2) {
+            imgQcmChoisedTreffleP[
+              forQuestion
+            ].innerHTML += ` <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="medium">`;
+          } else if (data.randomQuestion[forQuestion].difficulty == 3) {
+            imgQcmChoisedTreffleP[
+              forQuestion
+            ].innerHTML += ` <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">`;
+          }
+          let proposalDragAndDropQuestionsCache = document.querySelectorAll(
+            ".qcmChoisedProposalWordingDiv.proposalWordingDiv "
+          );
+          for (
+            let forProposal = 0;
+            forProposal < data.randomQuestion[forQuestion].proposals.length;
+            forProposal++
+          ) {
+            proposalDragAndDropQuestionsCache[forQuestion].innerHTML += `
+            
+            <div class="qcmChoisedProposalWordingP proposalWordingP">
+                 <span class="numeroProp nPropPartTwo">${letters[forProposal]}</span>
+                 ${data.randomQuestion[forQuestion].proposals[forProposal].wording}
+            </div>
+  
+            `;
+          }
+        }
+
+        // OFFICIAL QUESTIONS
+
+        for (
+          let forQuestionOfficial = 0;
+          forQuestionOfficial < data.officialQuestions.length;
+          forQuestionOfficial++
+        ) {
+          questionsOfficialQcm.innerHTML += `
+              <li class="officialQuestionLi" draggable="true">
+                <div class="OfficialQuestionWordingDiv questionWordingDiv ">
+                    <div class="qcmChoisedTreffleP"></div>
+                    <div class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
+                      <span> ${forQuestionOfficial + 1}</span>  
+                      ${data.officialQuestions[forQuestionOfficial].wording}
+                    </div>
+                    <div class="officialChevronBasP chevronBasP">
+                        <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
+                    </div>
+                    <div class="modifyQuestionImgDiv ">
+                               <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg" >
+                    </div>
+                </div>
+                <div>
+                    <div class="OfficialProposalWordingDiv proposalWordingDiv">
+                      <p class="responselabel">Les réponses</p>
+                      
+                    </div>
+                </div>
+
+            </li>
+          `;
+          let proposalsOfficialQcm = document.querySelectorAll(
+            ".OfficialProposalWordingDiv.proposalWordingDiv "
+          );
+          for (
+            let forProposalOfficial = 0;
+            forProposalOfficial <
+            data.officialQuestions[forQuestionOfficial].proposals.length;
+            forProposalOfficial++
+          ) {
+            console.log(data.officialQuestions[forQuestionOfficial]);
+
+            proposalsOfficialQcm[forQuestionOfficial].innerHTML += `
+                  <p class =" officialProposalWordingP proposalWordingP " data-status="${
+                    data.officialQuestions[forQuestionOfficial].proposals[
+                      forProposalOfficial
+                    ].isCorrectAnswer
+                  }" data-id="${
+              data.officialQuestions[[forQuestionOfficial]].proposals[
+                forProposalOfficial
+              ].id
+            }" >
+                       <span class="numeroProp nPropPartTwo"> ${
+                         letters[forProposalOfficial]
+                       } </span><span class="spanWording" >${
+              data.officialQuestions[forQuestionOfficial].proposals[
+                forProposalOfficial
+              ].wording
+            } </span>
+                  </p>
+                `;
+          }
+          // responselabel.append(test);
+          proposalsOfficialQcm[forQuestionOfficial].innerHTML += `
+              <div class="questionModify">
+                <button class="save">{{ 'button.register'|trans }}</button>
+              </div>
+           `;
+        }
+
+        // if (result) {
+        //   // console.log(result);
+        //   console.log(result[0]);
+        //   let monObj = document.createElement("p");
+        //   let pObj = (monObj.innerText = `${result.officialQuestions}`);
+        //   document.querySelector("choiceDifficultiesAndTypeOfQcm").append(pObj);
+        // }
+        // for (let i = 0; i < data.randomQuestion.length; i++) {
+        //   questionLiQuestionsCache.innerHTML += `${data.randomQuestion[i].wording}`;
+        // }
+      });
+  });
+
   // /////////////////////// SHOW QCM
 
   let btnShowQcm = document.querySelector(".btnShowQcm");
-  //let btnShowQcm = document.querySelector("#btnShowQcm");
   let showQcm = document.querySelector(".backWhite");
 
   btnShowQcm.addEventListener("click", function (e) {
@@ -61,7 +371,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
   });
   /***************************************************************************/
   let qcmChoisedMainSide = document.querySelector(".qcmChoisedMain");
-  calcNbrQuestionByLevel(qcmChoisedMainSide);
+  if (qcmChoisedMainSide) {
+    calcNbrQuestionByLevel(qcmChoisedMainSide);
+  }
 
   let questionsOfficial = document.querySelector(".questionsOfficial");
   let buttonQuestionType = document.querySelectorAll(
@@ -71,35 +383,68 @@ document.addEventListener("DOMContentLoaded", (event) => {
   // ///////////MODULE PAR NIVEAU DE DIFFICULTE DE QCM
 
   let btnDifficultyQcmModule = document.querySelectorAll(
-    ".list_choice_difficulties li"
+    ".listChoiceDifficulties li"
   );
-  let inputDifficulty = document.querySelectorAll(
-    ".list_choice_difficulties input"
-  );
+  // inputDifficulty.value = 3;
 
-  btnDifficultyQcmModule.forEach((btn) => {
-    btn.addEventListener("click", function (e) {
-      console.log(e.target.dataset.difficulty);
-      inputDifficulty.value = `${e.target.dataset.difficulty}`;
+  // for (let btn = 0; btn < btnDifficultyQcmModule.length; btn++) {
+  //   console.log(location.search);
+  //   btnDifficultyQcmModule[btn].addEventListener("click", function (e) {
+  //     console.log(e.target, "la");
 
-      console.log((inputDifficulty.value = `${e.target.dataset.difficulty}`));
-    });
-  });
+  //     // e.stopPropagation();
+  //     if (location.href.includes(location.search) && location.search !== "") {
+  //       console.log(location.href);
+  //       console.log(location.search);
+  //       console.log("yeah");
+  //       inputDifficulty.value = `${e.target.dataset.difficulty}`;
+  //       if (
+  //         this.dataset.difficulty ==
+  //         btnDifficultyQcmModule[btn].dataset.difficulty
+  //       ) {
+  //         e.target.classList.add("colorDifficulty");
+
+  //         // console.log(
+  //         //   (inputDifficulty.value = `${e.target.dataset.difficulty}`)
+  //         // );
+  //       }
+  //       for (let btn = 0; btn < btnDifficultyQcmModule.length; btn++) {
+  //         if (
+  //           this.dataset.difficulty !==
+  //           btnDifficultyQcmModule[btn].dataset.difficulty
+  //         ) {
+  //           btnDifficultyQcmModule[btn].classList.remove("colorDifficulty");
+  //         }
+  //       }
+  //     } else {
+  //       let pError = document.createElement("p");
+  //       // retirer les doublons au clic
+  //       pErrorText = pError.innerText = "veuillez selectionner un module";
+  //       document
+  //         .querySelector(".blocBorderChoiceDifficulties")
+  //         .after(pErrorText);
+  //       e.target;
+  //     }
+  //   });
+  // }
 
   //Event faire apparaitre la partie 2********************************************************************************
   let btnToggle = document.querySelector(".btnToggle");
   let dragAndDrop = document.querySelector(".dragAndDrop");
   let btnCustom = document.querySelector(".btnCustom");
-  btnCustom.addEventListener("click", (e) => {
-    let partTwo = document.querySelector(".partTwo");
-    partTwo.classList.remove("displayNone");
-    dragAndDrop.scrollIntoView({
-      behavior: "smooth",
+  if (btnCustom) {
+    btnCustom.addEventListener("click", (e) => {
+      let partTwo = document.querySelector(".partTwo");
+      partTwo.classList.remove("displayNone");
+      dragAndDrop.scrollIntoView({
+        behavior: "smooth",
+      });
+      if ((partTwo.style.display = "block")) {
+        btnToggle.style.display = "none";
+      }
     });
-    if ((partTwo.style.display = "block")) {
-      btnToggle.style.display = "none";
-    }
-  });
+  }
+
   //   //////////////NUMERO OF LI TEST QUESTIONS OFFICIELS/ PERSONNALISED
   let questionWordingSpan = document.querySelectorAll(
     ".officialQuestionWordingP span"
@@ -393,149 +738,160 @@ document.addEventListener("DOMContentLoaded", (event) => {
   let qcmChoisedMain = document.querySelector(".qcmChoisedMain");
 
   //arrowRight QcmChoised -> questions
+  if (arrowRight) {
+    arrowRight.addEventListener("click", (e) => {
+      let firstLi = questionsOfficialSide.firstElementChild.firstElementChild;
+      let ulQuestionsOfficialSide = questionsOfficialSide.firstElementChild;
 
-  arrowRight.addEventListener("click", (e) => {
-    let firstLi = questionsOfficialSide.firstElementChild.firstElementChild;
-    let ulQuestionsOfficialSide = questionsOfficialSide.firstElementChild;
-
-    let qcmChoisedLis = qcmChoisedMain.querySelectorAll(".borderColor");
-    qcmChoisedLis.forEach((li) => {
-      //questions officelles
-      if (li.classList.contains("qcmChoisedLi")) {
-        let allP = li.firstElementChild.children;
-        // Bouton modifier la question
-        for (let i = 0; i < allP.length; i++) {
-          if (allP[i].tagName === "DIV") {
-            allP[i].classList.remove("displayNone");
+      let qcmChoisedLis = qcmChoisedMain.querySelectorAll(".borderColor");
+      qcmChoisedLis.forEach((li) => {
+        //questions officelles
+        if (li.classList.contains("qcmChoisedLi")) {
+          let allP = li.firstElementChild.children;
+          // Bouton modifier la question
+          for (let i = 0; i < allP.length; i++) {
+            if (allP[i].tagName === "DIV") {
+              allP[i].classList.remove("displayNone");
+            }
           }
-        }
 
-        let qcmChoisedLi = li;
-        li.remove();
-        ulQuestionsOfficialSide.insertBefore(qcmChoisedLi, firstLi);
+          let qcmChoisedLi = li;
+          li.remove();
+          ulQuestionsOfficialSide.insertBefore(qcmChoisedLi, firstLi);
 
-        ////nombre de questions choisies drop dans questions officielles
-        let liQcmChoicedInOfficialQcm = document.querySelectorAll(
-          ".questionsOfficial .qcmChoisedLi"
-        );
-        if (liQcmChoicedInOfficialQcm) {
-          for (let i = 0; i < liQcmChoicedInOfficialQcm.length; i++) {
-            btnQuestionsOfficial.innerHTML = `Questions officielles :${
-              listQuestionsOfficials.length + liQcmChoicedInOfficialQcm.length
-            }`;
+          ////nombre de questions choisies drop dans questions officielles
+          let liQcmChoicedInOfficialQcm = document.querySelectorAll(
+            ".questionsOfficial .qcmChoisedLi"
+          );
+          if (liQcmChoicedInOfficialQcm) {
+            for (let i = 0; i < liQcmChoicedInOfficialQcm.length; i++) {
+              btnQuestionsOfficial.innerHTML = `Questions officielles :${
+                listQuestionsOfficials.length + liQcmChoicedInOfficialQcm.length
+              }`;
+            }
           }
+        } else {
+          li.remove();
         }
-      } else {
-        li.remove();
+      });
+      let elementSelect = document.querySelectorAll(".borderColor");
+      elementSelect.forEach((el) => {
+        el.classList.remove("borderColor");
+      });
+      if (qcmChoisedMain) {
+        calcNbrQuestionByLevel(qcmChoisedMain);
       }
     });
-    let elementSelect = document.querySelectorAll(".borderColor");
-    elementSelect.forEach((el) => {
-      el.classList.remove("borderColor");
-    });
-    calcNbrQuestionByLevel(qcmChoisedMain);
-  });
+  }
 
   //arrowLeft qcmChoised <- question
-  arrowLeft.addEventListener("click", (e) => {
-    let firstLi = qcmChoisedMain.firstElementChild.firstElementChild;
-    let ulQcmChoisedSide = qcmChoisedMain.firstElementChild;
+  if (arrowLeft) {
+    arrowLeft.addEventListener("click", (e) => {
+      let firstLi = qcmChoisedMain.firstElementChild.firstElementChild;
+      let ulQcmChoisedSide = qcmChoisedMain.firstElementChild;
 
-    let officialLis = questionsOfficialSide.querySelectorAll(".borderColor");
-    officialLis.forEach((li) => {
-      console.log(li, "la");
-      //questions officelles
-      if (li.classList.contains("officialQuestionLi")) {
-        let allP = li.firstElementChild.children;
-        console.log(allP[3], "YES");
-        // Bouton modifier la question
-        for (let i = 0; i < allP.length; i++) {
-          //etant donné que les p sont transformées en div donc contition lié au class pour sélectionner la bonne div
-          if (allP[i].classList === "modifyQuestionImgDiv") {
-            allP[i].classList.add("displayNone");
+      let officialLis = questionsOfficialSide.querySelectorAll(".borderColor");
+      officialLis.forEach((li) => {
+        console.log(li, "la");
+        //questions officelles
+        if (li.classList.contains("officialQuestionLi")) {
+          let allP = li.firstElementChild.children;
+          console.log(allP[3], "YES");
+          // Bouton modifier la question
+          for (let i = 0; i < allP.length; i++) {
+            //etant donné que les p sont transformées en div donc contition lié au class pour sélectionner la bonne div
+            if (allP[i].classList === "modifyQuestionImgDiv") {
+              allP[i].classList.add("displayNone");
+            }
+          }
+
+          let officialLi = li;
+          console.log(officialLi, "la");
+          li.remove();
+          ulQcmChoisedSide.insertBefore(officialLi, firstLi);
+          //count questions officiel dans question choisie
+          // FAIRE UNE FONCTION TOTALE DE listQuestionsOfficials.length +liQcmChoicedInOfficialQcm.length dans la fonction de déplacement vers ldroite et la rappeler en bas
+          //
+          let liQcmChoicedInOfficialQcm =
+            document.querySelectorAll(".qcmChoisedLi");
+          let liQcmOfficialInQcmChoiced = document.querySelectorAll(
+            ".qcmChoisedMain .officialQuestionLi"
+          );
+          if (liQcmChoicedInOfficialQcm) {
+            console.log(liQcmChoicedInOfficialQcm, "yo");
+            for (let i = 0; i < liQcmChoicedInOfficialQcm.length; i++) {
+              btnQuestionsOfficial.innerHTML = `Questions officielles :${
+                listQuestionsOfficials.length +
+                liQcmChoicedInOfficialQcm.length -
+                liQcmOfficialInQcmChoiced.length
+              }`;
+            }
           }
         }
+      });
 
-        let officialLi = li;
-        console.log(officialLi, "la");
-        li.remove();
-        ulQcmChoisedSide.insertBefore(officialLi, firstLi);
-        //count questions officiel dans question choisie
-        // FAIRE UNE FONCTION TOTALE DE listQuestionsOfficials.length +liQcmChoicedInOfficialQcm.length dans la fonction de déplacement vers ldroite et la rappeler en bas
-        //
-        let liQcmChoicedInOfficialQcm =
-          document.querySelectorAll(".qcmChoisedLi");
-        let liQcmOfficialInQcmChoiced = document.querySelectorAll(
-          ".qcmChoisedMain .officialQuestionLi"
-        );
-        if (liQcmChoicedInOfficialQcm) {
-          console.log(liQcmChoicedInOfficialQcm, "yo");
-          for (let i = 0; i < liQcmChoicedInOfficialQcm.length; i++) {
-            btnQuestionsOfficial.innerHTML = `Questions officielles :${
-              listQuestionsOfficials.length +
-              liQcmChoicedInOfficialQcm.length -
-              liQcmOfficialInQcmChoiced.length
-            }`;
-          }
-        }
+      let elementSelect = document.querySelectorAll(".borderColor");
+      elementSelect.forEach((el) => {
+        el.classList.remove("borderColor");
+      });
+      if (qcmChoisedMain) {
+        calcNbrQuestionByLevel(qcmChoisedMain);
       }
     });
+  }
 
-    let elementSelect = document.querySelectorAll(".borderColor");
-    elementSelect.forEach((el) => {
-      el.classList.remove("borderColor");
-    });
-
-    calcNbrQuestionByLevel(qcmChoisedMain);
-  });
   ////////////////////// COUNT LI QCM CHOICED IN OFFICIAL QCM
 
   // Event Validation qcm
   let qcmValidationBtn = document.querySelector(".qcmValidation");
-  qcmValidationBtn.addEventListener("click", (e) => {
-    let questionsSelect = {};
-    let qcmNameInput = document.querySelector(".qcmNameInput").value;
-    let module = document.querySelector(".qcmNameInput").dataset.module;
-    let isPublic = document.getElementById("isPublicInput").checked;
-    let qcmChoisedLevel = document
-      .getElementById("qcmChoisedLevel")
-      .textContent.trim();
-    questionsSelect = {
-      name: qcmNameInput,
-      level: qcmChoisedLevel,
-      module: module,
-      isPublic: isPublic,
-      questions: [],
-    };
-    let questions = document.querySelectorAll(".qcmChoisedQuestionWordingDiv");
-    questions.forEach((question) => {
-      let level = question.firstElementChild.firstElementChild.dataset.level;
-      let wording = question.children[1].textContent.trim();
-      let id = question.children[1].dataset.id;
-      questionsSelect["questions"].push({
-        id: id,
-        level: level,
-        wording: wording,
+  if (qcmValidationBtn) {
+    qcmValidationBtn.addEventListener("click", (e) => {
+      let questionsSelect = {};
+      let qcmNameInput = document.querySelector(".qcmNameInput").value;
+      let module = document.querySelector(".qcmNameInput").dataset.module;
+      let isPublic = document.getElementById("isPublicInput").checked;
+      let qcmChoisedLevel = document
+        .getElementById("qcmChoisedLevel")
+        .textContent.trim();
+      questionsSelect = {
+        name: qcmNameInput,
+        level: qcmChoisedLevel,
+        module: module,
+        isPublic: isPublic,
+        questions: [],
+      };
+      let questions = document.querySelectorAll(
+        ".qcmChoisedQuestionWordingDiv"
+      );
+      questions.forEach((question) => {
+        let level = question.firstElementChild.firstElementChild.dataset.level;
+        let wording = question.children[1].textContent.trim();
+        let id = question.children[1].dataset.id;
+        questionsSelect["questions"].push({
+          id: id,
+          level: level,
+          wording: wording,
+        });
+        console.log(questionsSelect["question"]);
       });
-      console.log(questionsSelect["question"]);
+      console.log(routeInstructorQcmFetch);
+      console.log(questionsSelect);
+      fetch(routeInstructorQcmFetch, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json", // The type of data you're sending
+        },
+        body: JSON.stringify(questionsSelect), // The data
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          if (result == "ok") {
+            window.location.href =
+              "https://127.0.0.1:8000/instructor/creations/questions";
+          }
+        });
     });
-    console.log(routeInstructorQcmFetch);
-    console.log(questionsSelect);
-    fetch(routeInstructorQcmFetch, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json", // The type of data you're sending
-      },
-      body: JSON.stringify(questionsSelect), // The data
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        if (result == "ok") {
-          window.location.href =
-            "https://127.0.0.1:8000/instructor/creations/questions";
-        }
-      });
-  });
+  }
 
   /**********************************************************************************************************************/
   function addProposal(e, parent, lengthProp) {
@@ -657,19 +1013,22 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   function calcNbrQuestionByLevel(side) {
     let easyLevel = 0;
+
     let mediumLevel = 0;
     let difficultyLevel = 0;
 
     let questions = side.querySelectorAll(".qcmChoisedTrefle");
-    questions.forEach((question) => {
-      if (question.dataset.level === "easy") {
-        easyLevel++;
-      } else if (question.dataset.level === "medium") {
-        mediumLevel++;
-      } else {
-        difficultyLevel++;
-      }
-    });
+    if (side) {
+      questions.forEach((question) => {
+        if (question.dataset.level === "easy") {
+          easyLevel++;
+        } else if (question.dataset.level === "medium") {
+          mediumLevel++;
+        } else {
+          difficultyLevel++;
+        }
+      });
+    }
 
     let pEasy = document.getElementById("easy");
     pEasy.innerHTML = easyLevel;
@@ -687,7 +1046,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       qcmChoisedLevel.innerHTML = "Facile";
     }
   }
-});
+};
 
 // TODO
 // info bouton modif une question retiré
