@@ -49,6 +49,7 @@
             {% endfor %}
         </select>
     </div>
+    <div class="officiel">
     <div>
         <p>
             <span class="numeroForm">2</span>
@@ -84,7 +85,7 @@
                     {% elseif qcmDone.qcm.difficulty is same as 2 %}
                         {{ 'difficulty.medium'|trans }}
                     {% elseif qcmDone.qcm.difficulty is same as 3 %}
-                        {{ 'difficulty.dificult'|trans }}
+                        {{ 'difficulty.difficult'|trans }}
                     {% endif %}
                 </p>
             </div>
