@@ -24,9 +24,6 @@ li {
 
 /************************************************ CSS SUR LES TD *************************************************************/
 
-/* .premier {
-  padding: 1em 0;
-} */
 #listProposal {
   padding: 0;
   display: grid;
@@ -95,13 +92,6 @@ input[type="radio"]:checked {
   cursor: pointer;
 }
 
-/*input[type="radio"]:checked:before {*/
-/*     display: block;*/
-/*     color: grey;*/
-/*     font-size: 13px;*/
-/*     position: absolute;*/
-/*}*/
-
 #error_checked {
   display: flex;
   flex-direction: column;
@@ -137,6 +127,7 @@ form {
   margin: auto;
   padding: 2.5em 0;
 }
+
 #create_question_wording {
   width: 73%;
   height: 75px;
@@ -147,7 +138,7 @@ form {
   padding: 10px;
 }
 
-#create_question_module
+#create_question_module,
 #create_question_explanation{
   padding: 0.8em;
   width: 70%;

@@ -214,14 +214,13 @@
   align-items: center;
 }
 .blocContentProposal {
-  display: grid;
-  grid-template-columns: 5% 95%;
   padding: 0.5em;
+  width: 90%;
 }
-.blocContentProposal > p:last-child {
-  padding: 0.5em;
+
+.blocContentProposal p{
+  width: 100%;
   margin: 0;
-  width: 3%;
 }
 
 @media screen and (max-width: 1200px) {

@@ -15,9 +15,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
   //////////////////////SCROLL UNTIL ERROR MODAL AFTER PROPOSALS
   if (modal) {
-    // modal.scrollIntoView({
-    //   behavior: "smooth",
-    // });
     containerModal.style.display = "flex";
     let modalPosition = modal.getBoundingClientRect().right;
     window.scroll({
