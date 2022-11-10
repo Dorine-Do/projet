@@ -1,4 +1,4 @@
-let sessionsLis, moduleSelect;
+let sessionsLis, moduleSelect, sessionField;
 
 function fetchModules(e)
 {
@@ -28,7 +28,39 @@ function displayModulesOptions(modules)
     });
 }
 
+function messageError(e){
+    sessionField = document.querySelector('input[name="session"]:checked')
+    console.log(sessionField)
+    console.log(moduleSelect)
+
+    if(moduleSelect === 'undefined'){
+        let p = document.createElement('p')
+        p.innerHTML = 'Veuillez sélectionner un module'
+        p.style.color = 'red'
+        p.style.width = '100%'
+        p.style.textAlign = 'center'
+        p.className = "messageError"
+        moduleSelect.parentNode.append(p)
+        e.preventDefault()
+    }
+
+    if(sessionField === null){
+        let p = document.createElement('p')
+        p.innerHTML = 'Veuillez sélectionner une session'
+        p.style.color = 'red'
+        p.style.width = '100%'
+        p.style.textAlign = 'center'
+        p.className = "messageError"
+        sessionField.parentNode.parentNode.append(p)
+        e.preventDefault()
+    }
+    e.preventDefault()
+}
+
 document.addEventListener('DOMContentLoaded', function(){
+
+    let btnSubmit = document.querySelector('.buttonSubmit')
+    btnSubmit.addEventListener('click', messageError)
 
     sessionsLis = document.querySelectorAll('.liSession');
 
