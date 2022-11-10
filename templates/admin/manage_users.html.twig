@@ -48,9 +48,9 @@
                                 <button class="userDetailsBtn button greyButton" data-user="{{ user.id }}">{{ 'button.details'|trans }}</button>
                                 <button class="editRoleBtn button greyButton" data-user="{{ user.id }}" data-role="{{ user.roles[0] }}">{{ 'button.changeRole'|trans }}</button>
                                 {% if 'ROLE_INSTRUCTOR' in user.roles %}
-                                    <a class="button greyButton" href="{{ path( 'admin_stats_instructor', {'instructor': user.id} ) }}">Stats</a>
+                                    <a class="button greyButton" href="{{ path( 'admin_stats_instructor', {'instructor': user.id} ) }}">{{ 'button.stats'|trans }}</a>
                                 {% elseif 'ROLE_STUDENT' in user.roles %}
-                                    <a class="button greyButton" href="{{ path( 'admin_stats_student', {'student': user.id} ) }}">Stats</a>
+                                    <a class="button greyButton" href="{{ path( 'admin_stats_student', {'student': user.id} ) }}">{{ 'button.stats'|trans }}</a>
                                 {% endif %}
                             </td>
                         </tr>

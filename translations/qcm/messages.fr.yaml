@@ -6,7 +6,9 @@ qcm:
   todo: QCM à faire
   official: QCM officiel
   inter: QCM d'exercice
+  unactivated: QCM désactivé
   toPersonnalised: Personnaliser son QCM
+  errorTyep: Erreur dans le type de QCM
   choice: Choix du QCM
   dones: QCM Réalisés
   donesExplain: En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les QCM que tu as terminé, voir tes réponses fausses et t'entraîner à les refaire.
@@ -116,12 +118,15 @@ button:
   qcmManagement: Gestion des QCMs
   questionsManagement: Gestion des questions
   sessionsManagement: Gestion des sessions
+  sessions: Sessions
   modulesManagement: Gestion des modules
   usersManagement: Gestion des utilisateurs
   edit: Editer
   createQcm: Créer un QCM
   stats: Stats
   students: Etudiants
+  learners: Apprenants
+  teachers: Formateurs
   modules: Modules
   details: Détails
   changeRole: Changer le rôle
@@ -180,6 +185,7 @@ title:
   difficulty: Difficulté
   qcmType: QCM Type
   module: Module
+  modules: Modules
   date: Date
   note: Note
   type: Type
@@ -238,6 +244,16 @@ title:
   adminTest: Admin Test
   hello: Salut
   bigConnection: CONNEXION
+  stackSuccess: Taux de réussite par stack
+  stackRate: Note moyenne par stack
+  stats: Statistiques
+  statsOf: Statistiques de
+  modulesStats: Statistiques de modules
+  sessionsStats: Statistiques de la session
+  stacks: Stacks
+  moduleSuccess: Taux de réussite par module
+  moduleRate: Note moyenne par module
+  search: Rechercher
 
 
 

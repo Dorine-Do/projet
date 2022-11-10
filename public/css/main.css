@@ -441,7 +441,7 @@ pre {
 
 @media screen and (max-width: 780px) {
 
-  #closeReportBugModaleBtn {
+  #closeReportBugModaleBtn, #closeStatsModaleBtn {
     position: absolute;
     top: 16px;
     right: 16px;
@@ -452,7 +452,7 @@ pre {
 
 @media screen and (max-width: 450px) {
 
-  #closeReportBugModaleBtn {
+  #closeReportBugModaleBtn, #closeStatsModaleBtn {
     position: absolute;
     top: 10px;
     right: 10px;

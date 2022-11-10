@@ -34,7 +34,7 @@
                             <td>
                                 <button class="showStudentsBtn button greyButton" data-session="{{ session.id }}">{{ 'button.students'|trans }}</button>
                                 <button class="showModulesBtn button greyButton" data-session="{{ session.id }}">{{ 'button.modules'|trans }}</button>
-                                <a class="statsButton button greyButton" href="{{ path('admin_stats_session', { 'session': session.id } ) }}">Stats</a>
+                                <a class="statsButton button greyButton" href="{{ path('admin_stats_session', { 'session': session.id } ) }}">{{ 'button.stats'|trans }}</a>
                             </td>
                         </tr>
                         
@@ -64,7 +64,7 @@
                         <thead>
                             <tr>
                                 <th>{{ 'title.title'|trans }}</th>
-                                <th>Formateur</th>
+                                <th>{{ 'title.instructor'|trans }}</th>
                                 <th>{{ 'title.from'|trans }}</th>
                                 <th>{{ 'title.to'|trans }}</th>
                             </tr>

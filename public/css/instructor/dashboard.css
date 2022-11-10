@@ -19,6 +19,7 @@
     margin: 0 auto 1em;
     display: flex;
     text-align: center;
+    padding: .5em 0;
 }
 
 .pIsOfficial{
@@ -172,6 +173,7 @@
 .ulListStudents{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    background: var(--fond);
 }
 
 .divStudentData{
