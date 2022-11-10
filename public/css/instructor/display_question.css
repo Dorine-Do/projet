@@ -188,6 +188,11 @@
   font-weight: 600;
 }
 
+.spanQuestion p, .spanQuestion pre {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .divProposals {
   display: flex;
   justify-content: space-around;

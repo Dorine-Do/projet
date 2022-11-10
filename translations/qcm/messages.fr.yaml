@@ -24,8 +24,8 @@ qcm:
   displayQuestionByChoisedQcm: Affichage de mes questions en fonction du QCM choisi
   chooseStudents: Choix du ou des élèves pouvant faire le QCM
   doAllQestions: Merci de répondre à toutes les questions pour valider le QCM...
-  distributed: QCMs distribués
-  done: Qcms effectués
+  distributed: QCM distribués
+  done: Qcm effectués
   chooseQcmModuleLevel: Choix du QCM par module et par niveau
   chooseStudentsQcm: Choix du ou des élèves pouvant faire le QCM
 
@@ -115,7 +115,7 @@ button:
   maitrise: Maîtrise
   domine: Domine
   add: Ajouter
-  qcmManagement: Gestion des QCMs
+  qcmManagement: Gestion des QCM
   questionsManagement: Gestion des questions
   sessionsManagement: Gestion des sessions
   sessions: Sessions
@@ -140,7 +140,7 @@ button:
 header:
   dashboard: Tableau de bord
   planning: Planning
-  qcms: QCMs
+  qcms: QCM
 
 title:
   weclome: Accueil
@@ -177,7 +177,7 @@ title:
   levelByQuestionDifficulty: Le niveau est déterminé automatiquement par la difficulté des questions
   qcmPersonalizedTitle: Donner un titre au QCM personnalisé
   qcmUseByOtherTeacher: Ce QCM pourra-t-il être utilisé par d'autres formateurs?
-  qcmPlan: QCMs distribués
+  qcmPlan: QCM distribués
   session: Session
   level: Niveau
   selectModule: Selectionnez un module
@@ -209,7 +209,7 @@ title:
   noModuleDone: Aucun module n'est terminé.
   myInducementBadges: Mes badges d'encouragement
   myCertification: Ma certification
-  unlockWhenQcmDone:  Se débloquera une fois que tu auras effectué tous les qcms.
+  unlockWhenQcmDone:  Se débloquera une fois que tu auras effectué tous les qcm.
   explanation: Explications
   addCommentary: Ajouter un commentaire
   commentaryWillBeSeeable: Attention, votre commentaire sera lisible par l'élève dans son espace YouUp.
@@ -254,6 +254,9 @@ title:
   moduleSuccess: Taux de réussite par module
   moduleRate: Note moyenne par module
   search: Rechercher
+  myCreation: Mes créations
+  oups: Oups
+  bravo: Bravo !
 
 
 
