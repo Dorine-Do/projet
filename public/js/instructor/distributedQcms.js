@@ -1,4 +1,4 @@
-let selectSession, selectModule, qcmsContainer, ul, qcmsName, studentsContainer, redirect, divLegend
+let selectSession, selectModule, qcmsContainer, ulQcm, qcmsName, studentsContainer, redirect, divLegend, ulStudent
 
 
 function fetchModules(e){
@@ -20,6 +20,11 @@ function fetchModules(e){
             document.getElementById('sectionModule').scrollIntoView({
                 behavior: 'smooth'
             });
+
+            qcmsContainer.style.display = 'none'
+            ulStudent.remove()
+            ulQcm.remove()
+
         })
 }
 
@@ -34,14 +39,26 @@ function fetchQcms(e){
 
             qcmsContainer.innerHTML = ''
             qcmsContainer.append(divLegend)
+
+            console.log(qcmsWithoutRetry)
+
+            if(qcmsWithoutRetry.length === 0){
+                let p = document.createElement('p')
+                p.innerHTML = 'Aucun QCM n\'a été trouvé'
+                p.style.textAlign = 'center'
+                p.style.fontSize = '1.2em'
+                p.style.marginTop = '40px'
+                qcmsContainer.append(p)
+            }
+
             qcmsWithoutRetry.forEach( qcm => {
 
-                ul = document.createElement('ul')
+                ulQcm = document.createElement('ul')
                 let name = document.createElement('li')
                 let difficulty = document.createElement('li')
                 let isOfficial = document.createElement('li')
 
-                ul.className = 'qcmStudent'
+                ulQcm.className = 'qcmStudent'
                 name.className = 'button'
                 isOfficial.className = 'official'
                 difficulty.className = 'difficulty'
@@ -49,7 +66,7 @@ function fetchQcms(e){
                 name.innerHTML = qcm.title
                 name.dataset.qcm = qcm.id
                 name.id = qcm.id
-                qcmsContainer.append(ul)
+                qcmsContainer.append(ulQcm)
 
                 if(qcm.difficulty === 1){
                     difficulty.innerHTML = 'Facile'
@@ -65,7 +82,7 @@ function fetchQcms(e){
                     isOfficial.innerHTML = 'Exerice'
                 }
 
-                ul.append(name, isOfficial, difficulty)
+                ulQcm.append(name, isOfficial, difficulty)
 
                 qcmsName = document.getElementsByClassName('button')
                 for(let i = 0; i<qcmsName.length; i++){
@@ -77,6 +94,8 @@ function fetchQcms(e){
                 behavior: 'smooth'
             });
         })
+    ulStudent.remove()
+    ulStudent.innerHTML = ' '
 }
 
 function fetchStudents(e){
@@ -95,7 +114,7 @@ function fetchStudents(e){
                 });
 
             }else{
-                let ulStudent = document.createElement('ul')
+                ulStudent = document.createElement('ul')
                 studentsResults.forEach( studentResult => {
 
                     let li = document.createElement('li')

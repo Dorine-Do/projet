@@ -51,7 +51,7 @@
         <div class="splitBadges">
             {% if app.user.badges != null and app.user.badges != [] %}
                 {% for badge in app.user.badges %}
-                    {% set var = 'build/images/badges/'~badge %}
+                    {% set var = 'build/images/badges/'~badge~'.svg' %}
                     <img src="{{ asset(var) }}" alt="badge gagné" class="badges">
                 {% endfor %}
             {% endif %}

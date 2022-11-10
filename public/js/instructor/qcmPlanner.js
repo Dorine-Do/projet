@@ -31,6 +31,11 @@ function updateModuleSelect( field, fieldData )
         field.append(option);
     });
     updateQcmsFromAjax( fieldData[0].id, qcmField );
+
+    document.getElementById('module-choice').scrollIntoView({
+        behavior: 'smooth',
+        block: "center"
+    });
 }
 
 function updateStudentOptions( field, fieldData )
@@ -52,6 +57,13 @@ function updateStudentOptions( field, fieldData )
         field.append(div);
 
     });
+    moduleField.addEventListener('change', function (){
+        document.getElementById('qcm-choice').scrollIntoView({
+            behavior: 'smooth',
+            block: "center"
+        });
+    })
+
 }
 
 function updateQcmSelect( field, fieldData )
@@ -63,6 +75,13 @@ function updateQcmSelect( field, fieldData )
         option.innerText = data.title;
         field.append(option);
     });
+
+    moduleField.addEventListener('change', function (){
+        document.getElementById('qcm-students').scrollIntoView({
+            behavior: 'smooth',
+            block: "center"
+        });
+    })
 }
 
 function buildMessageError(e,parent, message, id){
