@@ -45,7 +45,7 @@
                             {% if qcm.isOfficial == 0 and qcm.isEnabled == 1 and qcm.isPublic == 0 %}
                                 <td>{{ 'qcm.trainning'|trans }}</td>
                             {% elseif qcm.isOfficial == 1 and qcm.isEnabled == 1 and qcm.isPublic == 1  %}
-                                <td>{{ 'button.official'|trans }}</td>
+                                <td>{{ 'qcm.official'|trans }}</td>
                             {% elseif qcm.isOfficial == 0 and qcm.isEnabled == 1 %}
                                 <td>{{ 'qcm.inter'|trans }}</td>
                             {% elseif qcm.isEnabled == 0 %}
