@@ -248,6 +248,7 @@ pre code{
   background: var(--fond);
   border-radius: 0 0 5px 5px;
 }
+
 .divProp {
   display: flex;
   align-items: center;
@@ -264,143 +265,121 @@ pre code{
 }
 
 @media screen and (max-width: 1200px) {
-  .liWording {
-    /*display: flex;*/
-    /*align-items: center;*/
-    /*background-color: var(--pamplemousse);*/
-    /*padding: 0.7em;*/
-    /*border-radius: 5px 5px 0 0;*/
-    /*list-style: none;*/
-    /*font-family: "Alumni Sans", serif;*/
-    /*width: 90%;*/
+
+  .blocQuestions {
+    padding: 5em 0;
   }
 
-  .buttonModify {
-    /*height: 70px;*/
-    /*width: 50px;*/
-    /*margin: auto;*/
+  .divQuestions {
+    padding: 3em 0;
   }
 
-  .divJs {
-    /*flex-direction: column;*/
-    /*width: 88%;*/
+  .divWordingQuestion {
+    width: 84%;
   }
+
+
 }
 
 @media screen and (max-width: 780px) {
-  .divQuestions {
-    background-color: var(--fond);
-    border-radius: 5px;
-    padding: 2em;
-    color: var(--grey);
-    width: 88%;
-    margin: 50px auto auto;
+
+  .subLiQuestion {
+    display: flex;
+    flex-direction: column-reverse;
   }
 
   .liWording {
-    background-color: var(--pamplemousse);
-    padding: 1.3em;
-    border-radius: 5px 5px 0 0;
-    list-style: none;
-    font-family: "Alumni Sans", serif;
-    display: flex;
-    align-items: center;
-    width: 80%;
-  }
-
-  .divQuestion {
-    margin: 1em auto;
-    display: flex;
-    width: 85%;
-  }
-
-  .subDivQuestions {
-    padding: 0;
-  }
-
-  .blocQuestions{
-    padding: 0;
-  }
-
-  .divJs {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .buttonModify {
-    height: 105px;
-    width: 52px;
-  }
-
-  .blocDivProposal{
-    width: 96%;
-  }
-}
-
-@media screen and (max-width: 450px) {
-  .container {
     max-width: 100%;
   }
 
-  .divProp {
-    display: block;
+  .divWordingQuestion{
+    width: 84%;
   }
 
-  .blocDivProposal {
-    width: 93%;
-  }
-
-  .circle{
-    text-align: center;
-  }
-
-  .liWording {
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 0 14px -3px gray;
-    z-index: 99;
+  .divChevron{
     border-radius: 5px;
-  }
-
-  .divQuestion {
-    display: flex;
-    flex-direction: column-reverse;
-    margin-left: 20px;
-    border-radius: 15%;
-  }
-
-  .subDivQuestions {
-    width: 100%;
-    padding: 0;
-    margin: auto;
+    box-shadow: 0 0 3px 1px var(--grey);
+    padding: .5em .2em;
   }
 
   .linkModify {
-    text-align: right;
-    margin-top: 35px;
-    margin-right: 21px;
+    width: 100%;
+    text-align: center;
+    margin: 0 0 .2em 0;
+    box-shadow: 0 0 8px -3px var(--grey);
   }
 
-  .buttonModify {
-    height: 52px;
-    margin-right: 44%;
+}
+
+@media screen and (max-width: 450px) {
+
+  .divProp{
+
   }
 
-  .divJs {
-    flex-direction: column;
-    width: 89%;
-  }
+  /*.container {*/
+  /*  max-width: 100%;*/
+  /*}*/
 
-  .buttonAdd {
-    width: 75%;
-    margin: 25px auto;
-  }
+  /*.divProp {*/
+  /*  display: block;*/
+  /*}*/
 
-  .linkCreate {
-    margin: auto;
-  }
+  /*.blocDivProposal {*/
+  /*  width: 93%;*/
+  /*}*/
 
-  .subLiQuestion {
-    width: 84%;
-  }
+  /*.circle{*/
+  /*  text-align: center;*/
+  /*}*/
+
+  /*.liWording {*/
+  /*  display: flex;*/
+  /*  flex-direction: column;*/
+  /*  box-shadow: 0 0 14px -3px gray;*/
+  /*  z-index: 99;*/
+  /*  border-radius: 5px;*/
+  /*}*/
+
+  /*.divQuestion {*/
+  /*  display: flex;*/
+  /*  flex-direction: column-reverse;*/
+  /*  margin-left: 20px;*/
+  /*  border-radius: 15%;*/
+  /*}*/
+
+  /*.subDivQuestions {*/
+  /*  width: 100%;*/
+  /*  padding: 0;*/
+  /*  margin: auto;*/
+  /*}*/
+
+  /*.linkModify {*/
+  /*  text-align: right;*/
+  /*  margin-top: 35px;*/
+  /*  margin-right: 21px;*/
+  /*}*/
+
+  /*.buttonModify {*/
+  /*  height: 52px;*/
+  /*  margin-right: 44%;*/
+  /*}*/
+
+  /*.divJs {*/
+  /*  flex-direction: column;*/
+  /*  width: 89%;*/
+  /*}*/
+
+  /*.buttonAdd {*/
+  /*  width: 75%;*/
+  /*  margin: 25px auto;*/
+  /*}*/
+
+  /*.linkCreate {*/
+  /*  margin: auto;*/
+  /*}*/
+
+  /*.subLiQuestion {*/
+  /*  width: 84%;*/
+  /*}*/
 }
