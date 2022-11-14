@@ -31,45 +31,46 @@
 
     <h1>- {{ 'question.listePerso'|trans }} -</h1>
     <div class="blocQuestions">
-     <div class="divQuestions">
-        <ul class="ulQuestions">
-            {% if questions == null %}
-                <p>{{ 'title.notCreateQuestionAlready'|trans }}</p>
-            {% endif %}
-            {% for question in questions %}
-                <div class="divQuestion">
-                    <div class="divQuestionChevron">
-                        <li class="liWording">
-                            <p class="difficulty">
-                                {% if question.difficulty.value == 1 %}
-                                    <img class="difficultyIcone" src="{{ asset('build/images/trefle_facile.svg') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
-                                {% elseif question.difficulty.value == 2 %}
-                                    <img class="difficultyIcone" src="{{ asset('build/images/trefle_moyen.svg') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
-                                {% else %}
-                                    <img class="difficultyIcone" src="{{ asset('build/images/difficil_difficile.svg') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
-                                {% endif %}
-                            </p>
-                            <span class="spanQuestion">{{ question.wording | raw }}</span>
-                            <div class="divChevron">
-                                <img class="imgChevron" src="{{ asset('build/images/chevron_bas.svg') }}" alt="chevron ouvrant" data-status="false" data-id="{{ question.id }}">
+        <div class="divQuestions">
+            <div class="subDivQuestions">
+                {% if questions == null %}
+                    <li>{{ 'title.notCreateQuestionAlready'|trans }}</li>
+                {% endif %}
+                <ul>
+                    {% for question in questions %}
+                        <li class="liQuestion">
+                                <div class="liWording">
+                                    <p class="difficulty">
+                                        {% if question.difficulty.value == 1 %}
+                                            <img class="difficultyIcone" src="{{ asset('build/images/trefle_facile.svg') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
+                                        {% elseif question.difficulty.value == 2 %}
+                                            <img class="difficultyIcone" src="{{ asset('build/images/trefle_moyen.svg') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
+                                        {% else %}
+                                            <img class="difficultyIcone" src="{{ asset('build/images/difficil_difficile.svg') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
+                                        {% endif %}
+                                    </p>
+                                    <div class="divWordingQuestion">{{ question.wording | raw }}</div>
+                                    <div class="divChevron">
+                                        <img class="imgChevron" src="{{ asset('build/images/chevron_bas.svg') }}" alt="chevron ouvrant" data-status="false" data-id="{{ question.id }}">
+                                    </div>
+                            </div>
+                            <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/modify.svg') }}" alt="bouton de modification de la question"></a>
+                            <div class="blocDivProposal">
+                                <div class="divJs">
+                                </div>
+                                <div class="divProposals">
+                                    {% for proposal in proposals  %}
+                                        {% if question.id == proposal.id_question %}
+                                            <p>{{ proposal.wording }}</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
                             </div>
                         </li>
-                    </div>
-                    <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/modify.svg') }}" alt="bouton de modification de la question"></a>
-                    <div class="blocDivProposal">
-                        <div class="divJs">
-                        </div>
-                        <div class="divProposals">
-                        {% for proposal in proposals  %}
-                            {% if question.id == proposal.id_question %}
-                                <p>{{ proposal.wording }}</p>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </ul>
+                    {% endfor %}
+                </ul>
+
+            </div>
             <div class="divAdd">
                 <a href="{{ path('instructor_create_question') }}" class="linkCreate">
                     <button class="buttonAdd">
@@ -77,7 +78,7 @@
                     </button>
                 </a>
             </div>
-      </div>
+        </div>
     </div>
 {% endblock %}
 
