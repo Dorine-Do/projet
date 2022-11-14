@@ -343,20 +343,34 @@ pre code{
   }
 
   .divProp {
-    display: block;
+    display: flex;
+    flex-direction: column;
   }
 
   .blocDivProposal {
     width: 93%;
   }
 
-  .circle{
-    text-align: center;
+  .divProp .circle{
+    margin: auto;
+  }
+
+  .greyCircle{
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .subLiQuestion{
+    display: flex;
+    flex-direction: column-reverse;
+    width: 100%;
+    align-items: center;
   }
 
   .liWording {
     display: flex;
     flex-direction: column;
+    margin-top: 30px;
     box-shadow: 0 0 14px -3px gray;
     z-index: 99;
     border-radius: 5px;
@@ -383,12 +397,11 @@ pre code{
 
   .buttonModify {
     height: 52px;
-    margin-right: 44%;
   }
 
   .divJs {
     flex-direction: column;
-    width: 89%;
+    width: 100%;
   }
 
   .buttonAdd {
@@ -400,7 +413,12 @@ pre code{
     margin: auto;
   }
 
-  .subLiQuestion {
-    width: 84%;
+  .divWordingQuestion {
+    width: 100%;
+  }
+
+  .blocContentProposal {
+    width: 100%;
+    text-align: center;
   }
 }
