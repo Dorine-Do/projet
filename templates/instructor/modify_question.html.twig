@@ -43,7 +43,7 @@
                         </div>
                     </td>
                     <td colspan="2" class="premierSelect">
-                        {{form_widget(form.module, { 'disabled' : true })}}
+                        {{form_widget(form.module, { 'disabled' : true, 'attr': {'class': 'selectVarFond'} })}}
                     </td>
                 </tr>
                 <tr>
@@ -155,7 +155,7 @@
                         </p>
                     </td>
                     <td colspan="2" class="premierSelect">
-                        {{form_widget(form.module)}}
+                        {{form_widget(form.module, {'attr': {'class': 'selectVarFond'}})}}
                     </td>
                 </tr>
                 <tr>
