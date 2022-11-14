@@ -48,9 +48,9 @@
                     </div>
                     <div>
                         {% if question.isCorrect %}
-                            <p class="bravo">{{ 'general.bravo'|trans }}!</p>
+                            <p class="bravo">{{ 'title.bravo'|trans }}!</p>
                         {% else %}
-                            <p class="oups">{{ 'general.oups'|trans }}</p>
+                            <p class="oups">{{ 'title.oups'|trans }}</p>
                         {% endif %}
                     </div>
 
@@ -140,7 +140,7 @@
                             >
                             <p class="explainComment">{{ 'title.commentaryWillBeSeeable'|trans }}</p>
                             <p style ="display:none;" class="infoComment"></p>
-                            <button class="addComment">{{ 'button.add'|trans }}</button>
+                            <button class="button greyButton largeButton">{{ 'button.add'|trans }}</button>
                         </div>
                         <div>
                             <h4>{{ 'title.studentCommentary'|trans }}</h4>
