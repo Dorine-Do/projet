@@ -293,8 +293,8 @@ pre code{
     border-radius: 5px;
     padding: 2em;
     color: var(--grey);
-    width: 75%;
-    margin: auto;
+    width: 88%;
+    margin: 50px auto auto;
   }
 
   .liWording {
@@ -318,6 +318,10 @@ pre code{
     padding: 0;
   }
 
+  .blocQuestions{
+    padding: 0;
+  }
+
   .divJs {
     display: flex;
     flex-direction: column;
@@ -327,11 +331,27 @@ pre code{
     height: 105px;
     width: 52px;
   }
+
+  .blocDivProposal{
+    width: 96%;
+  }
 }
 
 @media screen and (max-width: 450px) {
   .container {
     max-width: 100%;
+  }
+
+  .divProp {
+    display: block;
+  }
+
+  .blocDivProposal {
+    width: 93%;
+  }
+
+  .circle{
+    text-align: center;
   }
 
   .liWording {
@@ -378,5 +398,9 @@ pre code{
 
   .linkCreate {
     margin: auto;
+  }
+
+  .subLiQuestion {
+    width: 84%;
   }
 }
