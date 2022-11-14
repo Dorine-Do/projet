@@ -14,8 +14,7 @@
   background: white;
   margin-left: 0.5em;
   border-radius: 0.3em;
-  width: 5%;
-  padding: .5em;
+  width: 50px;
   height: 5%;
 }
 
@@ -110,9 +109,12 @@
 }
 
 .liQuestion {
-  display: flex;
-  flex-wrap: wrap;
   margin-bottom: 1em;
+}
+
+.subLiQuestion{
+  width: 100%;
+  display: flex;
 }
 
 /******************************************* PARTIE QUESTION MENU DEROULANT ***********************************************/
@@ -137,7 +139,6 @@
   max-width: 2em;
   width: 1.2em;
   height: auto;
-  padding: 0.5em;
   border-radius: 50%;
   margin: 0;
   text-align: right;
@@ -183,7 +184,9 @@ pre::-webkit-scrollbar-thumb {
   font-family: "Alumni Sans", serif;
   display: flex;
   align-items: center;
-  width: 89%;
+  flex-grow: 1;
+  max-width: 90%;
+  gap: .5em;
 }
 
 .blocDivProposal {
@@ -192,7 +195,7 @@ pre::-webkit-scrollbar-thumb {
   border-radius: 0.5em;
   padding: 0.5em;
   display: none;
-  width: 100%;
+  width: 98%;
 }
 
 .difficulty {
@@ -201,7 +204,7 @@ pre::-webkit-scrollbar-thumb {
 
 .divWordingQuestion {
   font-weight: 600;
-  width: 90%;
+  width: 87%;
 }
 
 .divWordingQuestion p{
@@ -262,31 +265,25 @@ pre code{
 
 @media screen and (max-width: 1200px) {
   .liWording {
-    background-color: var(--pamplemousse);
-    padding: 0.7em;
-    border-radius: 5px 5px 0 0;
-    list-style: none;
-    font-family: "Alumni Sans", serif;
-    display: flex;
-    align-items: center;
-    width: 90%;
-  }
-
-  .divQuestion {
-    display: grid;
-    grid-template-columns: 90% 10%;
-    grid-gap: 10px;
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*background-color: var(--pamplemousse);*/
+    /*padding: 0.7em;*/
+    /*border-radius: 5px 5px 0 0;*/
+    /*list-style: none;*/
+    /*font-family: "Alumni Sans", serif;*/
+    /*width: 90%;*/
   }
 
   .buttonModify {
-    height: 70px;
-    width: 50px;
-    margin: auto;
+    /*height: 70px;*/
+    /*width: 50px;*/
+    /*margin: auto;*/
   }
 
   .divJs {
-    flex-direction: column;
-    width: 88%;
+    /*flex-direction: column;*/
+    /*width: 88%;*/
   }
 }
 

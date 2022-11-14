@@ -39,6 +39,7 @@
                 <ul>
                     {% for question in questions %}
                         <li class="liQuestion">
+                            <div class="subLiQuestion">
                                 <div class="liWording">
                                     <p class="difficulty">
                                         {% if question.difficulty.value == 1 %}
@@ -53,8 +54,9 @@
                                     <div class="divChevron">
                                         <img class="imgChevron" src="{{ asset('build/images/chevron_bas.svg') }}" alt="chevron ouvrant" data-status="false" data-id="{{ question.id }}">
                                     </div>
+                                </div>
+                                <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/modify.svg') }}" alt="bouton de modification de la question"></a>
                             </div>
-                            <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/modify.svg') }}" alt="bouton de modification de la question"></a>
                             <div class="blocDivProposal">
                                 <div class="divJs">
                                 </div>

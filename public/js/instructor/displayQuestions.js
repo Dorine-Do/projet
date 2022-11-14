@@ -40,7 +40,7 @@ window.onload = function (event) {
 
     chevrons.forEach((chevron) => {
         chevron.addEventListener("click", (e) => {
-            let liQuestion = e.target.parentElement.parentElement.parentElement;
+            let liQuestion = e.target.parentElement.parentElement.parentElement.parentElement;
             let blocDivProposal = liQuestion.querySelector('.blocDivProposal')
             blocDivProposal.style.display = "block";
             let div_js = blocDivProposal.querySelector(".divJs");
