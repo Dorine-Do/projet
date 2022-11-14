@@ -2,147 +2,147 @@
 
 /************************************* bouton modifier **********************************/
 .closed {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 .buttonModify {
-  width: 50px;
-  cursor: pointer;
+    width: 50px;
+    cursor: pointer;
 }
 
 .linkModify {
-  border: 1px solid white;
-  background: white;
-  margin-left: 0.5em;
-  border-radius: 0.3em;
-  width: 50px;
-  height: 5%;
+    border: 1px solid white;
+    background: white;
+    margin-left: 0.5em;
+    border-radius: 0.3em;
+    width: 50px;
+    height: 5%;
 }
 
 .linkCreate {
-  cursor: pointer;
-  margin-left: 20px;
+    cursor: pointer;
+    margin-left: 20px;
 }
 
 /* ********************************FLASH NOTICE*********************************************** */
 
 .flashNotice > div,
 .flashNoticeQuestionPerso > div {
-  background: var(--pamplemousse);
-  padding: 20px 0;
-  border-radius: 5px;
-  color: white;
-  font-weight: bold;
-  align-self: center;
-  width: 30%;
-  text-align: center;
+    background: var(--pamplemousse);
+    padding: 20px 0;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    align-self: center;
+    width: 30%;
+    text-align: center;
 }
 
 .flashNotice span,
 .flashNoticeQuestionPerso span {
-  font-size: 15px;
-  color: grey;
+    font-size: 15px;
+    color: grey;
 }
 
 .flashNotice,
 .flashNoticeQuestionPerso {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.3);
-  transform: translate(-50%, -50%);
-  left: 50%;
-  right: 50%;
-  bottom: 50%;
-  top: 50%;
-  display: flex;
-  justify-content: center;
-  align-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    transform: translate(-50%, -50%);
+    left: 50%;
+    right: 50%;
+    bottom: 50%;
+    top: 50%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
 }
 
 /******************************************** PARTIE VALIDATION ****************************************************/
 
 .divAdd {
-  text-align: center;
-  padding: 1em;
+    text-align: center;
+    padding: 1em;
 }
 .buttonAdd {
-  background-color: var(--grey);
-  border-radius: 50px;
-  border: none;
-  padding: 1em;
-  font-family: "Alumni Sans", sans-serif;
-  color: white;
-  box-shadow: 5px 5px 2px -4px grey;
-  font-size: var(--normal);
-  width: 60%;
+    background-color: var(--grey);
+    border-radius: 50px;
+    border: none;
+    padding: 1em;
+    font-family: "Alumni Sans", sans-serif;
+    color: white;
+    box-shadow: 5px 5px 2px -4px grey;
+    font-size: var(--normal);
+    width: 60%;
 }
 
 .buttonAdd:hover {
-  box-shadow: none;
-  background-color: var(--vert);
-  font-weight: bold;
-  cursor: pointer;
+    box-shadow: none;
+    background-color: var(--vert);
+    font-weight: bold;
+    cursor: pointer;
 }
 
 /******************************************* PARTIE QUESTION ***********************************************/
 
 .blocQuestions{
-  padding: 5em;
+    padding: 5em;
 }
 
 .divQuestions{
-  padding: 3em 1em;
-  background: var(--fond);
+    padding: 3em 1em;
+    background: var(--fond);
 }
 
 .subDivQuestions {
-  border: 1px solid var(--fond);
-  padding: 2em;
-  border-radius: 5px;
-  height: 50em;
-  overflow-y: scroll;
+    border: 1px solid var(--fond);
+    padding: 2em;
+    border-radius: 5px;
+    height: 50em;
+    overflow-y: scroll;
 }
 
 .subDivQuestions ul{
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .liQuestion {
-  margin-bottom: 1em;
+    margin-bottom: 1em;
 }
 
 .subLiQuestion{
-  width: 100%;
-  display: flex;
+    width: 100%;
+    display: flex;
 }
 
 /******************************************* PARTIE QUESTION MENU DEROULANT ***********************************************/
 
 .difficultyIcone {
-  max-width: 2em;
-  width: 1em;
-  background: var(--fond);
-  height: auto;
-  padding: 0.5em;
-  border-radius: 50%;
-  margin: 0;
+    max-width: 2em;
+    width: 1em;
+    background: var(--fond);
+    height: auto;
+    padding: 0.5em;
+    border-radius: 50%;
+    margin: 0;
 }
 
 .divChevron {
-  justify-content: flex-end;
-  display: flex;
-  flex-grow: 2;
+    justify-content: flex-end;
+    display: flex;
+    flex-grow: 2;
 }
 
 .imgChevron {
-  max-width: 2em;
-  width: 1.2em;
-  height: auto;
-  border-radius: 50%;
-  margin: 0;
-  text-align: right;
-  cursor: pointer;
+    max-width: 2em;
+    width: 1.2em;
+    height: auto;
+    border-radius: 50%;
+    margin: 0;
+    text-align: right;
+    cursor: pointer;
 }
 
 /************************************************************************/
@@ -151,197 +151,241 @@
 /* Works on Firefox */
 .subDivQuestions,
 pre{
-  scrollbar-width: thin;
-  scrollbar-color: var(--fond);
+    scrollbar-width: thin;
+    scrollbar-color: var(--fond);
 }
 
 /* Works on Chrome, Edge, and Safari */
 .subDivQuestions::-webkit-scrollbar,
 pre::-webkit-scrollbar {
-  width: 12px;
+    width: 12px;
 }
 
 .subDivQuestions::-webkit-scrollbar-track,
 pre::-webkit-scrollbar-track {
-  background: var(--fond);
-  border-radius: 5px;
+    background: var(--fond);
+    border-radius: 5px;
 }
 
 .subDivQuestions::-webkit-scrollbar-thumb,
 pre::-webkit-scrollbar-thumb {
-  background-color: var(--grey);
-  border-radius: 20px;
-  border: 3px solid var(--grey);
+    background-color: var(--grey);
+    border-radius: 20px;
+    border: 3px solid var(--grey);
 }
 
 /************************************************************************/
 
 .liWording {
-  background-color: var(--pamplemousse);
-  padding: 0.7em;
-  border-radius: 0.2em;
-  list-style: none;
-  font-family: "Alumni Sans", serif;
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-  max-width: 90%;
-  gap: .5em;
+    background-color: var(--pamplemousse);
+    padding: 0.7em;
+    border-radius: 0.2em;
+    list-style: none;
+    font-family: "Alumni Sans", serif;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    max-width: 90%;
+    gap: .5em;
 }
 
 .blocDivProposal {
-  border: 2px dashed grey;
-  margin-top: 0.5em;
-  border-radius: 0.5em;
-  padding: 0.5em;
-  display: none;
-  width: 98%;
+    border: 2px dashed grey;
+    margin-top: 0.5em;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    display: none;
+    width: 98%;
 }
 
 .difficulty {
-  margin: 0 5px 0 0;
+    margin: 0 5px 0 0;
 }
 
 .divWordingQuestion {
-  font-weight: 600;
-  width: 87%;
+    font-weight: 600;
+    width: 87%;
 }
 
 .divWordingQuestion p{
-  width: 100%;
+    width: 100%;
 }
 
 .divWordingQuestion pre{
-  width: 100%;
-  padding: 0;
+    width: 100%;
+    padding: 0;
 }
 
 pre{
-  overflow: scroll;
-  margin: 0;
+    overflow: scroll;
+    margin: 0;
 }
 
 pre code{
-  font-size: var(--semi_small);
+    font-size: var(--semi_small);
 }
 
 /*****************************************proposals****************************************************/
 
 .divProposals {
-  display: flex;
-  justify-content: space-around;
-  background-color: var(--fond);
-  border-radius: 0 0 5px 5px;
-  margin-top: 0.1em;
+    display: flex;
+    justify-content: space-around;
+    background-color: var(--fond);
+    border-radius: 0 0 5px 5px;
+    margin-top: 0.1em;
 }
 
 .displayNone {
-  display: none;
+    display: none;
 }
 
 .divJs {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  width: 100%;
-  padding: 0;
-  background: var(--fond);
-  border-radius: 0 0 5px 5px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+    background: var(--fond);
+    border-radius: 0 0 5px 5px;
 }
 
 .divProp {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 .blocContentProposal {
-  padding: 0.5em;
-  width: 90%;
-  margin: 0;
+    padding: 0.5em;
+    width: 90%;
+    margin: 0;
 }
 
 .blocContentProposal p{
-  width: 100%;
-  margin: 0;
+    width: 100%;
+    margin: 0;
 }
 
 @media screen and (max-width: 1200px) {
 
-  .blocQuestions {
-    padding: 5em 0;
-  }
+    .blocQuestions {
+        padding: 5em 0;
+    }
 
-  .divQuestions {
-    padding: 3em 0;
-  }
+    .divQuestions {
+        padding: 3em 0;
+    }
 
-  .divWordingQuestion {
-    width: 84%;
-  }
+    .divWordingQuestion {
+        width: 84%;
+    }
 
 
 }
 
 @media screen and (max-width: 780px) {
 
-  .subLiQuestion {
-    display: flex;
-    flex-direction: column-reverse;
-  }
+    .liQuestion{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-  .liWording {
-    max-width: 100%;
-  }
+    .subLiQuestion {
+        display: flex;
+        flex-direction: column-reverse;
+        padding: 0.5em;
+    }
 
-  .divWordingQuestion{
-    width: 84%;
-  }
+    .liWording {
+        max-width: 100%;
+    }
 
-  .divChevron{
-    border-radius: 5px;
-    box-shadow: 0 0 3px 1px var(--grey);
-    padding: .5em .2em;
-  }
+    .divWordingQuestion{
+        width: 84%;
+    }
 
-  .linkModify {
-    width: 100%;
-    text-align: center;
-    margin: 0 0 .2em 0;
-    box-shadow: 0 0 8px -3px var(--grey);
-  }
+    .divChevron{
+        border-radius: 5px;
+        box-shadow: 0 0 3px 1px var(--grey);
+        padding: .5em .2em;
+    }
+
+    .linkModify {
+        width: 100%;
+        text-align: center;
+        margin: 0 0 .2em 0;
+        box-shadow: 0 0 8px -3px var(--grey);
+    }
+
+    .blocDivProposal{
+        margin-top: 0;
+    }
 
 }
 
 @media screen and (max-width: 450px) {
 
-  .buttonModify {
-    height: 52px;
-  }
+    .subLiQuestion{
+        align-items: center;
+    }
 
-  .divJs {
-    flex-direction: column;
-    width: 100%;
-  }
+    .liWording {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        padding: .7em 0;
+    }
 
-  /*.divJs {*/
-  /*  flex-direction: column;*/
-  /*  width: 89%;*/
-  /*}*/
+    .divWordingQuestion {
+        width: 100%;
+        margin-bottom: .5em;
+    }
 
-  /*.buttonAdd {*/
-  /*  width: 75%;*/
-  /*  margin: 25px auto;*/
-  /*}*/
+    .divChevron{
+        width: 50%;
+    }
 
-  /*.linkCreate {*/
-  /*  margin: auto;*/
-  /*}*/
+    .imgChevron{
+        margin: auto;
+    }
 
-  .divWordingQuestion {
-    width: 100%;
-  }
+    .divWordingQuestion p {
+        width: 98%;
+        margin: auto;
+    }
 
-  .blocContentProposal {
-    width: 100%;
-    text-align: center;
-  }
+    .divWordingQuestion pre {
+        width: 98%;
+        margin: auto;
+    }
+
+    .divProp {
+        display: flex;
+        flex-direction: column;
+        padding: .5em 0;
+    }
+
+    .divProp .circle{
+        margin: auto;
+    }
+
+    .divJs {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .buttonAdd {
+        width: 75%;
+        margin: 25px auto;
+    }
+
+    .linkCreate {
+        margin: auto;
+    }
+
+    .blocContentProposal {
+        width: 100%;
+        text-align: center;
+    }
+
 }
