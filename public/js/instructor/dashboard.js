@@ -100,6 +100,7 @@ function displayStudents(data){
 
         liStudentData.append(radio, label, input)
         div.append(liStudentData, img)
+        ulListStudents.style.display = 'grid'
         ulListStudents.append(div)
     })
 
@@ -108,6 +109,7 @@ function displayStudents(data){
     if (data.length === 0){
         let div = createElementSimple('p', 'noStudent')
         div.innerHTML = "Aucun étudiant n'a encore de note dans cette session"
+        ulListStudents.style.display = 'block'
         ulListStudents.append(div)
     }
 
