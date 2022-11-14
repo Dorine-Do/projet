@@ -37,24 +37,20 @@
                <select  id="moduleOption" class="selectModule" name="module" >
                <option  value="null">Veuillez choisir un module</option>
                 {% for module in modules %}
-                 
-                    <option   value="{{module.id}}" data-qcm-module-cache="{{module|json_encode}}" >{{ module.title }}</option>
-                  
+                    <option   value="{{module.id}}"  >{{ module.title }}</option>
                 {% endfor %}
             </select>
           
             </div>
-         {{dump(app.request)}}
+      
             <div class="choiceDifficultiesAndTypeOfQcm">
                 <div class="blocChoiceDifficulties">
-                        <input type="hidden" name="qcm[difficulty]" value="3" id="qcmDifficulty">
+                        <input type="hidden" name="qcm[difficulty]" value="" id="qcmDifficulty">
                         <div class="blocBorderChoiceDifficulties">
                         <ul class="listChoiceDifficulties">
-             
                             <li   data-difficulty="1" >Facile </li>
                             <li  data-difficulty="2" >Moyen</li>
                             <li  data-difficulty="3" >Difficile </li>
-    
                         </ul>
                         </div>
                 </div>
@@ -78,30 +74,8 @@
         <div class="showQcm">
             <button class="btnShowQcm">{{ 'button.seeQcm'|trans }}</button>
             <div class="backWhite">
-              {# {% if  app.request %} #}
-             
                 <ul>
-                    {# {% for question in generatedQcm.questionsCache %}
-                        {% set count = count + 1 %} #}
-                        <li class="questionLi">
-                            {# <div class="questionWordingDiv">
-                                <p class="questionWordingP">
-                                    <span class="numeroForm">{{ count }}</span>{{question.wording | raw }}
-                                </p>
-                                <p class="chevronBasP">
-                                    <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="chevronBasImg chevron">
-                                </p>
-                            </div>
-                            <div class="proposalWordingDiv">
-
-                                
-                                    <p class="proposalWordingP"><span class="numeroProp">hello</span>
-                                        {{ proposal.wording | raw }}
-                                    </p>
-                                   
-                            </div> #}
-                        </li>
-                    {# {% endfor %} #}
+                   
                 </ul>
             </div>
         </div>
@@ -133,7 +107,7 @@
                                     <div>
                                         {{ 'difficulty.easy'|trans }}
                                     </div>
-                                    <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                                    <img src="{{asset('build/images/facile.png')}}" alt="Trèfle à trois feuilles">
                                 </div>
                                 <div class="legendDifficultyNbr">
                                     : <p class="nbrQuestion" id="easy" >5</p>
@@ -145,7 +119,7 @@
                                     <div>
                                         {{ 'difficulty.medium'|trans }}
                                     </div>
-                                    <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                                    <img src="{{asset('build/images/moyen.png')}}" alt="Trèfle à trois feuilles">
                                 </div>
                                 <div class="legendDifficultyNbr" >
                                     : <p class="nbrQuestion" id="medium" >5</p>
@@ -156,7 +130,7 @@
                                     <div>
                                         {{ 'difficulty.difficult'|trans }}
                                     </div>
-                                    <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
+                                    <img src="{{asset('build/images/difficile.png')}}" alt="Trèfle à trois feuilles">
                                 </div>
                                 <div class="legendDifficultyNbr" >
                                     : <p class="nbrQuestion" id="difficulty" >5</p>
@@ -224,8 +198,8 @@
                     {#Image drag and drop #}
 
                     <div class="imageDragAndDrop">
-                        <img src="{{ asset('build/images/arrow-right-grey.png') }}" alt="Flèche arrondie verte" class="arrowRight">
-                        <img src="{{ asset('build/images/arrow-left-grey.png') }}" alt="Flèche arrondie verte" class="arrowLeft">
+                        <img src="{{ asset('build/images/arrow-right.png') }}" alt="Flèche arrondie verte" class="arrowRight">
+                        <img src="{{ asset('build/images/arrow-left.png') }}" alt="Flèche arrondie verte" class="arrowLeft">
                     </div>
 
                     {#*************************************************************************************************#}
@@ -385,9 +359,9 @@
 {% endblock %}
 {% block javascripts %}
     <script>
-        let chevronHaut = "{{asset('build/images/chevron_haut.png')}}"
-        let chevronBas = "{{asset('build/images/chevron_bas.png')}}"
-        let deleteImg = "{{asset('build/images/delete_close.png')}}"
+        let chevronHaut = "/build/images/chevron_haut.acd8ac5d.svg"
+        let chevronBas = "/build/images/chevron_bas.216a40a5.svg"
+        let deleteImg = "/build/images/delete_close.d95f0f41.svg"
       {#  let qcmInstanceQuestions= {{ qcmInstanceQuestionsCache|json_encode }}#}
 
         let route = "{{ path('instructor_questions_update_fetch') }}"

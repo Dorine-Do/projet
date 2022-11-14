@@ -7,6 +7,7 @@ use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -15,9 +16,11 @@ class Question
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['question:read'])]
     private $id;
 
     #[ORM\Column(type: 'text')]
+    #[Groups(['question:read'])]
     private $wording;
 
     #[ORM\Column(type: 'boolean')]
@@ -27,6 +30,7 @@ class Question
     private $isOfficial;
 
     #[ORM\Column(type: 'smallint')]
+    #[Groups(['question:read'])]
     private $difficulty;
 
     #[ORM\Column(type: 'boolean')]
@@ -42,6 +46,7 @@ class Question
     private $isEnabled;
 
     #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['question:read'])]
     private $explanation;
 
     #[ORM\ManyToOne(targetEntity: Module::class, inversedBy: 'questions')]
