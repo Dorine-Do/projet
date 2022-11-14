@@ -1,9 +1,9 @@
 //ONLOAD ET NON DOM CHARGEMENT 1 FOIS ET NON 2 COMME DOM CAR ERREUR ET PROBLEME D AFFICHAGE
 window.onload = function (event) {
-    let spanFlashAddIns = document.querySelector(".flashNotice div");
-    let addFlashIns = document.querySelector(".flashNotice ");
-    let spanFlashQcmPerso = document.querySelector(".flashNoticeQuestionPerso div");
-    let addFlashQcmPerso = document.querySelector(".flashNoticeQuestionPerso ");
+    let spanFlashAddIns = document.querySelector(".flash-notice div");
+    let addFlashIns = document.querySelector(".flash-notice ");
+    let spanFlashQcmPerso = document.querySelector(".flash-notice-qcm-perso div");
+    let addFlashQcmPerso = document.querySelector(".flash-notice-qcm-perso ");
 
     ///////////////////////FLASH MESSAGE
     if (spanFlashAddIns) {
@@ -96,16 +96,16 @@ window.onload = function (event) {
     ////////////////////
     // DECLARATION DE VARIABLE
 
-    let liBtnQcm = document.querySelectorAll(".liBtnQcm  ");
-    let liBtnQcmOnly = document.querySelector(".liBtnQcm  ");
-    let ulBtnQcm = document.querySelector(".liBtnQcm  ");
+    let liBtnQcm = document.querySelectorAll(".li_btn_qcm  ");
+    let liBtnQcmOnly = document.querySelector(".li_btn_qcm  ");
+    let ulBtnQcm = document.querySelector(".list_btn_qcm  ");
     console.log(liBtnQcm);
-    let questionsLi = document.querySelectorAll(".listQuestions li");
-    let questionsLiOne = document.querySelector(".listQuestions li");
-    let questionsSpans = document.querySelectorAll(".listQuestions li span");
-    let questionslist = document.querySelector(".listQuestions ");
+    let questionsLi = document.querySelectorAll(".list_questions li");
+    let questionsLiOne = document.querySelector(".list_questions li");
+    let questionsSpans = document.querySelectorAll(".list_questions li span");
+    let questionslist = document.querySelector(".list_questions ");
     let forBtnQcm;
-    let blocUlQcm = document.querySelector(".blocQcm .divQcm ");
+    let blocUlQcm = document.querySelector(".bloc_qcm .divQcm ");
     let blocUlQuestion = document.querySelector(
         ".bloc-toggle-ul-question .divQuestions"
     );
@@ -188,7 +188,7 @@ window.onload = function (event) {
             if (ulBtnQcm) {
                 let ulQcmHeight = ulBtnQcm.getBoundingClientRect().height;
                 if (ulQcmHeight > blocUlQcmHeight + 10) {
-                    blocUlQcm.classList.add("scrollActive");
+                    blocUlQcm.classList.add("scroll_active");
                 }
             }
         });
@@ -200,7 +200,7 @@ window.onload = function (event) {
             let ulQuestionHeight = questionslist.getBoundingClientRect().height;
             blocUlQuestion.addEventListener("mouseover", function () {
                 if (ulQuestionHeight > blocUlQuestionHeight + 5) {
-                    blocUlQuestion.classList.add("scrollActive");
+                    blocUlQuestion.classList.add("scroll_active");
                 }
             });
             // console.log(ulQuestionHeight);
@@ -211,10 +211,10 @@ window.onload = function (event) {
     // HOVER DECLENCHEMENT SCROLL-Y
 
     blocUlQcm.addEventListener("mouseout", function () {
-        blocUlQcm.classList.remove("scrollActive");
+        blocUlQcm.classList.remove("scroll_active");
     });
 
     blocUlQuestion.addEventListener("mouseout", function () {
-        blocUlQuestion.classList.remove("scrollActive");
+        blocUlQuestion.classList.remove("scroll_active");
     });
 };

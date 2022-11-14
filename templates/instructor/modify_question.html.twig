@@ -229,7 +229,7 @@
                             {{ 'question.desactivate'|trans }}
                         </p>
                     </td>
-                    <td colspan="2" class="option">
+                    <td colspan="2" class="second">
                         <p class="center">
                             {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
                         </p>
@@ -251,8 +251,8 @@
                 {% if 'ROLE_ADMIN' in app.user.roles %}
                     <tr>
                         <td colspan="2" class="premier">
-                            <p class="etape">
-                                <span class="numeroForm">Option</span>
+                            <p class="align">
+                                <span class="circle orangeCircle">Option</span>
                                 {{ 'question.isMandatoty'|trans }}
                             </p>
                         </td>
