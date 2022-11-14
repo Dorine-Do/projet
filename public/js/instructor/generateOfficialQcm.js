@@ -29,11 +29,16 @@ function displayModulesOptions(modules)
 }
 
 function messageError(e){
-    sessionField = document.querySelector('input[name="session"]:checked')
-    console.log(sessionField)
-    console.log(moduleSelect)
+    let messagesError = document.querySelectorAll('.messageError')
+    messagesError.forEach( (message) => {
+        message.remove()
+    } )
 
-    if(moduleSelect === 'undefined'){
+    let sessionFieldParent = document.querySelector('input[name="session"]').parentNode
+    sessionField = document.querySelector('input[name="session"]:checked')
+    moduleSelect = document.querySelector( '#module' );
+
+    if(moduleSelect.value === '0'){
         let p = document.createElement('p')
         p.innerHTML = 'Veuillez sélectionner un module'
         p.style.color = 'red'
@@ -44,17 +49,16 @@ function messageError(e){
         e.preventDefault()
     }
 
-    if(sessionField === null){
+    if(!sessionField){
         let p = document.createElement('p')
         p.innerHTML = 'Veuillez sélectionner une session'
         p.style.color = 'red'
         p.style.width = '100%'
         p.style.textAlign = 'center'
         p.className = "messageError"
-        sessionField.parentNode.parentNode.append(p)
+        sessionFieldParent.parentNode.append(p)
         e.preventDefault()
     }
-    e.preventDefault()
 }
 
 document.addEventListener('DOMContentLoaded', function(){
