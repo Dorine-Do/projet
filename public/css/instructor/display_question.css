@@ -313,57 +313,14 @@ pre code{
 
 @media screen and (max-width: 450px) {
 
-  .divProp{
-
+  .buttonModify {
+    height: 52px;
   }
 
-  /*.container {*/
-  /*  max-width: 100%;*/
-  /*}*/
-
-  /*.divProp {*/
-  /*  display: block;*/
-  /*}*/
-
-  /*.blocDivProposal {*/
-  /*  width: 93%;*/
-  /*}*/
-
-  /*.circle{*/
-  /*  text-align: center;*/
-  /*}*/
-
-  /*.liWording {*/
-  /*  display: flex;*/
-  /*  flex-direction: column;*/
-  /*  box-shadow: 0 0 14px -3px gray;*/
-  /*  z-index: 99;*/
-  /*  border-radius: 5px;*/
-  /*}*/
-
-  /*.divQuestion {*/
-  /*  display: flex;*/
-  /*  flex-direction: column-reverse;*/
-  /*  margin-left: 20px;*/
-  /*  border-radius: 15%;*/
-  /*}*/
-
-  /*.subDivQuestions {*/
-  /*  width: 100%;*/
-  /*  padding: 0;*/
-  /*  margin: auto;*/
-  /*}*/
-
-  /*.linkModify {*/
-  /*  text-align: right;*/
-  /*  margin-top: 35px;*/
-  /*  margin-right: 21px;*/
-  /*}*/
-
-  /*.buttonModify {*/
-  /*  height: 52px;*/
-  /*  margin-right: 44%;*/
-  /*}*/
+  .divJs {
+    flex-direction: column;
+    width: 100%;
+  }
 
   /*.divJs {*/
   /*  flex-direction: column;*/
@@ -379,7 +336,12 @@ pre code{
   /*  margin: auto;*/
   /*}*/
 
-  /*.subLiQuestion {*/
-  /*  width: 84%;*/
-  /*}*/
+  .divWordingQuestion {
+    width: 100%;
+  }
+
+  .blocContentProposal {
+    width: 100%;
+    text-align: center;
+  }
 }
