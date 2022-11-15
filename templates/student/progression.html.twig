@@ -8,6 +8,7 @@
 
 {% block body %}
     <h1>Ma progression</h1>
+
     <div class="containerTimeLine">
         <div class="lineX"></div>
         <div class="timeLine">
@@ -56,7 +57,7 @@
         <div class="splitBadges">
             {% if app.user.badges != null and app.user.badges != [] %}
                 {% for badge in app.user.badges %}
-                    {% set var = 'build/images/badges/'~badge~'.svg' %}
+                    {% set var = 'build/images/badges/'~badge~'.png' %}
                     <img src="{{ asset(var) }}" alt="badge gagné" class="badges">
                 {% endfor %}
             {% endif %}
@@ -70,8 +71,8 @@
 {% block javascripts %}
     <script>
         let moduleGroups = {{ moduleGroups|json_encode|raw }};
-        let logo = "{{asset('build/images/logo_sans_fond.svg')}}";
-        let wrong = "{{asset('build/images/wrongTemporaire.svg')}}";
+        let logo = "{{asset('build/images/logo_sans_fond.png')}}";
+        let wrong = "{{asset('build/images/wrongTemporaire.png')}}";
     </script>
     <script type="text/javascript" src="{{ asset('js/student/progression.js') }}"></script>
 {% endblock %}
