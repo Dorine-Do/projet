@@ -42,6 +42,10 @@ function resizeSup420(){
             p.style.marginBottom = 0
             p.style.marginTop= 1.5 + 'em'
         }
+        console.log(p.firstElementChild)
+        if(p.firstElementChild.className === "failQcm"){
+            p.style.padding = "0.5em 0.3em"
+        }
     } )
 
     // Élement de la time line ( p(badge) + div(qcm => isOfficialQcm) )
