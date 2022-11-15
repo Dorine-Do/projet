@@ -43,19 +43,19 @@
                                 <div class="liWording">
                                     <p class="difficulty">
                                         {% if question.difficulty.value == 1 %}
-                                            <img class="difficultyIcone" src="{{ asset('build/images/trefle_facile.svg') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
+                                            <img class="difficultyIcone" src="{{ asset('build/images/trefle_facile.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
                                         {% elseif question.difficulty.value == 2 %}
-                                            <img class="difficultyIcone" src="{{ asset('build/images/trefle_moyen.svg') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
+                                            <img class="difficultyIcone" src="{{ asset('build/images/trefle_moyen.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
                                         {% else %}
-                                            <img class="difficultyIcone" src="{{ asset('build/images/difficil_difficile.svg') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
+                                            <img class="difficultyIcone" src="{{ asset('build/images/difficil_difficile.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
                                         {% endif %}
                                     </p>
                                     <div class="divWordingQuestion">{{ question.wording | raw }}</div>
                                     <div class="divChevron">
-                                        <img class="imgChevron" src="{{ asset('build/images/chevron_bas.svg') }}" alt="chevron ouvrant" data-status="false" data-id="{{ question.id }}">
+                                        <img class="imgChevron" src="{{ asset('build/images/chevron_bas.png') }}" alt="chevron ouvrant" data-status="false" data-id="{{ question.id }}">
                                     </div>
                                 </div>
-                                <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/modify.svg') }}" alt="bouton de modification de la question"></a>
+                                <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/modify.png') }}" alt="bouton de modification de la question"></a>
                             </div>
                             <div class="blocDivProposal">
                                 <div class="divJs">

@@ -5,7 +5,7 @@
 <header>
 
     <div class="part1">
-        <img class="logo" src="{{asset('build/images/logo_sans_fond.svg')}}">
+        <img class="logo" src="{{asset('build/images/logo_sans_fond.png')}}">
         <button id="reportBugBtn">{{ 'button.reportBug'|trans }}</button>
     </div>
 
@@ -28,7 +28,7 @@
             <p class="helloStudent">{{ 'title.hello'|trans }},{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>
         </div>
         <div class="logOut">
-            <a href="{{path('app_logout')}}" ><img class="imgLogOut" src="{{asset('build/images/exit.svg')}}" alt="Déconnexion"> </a>
+            <a href="{{path('app_logout')}}" ><img class="imgLogOut" src="{{asset('build/images/exit.png')}}" alt="Déconnexion"> </a>
         </div>
     </div>
 
