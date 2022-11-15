@@ -77,7 +77,7 @@ ul {
 }
 .listBtnQcm > li {
   padding: 15px 0;
-
+  cursor: pointer;
   background: #616161;
   color: white;
   border-radius: 5px;
@@ -88,11 +88,9 @@ ul {
 .listBtnQcm > li::after {
   content: attr(data-parent); /*voir html*/
   position: absolute;
-  /* right: -108px; */
   right: -44%;
   background: var(--pamplemousse);
   width: 40%;
-  /* width: 100px; */
   padding: 5px 0;
   text-align: center;
   border-radius: 50px;
