@@ -397,7 +397,7 @@ class InstructorController extends AbstractController
             $moduleQuestions = $module->getQuestions();
 
             $instructorQuestions = $moduleQuestions->filter(function ($question) use ($security) {
-                return !$question->isOfficial() && $question->getAuthor() === $security->getUser() && $question->isEnabled();
+                return !$question->getIsOfficial() && $question->getAuthor() === $security->getUser() && $question->isEnabled();
             })->toArray();
             $instructorQuestions = array_diff($instructorQuestions, $generatedQcmQuestions);
 
@@ -412,7 +412,7 @@ class InstructorController extends AbstractController
             }, $instructorQuestions);
 
             $officialQuestions = $moduleQuestions->filter(function ($question) {
-                return $question->isOfficial() && $question->isEnabled();
+                return $question->getIsOfficial() && $question->isEnabled();
             })->toArray();
             $officialQuestions = array_diff($officialQuestions, $generatedQcmQuestions);
 
