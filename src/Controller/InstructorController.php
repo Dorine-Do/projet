@@ -50,8 +50,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         public function __construct(Security $security, UserRepository $userRepository){
             $this->userRepo = $userRepository;
             $this->security = $security;
-        //    $this->user = $security->getUser();
-          //  $this->id = $this->user->getId();
         }
 
         #[Route('/instructor', name: 'welcome_instructor')]
@@ -102,10 +100,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
             Security      $security
         ): Response
         {
-         /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-
             $qcms = $qcmRepo->findBy([
                 'author' => $security->getUser(),
+                'isOfficial' => false
             ]);
 
             return $this->render('instructor/display_qcms.html.twig', [
@@ -221,7 +218,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
             $user = $instructorRepository->find( $this->security->getUser()->getId() );
 
-            //$user = $instructorRepository->find(1);
             $questionEntity = new Question();
 
             $proposal1 = new Proposal();
@@ -275,7 +271,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
                     }
                 }
                 $questionEntity->setAuthor($user);
-//                $questionEntity->setAuthor($this->getUser());
                 $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
 
                 //  validation et enregistrement des données du form dans la bdd
@@ -293,10 +288,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         }
         return $this->render('instructor/create_question.html.twig', [
             'form' => $form->createView(),
-            "add" => true,
-            //TODO A enlever une fois que a connection avec google sera opérationnelle
-                'user' => $user
-
+            "add" => true
         ]);
     }
 
@@ -342,8 +334,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         $entityManager->flush();
 
         $questionResponse = $questionRepository->find($questionId);
-      
-           
+
+
             return $this->json($questionResponse, 200,[],["groups"=>"question:read"]) ;
         }
     #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
@@ -360,9 +352,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
     ): Response
     {
 
-      
         $userId = $this->getUser();
- 
+
         $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
 
         $modules = [];
@@ -400,12 +391,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
             'entry_options' => ['label' => false],
             'allow_add' => true,
             'allow_delete' => true,
-            
-            
+
+
         ])
-   
+
         ->getForm();
-       
+
         // $task->setTitle("blabla");
         $task->setTitle("bla");
         $form->handleRequest($request);
@@ -413,15 +404,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
           // ////
         /**********************************************************************************/
         // Get module choiced
-       
-       
 
 
 
 
 
 
-      
+
+
+
 
 
         /********************************************************************************/
@@ -451,7 +442,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         $listModuleQuestions=[];
         if ($module && $difficulty)
         {
-            
+
             $qcmGenerator = new QcmGeneratorHelper($questionRepository,$security);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module,$security->getUser(),$userRepository,$difficulty);
             //$qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
@@ -459,17 +450,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
             $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $security->getUser()]);
             $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
             $moduleQuestions = $module->getQuestions();
-            // let stock toutes les ques du qcm qui as été généré aléatoirement 
+            // let stock toutes les ques du qcm qui as été généré aléatoirement
             $randomQuestions= $generatedQcm->getQuestionsCache();
             $randomQcmByModuleId= $generatedQcm->getModule()->getId();
-            
-         
+
+
             // let stock quest du module toutes les questions qui sont pas mandatory avec la difficulté voulu  -> liste  aucune ques stocké dans la let  d'au dessus
             // $keys= array_keys($randomQuestions);
             foreach($officialQuestions as $question){
                 //if question->wording  est différent de question de randomQuestion affecté question au tableau listModule question avec les prop utiles
                 $listModuleQuestions[]=["wording"=>$question->getWording(),"explaination"=>$question->getExplanation(),"proposals"=>$question->getProposals(),"difficulty"=> $question->getDifficulty(),"id"=>$question->getId()];
-              
+
             }
             $qcmInstancesByQuestion = [];
             foreach($moduleQuestions as $moduleQuestion){
@@ -480,7 +471,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
                     }
                     $qcmInstancesByQuestion[$moduleQuestion->getId()]=$count;
             }
-            
+
 
         }
         $data=[
@@ -489,14 +480,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
             "randomQuestion"=>$randomQuestions,
             "randomQcmByModule"=>$randomQcmByModuleId,
             "qcmInstancesByQuestion"=>$qcmInstancesByQuestion,
-            
+
         ];
         // dd($customQuestions);
       
        
        return $this->json($data,200,[],["groups"=>"question:read"]);
      }
-    
+
     // methode Post non permise car route non trouvée donc method Get Ok
     #[Route('instructor/qcms/create_fetch/{moduleId}', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
     public function createQcmFetch(
@@ -643,14 +634,15 @@ dd($qcm);
                         //et a partir de la endtdate  la convertir a un format mot et faire une condition
                         // si la date contient un des jours du tableau (ou une condition swich pour voir si c'est égale a un des element ddans ) ajouter +1 ou +2 enfonction du jour pour que ça tombe un lundi
 
+                        //on recupère on crée une variable dans lequel on met le string de getcreatedat ,
+                        //puis on place la varible dans datetime puis on lei donne un format et ainsi de suite
                     }
                     $manager->persist($qcmInstance);
                     $manager->flush();
 
                     //  redirect to route avec flash
                     $this->addFlash(
-                        'instructorAddQcm',
-                    // 'success',
+                        'success',
                         'Le qcm a été généré avec succès'
                     );
                     return $this->redirectToRoute('welcome_instructor');
@@ -710,14 +702,27 @@ dd($qcm);
             return new JsonResponse();
         }
 
-        #[Route('instructor/qcm-planner/getModuleQcms/{module}', name: 'instructor_get_module_qcms_ajax', methods: ['GET'])]
+        #[Route('instructor/qcm-planner/getModuleQcms/{module}/{distributed}', name: 'instructor_get_module_qcms_ajax', methods: ['GET'])]
         public function ajaxGetModuleQcms(
-            Module $module = null
+            InstructorRepository $instructorRepository,
+            QcmRepository $qcmRepository,
+            Module $module = null,
+            $distributed = null,
         ): JsonResponse
         {
-            if ($module)
+            if ($module && $distributed)
             {
-                $qcms = $module->getQcms();
+                $qcms = $qcmRepository->getQcmDistributedByUser($this->getUser()->getId(), $module->getId() );
+                return $this->json($qcms, 200, [], ['groups' => 'qcm:read']);
+            }
+            elseif ($module)
+            {
+                $qcms = $qcmRepository->findBy([
+                    'isOfficial' => 0,
+                    'isEnabled' => 1,
+                    'module' => $module,
+                    'author' => $this->getUser()
+                    ]);
                 return $this->json($qcms, 200, [], ['groups' => 'qcm:read']);
             }
             return new JsonResponse();
@@ -801,13 +806,12 @@ dd($qcm);
             Qcm $qcm = null
         ): JsonResponse
         {
-            if ($qcm)
-            {
                 $qcmInstances = $qcm->getQcmInstances()->toArray();
                 $students = array_map( function($qcmInstance){
                     return [
                         'student' => $qcmInstance->getStudent(),
-                        'result' => $qcmInstance->getResult()
+                        'result' => $qcmInstance->getResult(),
+                        'distributedAt' => $qcmInstance->getCreatedAt(),
                     ];
                 }, $qcmInstances);
                 $studentResponse = [];
@@ -823,9 +827,6 @@ dd($qcm);
 
                 $noStudent = 'Aucun étudiant';
                 return $this->json($noStudent);
-
-            }
-            return new JsonResponse();
         }
 
         #[Route('instructor/dashboard',name:'instructor_dashboard',methods:['GET'])]
@@ -895,10 +896,4 @@ dd($qcm);
             return $this->json('Le commentaire a bien été ajouté');
 
         }
-
-
-
-
-
-
     }

@@ -1,4 +1,4 @@
-.container_my_creations {
+.containerMyCreations {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 30px;
@@ -60,7 +60,7 @@
 }
 
 @media screen and (max-width: 450px) {
-  .container_my_creations {
+  .containerMyCreations {
     display: flex;
     flex-direction: column;
   }

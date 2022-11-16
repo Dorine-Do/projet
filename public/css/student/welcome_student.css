@@ -20,24 +20,36 @@ body {
 .hrefDiv {
     margin: auto;
     background-color: var(--pamplemousse);
-    padding: 1em 20px;
+    padding: 1em;
+    padding-right: 90px;
     border-radius: 5px;
     box-shadow: 0 0 3px 1px gray;
-    width: 90%;
+    width: 75%;
 }
 
-.hrefDecorationDiv {
-    border-bottom: 2px solid var(--fond);
-    padding: 36px;
-}
-.hrefDecorationDiv:hover {
-    border-radius: 10px;
-    border: 2px solid var(--fond);
-    padding: 35px;
-}
 
 .accueilA {
     width: 100%;
     display: inline-block;
     font-weight: 600;
+    padding: 3%;
+    background-color: var(--pamplemousse);
+    border-radius: 20px;
+    transition: .4s linear;
+}
+
+.accueilA:hover {
+    background-color: var(--fond);
+}
+
+.accueilA::before{
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 55px;
+    top: 0;
+    left: 0;
+    background-color: var(--fond);
+    z-index: 1;
+    transition: .4s linear;
 }

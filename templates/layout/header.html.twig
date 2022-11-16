@@ -4,8 +4,12 @@
 
 <header>
 
-    <img class="logo" src="{{asset('build/images/logo_sans_fond.svg')}}">
-    <nav class="choix">
+    <div class="part1">
+        <img class="logo" src="{{asset('build/images/logo_sans_fond.png')}}">
+        <button id="reportBugBtn">{{ 'button.reportBug'|trans }}</button>
+    </div>
+
+    <nav class="choice">
 
         {% if 'ROLE_STUDENT' in app.user.roles %}
             <a href="{{path('student_qcms')}}" class="tab">{{ 'header.qcms'|trans }}</a>
@@ -19,14 +23,19 @@
         {% endif %}
 
     </nav>
-    <div class="eleve">
-        <p class="helloStudent">Salut,{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>
-        {# {{dump(app.user)}} #}
-    </div>
-    <button id="reportBugBtn">Faire remonter un bug</button>
-    <div class="logOut">
-        <a href="{{path('app_logout')}}" ><img class="imgLogOut" src="{{asset('build/images/exit.svg')}}" alt="Déconnexion"> </a>
+    <div class="part3">
+        <div class="eleve">
+            <p class="helloStudent">{{ 'title.hello'|trans }},{% if app.user %} {{ app.user.getFirstName() }} {% endif %}</p>
+        </div>
+        <div class="logOut">
+            <a href="{{path('app_logout')}}" ><img class="imgLogOut" src="{{asset('build/images/exit.png')}}" alt="Déconnexion"> </a>
+        </div>
     </div>
 
+
 </header>
+
+{% block javascripts %}
+    <script src="{{ asset('js/header.js') }}"></script>
+{% endblock %}
 

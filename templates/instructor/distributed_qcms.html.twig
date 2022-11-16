@@ -6,56 +6,62 @@
     <link href="{{asset('css/instructor/ckeditor_overwrite.css')}}" rel="stylesheet">
 {% endblock %}
 
-{% block title %}{% endblock %}
+{% block title %}Qcms distribués{% endblock %}
 
 {% block body %}
     <h1>- {{ 'title.qcmPlan'|trans }} -</h1>
 
-    <p class="align">
-        <span class="circle orangeCircle">1</span> {{ 'session.choice'|trans }}
-    </p>
-    <div class="firstSelect">
-        <select id="session-choice" name="session">
-            <option value="0">{{ 'session.sessionModule'|trans }}</option>
-            {% for session in sessions %}
-                <option value="{{ session.id }}">{{ session.name }}</option>
-            {% endfor %}
-        </select>
-    </div>
+    <div class="subContainer">
+        <section class="sectionChoice">
+            <p class="align">
+                <span class="step">{{ 'title.step1'|trans }}</span> {{ 'title.chooseSession'|trans }}
+            </p>
+            <div class="firstSelect">
+                <select class="selectVarFond" id="session-choice" name="session">
+                    <option value="0">{{ 'session.sessionModule'|trans }}</option>
+                    {% for session in sessions %}
+                        <option value="{{ session.id }}">{{ session.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </section>
 
+        <section id="sectionModule" class="sectionChoice">
+            <p class="align">
+                <span class="step">{{ 'title.step2'|trans }}</span> {{ 'module.choice'|trans }}
+            </p>
+            <div class="secondSelect">
+                <select class="selectVarFond" id="module-choice" name="module">
+                    <option value="0">{{ 'module.plsChoice'|trans }}</option>
+                </select>
+            </div>
+        </section>
+        <section id="sectionQcms" class="overflowX">
+            <h4 class="qcmsTitle">Qcms distribués</h4>
+            <div id="qcms-module">
+                <ul id="div-legend">
+                    <li class="legendTypeDifficulty">{{ 'title.name'|trans }}</li>
+                    <li class="legendModule">{{ 'title.type'|trans }}</li>
+                    <li class="legendNote">{{ 'title.difficulty'|trans }}</li>
+                </ul>
+            </div>
+        </section>
 
-    <p class="align">
-        <span class="circle orangeCircle">2</span> {{ 'module.choice'|trans }}
-    </p>
-    <div class="secondSelect">
-        <select id="module-choice" name="module">
-            <option value="0">{{ 'module.plsChoice'|trans }}</option>
-        </select>
-    </div>
-
-    <div class="overflowX">
-        <div id="qcms-module">
-            <ul id="div-legend">
-                <li class="legendTypeDifficulty">Module</li>
-                <li class="legendDate">Date</li>
-                <li class="legendModule">Type</li>
-                <li class="legendNote">Difficulté</li>
-            </ul>
-        </div>
-    </div>
-    <div id="students-qcm">
-
-
+        <section id="sectionStudents" class="sectionStudents">
+            <h4 class="qcmsTitle">Liste des étudiants</h4>
+            <div id="students-qcm">
+            </div>
+        </section>
     </div>
 
 {% endblock %}
 
 {% block javascripts %}
     <script>
-        let decouvre = "{{asset('build/images/arbre_decouvre.svg')}}"
-        let explore = "{{asset('build/images/arbre_explore.svg')}}"
-        let maitrise = "{{asset('build/images/arbre_maîtrise.svg')}}"
-        let domine = "{{asset('build/images/arbre_domine.svg')}}"
+        let decouvre = "{{asset('build/images/arbre_decouvre.png')}}"
+        let explore = "{{asset('build/images/arbre_explore.png')}}"
+        let maitrise = "{{asset('build/images/arbre_maitrise.png')}}"
+        let domine = "{{asset('build/images/arbre_domine.png')}}"
     </script>
     <script type="text/javascript" src="{{ asset('js/instructor/distributedQcms.js') }}"></script>
 

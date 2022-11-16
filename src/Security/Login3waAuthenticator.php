@@ -25,7 +25,6 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
@@ -50,7 +49,6 @@ class Login3waAuthenticator extends AbstractAuthenticator
         UserRepository $userRepo,
         ManagerRegistry $doctrine,
         CookieRepository $cookieRepo,
-        Security $security
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -60,7 +58,6 @@ class Login3waAuthenticator extends AbstractAuthenticator
         $this->userRepo = $userRepo;
         $this->doctrine = $doctrine;
         $this->cookieRepo = $cookieRepo;
-        $this->security =$security;
     }
 
     public function supports(Request $request): ?bool
@@ -70,20 +67,16 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-
-
         $cookieString = $this->generateCookieString();
 
         return new SelfValidatingPassport(new UserBadge($cookieString, function() use ($request, $cookieString) {
 
-            // TODO delete in production -------------------------------------------------------------------------------
+//            // TODO delete in production -------------------------------------------------------------------------------
             $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
             if( $stringBeginning[0] === 'C:' ) {
-                return $this->userRepo->find(6);
-                //user connecté
-                // return $this->userRepo->find($this->security->getUser()->getId());
+                return $this->userRepo->find(182);
             }
-            // TODO end delete in production ---------------------------------------------------------------------------
+//            // TODO end delete in production ---------------------------------------------------------------------------
 
             // if user isn't logged in 3wa.io ( cookie isn't set )
             if ( !isset($_COOKIE['cookie']) ) {

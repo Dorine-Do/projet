@@ -11,7 +11,7 @@
     <main class="admin_content">
 
         <section>
-            <h1>Gestion des utilisateurs</h1>
+            <h1>{{ 'title.usersManagement'|trans }}</h1>
         </section>
 
         <section class="tableContainer">
@@ -21,11 +21,11 @@
             <table id="tableToSort" class="qcmsTable">
                 <thead>
                     <tr>
-                        <th>Utilisateur</th>
-                        <th>Email 3WA</th>
-                        <th>Rôle</th>
-                        <th>Inscrit depuis</th>
-                        <th>Actions</th>
+                        <th>{{ 'title.users'|trans }} <img src="{{asset('build/images/chevron_bas.png')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.3waMail'|trans }} <img src="{{asset('build/images/chevron_bas.png')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.role'|trans }} <img src="{{asset('build/images/chevron_bas.png')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.registerSince'|trans }} <img src="{{asset('build/images/chevron_bas.png')}}" alt="chevron" class="chevron"></th>
+                        <th>{{ 'title.actions'|trans }} <img src="{{asset('build/images/chevron_bas.png')}}" alt="chevron" class="chevron"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,8 +45,13 @@
                             </td>
                             <td>{{ user.createdAt | date('d/m/Y') }}</td>
                             <td>
-                                <button class="userDetailsBtn button greyButton" data-user="{{ user.id }}">Détails</button>
-                                <button class="editRoleBtn button greyButton" data-user="{{ user.id }}" data-role="{{ user.roles[0] }}">Changer le rôle</button>
+                                <button class="userDetailsBtn button greyButton" data-user="{{ user.id }}">{{ 'button.details'|trans }}</button>
+                                <button class="editRoleBtn button greyButton" data-user="{{ user.id }}" data-role="{{ user.roles[0] }}">{{ 'button.changeRole'|trans }}</button>
+                                {% if 'ROLE_INSTRUCTOR' in user.roles %}
+                                    <a class="button greyButton" href="{{ path( 'admin_stats_instructor', {'instructor': user.id} ) }}">{{ 'button.stats'|trans }}</a>
+                                {% elseif 'ROLE_STUDENT' in user.roles %}
+                                    <a class="button greyButton" href="{{ path( 'admin_stats_student', {'student': user.id} ) }}">{{ 'button.stats'|trans }}</a>
+                                {% endif %}
                             </td>
                         </tr>
                         
@@ -58,15 +63,15 @@
         <div id="roleUpdaterModale" class="hideModale">
             <main>
                 <select id="roleChoice">
-                    <option value="ROLE_STUDENT">Etudiant</option>
-                    <option value="ROLE_INSTRUCTOR">Formateur</option>
-                    <option value="ROLE_ADMIN">Admin</option>
+                    <option value="ROLE_STUDENT">{{ 'title.student'|trans }}</option>
+                    <option value="ROLE_INSTRUCTOR">{{ 'title.instructor'|trans }}</option>
+                    <option value="ROLE_ADMIN">{{ 'title.admin'|trans }}</option>
                 </select>
                 <p>
                     <button id="roleUpdaterModalCloseBtn">
-                        Annuler
+                        {{ 'button.cancel'|trans }}
                     </button>
-                    <button id="updateRoleBtn" data-user="" data-role="">Valider</button>
+                    <button id="updateRoleBtn" data-user="" data-role="">{{ 'button.validate'|trans }}</button>
                 </p>
             </main>
         </div>

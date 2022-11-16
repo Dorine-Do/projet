@@ -123,8 +123,8 @@ img{
 
 @media screen and (max-width: 1200px) {
     img {
-        width: 25%;
         height: 90%;
+        width: 25%;
     }
 
     .divLink {

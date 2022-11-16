@@ -7,20 +7,50 @@
 {% endblock %}
 
 {% block body %}
-
-    <h1>- Statistiques -</h1>
+    <h1>- {{ 'title.stats'|trans }} -</h1>
     <div class="accueilDiv">
         <div class="sectionOne">
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
-                    <a href="{{ path('admin_stats_modules')}}" class="accueilA">Modules</a>
+                    <a href="{{ path('admin_stats_modules')}}" class="accueilA">{{ 'button.modules'|trans }}</a>
                 </div>
             </div>
+        </div>
+        <div class="sectionOne">
             <div class="hrefDiv">
                 <div class="hrefDecorationDiv">
-                    <a href="{{ path('admin_stats_sessions')}}" class="accueilA">Modules</a>
+                    <a href="#" data-searchtype="session" class="accueilA searchBtn">{{ 'button.sessions'|trans }}</a>
+                </div>
+            </div>
+        </div>
+        <div class="sectionOne">
+            <div class="hrefDiv">
+                <div class="hrefDecorationDiv">
+                    <a href="#" data-searchtype="apprenant" class="accueilA searchBtn">{{ 'button.learners'|trans }}</a>
+                </div>
+            </div>
+        </div>
+        <div class="sectionOne">
+            <div class="hrefDiv">
+                <div class="hrefDecorationDiv">
+                    <a href="#" data-searchtype="formateur" class="accueilA searchBtn">{{ 'button.teachers'|trans }}</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="statsModale">
+        <div class="stats">
+            <button id="closeStatsModaleBtn" class="button">{{ 'button.close'|trans }}</button>
+            <h3>{{ 'title.search'|trans }}</h3>
+            <input type="search" data-searchtype="">
+            <ul id="searchResults">
+
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/admin/statsModale.js') }}"></script>
 {% endblock %}

@@ -51,6 +51,45 @@ class SessionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findSessionByString($str)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->where('s.name LIKE :str' )
+            ->setParameter('str', '%'.$str.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findSessionByQcm($qcmId)
+    {
+        return $this->createQueryBuilder('s')
+            ->select("s.id as sId, s.name")
+            ->innerJoin('s.linksSessionStudent', 'lss')
+            ->innerJoin('lss.student', 'st')
+            ->innerJoin('st.qcmInstances', 'qi')
+            ->innerJoin('qi.qcm', 'q')
+            ->where('q.id = :qcmId')
+            ->andWhere('q.isOfficial = true')
+            ->setParameter('qcmId', $qcmId)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findModuleByResult($resultId)
+    {
+        return $this->createQueryBuilder('m')
+            ->select("m.id as mId, m.name")
+            ->innerJoin('m.qcm', 'qcm')
+            ->innerJoin('qcm.qcmInstance', 'qi')
+            ->innerJoin('qi.result', 'r')
+            ->where('r.id = :rId')
+            ->andWhere('r.qcmInstanceId = true')
+            ->setParameter('resultId', $resultId)
+            ->getQuery()
+            ->getResult();
+    }
 //    /**
 //     * @return Session[] Returns an array of Session objects
 //     */

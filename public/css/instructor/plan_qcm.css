@@ -1,15 +1,7 @@
 @import url("../main.css");
 
 section{
-    margin: 50px 0;
-}
-
-.etape {
-    background-color: var(--pamplemousse);
-    font-weight: bold;
-    color: var(--fond);
-    padding: 0.5em 1em;
-    border-radius: 1.5em;
+    margin-bottom: 3em;
 }
 
 ul, .backgroundEtape, .allDate{
@@ -17,65 +9,12 @@ ul, .backgroundEtape, .allDate{
     padding: 25px;
     display: flex;
     justify-content: center;
-}
-
-#qcm-choice, #module-choice{
-    padding: 0.8em;
-    width: 30%;
-    margin: auto;
-    border-radius: 10px;
-    box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.2);
-    outline: none;
-    text-align: center;
-    border: none;
+    flex-wrap: wrap;
+    gap: 1em;
 }
 
 #qcm-choice:hover, #module-choice:hover{
     cursor: pointer;
-}
-
-.nameSession{
-    -moz-appearance: none;
-    border-radius: 7px;
-    padding: 1em 200px;
-    width: 130px;
-    border: 1px solid #ccc;
-    background-color: var(--grey);
-    height: 70px;
-}
-
-.nameSession:checked{
-    background-color: var(--vert);
-}
-
-.choixClasse{
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.liSession{
-    position: relative;
-    margin-right: .5em;
-}
-
-.liSession input:hover,
-.liSession label:hover{
-    cursor: pointer;
-}
-
-.liSession label{
-    position: absolute;
-    color: white;
-    display: block;
-    text-align: center;
-    padding: 0 5px;
-}
-
-.containerPlanQcm{
-    max-width: 90%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .valid{
@@ -140,7 +79,6 @@ ul, .backgroundEtape, .allDate{
 .date{
     display: flex;
     flex-direction: column;
-    padding: 0 100px;
 }
 
 .date input{
@@ -153,11 +91,6 @@ ul, .backgroundEtape, .allDate{
     #qcm-students input {
         width: 50%;
         padding: 25px 130px;
-    }
-
-    #qcm-students{
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
     }
 
     #qcm-students label{
@@ -198,26 +131,6 @@ ul, .backgroundEtape, .allDate{
     .allDate{
         display: flex;
         flex-direction: column;
-    }
-
-    .choixClasse{
-        display: grid;
-        grid-template-columns: repeat(1, 1fr);
-    }
-
-    .nameSession{
-        width: 100%;
-    }
-
-    li label{
-        bottom: 17%;
-        left: 39%;
-    }
-
-    .liSession label {
-        position: absolute;
-        bottom: 18%;
-        left: 30%;
-        color: white;
+        flex-wrap: wrap;
     }
 }

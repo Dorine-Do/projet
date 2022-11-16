@@ -6,7 +6,7 @@ ul {
 }
 /* ****************************main questions and qcm management********************** */
 
-.container_qcm_and_questions_management {
+.containerQcmAndQuestionsManagement {
   display: grid;
   grid-gap: 20px;
   padding: 80px 0 20px;
@@ -14,59 +14,32 @@ ul {
 
 /* ********************** Display questions by qcm *********************** */
 .blocIndice {
-  width: 85%;
+  width: 100%;
   margin: auto;
   display: grid;
   grid-template-columns: repeat(2, 40% [col-start] 60%[col-end]);
-  /* grid-gap: 20px; */
 }
 .indiceToShowQuestions {
   padding-left: 5%;
 }
 
-/* .blocIndice > p {
-  background: #ffac8f;
-  width: 80%;
-  padding: 15px;
-  border-radius: 50px;
-  margin: auto;
-} */
-
-.blocIndice span {
-  background: #ffac8f;
-  display: inline-block;
-  text-align: center;
-  width: 50px;
-  padding: 10px;
-  border-radius: 50px;
-  color: white;
-  margin-right: 10px;
-}
-/* .blocIndice span {
-  background: #ffac8f;
-  display: inline-block;
-  text-align: center;
-  width: 23px;
-  padding: 15px;
-  border-radius: 80%;
-} */
-.bloc_display_question_by_qcm {
-  width: 85%;
+.blocDisplayQuestionByQcm {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(2, 40% [col-start] 60%[col-end]);
-  /* grid-gap: 30px; */
   margin: auto;
   border-radius: 5px;
 }
-.bloc_qcm,
-.bloc-toggle-ul-question {
+
+.blocQcm,
+.blocToggleUlQuestion {
   background: #fff4e4;
   height: 500px;
   border-radius: 10px;
   padding: 40px;
   box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.1);
 }
-.bloc-toggle-ul-question {
+.blocToggleUlQuestion {
   margin: 0 0 0 30px;
 }
 .divQcm,
@@ -76,51 +49,86 @@ ul {
   background: white;
   border-radius: 10px;
 }
-.list_questions,
-.list_btn_qcm {
+
+.divQuestions{
+  overflow-y: scroll;
+}
+
+.listQuestions,
+.listBtnQcm {
   border-radius: 10px;
 }
 
-.list_questions > li {
+.listQuestions > li {
   padding: 15px 0;
   border-bottom: 1px dashed;
 }
-.bloc_btns_nav {
+.blocBtnsNav {
   padding: 3% 5%;
   text-align: center;
 }
 
-.list_btn_qcm {
+.listBtnQcm {
   text-align: center;
   margin: 0;
   padding: 15px;
   display: grid;
   grid-gap: 10px;
   border-radius: 5px;
+  overflow-y: scroll;
+  height: 100%;
 }
 
-.scroll_active {
+/************************************************************************/
+/*CUSTOM SCROLL*/
+
+/* Works on Firefox */
+.listBtnQcm,
+.divQuestions{
+  scrollbar-width: thin;
+  scrollbar-color: var(--fond);
+}
+
+/* Works on Chrome, Edge, and Safari */
+.listBtnQcm::-webkit-scrollbar,
+.divQuestions::-webkit-scrollbar {
+  width: 12px;
+}
+
+.listBtnQcm::-webkit-scrollbar-track,
+.divQuestions::-webkit-scrollbar-track {
+  background: var(--fond);
+  border-radius: 5px;
+}
+
+.listBtnQcm::-webkit-scrollbar-thumb,
+.divQuestions::-webkit-scrollbar-thumb {
+  background-color: var(--grey);
+  border-radius: 20px;
+  border: 3px solid var(--grey);
+}
+
+/************************************************************************/
+
+.scrollActive {
   overflow-y: scroll;
 }
-.list_btn_qcm > li {
+.listBtnQcm > li {
   padding: 15px 0;
-
+  cursor: pointer;
   background: #616161;
   color: white;
-  height: 30px;
   border-radius: 5px;
   position: relative;
   width: 70%;
 }
 /* temporaire */
-.list_btn_qcm > li::after {
+.listBtnQcm > li::after {
   content: attr(data-parent); /*voir html*/
   position: absolute;
-  /* right: -108px; */
   right: -44%;
   background: var(--pamplemousse);
   width: 40%;
-  /* width: 100px; */
   padding: 5px 0;
   text-align: center;
   border-radius: 50px;
@@ -128,7 +136,7 @@ ul {
   font-size: 14px;
 }
 
-.list_questions li span {
+.listQuestions li span {
   padding: 15px;
   display: inline-block;
   width: 20px;
@@ -142,24 +150,24 @@ ul {
 .defaultBg {
   background: var(--pamplemousse) !important;
 }
-.active_li {
+.activeLi {
   background: var(--pamplemousse) !important;
 }
 /******************************* scroll bar***************************** */
 
 /* width */
-.scroll_active::-webkit-scrollbar {
+.scrollActive::-webkit-scrollbar {
   width: 10px;
 }
 
 /* Track */
-.scroll_active::-webkit-scrollbar-track {
+.scrollActive::-webkit-scrollbar-track {
   box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
 
 /* Handle */
-.scroll_active::-webkit-scrollbar-thumb {
+.scrollActive::-webkit-scrollbar-thumb {
   background: var(--grey);
   border-radius: 10px;
 }

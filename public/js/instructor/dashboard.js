@@ -1,5 +1,5 @@
 let liSession, liLevel, levelDiv, studentsDiv, qcmsDiv = null
-let namesLevel, levelChoice, liStudentsData, nameSession, moduleId, sessionId, selectModule, ulListQcms, ulListStudents, liStudentData = null
+let namesLevel, pNoStudents, liStudentsData, nameSession, moduleId, sessionId, selectModule, ulListQcms, ulListStudents, liStudentData = null
 
 //Ajax
 function getModuleBySessionFromAjax(sessionId){
@@ -31,9 +31,21 @@ function getQcmsDoneByStudentFromAjax(sessionId, moduleId, studentId){
 
 //Display
 function displayModules(data){
+    ulListStudents = document.querySelector('.ulListStudents')
+    studentsDiv = document.querySelector('.students')
+    studentsDiv.style.display = "none"
+    ulListStudents.innerHTML = ""
+
+    qcmsDiv = document.querySelector('.qcms')
+    ulListQcms = document.querySelector('.ulListQcms')
+    qcmsDiv.style.display = "none"
+    ulListQcms.innerHTML = ""
+
+
     levelDiv.style.display = 'block'
 
     selectModule.innerHTML = ""
+
     let option = document.createElement('option')
     option.innerHTML = 'Séléctionner un module'
     selectModule.append(option)
@@ -42,13 +54,25 @@ function displayModules(data){
         let option = document.createElement('option')
         option.innerHTML = module['name']
         option.value = module['id']
+        option.id = 'option-module'
+        option.dataset.anchor = '#option-module'
         selectModule.append(option)
     } )
+
+    document.getElementById('section-module').scrollIntoView({
+        behavior: 'smooth'
+    });
 }
 
 
 function displayStudents(data){
+    qcmsDiv.style.display = "none"
+    ulListQcms.innerHTML = ""
+
+
     ulListStudents.innerHTML = ''
+
+
     data.forEach( student => {
         let div = createElementSimple('div', 'divStudentData')
         let liStudentData = createElementSimple('li', 'liStudentData')
@@ -59,8 +83,9 @@ function displayStudents(data){
         radio.setAttribute('name', 'student')
         radio.setAttribute('id', `student${student.id}`)
         radio.setAttribute('value', `${student.id}`)
+        radio.dataset.anchor = '#qcms-list'
         radio.addEventListener('click', (e) => {
-            getQcmsDoneByStudentFromAjax(sessionId, moduleId, e.target.value)
+            getQcmsDoneByStudentFromAjax(sessionId, moduleId, e.target.value, e)
         })
 
         let label = createElementSimple('label', 'labelStudent', `${student.firstName} ${student.lastName}`)
@@ -75,24 +100,28 @@ function displayStudents(data){
 
         liStudentData.append(radio, label, input)
         div.append(liStudentData, img)
+        ulListStudents.style.display = 'grid'
         ulListStudents.append(div)
     })
 
     liStudentData = document.querySelectorAll('.liStudentData')
     positionLabelInput(liStudentData)
-    console.log(data)
     if (data.length === 0){
         let div = createElementSimple('p', 'noStudent')
         div.innerHTML = "Aucun étudiant n'a encore de note dans cette session"
+        ulListStudents.style.display = 'block'
         ulListStudents.append(div)
     }
+
+    document.getElementById('section-students').scrollIntoView({
+        behavior: 'smooth'
+    });
 
 }
 
 
 function displayQcmsDone(data){
     qcmsDiv.style.display = 'block'
-    ulListQcms = qcmsDiv.querySelector('.ulListQcms')
     ulListQcms.innerHTML = ""
     data.forEach( qcm => {
         let li = createElementSimple('li', 'liQcmDone')
@@ -131,9 +160,17 @@ function displayQcmsDone(data){
         let imgLevel = createElementSimple('img', 'qcmImgLevel')
         imgLevel = dislayImgLevel(qcm.level, imgLevel)
 
-        li.append(pDifficulty, pIsOfficial, pTitle, pDate, imgLevel)
+        let p = document.createElement('p')
+        p.classList.add('pImageLevel')
+
+        p.append(imgLevel)
+        li.append(pDifficulty, pIsOfficial, pTitle, pDate, p)
         ulListQcms.append(li)
     })
+
+    document.getElementById('section-qcms').scrollIntoView({
+        behavior: 'smooth'
+    });
 }
 
 
@@ -147,35 +184,41 @@ function createElementSimple(elementName,className, textContent = null){
     return createdElement
 }
 
-
 function dislayImgLevel(level, img,  parent = null){
     if( level === 1 )
     {
         img.setAttribute('alt', 'Graine avec petit pousse')
         img.setAttribute('src', decouvre)
+        img.dataset.level = 'Découvre'
         if ( parent === null){
-            img.setAttribute('id', 'ImgDecouvre')
+            img.setAttribute('id', 'img-decouvre')
         }
     }
     else if( level === 2 )
     {
         img.setAttribute('alt', 'Jeune arbre')
         img.setAttribute('src', explore)
+        img.dataset.level = 'Explore'
     }
     else if( level === 3 )
     {
         img.setAttribute('alt', 'arbre adulte')
         img.setAttribute('src', maitrise)
+        img.dataset.level = 'Maîtrise'
     }
     else if( level === 4 )
     {
         img.setAttribute('alt', 'arbre adulte fleuri')
         img.setAttribute('src', domine)
+        img.dataset.level = 'Domine'
     }
+
+    img.addEventListener('mouseenter', mouseEnter);
+    img.addEventListener('mousemove', mouseMouve);
+    img.addEventListener('mouseout', mouseOut);
 
     return img
 }
-
 
 function positionLabelInput(parent){
     parent.forEach( element => {
@@ -189,7 +232,11 @@ function positionLabelInput(parent){
         let widthLabel = label.getBoundingClientRect().width
         let heightLabel = label.getBoundingClientRect().height
 
-        label.style.top = ((heightInput/2)-(heightLabel/2)) + 'px'
+        label.style.top = ((heightInput/2)-(heightLabel/2) - 2) + 'px'
+
+        if (element.className === 'liStudentData'){
+            label.style.left = 11 + 'px'
+        }
 
         if (widthInput < widthLabel){
             input.style.width = (widthLabel + 10) + 'px'
@@ -206,18 +253,15 @@ function positionLabelInput(parent){
     })
 }
 
-
 function showStudentByModules(e){
     studentsDiv.style.display = 'block'
     if (moduleId !== e.target.value){
         qcmsDiv.style.display = 'none';
-        ulListStudents = studentsDiv.querySelector('.ulListStudents')
         ulListStudents.innerHTML = ""
         moduleId = e.target.value
         getStudentsByModuleFromAjax(sessionId, moduleId)
     }
 }
-
 
 function showModulesBySessions(){
     nameSession.forEach( input => {
@@ -230,29 +274,74 @@ function showModulesBySessions(){
     })
 }
 
-
 function displayContact(){
     namesLevel.forEach( input => {
         input.addEventListener('click', (e)=>{
-            qcmsDiv = document.querySelector('.qcms')
             if (qcmsDiv.style.display === 'block'){
                 qcmsDiv.style.display = "none"
                 ulListQcms.innerHTML = ""
             }
+            pNoStudents.style.display = "none"
+
+            let hasStudent = false
+
             liStudentsData = document.querySelectorAll('.liStudentData')
             liStudentsData.forEach( li => {
+
                 let level = li.lastChild.dataset.level
-                if(levelChoice !== level && e.target.value === '0'){
+                console.log(li)
+                console.log(level.toString())
+                console.log(e.target.value)
+                if ( e.target.value === '0'){
                     li.parentNode.style.display = 'flex'
-                }else if(levelChoice !== level && level.toString() !== e.target.value){
-                    li.parentNode.style.display = 'none'
-                }else{
-                    li.parentNode.style.display = 'flex'
+                    hasStudent = true
                 }
-                levelChoice = level;
+                else if(e.target.value === level){
+                    li.parentNode.style.display = 'flex'
+                    hasStudent = true
+                }
+                else if(level.toString() !== e.target.value){
+                    li.parentNode.style.display = 'none'
+                }
             })
+
+            pNoStudents.innerText = "Aucun étudiant n'a ce niveau pour ce module"
+            pNoStudents.className = "pNoStudents"
+            pNoStudents.style.display = "none"
+            ulListStudents.append(pNoStudents)
+
+            if (!hasStudent){
+                pNoStudents.style.display = "block"
+            }else{
+                pNoStudents.style.display = "none"
+            }
+
         })
     })
+}
+
+const mouseEnter = (e) =>{
+    let pInfo = document.createElement('p');
+    pInfo.style.position = 'absolute'
+    pInfo.setAttribute('id', 'infoHover')
+    pInfo.classList.add('imgHover')
+    pInfo.innerHTML = e.target.dataset.level
+    e.target.parentNode.append(pInfo)
+    console.log(e)
+    console.log(e.pageX)
+    pInfo.style.left = e.pageX + 'px';
+    pInfo.style.top = e.pageY + 'px';
+}
+
+const mouseMouve = (e) =>{
+    let pInfo = document.getElementById('infoHover');
+    pInfo.style.left = e.layerX + 'px';
+    pInfo.style.top = e.layerY + 'px';
+}
+
+const mouseOut = (e) =>{
+    let pInfo = document.getElementById('infoHover');
+    pInfo.remove()
 }
 
 
@@ -267,6 +356,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     studentsDiv = document.querySelector('.students')
     qcmsDiv = document.querySelector('.qcms')
     selectModule = document.getElementById('module-choice')
+    ulListStudents = document.querySelector('.ulListStudents')
+
+    pNoStudents = document.createElement('p')
 
     selectModule.addEventListener('change', showStudentByModules)
     positionLabelInput(liSession)

@@ -246,6 +246,14 @@ tr{
     border-left: 1px solid var(--writing);
 }
 
+th{
+    cursor: pointer;
+}
+
+th:hover{
+    color: white;
+}
+
 select.form-control{
     background-color: var(--pamplemousse);
     border: none;
@@ -274,6 +282,16 @@ label{
     background-color: var(--pamplemousse);
 }
 
+.chevron{
+    width: 20px;
+    height: 20px;
+    margin: auto auto auto 15px;
+    padding-top: 15px;
+}
+
+.showStudentsBtn{
+    margin: auto;
+}
 
 @media screen and (max-width: 1200px) {
 
