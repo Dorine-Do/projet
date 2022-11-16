@@ -327,12 +327,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
             $validator->validate($newProposal);
             $question->addProposal($newProposal);
         };
-
+        
         $validator->validate($question);
+       
 
         $entityManager->persist($question);
         $entityManager->flush();
-
+        dd($question);
         $questionResponse = $questionRepository->find($questionId);
 
 
@@ -427,7 +428,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
             // let stock toutes les ques du qcm qui as été généré aléatoirement
             $randomQuestions= $generatedQcm->getQuestionsCache();
             $randomQcmByModuleId= $generatedQcm->getModule()->getId();
+            foreach($customQuestions as $question){
+                //if question->wording  est différent de question de randomQuestion affecté question au tableau listModule question avec les prop utiles
+                $listQuestionsCustom[]=["wording"=>$question->getWording(),"explaination"=>$question->getExplanation(),"proposals"=>$question->getProposals(),"difficulty"=> $question->getDifficulty(),"id"=>$question->getId()];
 
+            }
 
             // let stock quest du module toutes les questions qui sont pas mandatory avec la difficulté voulu  -> liste  aucune ques stocké dans la let  d'au dessus
             // $keys= array_keys($randomQuestions);
@@ -449,7 +454,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
         }
         $data=[
-            "customQuestions"=>$customQuestions,
+            "customQuestions"=>$listQuestionsCustom,
             "officialQuestions"=>$listModuleQuestions,
             "randomQuestion"=>$randomQuestions,
             "randomQcmByModule"=>$randomQcmByModuleId,
