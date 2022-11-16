@@ -372,31 +372,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
         }
         // ////
-        $task = new Module();
-        // ...
-        $form = $this->createFormBuilder($task)
-        ->add('title', ChoiceType::class,[
-            'choices'=>$arrayBuilderModule,
-            'empty_data'=>'Veuillez choisir un module',
-            'expanded' => false,
-            'multiple' => false,
-            'required'   => false,
-            'placeholder'=>'Veuillez choisir un module'
-        ])
-        ->add('qcms',CollectionType::class, [
-            'entry_type'=> QcmFormType::class,
-            'entry_options' => ['label' => false],
-            'allow_add' => true,
-            'allow_delete' => true,
-
-
-        ])
-
-        ->getForm();
-
-        // $task->setTitle("blabla");
-        $task->setTitle("bla");
-        $form->handleRequest($request);
         // dd($request);
           // ////
         /**********************************************************************************/
@@ -421,7 +396,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
             // 'qcms'=>empty($qcm ) ? null : $qcms,// condition 2
             'qcms'=>!isset($qcms)? null :$qcms,
             'qcmInstancesByQuestion'=>!isset($qcmInstancesByQuestion )? null : $qcmInstancesByQuestion, // condition 3
-            'form'=>$form->createView()
 
         ]);
     }
