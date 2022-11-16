@@ -640,21 +640,13 @@ window.onload = function (event) {
                 img.parentNode.parentNode.parentNode.lastElementChild
                   .lastElementChild.lastElementChild;
 
-              //Css
-              //   proposalWordingDiv.style.flexDirection = "column";
-              //   let nPropPartTwo = proposalWordingDiv.querySelectorAll(".nPropPartTwo");
-              //   nPropPartTwo.forEach((nbr) => {
-              //     nbr.style.padding = "2px 10px";
-              //   });
-
               // si la div des proposal n'est pas dérouler
               if (proposalWordingDiv.classList.contains("displayNone")) {
                 proposalWordingDiv.classList.remove("displayNone");
                 img.parentNode.classList.remove("displayNone");
-                console.log(img, "img display none");
+                // console.log(img, "img display none");
               } else {
-                // img.parentNode.classList.remove("displayNone");
-                // img.parentNode.classList.add("displayNone");
+                img.parentNode.classList.add("displayNone");
                 // console.log((img.style.display = "none"), "img remove");
               }
 
