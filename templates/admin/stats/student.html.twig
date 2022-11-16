@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin | BugReports{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/admin/admin_lists.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/stats/modules_stats.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <main class="admin_content">
+
+        <section>
+            <h1>{{ 'title.statsOf'|trans }} {{ student.firstname }} {{ student.lastname }}</h1>
+            <input id="studentId" type="hidden" value="{{ student.id }}">
+        </section>
+
+        <section class="stats-group">
+            <h2>{{ 'title.stacks'|trans }}</h2>
+            <div class="graph">
+                <h3>{{ 'title.stackSuccess'|trans }}</h3>
+                <canvas id="stacks-rate-chart"></canvas>
+            </div>
+            <div class="graph">
+                <h3>{{ 'title.stackRate'|trans }}</h3>
+                <canvas id="stacks-average-chart"></canvas>
+            </div>
+        </section>
+        <section class="stats-group">
+            <h2>{{ 'title.modules'|trans }}</h2>
+            <div class="graph">
+                <h3>{{ 'title.moduleSuccess'|trans }}</h3>
+                <canvas id="modules-rate-chart"></canvas>
+            </div>
+            <div class="graph">
+                <h3>{{ 'title.moduleRate'|trans }}</h3>
+                <canvas id="modules-average-chart"></canvas>
+            </div>
+        </section>
+
+    </main>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.esm.js"></script>
+    <script type="module" src="{{ asset('js/admin/stats/studentStats.js') }}"></script>
+{% endblock %}

@@ -41,8 +41,12 @@
 }
 
 .infoQcm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 86%;
     z-index: 2;
+
 }
 
 .infoTimeLine{
@@ -62,18 +66,32 @@
 .iTrainning{
     background-color: var(--pamplemousse);
     z-index: 1;
-}
-.iTrainning:hover{
     cursor: pointer;
 }
 
+.iTrainning a{
+    width: 100%;
+    display: inline-block;
+}
+
 .passOrNot{
-    width: 18%;
+    width: 11%;
     background: var(--pamplemousse);
     text-align: center;
     border-radius: 50%;
-    padding: 5% 0;
+    padding: 0.2em .5em;
     z-index: 1;
+    display: flex;
+    align-items: center;
+}
+
+.succesQcm {
+    width: 100%;
+}
+
+.failQcm{
+    width: 75%;
+    margin:auto;
 }
 
 .lineX{
@@ -91,6 +109,7 @@
 }
 
 .pBadge{
+    display: flex;
     position: relative;
     bottom: -7em;
     border: 1px solid var(--pamplemousse);
@@ -100,8 +119,14 @@
     margin: 0 4em;
 }
 
+.pBadge a{
+    cursor: pointer;
+    display: flex;
+}
+
 .wrong{
-    width: 2em;
+    width: 2.7em;
+    cursor: pointer;
 }
 
 .imgYouUp{
@@ -200,7 +225,7 @@
         position: static;
     }
     .lineX {
-        top: 100%;
+        top: 582px;
         left: 199px;
         width: 1%;
         height: 29em;
@@ -221,7 +246,7 @@
     }
     .lineY{
         background: var(--pamplemousse);
-        width: 7em;
+        width: 9em;
         height: 1.5px;
         top: 25px;
         right: 31px;
@@ -231,19 +256,22 @@
         width: 59%;
     }
 
-    .passOrNot{
-        margin: 0;
-    }
-
     .infoTimeLine{
         width: 100%;
         position: relative;
     }
 
     .passOrNot{
-        width: 21%;
         align-self: self-start;
         margin: .2em 0;
+        padding: .3em 0.5em;
+    }
+
+    .succesQcm{
+    }
+
+    .failQcm{
+        width: 75%;
     }
 
     .isOfficialQcmOdd{
@@ -252,11 +280,17 @@
     }
 
     .pBadge{
+        display: flex;
+        justify-content: center;
         text-align: center;
         margin: 0 auto;
-        padding: .5em 0;
         margin-bottom: 1em;
         width: 25%;
+        padding: 0;
+    }
+
+    .wrong{
+        width: 3.7em;
     }
 
     .badges{

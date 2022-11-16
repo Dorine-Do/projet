@@ -1,11 +1,10 @@
-let selectSession, selectModule, qcmsContainer, ul, qcmsName, studentsContainer, redirect, divLegend
+let selectSession, selectModule, qcmsContainer, ulQcm, qcmsName, studentsContainer, redirect, divLegend, ulStudent
 
 
 function fetchModules(e){
     fetch( 'distributed_qcms/' + e.target.value, {method: 'GET'} )
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
             selectModule.innerHTML = ''
             let option = document.createElement('option')
             option.innerHTML = 'Sélectionnez un module'
@@ -17,34 +16,57 @@ function fetchModules(e){
                 option.value = module['id']
                 selectModule.append(option)
             })
+
+            document.getElementById('sectionModule').scrollIntoView({
+                behavior: 'smooth'
+            });
+
+            qcmsContainer.style.display = 'none'
+            ulStudent.remove()
+            ulQcm.remove()
+
         })
 }
 
 function fetchQcms(e){
-    fetch('../qcm-planner/getModuleQcms/' + e.target.value, {method: 'GET'})
+    fetch('../qcm-planner/getModuleQcms/' + e.target.value + '/true', {method: 'GET'})
         .then((response) => response.json())
         .then((data) => {
 
+            let qcmsWithoutRetry = data.filter( function (qcm){
+                return !qcm.title.includes('Retentative')
+            } )
+
             qcmsContainer.innerHTML = ''
             qcmsContainer.append(divLegend)
-            data.forEach( qcm => {
 
-                ul = document.createElement('ul')
+            console.log(qcmsWithoutRetry)
+
+            if(qcmsWithoutRetry.length === 0){
+                let p = document.createElement('p')
+                p.innerHTML = 'Aucun QCM n\'a été trouvé'
+                p.style.textAlign = 'center'
+                p.style.fontSize = '1.2em'
+                p.style.marginTop = '40px'
+                qcmsContainer.append(p)
+            }
+
+            qcmsWithoutRetry.forEach( qcm => {
+
+                ulQcm = document.createElement('ul')
                 let name = document.createElement('li')
                 let difficulty = document.createElement('li')
                 let isOfficial = document.createElement('li')
-                let date = document.createElement('li')
-                ul.className = 'qcmStudent'
+
+                ulQcm.className = 'qcmStudent'
                 name.className = 'button'
                 isOfficial.className = 'official'
                 difficulty.className = 'difficulty'
-                date.className = 'date'
 
                 name.innerHTML = qcm.title
                 name.dataset.qcm = qcm.id
-                name.dataset.anchor = "#students-qcm"
                 name.id = qcm.id
-                qcmsContainer.append(ul)
+                qcmsContainer.append(ulQcm)
 
                 if(qcm.difficulty === 1){
                     difficulty.innerHTML = 'Facile'
@@ -57,112 +79,117 @@ function fetchQcms(e){
                 if(qcm.isOfficial === true){
                     isOfficial.innerHTML = 'Officiel'
                 }else{
-                    isOfficial.innerHTML = 'Entrainement'
+                    isOfficial.innerHTML = 'Exerice'
                 }
 
-                let dateToDisplay = new Date(qcm.updatedAt)
-                date.innerHTML = dateToDisplay.toLocaleDateString()
-                ul.append(name, date, isOfficial, difficulty)
+                ulQcm.append(name, isOfficial, difficulty)
 
                 qcmsName = document.getElementsByClassName('button')
                 for(let i = 0; i<qcmsName.length; i++){
                     qcmsName[i].addEventListener('click', fetchStudents)
                 }
-                document.querySelectorAll('li.button').forEach(button => {
-                    button.addEventListener('click', function (e) {
-                        e.preventDefault();
-
-                        document.querySelector(this.dataset.anchor).scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    });
-                });
 
             })
+            document.getElementById('sectionQcms').scrollIntoView({
+                behavior: 'smooth'
+            });
         })
+    ulStudent.remove()
+    ulStudent.innerHTML = ' '
 }
 
 function fetchStudents(e){
     fetch('distributed_students/' + this.dataset.qcm, {method: 'GET'})
         .then((response) => response.json())
         .then((studentsResults) => {
-            console.log("studentsResults" ,studentsResults)
-                studentsContainer.innerHTML = ''
-                if (typeof studentsResults === 'string'){
-                    let p = document.createElement('p')
-                    p.classList.add('noStudent')
-                    p.innerHTML = "Aucun étudiant n'a encore de note sur ce QCM"
-                    studentsContainer.append(p)
-                    window.scrollTo(0,document.body.scrollHeight);
-                }else{
-                    let ulStudent = document.createElement('ul')
-                    studentsResults.forEach( studentResult => {
+            studentsContainer.innerHTML = ''
+            if (typeof studentsResults === 'string'){
+                let p = document.createElement('p')
+                p.classList.add('noStudent')
+                p.innerHTML = "Aucun étudiant n'a encore de note sur ce QCM"
+                studentsContainer.append(p)
 
-                        let li = document.createElement('li')
-                        let name = document.createElement('p')
-                        let img = document.createElement('img')
+                document.getElementById('sectionStudents').scrollIntoView({
+                    behavior: 'smooth'
+                });
 
-                        if (studentResult.result !== null)
-                        {
-                            li.dataset.resultid = studentResult.result.id
-                        }
+            }else{
+                ulStudent = document.createElement('ul')
+                studentsResults.forEach( studentResult => {
 
-                        li.className = 'liStudent'
-                        ulStudent.className = 'studentQcm'
-                        name.className = 'firstName'
+                    let li = document.createElement('li')
+                    let div = document.createElement('div')
+                    let container = document.createElement('div')
+                    let name = document.createElement('p')
+                    let img = document.createElement('img')
+                    let date = document.createElement('p')
+                    let button = document.createElement('button')
 
-                        let score = studentResult.result ? studentResult.result.score : 'QCM pas encore effectué'
+                    li.className = 'liStudent'
+                    div.className = 'containerDiv'
+                    container.classList = 'containerInfo'
+                    ulStudent.className = 'studentQcm'
+                    name.className = 'firstName'
+                    date.className = 'distributedAt'
+                    button.className = 'viewAnswers'
 
-                        name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : '
+                    let score = studentResult.result ? studentResult.result.score : 'QCM pas encore effectué'
 
-                        li.append(name)
+                    name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : '
+                    container.append(name)
 
-                        if(score < 25){
-                            img.src = decouvre
-                            img.className = 'decouvre'
-                            img.dataset.level = 'Découvre'
-                            img.addEventListener('mouseenter', mouseEnter);
-                            img.addEventListener('mousemove', mouseMouve);
-                            img.addEventListener('mouseout', mouseOut);
-                            li.append(img)
-                        }else if(score >= 25 && score < 50){
-                            img.src = explore
-                            img.className = 'explore'
-                            img.dataset.level = 'Explore'
-                            img.addEventListener('mouseenter', mouseEnter);
-                            img.addEventListener('mousemove', mouseMouve);
-                            img.addEventListener('mouseout', mouseOut);
-                            li.append(img)
-                        }else if(score >= 50 && score < 75){
-                            img.src = maitrise
-                            img.className = 'maitrise'
-                            img.dataset.level = 'Maitrise'
-                            img.addEventListener('mouseenter', mouseEnter);
-                            img.addEventListener('mousemove', mouseMouve);
-                            img.addEventListener('mouseout', mouseOut);
-                            li.append(img)
-                        }else if(score >= 75 && score <= 100){
-                            img.src = domine
-                            img.className = 'domine'
-                            img.dataset.level = 'Domine'
-                            img.addEventListener('mouseenter', mouseEnter);
-                            img.addEventListener('mousemove', mouseMouve);
-                            img.addEventListener('mouseout', mouseOut);
-                            li.append(img)
-                        }else{
-                            name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : Non effectué'
-                        }
+                    let dateToDisplay = new Date(studentResult.distributedAt)
+                    date.innerHTML = dateToDisplay.toLocaleDateString()
+                    container.append(date)
 
-                        studentsContainer.append(ulStudent);
-                        ulStudent.append(li);
+                    if(score < 25){
+                        img.src = decouvre
+                        img.className = 'decouvre'
+                        img.dataset.level = 'Découvre'
+                    }else if(score >= 25 && score < 50){
+                        img.src = explore
+                        img.className = 'explore'
+                        img.dataset.level = 'Explore'
+                    }else if(score >= 50 && score < 75){
+                        img.src = maitrise
+                        img.className = 'maitrise'
+                        img.dataset.level = 'Maitrise'
+                    }else if(score >= 75 && score <= 100){
+                        img.src = domine
+                        img.className = 'domine'
+                        img.dataset.level = 'Domine'
+                    }
 
-                        li.addEventListener('click', function(e){
-                            if (this.dataset.resultid){
-                                window.location.href = '/student/qcm/correction/' + this.dataset.resultid;
-                            }
-                    });
-                        window.scrollTo(0,document.body.scrollHeight);
+                    img.addEventListener('mouseenter', mouseEnter);
+                    img.addEventListener('mousemove', mouseMouve);
+                    img.addEventListener('mouseout', mouseOut);
+
+                    li.append(img)
+                    div.append(container)
+                    if (studentResult.result !== null){
+                        button.innerText = 'Voir les réponses'
+                        button.dataset.resultid = studentResult.result.id
+
+                        button.addEventListener('click', (e)=>{
+                            window.location.href = '/student/qcm/correction/' + e.target.dataset.resultid
+                        })
+                        div.append(button)
+                    }else{
+                        let notDone = document.createElement('p')
+                        notDone.className = 'notDone'
+                        notDone.innerText = 'Non effectué'
+                        div.append(notDone)
+                    }
+
+                    li.append(div)
+
+                    studentsContainer.append(ulStudent);
+                    ulStudent.append(li);
+
                 })
+                document.getElementById('sectionStudents').scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         })
 }

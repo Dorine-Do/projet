@@ -69,7 +69,7 @@
 
         <div id="reportBugModale">
             <div>
-                <button id="closeReportBugModaleBtn" class="button">Fermer</button>
+                <button id="closeReportBugModaleBtn" class="button">{{ 'button.close'|trans }}</button>
                 <h3>Signaler un bug</h3>
                 <form id="reportBugForm">
                     {% if app.user %}
@@ -78,7 +78,7 @@
                     <input type="hidden" id="bugReportUrl" value="" name="bugReportUrl">
 			        <script>document.querySelector('#bugReportUrl').value = document.location.href</script>
                     <textarea name="reportBugMsg" id="reportBugMsg" cols="30" rows="10"></textarea>
-                    <button type="submit" class="errorSubmitBtn">Envoyer</button>
+                    <button type="submit" class="errorSubmitBtn">{{ 'button.send'|trans }}</button>
                 </form>
             </div>
         </div>
@@ -87,7 +87,7 @@
 
          {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+         {% endblock %}
         <script src="{{ asset('js/layout.js') }}"></script>
     </body>
 

@@ -6,96 +6,60 @@
 
 
 {% block body %}
- <h1>{{ 'title.myQcmExercice'|trans }}</h1>
-<main class="container_qcm_and_questions_management">
-
-
-
-    <div class=" blocIndice">
-      <p class="indiceToSelectQcm ">
-          <span>{{ 'title.step1'|trans }}</span> {{ 'title.iQcmSelect'|trans }}
-      </p>
-      <p class="indiceToShowQuestions ">
-          <span>{{'title.step2'|trans }}</span> {{ 'title.displayMyQuestions'|trans }}
-      </p>
-    </div>
-
-    <div class="bloc_display_question_by_qcm">
-        <div class="bloc_qcm">
-          <div class="divQcm">
-            <ul class="list_btn_qcm">
-            {% for qcm in qcms %}
-
-            {# data-parent voir css ::after #}
-                    <li class="li_btn_qcm" data-id="{{qcm.id}}" data-questions-cache="{{qcm.questionsCache|json_encode}}" data-parent="{{ qcm.difficulty == 1 ? 'facile'}}{{ qcm.difficulty == 2 ? 'moyen'}}{{ qcm.difficulty == 3 ? 'difficile'}}" >
-                        {{qcm.title|raw }}
-                    </li>
-
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-       <div class="bloc-toggle-ul-question">
-            <div class="divQuestions">
-                <ul class="list_questions"  data-qcms="{{ qcms|json_encode|e('html_attr')}}">
-                   {% for qcm in qcms %}
-                   {{qcm.id}}
-                        {% if qcm.id == qcms[0].id %}
-
-                            {% for question in qcm.getQuestionsCache() %}
-
-                                <li data-qcm-id="{{ qcm.id}}" data-id='{{question.id}}'>
-
-                                <span class="qcm_question_number"></span>
-                                {{question.wording|raw }}
-
-                                </li>
-
-                            {% endfor %}
-                        {# si tout qcm
-
-                        {% if qcm.id == 8 %}
-
-                            {% for question in qcm.getQuestionsCache() %}
-
-                                <li data-qcm-id="{{ qcm.id}}" data-id='{{question.id}}'>
-
-                                <span class="qcm_question_number"></span>
-                                {{question.wording|raw }}
-
-                                </li>
-
-                            {% endfor %} #}
-                       {% endif %}
-                        {# {% if qcm.id != qcms[0].id %}
-
-
-                           {% for question in qcm.getQuestionsCache() %}
-
-                                <li data-qcm-id="{{qcms[0].id == qcm.id ? qcm.id : qcms[0].id}}" data-id='{{question.id}}'>
-
-                                <span class="qcm_question_number"></span>
-                                {{question.wording|raw }}
-
-                                </li>
-
-                            {% endfor %}
-
-                       {% endif %} #}
-                   {% endfor %}
-
-
-
-                </ul>
-            </div>
+    <h1>- {{ 'title.myQcmExercice'|trans }} -</h1>
+    <main class="subContainer containerQcmAndQuestionsManagement">
+        <div class=" blocIndice">
+            <p>
+                <span class="step">{{ 'title.step1'|trans }}</span> {{ 'title.iQcmSelect'|trans }}
+            </p>
+            <p class="indiceToShowQuestions ">
+                <span class="step">{{'title.step2'|trans }}</span> {{ 'title.displayMyQuestions'|trans }}
+            </p>
         </div>
 
-    </div>
-<main>
-{% block javascripts %}
-    {# // <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script> #}
+        <div class="blocDisplayQuestionByQcm">
+            <div class="blocQcm">
+                <div class="divQcm">
+                    <ul class="listBtnQcm">
+                        {% for qcm in qcms %}
+                            {# data-parent voir css ::after #}
+                            <li class="liBtnQcm" data-id="{{qcm.id}}" data-questions-cache="{{qcm.questionsCache|json_encode}}" data-parent="{{ qcm.difficulty == 1 ? 'facile'}}{{ qcm.difficulty == 2 ? 'moyen'}}{{ qcm.difficulty == 3 ? 'difficile'}}" >
+                                {{qcm.title|raw }}
+                            </li>
 
-    <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script>
- 
-{% endblock %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="blocToggleUlQuestion">
+                <div class="divQuestions">
+                    <ul class="listQuestions"  data-qcms="{{ qcms|json_encode|e('html_attr')}}">
+                        {% for qcm in qcms %}
+                            {% if qcm.id == qcms[0].id %}
+
+                                {% for question in qcm.getQuestionsCache() %}
+
+                                    <li data-qcm-id="{{ qcm.id}}" data-id='{{question.id}}'>
+
+                                        <span class="qcmQuestionNumber"></span>
+                                        {{question.wording|raw }}
+
+                                    </li>
+
+                                {% endfor %}
+
+                            {% endif %}
+
+                        {% endfor %}
+
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    <main>
+    {% block javascripts %}
+         <script type="text/javascript" src="{{ asset('js/instructor/displayQcms.js') }}"></script>
+    {% endblock %}
 {% endblock %}

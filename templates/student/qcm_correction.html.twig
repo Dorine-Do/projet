@@ -23,15 +23,15 @@
         <div class="premiereDiv">
             <div class="diff">
                 <p>{{ 'difficulty.easy'|trans }}</p>
-                <img src="{{asset('build/images/trefle_facile.svg')}}" alt="facile">
+                <img src="{{asset('build/images/trefle_facile.png')}}" alt="facile">
             </div>
             <div class="diff">
                 <p>{{ 'difficulty.medium'|trans }}</p>
-                <img src="{{asset('build/images/trefle_moyen.svg')}}" alt="moyen">
+                <img src="{{asset('build/images/trefle_moyen.png')}}" alt="moyen">
             </div>
             <div class="diff">
                 <p>{{ 'difficulty.difficult'|trans }}</p>
-                <img src="{{asset('build/images/difficil_difficile.svg')}}" alt="difficile">
+                <img src="{{asset('build/images/difficil_difficile.png')}}" alt="difficile">
             </div>
         </div>
 
@@ -39,7 +39,7 @@
             {% for question in qcmQuestions %}
                 <div class="imageDiff">
                     <div class="trefle">
-                        <img src="{{asset('build/images/difficil_difficile.svg')}}" alt="difficile">
+                        <img src="{{asset('build/images/difficil_difficile.png')}}" alt="difficile">
                     </div>
                     <div>
                         <p class="question"><span class="numeroForm">1</span>
@@ -48,9 +48,9 @@
                     </div>
                     <div>
                         {% if question.isCorrect %}
-                            <p class="bravo">Bravo!</p>
+                            <p class="bravo">{{ 'title.bravo'|trans }}!</p>
                         {% else %}
-                            <p class="oups">Oups</p>
+                            <p class="oups">{{ 'title.oups'|trans }}</p>
                         {% endif %}
                     </div>
 
@@ -66,7 +66,7 @@
                                 {% endif %}
                                 <div class="divReponse">
                                     <label data-correction="green">{{ proposal.wording | raw }}</label>
-                                    <img class="imgReponse" src="{{asset('build/images/good.svg')}}" alt="Bonne réponse">
+                                    <img class="imgReponse" src="{{asset('build/images/good.png')}}" alt="Bonne réponse">
                                 </div>
                             </div>
                         {% elseif proposal.isCorrectAnswer%}
@@ -89,7 +89,7 @@
                                 {% endif %}
                                 <div class="divReponse">
                                     <label >{{ proposal.wording | raw }}</label>
-                                    <img class="imgReponse" src="{{asset('build/images/wrong.svg')}}" alt="Mauvaise réponse">
+                                    <img class="imgReponse" src="{{asset('build/images/wrong.png')}}" alt="Mauvaise réponse">
                                 </div>
                             </div>
                         {% else %}
@@ -107,7 +107,7 @@
                     {% endfor %}
                 </div>
                 <div class="explanation">
-                    <h4>Explication</h4>
+                    <h4>{{ 'title.explanation'|trans }}</h4>
                     <p>
                         {{ question.explanation }}
                     </p>
@@ -130,7 +130,7 @@
                 {% elseif 'ROLE_INSTRUCTOR' in app.user.roles %}
                     <div class="containerComment">
                         <div>
-                            <h4>Ajouter un commentaire </h4>
+                            <h4>{{ 'title.addCommentary'|trans }}</h4>
                             <input
                                     class="comment"
                                     name="instructorComment"
@@ -138,12 +138,12 @@
                                     data-id="{{resultId}}"
                                     value = {{instructorComment}}
                             >
-                            <p class="explainComment">Attention, votre commentaire sera lisible par l'élève dans son espace YouUp.</p>
+                            <p class="explainComment">{{ 'title.commentaryWillBeSeeable'|trans }}</p>
                             <p style ="display:none;" class="infoComment"></p>
-                            <button class="addComment">Ajouter</button>
+                            <button class="button greyButton largeButton">{{ 'button.add'|trans }}</button>
                         </div>
                         <div>
-                            <h4>Commentaire de l'élève </h4>
+                            <h4>{{ 'title.studentCommentary'|trans }}</h4>
                             <p class="comment">
                                 {{ studentComment }}
                             </p>

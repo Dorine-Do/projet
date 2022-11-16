@@ -32,7 +32,7 @@
                 </div>
             </td>
             <td colspan="2" class="premierSelect">
-                {{form_widget(form.module)}}
+                {{form_widget(form.module, {'attr': {'class': 'selectVarFond'}})}}
 
             </td>
         </tr>
@@ -88,12 +88,13 @@
         <tr>
             <td colspan="2" class="premier">
                 <div class="align">
-                    <div class="circle orangeCircle">5</div>
+                    <div class="circle orangeCircle" >5</div>
+                    <p class="etape">
+                        <span class="numeroForm"></span>
+                        {{ 'question.explanation'|trans }}
+                    </p>
                 </div>
-                <p class="etape">
-                    <span class="numeroForm"></span>
-                    {{ 'question.explanation'|trans }}
-                </p>
+
             </td>
             <td colspan="2" class="second">
                 {{form_widget(form.explanation)}}
@@ -107,7 +108,9 @@
                 </p>
             </td>
             <td colspan="2" class="second">
-                {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
+                <p class="option">
+                    {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
+                </p>
             </td>
         </tr>
         {% if app.user.isReferent or 'ROLE_ADMIN' in app.user.roles %}
@@ -138,7 +141,7 @@
         {% endif %}
         <tr>
             <td colspan="2">
-                <button id="valid" type="button" class="button largeButton greyButton">{{ 'button.validate'|trans }}</button>
+                <button id="valid" type="button" class="button largeButton greyButton marginTopButton">{{ 'button.validate'|trans }}</button>
             </td>
         </tr>
     </table>
@@ -155,7 +158,7 @@
     <script>
         let add = {{add}};
         let imgPath = [];
-        imgPath.push('{{asset('build/images/trefle_facile.svg')}}', '{{asset('build/images/trefle_moyen.svg')}}', '{{asset('build/images/difficil_difficile.svg')}}')
+        imgPath.push('{{asset('build/images/trefle_facile.png')}}', '{{asset('build/images/trefle_moyen.png')}}', '{{asset('build/images/difficil_difficile.png')}}')
     </script>
 
     <script type="text/javascript" src="{{ asset('js/instructor/question_form_error_handling.js') }}"></script>

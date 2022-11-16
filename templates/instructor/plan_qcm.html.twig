@@ -6,15 +6,17 @@
     <link href="{{asset('css/instructor/ckeditor_overwrite.css')}}" rel="stylesheet">
 {% endblock %}
 
+{% block title %}{{ 'title.planQcm'|trans }}{% endblock %}
+
 {% block body %}
-    <h1> {{ 'title.planQcm'|trans }} </h1>
-    <div class="containerPlanQcm">
+    <h1>- {{ 'title.planQcm'|trans }} -</h1>
+    <div class="subContainer">
         <form action="{{ path('instructor_distribue_qcm') }}" method="post">
-            <section>
+            <section class="sectionChoice">
                 <p>
-                    <span class="etape">Etape 1</span> {{ 'session.choice'|trans }}
+                    <span class="step">{{ 'title.step1'|trans }}</span> {{ 'title.chooseSession'|trans }}
                 </p>
-                <ul class="choixClasse">
+                <ul class="sessionChoice">
                     {% for session in instructorSessions %}
                         <li class="liSession">
                             <input class="nameSession" id="{{ session.name }}" type="radio" name="session" value="{{ session.id }}"><label for="{{ session.name }}">{{ session.name }}</label>
@@ -22,50 +24,50 @@
                     {% endfor %}
                 </ul>
             </section>
-            <section>
+            <section class="sectionChoice" id="background-module">
                 <p>
-                    <span class="etape">Etape 2</span> {{ 'module.choice'|trans }}
+                    <span class="step">{{ 'title.step2'|trans }}</span> {{ 'module.choice'|trans }}
                 </p>
                 <div class="backgroundEtape">
-                    <select id="module-choice" name="module">
+                    <select class="selectVarFond" id="module-choice" name="module">
                         <option value="0">{{ 'module.beforeChoice'|trans }}</option>
                     </select>
                 </div>
             </section>
-            <section>
+            <section class="sectionChoice">
                 <p>
-                    <span class="etape">Etape 3</span> {{ 'qcm.choice'|trans }}
+                    <span class="step">{{ 'title.step3'|trans }}</span> {{ 'qcm.choice'|trans }}
                 </p>
                 <div class="backgroundEtape">
-                    <select id="qcm-choice" name="qcm">
-                        <option value="0">Selectionnez un module pour choisir un QCM</option>
+                    <select class="selectVarFond" id="qcm-choice" name="qcm">
+                        <option value="0">{{ 'module.selectModuleToChooseQcm'|trans }}</option>
                     </select>
                 </div>
             </section>
-            <section>
+            <section class="sectionChoice">
                 <p>
-                    <span class="etape">Etape 4</span> Choix du ou des élèves pouvant faire le QCM
+                    <span class="step">{{ 'title.step4'|trans }}</span> {{ 'qcm.chooseStudentsQcm'|trans }}
                     <ul id="qcm-students">
-                        <li>La liste des élèves apparaitra ici lorsque vous aurez choisi une session.</li>
+                        <li>{{ 'title.studentListWillAppear'|trans }}</li>
                     </ul>
                 </p>
             </section>
-            <section>
+            <section class="sectionChoice">
                 <p>
-                    <span class="etape">Etape 5</span> Choix des dates
+                    <span class="step">{{ 'title.step5'|trans }}</span> {{ 'title.chooseDates'|trans }}
                 </p>
                 <div class="allDate">
                     <div class="date">
-                        <label for="start-time">Date à partir de laquelle le QCM sera accèssible aux élèves</label>
+                        <label for="start-time">{{ 'title.accessibleDate'|trans }}</label>
                         <input id="start-time" name="start-time" type="datetime-local">
                     </div>
                     <div class="date">
-                        <label for="end-time">Date avant laquelle le QCM devra être fait par les élèves</label>
+                        <label for="end-time">{{ 'title.limitDateQcm'|trans }}</label>
                         <input id="end-time" name="end-time" type="datetime-local">
                     </div>
                 </div>
             </section>
-            <button class="valid" type="submit">Distribuer le QCM aux élèves sélectionnés</button>
+            <button class="valid" type="submit">{{ 'title.distributeQcmToStudents'|trans }}</button>
         </form>
     </div>
 {% endblock %}

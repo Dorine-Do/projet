@@ -1,3 +1,5 @@
+@import url("../main.css");
+
 .titleDashboard{
     margin-bottom: 50px;
 }
@@ -11,24 +13,15 @@
     margin: auto;
     font-weight: bold;
     color: white;
-}
-
-#module-choice{
-    background-color: white;
-    padding: 1em;
-    width: 33%;
-    border: none;
-    box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    display: block;
-    margin: 10px auto;
+    margin-bottom: 1em;;
 }
 
 .level{
     background-color: var(--fond);
-    padding: 16px;
-    margin: 50px auto;
+    margin: 0 auto 1em;
     display: flex;
+    text-align: center;
+    padding: .5em 0;
 }
 
 .pIsOfficial{
@@ -82,17 +75,22 @@
     margin: 50px auto;
 }
 
+.legend {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#div-legend {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
 /**********************************************************************************************************************/
 /* Session / Level / Students */
-.nameSession{
-    -moz-appearance: none;
-    border-radius: 7px;
-    padding: 1em 200px;
-    width: 254px;
-    border: 1px solid #ccc;
-    background-color: var(--grey);
-    height: 70px;
-}
 
 .nameLevel{
     -moz-appearance: none;
@@ -109,19 +107,12 @@
     width: 185px;
 }
 
-.nameSession label{
-    top: 23.5px;
-    width: 94%;
-    text-align: center;
-}
-
 .checkboxStudent{
     -moz-appearance: none;
     height: 40px;
     border-radius: 7px;
 }
 
-.nameSession:checked,
 .nameLevel:checked{
     background-color: var(--vert);
     color: white;
@@ -133,33 +124,25 @@
     border-radius: 1em;
 }
 
-.choiceSession{
-    display: grid;
-    background-color: var(--fond);
-    width: 100%;
-    padding: 8px 32px;
-    margin: 50px auto;
-    grid-template-columns: repeat(5, 1fr);
+.checkboxStudent:checked + label{
+    color: white;
 }
 
 .choiceLevel{
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.liSession,
 .liLevel,
 .liStudentData{
     position: relative;
-    margin-right: .5em;
+    margin: auto;
 }
 
 .liStudentData{
     width: 75%;
 }
 
-.liSession input:hover,
-.liSession label:hover,
 .liLevel input:hover,
 .liLevel label:hover,
 .liStudentData input:hover,
@@ -167,7 +150,6 @@
     cursor: pointer;
 }
 
-.liSession label,
 .liLevel label,
 .liStudentData label{
     position: absolute;
@@ -175,7 +157,7 @@
     text-align: center;
     padding: 0 5px;
 }
-.liSession label,
+
 .liLevel label{
     color: white;
 }
@@ -191,18 +173,19 @@
 }
 
 .ulListStudents{
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--fond);
 }
 
 .divStudentData{
     display: flex;
     align-items: center;
-    width: 29%;
+    width: 80%;
     position: relative;
     margin: 2em 0;
-    background-color: var(--fond);
-    border-radius: 7px;
+    background-color: var(--pamplemousse);
+    border-radius: 16px;
 }
 
 .divStudentData:hover{
@@ -214,6 +197,10 @@
 .imgLevel{
     position: absolute;
     right: 0;
+}
+
+.labelStudent{
+    margin-top: 3px;
 }
 
 /**********************************************************************************************************************/
@@ -232,16 +219,29 @@
     border-radius: 13px;
 }
 
+.pImageLevel{
+    width: 3em;
+    text-align: center;
+}
+
+.qcms .qcmImgLevel{
+    width: 100%;
+}
+
+#img-decouvre{
+    width: 60%;
+}
+
 .qcmImgLevel{
     width: 8%;
 }
 
-#ImgDecouvre{
-    width: 4%;
-}
-
-.noStudent{
-    margin-bottom: 20%;
+.noStudent, .pNoStudents{
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.2em;
+    padding: 15px;
+    width: 100%;
 }
 
 #div-legend{
@@ -251,65 +251,23 @@
     margin: 30px auto;
 }
 
+#infoHover{
+    background-color: var(--pamplemousse);
+    color: white;
+    padding: 6px;
+    font-weight: bold;
+    cursor: help;
+    border-radius: 7px;
+}
+
 @media screen and (max-width: 1200px) {
-    .choiceSession {
-        display: grid;
-        background-color: var(--fond);
-        width: 85%;
-        padding: 8px 80px;
-        margin: 50px auto;
-        grid-template-columns: repeat(3, 1fr);
-    }
 
-    .choiceLevel{
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        padding: 5px 100px;
-    }
-
-    #module-choice{
-        width: 84%;
-    }
 }
 
 @media screen and (max-width: 780px) {
-    .choiceSession {
-        display: grid;
-        background-color: var(--fond);
-        width: 100%;
-        padding: 8px 80px;
-        margin: 50px auto;
-        grid-template-columns: repeat(2, 1fr);
-    }
 
-    .choiceLevel{
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        padding: 5px 100px;
-    }
-
-    #module-choice{
-        width: 84%;
-    }
 }
 
 @media screen and (max-width: 450px) {
-    .choiceSession {
-        display: grid;
-        background-color: var(--fond);
-        width: 100%;
-        padding: 8px 100px;
-        margin: 50px auto;
-        grid-template-columns: repeat(1, 1fr);
-    }
 
-    .choiceLevel{
-        display: flex;
-        flex-direction: column;
-        padding: 5px 100px;
-    }
-
-    #module-choice{
-        width: 84%;
-    }
 }

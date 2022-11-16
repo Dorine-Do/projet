@@ -23,15 +23,15 @@
         <div class="premiereDiv">
             <div class="diff">
                 <p>{{ 'difficulty.easy'|trans }}</p>
-                <img src="{{asset('build/images/trefle_facile.svg')}}" alt="facile">
+                <img src="{{asset('build/images/trefle_facile.png')}}" alt="facile">
             </div>
             <div class="diff">
                 <p>{{ 'difficulty.medium'|trans }}</p>
-                <img src="{{asset('build/images/trefle_moyen.svg')}}" alt="moyen">
+                <img src="{{asset('build/images/trefle_moyen.png')}}" alt="moyen">
             </div>
             <div class="diff">
                 <p>{{ 'difficulty.difficult'|trans }}</p>
-                <img src="{{asset('build/images/difficil_difficile.svg')}}" alt="difficile">
+                <img src="{{asset('build/images/difficil_difficile.png')}}" alt="difficile">
             </div>
         </div>
 
@@ -40,11 +40,11 @@
                 <div class="imageDiff">
                     <div class="trefle">
                         {% if question.difficulty is same as 1 %}
-                            <img src="{{asset('build/images/trefle_facile.svg')}}" alt="difficile">
+                            <img src="{{asset('build/images/trefle_facile.png')}}" alt="difficile">
                         {% elseif question.difficulty is same as 2 %}
-                            <img src="{{asset('build/images/trefle_moyen.svg')}}" alt="difficile">
+                            <img src="{{asset('build/images/trefle_moyen.png')}}" alt="difficile">
                         {% elseif question.difficulty is same as 3 %}
-                            <img src="{{asset('build/images/difficil_difficile.svg')}}" alt="difficile">
+                            <img src="{{asset('build/images/difficil_difficile.png')}}" alt="difficile">
                         {% endif %}
                     </div>
                     <div>
@@ -83,9 +83,9 @@
         <div id="error-modal" style="display: none">
             <div class="overlay"></div>
             <div class="modalContent">
-                <img class="logoPop" src="{{asset('build/images/logo_sans_fond.svg')}}">
+                <img class="logoPop" src="{{asset('build/images/logo_sans_fond.png')}}">
                 <p>
-                    Merci de répondre à toutes les questions pour valider le QCM...
+                    {{ 'title.answerToValid'|trans }}
                 </p>
                 <button type="button" class="cancelBtn" id="cancel-error-qcm-btn">{{ 'button.back'|trans }}</button>
             </div>
@@ -94,7 +94,7 @@
         <div id="my-modal" class="modalContainer">
             <div class="overlay"></div>
             <div class="modalContent">
-                <img class="logoPop" src="{{asset('build/images/logo_sans_fond.svg')}}">
+                <img class="logoPop" src="{{asset('build/images/logo_sans_fond.png')}}">
                 <p>{{ 'qcm.finish'|trans }}</p>
                 <p>{{ 'qcm.questionConfirmQcm'|trans }}</p>
                 <div class="buttonPop">
@@ -107,8 +107,8 @@
         <div id="comment-modal" class="modalContainer">
             <div class="overlay"></div>
             <div class="modalConfirm">
-                <img class="logoPop" src="{{asset('build/images/logo_sans_fond.svg')}}" alt="logo de Youup">
-                <p>Je laisse mon commentaire à propos de ce QCM</p>
+                <img class="logoPop" src="{{asset('build/images/logo_sans_fond.png')}}" alt="logo de Youup">
+                <p>{{ 'title.myCommentary'|trans }}</p>
                 <textarea type="text" name="comment_student"></textarea>
                 <div class="buttonPop">
                     <button type="button" class="confirmBtn" id="confirm-qcm-btn">{{ 'button.validate'|trans }}</button>

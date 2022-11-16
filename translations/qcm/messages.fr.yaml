@@ -6,7 +6,9 @@ qcm:
   todo: QCM à faire
   official: QCM officiel
   inter: QCM d'exercice
+  unactivated: QCM désactivé
   toPersonnalised: Personnaliser son QCM
+  errorTyep: Erreur dans le type de QCM
   choice: Choix du QCM
   dones: QCM Réalisés
   donesExplain: En cliquant sur le bouton "QCM réalisés", tu pourras retrouver les QCM que tu as terminé, voir tes réponses fausses et t'entraîner à les refaire.
@@ -22,13 +24,16 @@ qcm:
   displayQuestionByChoisedQcm: Affichage de mes questions en fonction du QCM choisi
   chooseStudents: Choix du ou des élèves pouvant faire le QCM
   doAllQestions: Merci de répondre à toutes les questions pour valider le QCM...
-  distributed: QCMs distribués
+  distributed: QCM distribués
+  done: Qcm effectués
   chooseQcmModuleLevel: Choix du QCM par module et par niveau
+  chooseStudentsQcm: Choix du ou des élèves pouvant faire le QCM
+
 
 difficulty:
   easy: Facile
   medium: Moyen
-  difficult: Difficle
+  difficult: Difficile
 
 module:
   name: Nom du module
@@ -36,6 +41,7 @@ module:
   filter: Filtrer par module
   plsChoice: Veuillez sélectionner un module
   beforeChoice: Selectionnez une session pour choisir un module
+  selectModuleToChooseQcm : Selectionnez un module pour choisir un QCM
 
 question:
   wording: Intitulé de la question
@@ -66,7 +72,6 @@ proposal:
   create: Créer les réponses
 
 session:
-  choice: Choix de la classe
   sessionModule: Selectionnez une session pour choisir un module
   popStudentList: La liste des élèves apparaîtra ici lorsque vous aurez choisi une session.
 
@@ -104,11 +109,38 @@ button:
   personalizedQuestions: Questions personalisées
   register: Enregistrer
   validPersonalizedQcm: Valider le QCM personnalisé
+  allLevels: Tous les niveaux
+  decouvre: Découvre
+  explore: Explore
+  maitrise: Maîtrise
+  domine: Domine
+  add: Ajouter
+  qcmManagement: Gestion des QCM
+  questionsManagement: Gestion des questions
+  sessionsManagement: Gestion des sessions
+  sessions: Sessions
+  modulesManagement: Gestion des modules
+  usersManagement: Gestion des utilisateurs
+  edit: Editer
+  createQcm: Créer un QCM
+  stats: Stats
+  students: Etudiants
+  learners: Apprenants
+  teachers: Formateurs
+  modules: Modules
+  details: Détails
+  changeRole: Changer le rôle
+  cancel: Annuler
+  close: Fermer
+  send: Envoyer
+  toRegister: Register
+  reportBug: Faire remonter un bug
+  backToHome: Retour à l'accueil
 
 header:
   dashboard: Tableau de bord
   planning: Planning
-  qcms: QCMs
+  qcms: QCM
 
 title:
   weclome: Accueil
@@ -124,6 +156,7 @@ title:
   AdminDashboard: Admin dashboard
   createCustomQcm: Créer un QCM personnalisé
   iCreateQcm: Je génère un QCM officiel
+  generateQcmOfficial: Générer un qcm officiel
   myComment: Mon commentaire
   trainerComment: Commentaire du formateur
   stickerInfos: Sticker infos
@@ -144,10 +177,95 @@ title:
   levelByQuestionDifficulty: Le niveau est déterminé automatiquement par la difficulté des questions
   qcmPersonalizedTitle: Donner un titre au QCM personnalisé
   qcmUseByOtherTeacher: Ce QCM pourra-t-il être utilisé par d'autres formateurs?
-  qcmPlan: QCMs distribués
+  qcmPlan: QCM distribués
+  session: Session
+  level: Niveau
+  selectModule: Selectionnez un module
+  studentList: liste des élèves
+  difficulty: Difficulté
+  qcmType: QCM Type
+  module: Module
+  modules: Modules
+  date: Date
+  note: Note
+  type: Type
+  notCreateQuestionAlready: Vous n'avez pas encore créé de question
+  studentListWillAppear: La liste des élèves apparaîtra ici lorsque vous aurez choisi une session.
+  chooseDates: Choix des dates
+  accessibleDate: Date à partir de laquelle le QCM sera accèssible aux élèves
+  limitDateQcm : Date avant laquelle le QCM devra être fait par les élèves
+  distributeQcmToStudents: Distribuer le QCM aux élèves sélectionnés
+  clickToClose: Clique sur le cadre pour fermer l'onglet
+  myLevel: Mon niveau
+  legendLevels : Légende des niveaux
+  decouvre: Découvre
+  explore: Explore
+  maitrise: Maîtrise
+  domine: Domine
+  moduleDoneWithLvl: Ensemble des modules terminés avec ton niveau
+  toProgress: Pour progresser
+  mdnDocLink: Lien vers la doc mdn
+  3waDocLink: lien vers la doc 3wa
+  noModuleDone: Aucun module n'est terminé.
+  myInducementBadges: Mes badges d'encouragement
+  myCertification: Ma certification
+  unlockWhenQcmDone:  Se débloquera une fois que tu auras effectué tous les qcm.
+  explanation: Explications
+  addCommentary: Ajouter un commentaire
+  commentaryWillBeSeeable: Attention, votre commentaire sera lisible par l'élève dans son espace YouUp.
+  studentCommentary: Commentaire de l'élève
+  answerToValid: Merci de répondre à toutes les questions pour valider le QCM...
+  myCommentary: Je laisse mon commentaire à propos de ce QCM
+  qcm: QCM
+  noResult: Aucun Résultat
+  bugReport: Report de bug
+  searcherName: Nom du chercheur
+  creationDate: Date de création
+  modulesManagement: Gestion des modules
+  name: Nom
+  duration: Durée (en semaines)
+  createdAt: Créée le
+  actions: Actions
+  title: Titre
+  author: Auteur
+  statement: Ennoncé
+  official: Officielle
+  obligatory: Obligatoire
+  year: Année
+  from: Du
+  to: Au
+  users: Utilisateurs
+  3waMail: Email 3WA
+  role: Rôle
+  registeredSince: Inscrit depuis
+  student: Etudiant
+  instructor: Formateur
+  admin: Admin
+  adminTest: Admin Test
+  hello: Salut
+  bigConnection: CONNEXION
+  stackSuccess: Taux de réussite par stack
+  stackRate: Note moyenne par stack
+  stats: Statistiques
+  statsOf: Statistiques de
+  modulesStats: Statistiques de modules
+  sessionsStats: Statistiques de la session
+  stacks: Stacks
+  moduleSuccess: Taux de réussite par module
+  moduleRate: Note moyenne par module
+  search: Rechercher
+  myCreation: Mes créations
+  oups: Oups
+  bravo: Bravo !
+
+
+
 
   general:
     studentInterface: Mon interface apprenant
     chooseQcm: Choix du QCM par module et par niveau
     clickFrameToCloseTab: Clique sur le cadre pour fermer l'onglet
     espaceQcm: Mon espace QCM
+    bravo: Bravo !
+    oups: Oups
+    bug: Bug ?

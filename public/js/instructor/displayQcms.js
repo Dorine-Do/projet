@@ -30,10 +30,7 @@ window.onload = function (event) {
 
     chevrons.forEach((chevron) => {
         chevron.addEventListener("click", (e) => {
-            let div_question =
-                e.target.parentElement.parentElement.parentElement.parentElement
-                    .childNodes[5];
-            // let div_question =  e.target.parentElement.parentElement.parentElement.parentElement
+            let div_question = e.target.parentElement.parentElement.parentElement.parentElement.childNodes[5];
             div_question.style.display = "block";
             let div_js = div_question.querySelector(".divJs");
             // return false un boolean si status !== 'true' et true si === true
@@ -59,14 +56,9 @@ window.onload = function (event) {
                         p_prop.innerHTML = proposal.wording;
                         p_prop.classList.add("blocContentProposal");
 
-                        // console.log(p_prop.insertBefore(p, p_prop.lastElementChild));
-                        // p_prop.lastElementChild.insertAdjacentElement("beforebegin", p);
-                        // p_prop.insertBefore(p, p_prop.lastElementChild);
-                        // console.log(p_prop.lastElementChild, "ici");
                         div_js.append(p, p_prop);
                         // INSERTION DU PLETTER DEVANT LE PWORDING
                         p_prop.insertBefore(p, p_prop.lastElementChild);
-                        console.log(p_prop.lastElementChild.nodeName);
                         // WORDING SANS P
                         if (
                             p_prop.childNodes[0].nodeName == "#text" &&
@@ -96,27 +88,21 @@ window.onload = function (event) {
     ////////////////////
     // DECLARATION DE VARIABLE
 
-    let liBtnQcm = document.querySelectorAll(".li_btn_qcm  ");
-    let liBtnQcmOnly = document.querySelector(".li_btn_qcm  ");
-    let ulBtnQcm = document.querySelector(".list_btn_qcm  ");
-    console.log(liBtnQcm);
-    let questionsLi = document.querySelectorAll(".list_questions li");
-    let questionsLiOne = document.querySelector(".list_questions li");
-    let questionsSpans = document.querySelectorAll(".list_questions li span");
-    let questionslist = document.querySelector(".list_questions ");
+    let liBtnQcm = document.querySelectorAll(".liBtnQcm  ");
+    let liBtnQcmOnly = document.querySelector(".liBtnQcm  ");
+    let ulBtnQcm = document.querySelector(".listBtnQcm  ");
+    let questionsLi = document.querySelectorAll(".listQuestions li");
+    let questionslist = document.querySelector(".listQuestions ");
     let forBtnQcm;
-    let blocUlQcm = document.querySelector(".bloc_qcm .divQcm ");
+    let blocUlQcm = document.querySelector(".blocQcm .divQcm ");
     let blocUlQuestion = document.querySelector(
         ".bloc-toggle-ul-question .divQuestions"
     );
-    let navLinkChoice = document.querySelector(".choix");
-    let linkQcmGiven = document.querySelector(".qcmGiven");
-    let linkCreation = document.querySelector(".creation");
+
 
     // SELECTION UNIQUE DES BOUTONS QCMS ET DISPLAY DE LA LISTE DES QUESTIONS LIEES
 
     let questionsCacheDefaultId = JSON.parse(liBtnQcmOnly.dataset.questionsCache);
-    console.log(questionsCacheDefaultId, "hello");
 
     // TODO refactoriser avec uniquement la numerotation des spans car li par defaut fait voir twig
     for (
@@ -131,15 +117,12 @@ window.onload = function (event) {
 
     for (forBtnQcm = 0; forBtnQcm < liBtnQcm.length; forBtnQcm++) {
         //NUMEROTATION SPAN PAR DeFAUT
-        // let questionsCache = JSON.parse(liBtnQcm[forBtnQcm].dataset.questionsCache);
-        console.log(questionsCacheDefaultId, "ya");
         //AFFICHAGGE PAR DEFAUT SELON ID PAR DEFAUT
 
         //BACKGROUND BTN PAR DEFAUT
 
         if (liBtnQcmOnly.dataset.id == liBtnQcm[0].dataset.id) {
             liBtnQcmOnly.classList.add("defaultBg");
-            console.log(liBtnQcmOnly.dataset.id, "reussi");
         }
 
         //LI REMPLISSAGE QUESTION AU CLIC
@@ -147,7 +130,6 @@ window.onload = function (event) {
         liBtnQcm[forBtnQcm].addEventListener("click", function (e) {
             let questionsCache = JSON.parse(this.dataset.questionsCache);
             let dataQcmId = e.target.dataset.id;
-            console.log(dataQcmId, "id");
             //NUMEROTATION SPAN APReS REMPLISSAGE LI
             for (
                 let forWording = 0;
@@ -162,10 +144,13 @@ window.onload = function (event) {
             // FAIRE UNE BOUCLE DE MON JSON ? PARSER LA VALEUR ET REMPLACER EN JS LES VALEURS DU LI DU TEMPLATE PAR CELLE CORRESPONDANTE DANS LE CACHE
 
             for (forBtnQcm = 0; forBtnQcm < liBtnQcm.length; forBtnQcm++) {
-                if (this.dataset.id == liBtnQcm[forBtnQcm].dataset.id) {
-                    // questionslist.dataset.id = `${eTarget}`;
+                console.log(liBtnQcm[forBtnQcm].dataset.id)
+                console.log(this.dataset.id)
 
-                    liBtnQcm[forBtnQcm].classList.add("active_li");
+                if (this.dataset.id == liBtnQcm[forBtnQcm].dataset.id) {
+
+                    liBtnQcm[forBtnQcm].classList.add("activeLi");
+
 
                     if (
                         (this.dataset.id == liBtnQcm[forBtnQcm].dataset.id) !==
@@ -174,7 +159,7 @@ window.onload = function (event) {
                         liBtnQcmOnly.classList.remove("defaultBg");
                     }
                 } else {
-                    liBtnQcm[forBtnQcm].classList.remove("active_li");
+                    liBtnQcm[forBtnQcm].classList.remove("activeLi");
                 }
             }
         });
@@ -194,7 +179,6 @@ window.onload = function (event) {
         });
     }
     if (blocUlQuestion) {
-        console.log(blocUlQuestion.children, "hello");
         let blocUlQuestionHeight = blocUlQuestion.getBoundingClientRect().height;
         if (questionslist) {
             let ulQuestionHeight = questionslist.getBoundingClientRect().height;
@@ -203,7 +187,6 @@ window.onload = function (event) {
                     blocUlQuestion.classList.add("scroll_active");
                 }
             });
-            // console.log(ulQuestionHeight);
         }
     }
 

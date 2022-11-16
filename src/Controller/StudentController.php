@@ -49,28 +49,33 @@ class StudentController extends AbstractController
         ModuleRepository $moduleRepo,
     ): Response
     {
+
         $student = $this->studentRepo->find($this->security->getUser()->getId());
 
         $allAvailableQcmInstances = $student->getQcmInstances();
-        /********************************************************************************************************/
 
-        $officialQcmOfTheWeek = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
-            return
-                $qcmInstance->getQcm()->getIsOfficial() == true
-                && $qcmInstance->getStartTime() < new \DateTime()
-                && $qcmInstance->getEndTime() > new \DateTime()
-                && $qcmInstance->getQcm()->getIsEnabled() == true
-                && $qcmInstance->getResult() === null;
-        });
-        /********************************************************************************************************/
+        if($allAvailableQcmInstances){
+            /********************************************************************************************************/
 
-        $unofficialQcmNotDone = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ) use ($student){
-            return
-                $qcmInstance->getQcm()->getIsOfficial() === false
-                && $qcmInstance->getResult() === null
-                && $qcmInstance->getQcm()->getAuthor() !== $student
-                ;
-        });
+            $officialQcmOfTheWeek = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
+                return
+                    $qcmInstance->getQcm()->getIsOfficial() == true
+                    && $qcmInstance->getStartTime() < new \DateTime()
+                    && $qcmInstance->getEndTime() > new \DateTime()
+                    && $qcmInstance->getQcm()->getIsEnabled() == true
+                    && $qcmInstance->getResult() === null;
+            });
+            /********************************************************************************************************/
+
+            $unofficialQcmNotDone = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ) use ($student){
+                return
+                    $qcmInstance->getQcm()->getIsOfficial() === false
+                    && $qcmInstance->getResult() === null
+                    && $qcmInstance->getQcm()->getAuthor() !== $student
+                    ;
+            });
+        }
+
         /********************************************************************************************************/
 
         $studentSession = $linkSessionStudentRepo->findOneBy([ 'student' => $student->getId(), 'isEnabled'=> 1] )->getSession();
@@ -91,8 +96,8 @@ class StudentController extends AbstractController
 
         return $this->render('student/qcms.html.twig', [
             'student'                       => $student,
-            'qcmOfTheWeek'                  => $officialQcmOfTheWeek ,
-            'unofficialQcmInstancesNotDone' => $unofficialQcmNotDone,
+            'qcmOfTheWeek'                  => $officialQcmOfTheWeek ? $officialQcmOfTheWeek : [],
+            'unofficialQcmInstancesNotDone' => $unofficialQcmNotDone ? $unofficialQcmNotDone : [],
             'sessionModules'                => $sessionModules,
             'retryableModules'              => $retryableModules,
         ]);
@@ -395,15 +400,14 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcm/training/module', name: 'student_qcm_training', methods: ['GET']) ]
+    #[Route('student/qcm/training', name: 'student_qcm_training', methods: ['GET']) ]
     public function qcmTraining(
         Request $request,
         ModuleRepository $moduleRepo,
         QuestionRepository $questionRepo,
         Security $security,
         EntityManagerInterface $manager,
-        UserRepository $userRepository,
-        $module = null
+        UserRepository $userRepository
     ): Response
     {
         $module = $moduleRepo->find( $request->get('module') );

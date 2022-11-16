@@ -82,7 +82,20 @@ function displayModulesModale(modules)
 
             moduleRow.innerHTML = `
                 <td>${ module.title }</td>
-                <td>${ startDate.toLocaleDateString() }</td>
+                `
+                tdInstructors = []
+                if (module.instructors.length !== 0){
+                    module.instructors.forEach( (instructor) => {
+                        tdInstructors.push(`<td> ${instructor.firstName} ${instructor.lastName} </td>`)
+                    })
+                }else{
+                    tdInstructors.push(`<td> Aucun formateur </td>`)
+                }
+
+            moduleRow.innerHTML += tdInstructors
+
+            moduleRow.innerHTML +=
+                `<td>${ startDate.toLocaleDateString() }</td>
                 <td>${ endDate.toLocaleDateString() }</td>
             `;
             sessionModulesModaleContent.append(moduleRow)
@@ -107,7 +120,7 @@ function initSessionModules()
 {
     sessionModulesModale = document.querySelector('#sessionModulesModale');
     closeSessionModulesBtn = document.querySelector('#closeSessionModulesBtn');
-    showModulesBtns = document.querySelectorAll('.shwoModulesBtn');
+    showModulesBtns = document.querySelectorAll('.showModulesBtn');
     sessionModulesModaleContent = document.querySelector('#sessionModulesModaleContent table tbody');
 
     for( let btn = 0; btn < showModulesBtns.length; btn++)

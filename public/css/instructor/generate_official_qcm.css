@@ -1,0 +1,68 @@
+@import url(public/css/main.css);
+
+html,
+body {
+  margin: 0;
+}
+
+/*******GENERAL*******/
+
+ul {
+  list-style: none;
+  margin: 0;
+}
+
+/* ************ NAV ***********/
+
+.create_qcm {
+  display: grid;
+  width: 98%;
+  margin: auto;
+}
+
+.blocGenerateQcm {
+  background: #fff4e4;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.selectModule {
+  padding: 2.5em 0;
+  text-align: center;
+  background: #fff4e4;
+  border-radius: 10px;
+}
+
+.blocGenerateQcm {
+  padding: 2em 0;
+}
+
+.blocGenerateQcm > button {
+  width: 70%;
+  padding: 1.2em 0;
+  outline: none;
+  background: grey;
+  border: none;
+  border-radius: 50px;
+  color: white;
+  box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.blocGenerateQcm > button:hover {
+  cursor: pointer;
+}
+
+span {
+  background: #ffac8f;
+  padding: 15px 25px;
+  border-radius: 50px;
+  margin-right: 10px;
+  color: white;
+}
+
+@media screen and (min-width: 650px) {
+
+  .blocGenerateQcm {
+    background: #fff4e4;
+  }
+}
