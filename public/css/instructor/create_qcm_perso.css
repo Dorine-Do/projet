@@ -1,8 +1,10 @@
 @import url("../main.css");
 /***************************************************************************************************/
 /*GENERAL*/
+
 body {
   position: relative;
+  scroll-behavior: smooth;
 }
 h3 {
   text-align: center;
@@ -330,7 +332,8 @@ hr {
 /*PARTIE 2*/
 /***************************************************************************************************/
 /*LEGEND*/
-.contentPartTwo {
+#contentPartTwo {
+  display: none;
   width: 90%;
   margin: auto;
   padding-bottom: 2em;
@@ -896,7 +899,7 @@ hr {
 
 @media screen and (min-width: 1000px) {
   .partOne,
-  .contentPartTwo {
+  #contentPartTwo {
     width: 80%;
   }
 }

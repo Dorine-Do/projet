@@ -82,7 +82,7 @@
     </div>
 
 
-    <div class="contentPartTwo">
+    <section id="contentPartTwo">
         <hr>
         <p class="pStepThree"><span class="etape">{{'title.step3'|trans }}</span>{{ 'title.qcmPersonalized'|trans }}</p>
 
@@ -110,7 +110,7 @@
                                     <img src="{{asset('build/images/facile.png')}}" alt="Trèfle à trois feuilles">
                                 </div>
                                 <div class="legendDifficultyNbr">
-                                    : <p class="nbrQuestion" id="easy" >5</p>
+                                     <p class="nbrQuestion" id="easy" >5</p>
                                 </div>
                             </div>
 
@@ -354,7 +354,7 @@
 
             {# {% endif %} #}
         </div>
-   </div>
+   </section>
 
 {% endblock %}
 {% block javascripts %}
@@ -363,11 +363,11 @@
         let chevronBas = "/build/images/chevron_bas.216a40a5.svg"
         let deleteImg = "/build/images/delete_close.d95f0f41.svg"
       {#  let qcmInstanceQuestions= {{ qcmInstanceQuestionsCache|json_encode }}#}
-
-        let route = "{{ path('instructor_questions_update_fetch') }}"
+      {#let route = "{{ path('instructor_questions_update_fetch') }}"#}
+        
           {#id : user.id => temporaire /// voir controller + var #}
-        let routeInstructorQcmFetch = "{{ path('instructor_qcm_create_fetch' ) }}"
-
+       
+{# let routeInstructorQcmFetch = "{{ path('instructor_qcm_create_fetch' ) }}""#}
         {#let questions = {{ questions|json_encode }}#}
     </script>
     <script type="text/javascript" src="{{ asset('js/instructor/create_qcm_perso.js') }}"></script>

@@ -300,19 +300,21 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         ]);
     }
 
-    #[Route('instructor/questions/upDate_fetch', name: 'instructor_questions_update_fetch', methods: ['POST'])]
+    #[Route('instructor/questions/upDate_fetch/{moduleId}/{questionId}', name: 'instructor_questions_update_fetch', methods: ['POST'])]
     public function upDateQuestionFetch(
         ValidatorInterface     $validator,
         Request                $request,
         InstructorRepository   $instructorRepository,
         ModuleRepository       $moduleRepository,
         QuestionRepository     $questionRepository,
-        EntityManagerInterface $entityManager
-    ): Response
+        EntityManagerInterface $entityManager,
+        Module $moduleId,
+        Question $questionId
+    ): JsonResponse
     {
         $data = (array) json_decode($request->getContent());
         $question = new Question();
-        $module = $moduleRepository->find($data['module']);
+        $module = $moduleRepository->find($moduleId);
         $question->setModule($module);
         $question->setWording($data['wording']);
         $question->setIsMultiple($data['isMultiple']);
@@ -324,6 +326,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         $question->setIsOfficial(0);
         $question->setIsEnabled(1);
 
+        //TODO a debug , proposal vide
         foreach ($data['proposals'] as $proposal)
         {
             $newProposal = new Proposal();
@@ -338,10 +341,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         $entityManager->persist($question);
         $entityManager->flush();
 
-        $questionResponse = $questionRepository->find($question->getId());
-
-            /*TODO Débuger le jsonResponse*/
-            return new JsonResponse($questionResponse);
+        $questionResponse = $questionRepository->find($questionId);
+      
+           
+            return $this->json($questionResponse, 200,[],["groups"=>"question:read"]) ;
         }
     #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
     public function createQcmPersonalized(
@@ -458,18 +461,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
             $moduleQuestions = $module->getQuestions();
             // let stock toutes les ques du qcm qui as été généré aléatoirement 
             $randomQuestions= $generatedQcm->getQuestionsCache();
-            $test=[];
+            $randomQcmByModuleId= $generatedQcm->getModule()->getId();
             
+         
             // let stock quest du module toutes les questions qui sont pas mandatory avec la difficulté voulu  -> liste  aucune ques stocké dans la let  d'au dessus
             // $keys= array_keys($randomQuestions);
             foreach($officialQuestions as $question){
                 //if question->wording  est différent de question de randomQuestion affecté question au tableau listModule question avec les prop utiles
-                $listModuleQuestions[]=["wording"=>$question->getWording(),"explaination"=>$question->getExplanation(),"proposals"=>$question->getProposals(),"difficulty"=> $question->getDifficulty()];
-                // test
-                
-                // foreach($keys as $k ){
-                //    $test[$]= ;
-                //  }
+                $listModuleQuestions[]=["wording"=>$question->getWording(),"explaination"=>$question->getExplanation(),"proposals"=>$question->getProposals(),"difficulty"=> $question->getDifficulty(),"id"=>$question->getId()];
+              
             }
             $qcmInstancesByQuestion = [];
             foreach($moduleQuestions as $moduleQuestion){
@@ -487,17 +487,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
             "customQuestions"=>$customQuestions,
             "officialQuestions"=>$listModuleQuestions,
             "randomQuestion"=>$randomQuestions,
+            "randomQcmByModule"=>$randomQcmByModuleId,
             "qcmInstancesByQuestion"=>$qcmInstancesByQuestion,
             
         ];
-        // dd($keys);
+        // dd($customQuestions);
       
        
        return $this->json($data,200,[],["groups"=>"question:read"]);
      }
     
     // methode Post non permise car route non trouvée donc method Get Ok
-    #[Route('instructor/qcms/create_fetch', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
+    #[Route('instructor/qcms/create_fetch/{moduleId}', name: 'instructor_qcm_create_fetch', methods: ['POST'])]
     public function createQcmFetch(
         ValidatorInterface     $validator,
         Request                $request,
@@ -505,7 +506,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         QuestionRepository     $questionRepository,
         ModuleRepository       $moduleRepository,
         EntityManagerInterface $entityManager,
-        QcmGeneratorHelper $generatorHelper
+        QcmGeneratorHelper $generatorHelper,
+        Module $moduleId,
+        // $questions
 
     ): Response
     {
@@ -513,9 +516,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
         $data = (array)json_decode($request->getContent());
         $qcm = new Qcm();
-          /*TODO A enlever une fois que a connection avec google sera opérationnelle*/
-        //   $author=$instructorRepository->find(2);
-          //$author=$instructorRepository->find($this->id);
         $author = $instructorRepository->find($this->getUser()->getId());
         $qcm->setAuthor($author);
 
@@ -536,13 +536,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         $qcm->setIsEnabled(1);
         $qcm->setIsOfficial(0);
         $qcm->setIsPublic($data['isPublic']);
-        $module = $moduleRepository->find($data['module']);
+        $module = $moduleRepository->find($moduleId);
         $qcm->setModule($module);
 
         $questionsCache = $generatorHelper->generateQuestionCache($data['questions']);
 
             $qcm->setQuestionsCache($questionsCache);
-
+dd($qcm);
             $validator->validate($qcm);
             $entityManager->persist($qcm);
             $entityManager->flush();
