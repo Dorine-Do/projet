@@ -42,7 +42,7 @@ function resizeSup420(){
             p.style.marginBottom = 0
             p.style.marginTop= 1.5 + 'em'
         }
-        console.log(p.firstElementChild)
+
         if(p.firstElementChild.className === "failQcm"){
             p.style.padding = "0.5em 0.3em"
         }
@@ -94,6 +94,9 @@ function resize420() {
         p.style.marginTop = 0
         if ((key+1) % 2 === 0){
             p.parentNode.classList.add('isOfficialQcmOdd')
+        }
+        if(p.firstElementChild.className === "failQcm"){
+            p.style.padding = ".6em 0.4em"
         }
     } )
 

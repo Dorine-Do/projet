@@ -225,7 +225,7 @@
         position: static;
     }
     .lineX {
-        top: 100%;
+        top: 582px;
         left: 199px;
         width: 1%;
         height: 29em;
@@ -246,7 +246,7 @@
     }
     .lineY{
         background: var(--pamplemousse);
-        width: 7em;
+        width: 9em;
         height: 1.5px;
         top: 25px;
         right: 31px;
@@ -256,19 +256,22 @@
         width: 59%;
     }
 
-    .passOrNot{
-        margin: 0;
-    }
-
     .infoTimeLine{
         width: 100%;
         position: relative;
     }
 
     .passOrNot{
-        width: 21%;
         align-self: self-start;
         margin: .2em 0;
+        padding: .3em 0.5em;
+    }
+
+    .succesQcm{
+    }
+
+    .failQcm{
+        width: 75%;
     }
 
     .isOfficialQcmOdd{
@@ -277,11 +280,17 @@
     }
 
     .pBadge{
+        display: flex;
+        justify-content: center;
         text-align: center;
         margin: 0 auto;
-        padding: .5em 0;
         margin-bottom: 1em;
         width: 25%;
+        padding: 0;
+    }
+
+    .wrong{
+        width: 3.7em;
     }
 
     .badges{
