@@ -1,8 +1,15 @@
 window.onload = function (event) {
   console.log("hello");
+  //  Déclaration var display none + modal
+  let questionsCustom,
+    proposalWordingDiv,
+    questionModify,
+    partTwo,
+    modalExplaination,
+    crossExplaination,
+    btnExplaination;
 
-  // display none
-  let questionsCustom, proposalWordingDiv, questionModify, partTwo;
+  // Display none
   questionsCustom = document.querySelector(".questionsCustom");
   questionsCustom.classList.add("displayNone");
 
@@ -19,32 +26,24 @@ window.onload = function (event) {
   partTwo = document.querySelector(".partTwo");
   partTwo.classList.add("displayNone");
 
-  ////////////////////////// Modal explaination
-  let modalExplaination = document.querySelector(".bloc_modal_explaination");
-  let crossExplaination = document.querySelector(".modal > img");
-  let btnExplaination = document.querySelector(
+  // MODAL EXPLAINATION
+  modalExplaination = document.querySelector(".bloc_modal_explaination");
+  crossExplaination = document.querySelector(".modal > img");
+  btnExplaination = document.querySelector(
     ".contentExplicationAndLegend button"
   );
 
-  //  modal
-
   if (window.location.href.includes(location.pathname) && btnExplaination) {
-    if (btnExplaination) {
-      btnExplaination.addEventListener("click", function (e) {
-        modalExplaination.style.display = "flex";
-      });
-    } else {
-      btnExplaination = null;
-    }
+    btnExplaination.addEventListener("click", function (e) {
+      modalExplaination.style.display = "flex";
+    });
 
-    if (modalExplaination) {
-      crossExplaination.addEventListener("click", function (e) {
-        modalExplaination.style.display = "none";
-      });
-    }
+    crossExplaination.addEventListener("click", function (e) {
+      modalExplaination.style.display = "none";
+    });
   }
 
-  // ///////////MODULE PAR NIVEAU DE DIFFICULTE DE QCM
+  // MODULE PAR NIVEAU DE DIFFICULTE DE QCM
 
   let liDifficultyQcmModule = document.querySelectorAll(
     ".listChoiceDifficulties li"
@@ -89,33 +88,22 @@ window.onload = function (event) {
               for (let li = 0; li < liDifficultyQcmModule.length; li++) {
                 // suppression bg li
                 if (e.target !== liDifficultyQcmModule[li]) {
-                  console.log("background grey");
                   liDifficultyQcmModule[li].style.background = "grey";
                 }
               }
             } else {
-              console.log(pErrorSelectM);
               pErrorSelectM.style.display = "block";
-              // si exécution retour dans if enfant 1er if si choix module[*] correct à la condition
             }
           });
         }
-      }
-      //2nd if exicuté si choix difficulté du if enfant du 1er if exécuté
-      else if (selectModule.value === "null" && inputDifficulty.value !== "") {
+      } else if (
+        selectModule.value === "null" &&
+        inputDifficulty.value !== ""
+      ) {
         for (let li = 0; li < liDifficultyQcmModule.length; li++) {
-          // visible car toujours dans condition if 2 et dnc couleur accéssible et visible
-          console.log(liDifficultyQcmModule[li].style.background, "color 2");
-          // if enfant de 2nd if
-          // exécuté si 2nd if exucuté
-          // puis else exécuté apres if enfant de 1er if
           if (
             liDifficultyQcmModule[li].style.background === "rgb(255, 172, 143)"
           ) {
-            console.log(
-              liDifficultyQcmModule[li].style.background,
-              "color orange"
-            );
             liDifficultyQcmModule[li].style.background = "grey";
             inputDifficulty.value = "";
           }
@@ -126,13 +114,10 @@ window.onload = function (event) {
 
   //Stop event  btn form si contrainte module qcm pas respecter
 
-  // déclaration var fetch
+  // déclaration var fetch / form/ contentPart2
 
   let btnValidModuleDifficulty = document.querySelector(".buttonGenerate");
-
-  let questionLiQuestionsCache = document.querySelectorAll(".questionLi");
   let ulForQuestionsCache = document.querySelector(".backWhite ul ");
-  let wordindQuestionsCache = document.querySelectorAll(".questionWordingP ");
   let ulQcmDragAndDropQuestionsCache = document.querySelector(
     ".qcmChoisedMain ul "
   );
@@ -141,6 +126,7 @@ window.onload = function (event) {
   let questionsCustomInDragAndDrop =
     document.querySelector(".questionsCustom ");
   let letters = ["A", "B", "C", "D", "E", "F"];
+  let qcmNameI = document.querySelector(".blocBeforeValidation .qcmName");
 
   // pError randomfetch
   let pErrorRandomFetch = document.createElement("p");
@@ -153,9 +139,6 @@ window.onload = function (event) {
 
   btnValidModuleDifficulty.addEventListener("click", function (e) {
     e.preventDefault();
-    // racine de l'url sans param
-    // let urlFetch = location.href.split("#")[0].split("?");
-
     // Possibilité d'inclure le if du select Module -> a voir
 
     if (inputDifficulty.value == "" && moduleOption.value == "null") {
@@ -169,6 +152,8 @@ window.onload = function (event) {
       pErrorRandomFetch.innerText = "veuillez selectionner  une difficulté ";
     } else {
       pErrorRandomFetch.style.display = "none";
+
+      ///////////////////////////////////   FETCH    /////////////////////////////////////
       fetch(
         `/instructor/qcms/random_fetch/${moduleOption.value}/${selectDifficulty.value}`,
         {
@@ -177,14 +162,18 @@ window.onload = function (event) {
       )
         .then((response) => {
           if (response) {
+            let contentPartTwo = document.getElementById("contentPartTwo");
+            contentPartTwo.style.display = "block";
+            // location.href = "#contentPartTwo";
+            //ou
+            window.scroll({
+              top: contentPartTwo.getBoundingClientRect().right + 200,
+              behavior: "smooth",
+            });
+            console.log(contentPartTwo);
             return response.json();
-            // console.log(response);
-            // console.log(response.json());
-            // console.log(response.bodyUsed);
-
-            // test.then((response) => console.log(response));
           }
-        })
+        }) // promesse qui se termine en fin de page
         .then((data) => {
           console.log(data);
           console.log(data.randomQuestion.length);
@@ -205,8 +194,7 @@ window.onload = function (event) {
                   <img src="" alt="Chevron ouvrant" class="chevronBasImg chevron">
                 </p>
               </div>
-              <div class="proposalWordingDiv">
-              </div>
+              <div class="proposalWordingDiv"></div>
             </li >
             `;
             let proposalQuestionsCache = document.querySelectorAll(
@@ -237,7 +225,7 @@ window.onload = function (event) {
                             <p class="qcmChoisedTreffleP">
                           
                             </p>
-                            <p class="qcmChoisedQuestionWordingP questionWordingP" data-id ="${
+                            <p class="qcmChoisedQuestionWordingP questionWordingP" id ="${
                               data.randomQuestion[forQuestion].id
                             }" >
                               <span> ${forQuestion + 1}</span>  
@@ -299,7 +287,9 @@ window.onload = function (event) {
               <li class="officialQuestionLi" draggable="true">
                 <div class="OfficialQuestionWordingDiv questionWordingDiv ">
                     <div class="qcmChoisedTreffleP"></div>
-                    <div class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
+                    <div class="officialQuestionWordingP questionWordingP" id="${
+                      data.officialQuestions[forQuestionOfficial].id
+                    }">
                       <span> ${forQuestionOfficial + 1}</span>  
                       ${data.officialQuestions[forQuestionOfficial].wording}
                     </div>
@@ -307,18 +297,27 @@ window.onload = function (event) {
                         <img src="" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
                     </div>
                     <div class="modifyQuestionImgDiv ">
-                               <img src="/build/images/edit.png" alt="bouton modifier" class="modifyQuestionImg" >
+                        <img src="/build/images/edit.png" alt="bouton modifier" class="modifyQuestionImg" >
                     </div>
                 </div>
                 <div>
                     <div class="OfficialProposalWordingDiv proposalWordingDiv">
-                      <p class="responselabel">Les réponses</p>
-                      
+                      <p class="responselabel">Les réponses</p> 
                     </div>
                 </div>
 
             </li>
           `;
+            let imgModifyQuestion = document.querySelector(
+              ".modifyQuestionImgDiv"
+            );
+            if (
+              data.qcmInstancesByQuestion[
+                data.officialQuestions[forQuestionOfficial].id
+              ] == 0
+            ) {
+              imgModifyQuestion.innerHTML = `  <img src="/build/images/edit.png" alt="bouton modifier" class="modifyQuestionImg" >`;
+            }
             let proposalsOfficialQcm = document.querySelectorAll(
               ".questionsOfficial .OfficialProposalWordingDiv.proposalWordingDiv "
             );
@@ -331,7 +330,7 @@ window.onload = function (event) {
               console.log(data.officialQuestions[forQuestionOfficial]);
 
               proposalsOfficialQcm[forQuestionOfficial].innerHTML += `
-                  <p class =" officialProposalWordingP proposalWordingP " data-status="${data.officialQuestions[forQuestionOfficial].proposals[forProposalOfficial].isCorrectAnswer}" data-id="${data.officialQuestions[forQuestionOfficial].proposals[forProposalOfficial].id}" >
+                  <p class =" officialProposalWordingP proposalWordingP " data-status="${data.officialQuestions[forQuestionOfficial].proposals[forProposalOfficial].isCorrectAnswer}" id="${data.officialQuestions[forQuestionOfficial].proposals[forProposalOfficial].id}" >
                        <span class="numeroProp nPropPartTwo"> ${letters[forProposalOfficial]} </span><span class="spanWording" >${data.officialQuestions[forQuestionOfficial].proposals[forProposalOfficial].wording} </span>
                   </p>
                 `;
@@ -354,12 +353,12 @@ window.onload = function (event) {
               question < data.customQuestions.length;
               question++
             ) {
-              questionsCustomInDragAndDrop += `
+              questionsCustomInDragAndDrop.innerHTML += `
            
             <li class="officialQuestionLi" draggable="true">
                 <div class="OfficialQuestionWordingDiv questionWordingDiv ">
                     <div class="qcmChoisedTreffleP"></div>
-                    <div class="officialQuestionWordingP questionWordingP" data-id="${data.customQuestions[question].id}">
+                    <div class="officialQuestionWordingP questionWordingP" id="${data.customQuestions[question].id}">
                       <span></span>  ${data.customQuestions[question].wording}
                     </div>
                     <div class="officialChevronBasP chevronBasP">
@@ -384,46 +383,48 @@ window.onload = function (event) {
               let trefflesForQuestionsCustom = document.querySelectorAll(
                 ".questionsCustom .OfficialQuestionWordingDiv.questionWordingDiv .qcmChoisedTreffleP"
               );
-              if (data.questionCustom[question].difficulty == 1) {
-                trefflesForQuestionsCustom[
-                  question
-                ].innerHTML += `<img src="/build/images/facile.png" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">`;
-              } else if (data.questionCustom[question].difficulty == 2) {
-                trefflesForQuestionsCustom[
-                  question
-                ].innerHTML += ` <img src="/build/images/moyen.png" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="medium">`;
-              } else if (data.questionCustom[question].difficulty == 3) {
-                trefflesForQuestionsCustom[
-                  question
-                ].innerHTML += ` <img src="/build/images/difficile.png" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">`;
+              if (data.customQuestions[question].difficulty == 1) {
+                trefflesForQuestionsCustom.innerHTML += `<img src="/build/images/facile.png" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">`;
+              } else if (data.customQuestions[question].difficulty == 2) {
+                trefflesForQuestionsCustom.innerHTML += ` <img src="/build/images/moyen.png" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="medium">`;
+              } else if (data.customQuestions[question].difficulty == 3) {
+                trefflesForQuestionsCustom.innerHTML += ` <img src="/build/images/difficile.png" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">`;
               }
 
               let proposalsForQuestionsCustom = document.querySelector(
                 ".questionsCustom .OfficialProposalWordingDiv.proposalWordingDiv"
               );
-              for (
-                let proposalCustom = 0;
-                proposalCustom <
-                data.customQuestions[question].proposals.length;
-                proposalCustom++
-              ) {
-                console.log(data.customQuestions[question]);
+              if (data.customQuestions[question].proposals) {
+                for (
+                  let proposalCustom = 0;
+                  proposalCustom <=
+                  data.customQuestions[question].proposals.length;
+                  proposalCustom++
+                ) {
+                  console.log(data.customQuestions[question]);
 
-                proposalsForQuestionsCustom[forQuestionOfficial].innerHTML += `
-                    <p class =" officialProposalWordingP proposalWordingP " data-status="${data.customQuestions[question].proposals[proposalCustom].isCorrectAnswer}" data-id="${data.customQuestions[question].proposals[proposalCustom].id}" >
+                  proposalsForQuestionsCustom[
+                    forQuestionOfficial
+                  ].innerHTML += `
+                    <p class =" officialProposalWordingP proposalWordingP " data-status="${data.customQuestions[question].proposals[proposalCustom].isCorrectAnswer}" id="${data.customQuestions[question].proposals[proposalCustom].id}" >
                          <span class="numeroProp nPropPartTwo"> ${letters[proposalCustom]} </span><span class="spanWording" >${data.customQuestions[question].proposals[proposalCustom].wording} </span>
                     </p>
                   `;
+                }
+                // responselabel.append(test);
+                proposalsForQuestionsCustom[question].innerHTML += `
+              <div class="questionModify">
+                <button class="save">enregistrer</button>
+              </div>
+           `;
               }
-              // responselabel.append(test);
-              proposalsForQuestionsCustom[question].innerHTML += `
-                <div class="questionModify">
-                  <button class="save">enregistrer</button>
-                </div>
-             `;
             }
           }
+          //qcmName
 
+          qcmNameI.innerHTML = `<input type="text" placeholder="Veuillez indiquer un nom pour le qcm" class="qcmNameInput" id="${data.randomQcmByModule}">`;
+          console.log(qcmNameI.firstElementChild, "input");
+          console.log(data.randomQcmByModule);
           //       });
           //   }
           // });
@@ -573,10 +574,10 @@ window.onload = function (event) {
           modifyQuestionImgDiv.forEach((div) => {
             div.addEventListener("click", (e) => {
               let img = e.target;
-              console.log(
-                img.parentElement.previousElementSibling.firstElementChild.src,
-                "previous"
-              );
+              // console.log(
+              //   img.parentElement.previousElementSibling.firstElementChild.src,
+              //   "previous"
+              // );
               console.log(
                 (img.parentElement.previousElementSibling.firstElementChild.style.transform =
                   "rotate(180deg)"),
@@ -584,7 +585,7 @@ window.onload = function (event) {
               );
 
               img.parentElement.previousElementSibling.firstElementChild.src =
-                chevronHaut;
+                "/build/images/chevron_haut.acd8ac5d.svg";
               // console.log(
               //   document.querySelectorAll(".proposalWordingP").dataset.status,
               //   "hi"
@@ -619,7 +620,12 @@ window.onload = function (event) {
               // si la div des proposal n'est pas dérouler
               if (proposalWordingDiv.classList.contains("displayNone")) {
                 proposalWordingDiv.classList.remove("displayNone");
-                img.parentNode.classList.add("displayNone");
+                img.parentNode.classList.remove("displayNone");
+                console.log(img, "img display none");
+              } else {
+                // img.parentNode.classList.remove("displayNone");
+                // img.parentNode.classList.add("displayNone");
+                // console.log((img.style.display = "none"), "img remove");
               }
 
               // Afficher le bouton 'enregistrer'
@@ -648,7 +654,7 @@ window.onload = function (event) {
               p.addEventListener("click", cancelModifyQuestion);
 
               // Get db data
-              let questionId = question.dataset.id;
+              let questionId = question.id;
               dbValues.push({
                 idQuestion: questionId,
                 proposals: [],
@@ -657,7 +663,7 @@ window.onload = function (event) {
               //Modification de la balise p
               for (let i = 0; i < children.length; i++) {
                 children[i].classList.add("modifyP");
-                let id = children[i].dataset.id;
+                let id = children[i].id;
 
                 // textarea
                 let value = children[i].children[1].textContent.trim();
@@ -721,11 +727,11 @@ window.onload = function (event) {
               let question = officialQuestionLi.querySelector(
                 ".officialQuestionWordingP "
               );
-              let questionId = question.dataset.id;
+              console.log(officialQuestionLi, question, "fetch update");
+              let questionId = question.id;
               let div = e.target.parentNode.parentNode;
               let modifyP = div.querySelectorAll(".modifyP");
-              let module =
-                document.querySelector(".qcmNameInput").dataset.module;
+              let module = document.querySelector(".qcmNameInput").id;
 
               let values = {
                 questionId: questionId,
@@ -737,7 +743,7 @@ window.onload = function (event) {
               modifyP.forEach((p) => {
                 values.proposals.push({
                   wording: p.children[1].textContent.trim(),
-                  id: p.children[1].parentNode.dataset.id,
+                  id: p.children[1].parentNode.id,
                   isCorrectAnswer: p.children[2].checked,
                 });
                 if (p.children[2].checked) {
@@ -750,15 +756,17 @@ window.onload = function (event) {
                 values["isMultiple"] = false;
               }
               //   on passe pas dans le fetch VERIFICATION IMPORTANTE POUR TRANSMISSION DE DONNEES
-              //   let res = fetch(route);
-              //   console.log(alert(response.headers.get("Content-Type")));
-              fetch(route, {
-                method: "POST",
-                body: JSON.stringify(values), // The data
-                headers: {
-                  "Content-type": "application/json", // The type of data you're sending
-                },
-              })
+              // `instructor/questions/upDate_fetch/${module}/${questionId}`;
+              fetch(
+                `/instructor/questions/upDate_fetch/${module}/${questionId}`,
+                {
+                  method: "POST",
+                  body: JSON.stringify(values), // The data
+                  headers: {
+                    "Content-type": "application/json", // The type of data you're sending
+                  },
+                }
+              )
                 .then((response) => response.json())
                 .then((data) => console.log(data));
             });
@@ -904,8 +912,7 @@ window.onload = function (event) {
             qcmValidationBtn.addEventListener("click", (e) => {
               let questionsSelect = {};
               let qcmNameInput = document.querySelector(".qcmNameInput").value;
-              let module =
-                document.querySelector(".qcmNameInput").dataset.module;
+              let module = document.querySelector(".qcmNameInput").id;
               let isPublic = document.getElementById("isPublicInput").checked;
               let qcmChoisedLevel = document
                 .getElementById("qcmChoisedLevel")
@@ -924,17 +931,21 @@ window.onload = function (event) {
                 let level =
                   question.firstElementChild.firstElementChild.dataset.level;
                 let wording = question.children[1].textContent.trim();
-                let id = question.children[1].dataset.id;
+                let id = question.children[1].id;
+                console.log(question.parentElement.children[1], "proposal");
+                console.log(wording);
+                console.log(question.children, "children");
+                console.log(id, "question id");
                 questionsSelect["questions"].push({
                   id: id,
                   level: level,
                   wording: wording,
                 });
-                console.log(questionsSelect["question"]);
+                console.log(questionsSelect.questions);
               });
-              console.log(routeInstructorQcmFetch);
+
               console.log(questionsSelect);
-              fetch(routeInstructorQcmFetch, {
+              fetch(`/instructor/qcms/create_fetch/${module}`, {
                 method: "POST",
                 headers: {
                   "Content-type": "application/json", // The type of data you're sending
