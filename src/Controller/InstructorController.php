@@ -363,6 +363,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
         {
             $modules[] = $linkInstructorSessionModule->getModule();
+
             if (!empty($linkInstructorSessionModule->getModule()->getTitle())) {
                 $arrayBuilderModule[$linkInstructorSessionModule->getModule()->getTitle()] = $linkInstructorSessionModule->getModule()->getTitle();
             }
@@ -374,6 +375,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
              }
 
         }
+        $modules = array_unique($modules);
+
         // ////
         // dd($request);
           // ////
@@ -434,7 +437,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
             foreach($officialQuestions as $question){
                 //if question->wording  est différent de question de randomQuestion affecté question au tableau listModule question avec les prop utiles
                 $listModuleQuestions[]=["wording"=>$question->getWording(),"explaination"=>$question->getExplanation(),"proposals"=>$question->getProposals(),"difficulty"=> $question->getDifficulty(),"id"=>$question->getId()];
-
             }
             $qcmInstancesByQuestion = [];
             foreach($moduleQuestions as $moduleQuestion){
@@ -448,6 +450,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 
         }
+//        dd($officialQuestions);
+//        dd($customQuestions);
         $data=[
             "customQuestions"=>$customQuestions,
             "officialQuestions"=>$listModuleQuestions,
