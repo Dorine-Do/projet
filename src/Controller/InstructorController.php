@@ -355,7 +355,6 @@ class InstructorController extends AbstractController
         foreach ($linksInstructorSessionModule as $linkInstructorSessionModule)
         {
             $modules[] = $linkInstructorSessionModule->getModule();
-
             if (!empty($linkInstructorSessionModule->getModule()->getTitle())) {
                 $arrayBuilderModule[$linkInstructorSessionModule->getModule()->getTitle()] = $linkInstructorSessionModule->getModule()->getTitle();
             }
@@ -445,6 +444,7 @@ class InstructorController extends AbstractController
         ValidatorInterface     $validator,
         Request                $request,
         InstructorRepository   $instructorRepository,
+        QuestionRepository     $questionRepository,
         ModuleRepository       $moduleRepository,
         EntityManagerInterface $entityManager,
         QcmGeneratorHelper $generatorHelper,

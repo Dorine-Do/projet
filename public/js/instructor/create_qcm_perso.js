@@ -59,10 +59,6 @@ window.onload = function (event) {
   pErrorSelectM.style.display = "none";
   console.log(selectModule.value, "yela");
 
-  selectModule.addEventListener("change", function (e) {
-    console.log(e.target.value);
-  });
-
   if (selectModule.value === "null" && inputDifficulty.value === "") {
 
     for (let li = 0; li < liDifficultyQcmModule.length; li++) {
@@ -130,10 +126,11 @@ window.onload = function (event) {
   let ulQcmDragAndDropQuestionsCache = document.querySelector(
     ".qcmChoisedMain ul "
   );
-  let questionsOfficialQcm = document.querySelector(".questionsOfficial ");
+  let questionsOfficialQcm = document.querySelector(".questionsOfficial ul");
   let responselabel = document.querySelector(".responselabel ");
-  let questionsCustomInDragAndDrop =
-    document.querySelector(".questionsCustom ");
+  let questionsCustomInDragAndDrop = document.querySelector(
+    ".questionsCustom ul"
+  );
   let letters = ["A", "B", "C", "D", "E", "F"];
   let qcmNameI = document.querySelector(".blocBeforeValidation .qcmName");
 
@@ -155,7 +152,10 @@ window.onload = function (event) {
       // ajout erreur 1
       pErrorRandomFetch.innerText =
         "veuillez selectionner un module et une difficulté ";
-    } else if (inputDifficulty.value == "" && moduleOption.value !== "null") {
+    } else if (
+      inputDifficulty.value == "null" &&
+      moduleOption.value !== "null"
+    ) {
       pErrorRandomFetch.style.display = "block";
       // ajout erreur 2
       pErrorRandomFetch.innerText = "veuillez selectionner  une difficulté ";
@@ -249,6 +249,7 @@ window.onload = function (event) {
                     </div>
                 </li>
         `;
+            //IMG difficulty random question
             let imgQcmChoisedTreffleP = document.querySelectorAll(
               ".questionWordingDiv.qcmChoisedQuestionWordingDiv .qcmChoisedTreffleP "
             );
@@ -266,6 +267,7 @@ window.onload = function (event) {
               ].innerHTML += ` <img src="/build/images/difficile.png" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">`;
             }
 
+            //PROPOSALS  random question
             let proposalDragAndDropQuestionsCache = document.querySelectorAll(
               ".qcmChoisedProposalWordingDiv.proposalWordingDiv "
             );
@@ -285,7 +287,7 @@ window.onload = function (event) {
             }
           }
 
-          // OFFICIAL QUESTIONS
+          ////////////////// OFFICIAL QUESTIONS
 
           for (
             let forQuestionOfficial = 0;
@@ -317,6 +319,29 @@ window.onload = function (event) {
 
             </li>
           `;
+            //IMG difficulty official question
+            let trefflesForQuestionsOfficial = document.querySelectorAll(
+              ".questionsOfficial .OfficialQuestionWordingDiv.questionWordingDiv .qcmChoisedTreffleP"
+            );
+            if (data.officialQuestions[forQuestionOfficial].difficulty == 1) {
+              trefflesForQuestionsOfficial[
+                forQuestionOfficial
+              ].innerHTML += `<img src="/build/images/facile.png" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">`;
+            } else if (
+              data.officialQuestions[forQuestionOfficial].difficulty == 2
+            ) {
+              trefflesForQuestionsOfficial[
+                forQuestionOfficial
+              ].innerHTML += ` <img src="/build/images/moyen.png" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="medium">`;
+            } else if (
+              data.officialQuestions[forQuestionOfficial].difficulty == 3
+            ) {
+              trefflesForQuestionsOfficial[
+                forQuestionOfficial
+              ].innerHTML += ` <img src="/build/images/difficile.png" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">`;
+            }
+
+            //IMG modify
             let imgModifyQuestion = document.querySelector(
               ".modifyQuestionImgDiv"
             );
@@ -330,14 +355,13 @@ window.onload = function (event) {
             let proposalsOfficialQcm = document.querySelectorAll(
               ".questionsOfficial .OfficialProposalWordingDiv.proposalWordingDiv "
             );
+            //PROPOSALS  random question
             for (
               let forProposalOfficial = 0;
               forProposalOfficial <
               data.officialQuestions[forQuestionOfficial].proposals.length;
               forProposalOfficial++
             ) {
-              console.log(data.officialQuestions[forQuestionOfficial]);
-
               proposalsOfficialQcm[forQuestionOfficial].innerHTML += `
                   <p class =" officialProposalWordingP proposalWordingP " data-status="${data.officialQuestions[forQuestionOfficial].proposals[forProposalOfficial].isCorrectAnswer}" id="${data.officialQuestions[forQuestionOfficial].proposals[forProposalOfficial].id}" >
                        <span class="numeroProp nPropPartTwo"> ${letters[forProposalOfficial]} </span><span class="spanWording" >${data.officialQuestions[forQuestionOfficial].proposals[forProposalOfficial].wording} </span>
@@ -351,7 +375,8 @@ window.onload = function (event) {
               </div>
            `;
           }
-          // CUSTOM QUESTION
+
+          ///////////////////////////////////// CUSTOM QUESTION
           // data.customQuestions === []
           if (data.customQuestions.length === 0) {
             // temporaire
@@ -364,7 +389,7 @@ window.onload = function (event) {
             ) {
               questionsCustomInDragAndDrop.innerHTML += `
            
-            <li class="officialQuestionLi" draggable="true">
+            <li class=" officialQuestionLi " draggable="true">
                 <div class="OfficialQuestionWordingDiv questionWordingDiv ">
                     <div class="qcmChoisedTreffleP"></div>
                     <div class="officialQuestionWordingP questionWordingP" id="${data.customQuestions[question].id}">
@@ -380,52 +405,57 @@ window.onload = function (event) {
                     </div>
                 </div>
                 <div>
-
-                    <div class="OfficialProposalWordingDiv proposalWordingDiv">
-                       
-                    </div>
-
+                    <div class="OfficialProposalWordingDiv proposalWordingDiv"></div>
                 </div>
 
             </li>
             `;
+              //IMG difficulty custom question
               let trefflesForQuestionsCustom = document.querySelectorAll(
                 ".questionsCustom .OfficialQuestionWordingDiv.questionWordingDiv .qcmChoisedTreffleP"
               );
-              if (data.customQuestions[question].difficulty == 1) {
-                trefflesForQuestionsCustom.innerHTML += `<img src="/build/images/facile.png" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">`;
-              } else if (data.customQuestions[question].difficulty == 2) {
-                trefflesForQuestionsCustom.innerHTML += ` <img src="/build/images/moyen.png" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="medium">`;
-              } else if (data.customQuestions[question].difficulty == 3) {
-                trefflesForQuestionsCustom.innerHTML += ` <img src="/build/images/difficile.png" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">`;
-              }
 
-              let proposalsForQuestionsCustom = document.querySelector(
+              if (data.customQuestions[question].difficulty == 1) {
+                trefflesForQuestionsCustom[
+                  question
+                ].innerHTML += `<img src="/build/images/facile.png" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">`;
+              } else if (data.customQuestions[question].difficulty == 2) {
+                trefflesForQuestionsCustom[
+                  question
+                ].innerHTML += ` <img src="/build/images/moyen.png" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="medium">`;
+              } else if (data.customQuestions[question].difficulty == 3) {
+                trefflesForQuestionsCustom[
+                  question
+                ].innerHTML += ` <img src="/build/images/difficile.png" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">`;
+              }
+              let testi = document.querySelectorAll(
+                ".questionsCustom .officialQuestionLi"
+              );
+              console.log(testi);
+              let proposalsForQuestionsCustom = document.querySelectorAll(
                 ".questionsCustom .OfficialProposalWordingDiv.proposalWordingDiv"
               );
+
+              //PROPOSALS  random question
               if (data.customQuestions[question].proposals) {
                 for (
                   let proposalCustom = 0;
-                  proposalCustom <=
+                  proposalCustom <
                   data.customQuestions[question].proposals.length;
                   proposalCustom++
                 ) {
-                  console.log(data.customQuestions[question]);
-
-                  proposalsForQuestionsCustom[
-                    forQuestionOfficial
-                  ].innerHTML += `
-                    <p class =" officialProposalWordingP proposalWordingP " data-status="${data.customQuestions[question].proposals[proposalCustom].isCorrectAnswer}" id="${data.customQuestions[question].proposals[proposalCustom].id}" >
-                         <span class="numeroProp nPropPartTwo"> ${letters[proposalCustom]} </span><span class="spanWording" >${data.customQuestions[question].proposals[proposalCustom].wording} </span>
-                    </p>
-                  `;
+                  proposalsForQuestionsCustom[question].innerHTML += `
+                        <p class =" officialProposalWordingP proposalWordingP " data-status="${data.customQuestions[question].proposals[proposalCustom].isCorrectAnswer}" id="${data.customQuestions[question].proposals[proposalCustom].id}" >
+                             <span class="numeroProp nPropPartTwo"> ${letters[proposalCustom]} </span><span class="spanWording" >${data.customQuestions[question].proposals[proposalCustom].wording} </span>
+                        </p>
+                      `;
                 }
                 // responselabel.append(test);
                 proposalsForQuestionsCustom[question].innerHTML += `
-              <div class="questionModify">
-                <button class="save">enregistrer</button>
-              </div>
-           `;
+                  <div class="questionModify">
+                    <button class="save">enregistrer</button>
+                  </div>
+               `;
               }
             }
           }
@@ -619,20 +649,12 @@ window.onload = function (event) {
                 img.parentNode.parentNode.parentNode.lastElementChild
                   .lastElementChild.lastElementChild;
 
-              //Css
-              //   proposalWordingDiv.style.flexDirection = "column";
-              //   let nPropPartTwo = proposalWordingDiv.querySelectorAll(".nPropPartTwo");
-              //   nPropPartTwo.forEach((nbr) => {
-              //     nbr.style.padding = "2px 10px";
-              //   });
-
               // si la div des proposal n'est pas dérouler
               if (proposalWordingDiv.classList.contains("displayNone")) {
                 proposalWordingDiv.classList.remove("displayNone");
-                img.parentNode.classList.remove("displayNone");
-                console.log(img, "img display none");
-              } else {
                 // img.parentNode.classList.remove("displayNone");
+                // console.log(img, "img display none");
+              } else {
                 // img.parentNode.classList.add("displayNone");
                 // console.log((img.style.display = "none"), "img remove");
               }
@@ -755,6 +777,7 @@ window.onload = function (event) {
                   id: p.children[1].parentNode.id,
                   isCorrectAnswer: p.children[2].checked,
                 });
+                console.log(p.children[1].parentNode.id, "proposals modify");
                 if (p.children[2].checked) {
                   countCorrectAnswer++;
                 }
@@ -941,15 +964,31 @@ window.onload = function (event) {
                   question.firstElementChild.firstElementChild.dataset.level;
                 let wording = question.children[1].textContent.trim();
                 let id = question.children[1].id;
-                console.log(question.parentElement.children[1], "proposal");
+                let proposals = Array.from(
+                  question.parentElement.children[1].children
+                );
+
+                console.log(
+                  question.parentElement.children[1].children,
+                  "proposal"
+                );
                 console.log(wording);
-                console.log(question.children, "children");
-                console.log(id, "question id");
+                // console.log(question.children, "children");
+                // console.log(id, "question id");
                 questionsSelect["questions"].push({
                   id: id,
                   level: level,
                   wording: wording,
+                  proposals: [],
                 });
+                proposals.forEach((p) => {
+                  questionsSelect["proposals"].push({
+                    wording: p.children[1].textContent.trim(),
+                    id: p.children[1].parentNode.id,
+                  });
+                  console.log(p, "proposals 2");
+                });
+
                 console.log(questionsSelect.questions);
               });
 
