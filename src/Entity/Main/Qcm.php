@@ -37,6 +37,7 @@ class Qcm
     private $isPublic;
 
     #[ORM\Column(type: 'json')]
+    #[Groups(['qcm:read'])]
     private $questionsCache = [];
 
     #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]

@@ -391,18 +391,14 @@ class InstructorController extends AbstractController
             $generatedQcm = $qcmGenerator->generateRandomQcm($module, $security->getUser(), $userRepository, $difficulty);
             $manager->persist($generatedQcm);
             $manager->flush();
-//            dd($generatedQcm);
+            $generatedQcmQuestions = array_map( function ($question) use ($questionRepository) {
+                return $questionRepository->find($question['id']);
+            } , $generatedQcm->getQuestionsCache());
             $moduleQuestions = $module->getQuestions();
-            $generatedQcmQuestions = $moduleQuestions->filter( function ($question) use ($generatedQcm) {
-                return in_array( $generatedQcm ,$question->getQcms()->toArray());
-            });
-//             $questionRepository->findBy(['qcms' => $generatedQcm->getId()]);
-//            dd($generatedQcmQuestions);
 
-            $instructorQuestions = $moduleQuestions->filter(function ($question) use ($security) {
-                return !$question->getIsOfficial() && $question->getAuthor()->getId() === $security->getUser()->getId() && $question->isEnabled();
+            $instructorQuestions = $moduleQuestions->filter(function ($question) use ($security, $generatedQcmQuestions) {
+                return !$question->getIsOfficial() && $question->getAuthor()->getId() === $security->getUser()->getId() && $question->isEnabled() && !in_array($question,$generatedQcmQuestions);
             })->toArray();
-            $instructorQuestions = array_diff($instructorQuestions, $generatedQcmQuestions->toArray());
             $instructorQuestions = array_map(function ($instructorQuestion) use ($questionRepository, $security) {
 
                 $isDistributed = $questionRepository->getQuestionWithReleaseDate($instructorQuestion->getId());
@@ -412,11 +408,9 @@ class InstructorController extends AbstractController
                     'isEditable' => count($isDistributed) === 0 && $security->getUser() === $instructorQuestion->getAuthor(),
                 ];
             }, $instructorQuestions);
-
-            $officialQuestions = $moduleQuestions->filter(function ($question) {
-                return $question->getIsOfficial() && $question->isEnabled();
+            $officialQuestions = $moduleQuestions->filter(function ($question) use ($generatedQcmQuestions) {
+                return $question->getIsOfficial() && $question->isEnabled() && !in_array($question,$generatedQcmQuestions);
             })->toArray();
-            $officialQuestions = array_diff($officialQuestions, $generatedQcmQuestions->toArray());
 
             $officialQuestions = array_map(function ($officialQuestion) {
                 return [
