@@ -1,5 +1,4 @@
 window.onload = function (event) {
-    console.log("hello");
     //  Déclaration var display none + modal
     let questionsCustom,
         proposalWordingDiv,
@@ -56,7 +55,6 @@ window.onload = function (event) {
 
     document.querySelector(".blocBorderChoiceDifficulties").after(pErrorSelectM);
     pErrorSelectM.style.display = "none";
-    console.log(selectModule.value, "yela");
 
     if (selectModule.value === "null" && inputDifficulty.value === "")
     {
@@ -341,12 +339,7 @@ window.onload = function (event) {
 
                 ///////////////////////////////////// CUSTOM QUESTION
 
-                if (data.customQuestions.length === 0)
-                {
-                    // temporaire
-                    console.log("zero");
-                }
-                else
+                if (data.customQuestions.length !== 0)
                 {
                     for ( let question = 0; question < data.customQuestions.length; question++ )
                     {
@@ -808,7 +801,6 @@ window.onload = function (event) {
 
                                 if (liQcmChoicedInOfficialQcm)
                                 {
-                                    console.log(liQcmChoicedInOfficialQcm, "yo");
                                     for (let i = 0; i < liQcmChoicedInOfficialQcm.length; i++) {
                                         btnQuestionsOfficial.innerHTML = `
                                             Questions officielles :${ listQuestionsOfficials.length + liQcmChoicedInOfficialQcm.length - liQcmOfficialInQcmChoiced.length }
