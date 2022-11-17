@@ -643,10 +643,10 @@ window.onload = function (event) {
               // si la div des proposal n'est pas dérouler
               if (proposalWordingDiv.classList.contains("displayNone")) {
                 proposalWordingDiv.classList.remove("displayNone");
-                img.parentNode.classList.remove("displayNone");
+                // img.parentNode.classList.remove("displayNone");
                 // console.log(img, "img display none");
               } else {
-                img.parentNode.classList.add("displayNone");
+                // img.parentNode.classList.add("displayNone");
                 // console.log((img.style.display = "none"), "img remove");
               }
 
@@ -955,15 +955,31 @@ window.onload = function (event) {
                   question.firstElementChild.firstElementChild.dataset.level;
                 let wording = question.children[1].textContent.trim();
                 let id = question.children[1].id;
-                console.log(question.parentElement.children[1], "proposal");
+                let proposals = Array.from(
+                  question.parentElement.children[1].children
+                );
+
+                console.log(
+                  question.parentElement.children[1].children,
+                  "proposal"
+                );
                 console.log(wording);
-                console.log(question.children, "children");
-                console.log(id, "question id");
+                // console.log(question.children, "children");
+                // console.log(id, "question id");
                 questionsSelect["questions"].push({
                   id: id,
                   level: level,
                   wording: wording,
+                  proposals: [],
                 });
+                proposals.forEach((p) => {
+                  questionsSelect["proposals"].push({
+                    wording: p.children[1].textContent.trim(),
+                    id: p.children[1].parentNode.id,
+                  });
+                  console.log(p, "proposals 2");
+                });
+
                 console.log(questionsSelect.questions);
               });
 
