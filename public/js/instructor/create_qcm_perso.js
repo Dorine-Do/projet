@@ -27,7 +27,7 @@ window.onload = function (event) {
   partTwo.classList.add("displayNone");
 
   // MODAL EXPLAINATION
-  modalExplaination = document.querySelector(".bloc_modal_explaination");
+  modalExplaination = document.querySelector(".blocModalExplaination");
   crossExplaination = document.querySelector(".modal > img");
   btnExplaination = document.querySelector(
     ".contentExplicationAndLegend button"
@@ -50,30 +50,38 @@ window.onload = function (event) {
   );
   let selectModule = document.getElementById("moduleOption");
   let inputDifficulty = document.querySelector(".blocChoiceDifficulties input");
+
   let pErrorSelectM = document.createElement("p");
   pErrorSelectM.innerText = "Veuillez selectionner un module";
+  pErrorSelectM.className = "pRandomFetch"
+
   document.querySelector(".blocBorderChoiceDifficulties").after(pErrorSelectM);
   pErrorSelectM.style.display = "none";
   console.log(selectModule.value, "yela");
 
   if (selectModule.value === "null" && inputDifficulty.value === "") {
-    console.log("yesyep");
-    console.log(selectModule.value);
+
+    for (let li = 0; li < liDifficultyQcmModule.length; li++) {
+      liDifficultyQcmModule[li].addEventListener("click", function (e){
+        pErrorSelectM.style.display = "block";
+      })
+    }
 
     selectModule.addEventListener("change", function (e) {
-      console.log(e.target.value);
-      console.log("if principal ok");
+
       let targetModule = e.target.value;
+
       if (
-        (targetModule !== "null" && inputDifficulty.value === "") ||
-        (targetModule !== "Veuillez choisir un module" &&
-          inputDifficulty.value === "")
+        (targetModule !== "null" || targetModule !== "Veuillez choisir un module") &&
+          inputDifficulty.value === ""
       ) {
-        console.log(targetModule, "if 1 exécuté");
+
+        pErrorSelectM.style.display = "none";
+
         for (let li = 0; li < liDifficultyQcmModule.length; li++) {
+
           liDifficultyQcmModule[li].addEventListener("click", function (e) {
-            console.log(e.target, "li 1er if");
-            console.log(selectModule.value, "slect value");
+
             if (selectModule.value !== "null") {
               inputDifficulty.value = `${e.target.dataset.difficulty}`;
               //ajout bg li
@@ -81,6 +89,7 @@ window.onload = function (event) {
               //////si else a été exécuté et ensuite si condition ok , ici exécuté
               pErrorSelectM.style.display = "none";
               //////////
+
               for (let li = 0; li < liDifficultyQcmModule.length; li++) {
                 // suppression bg li
                 if (e.target !== liDifficultyQcmModule[li]) {
@@ -175,8 +184,8 @@ window.onload = function (event) {
           }
         }) // promesse qui se termine en fin de page
         .then((data) => {
-          console.log(data);
-          console.log(data.randomQuestion.length);
+          console.log('random_fetch',data);
+          // console.log(data.randomQuestion.length);
 
           for (
             let forQuestion = 0;
