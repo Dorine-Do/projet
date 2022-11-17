@@ -48,7 +48,7 @@ hr {
 
 /*PARTIE 1*/
 
-.partOne {
+.contentPartOne {
     width: 90%;
     margin: auto;
     padding: 3em 0 0;
@@ -56,7 +56,7 @@ hr {
     grid-gap: 0.5em;
 }
 
-.partOne > p {
+.contentPartOne > p {
     padding: 1.5em 0;
 }
 /* Random qcm */
@@ -66,7 +66,7 @@ hr {
 
 /*********************************************** BOUTON DEBUT DE PAGE (MODULE + GENERATE)***********************************/
 
-.partOne > form {
+.contentPartOne > form {
     /* border-bottom: 2px solid #c7c7c7; */
     padding: 3em 0;
     display: grid;
@@ -986,7 +986,7 @@ hr {
 /**********************************************************************************************************************/
 
 @media screen and (min-width: 1000px) {
-    .partOne,
+    .contentPartOne,
     #contentPartTwo {
         width: 80%;
     }

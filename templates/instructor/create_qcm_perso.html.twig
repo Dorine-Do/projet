@@ -15,66 +15,52 @@
 
     <h1>- {{ 'title.createCustomQcm'|trans }} -</h1>
 
-    <div class="partOne">
-
+    <section class="contentPartOne">
         <p><span class="step">{{ 'title.step1'|trans }}</span>{{ 'qcm.chooseQcmModuleLevel'|trans }}</p>
-
-        <form action="{{ path('instructor_create_qcm_perso') }}" method="GET">
-     
-         {# {{ dump(app.request.query) }}  #}
+        <div>
             <div  class="selectOptionChoiceModule">
-               <select  id="moduleOption" class="selectVarFond" name="module" >
-               <option  value="null">Veuillez choisir un module</option>
-                {% for module in modules %}
-                    <option   value="{{module.id}}"  >{{ module.title }}</option>
-                {% endfor %}
-            </select>
-          
+                <select  id="moduleOption" class="selectVarFond" name="module" >
+                    <option  value="null">Veuillez choisir un module</option>
+                    {% for module in modules %}
+                        <option value="{{module.id}}">{{ module.title }}</option>
+                    {% endfor %}
+                </select>
             </div>
-      
             <div class="choiceDifficultiesAndTypeOfQcm">
                 <div class="blocChoiceDifficulties">
-                        <input type="hidden" name="qcm[difficulty]" value="" id="qcmDifficulty">
-                        <div class="blocBorderChoiceDifficulties">
-                        <ul class="listChoiceDifficulties">
-                            <li   data-difficulty="1" >Facile </li>
-                            <li  data-difficulty="2" >Moyen</li>
-                            <li  data-difficulty="3" >Difficile </li>
+                    <div class="blocBorderChoiceDifficulties">
+                        <ul id="difficultyOption" class="listChoiceDifficulties">
+                            <li data-difficulty="1" >Facile </li>
+                            <li data-difficulty="2" >Moyen</li>
+                            <li data-difficulty="3" >Difficile </li>
                         </ul>
-                        </div>
+                    </div>
                 </div>
                 <div class="choiceTypeOfQcm">
-                    <ul class="listTypeOfQcm">
-                    {# fonction ajax  #}
-                        {# <li><button class="qcmOfficial" type="submit" >{{'button.generateQcmOfficial'|trans}}</button> </li> #}
-                        <li><button class="buttonGenerate" type="submit" >{{'button.generateQcmPersonalised'|trans}}</button></li>
-                    </ul>
+                    <button id="generateQcmButton" class="buttonGenerate">{{'button.generateQcmPersonalised'|trans}}</button>
                 </div>
             </div>
-
-        </form>
- 
-         <hr>
-
-
-
-         <p><span class="step">{{ 'title.step2'|trans }}</span>{{ 'title.qcmChoosed'|trans }}</p>
-
+            <p id="generationError" class="pRandomFetch" ></p>
+        </div>
+    </section>
+    <section id="generatedQcmResumeBlock" class="contentPartThree">
+        <p><span class="step">{{ 'title.step2'|trans }}</span>{{ 'title.qcmChoosed'|trans }}</p>
         <div class="showQcm">
-            <button class="btnShowQcm">{{ 'button.seeQcm'|trans }}</button>
+            <button id="showGeneratedQcmResumeButton" class="btnShowQcm">{{ 'button.seeQcm'|trans }}</button>
+            <div>
+                <button id="personalizeQcmButton" class="" > Personaliser le qcm </button>
+                <button id="ValidateQcmButtonWhitoutChange" class="" > Valider le qcm tel quel </button>
+            </div>
             <div class="backWhite">
                 <ul>
-                   
+
                 </ul>
             </div>
         </div>
-    </div>
+    </section>
 
-
-    <section id="contentPartTwo">
-        <hr>
+    <section id="personalizeQcmBlock" class="contentPartThree">
         <p class="pStepThree"><span class="step">{{'title.step3'|trans }}</span>{{ 'title.qcmPersonalized'|trans }}</p>
-
         <div class="btnToggle">
             <button class="btnCustom">{{ 'button.personalized'|trans }}</button>
         </div>
@@ -83,12 +69,9 @@
             {#*************************************************************************************************#}
             {#LEGEND#}
             <div class="legends">
-
                 <p>{{ 'title.levelByQuestionDifficulty'|trans }}</p>
                 <div class="contentExplicationAndLegend">
                     <button>{{ 'button.explanation'|trans }}</button>
-
-
                     <div class="legendDifficultyDiv">
                         <div class="legendDifficultyContainerDiv">
                             <div class="legendDifficultyDecoDiv">
@@ -102,7 +85,6 @@
                                      <p class="nbrQuestion" id="easy" >5</p>
                                 </div>
                             </div>
-
                             <div class="legendDifficultyDecoDiv">
                                 <div class="legendDifficultyDecoSubDiv">
                                     <div>
@@ -132,7 +114,7 @@
 
             {#*************************************************************************************************#}
             {#DRAG AND DROP#}
-            <div class="dragAndDrop">
+            <section class="dragAndDrop">
                 {#*************************************************************************************************#}
                 {#QCM CHOICED #}
                 <div class="qcmChoised">
@@ -146,7 +128,7 @@
                             </div>
                         </div>
                         <div class="qcmChoisedMain">
-                            <ul>
+                            <ul id="pickedQuestionsList">
                                 {# {% for question in generatedQcm.questionsCache %}
                                     <li class="qcmChoisedLi"  draggable="true">
                                         <div class="qcmChoisedLiDiv">
@@ -183,6 +165,7 @@
                             </ul>
                         </div>
                     </div>
+                </div>
                     {#*************************************************************************************************#}
                     {#Image drag and drop #}
 
@@ -204,8 +187,7 @@
                         {#*************************************************************************************************#}
                         {#OFFICIAL #}
                         <div class="questionsOfficial">
-
-                            <ul>
+                            <ul id="pickableOfficialQuestionsList">
                             
                                 {# {% for question in officialQuestions %}
                                      }
@@ -264,8 +246,7 @@
                         {#*************************************************************************************************#}
                         {#CUSTOM #}
                          <div class="questionsCustom">
-                        
-                            <ul>
+                            <ul id="pickableCustomQuestionsList">
                                 {# {% for question in customQuestions %}
                                     <li class="officialQuestionLi" draggable="true">
                                         <div class="OfficialQuestionWordingDiv questionWordingDiv ">
@@ -323,7 +304,7 @@
 
 
 
-            </div>
+
             <p class="pStepFour"><span class="step">{{ 'title.step4'|trans }}</span> {{ 'title.qcmPersonalizedTitle'|trans }}</p>
             <div class="blocBeforeValidation">
                     {#*************************************************************************************************#}
@@ -342,8 +323,16 @@
             </div>
 
             {# {% endif %} #}
+        </section>
         </div>
-   </section>
+    </section>
+
+
+
+
+
+
+
 
     <div class="blocModalExplaination">
         <div class="modal">
