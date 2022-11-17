@@ -1053,3 +1053,198 @@ window.onload = function (event) {
 // TODO
 // info bouton modif une question retiré
 // faire un event au survol pour signifier ce changement
+
+
+// REFACTO TOTALE DU FICHIER
+let moduleOption, difficultyOptions, selectedModule, selectedDifficulty, generateQcmBtn, generationErrorBlock;
+let generatedQcmResumeBlock, showGeneratedQcmResumeBtn;
+let personalizeQcmBtn, pickableOfficialQuestionsList, pickableCustomQuestionsList, pickedQuestionsList;
+const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
+const difficultyImages = [ 'trefle_facile_bon_vert.png', 'trefle_moyen_bon_vert.png', 'trefle_difficile_bon_vert.png' ]
+const levels = ['easy', 'medium', 'difficult']
+
+function generateRandomQcm()
+{
+    if( selectedModule && ( selectedDifficulty === '1' || selectedDifficulty === '2' || selectedDifficulty === '3' ) )
+    {
+        generationErrorBlock.innerText = '';
+        fetchGeneratedQcm();
+    }
+    else
+    {
+        displayGenerationError();
+    }
+}
+
+function displayGenerationError()
+{
+    generationErrorBlock.innerText = 'Vueillez selectionner un module ET une difficulté';
+}
+
+function fetchGeneratedQcm()
+{
+    fetch(`/instructor/qcms/random_fetch/${selectedModule}/${selectedDifficulty}`, {method: 'GET'})
+        .then( response => response.json() )
+        .then( data => {
+            fillGeneratedQcmResumeBlock( data.generatedQcmQuestions );
+            fillQcmPersonalizer( data.officialQuestions, data.instructorQuestions, data.generatedQcmQuestions )
+            generatedQcmResumeBlock.style.display = 'block';
+            smoothScrollTo('#generatedQcmResumeBlock');
+        })
+}
+
+function fillGeneratedQcmResumeBlock( questions )
+{
+    let questionsList = generatedQcmResumeBlock.querySelector('ul');
+    questions.forEach( (question, i) => {
+        let li = document.createElement('li');
+        li.classList.add('questionLi');
+        li.innerHTML = `
+            <div class="questionWordingDiv">
+                <p class="questionWordingP">
+                    <span class="numeroForm"> ${i + 1}</span>
+                    ${question.question.wording}
+                </p>
+            </div>
+            <div class="proposalWordingDiv"></div>
+        `;
+        questionsList.append(li);
+        let proposalsList = questionsList.querySelector('.proposalWordingDiv');
+        question.proposals.forEach( ( proposal, index ) => {
+            let p = document.createElement('p');
+            p.classList.add('proposalWordingP');
+            p.innerHTML = `
+                <span class="numeroProp">${letters[index]}</span>
+                ${proposal.wording}
+            `;
+            proposalsList.append(p);
+        })
+    })
+
+    showGeneratedQcmResumeBtn.addEventListener('click', displayGeneratedQcmQuestionsList);
+}
+
+function displayGeneratedQcmQuestionsList()
+{
+    let questionsList = generatedQcmResumeBlock.querySelector('ul');
+    if( questionsList.style.display === 'none' )
+    {
+        this.innerText = 'Masquer les questions';
+        questionsList.style.display = 'grid';
+    }
+    else if( questionsList.style.display === 'grid' )
+    {
+        this.innerText = 'Voir les questions';
+        questionsList.style.display = 'none';
+    }
+}
+
+function fillQcmPersonalizer( officialQuestions ,customQuestions, pickedQuestions )
+{
+    officialQuestions.foreach( (officialQuestion, i) => {
+        let questionLi = createQuestionLi(officialQuestion, i);
+        pickableOfficialQuestionsList.append(questionLi);
+    });
+
+    customQuestions.foreach( ( customQuestion, i ) => {
+        let questionLi = createQuestionLi(customQuestion, i);
+        pickableOfficialQuestionsList.append(questionLi);
+    });
+
+    pickedQuestions.foreach( (pickedQuestion, i) => {
+        let questionLi = createQuestionLi(pickedQuestion, i);
+        pickableOfficialQuestionsList.append(questionLi);
+    });
+
+    document.querySelectorAll('.qcmChoisedLi .chevron').addEventListener('click', function(){
+        let proposalBlock = this.closest('.qcmChoisedLi').querySelector('.proposalWordingDiv');
+        if( proposalBlock.style.display === 'none' )
+        {
+            proposalBlock.style.display === 'block';
+            this.style.transform = 'rotate("180deg")';
+        }
+        else if( proposalBlock.style.display === 'block' )
+        {
+            proposalBlock.style.display === 'none';
+            this.style.transform = 'rotate("180deg")';
+        }
+    })
+}
+
+function createQuestionLi( sourceQuestion, questionIndex )
+{
+    const {question, proposals, isEditable} = sourceQuestion;
+    let li = document.createElement('li');
+    li.classList.add('qcmChoisedLi');
+    li.innerHTML = `
+            <div class="qcmChoisedLiDiv">
+                <div class="questionWordingDiv qcmChoisedQuestionWordingDiv">
+                    <p class="qcmChoisedTreffleP">
+                        <img 
+                            src="/build/images/${difficultyImages[question.difficulty - 1]}" 
+                            alt="trefle difficulté ${question.difficulty}"
+                            data-level="${levels[question.difficulty - 1]}"
+                        >
+                    </p>
+                    <p class="qcmChoisedQuestionWordingP questionWordingP" data-questionid="${ question.id }">
+                        <span>${questionIndex + 1}</span>  
+                        ${question.wording}
+                    </p>
+                    <p class="qcmChoisedchevronBasP">
+                        <img src="/build/images/chevron_bas.216a40a5.svg" alt="Chevron ouvrant" class="qcmChoisedchevronBasImg chevron">
+                    </p>
+                    ` +
+                        isEditable ? '<div class="modifyQuestionImgDiv"><img src="/build/image/modifier.png" class="modifyQuestionImg" alt="bouton modifier"/></div>' : ''
+                    + `
+                </div>
+                <div class="qcmChoisedProposalWordingDiv proposalWordingDiv"></div>
+            </div>
+        `;
+
+    proposals.forEach( (proposal, index) => {
+        let div = document.createElement('div');
+        div.classList.add('proposalWordingP');
+        div.innerHTML = `
+                <span class="numeroProp nPropPartTwo">${letters[index]}</span>
+                ${proposal.wording}
+            `;
+        li.querySelector('.proposalWordingDiv').append(div);
+    });
+
+    return li;
+}
+
+function smoothScrollTo( targetElement )
+{
+    document.querySelector( targetElement ).scroll({
+        behavior: "smooth",
+        block: 'center'
+    })
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+    moduleOption = document.querySelector('#moduleOption');
+    difficultyOptions = document.querySelectorAll('#difficultyOption li');
+    generateQcmBtn = document.querySelector('#generateQcmButton');
+    generationErrorBlock = document.querySelector('#generationError');
+    generatedQcmResumeBlock = document.querySelector('#generatedQcmResumeBlock');
+    showGeneratedQcmResumeBtn = document.querySelector('#showGeneratedQcmResumeButton');
+    personalizeQcmBtn = document.querySelector('#personalizeQcmButton');
+    pickableOfficialQuestionsList = document.querySelector('#pickableOfficialQuestionsList');
+    pickableCustomQuestionsList = document.querySelector('#pickableCustomQuestionsList');
+    pickedQuestionsList = document.querySelector('#pickedQuestionsList');
+
+    moduleOption.addEventListener('change', function() {
+        selectedModule = this.value;
+    });
+
+    for( let i = 0; i < difficultyOptions.length; i++ )
+    {
+        difficultyOptions[i].addEventListener('click', function(){
+            selectedDifficulty = this.dataset.difficulty;
+        })
+    }
+
+    generateQcmBtn.addEventListener('click', generateRandomQcm);
+    // personalizeQcmBtn.addEventListener('click', )
+})
