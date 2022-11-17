@@ -397,7 +397,7 @@ class InstructorController extends AbstractController
                 return [
                     'question' => $pickedQuestion,
                     'proposals' => $pickedQuestion->getProposals(),
-                    'isEditable' => count($isDistributed) === 0 && $security->getUser() === $question->getAuthor(),
+                    'isEditable' => count($isDistributed) === 0 && $security->getUser() === $pickedQuestion->getAuthor(),
                 ];
             } , $generatedQcm->getQuestionsCache());
             $moduleQuestions = $module->getQuestions();
