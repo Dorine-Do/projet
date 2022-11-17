@@ -391,8 +391,14 @@ class InstructorController extends AbstractController
             $generatedQcm = $qcmGenerator->generateRandomQcm($module, $security->getUser(), $userRepository, $difficulty);
             $manager->persist($generatedQcm);
             $manager->flush();
-            $generatedQcmQuestions = array_map( function ($question) use ($questionRepository) {
-                return $questionRepository->find($question['id']);
+            $generatedQcmQuestions = array_map( function ($question) use ($security, $questionRepository) {
+                $pickedQuestion = $questionRepository->find($question['id']);
+                $isDistributed = $questionRepository->getQuestionWithReleaseDate($pickedQuestion->getId());
+                return [
+                    'question' => $pickedQuestion,
+                    'proposals' => $pickedQuestion->getProposals(),
+                    'isEditable' => count($isDistributed) === 0 && $security->getUser() === $question->getAuthor(),
+                ];
             } , $generatedQcm->getQuestionsCache());
             $moduleQuestions = $module->getQuestions();
 
@@ -405,6 +411,7 @@ class InstructorController extends AbstractController
 
                 return [
                     'question' => $instructorQuestion,
+                    'proposals' => $instructorQuestion->getProposals(),
                     'isEditable' => count($isDistributed) === 0 && $security->getUser() === $instructorQuestion->getAuthor(),
                 ];
             }, $instructorQuestions);
@@ -415,6 +422,7 @@ class InstructorController extends AbstractController
             $officialQuestions = array_map(function ($officialQuestion) {
                 return [
                     'question' => $officialQuestion,
+                    'proposals' => $officialQuestion->getProposals(),
                     'isEditable' => false
                 ];
             }, $officialQuestions);
