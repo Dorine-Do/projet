@@ -147,7 +147,8 @@ window.onload = function (event) {
             // ajout erreur 1
             pErrorRandomFetch.innerText =
                 "veuillez selectionner un module et une difficulté ";
-        } else if ( inputDifficulty.value === "null" && moduleOption.value !== "null" )
+        }
+        else if ( inputDifficulty.value === "null" && moduleOption.value !== "null" )
         {
             pErrorRandomFetch.style.display = "block";
             // ajout erreur 2
@@ -177,25 +178,24 @@ window.onload = function (event) {
             }) // promesse qui se termine en fin de page
             .then((data) => {
                 console.log('random_fetch',data);
+                let proposalQuestionsCache = document.querySelectorAll(".proposalWordingDiv" );
 
                 for ( let i = 0; i < data.generatedQcmQuestions.length; i++ )
                 {
                     ulForQuestionsCache.innerHTML += `
-                    <li class="questionLi">
-                        <div class="questionWordingDiv">
-                            <p class="questionWordingP">
-                                <span class="numeroForm"> ${i + 1}</span>
-                                ${data.generatedQcmQuestions[i].wording}
-                            </p>
-                            <p class="chevronBasP">
-                                <img src="" alt="Chevron ouvrant" class="chevronBasImg chevron">
-                            </p>
-                        </div>
-                        <div class="proposalWordingDiv"></div>
-                    </li >
+                        <li class="questionLi">
+                            <div class="questionWordingDiv">
+                                <p class="questionWordingP">
+                                    <span class="numeroForm"> ${i + 1}</span>
+                                    ${data.generatedQcmQuestions[i].wording}
+                                </p>
+                                <p class="chevronBasP">
+                                    <img src="" alt="Chevron ouvrant" class="chevronBasImg chevron">
+                                </p>
+                            </div>
+                            <div class="proposalWordingDiv"></div>
+                        </li >
                     `;
-
-                    let proposalQuestionsCache = document.querySelectorAll(".proposalWordingDiv" );
 
                     for ( let j = 0; j < data.generatedQcmQuestions[i].proposals.length; j++ ) {
                         proposalQuestionsCache[i].innerHTML += `
