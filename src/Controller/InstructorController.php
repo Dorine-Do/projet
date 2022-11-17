@@ -392,22 +392,25 @@ class InstructorController extends AbstractController
             $generatedQcm = $qcmGenerator->generateRandomQcm($module, $security->getUser(), $userRepository, $difficulty);
             $manager->persist($generatedQcm);
             $manager->flush();
-
-            $generatedQcmQuestions = $generatedQcm->getQuestions();
+//            dd($generatedQcm);
             $moduleQuestions = $module->getQuestions();
+            $generatedQcmQuestions = $moduleQuestions->filter( function ($question) use ($generatedQcm) {
+                return in_array( $generatedQcm ,$question->getQcms()->toArray());
+            });
+//             $questionRepository->findBy(['qcms' => $generatedQcm->getId()]);
+//            dd($generatedQcmQuestions);
 
             $instructorQuestions = $moduleQuestions->filter(function ($question) use ($security) {
-                return !$question->getIsOfficial() && $question->getAuthor() === $security->getUser() && $question->isEnabled();
+                return !$question->getIsOfficial() && $question->getAuthor()->getId() === $security->getUser()->getId() && $question->isEnabled();
             })->toArray();
             $instructorQuestions = array_diff($instructorQuestions, $generatedQcmQuestions->toArray());
-
             $instructorQuestions = array_map(function ($instructorQuestion) use ($questionRepository, $security) {
 
-                $isDistributed = $questionRepository->getQuestionWithReleaseDate($instructorQuestion->getId())['startTime'] === null ? false : true;
+                $isDistributed = $questionRepository->getQuestionWithReleaseDate($instructorQuestion->getId());
 
                 return [
                     'question' => $instructorQuestion,
-                    'isEditable' => !$isDistributed && $security->getUser() === $instructorQuestion->getAuthor(),
+                    'isEditable' => count($isDistributed) === 0 && $security->getUser() === $instructorQuestion->getAuthor(),
                 ];
             }, $instructorQuestions);
 
@@ -430,7 +433,7 @@ class InstructorController extends AbstractController
                 'officialQuestions' => $officialQuestions
             ];
 
-            return $this->json($data, 200, [], ["groups" => "question:read"]);
+            return $this->json($data, 200, [], ["groups" => ["question:read", "qcm:read"]]);
         }
 
          return $this->json('une erreur est survenue', 500);
