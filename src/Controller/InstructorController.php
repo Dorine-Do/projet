@@ -446,10 +446,10 @@ class InstructorController extends AbstractController
         ValidatorInterface     $validator,
         Request                $request,
         InstructorRepository   $instructorRepository,
-        QuestionRepository     $questionRepository,
         ModuleRepository       $moduleRepository,
         EntityManagerInterface $entityManager,
         QcmGeneratorHelper $generatorHelper,
+        QuestionRepository $questionRepository,
         Module $moduleId,
     ): Response
     {
@@ -480,7 +480,14 @@ class InstructorController extends AbstractController
         $module = $moduleRepository->find($moduleId);
         $qcm->setModule($module);
 
-        $questionsCache = $generatorHelper->generateQuestionCache($data['questions']);
+        $questionsEntites = [];
+        foreach ( $data['questions'] as $question )
+        {
+            $question = (array)$question;
+            $questionsEntites[] = $questionRepository->find($question['id']);
+        }
+
+        $questionsCache = $generatorHelper->generateQuestionCache($questionsEntites);
 
         $qcm->setQuestionsCache($questionsCache);
         $validator->validate($qcm);

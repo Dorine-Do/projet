@@ -821,68 +821,6 @@
 //                     });
 //                 }
 //
-//                 ////////////////////// COUNT LI QCM CHOICED IN OFFICIAL QCM
-//
-//                 // Event Validation qcm
-//                 let qcmValidationBtn = document.querySelector(".qcmValidation");
-//                 if (qcmValidationBtn)
-//                 {
-//                     qcmValidationBtn.addEventListener("click", (e) => {
-//                         let questionsSelect = {};
-//                         let qcmNameInput = document.querySelector(".qcmNameInput").value;
-//                         let module = document.querySelector(".qcmNameInput").id;
-//                         let isPublic = document.getElementById("isPublicInput").checked;
-//                         let qcmChoisedLevel = document.getElementById("qcmChoisedLevel").textContent.trim();
-//                         questionsSelect = {
-//                             name: qcmNameInput,
-//                             level: qcmChoisedLevel,
-//                             module: module,
-//                             isPublic: isPublic,
-//                             questions: [],
-//                         };
-//                         let questions = document.querySelectorAll(
-//                             ".qcmChoisedQuestionWordingDiv"
-//                         );
-//
-//                         questions.forEach((question) => {
-//                             let level = question.firstElementChild.firstElementChild.dataset.level;
-//                             let wording = question.children[1].textContent.trim();
-//                             let id = question.children[1].id;
-//                             let proposals = Array.from( question.parentElement.children[1].children );
-//
-//                             questionsSelect["questions"].push({
-//                                 id: id,
-//                                 level: level,
-//                                 wording: wording,
-//                                 proposals: [],
-//                             });
-//
-//                             proposals.forEach((p) => {
-//                                 questionsSelect["proposals"].push({
-//                                     wording: p.children[1].textContent.trim(),
-//                                     id: p.children[1].parentNode.id,
-//                                 });
-//                             });
-//                         });
-//
-//                         fetch(`/instructor/qcms/create_fetch/${module}`, {
-//                             method: "POST",
-//                             headers: {
-//                                 "Content-type": "application/json", // The type of data you're sending
-//                             },
-//                             body: JSON.stringify(questionsSelect), // The data
-//                         })
-//                         .then((res) => res.json())
-//                         .then((result) => {
-//                             if (result === "ok")
-//                             {
-//                                 window.location.href =
-//                                     "https://127.0.0.1:8000/instructor/creations/questions";
-//                             }
-//                         });
-//                     });
-//                 }
-//
 //                 /**********************************************************************************************************************/
 //                 function addProposal(e, parent, lengthProp) {
 //                     let pProp = document.createElement("p");
@@ -1005,46 +943,7 @@
 //                     });
 //                 }
 //
-//                 function calcNbrQuestionByLevel(side) {
-//                     let easyLevel = 0;
 //
-//                     let mediumLevel = 0;
-//                     let difficultyLevel = 0;
-//
-//                     let questions = side.querySelectorAll(".qcmChoisedTrefle");
-//                     if (side)
-//                     {
-//                         questions.forEach((question) => {
-//                             if (question.dataset.level === "easy") {
-//                                 easyLevel++;
-//                             } else if (question.dataset.level === "medium") {
-//                                 mediumLevel++;
-//                             } else {
-//                                 difficultyLevel++;
-//                             }
-//                         });
-//                     }
-//
-//                     let pEasy = document.getElementById("easy");
-//                     pEasy.innerHTML = easyLevel;
-//                     let pMedium = document.getElementById("medium");
-//                     pMedium.innerHTML = mediumLevel;
-//                     let pDifficult = document.getElementById("difficulty");
-//                     pDifficult.innerHTML = difficultyLevel;
-//
-//                     let qcmChoisedLevel = document.getElementById("qcmChoisedLevel");
-//                     if ( difficultyLevel > mediumLevel && difficultyLevel > mediumLevel )
-//                     {
-//                         qcmChoisedLevel.innerHTML = "Difficile";
-//                     }
-//                     else if ( mediumLevel > difficultyLevel && mediumLevel > easyLevel ) {
-//                         qcmChoisedLevel.innerHTML = "Moyen";
-//                     }
-//                     else
-//                     {
-//                         qcmChoisedLevel.innerHTML = "Facile";
-//                     }
-//                 }
 //             });
 //         }
 //     });
@@ -1057,10 +956,18 @@
 
 // REFACTO TOTALE DU FICHIER
 let moduleOption, difficultyOptions, selectedModule, selectedDifficulty, generateQcmBtn, generationErrorBlock;
-let generatedQcmResumeBlock, showGeneratedQcmResumeBtn;
-let personalizeQcmBtn, pickableOfficialQuestionsList, pickableCustomQuestionsList, pickedQuestionsList;
+let generatedQcmResumeBlock, showGeneratedQcmResumeBtn, validateQcmButtonWhitoutChange;
+let personalizeQcmBlock, personalizeQcmBtn, pickableOfficialQuestionsList, pickableCustomQuestionsList, pickedQuestionsList;
+let pickableCustomQuestionsBnt, pickableOfficialQuestionsBnt, moveTopickableQuestionsListBtn, moveTopickedQuestionsListBtn;
+let qcmValidationBtn
+
 const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
-const difficultyImages = [ 'trefle_facile_bon_vert.png', 'trefle_moyen_bon_vert.png', 'trefle_difficile_bon_vert.png' ]
+const difficultyImages =
+    [
+        'trefle_facile_bon_vert.1ad9fa1e.png',
+        'trefle_moyen_bon_vert.37c52905.png',
+        'trefle_difficile_bon_vert.73839ef1.png'
+    ]
 const levels = ['easy', 'medium', 'difficult']
 
 function generateRandomQcm()
@@ -1072,13 +979,14 @@ function generateRandomQcm()
     }
     else
     {
-        displayGenerationError();
+        displayGenerationError(generationErrorBlock, 'Vueillez selectionner un module ET une difficulté');
     }
 }
 
-function displayGenerationError()
+function displayGenerationError(element, text)
 {
-    generationErrorBlock.innerText = 'Vueillez selectionner un module ET une difficulté';
+    element.classList.remove('displayNone')
+    element.innerText = text;
 }
 
 function fetchGeneratedQcm()
@@ -1086,15 +994,81 @@ function fetchGeneratedQcm()
     fetch(`/instructor/qcms/random_fetch/${selectedModule}/${selectedDifficulty}`, {method: 'GET'})
         .then( response => response.json() )
         .then( data => {
-            console.log(data)
             let generatedQcmQuestions = Object.values(data.generatedQcmQuestions);
             let officialQuestions = Object.values(data.officialQuestions);
             let instructorQuestions = Object.values(data.instructorQuestions);
             fillGeneratedQcmResumeBlock( generatedQcmQuestions );
             fillQcmPersonalizer( officialQuestions, instructorQuestions, generatedQcmQuestions )
-            generatedQcmResumeBlock.style.display = 'block';
+            generatedQcmResumeBlock.classList.remove('displayNone')
             smoothScrollTo('#generatedQcmResumeBlock');
         })
+}
+
+function fetchCreateQcmPerso()
+{
+    qcmValidationBtn.addEventListener("click", (e) => {
+        let questionsSelect = {};
+        let choosenQcmName = document.querySelector("#choosenQcmName").value;
+
+        if (!choosenQcmName)
+        {
+            let errorMessageChoseNameQcm = document.getElementById('errorMessageChoseNameQcm')
+            displayGenerationError(errorMessageChoseNameQcm, "Veuillez choisir un nom pour ce qcm")
+        }
+
+        let module = selectedModule;
+        let isPublic = document.getElementById("isPublicInput").checked;
+        /***********/
+        let qcmChoisedLevel = document.getElementById("qcmChoisedLevel").textContent.trim();
+
+        questionsSelect = {
+            name: choosenQcmName,
+            level: qcmChoisedLevel,
+            module: module,
+            isPublic: isPublic,
+            questions: [],
+        };
+
+        let questions = pickedQuestionsList.querySelectorAll(
+            ".qcmChoisedLi"
+        );
+
+        questions.forEach((question) => {
+            let level = question.querySelector('.qcmChoisedTrefle').dataset.level;
+            let wording = question.querySelector('.questionWordingP').lastChild.textContent.trim();
+            let id = question.dataset.questionid
+            let proposals = Array.from(question.querySelector('.proposalWordingDiv'));
+
+            questionsSelect["questions"].push({
+                id: id,
+                level: level,
+                wording: wording,
+                proposals: [],
+            });
+
+            proposals.forEach((prop) => {
+                questionsSelect["proposals"].push({
+                    wording: prop.children[1].textContent.trim(),
+                    id: prop.dataset.proposalid,
+                });
+            });
+        });
+
+        fetch(`/instructor/qcms/create_fetch/${module}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json", // The type of data you're sending
+            },
+            body: JSON.stringify(questionsSelect), // The data
+        })
+            .then((res) => res.json())
+            .then((result) => {
+                if (result === "ok") {
+                    window.location.href =
+                        "https://127.0.0.1:8000/instructor/creations/questions";
+                }
+            });
+    });
 }
 
 function fillGeneratedQcmResumeBlock( questions )
@@ -1126,20 +1100,44 @@ function fillGeneratedQcmResumeBlock( questions )
     })
 
     showGeneratedQcmResumeBtn.addEventListener('click', displayGeneratedQcmQuestionsList);
+    personalizeQcmBtn.addEventListener('click', displayQcmPersonalizer);
+    // TODO Voir Avec Matthieu pk ça ne fonciton pas
+    // validateQcmButtonWhitoutChange.addEventListener('click', fetchCreateQcmPerso)
 }
 
-function displayGeneratedQcmQuestionsList()
+function displayQcmPersonalizer(e)
 {
-    let questionsList = generatedQcmResumeBlock.querySelector('ul');
-    if( questionsList.style.display === 'none' )
+    personalizeQcmBlock.classList.remove('displayNone')
+    smoothScrollTo("#personalizeQcmBlock")
+
+    let qcmPersonalizerButtonShow = personalizeQcmBlock.querySelector('#qcmPersonalizerButtonShow');
+    qcmPersonalizerButtonShow.addEventListener('click', (e)=>{
+        let containerQcmPersonalizer = personalizeQcmBlock.querySelector('#containerQcmPersonalizer');
+        containerQcmPersonalizer.classList.toggle("displayNone");
+
+        if( !containerQuestionsList.className.contains('displayNone') )
+        {
+            e.target.innerText = 'Masquer la partie personalisation du qcm';
+        }
+        else if( containerQuestionsList.className.contains('displayNone') )
+        {
+            e.target.innerText = 'Voir la partie personalisation du qcm';
+        }
+    })
+}
+
+function displayGeneratedQcmQuestionsList(e)
+{
+    let containerQuestionsList = generatedQcmResumeBlock.querySelector('#containerQuestionsList');
+    containerQuestionsList.classList.toggle("displayNone");
+
+    if( !containerQuestionsList.classList.contains('displayNone') )
     {
-        this.innerText = 'Masquer les questions';
-        questionsList.style.display = 'grid';
+        e.target.innerText = 'Masquer les questions';
     }
-    else if( questionsList.style.display === 'grid' )
+    else if( containerQuestionsList.classList.contains('displayNone') )
     {
-        this.innerText = 'Voir les questions';
-        questionsList.style.display = 'none';
+        e.target.innerText = 'Voir les questions';
     }
 }
 
@@ -1147,45 +1145,38 @@ function fillQcmPersonalizer( officialQuestions ,customQuestions, pickedQuestion
 {
     for (let i = 0; i < officialQuestions.length; i++)
     {
-        createQuestionLi(officialQuestions[i], i, pickableOfficialQuestionsList);
+        createQuestionLi(officialQuestions[i], i, pickableOfficialQuestionsList, true );
     }
 
     for (let i = 0; i < customQuestions.length; i++)
     {
-        createQuestionLi(customQuestions[i], i, pickableCustomQuestionsList);
+        createQuestionLi(customQuestions[i], i, pickableCustomQuestionsList, false);
     }
 
     for (let i = 0; i < pickedQuestions.length; i++)
     {
-        createQuestionLi(pickedQuestions[i], i, pickedQuestionsList);
+        createQuestionLi(pickedQuestions[i], i, pickedQuestionsList, true );
     }
 
     let chevrons = document.querySelectorAll('.qcmChoisedLi .chevron')
     for (let i = 0; i < chevrons.length; i++)
     {
-        chevrons[i].addEventListener('click', function(){
+        chevrons[i].addEventListener('click', function(e){
             let proposalBlock = this.closest('.qcmChoisedLi').querySelector('.proposalWordingDiv');
-            if( proposalBlock.style.display === 'none' )
-            {
-                proposalBlock.style.display === 'block';
-                this.style.transform = 'rotate("180deg")';
-            }
-            else if( proposalBlock.style.display === 'block' )
-            {
-                proposalBlock.style.display === 'none';
-                this.style.transform = 'rotate("180deg")';
-            }
+            proposalBlock.classList.toggle('displayNone')
+            chevrons[i].classList.toggle('rotate')
         })
     }
 }
 
-function createQuestionLi( sourceQuestion, questionIndex, elementsList )
+function createQuestionLi( sourceQuestion, questionIndex, elementsList, isOfficial )
 {
     const {question, proposals, isEditable} = sourceQuestion;
     let modifyIcon =  isEditable ? '<div class="modifyQuestionImgDiv"><img src="/build/images/modifier.cd0cd657.png" class="modifyQuestionImg" alt="bouton modifier"/></div>' : '';
     let li = document.createElement('li');
     li.classList.add('qcmChoisedLi');
     li.dataset.questionid = question.id;
+    li.dataset.isofficial = isOfficial
     li.innerHTML = `
         <div class="qcmChoisedLiDiv">
             <div class="questionWordingDiv qcmChoisedQuestionWordingDiv">
@@ -1194,14 +1185,17 @@ function createQuestionLi( sourceQuestion, questionIndex, elementsList )
                         src="/build/images/${difficultyImages[question.difficulty - 1]}" 
                         alt="trefle difficulté ${question.difficulty}"
                         data-level="${levels[question.difficulty - 1]}"
+                        class="qcmChoisedTrefle"
                     >
                 </p>
-                <p class="qcmChoisedQuestionWordingP questionWordingP" data-questionid="${ question.id }">
+                <p class="qcmChoisedQuestionWordingP questionWordingP" 
+                    data-questionid="${ question.id }" 
+                    data-isofficial="${isOfficial}">
                     <span>${questionIndex + 1}</span>  
                     ${question.wording}
                 </p>
                 <p class="qcmChoisedchevronBasP">
-                    <img src="/build/images/chevron_bas.216a40a5.svg" alt="Chevron ouvrant" class="qcmChoisedchevronBasImg chevron">
+                    <img src="/build/images/chevron_bas.de9c9a9d.png" alt="Chevron ouvrant" class="qcmChoisedchevronBasImg chevron">
                 </p>
                 ${modifyIcon}
             </div>
@@ -1214,21 +1208,142 @@ function createQuestionLi( sourceQuestion, questionIndex, elementsList )
     proposals.forEach( (proposal, index) => {
         let div = document.createElement('div');
         div.classList.add('proposalWordingP');
+        div.dataset.proposalid = `${proposal.id}`
         div.innerHTML = `
             <span class="numeroProp nPropPartTwo">${letters[index]}</span>
             ${proposal.wording}
         `;
         proposalsList.append(div);
     });
-
+    let qcmChoisedQuestionWordingP = li.querySelector(".qcmChoisedQuestionWordingP")
+    qcmChoisedQuestionWordingP.addEventListener('click', chooseQuestionToMove)
 }
 
 function smoothScrollTo( targetElement )
 {
-    document.querySelector( targetElement ).scroll({
-        behavior: "smooth",
-        block: 'center'
+    document.querySelector( targetElement ).scrollIntoView({
+        behavior: "smooth"
     })
+}
+
+function chooseQuestionToMove(e)
+{
+    let li = e.target.closest('.qcmChoisedLi')
+    li.classList.toggle('chosenElement')
+}
+
+function moveTo(e)
+{
+    let questionsChosen;
+    let destination;
+    if (e.target.id === 'moveToPickedQuestionsList')
+    {
+        let officialQuestionsChosen = Array.from(pickableOfficialQuestionsList.querySelectorAll('.chosenElement'))
+        let customQuestionsChosen = Array.from(pickableCustomQuestionsList.querySelectorAll('.chosenElement'))
+        questionsChosen = customQuestionsChosen.concat(officialQuestionsChosen)
+        destination = "picked"
+    }
+    else if (e.target.id === 'moveToPickableQuestionsList')
+    {
+        questionsChosen = pickedQuestionsList.querySelectorAll('.chosenElement')
+        destination = "pickable"
+    }
+    questionsChosen.forEach( question => {
+        question.classList.remove('chosenElement')
+        question.remove()
+        if (destination === "pickable")
+        {
+            if (question.dataset.isofficial === "true")
+            {
+                pickableOfficialQuestionsList.append(question)
+            }else
+            {
+                pickableCustomQuestionsList.append(question)
+            }
+        }else
+        {
+            pickedQuestionsList.append(question)
+            calcNbrQuestionByLevel(pickedQuestionsList)
+        }
+    })
+}
+
+function displayPickableQuestionList(e)
+{
+    if (e.target.id === "pickableCustomQuestionsBnt")
+    {
+        pickableOfficialQuestionsList.parentNode.classList.add('displayNone')
+        pickableCustomQuestionsList.parentNode.classList.remove('displayNone')
+
+        e.target.classList.add('btnQuestionsActive')
+        pickableOfficialQuestionsBnt.classList.remove('btnQuestionsActive')
+    }
+    else if (e.target.id === "pickableOfficialQuestionsBnt")
+    {
+        pickableOfficialQuestionsList.parentNode.classList.remove('displayNone')
+        pickableCustomQuestionsList.parentNode.classList.add('displayNone')
+
+        e.target.classList.add('btnQuestionsActive')
+        pickableCustomQuestionsBnt.classList.remove('btnQuestionsActive')
+    }
+}
+
+function calcNbrQuestionByLevel(side)
+{
+    let easyLevel = 0;
+    let mediumLevel = 0;
+    let difficultyLevel = 0;
+
+    let questions = side.querySelectorAll(".qcmChoisedTrefle");
+    questions.forEach((question) => {
+        if (question.dataset.level === "easy") {
+            easyLevel++;
+        } else if (question.dataset.level === "medium") {
+            mediumLevel++;
+        } else {
+            difficultyLevel++;
+        }
+    });
+
+    let pEasy = document.getElementById("easy");
+    pEasy.innerHTML = easyLevel;
+    let pMedium = document.getElementById("medium");
+    pMedium.innerHTML = mediumLevel;
+    let pDifficult = document.getElementById("difficulty");
+    pDifficult.innerHTML = difficultyLevel;
+
+    let qcmChoisedLevel = document.getElementById("qcmChoisedLevel");
+    if ( difficultyLevel > mediumLevel && difficultyLevel > mediumLevel )
+    {
+        qcmChoisedLevel.innerHTML = "Difficile";
+    }
+    else if ( mediumLevel > difficultyLevel && mediumLevel > easyLevel )
+    {
+        qcmChoisedLevel.innerHTML = "Moyen";
+    }
+    else if ( easyLevel > mediumLevel && easyLevel > difficultyLevel )
+    {
+        qcmChoisedLevel.innerHTML = "Facile";
+    }
+    else
+    {
+        qcmChoisedLevel.innerHTML = "Moyen";
+    }
+}
+
+function displayModal()
+{
+    let modalExplaination = document.querySelector(".blocModalExplaination");
+    let crossExplaination = document.querySelector(".modal > img");
+    let btnExplaination = document.querySelector("#showModalExplanationBtn");
+
+        btnExplaination.addEventListener("click", function (e) {
+            modalExplaination.style.display = "flex";
+        });
+
+        crossExplaination.addEventListener("click", function (e) {
+            modalExplaination.style.display = "none";
+        });
 }
 
 document.addEventListener('DOMContentLoaded', function(){
@@ -1238,10 +1353,27 @@ document.addEventListener('DOMContentLoaded', function(){
     generationErrorBlock = document.querySelector('#generationError');
     generatedQcmResumeBlock = document.querySelector('#generatedQcmResumeBlock');
     showGeneratedQcmResumeBtn = document.querySelector('#showGeneratedQcmResumeButton');
+
     personalizeQcmBtn = document.querySelector('#personalizeQcmButton');
+    personalizeQcmBlock = document.querySelector('#personalizeQcmBlock');
+
+    validateQcmButtonWhitoutChange = document.querySelector('#validateQcmButtonWhitoutChange')
+
     pickableOfficialQuestionsList = document.querySelector('#pickableOfficialQuestionsList');
     pickableCustomQuestionsList = document.querySelector('#pickableCustomQuestionsList');
+
     pickedQuestionsList = document.querySelector('#pickedQuestionsList');
+
+    pickableCustomQuestionsBnt = document.querySelector('#pickableCustomQuestionsBnt');
+    pickableOfficialQuestionsBnt = document.querySelector('#pickableOfficialQuestionsBnt');
+
+    moveTopickableQuestionsListBtn = document.querySelector('#moveToPickableQuestionsList');
+    moveTopickedQuestionsListBtn = document.querySelector('#moveToPickedQuestionsList');
+
+    qcmValidationBtn = document.querySelector("#validationCreationQcmBnt");
+
+    displayModal()
+
 
     moduleOption.addEventListener('change', function() {
         selectedModule = this.value;
@@ -1255,5 +1387,12 @@ document.addEventListener('DOMContentLoaded', function(){
     }
 
     generateQcmBtn.addEventListener('click', generateRandomQcm);
-    // personalizeQcmBtn.addEventListener('click', )
+
+    moveTopickableQuestionsListBtn.addEventListener('click', moveTo)
+    moveTopickedQuestionsListBtn.addEventListener('click', moveTo)
+
+    pickableCustomQuestionsBnt .addEventListener('click', displayPickableQuestionList)
+    pickableOfficialQuestionsBnt .addEventListener('click', displayPickableQuestionList)
+
+    qcmValidationBtn.addEventListener('click', fetchCreateQcmPerso)
 })

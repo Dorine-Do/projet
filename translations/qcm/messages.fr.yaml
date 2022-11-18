@@ -102,8 +102,10 @@ button:
   pass: Passer
   progress: Ma progression
   level: Mon niveau
-  seeQcm: Voir mon QCM
-  personalized: Personnaliser
+  seeQuestions: Voir le QCM
+  hideQuestions : Masquer le qcm
+  hideQcmPersonalizer: Masquer la partie personalisation du qcm
+  showQcmPersonalizer: Montrer la partie personalisation du qcm
   explanation: Explication
   officialQuestions: Questions officielles
   personalizedQuestions: Questions personalisées
