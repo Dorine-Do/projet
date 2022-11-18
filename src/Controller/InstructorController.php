@@ -512,7 +512,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         $questionsCache = $generatorHelper->generateQuestionCache($data['questions']);
 
             $qcm->setQuestionsCache($questionsCache);
-dd($qcm);
+// dd($qcm);
             $validator->validate($qcm);
             $entityManager->persist($qcm);
             $entityManager->flush();
@@ -876,3 +876,49 @@ dd($qcm);
 
         }
     }
+
+    // #[Route('instructor/qcms/random_fetch/{module}/{difficulty}', name: 'instructor_qcm_random_fetch', methods: ['GET'])]
+    // public function qcmRandomFetch(
+    //    Module  $module,
+    //    UserRepository $userRepository,
+    //    Security $security,
+    //    QuestionRepository $questionRepository,
+    //    EntityManagerInterface $manager,
+    //    $difficulty = 2,
+    // ):JsonResponse
+    // {
+    //    if ($module && $difficulty) {
+    //        $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
+    //        $generatedQcm = $qcmGenerator->generateRandomQcm($module, $security->getUser(), $userRepository, $difficulty);
+    //        $manager->persist($generatedQcm);
+    //        $manager->flush();
+
+    //        $generatedQcmQuestions = $generatedQcm->getQuestions();
+    //        $moduleQuestions = $module->getQuestions();
+
+    //        $instructorQuestions = $moduleQuestions->filter(function ($question) use ($security) {
+    //            return !$question->getIsOfficial() && $question->getAuthor() === $security->getUser() && $question->isEnabled();
+    //        })->toArray();
+    //        $instructorQuestions = array_diff($instructorQuestions, $generatedQcmQuestions->toArray());
+
+    //        $instructorQuestions = array_map(function ($instructorQuestion) use ($questionRepository, $security) {
+
+    //            $isDistributed = $questionRepository->getQuestionWithReleaseDate($instructorQuestion->getId())['startTime'] === null ? false : true;
+
+    //            return [
+    //                'question' => $instructorQuestion,
+    //                'isEditable' => !$isDistributed && $security->getUser() === $instructorQuestion->getAuthor(),
+    //            ];
+    //        }, $instructorQuestions);
+
+    //        $officialQuestions = $moduleQuestions->filter(function ($question) {
+    //            return $question->getIsOfficial() && $question->isEnabled();
+    //        })->toArray();
+    //        $officialQuestions = array_diff($officialQuestions, $generatedQcmQuestions->toArray());
+
+    //        $officialQuestions = array_map(function ($officialQuestion) {
+    //            return [
+    //                'question' => $officialQuestion,
+    //                'isEditable' => false
+    //            ];
+    //        }, $officialQuestions);

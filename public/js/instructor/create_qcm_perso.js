@@ -53,35 +53,31 @@ window.onload = function (event) {
 
   let pErrorSelectM = document.createElement("p");
   pErrorSelectM.innerText = "Veuillez selectionner un module";
-  pErrorSelectM.className = "pRandomFetch"
+  pErrorSelectM.className = "pRandomFetch";
 
   document.querySelector(".blocBorderChoiceDifficulties").after(pErrorSelectM);
   pErrorSelectM.style.display = "none";
   console.log(selectModule.value, "yela");
 
   if (selectModule.value === "null" && inputDifficulty.value === "") {
-
     for (let li = 0; li < liDifficultyQcmModule.length; li++) {
-      liDifficultyQcmModule[li].addEventListener("click", function (e){
+      liDifficultyQcmModule[li].addEventListener("click", function (e) {
         pErrorSelectM.style.display = "block";
-      })
+      });
     }
 
     selectModule.addEventListener("change", function (e) {
-
       let targetModule = e.target.value;
 
       if (
-        (targetModule !== "null" || targetModule !== "Veuillez choisir un module") &&
-          inputDifficulty.value === ""
+        (targetModule !== "null" ||
+          targetModule !== "Veuillez choisir un module") &&
+        inputDifficulty.value === ""
       ) {
-
         pErrorSelectM.style.display = "none";
 
         for (let li = 0; li < liDifficultyQcmModule.length; li++) {
-
           liDifficultyQcmModule[li].addEventListener("click", function (e) {
-
             if (selectModule.value !== "null") {
               inputDifficulty.value = `${e.target.dataset.difficulty}`;
               //ajout bg li
@@ -184,7 +180,7 @@ window.onload = function (event) {
           }
         }) // promesse qui se termine en fin de page
         .then((data) => {
-          console.log('random_fetch',data);
+          console.log("random_fetch", data);
           // console.log(data.randomQuestion.length);
 
           for (
@@ -968,6 +964,8 @@ window.onload = function (event) {
                   question.parentElement.children[1].children
                 );
 
+                let testProp = {};
+
                 console.log(
                   question.parentElement.children[1].children,
                   "proposal"
@@ -981,10 +979,13 @@ window.onload = function (event) {
                   wording: wording,
                   proposals: [],
                 });
+                console.log(questionsSelect["questions"]["proposals"]);
+                console.log(testProp);
                 proposals.forEach((p) => {
-                  questionsSelect["proposals"].push({
-                    wording: p.children[1].textContent.trim(),
-                    id: p.children[1].parentNode.id,
+                  questionsSelect["questions"].push({
+                    wording: p.lastChild.nodeValue,
+                    id: p.parentElement.parentElement.firstElementChild
+                      .children[1].id,
                   });
                   console.log(p, "proposals 2");
                 });
