@@ -42,6 +42,10 @@ function resizeSup420(){
             p.style.marginBottom = 0
             p.style.marginTop= 1.5 + 'em'
         }
+
+        if(p.firstElementChild.className === "failQcm"){
+            p.style.padding = "0.5em 0.3em"
+        }
     } )
 
     // Élement de la time line ( p(badge) + div(qcm => isOfficialQcm) )
@@ -90,6 +94,9 @@ function resize420() {
         p.style.marginTop = 0
         if ((key+1) % 2 === 0){
             p.parentNode.classList.add('isOfficialQcmOdd')
+        }
+        if(p.firstElementChild.className === "failQcm"){
+            p.style.padding = ".6em 0.4em"
         }
     } )
 

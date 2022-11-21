@@ -31,6 +31,11 @@ function updateModuleSelect( field, fieldData )
         field.append(option);
     });
     updateQcmsFromAjax( fieldData[0].id, qcmField );
+
+    document.getElementById('module-choice').scrollIntoView({
+        behavior: 'smooth',
+        block: "center"
+    });
 }
 
 function updateStudentOptions( field, fieldData )
@@ -42,7 +47,7 @@ function updateStudentOptions( field, fieldData )
         let div = document.createElement('div');
         div.classList.add('divStudentOption')
         input.type = 'checkbox';
-        input.name = 'students['+ data.id +']';
+        input.name = 'student';
         input.value = data.id;
         input.setAttribute('id', 'students['+ data.id +']' )
         label.innerText = data.firstName + ' ' + data.lastName;
@@ -52,6 +57,13 @@ function updateStudentOptions( field, fieldData )
         field.append(div);
 
     });
+    moduleField.addEventListener('change', function (){
+        document.getElementById('qcm-choice').scrollIntoView({
+            behavior: 'smooth',
+            block: "center"
+        });
+    })
+
 }
 
 function updateQcmSelect( field, fieldData )
@@ -63,20 +75,64 @@ function updateQcmSelect( field, fieldData )
         option.innerText = data.title;
         field.append(option);
     });
+
+    moduleField.addEventListener('change', function (){
+        document.getElementById('qcm-students').scrollIntoView({
+            behavior: 'smooth',
+            block: "center"
+        });
+    })
+}
+
+function buildMessageError(e,parent, message, id){
+    e.preventDefault()
+    let p = document.createElement('p')
+    p.innerHTML = message
+    p.style.color = 'red'
+    p.style.width = '100%'
+    p.style.textAlign = 'center'
+    p.id = id
+    p.className = "messageError"
+    parent.append(p)
 }
 
 function submitForm(e){
+    let messagesError = document.querySelectorAll('.messageError')
+    messagesError.forEach( (message) => {
+        message.remove()
+    } )
+
     let firstDate = new Date(startDateField.value)
     let secondDate = new Date(endDateField.value)
 
+    let sessionfield = document.querySelector('input[name="session"]:checked')
+    let moduleFieldValue = document.querySelector('#module-choice').value
+    let qcmFieldValue = document.querySelector('#qcm-choice').value
+    let studentsField = document.querySelectorAll('input[name="student"]:checked')
+
     if(secondDate.getTime() < firstDate.getTime()){
-        e.preventDefault()
-        let p = document.createElement('p')
-        p.innerHTML = "La date de fin ne peut pas être inférieure à la date de début"
-        p.style.color = 'red'
-        p.style.width = '100%'
-        p.style.textAlign = 'center'
-        divDate.append(p)
+        buildMessageError(e,divDate, "La date de fin ne peut pas être inférieure à la date de début", "errorDate")
+    }
+
+    if (!startDateField.value || !endDateField.value){
+        console.log('yep')
+        buildMessageError(e,divDate, "Veuillez choisir une date", "errorDates")
+    }
+
+    if(!sessionfield){
+        buildMessageError(e,sessionfields[0].parentNode.parentNode, "Veuillez choisir une session", "errorSession")
+    }
+
+    if(!moduleFieldValue){
+        buildMessageError(e,moduleField.parentNode, "Veuillez choisir un module", "errorModule")
+    }
+
+    if(!qcmFieldValue){
+        buildMessageError(e,qcmField.parentNode, "Veuillez choisir un qcm", "errorQcm")
+    }
+
+    if(studentsField.length === 0){
+        buildMessageError(e,studentsFields.parentNode, "Veuillez choisir un/des élèves", "errorStudents")
     }
 }
 

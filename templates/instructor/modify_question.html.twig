@@ -43,7 +43,7 @@
                         </div>
                     </td>
                     <td colspan="2" class="premierSelect">
-                        {{form_widget(form.module, { 'disabled' : true })}}
+                        {{form_widget(form.module, { 'disabled' : true, 'attr': {'class': 'selectVarFond'} })}}
                     </td>
                 </tr>
                 <tr>
@@ -155,7 +155,7 @@
                         </p>
                     </td>
                     <td colspan="2" class="premierSelect">
-                        {{form_widget(form.module)}}
+                        {{form_widget(form.module, {'attr': {'class': 'selectVarFond'}})}}
                     </td>
                 </tr>
                 <tr>
@@ -229,7 +229,7 @@
                             {{ 'question.desactivate'|trans }}
                         </p>
                     </td>
-                    <td colspan="2" class="option">
+                    <td colspan="2" class="second">
                         <p class="center">
                             {{ form_widget(form.is_enabled) }} {{ 'question.desactivateExplain'|trans }}
                         </p>
@@ -251,8 +251,8 @@
                 {% if 'ROLE_ADMIN' in app.user.roles %}
                     <tr>
                         <td colspan="2" class="premier">
-                            <p class="etape">
-                                <span class="numeroForm">Option</span>
+                            <p class="align">
+                                <span class="circle orangeCircle">Option</span>
                                 {{ 'question.isMandatoty'|trans }}
                             </p>
                         </td>
@@ -277,7 +277,7 @@
     <script>
         let add = {{add|json_encode}};
         let imgPath = [];
-        imgPath.push('{{asset('build/images/trefle_facile.svg')}}', '{{asset('build/images/trefle_moyen.svg')}}', '{{asset('build/images/difficil_difficile.svg')}}')
+        imgPath.push('{{asset('build/images/trefle_facile.png')}}', '{{asset('build/images/trefle_moyen.png')}}', '{{asset('build/images/difficil_difficile.png')}}')
     </script>
 
     <script type="text/javascript" src="{{ asset('js/instructor/question_form_error_handling.js') }}"></script>

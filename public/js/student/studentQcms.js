@@ -1,10 +1,13 @@
-
 function manageErrorChoice (element, color, choice){
+    let pError = document.getElementById('p-error')
+    if(pError !== null){
+        pError.remove()
+    }
     let p = document.createElement('p')
     p.innerHTML = `Sélectionne bien ton ${choice}`
+    p.id = 'p-error'
     p.style.color = color
     p.style.padding = '.2em'
-    console.log(element)
     element.parentNode.append(p)
 }
 

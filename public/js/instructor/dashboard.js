@@ -1,5 +1,5 @@
 let liSession, liLevel, levelDiv, studentsDiv, qcmsDiv = null
-let namesLevel, levelChoice, liStudentsData, nameSession, moduleId, sessionId, selectModule, ulListQcms, ulListStudents, liStudentData = null
+let namesLevel, pNoStudents, liStudentsData, nameSession, moduleId, sessionId, selectModule, ulListQcms, ulListStudents, liStudentData = null
 
 //Ajax
 function getModuleBySessionFromAjax(sessionId){
@@ -31,9 +31,21 @@ function getQcmsDoneByStudentFromAjax(sessionId, moduleId, studentId){
 
 //Display
 function displayModules(data){
+    ulListStudents = document.querySelector('.ulListStudents')
+    studentsDiv = document.querySelector('.students')
+    studentsDiv.style.display = "none"
+    ulListStudents.innerHTML = ""
+
+    qcmsDiv = document.querySelector('.qcms')
+    ulListQcms = document.querySelector('.ulListQcms')
+    qcmsDiv.style.display = "none"
+    ulListQcms.innerHTML = ""
+
+
     levelDiv.style.display = 'block'
 
     selectModule.innerHTML = ""
+
     let option = document.createElement('option')
     option.innerHTML = 'Séléctionner un module'
     selectModule.append(option)
@@ -54,7 +66,13 @@ function displayModules(data){
 
 
 function displayStudents(data){
+    qcmsDiv.style.display = "none"
+    ulListQcms.innerHTML = ""
+
+
     ulListStudents.innerHTML = ''
+
+
     data.forEach( student => {
         let div = createElementSimple('div', 'divStudentData')
         let liStudentData = createElementSimple('li', 'liStudentData')
@@ -82,6 +100,7 @@ function displayStudents(data){
 
         liStudentData.append(radio, label, input)
         div.append(liStudentData, img)
+        ulListStudents.style.display = 'grid'
         ulListStudents.append(div)
     })
 
@@ -90,6 +109,7 @@ function displayStudents(data){
     if (data.length === 0){
         let div = createElementSimple('p', 'noStudent')
         div.innerHTML = "Aucun étudiant n'a encore de note dans cette session"
+        ulListStudents.style.display = 'block'
         ulListStudents.append(div)
     }
 
@@ -102,7 +122,6 @@ function displayStudents(data){
 
 function displayQcmsDone(data){
     qcmsDiv.style.display = 'block'
-    ulListQcms = qcmsDiv.querySelector('.ulListQcms')
     ulListQcms.innerHTML = ""
     data.forEach( qcm => {
         let li = createElementSimple('li', 'liQcmDone')
@@ -238,7 +257,6 @@ function showStudentByModules(e){
     studentsDiv.style.display = 'block'
     if (moduleId !== e.target.value){
         qcmsDiv.style.display = 'none';
-        ulListStudents = studentsDiv.querySelector('.ulListStudents')
         ulListStudents.innerHTML = ""
         moduleId = e.target.value
         getStudentsByModuleFromAjax(sessionId, moduleId)
@@ -259,23 +277,45 @@ function showModulesBySessions(){
 function displayContact(){
     namesLevel.forEach( input => {
         input.addEventListener('click', (e)=>{
-            qcmsDiv = document.querySelector('.qcms')
             if (qcmsDiv.style.display === 'block'){
                 qcmsDiv.style.display = "none"
                 ulListQcms.innerHTML = ""
             }
+            pNoStudents.style.display = "none"
+
+            let hasStudent = false
+
             liStudentsData = document.querySelectorAll('.liStudentData')
             liStudentsData.forEach( li => {
+
                 let level = li.lastChild.dataset.level
-                if(levelChoice !== level && e.target.value === '0'){
+                console.log(li)
+                console.log(level.toString())
+                console.log(e.target.value)
+                if ( e.target.value === '0'){
                     li.parentNode.style.display = 'flex'
-                }else if(levelChoice !== level && level.toString() !== e.target.value){
-                    li.parentNode.style.display = 'none'
-                }else{
-                    li.parentNode.style.display = 'flex'
+                    hasStudent = true
                 }
-                levelChoice = level;
+                else if(e.target.value === level){
+                    li.parentNode.style.display = 'flex'
+                    hasStudent = true
+                }
+                else if(level.toString() !== e.target.value){
+                    li.parentNode.style.display = 'none'
+                }
             })
+
+            pNoStudents.innerText = "Aucun étudiant n'a ce niveau pour ce module"
+            pNoStudents.className = "pNoStudents"
+            pNoStudents.style.display = "none"
+            ulListStudents.append(pNoStudents)
+
+            if (!hasStudent){
+                pNoStudents.style.display = "block"
+            }else{
+                pNoStudents.style.display = "none"
+            }
+
         })
     })
 }
@@ -316,6 +356,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     studentsDiv = document.querySelector('.students')
     qcmsDiv = document.querySelector('.qcms')
     selectModule = document.getElementById('module-choice')
+    ulListStudents = document.querySelector('.ulListStudents')
+
+    pNoStudents = document.createElement('p')
 
     selectModule.addEventListener('change', showStudentByModules)
     positionLabelInput(liSession)

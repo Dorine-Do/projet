@@ -12,10 +12,12 @@
     <div class="containerTimeLine">
         <div class="lineX"></div>
         <div class="timeLine">
+            {% set idModule = ""  %}
             {% set getBadge = "" %}
             {% for moduleGroup in moduleGroups %}
                 {% for key, qcm in moduleGroup %}
                     {% if not key is same as 'getBadge' %}
+                        {% set idModule = qcm.moduleId  %}
                         <div class="isOfficialQcm groupElementTimeLine"
                              data-level = "{{ qcm.level }}"
                              data-endDate = "{{ qcm.endDate }}"
@@ -23,12 +25,16 @@
                             <div class="lineY"></div>
                             <div class="infoQcm">
                                 <p class="infoTimeLine moduleTitle" data-id = "{{ qcm.moduleId }}"> {{ qcm.moduleTitle }} </p>
-                                <a href="{{ path('student_qcm_training', {module: qcm.moduleId} ) }}"><p class="infoTimeLine iTrainning"> {{ 'qcm.iTrainning'|trans }} </p></a>
+                               <p class="infoTimeLine iTrainning"> <a href="{{ path('student_qcm_training', {module: qcm.moduleId} ) }}">{{ 'qcm.iTrainning'|trans }}  </a></p>
                             </div>
                         {% if qcm.level is same as 1 or qcm.level is same as 2%}
-                            <p class="passOrNot">X</p>
+                            <p class="passOrNot">
+                                <img class="failQcm" src="{{asset('build/images/fail_qcm.png')}}" alt="Logo YouUp">
+                            </p>
                         {% else %}
-                            <p class="passOrNot">V</p>
+                            <p class="passOrNot">
+                                <img class="succesQcm" src="{{asset('build/images/succes_qcm.png')}}" alt="Logo YouUp">
+                            </p>
                         {% endif %}
                         </div>
                     {% else %}
@@ -37,9 +43,9 @@
                 {% endfor %}
                     <p class="pBadge groupElementTimeLine">
                     {% if getBadge is same as true %}
-                        <img src="{{asset('build/images/logo_sans_fond.svg')}}" alt="Logo YouUp" class="imgYouUp">
+                        <img src="{{asset('build/images/logo_sans_fond.png')}}" alt="Logo YouUp" class="imgYouUp">
                     {% else %}
-                        <img src="{{asset('build/images/wrongTemporaire.svg')}}" alt="Croix" class="wrong">
+                        <a href="{{ path('student_retry_for_badges', {module: idModule} ) }}"><img src="{{asset('build/images/reessayer.png')}}" alt="Réessayer" class="wrong"></a>
                     </p>
 
                 {% endif %}
@@ -51,7 +57,7 @@
         <div class="splitBadges">
             {% if app.user.badges != null and app.user.badges != [] %}
                 {% for badge in app.user.badges %}
-                    {% set var = 'build/images/badges/'~badge %}
+                    {% set var = 'build/images/badges/'~badge~'.png' %}
                     <img src="{{ asset(var) }}" alt="badge gagné" class="badges">
                 {% endfor %}
             {% endif %}
@@ -65,8 +71,8 @@
 {% block javascripts %}
     <script>
         let moduleGroups = {{ moduleGroups|json_encode|raw }};
-        let logo = "{{asset('build/images/logo_sans_fond.svg')}}";
-        let wrong = "{{asset('build/images/wrongTemporaire.svg')}}";
+        let logo = "{{asset('build/images/logo_sans_fond.png')}}";
+        let wrong = "{{asset('build/images/wrongTemporaire.png')}}";
     </script>
     <script type="text/javascript" src="{{ asset('js/student/progression.js') }}"></script>
 {% endblock %}
