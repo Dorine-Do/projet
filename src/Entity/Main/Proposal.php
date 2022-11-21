@@ -4,6 +4,7 @@ namespace App\Entity\Main;
 
 use App\Repository\ProposalRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProposalRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -13,14 +14,17 @@ class Proposal
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['question:read'])]
     private $id;
 
     #[ORM\Column(type: 'text')]
+    #[Groups(['question:read'])]
     /*TODO mettre les constraint de longueur min et max type text*/
     private $wording;
 
     /*TODO mettre les constraint boolean*/
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['question:read'])]
     private $isCorrectAnswer;
 
     #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]

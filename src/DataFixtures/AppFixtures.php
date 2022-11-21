@@ -67,10 +67,10 @@ class AppFixtures extends Fixture
 //        $this->generateInstructors( $manager );
 
         //Student
-//        $this->generateStudents( $manager );
+    //    $this->generateStudents( $manager );
 
         //Question + Proposal
-//        $this->generateQuestions( $manager );
+    //    $this->generateQuestions( $manager );
 
         //Qcm
         $this->generateQcm( $manager );
