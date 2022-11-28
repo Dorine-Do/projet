@@ -168,21 +168,6 @@ class AdminController extends AbstractController
     public function ajaxSessionModules( Session $session, LinkInstructorSessionModuleRepository $linkInstructorSessionModuleRepo ): JsonResponse
     {
         $linksSessionModule = $session->getLinksSessionModule();
-//        $conn = $this->doctrine->getConnection('dbsuivi');
-//        $sql = "SELECT DISTINCT sessions.name as name, daily.date
-//                FROM daily
-//                LEFT JOIN sessions ON daily.id_session = sessions.id
-//                LEFT JOIN users ON daily.id_user = users.id
-//                WHERE users.email = :useremail AND daily.date >= NOW()
-//                ORDER BY daily.date
-//                ";
-//        $params = [
-//            'useremail' =>
-//            ];
-//        $currentSession = $conn
-//            ->prepare($sql)
-//            ->executeQuery($params)
-//            ->fetchAll();
         $modules = [];
         foreach( $linksSessionModule as $linkSessionModule )
         {

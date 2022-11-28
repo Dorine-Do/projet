@@ -105,6 +105,49 @@ body {
     box-shadow: 0 0 3px 1px gray;
     width: 20%;
 }
+/*************************************************POP UP***************************************************************/
+
+.stats input{
+    border: 2px solid var(--pamplemousse);
+    border-radius: 5px;
+    padding: 0 .3em;
+    box-shadow: 2px 2px 3px 0px var(--grey);
+}
+
+.stats ul{
+    border: 1px solid var(--pamplemousse);
+}
+
+/************************************************************************/
+/*CUSTOM SCROLL*/
+
+/* Works on Firefox */
+#searchResults
+{
+    scrollbar-width: thin;
+    scrollbar-color: var(--fond);
+}
+
+/* Works on Chrome, Edge, and Safari */
+#searchResults::-webkit-scrollbar
+{
+    width: 12px;
+}
+
+#searchResults::-webkit-scrollbar-track
+{
+    background: var(--fond);
+    border-radius: 5px;
+}
+
+#searchResults::-webkit-scrollbar-thumb
+{
+    background-color: var(--grey);
+    border-radius: 20px;
+    border: 3px solid var(--grey);
+}
+
+/************************************************************************/
 
 @media screen and (max-width: 1200px) {
 
