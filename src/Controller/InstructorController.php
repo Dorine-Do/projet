@@ -640,12 +640,13 @@ namespace App\Controller;
             $qcm = $qcmRepo->find(intval($request->get('qcm')));
             $startTime = new \DateTime($request->get('start-time'));
             $endTime = new \DateTime($request->get('end-time'));
+            $qcmInstance = new QcmInstance();
             $students = array_map(function ($studentId) use ($studentRepo) {
                 return $studentRepo->find(intval($studentId));
-            }, $request->get('students'));
+            }, $request->get('student'));
+
             foreach ($students as $student)
             {
-                $qcmInstance = new QcmInstance();
                 $qcmInstance->setStudent($student);
                 /* TODO à voir si ça fonctionne */
                 $qcmInstance->setDistributedBy($userRepository->find($this->security->getUser()->getId()));

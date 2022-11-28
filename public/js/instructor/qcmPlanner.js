@@ -47,7 +47,7 @@ function updateStudentOptions( field, fieldData )
         let div = document.createElement('div');
         div.classList.add('divStudentOption')
         input.type = 'checkbox';
-        input.name = 'student';
+        input.name = 'student[]';
         input.value = data.id;
         input.setAttribute('id', 'students['+ data.id +']' )
         label.innerText = data.firstName + ' ' + data.lastName;
@@ -104,14 +104,22 @@ function submitForm(e){
 
     let firstDate = new Date(startDateField.value)
     let secondDate = new Date(endDateField.value)
+    let date = new Date()
 
     let sessionfield = document.querySelector('input[name="session"]:checked')
     let moduleFieldValue = document.querySelector('#module-choice').value
     let qcmFieldValue = document.querySelector('#qcm-choice').value
-    let studentsField = document.querySelectorAll('input[name="student"]:checked')
+    let studentsField = document.querySelectorAll('input[name="student[]"]:checked')
+
+    console.log(date)
+    e.preventDefault()
 
     if(secondDate.getTime() < firstDate.getTime()){
         buildMessageError(e,divDate, "La date de fin ne peut pas être inférieure à la date de début", "errorDate")
+    }
+
+    if(firstDate.getTime() < date){
+        buildMessageError(e,divDate, "La date ne peut pas être inférieure à la date du jour", "errorDate")
     }
 
     if (!startDateField.value || !endDateField.value){
