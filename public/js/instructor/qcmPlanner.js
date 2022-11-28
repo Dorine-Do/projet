@@ -111,9 +111,6 @@ function submitForm(e){
     let qcmFieldValue = document.querySelector('#qcm-choice').value
     let studentsField = document.querySelectorAll('input[name="student[]"]:checked')
 
-    console.log(date)
-    e.preventDefault()
-
     if(secondDate.getTime() < firstDate.getTime()){
         buildMessageError(e,divDate, "La date de fin ne peut pas être inférieure à la date de début", "errorDate")
     }
