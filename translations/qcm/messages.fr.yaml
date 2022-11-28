@@ -120,7 +120,6 @@ button:
   add: Ajouter
   qcmManagement: Gestion des QCM
   questionsManagement: Gestion des questions
-  sessionsManagement: Gestion des sessions
   sessions: Sessions
   modulesManagement: Gestion des modules
   usersManagement: Gestion des utilisateurs
@@ -270,6 +269,7 @@ title:
   ruleExplaination: retirer ou d'ajouter une ou plusieurs questions
   qcmLvl: Niveau du QCM
   minimumQuestionX: Minimum X question
+  sessionsManagement: Gestion des sessions
 
 
 
