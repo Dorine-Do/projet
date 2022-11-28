@@ -15,7 +15,7 @@ qcm:
   iChance: Je retente ma chance
   chanceExplain: Si tu as obtenu "Découvre" ou "Explore" à un des QCM, tu peux tenter d'obtenir à nouveau ton badge et l'ajouter à ta collection en repassant un QCM du module en question.
   tryAgainExplain: /!\ Repasser le QCM pour obtenir le badge du module ne changera pas le niveau obtenu lors du QCM officiel
-  trainning: QCM d'entraînement
+  trainning: Générer le QCM
   iTrainning: Je m'entraîne
   questionConfirmQcm: Voulez-vous vraiment confirmer ce QCM ?
   finish: LE QCM EST TERMINÉ
@@ -140,6 +140,7 @@ button:
   backToHome: Retour à l'accueil
   personalizeQcm: Personaliser le QCM
   validQcm: Valider le QCM tel quel
+  sessionsManagement: Gestion des sessions
 
 header:
   dashboard: Tableau de bord
@@ -270,7 +271,10 @@ title:
   qcmLvl: Niveau du QCM
   minimumQuestionX: Minimum X question
   sessionsManagement: Gestion des sessions
-
+  retriedQcm: QCM refaits
+  filterByDate: Filtrer par date
+  mostRecent: Plus récent
+  lessRecent: moins récent
 
 
 

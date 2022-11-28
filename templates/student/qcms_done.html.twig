@@ -30,7 +30,7 @@
         </div>
         <div class="divBadge">
             <p>
-                RetryModules
+                {{ 'title.retriedQcm'|trans }}
             </p>
             <img class="badge" src="{{asset('build/images/retry.png')}}">
         </div>
@@ -38,7 +38,7 @@
     <div class="officiel">
         <div>
             <p>
-                <span class="numeroForm">1</span>
+                <span class="numeroForm">Option</span>
                 {{ 'module.filter'|trans }} :
             </p>
         </div>
@@ -52,14 +52,14 @@
     <div class="officiel">
     <div>
         <p>
-            <span class="numeroForm">2</span>
-            Filtrer par date :
+            <span class="numeroForm">Option</span>
+            {{ 'title.filterByDate'|trans }}
         </p>
     </div>
     <select name="date" id="select_date">
-        <option value="all">Filtrer par date</option>
-        <option value="recent">Plus récent</option>
-        <option value="ancien">Moins récent</option>
+        <option value="all">{{ 'title.filterByDate'|trans }}</option>
+        <option value="recent">{{ 'title.mostRecent'|trans }}</option>
+        <option value="ancien">{{ 'title.lessRecent'|trans }}</option>
     </select>
     </div>
     <span class="ligne"></span>
