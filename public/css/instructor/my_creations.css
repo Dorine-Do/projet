@@ -44,19 +44,30 @@
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
 }
 
-.blocLinkDecorative {
-  padding: 1.5em 0;
+.accueilA {
+  display: block;
   width: 100%;
-  border-bottom: 2px solid #fff4e4;
-  /* border-radius: 10px; */
+  font-weight: 600;
+  padding: 5px 0;
+  background-color: var(--pamplemousse);
+  border-radius: 20px;
+  transition: .4s linear;
 }
-.blocLinkDecorative > a {
-  padding: 20px 0;
+
+.accueilA:hover {
+  background-color: var(--fond);
 }
-.blocLinkDecorative:hover {
-  padding: 29px 0;
-  border-radius: 10px;
-  border: 2px solid var(--fond);
+
+.accueilA::before{
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 55px;
+  top: 0;
+  left: 0;
+  background-color: var(--fond);
+  z-index: 1;
+  transition: .4s linear;
 }
 
 @media screen and (max-width: 450px) {

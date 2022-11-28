@@ -40,6 +40,15 @@ hr {
     display: none;
 }
 
+.chosenElement{
+    border: 1px solid var(--grey);
+    border-radius: 5px;
+}
+
+.rotate{
+    transform: rotate(180deg);
+}
+
 .qcmChoisedLi .displayNone,
 .questionLi .displayNone,
 .officialQuestionLi .displayNone {
@@ -48,7 +57,7 @@ hr {
 
 /*PARTIE 1*/
 
-.partOne {
+.contentPartOne {
     width: 90%;
     margin: auto;
     padding: 3em 0 0;
@@ -56,7 +65,7 @@ hr {
     grid-gap: 0.5em;
 }
 
-.partOne > p {
+.contentPartOne > p {
     padding: 1.5em 0;
 }
 /* Random qcm */
@@ -66,7 +75,7 @@ hr {
 
 /*********************************************** BOUTON DEBUT DE PAGE (MODULE + GENERATE)***********************************/
 
-.partOne > form {
+.contentPartOne > form {
     /* border-bottom: 2px solid #c7c7c7; */
     padding: 3em 0;
     display: grid;
@@ -100,6 +109,7 @@ hr {
     margin: auto;
     border-radius: 50px;
     cursor: pointer;
+    text-align: center;
 }
 
 .colorDifficulty {
@@ -132,9 +142,9 @@ hr {
     display: flex;
     justify-content: center;
     align-content: center;
+    margin-bottom: 50px;
 }
 
-.buttonGenerate,
 .qcmOfficial {
     background-color: var(--grey);
     color: white;
@@ -144,12 +154,6 @@ hr {
     font-size: var(--semi_normal);
     width: 80%;
     margin: auto;
-}
-
-.buttonGenerate:hover {
-    cursor: pointer;
-    background-color: var(--vert);
-    font-weight: bold;
 }
 
 .etape {
@@ -174,12 +178,16 @@ hr {
     color: white;
     border-radius: 2em;
     border: none;
-    padding: 1.3em 0;
+    padding: 1em 0;
     width: 60%;
     font-size: var(--semi_normal);
     margin: auto;
     display: block;
     cursor: pointer;
+}
+
+.btnShowQcm:hover {
+    background-color: var(--vert);
 }
 
 .btnCustom:hover {
@@ -195,7 +203,6 @@ hr {
 /*CUSTOM SCROLL*/
 .backWhite {
     grid-gap: 1em;
-    display: none;
 }
 .backWhite.activeQcm {
     display: grid;
@@ -314,9 +321,7 @@ hr {
     border-radius: 8px;
     width: 100%;
 }
-.chevronBasP > img {
-    content: url("/build/images/chevron_bas.216a40a5.svg");
-}
+
 .chevronBasP {
     width: 5%;
 }
@@ -425,6 +430,8 @@ hr {
     padding: 1.5em 0;
 }
 .dragAndDrop {
+    display: flex;
+    gap: .5em;
     margin-top: 4em;
     border-radius: 5px;
 }
@@ -461,6 +468,7 @@ hr {
     border-radius: 0.5em;
     background-color: #fff4e4;
     padding: 2em 1em;
+    flex-grow: 1;
 }
 .qcmChoisedLegend {
     display: flex;
@@ -490,7 +498,6 @@ hr {
 /* qcmChoisedSubDiv*/
 
 .qcmChoisedSubDiv {
-    width: 45%;
     height: 40%;
 }
 .questionsOfficial > ul {
@@ -504,8 +511,9 @@ hr {
 }
 
 .listQuestionTypedDiv {
-    width: 47%;
     text-align: center;
+    flex-grow: 1;
+    width: 100%;
 }
 
 .qcmChoisedLi {
@@ -599,17 +607,18 @@ hr {
 /***************************************************************************************************/
 
 .imageDragAndDrop {
-    width: 9%;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
     align-self: center;
+    align-items: center;
+    flex-grow: 2;
+    gap: .5em;
 }
 
 .imageDragAndDrop img {
     padding: 0.2em;
     border: 2px dashed;
     border-radius: 14px;
-    /* box-shadow: 0 0 3px 0 var(--grey); */
-    margin: 1em;
 }
 
 .imageDragAndDrop img:hover {
@@ -618,22 +627,18 @@ hr {
 }
 
 .arrowRight {
-    /* transform: rotate(-31deg); */
-    width: 50%;
+    width: 35%;
 }
 
 .arrowLeft {
-    /* transform: rotate(131deg); */
-    width: 50%;
+    width: 35%;
+    transform: rotate(180deg);
 }
 
 /***************************************************************************************************/
 /*LIST QUESTON*/
 /***************************************************************************************************/
 
-.listQuestionTypedDiv {
-    width: 45%;
-}
 
 .btnChoiseQuestionType {
     width: 100%;
@@ -651,7 +656,6 @@ hr {
     color: white;
     font-weight: var(--semi_bold);
     width: 85%;
-    background: var(--grey);
 }
 
 .btnChoiseQuestionType button:hover {
@@ -659,11 +663,11 @@ hr {
     cursor: pointer;
 }
 
-.btnQuestionsOfficial {
+.btnChoiseQuestionType .btnQuestionsActive {
     background-color: var(--vert);
 }
-.btnQuestionsPerso {
-    background-color: var(--pamplemousse);
+.btnQuestions {
+    background-color: var(--grey);
 }
 
 /***************************************************************************************************/
@@ -765,16 +769,16 @@ hr {
     justify-content: space-around;
 }
 .qcmChoisedTreffleP {
-    width: 5%;
-    padding: 0.2em;
-    /* background: aliceblue; */
+    width: 6%;
+    padding: 0.2em 0.1em;
+    background: var(--fond);
     border-radius: 50px;
     display: flex;
     justify-content: center;
 }
 
 .qcmChoisedTrefle {
-    width: 100%;
+    width: 72%;
 }
 
 .officialQuestionWordingP {
@@ -986,8 +990,14 @@ hr {
 /**********************************************************************************************************************/
 
 @media screen and (min-width: 1000px) {
-    .partOne,
+    .contentPartOne,
     #contentPartTwo {
         width: 80%;
+    }
+}
+
+@media screen and (min-width: 450px) {
+    .divOptions {
+        margin-top: 30px;
     }
 }

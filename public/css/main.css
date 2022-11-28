@@ -209,6 +209,12 @@ pre {
   width: 70%;
   padding: 1em 0;
   font-weight: bold;
+  align-items: center;
+  margin: auto;
+}
+
+.mediumButton:hover {
+  background-color: var(--vert);
 }
 
 .largeButton {

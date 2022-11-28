@@ -32,8 +32,8 @@
                             <td>{{ session.schoolYear }}</td>
                             <td>{{ session.createdAt | date('d/m/Y') }}</td>
                             <td>
-                                <button class="showStudentsBtn button greyButton" data-session="{{ session.id }}">{{ 'button.students'|trans }}</button>
-                                <button class="showModulesBtn button greyButton" data-session="{{ session.id }}">{{ 'button.modules'|trans }}</button>
+                                <button class="button greyButton" data-session="{{ session.id }}">{{ 'button.students'|trans }}</button>
+                                <button class="button greyButton" data-session="{{ session.id }}">{{ 'button.modules'|trans }}</button>
                                 <a class="statsButton button greyButton" href="{{ path('admin_stats_session', { 'session': session.id } ) }}">{{ 'button.stats'|trans }}</a>
                             </td>
                         </tr>

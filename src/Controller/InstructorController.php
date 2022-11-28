@@ -2,33 +2,33 @@
 
 namespace App\Controller;
 
-    use App\Entity\Enum\Level;
-    use App\Entity\Main\Instructor;
-    use App\Entity\Main\Module;
-    use App\Entity\Main\Proposal;
-    use App\Entity\Main\Qcm;
-    use App\Entity\Main\QcmInstance;
-    use App\Entity\Main\Question;
-    use App\Entity\Main\Result;
-    use App\Entity\Main\Session;
-    use App\Entity\Main\Student;
-    use App\Form\CreateQuestionType;
+use App\Entity\Enum\Level;
+use App\Entity\Main\Instructor;
+use App\Entity\Main\Module;
+use App\Entity\Main\Proposal;
+use App\Entity\Main\Qcm;
+use App\Entity\Main\QcmInstance;
+use App\Entity\Main\Question;
+use App\Entity\Main\Result;
+use App\Entity\Main\Session;
+use App\Entity\Main\Student;
+use App\Form\CreateQuestionType;
 use App\Form\QcmFormType;
 use App\Helpers\QcmGeneratorHelper;
-    use App\Repository\InstructorRepository;
-    use App\Repository\LinkInstructorSessionModuleRepository;
-    use App\Repository\LinkSessionStudentRepository;
-    use App\Repository\ModuleRepository;
-    use App\Repository\ProposalRepository;
-    use App\Repository\QcmInstanceRepository;
-    use App\Repository\QcmRepository;
-    use App\Repository\QuestionRepository;
-    use App\Repository\ResultRepository;
-    use App\Repository\SessionRepository;
-    use App\Repository\StudentRepository;
-    use App\Repository\UserRepository;
-    use DateInterval;
-    use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\InstructorRepository;
+use App\Repository\LinkInstructorSessionModuleRepository;
+use App\Repository\LinkSessionStudentRepository;
+use App\Repository\ModuleRepository;
+use App\Repository\ProposalRepository;
+use App\Repository\QcmInstanceRepository;
+use App\Repository\QcmRepository;
+use App\Repository\QuestionRepository;
+use App\Repository\ResultRepository;
+use App\Repository\SessionRepository;
+use App\Repository\StudentRepository;
+use App\Repository\UserRepository;
+use DateInterval;
+use Doctrine\ORM\EntityManagerInterface;
 use Proxies\__CG__\App\Entity\Main\Module as MainModule;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -36,261 +36,261 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\JsonResponse;
-    use Symfony\Component\HttpFoundation\Request;
-    use Symfony\Component\HttpFoundation\Response;
-    use Symfony\Component\Mailer\MailerInterface;
-    use Symfony\Component\Mime\Email;
-    use Symfony\Component\Routing\Annotation\Route;
-    use Symfony\Component\Security\Core\Security;
-    use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-    class InstructorController extends AbstractController
+class InstructorController extends AbstractController
+{
+
+    public function __construct(Security $security, UserRepository $userRepository){
+        $this->userRepo = $userRepository;
+        $this->security = $security;
+    }
+
+    #[Route('/instructor', name: 'welcome_instructor')]
+    public function welcome(): Response
     {
+        return $this->render('instructor/welcome_instructor.html.twig', []);
+    }
 
-        public function __construct(Security $security, UserRepository $userRepository){
-            $this->userRepo = $userRepository;
-            $this->security = $security;
-        }
+    #[Route('instructor/creations',name:'my_creations',methods:['GET','POST'])]
+    public function displayInstructionCreations():Response
+    {
+        return $this->render('instructor/my_creations.html.twig');
+    }
 
-        #[Route('/instructor', name: 'welcome_instructor')]
-        public function welcome(Request $request): Response
+    #[Route('instructor/creations/questions', name: 'instructor_display_questions', methods: ['GET'])]
+    public function displayQuestions(
+        QuestionRepository $questionRepository,
+        ProposalRepository $proposalRepository
+    ): Response
+    {
+        $proposals = [];
+        $resumeProposal = [];
+
+        $questions = $questionRepository->findBy(['author' => $this->security->getUser()->getId()]);
+        foreach( $questions as $question )
         {
-            return $this->render('instructor/welcome_instructor.html.twig', []);
+            $question_id = $question->getId();
+            $proposals[$question_id] = $proposalRepository->findBy( ['question' => $question_id] );
+            foreach( $proposals[$question_id] as $proposal )
+            {
+                $proposalValues = [
+                    'id' => $proposal->getId(),
+                    'wording' => $proposal->getWording(),
+                    'id_question' => $proposal->getQuestion()->getId()
+                ];
+                $resumeProposal[] = $proposalValues;
+            }
         }
-
-        #[Route('instructor/creations',name:'my_creations',methods:['GET','POST'])]
-        public function displayInstructionCreations():Response
-        {
-            return $this->render('instructor/my_creations.html.twig');
-        }
-
-        #[Route('instructor/creations/questions', name: 'instructor_display_questions', methods: ['GET'])]
-        public function displayQuestions(
-            QuestionRepository $questionRepository,
-            ProposalRepository $proposalRepository
-        ): Response
-        {
-            $proposals = [];
-            $resumeProposal = [];
-
-            $questions = $questionRepository->findBy(['author' => $this->security->getUser()->getId()]);
-            foreach( $questions as $question )
-            {
-                $question_id = $question->getId();
-                $proposals[$question_id] = $proposalRepository->findBy( ['question' => $question_id] );
-                foreach( $proposals[$question_id] as $proposal )
-                {
-                    $proposalValues = [
-                        'id' => $proposal->getId(),
-                        'wording' => $proposal->getWording(),
-                        'id_question' => $proposal->getQuestion()->getId()
-                    ];
-                    $resumeProposal[] = $proposalValues;
-                }
-            }
-            return $this->render('instructor/display_questions.html.twig', [
-                'questions' => $questions,
-                'proposals' => $resumeProposal,
-            ]);
-        }
-
-        #[Route('instructor/creations/qcms', name: 'instructor_display_qcms', methods: ['GET'])]
-        public function displayQcms(
-            QcmRepository $qcmRepo,
-            Security      $security
-        ): Response
-        {
-            $qcms = $qcmRepo->findBy([
-                'author' => $security->getUser(),
-                'isOfficial' => false
-            ]);
-
-            return $this->render('instructor/display_qcms.html.twig', [
-                'qcms' => $qcms,
-            ]);
-        }
-
-        #[Route('instructor/questions/modify_question/{question}', name: 'instructor_modify_question', methods: ['GET', 'POST'])]
-        public function modifyQuestion(
-            Request                $request,
-            Question               $question,
-            QuestionRepository     $questionRepository,
-            ProposalRepository     $proposalRepository,
-            EntityManagerInterface $manager
-        ): Response
-        {
-            $releaseDateOnSession = $questionRepository->getSessionWithReleaseDate($question);
-            if ($releaseDateOnSession)
-            {
-                $session = $releaseDateOnSession[0]['name'];
-            }
-            else
-            {
-                $session = null;
-            }
-
-            // GetQuestionById with release_date
-            $releaseDate = $questionRepository->getQuestionWithReleaseDate($question);
-
-            if ($releaseDate)
-            {
-                $date = $releaseDate[0]['startTime'];
-                $distribute = date_format($date, 'd/m/y');
-            }
-            else
-            {
-                $distribute = null;
-            }
-
-            // GetQuestionById
-            $instanceQuestion = $questionRepository->find($question);
-
-            //Stock les id avant render le form
-            $arrayBeforeProp = [];
-            foreach ($instanceQuestion->getProposals() as $beforeProp) {
-                $arrayBeforeProp[] = $beforeProp->getId();
-            }
-
-            // création form
-            $form = $this->createForm(CreateQuestionType::class, $instanceQuestion);
-
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid())
-            {
-                $count = 0;
-                $persistPropCount = 0;
-                $persistProp = [];
-                foreach ($instanceQuestion->getProposals() as $prop) {
-                    $bool = in_array($prop->getId(), $arrayBeforeProp);
-                    // Si la prop est une déjà créer en db ou si son id est null alors si elle vient d'être créée.
-                    if ($bool || $prop->getId() == null) {
-                        // Si l'utilisateur a modifié la reponse
-                        $prop->setQuestion($instanceQuestion);
-                        $persistProp[] = $prop->getId();
-                        $persistPropCount++;
-                    }
-                    // Si la reponse est une reponse correcte
-                    if ($prop->getIsCorrectAnswer()) {
-                        $count++;
-                    }
-                }
-
-                // Set le champs ResponseType
-                if ($count > 1)
-                {
-                    $instanceQuestion->setIsMultiple(true);
-                }
-                elseif ($count == 1)
-                {
-                    $instanceQuestion->setIsMultiple(false);
-                }
-
-                //Supprime le lien entre les proposals et la question que l'utilisateur ne veut plus
-                $removeProp = array_diff($arrayBeforeProp, $persistProp);
-                foreach ($removeProp as $id) {
-                    $prop = $proposalRepository->find($id);
-                    $manager->remove($prop);
-                }
-
-                $manager->persist($instanceQuestion);
-                $manager->flush();
-
-                $this->addFlash('success', 'La question a bien été modifiée.');
-                return $this->redirectToRoute('instructor_display_questions');
-            }
-
-            return $this->render('instructor/modify_question.html.twig', [
-                'form' => $form->createView(),
-                'distribute' => $distribute,
-                'session' => $session,
-                "add" => false,
-            ]);
-        }
-
-        #[Route('instructor/questions/create_question', name: 'instructor_create_question', methods: ['GET', 'POST'])]
-        public function createQuestion(
-            Request                $request,
-            EntityManagerInterface $manager,
-            InstructorRepository $instructorRepository
-        ): Response
-        {
-
-            $user = $instructorRepository->find( $this->security->getUser()->getId() );
-
-            $questionEntity = new Question();
-
-            $proposal1 = new Proposal();
-            $proposal1->setWording('');
-
-            $proposal2 = new Proposal();
-            $proposal2->setWording('');
-
-            $questionEntity->addProposal($proposal2);
-            $questionEntity->addProposal($proposal1);
-
-
-            // création form
-            $form = $this->createForm(CreateQuestionType::class, $questionEntity);
-            // accès aux données du form
-            $form->handleRequest($request);
-
-
-            // vérification des données soumises
-            if ( $form->isSubmitted() && $form->isValid() )
-            {
-                $count = 0;
-                $persitPropCount = 0;
-                foreach( $questionEntity->getProposals() as $proposal )
-                {
-                    // set les proposals
-                    $proposal->setQuestion($questionEntity);
-                    $persitPropCount++;
-
-                    // set le response type
-                    if( $proposal->getIsCorrectAnswer() )
-                    {
-                        $count++;
-                    }
-                }
-                if ($count > 1)
-                {
-                    $questionEntity->setIsMultiple(1);
-                }
-                elseif ($count == 1)
-                {
-                    $questionEntity->setIsMultiple(0);
-                }
-
-                if(!in_array('ROLE_ADMIN', $user->getRoles()))
-                {
-                    $questionEntity->setIsMandatory(0);
-                    if(!$user->isReferent())
-                    {
-                        $questionEntity->setIsOfficial(0);
-                    }
-                }
-                $questionEntity->setAuthor($user);
-                $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
-
-                //  validation et enregistrement des données du form dans la bdd
-                $manager->persist($questionEntity);
-
-                $manager->flush();
-
-                //  redirect to route avec flash
-                $this->addFlash(
-                    'instructorAddQuestion',
-                    'La question a été généré avec succès'
-                );
-                return $this->redirectToRoute('instructor_display_questions');
-
-        }
-        return $this->render('instructor/create_question.html.twig', [
-            'form' => $form->createView(),
-            "add" => true
+        return $this->render('instructor/display_questions.html.twig', [
+            'questions' => $questions,
+            'proposals' => $resumeProposal,
         ]);
     }
+
+    #[Route('instructor/creations/qcms', name: 'instructor_display_qcms', methods: ['GET'])]
+    public function displayQcms(
+        QcmRepository $qcmRepo,
+        Security      $security
+    ): Response
+    {
+        $qcms = $qcmRepo->findBy([
+            'author' => $security->getUser(),
+            'isOfficial' => false
+        ]);
+
+        return $this->render('instructor/display_qcms.html.twig', [
+            'qcms' => $qcms,
+        ]);
+    }
+
+    #[Route('instructor/questions/modify_question/{question}', name: 'instructor_modify_question', methods: ['GET', 'POST'])]
+    public function modifyQuestion(
+        Request                $request,
+        Question               $question,
+        QuestionRepository     $questionRepository,
+        ProposalRepository     $proposalRepository,
+        EntityManagerInterface $manager
+    ): Response
+    {
+        $releaseDateOnSession = $questionRepository->getSessionWithReleaseDate($question);
+        if ($releaseDateOnSession)
+        {
+            $session = $releaseDateOnSession[0]['name'];
+        }
+        else
+        {
+            $session = null;
+        }
+
+        // GetQuestionById with release_date
+        $releaseDate = $questionRepository->getQuestionWithReleaseDate($question);
+
+        if ($releaseDate)
+        {
+            $date = $releaseDate[0]['startTime'];
+            $distribute = date_format($date, 'd/m/y');
+        }
+        else
+        {
+            $distribute = null;
+        }
+
+        // GetQuestionById
+        $instanceQuestion = $questionRepository->find($question);
+
+        //Stock les id avant render le form
+        $arrayBeforeProp = [];
+        foreach ($instanceQuestion->getProposals() as $beforeProp) {
+            $arrayBeforeProp[] = $beforeProp->getId();
+        }
+
+        // création form
+        $form = $this->createForm(CreateQuestionType::class, $instanceQuestion);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $count = 0;
+            $persistPropCount = 0;
+            $persistProp = [];
+            foreach ($instanceQuestion->getProposals() as $prop) {
+                $bool = in_array($prop->getId(), $arrayBeforeProp);
+                // Si la prop est une déjà créer en db ou si son id est null alors si elle vient d'être créée.
+                if ($bool || $prop->getId() == null) {
+                    // Si l'utilisateur a modifié la reponse
+                    $prop->setQuestion($instanceQuestion);
+                    $persistProp[] = $prop->getId();
+                    $persistPropCount++;
+                }
+                // Si la reponse est une reponse correcte
+                if ($prop->getIsCorrectAnswer()) {
+                    $count++;
+                }
+            }
+
+            // Set le champs ResponseType
+            if ($count > 1)
+            {
+                $instanceQuestion->setIsMultiple(true);
+            }
+            elseif ($count == 1)
+            {
+                $instanceQuestion->setIsMultiple(false);
+            }
+
+            //Supprime le lien entre les proposals et la question que l'utilisateur ne veut plus
+            $removeProp = array_diff($arrayBeforeProp, $persistProp);
+            foreach ($removeProp as $id) {
+                $prop = $proposalRepository->find($id);
+                $manager->remove($prop);
+            }
+
+            $manager->persist($instanceQuestion);
+            $manager->flush();
+
+            $this->addFlash('success', 'La question a bien été modifiée.');
+            return $this->redirectToRoute('instructor_display_questions');
+        }
+
+        return $this->render('instructor/modify_question.html.twig', [
+            'form' => $form->createView(),
+            'distribute' => $distribute,
+            'session' => $session,
+            "add" => false,
+        ]);
+    }
+
+    #[Route('instructor/questions/create_question', name: 'instructor_create_question', methods: ['GET', 'POST'])]
+    public function createQuestion(
+        Request                $request,
+        EntityManagerInterface $manager,
+        InstructorRepository $instructorRepository
+    ): Response
+    {
+
+        $user = $instructorRepository->find( $this->security->getUser()->getId() );
+
+        $questionEntity = new Question();
+
+        $proposal1 = new Proposal();
+        $proposal1->setWording('');
+
+        $proposal2 = new Proposal();
+        $proposal2->setWording('');
+
+        $questionEntity->addProposal($proposal2);
+        $questionEntity->addProposal($proposal1);
+
+
+        // création form
+        $form = $this->createForm(CreateQuestionType::class, $questionEntity);
+        // accès aux données du form
+        $form->handleRequest($request);
+
+
+        // vérification des données soumises
+        if ( $form->isSubmitted() && $form->isValid() )
+        {
+            $count = 0;
+            $persitPropCount = 0;
+            foreach( $questionEntity->getProposals() as $proposal )
+            {
+                // set les proposals
+                $proposal->setQuestion($questionEntity);
+                $persitPropCount++;
+
+                // set le response type
+                if( $proposal->getIsCorrectAnswer() )
+                {
+                    $count++;
+                }
+            }
+            if ($count > 1)
+            {
+                $questionEntity->setIsMultiple(1);
+            }
+            elseif ($count == 1)
+            {
+                $questionEntity->setIsMultiple(0);
+            }
+
+            if(!in_array('ROLE_ADMIN', $user->getRoles()))
+            {
+                $questionEntity->setIsMandatory(0);
+                if(!$user->isReferent())
+                {
+                    $questionEntity->setIsOfficial(0);
+                }
+            }
+            $questionEntity->setAuthor($user);
+            $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
+
+            //  validation et enregistrement des données du form dans la bdd
+            $manager->persist($questionEntity);
+
+            $manager->flush();
+
+            //  redirect to route avec flash
+            $this->addFlash(
+                'instructorAddQuestion',
+                'La question a été généré avec succès'
+            );
+            return $this->redirectToRoute('instructor_display_questions');
+
+    }
+    return $this->render('instructor/create_question.html.twig', [
+        'form' => $form->createView(),
+        "add" => true
+    ]);
+}
 
     #[Route('instructor/questions/upDate_fetch/{moduleId}/{questionId}', name: 'instructor_questions_update_fetch', methods: ['POST'])]
     public function upDateQuestionFetch(
@@ -327,32 +327,23 @@ use Symfony\Component\HttpFoundation\JsonResponse;
             $validator->validate($newProposal);
             $question->addProposal($newProposal);
         };
-        
+
         $validator->validate($question);
-       
 
         $entityManager->persist($question);
         $entityManager->flush();
-        dd($question);
+
         $questionResponse = $questionRepository->find($questionId);
 
 
             return $this->json($questionResponse, 200,[],["groups"=>"question:read"]) ;
         }
+
     #[Route('instructor/qcms/create_qcm_perso', name: 'instructor_create_qcm_perso', methods: ['GET', 'POST'])]
     public function createQcmPersonalized(
-        Request              $request,
         InstructorRepository $instructorRepository,
-        ModuleRepository     $moduleRepository,
-        QuestionRepository   $questionRepository,
-        Security             $security,
-        QcmRepository        $qcmRepo,
-        QcmInstanceRepository     $qcmInstanceRepository,
-        UserRepository $userRepository
-
     ): Response
     {
-
         $userId = $this->getUser();
 
         $linksInstructorSessionModule = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
@@ -368,103 +359,85 @@ use Symfony\Component\HttpFoundation\JsonResponse;
                 $arrayBuilderModule[$linkInstructorSessionModule->getModule()->getTitle()] = $linkInstructorSessionModule->getModule()->getTitle();
             }
             $countModuleTitle+=count($modules);
-              //   TEMPORAIRE -> recup qcm par module et par difficulté
-            //   $qcmsLevel[]=$linkInstructorSessionModule->getmodule()->getQcms();
               foreach($linkInstructorSessionModule->getmodule()->getQcms() as $qcmLevel ) {
                 $qcmsLevel[]=$qcmLevel->getDifficulty();
              }
 
         }
-        // ////
-        // dd($request);
-          // ////
-        /**********************************************************************************/
-        // Get module choiced
+        $modules = array_unique($modules);
 
-
-
-
-
-
-
-
-
-
-
-        /********************************************************************************/
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => empty($modules ) ? null : $modules, // condition 1 + condition 2 + condition 3 sinon erreur
             // temporaire voir todo pour connection
             'user'=>$userId,
             'qcmsLevel'=>$qcmsLevel == [] ? null : $qcmsLevel,
-            // 'qcms'=>empty($qcm ) ? null : $qcms,// condition 2
             'qcms'=>!isset($qcms)? null :$qcms,
             'qcmInstancesByQuestion'=>!isset($qcmInstancesByQuestion )? null : $qcmInstancesByQuestion, // condition 3
-
         ]);
     }
 
     #[Route('instructor/qcms/random_fetch/{module}/{difficulty}', name: 'instructor_qcm_random_fetch', methods: ['GET'])]
      public function qcmRandomFetch(
-       Module  $module,
-       $difficulty,
-      Request $request,
-      UserRepository $userRepository,
-      Security $security,
-      QuestionRepository $questionRepository
+        Module  $module,
+        UserRepository $userRepository,
+        Security $security,
+        QuestionRepository $questionRepository,
+        EntityManagerInterface $manager,
+        $difficulty = 2,
      ):JsonResponse
      {
-        $listModuleQuestions=[];
-        if ($module && $difficulty)
-        {
-
-            $qcmGenerator = new QcmGeneratorHelper($questionRepository,$security);
-            $generatedQcm = $qcmGenerator->generateRandomQcm($module,$security->getUser(),$userRepository,$difficulty);
-            //$qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-            //$generatedQcm = $qcmGenerator->generateRandomQcm($module, $this->user);
-            $customQuestions = $questionRepository->findBy(['isOfficial' => false, 'isMandatory' => false, 'module' => $module->getId(), 'author' => $security->getUser()]);
-            $officialQuestions = $questionRepository->findBy(['isOfficial' => true, 'isMandatory' => false, 'module' => $module->getId()]);
+        if ($module && $difficulty) {
+            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
+            $generatedQcm = $qcmGenerator->generateRandomQcm($module, $security->getUser(), $userRepository, $difficulty);
+            $manager->persist($generatedQcm);
+            $manager->flush();
+            $generatedQcmQuestions = array_map( function ($question) use ($security, $questionRepository) {
+                $pickedQuestion = $questionRepository->find($question['id']);
+                $isDistributed = $questionRepository->getQuestionWithReleaseDate($pickedQuestion->getId());
+                return [
+                    'question' => $pickedQuestion,
+                    'proposals' => $pickedQuestion->getProposals(),
+                    'isEditable' => count($isDistributed) === 0 && $security->getUser() === $pickedQuestion->getAuthor(),
+                ];
+            } , $generatedQcm->getQuestionsCache());
             $moduleQuestions = $module->getQuestions();
-            // let stock toutes les ques du qcm qui as été généré aléatoirement
-            $randomQuestions= $generatedQcm->getQuestionsCache();
-            $randomQcmByModuleId= $generatedQcm->getModule()->getId();
-            foreach($customQuestions as $question){
-                //if question->wording  est différent de question de randomQuestion affecté question au tableau listModule question avec les prop utiles
-                $listQuestionsCustom[]=["wording"=>$question->getWording(),"explaination"=>$question->getExplanation(),"proposals"=>$question->getProposals(),"difficulty"=> $question->getDifficulty(),"id"=>$question->getId()];
 
-            }
+            $instructorQuestions = $moduleQuestions->filter(function ($question) use ($security, $generatedQcmQuestions) {
+                return !$question->getIsOfficial() && $question->getAuthor()->getId() === $security->getUser()->getId() && $question->isEnabled() && !in_array($question,$generatedQcmQuestions);
+            })->toArray();
+            $instructorQuestions = array_map(function ($instructorQuestion) use ($questionRepository, $security) {
 
-            // let stock quest du module toutes les questions qui sont pas mandatory avec la difficulté voulu  -> liste  aucune ques stocké dans la let  d'au dessus
-            // $keys= array_keys($randomQuestions);
-            foreach($officialQuestions as $question){
-                //if question->wording  est différent de question de randomQuestion affecté question au tableau listModule question avec les prop utiles
-                $listModuleQuestions[]=["wording"=>$question->getWording(),"explaination"=>$question->getExplanation(),"proposals"=>$question->getProposals(),"difficulty"=> $question->getDifficulty(),"id"=>$question->getId()];
+                $isDistributed = $questionRepository->getQuestionWithReleaseDate($instructorQuestion->getId());
 
-            }
-            $qcmInstancesByQuestion = [];
-            foreach($moduleQuestions as $moduleQuestion){
+                return [
+                    'question' => $instructorQuestion,
+                    'proposals' => $instructorQuestion->getProposals(),
+                    'isEditable' => count($isDistributed) === 0 && $security->getUser() === $instructorQuestion->getAuthor(),
+                ];
+            }, $instructorQuestions);
+            $officialQuestions = $moduleQuestions->filter(function ($question) use ($generatedQcmQuestions) {
+                return $question->getIsOfficial() && $question->isEnabled() && !in_array($question,$generatedQcmQuestions);
+            })->toArray();
 
-                    $count=0;
-                    foreach($moduleQuestion->getQcms() as $moduleQuestionQcm ) {
-                        $count+=count($moduleQuestionQcm->getQcmInstances());
-                    }
-                    $qcmInstancesByQuestion[$moduleQuestion->getId()]=$count;
-            }
+            $officialQuestions = array_map(function ($officialQuestion) {
+                return [
+                    'question' => $officialQuestion,
+                    'proposals' => $officialQuestion->getProposals(),
+                    'isEditable' => false
+                ];
+            }, $officialQuestions);
 
+            $data = [
+                'generatedQcm' => $generatedQcm,
+                'generatedQcmQuestions' => $generatedQcmQuestions,
+                'instructorQuestions' => $instructorQuestions,
+                'officialQuestions' => $officialQuestions
+            ];
 
+            return $this->json($data, 200, [], ["groups" => ["question:read", "qcm:read"]]);
         }
-        $data=[
-            "customQuestions"=>$listQuestionsCustom,
-            "officialQuestions"=>$listModuleQuestions,
-            "randomQuestion"=>$randomQuestions,
-            "randomQcmByModule"=>$randomQcmByModuleId,
-            "qcmInstancesByQuestion"=>$qcmInstancesByQuestion,
 
-        ];
-        // dd($customQuestions);
-      
-       
-       return $this->json($data,200,[],["groups"=>"question:read"]);
+         return $this->json('une erreur est survenue', 500);
      }
 
     // methode Post non permise car route non trouvée donc method Get Ok
@@ -473,13 +446,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         ValidatorInterface     $validator,
         Request                $request,
         InstructorRepository   $instructorRepository,
-        QuestionRepository     $questionRepository,
         ModuleRepository       $moduleRepository,
         EntityManagerInterface $entityManager,
         QcmGeneratorHelper $generatorHelper,
+        QuestionRepository $questionRepository,
         Module $moduleId,
-        // $questions
-
     ): Response
     {
 
@@ -509,416 +480,375 @@ use Symfony\Component\HttpFoundation\JsonResponse;
         $module = $moduleRepository->find($moduleId);
         $qcm->setModule($module);
 
-        $questionsCache = $generatorHelper->generateQuestionCache($data['questions']);
+        $questionsEntites = [];
+        foreach ( $data['questions'] as $question )
+        {
+            $question = (array)$question;
+            $questionsEntites[] = $questionRepository->find($question['id']);
+        }
 
-            $qcm->setQuestionsCache($questionsCache);
-// dd($qcm);
-            $validator->validate($qcm);
-            $entityManager->persist($qcm);
-            $entityManager->flush();
+        $questionsCache = $generatorHelper->generateQuestionCache($questionsEntites);
+
+        $qcm->setQuestionsCache($questionsCache);
+        $validator->validate($qcm);
+        $entityManager->persist($qcm);
+        $entityManager->flush();
 
         /*redirection voir js*/
         $this->addFlash('success', 'Le qcm a bien été modifiée.');
-        // // return $this->redirectToRoute('instructor_display_questions');
         return $this->json("ok",200);
 
     }
 
-        #[Route('instructor/qcms/generate_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
-        public function generateOfficialQcm(
-            Security               $security,
-            SessionRepository      $sessionRepository,
-            InstructorRepository   $instructorRepository,
-            Request                $request,
-            QuestionRepository     $questionRepository,
-            ModuleRepository       $moduleRepository,
-            EntityManagerInterface $manager,
-            UserRepository         $userRepository
-        ): Response
+    #[Route('instructor/qcms/generate_official_qcm', name: 'instructor_create_qcm', methods: ['GET', 'POST'])]
+    public function generateOfficialQcm(
+        Security               $security,
+        SessionRepository      $sessionRepository,
+        InstructorRepository   $instructorRepository,
+        Request                $request,
+        QuestionRepository     $questionRepository,
+        ModuleRepository       $moduleRepository,
+        EntityManagerInterface $manager,
+        UserRepository         $userRepository
+    ): Response
+    {
+        $dayOfWeekEnd = array("Saturday", "Sunday");
+        $sessionAndModuleByInstructor = $instructorRepository->find($this->security->getUser()->getId())->getLinksInstructorSessionModule();
+        $sessions = [];
+        $modules = [];
+        foreach ($sessionAndModuleByInstructor as $sessionAndModule)
         {
-            $dayOfWeekEnd = array("Saturday", "Sunday");
-            $sessionAndModuleByInstructor = $instructorRepository->find($this->security->getUser()->getId())->getLinksInstructorSessionModule();
-            $sessions = [];
-            $modules = [];
-            foreach ($sessionAndModuleByInstructor as $sessionAndModule)
-            {
-                $sessions[] = $sessionAndModule->getSession()->getId();
-                $modules[] = $sessionAndModule->getModule()->getId();
-            }
-            $sessions = array_unique($sessions);
-            $modules = array_unique($modules);
-
-            $sessions = array_map( function($session) use ($sessionRepository) {
-                return $sessionRepository->findOneBy(['id' => $session]);
-            }, $sessions);
-
-            $modules = array_map( function($module) use ($moduleRepository) {
-                return $moduleRepository->findOneBy(['id' => $module]);
-            }, $modules );
-
-            $formData = $request->query->all();
-
-            if (count($formData) != 0)
-            {
-                $module = $moduleRepository->find($formData["module"]);
-                $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-                $qcm = $qcmGenerator->generateRandomQcm($module,$this->security->getUser(), $userRepository , 'official');
-                $manager->persist($qcm);
-
-                $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
-                $students = [];
-
-                foreach ($linksSessionStudent as $linkSessionStudent)
-                {
-                    $students[] = $linkSessionStudent->getStudent();
-                }
-
-                foreach ($students as $student)
-                {
-                    $qcmInstance = new QcmInstance();
-                    $qcmInstance->setStudent($student);
-                    /* TODO à voir si ça foncitonne */
-                    $qcmInstance->setDistributedBy($userRepository->find($this->security->getUser()->getId()));
-                    $qcmInstance->setQcm($qcm);
-                    $qcmInstance->setCreatedAtValue();
-                    $qcmInstance->setUpdateAtValue();
-
-                    //START TIME AND END TIME
-                    $dayOfCreationOfQcmInstance = $qcmInstance->getCreatedAt();
-
-                    if ($dayOfCreationOfQcmInstance)
-                    {
-                        $dateOfCreationFormat = date_format($dayOfCreationOfQcmInstance, "Y-m-d H:i:s");
-                        $newDateTimeForStartTime = date("Y-m-d 13:00:00", strtotime($dateOfCreationFormat . '+ 5 days'));
-                        $startTime = new \DateTime($newDateTimeForStartTime);
-                        $qcmInstance->setStartTime($startTime);
-                        $newDateTimeForEndTime = date("Y-m-d H:i:s", strtotime($newDateTimeForStartTime . '+ 4hours'));
-                        $endTime = new \Datetime($newDateTimeForEndTime);
-
-                        //  DAY ADDITION IF ENDTIME = A DAY OF WEEK  voir array -> dayOfweek
-                        $endTimeTextualFormat = date_format($endTime, 'l');
-                        if ($endTime && $endTimeTextualFormat === $dayOfWeekEnd[0])
-                        {
-                            $endTime = date_format($endTime, "Y-m-d H:i:s");
-                            $endTimeFormatNum = date("Y-m-d H:i:s", strtotime($endTime . '+ 2 days'));
-                            $endTime = new \DateTime($endTimeFormatNum);
-                        }
-                        elseif ($endTime && $endTimeTextualFormat === $dayOfWeekEnd[1])
-                        {
-                            //autre methode si format de celle ci gardé sinon la convertir en celle d'en haut
-                            $endTime = $endTime->add(new DateInterval("P1D"));
-                        }
-                        $qcmInstance->setEndTime($endTime);
-                        //mettre dans un tableau saturday sunday
-                        //et a partir de la endtdate  la convertir a un format mot et faire une condition
-                        // si la date contient un des jours du tableau (ou une condition swich pour voir si c'est égale a un des element ddans ) ajouter +1 ou +2 enfonction du jour pour que ça tombe un lundi
-
-                        //on recupère on crée une variable dans lequel on met le string de getcreatedat ,
-                        //puis on place la varible dans datetime puis on lei donne un format et ainsi de suite
-                    }
-                    $manager->persist($qcmInstance);
-                    $manager->flush();
-
-                    //  redirect to route avec flash
-                    $this->addFlash(
-                        'success',
-                        'Le qcm a été généré avec succès'
-                    );
-                    return $this->redirectToRoute('welcome_instructor');
-                }
-
-            }
-
-            return $this->render('instructor/generate_official_qcm.html.twig', [
-                'sessions' => $sessions,
-                'modules' => $modules,
-            ]);
+            $sessions[] = $sessionAndModule->getSession()->getId();
+            $modules[] = $sessionAndModule->getModule()->getId();
         }
+        $sessions = array_unique($sessions);
+        $modules = array_unique($modules);
 
-        #[Route('instructor/plan_qcm', name: 'instructor_plan_qcm', methods: ['GET', 'POST'])]
-        public function planQcm(SessionRepository $sessionRepo): Response
+        $sessions = array_map( function($session) use ($sessionRepository) {
+            return $sessionRepository->findOneBy(['id' => $session]);
+        }, $sessions);
+
+        $modules = array_map( function($module) use ($moduleRepository) {
+            return $moduleRepository->findOneBy(['id' => $module]);
+        }, $modules );
+
+        $formData = $request->query->all();
+
+        if (count($formData) != 0)
         {
-            $instructorSessions = $sessionRepo->getInstructorSessions($this->security->getUser()->getId());
+            $module = $moduleRepository->find($formData["module"]);
+            $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
+            $qcm = $qcmGenerator->generateRandomQcm($module,$this->security->getUser(), $userRepository , 'official');
+            $manager->persist($qcm);
 
-            return $this->render('instructor/plan_qcm.html.twig', [
-                'instructorSessions' => $instructorSessions,
-            ]);
-        }
+            $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
+            $students = [];
 
-        #[Route('instructor/qcm-planner/getSessionModules/{session}', name: 'instructor_get_session_modules_ajax', methods: ['GET'])]
-        public function ajaxGetSessionModules(
-            LinkInstructorSessionModuleRepository $LinkSessionModuleRepo,
-            Session $session = null
-        ): JsonResponse
-        {
-            if ($session)
+            foreach ($linksSessionStudent as $linkSessionStudent)
             {
-                $linksSessionModules = $LinkSessionModuleRepo->findBy(['session' => $session]);
-                $modules = array_map(function ($linkSessionModule) {
-                    return $linkSessionModule->getModule();
-                }, $linksSessionModules);
-
-                return $this->json($modules, 200, [], ['groups' => 'module:read']);
+                $students[] = $linkSessionStudent->getStudent();
             }
-            return new JsonResponse();
-        }
 
-        #[Route('instructor/qcm-planner/getSessionStudents/{session}', name: 'instructor_get_session_students_ajax', methods: ['GET'])]
-        public function ajaxGetSessionStudents(
-            LinkSessionStudentRepository $LinkSessionStudentRepo,
-            Session $session = null
-        ): JsonResponse
-        {
-            if ($session)
-            {
-                $LinksSessionStudent = $LinkSessionStudentRepo->findBy(['session' => $session]);
-                $students = array_map(function ($LinkSessionStudent) {
-                    return $LinkSessionStudent->getStudent();
-                }, $LinksSessionStudent);
-
-                return $this->json($students, 200, [], ['groups' => 'user:read']);
-            }
-            return new JsonResponse();
-        }
-
-        #[Route('instructor/qcm-planner/getModuleQcms/{module}/{distributed}', name: 'instructor_get_module_qcms_ajax', methods: ['GET'])]
-        public function ajaxGetModuleQcms(
-            InstructorRepository $instructorRepository,
-            QcmRepository $qcmRepository,
-            Module $module = null,
-            $distributed = null,
-        ): JsonResponse
-        {
-            if ($module && $distributed)
-            {
-                $qcms = $qcmRepository->getQcmDistributedByUser($this->getUser()->getId(), $module->getId() );
-                return $this->json($qcms, 200, [], ['groups' => 'qcm:read']);
-            }
-            elseif ($module)
-            {
-                $qcms = $qcmRepository->findBy([
-                    'isOfficial' => 0,
-                    'isEnabled' => 1,
-                    'module' => $module,
-                    'author' => $this->getUser()
-                    ]);
-                return $this->json($qcms, 200, [], ['groups' => 'qcm:read']);
-            }
-            return new JsonResponse();
-        }
-
-        #[Route('instructor/qcm-planner/distribute', name: 'instructor_distribue_qcm')]
-        public function planQcmToStudents(
-            Request                $request,
-            QcmRepository          $qcmRepo,
-            StudentRepository      $studentRepo,
-            EntityManagerInterface $manager,
-            UserRepository         $userRepository
-        ): Response
-        {
-            $qcm = $qcmRepo->find(intval($request->get('qcm')));
-            $startTime = new \DateTime($request->get('start-time'));
-            $endTime = new \DateTime($request->get('end-time'));
-            $students = array_map(function ($studentId) use ($studentRepo) {
-                return $studentRepo->find(intval($studentId));
-            }, $request->get('students'));
             foreach ($students as $student)
             {
                 $qcmInstance = new QcmInstance();
                 $qcmInstance->setStudent($student);
-                /* TODO à voir si ça fonctionne */
+                /* TODO à voir si ça foncitonne */
                 $qcmInstance->setDistributedBy($userRepository->find($this->security->getUser()->getId()));
                 $qcmInstance->setQcm($qcm);
-                $qcmInstance->setStartTime($startTime);
-                $qcmInstance->setEndTime($endTime);
                 $qcmInstance->setCreatedAtValue();
                 $qcmInstance->setUpdateAtValue();
-                $manager->persist($qcmInstance);
-            }
-            $manager->flush();
 
-            $this->addFlash('success', 'La programmation du qcm a bien été enregistrée.');
-            return $this->redirectToRoute('welcome_instructor');
-        }
+                //START TIME AND END TIME
+                $dayOfCreationOfQcmInstance = $qcmInstance->getCreatedAt();
 
-        #[Route('instructor/qcms/distributed_qcms',name:'instructor_distributed_qcms',methods:['GET','POST'])]
-        public function distributedQcmToStudent(
-            InstructorRepository        $instructorRepository,
-            SessionRepository           $sessionRepository,
-            ModuleRepository            $moduleRepository,
-            QcmRepository               $qcmRepository,
-        ):Response
-        {
-            $userId = $this->security->getUser()->getId();
-            $sessionsAndModulesByInstructors = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+                if ($dayOfCreationOfQcmInstance)
+                {
+                    $dateOfCreationFormat = date_format($dayOfCreationOfQcmInstance, "Y-m-d H:i:s");
+                    $newDateTimeForStartTime = date("Y-m-d 13:00:00", strtotime($dateOfCreationFormat . '+ 5 days'));
+                    $startTime = new \DateTime($newDateTimeForStartTime);
+                    $qcmInstance->setStartTime($startTime);
+                    $newDateTimeForEndTime = date("Y-m-d H:i:s", strtotime($newDateTimeForStartTime . '+ 4hours'));
+                    $endTime = new \Datetime($newDateTimeForEndTime);
 
-            foreach ($sessionsAndModulesByInstructors as $sessionAndModuleByInstructor)
-            {
-                $sessions = $sessionRepository->getInstructorSessions($userId);
-                $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
-                $qcm = $qcmRepository->getQcmModules(1);
-            }
-
-            return $this->render('instructor/distributed_qcms.html.twig', [
-                        'sessions' => $sessions,
-                        'modules' => $modules,
-                        'qcm' => $qcm,
-                ]);
-        }
-
-        #[Route('instructor/qcms/distributed_qcms/{session}',name:'instructor_distributed_qcms_get_module_ajax',methods:['GET'])]
-        public function ajaxGetSessionByInstructor(
-            Session $session,
-            ModuleRepository $moduleRepository,
-        ):JsonResponse
-        {
-            $modules = $moduleRepository->getModuleSessions($session->getId());
-            $modulesName = [];
-            foreach ( $modules as $module ){
-                $modulesName[] =  ['name' => $module->getTitle(), 'id' => $module->getId()];
-            }
-            return $this->json($modulesName);
-        }
-
-        #[Route('instructor/qcms/distributed_students/{qcm}',name:'instructor_distributed_qcms_get_student_ajax',methods:['GET'])]
-        public function ajaxGetStudentByQcm(
-            Qcm $qcm = null
-        ): JsonResponse
-        {
-                $qcmInstances = $qcm->getQcmInstances()->toArray();
-                $students = array_map( function($qcmInstance){
-                    return [
-                        'student' => $qcmInstance->getStudent(),
-                        'result' => $qcmInstance->getResult(),
-                        'distributedAt' => $qcmInstance->getCreatedAt(),
-                    ];
-                }, $qcmInstances);
-                $studentResponse = [];
-                foreach ($students as $student){
-                    if(!in_array($student, $studentResponse)){
-                        $studentResponse[] = $student;
+                    //  DAY ADDITION IF ENDTIME = A DAY OF WEEK  voir array -> dayOfweek
+                    $endTimeTextualFormat = date_format($endTime, 'l');
+                    if ($endTime && $endTimeTextualFormat === $dayOfWeekEnd[0])
+                    {
+                        $endTime = date_format($endTime, "Y-m-d H:i:s");
+                        $endTimeFormatNum = date("Y-m-d H:i:s", strtotime($endTime . '+ 2 days'));
+                        $endTime = new \DateTime($endTimeFormatNum);
                     }
+                    elseif ($endTime && $endTimeTextualFormat === $dayOfWeekEnd[1])
+                    {
+                        //autre methode si format de celle ci gardé sinon la convertir en celle d'en haut
+                        $endTime = $endTime->add(new DateInterval("P1D"));
+                    }
+                    $qcmInstance->setEndTime($endTime);
+                    //mettre dans un tableau saturday sunday
+                    //et a partir de la endtdate  la convertir a un format mot et faire une condition
+                    // si la date contient un des jours du tableau (ou une condition swich pour voir si c'est égale a un des element ddans ) ajouter +1 ou +2 enfonction du jour pour que ça tombe un lundi
+
+                    //on recupère on crée une variable dans lequel on met le string de getcreatedat ,
+                    //puis on place la varible dans datetime puis on lei donne un format et ainsi de suite
                 }
+                $manager->persist($qcmInstance);
+                $manager->flush();
 
-                if($studentResponse){
-                    return $this->json($studentResponse, 200, [], ['groups' => 'user:read']);
-                }
-
-                $noStudent = 'Aucun étudiant';
-                return $this->json($noStudent);
-        }
-
-        #[Route('instructor/dashboard',name:'instructor_dashboard',methods:['GET'])]
-        public function dashboard(
-            SessionRepository           $sessionRepository,
-            ModuleRepository            $moduleRepository,
-        ):Response
-        {
-            $sessions = $sessionRepository->getInstructorSessions($this->security->getUser()->getId());
-            $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
-
-            return $this->render('instructor/dashboard.html.twig', [
-                'sessions' => $sessions,
-                'modules' => $modules,
-            ]);
-        }
-
-        #[Route('instructor/dashboard/{session}',name:'instructor_get_module_student_ajax',methods:['GET'])]
-        public function ajaxGetSessionAndStudentByInstructor(
-            Session $session,
-            ModuleRepository $moduleRepository,
-        ):JsonResponse
-        {
-            $modules = $moduleRepository->getModuleSessions($session->getId());
-            $modulesName = [];
-            foreach ( $modules as $module ){
-                $modulesName[] =  ['name' => $module->getTitle(), 'id' => $module->getId()];
+                //  redirect to route avec flash
+                $this->addFlash(
+                    'success',
+                    'Le qcm a été généré avec succès'
+                );
+                return $this->redirectToRoute('welcome_instructor');
             }
-            return $this->json($modulesName);
-        }
-
-        #[Route('instructor/dashboard/{session}/{module}',name:'instructor_get_student_ajax',methods:['GET'])]
-        #[Entity('Session', options: ['id' => 'session'])]
-        public function ajaxGetStudentByInstructorForDashBoard(
-            Session $session,
-            Module $module,
-            ResultRepository $resultRepository
-        ):JsonResponse
-        {
-            $maxScoreStudents = $resultRepository->maxScoreByModuleAndSession($session->getId(), $module->getId());
-            return $this->json($maxScoreStudents);
-        }
-
-        #[Route('instructor/dashboard/{session}/{moduleId}/{studentId}',name:'instructor_get_qcms_by_student_ajax',methods:['GET'])]
-        public function ajaxGetQcmsByStudentForDashBoard(
-            $studentId,
-            Session $session,
-            $moduleId,
-            QcmRepository $qcmRepository,
-        ):JsonResponse
-        {
-            $qcms = $qcmRepository->getQcmsByStudentAndModule(intval($moduleId),intval($studentId));
-            return $this->json($qcms);
 
         }
 
-        #[Route('instructor/qcm_student/correction/{result}/{comment}',name:'instructor_qcm_student_add_comment_ajax',methods:['GET'])]
-        public function ajaxAddCommentQcmStudent(
-            Result $result,
-            $comment,
-            EntityManagerInterface $manager
-        ):JsonResponse
-        {
-
-            $result->setInstructorComment($comment);
-            $manager->flush();
-            return $this->json('Le commentaire a bien été ajouté');
-
-        }
+        return $this->render('instructor/generate_official_qcm.html.twig', [
+            'sessions' => $sessions,
+            'modules' => $modules,
+        ]);
     }
 
-    // #[Route('instructor/qcms/random_fetch/{module}/{difficulty}', name: 'instructor_qcm_random_fetch', methods: ['GET'])]
-    // public function qcmRandomFetch(
-    //    Module  $module,
-    //    UserRepository $userRepository,
-    //    Security $security,
-    //    QuestionRepository $questionRepository,
-    //    EntityManagerInterface $manager,
-    //    $difficulty = 2,
-    // ):JsonResponse
-    // {
-    //    if ($module && $difficulty) {
-    //        $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-    //        $generatedQcm = $qcmGenerator->generateRandomQcm($module, $security->getUser(), $userRepository, $difficulty);
-    //        $manager->persist($generatedQcm);
-    //        $manager->flush();
+    #[Route('instructor/plan_qcm', name: 'instructor_plan_qcm', methods: ['GET', 'POST'])]
+    public function planQcm(SessionRepository $sessionRepo): Response
+    {
+        $instructorSessions = $sessionRepo->getInstructorSessions($this->security->getUser()->getId());
 
-    //        $generatedQcmQuestions = $generatedQcm->getQuestions();
-    //        $moduleQuestions = $module->getQuestions();
+        return $this->render('instructor/plan_qcm.html.twig', [
+            'instructorSessions' => $instructorSessions,
+        ]);
+    }
 
-    //        $instructorQuestions = $moduleQuestions->filter(function ($question) use ($security) {
-    //            return !$question->getIsOfficial() && $question->getAuthor() === $security->getUser() && $question->isEnabled();
-    //        })->toArray();
-    //        $instructorQuestions = array_diff($instructorQuestions, $generatedQcmQuestions->toArray());
+    #[Route('instructor/qcm-planner/getSessionModules/{session}', name: 'instructor_get_session_modules_ajax', methods: ['GET'])]
+    public function ajaxGetSessionModules(
+        LinkInstructorSessionModuleRepository $LinkSessionModuleRepo,
+        Session $session = null
+    ): JsonResponse
+    {
+        if ($session)
+        {
+            $linksSessionModules = $LinkSessionModuleRepo->findBy(['session' => $session]);
+            $modules = array_map(function ($linkSessionModule) {
+                return $linkSessionModule->getModule();
+            }, $linksSessionModules);
 
-    //        $instructorQuestions = array_map(function ($instructorQuestion) use ($questionRepository, $security) {
+            return $this->json($modules, 200, [], ['groups' => 'module:read']);
+        }
+        return new JsonResponse();
+    }
 
-    //            $isDistributed = $questionRepository->getQuestionWithReleaseDate($instructorQuestion->getId())['startTime'] === null ? false : true;
+    #[Route('instructor/qcm-planner/getSessionStudents/{session}', name: 'instructor_get_session_students_ajax', methods: ['GET'])]
+    public function ajaxGetSessionStudents(
+        LinkSessionStudentRepository $LinkSessionStudentRepo,
+        Session $session = null
+    ): JsonResponse
+    {
+        if ($session)
+        {
+            $LinksSessionStudent = $LinkSessionStudentRepo->findBy(['session' => $session]);
+            $students = array_map(function ($LinkSessionStudent) {
+                return $LinkSessionStudent->getStudent();
+            }, $LinksSessionStudent);
 
-    //            return [
-    //                'question' => $instructorQuestion,
-    //                'isEditable' => !$isDistributed && $security->getUser() === $instructorQuestion->getAuthor(),
-    //            ];
-    //        }, $instructorQuestions);
+            return $this->json($students, 200, [], ['groups' => 'user:read']);
+        }
+        return new JsonResponse();
+    }
 
-    //        $officialQuestions = $moduleQuestions->filter(function ($question) {
-    //            return $question->getIsOfficial() && $question->isEnabled();
-    //        })->toArray();
-    //        $officialQuestions = array_diff($officialQuestions, $generatedQcmQuestions->toArray());
+    #[Route('instructor/qcm-planner/getModuleQcms/{module}/{distributed}', name: 'instructor_get_module_qcms_ajax', methods: ['GET'])]
+    public function ajaxGetModuleQcms(
+        InstructorRepository $instructorRepository,
+        QcmRepository $qcmRepository,
+        Module $module = null,
+        $distributed = null,
+    ): JsonResponse
+    {
+        if ($module && $distributed)
+        {
+            $qcms = $qcmRepository->getQcmDistributedByUser($this->getUser()->getId(), $module->getId() );
+            return $this->json($qcms, 200, [], ['groups' => 'qcm:read']);
+        }
+        elseif ($module)
+        {
+            $qcms = $qcmRepository->findBy([
+                'isOfficial' => 0,
+                'isEnabled' => 1,
+                'module' => $module,
+                'author' => $this->getUser()
+                ]);
+            return $this->json($qcms, 200, [], ['groups' => 'qcm:read']);
+        }
+        return new JsonResponse();
+    }
 
-    //        $officialQuestions = array_map(function ($officialQuestion) {
-    //            return [
-    //                'question' => $officialQuestion,
-    //                'isEditable' => false
-    //            ];
-    //        }, $officialQuestions);
+    #[Route('instructor/qcm-planner/distribute', name: 'instructor_distribue_qcm')]
+    public function planQcmToStudents(
+        Request                $request,
+        QcmRepository          $qcmRepo,
+        StudentRepository      $studentRepo,
+        EntityManagerInterface $manager,
+        UserRepository         $userRepository
+    ): Response
+    {
+        $qcm = $qcmRepo->find(intval($request->get('qcm')));
+        $startTime = new \DateTime($request->get('start-time'));
+        $endTime = new \DateTime($request->get('end-time'));
+        $students = array_map(function ($studentId) use ($studentRepo) {
+            return $studentRepo->find(intval($studentId));
+        }, $request->get('students'));
+        foreach ($students as $student)
+        {
+            $qcmInstance = new QcmInstance();
+            $qcmInstance->setStudent($student);
+            /* TODO à voir si ça fonctionne */
+            $qcmInstance->setDistributedBy($userRepository->find($this->security->getUser()->getId()));
+            $qcmInstance->setQcm($qcm);
+            $qcmInstance->setStartTime($startTime);
+            $qcmInstance->setEndTime($endTime);
+            $qcmInstance->setCreatedAtValue();
+            $qcmInstance->setUpdateAtValue();
+            $manager->persist($qcmInstance);
+        }
+        $manager->flush();
+
+        $this->addFlash('success', 'La programmation du qcm a bien été enregistrée.');
+        return $this->redirectToRoute('welcome_instructor');
+    }
+
+    #[Route('instructor/qcms/distributed_qcms',name:'instructor_distributed_qcms',methods:['GET','POST'])]
+    public function distributedQcmToStudent(
+        InstructorRepository        $instructorRepository,
+        SessionRepository           $sessionRepository,
+        ModuleRepository            $moduleRepository,
+        QcmRepository               $qcmRepository,
+    ):Response
+    {
+        $userId = $this->security->getUser()->getId();
+        $sessionsAndModulesByInstructors = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
+
+        foreach ($sessionsAndModulesByInstructors as $sessionAndModuleByInstructor)
+        {
+            $sessions = $sessionRepository->getInstructorSessions($userId);
+            $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
+            $qcm = $qcmRepository->getQcmModules(1);
+        }
+
+        return $this->render('instructor/distributed_qcms.html.twig', [
+                    'sessions' => $sessions,
+                    'modules' => $modules,
+                    'qcm' => $qcm,
+            ]);
+    }
+
+    #[Route('instructor/qcms/distributed_qcms/{session}',name:'instructor_distributed_qcms_get_module_ajax',methods:['GET'])]
+    public function ajaxGetSessionByInstructor(
+        Session $session,
+        ModuleRepository $moduleRepository,
+    ):JsonResponse
+    {
+        $modules = $moduleRepository->getModuleSessions($session->getId());
+        $modulesName = [];
+        foreach ( $modules as $module ){
+            $modulesName[] =  ['name' => $module->getTitle(), 'id' => $module->getId()];
+        }
+        return $this->json($modulesName);
+    }
+
+    #[Route('instructor/qcms/distributed_students/{qcm}',name:'instructor_distributed_qcms_get_student_ajax',methods:['GET'])]
+    public function ajaxGetStudentByQcm(
+        Qcm $qcm = null
+    ) : JsonResponse
+    {
+            $qcmInstances = $qcm->getQcmInstances()->toArray();
+            $students = array_map( function($qcmInstance){
+                return [
+                    'student' => $qcmInstance->getStudent(),
+                    'result' => $qcmInstance->getResult(),
+                    'distributedAt' => $qcmInstance->getCreatedAt(),
+                ];
+            }, $qcmInstances);
+            $studentResponse = [];
+            foreach ($students as $student){
+                if(!in_array($student, $studentResponse)){
+                    $studentResponse[] = $student;
+                }
+            }
+
+            if($studentResponse){
+                return $this->json($studentResponse, 200, [], ['groups' => 'user:read']);
+            }
+
+            $noStudent = 'Aucun étudiant';
+            return $this->json($noStudent);
+    }
+
+    #[Route('instructor/dashboard',name:'instructor_dashboard',methods:['GET'])]
+    public function dashboard(
+        SessionRepository           $sessionRepository,
+        ModuleRepository            $moduleRepository,
+    ):Response
+    {
+        $sessions = $sessionRepository->getInstructorSessions($this->security->getUser()->getId());
+        $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
+
+        return $this->render('instructor/dashboard.html.twig', [
+            'sessions' => $sessions,
+            'modules' => $modules,
+        ]);
+    }
+
+    #[Route('instructor/dashboard/{session}',name:'instructor_get_module_student_ajax',methods:['GET'])]
+    public function ajaxGetSessionAndStudentByInstructor(
+        Session $session,
+        ModuleRepository $moduleRepository,
+    ):JsonResponse
+    {
+        $modules = $moduleRepository->getModuleSessions($session->getId());
+        $modulesName = [];
+        foreach ( $modules as $module ){
+            $modulesName[] =  ['name' => $module->getTitle(), 'id' => $module->getId()];
+        }
+        return $this->json($modulesName);
+    }
+
+    #[Route('instructor/dashboard/{session}/{module}',name:'instructor_get_student_ajax',methods:['GET'])]
+    #[Entity('Session', options: ['id' => 'session'])]
+    public function ajaxGetStudentByInstructorForDashBoard(
+        Session $session,
+        Module $module,
+        ResultRepository $resultRepository
+    ):JsonResponse
+    {
+        $maxScoreStudents = $resultRepository->maxScoreByModuleAndSession($session->getId(), $module->getId());
+        return $this->json($maxScoreStudents);
+    }
+
+    #[Route('instructor/dashboard/{session}/{moduleId}/{studentId}',name:'instructor_get_qcms_by_student_ajax',methods:['GET'])]
+    public function ajaxGetQcmsByStudentForDashBoard(
+        $studentId,
+        Session $session,
+        $moduleId,
+        QcmRepository $qcmRepository,
+    ):JsonResponse
+    {
+        $qcms = $qcmRepository->getQcmsByStudentAndModule(intval($moduleId),intval($studentId));
+        return $this->json($qcms);
+
+    }
+
+    #[Route('instructor/qcm_student/correction/{result}/{comment}',name:'instructor_qcm_student_add_comment_ajax',methods:['GET'])]
+    public function ajaxAddCommentQcmStudent(
+        Result $result,
+        $comment,
+        EntityManagerInterface $manager
+    ):JsonResponse
+    {
+
+        $result->setInstructorComment($comment);
+        $manager->flush();
+        return $this->json('Le commentaire a bien été ajouté');
+
+    }
+}

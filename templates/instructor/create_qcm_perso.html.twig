@@ -5,7 +5,7 @@
     <link href="{{asset('css/instructor/create_qcm_perso.css')}}" rel="stylesheet">
 {% endblock %}
 
-{% block title %}Hello InstructorController!{% endblock %}
+{% block title %} Créer un qcm d"exercice {% endblock %}
 
 {% block body %}
     {% set count = 0 %}
@@ -15,80 +15,63 @@
 
     <h1>- {{ 'title.createCustomQcm'|trans }} -</h1>
 
-    <div class="partOne">
-
+    <section class="contentPartOne">
         <p><span class="step">{{ 'title.step1'|trans }}</span>{{ 'qcm.chooseQcmModuleLevel'|trans }}</p>
-
-        <form action="{{ path('instructor_create_qcm_perso') }}" method="GET">
-     
-         {# {{ dump(app.request.query) }}  #}
-            <div  class="selectOptionChoiceModule">
-               <select  id="moduleOption" class="selectVarFond" name="module" >
-               <option  value="null">Veuillez choisir un module</option>
-                {% for module in modules %}
-                    <option   value="{{module.id}}"  >{{ module.title }}</option>
-                {% endfor %}
-            </select>
-          
+        <main>
+            <div class="selectOptionChoiceModule">
+                <select  id="moduleOption" class="selectVarFond" name="module" >
+                    <option  value="null">{{ 'module.moduleChoice'|trans }}</option>
+                    {% for module in modules %}
+                        <option value="{{module.id}}">{{ module.title }}</option>
+                    {% endfor %}
+                </select>
             </div>
-      
             <div class="choiceDifficultiesAndTypeOfQcm">
                 <div class="blocChoiceDifficulties">
-                        <input type="hidden" name="qcm[difficulty]" value="" id="qcmDifficulty">
-                        <div class="blocBorderChoiceDifficulties">
-                        <ul class="listChoiceDifficulties">
-                            <li   data-difficulty="1" >Facile </li>
-                            <li  data-difficulty="2" >Moyen</li>
-                            <li  data-difficulty="3" >Difficile </li>
+                    <div class="blocBorderChoiceDifficulties">
+                        <ul id="difficultyOption" class="listChoiceDifficulties">
+                            <li data-difficulty="1" >{{ 'difficulty.easy'|trans }} </li>
+                            <li data-difficulty="2" >{{ 'difficulty.medium'|trans }}</li>
+                            <li data-difficulty="3" >{{ 'difficulty.difficult'|trans }} </li>
                         </ul>
-                        </div>
+                    </div>
                 </div>
                 <div class="choiceTypeOfQcm">
-                    <ul class="listTypeOfQcm">
-                    {# fonction ajax  #}
-                        {# <li><button class="qcmOfficial" type="submit" >{{'button.generateQcmOfficial'|trans}}</button> </li> #}
-                        <li><button class="buttonGenerate" type="submit" >{{'button.generateQcmPersonalised'|trans}}</button></li>
-                    </ul>
+                    <button id="generateQcmButton" class="button mediumButton">{{'button.generateQcmPersonalised'|trans}}</button>
                 </div>
             </div>
-
-        </form>
- 
-         <hr>
-
-
-
-         <p><span class="step">{{ 'title.step2'|trans }}</span>{{ 'title.qcmChoosed'|trans }}</p>
-
-        <div class="showQcm">
-            <button class="btnShowQcm">{{ 'button.seeQcm'|trans }}</button>
-            <div class="backWhite">
+            <p id="generationError" class="pRandomFetch displayNone" ></p>
+        </main>
+    </section>
+    <section id="generatedQcmResumeBlock" class="contentPartThree displayNone">
+        <p><span class="step">{{ 'title.step2'|trans }}</span>{{ 'title.qcmChoosed'|trans }}</p>
+        <main class="showQcm">
+            <button id="showGeneratedQcmResumeButton" class="button mediumButton">{{ 'button.hideQuestions'|trans }}</button>
+            <div class="divOptions">
+                <button id="personalizeQcmButton" class="button" > {{ 'button.personalizeQcm'|trans }} </button>
+                <button id="ValidateQcmButtonWhitoutChange" class="button" > {{ 'button.validQcm'|trans }} </button>
+            </div>
+            <div id="containerQuestionsList" class="backWhite">
                 <ul>
-                   
+
                 </ul>
             </div>
-        </div>
-    </div>
+        </main>
+    </section>
 
-
-    <section id="contentPartTwo">
-        <hr>
+    <section id="personalizeQcmBlock" class="contentPartThree displayNone">
         <p class="pStepThree"><span class="step">{{'title.step3'|trans }}</span>{{ 'title.qcmPersonalized'|trans }}</p>
-
         <div class="btnToggle">
-            <button class="btnCustom">{{ 'button.personalized'|trans }}</button>
+            <button id="qcmPersonalizerButtonShow" class="btnCustom">{{ 'button.hideQcmPersonalizer'|trans }}</button>
         </div>
+        <main id="containerQcmPersonalizer" class="partTwo">
 
-        <div class="partTwo">
             {#*************************************************************************************************#}
             {#LEGEND#}
             <div class="legends">
-
                 <p>{{ 'title.levelByQuestionDifficulty'|trans }}</p>
                 <div class="contentExplicationAndLegend">
-                    <button>{{ 'button.explanation'|trans }}</button>
-
-
+                    <button id="showModalExplanationBtn">{{ 'button.explanation'|trans }}</button>
                     <div class="legendDifficultyDiv">
                         <div class="legendDifficultyContainerDiv">
                             <div class="legendDifficultyDecoDiv">
@@ -99,10 +82,9 @@
                                     <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles">
                                 </div>
                                 <div class="legendDifficultyNbr">
-                                     <p class="nbrQuestion" id="easy" >5</p>
+                                    <p class="nbrQuestion" id="easy" >5</p>
                                 </div>
                             </div>
-
                             <div class="legendDifficultyDecoDiv">
                                 <div class="legendDifficultyDecoSubDiv">
                                     <div>
@@ -132,7 +114,7 @@
 
             {#*************************************************************************************************#}
             {#DRAG AND DROP#}
-            <div class="dragAndDrop">
+            <section class="dragAndDrop">
                 {#*************************************************************************************************#}
                 {#QCM CHOICED #}
                 <div class="qcmChoised">
@@ -146,190 +128,61 @@
                             </div>
                         </div>
                         <div class="qcmChoisedMain">
-                            <ul>
-                                {# {% for question in generatedQcm.questionsCache %}
-                                    <li class="qcmChoisedLi"  draggable="true">
-                                        <div class="qcmChoisedLiDiv">
-                                            <div class="questionWordingDiv qcmChoisedQuestionWordingDiv">
-                                                <p class="qcmChoisedTreffleP">
-                                                {% if question.difficulty == 1 %}
-                                                    <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">
-                                                {% elseif question.difficulty.value == 2 %}
-                                                    <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="medium">
-                                                {% else %}
-                                                    <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">
-                                                {% endif %}
-                                                </p>
-                                                <p class="qcmChoisedQuestionWordingP questionWordingP" data-id = {{ question.id }} >
-                                                   <span></span>   {{ question.wording | raw }}
-                                                </p>
-                                                <p class="qcmChoisedchevronBasP">
-                                                    <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="qcmChoisedchevronBasImg chevron">
-                                                </p>
-                                            </div>
-                                            <div class="qcmChoisedProposalWordingDiv proposalWordingDiv">
-                                                {% set countLetter = 0 %}
-                                                {% for proposal in question.proposals %}
-                                                    <div class="qcmChoisedProposalWordingP proposalWordingP">
-                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span>
-                                                        {{ proposal.wording | raw }}
-                                                    </div>
-                                                    {% set countLetter = countLetter + 1 %}
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </li>
-                                {% endfor %} #}
+                            <ul class="questionList" id="pickedQuestionsList">
+
                             </ul>
                         </div>
                     </div>
-                    {#*************************************************************************************************#}
-                    {#Image drag and drop #}
+                </div>
+                {#*************************************************************************************************#}
+                {#Image drag and drop #}
 
-                    <div class="imageDragAndDrop">
-                        <img src="{{ asset('build/images/arrow-right.png') }}" alt="Flèche arrondie verte" class="arrowRight">
-                        <img src="{{ asset('build/images/arrow-left.png') }}" alt="Flèche arrondie verte" class="arrowLeft">
+                <div class="imageDragAndDrop">
+                    <img id="moveToPickedQuestionsList" src="{{ asset('build/images/drag_and_drop.png') }}" alt="Flèche arrondie verte" class="arrowRight">
+                    <img id="moveToPickableQuestionsList" src="{{ asset('build/images/drag_and_drop.png') }}" alt="Flèche arrondie verte" class="arrowLeft">
+                </div>
+
+                {#*************************************************************************************************#}
+                {#LIST OF QUESTION #}
+                <div class="listQuestionTypedDiv">
+                    <div class="btnChoiseQuestionType">
+
+                        <button id="pickableOfficialQuestionsBnt" class="btnQuestionsActive, btnQuestions">{{'button.officialQuestions'|trans}} : </button>
+
+                        <button id="pickableCustomQuestionsBnt" class="btnQuestions" > {{'button.myQuestionsCustom'|trans}} </button>
+
+                    </div>
+                    {#*************************************************************************************************#}
+                    {#OFFICIAL #}
+                    <div class="questionsOfficial">
+                        <ul class="questionList" id="pickableOfficialQuestionsList">
+
+
+                        </ul>
+                    </div>
+                    {#*************************************************************************************************#}
+                    {#CUSTOM #}
+                    <div class="questionsCustom displayNone">
+                        <ul class="questionList" id="pickableCustomQuestionsList">
+
+                        </ul>
                     </div>
 
                     {#*************************************************************************************************#}
-                    {#LIST OF QUESTION #}
-                    <div class="listQuestionTypedDiv">
-                        <div class="btnChoiseQuestionType">
-
-                            <button class="btnQuestionsOfficial">{{'button.myQcmsExercice'|trans}} : </button>
-                           
-                            <button class="btnQuestionsPerso" > {{'button.myQuestionsCustom'|trans}} </button>
-
-                        </div>
-                        {#*************************************************************************************************#}
-                        {#OFFICIAL #}
-                        <div class="questionsOfficial">
-
-                            <ul>
-                            
-                                {# {% for question in officialQuestions %}
-                                     }
-                                    <li class="officialQuestionLi" draggable="true">
-                                        <div class="OfficialQuestionWordingDiv questionWordingDiv ">
-                                            <div class="qcmChoisedTreffleP">
-                                                {% if question.difficulty == 1 %}
-                                                    <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">
-                                                {% elseif question.difficulty.value == 2 %}
-                                                    <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="medium">
-                                                {% else %}
-                                                    <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">
-                                                {% endif %}
-                                            </div>
-                                            <div class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
-                                              <span></span>   {{ question.wording | raw }}
-                                            </div>
-                                            <div class="officialChevronBasP chevronBasP">
-                                                <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
-                                            </div>
-                                            
-
-                                            <div class="modifyQuestionImgDiv ">
-
-                                                {% if qcmInstancesByQuestion[question.id] == 0 %}
-                                                    <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg" >
-                                                {% endif %}
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                        
-                                            <div class="OfficialProposalWordingDiv proposalWordingDiv">
-
-                                                <p class="responselabel">Les réponses</p>
-                                                {% set countLetter = 0 %}
-                                                {% for proposal in question.proposals %}
-                                                   
-                                                    <p class =" officialProposalWordingP proposalWordingP " data-status="{{proposal.isCorrectAnswer|number_format }}" data-id="{{proposal.id}}" >
-                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span class="spanWording" >{{ proposal.wording | raw }} </span>
-                                                    </p>
-                                                    
-                                                    {% set countLetter = countLetter + 1 %}
-                                                {% endfor %}
-                                                <div class="questionModify">
-                                                    <button class="save">{{ 'button.register'|trans }}</button>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </li>
-                                {% endfor %} #}
-                            </ul>
-                        </div>
-                        {#*************************************************************************************************#}
-                        {#CUSTOM #}
-                         <div class="questionsCustom">
-                        
-                            <ul>
-                                {# {% for question in customQuestions %}
-                                    <li class="officialQuestionLi" draggable="true">
-                                        <div class="OfficialQuestionWordingDiv questionWordingDiv ">
-                                            <div class="qcmChoisedTreffleP">
-                                                {% if question.difficulty == 1 %}
-                                                    <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Trèfle à trois feuilles" class="qcmChoisedTrefle" data-level="easy">
-                                                {% elseif question.difficulty.value == 2 %}
-                                                    <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="medium">
-                                                {% else %}
-                                                    <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Trèfle à quatre feuilles" class="qcmChoisedTrefle" data-level="difficult">
-                                                {% endif %}
-                                            </div>
-                                            <div class="officialQuestionWordingP questionWordingP" data-id="{{question.id}}">
-                                              <span></span>   {{ question.wording | raw }}
-                                            </div>
-                                            <div class="officialChevronBasP chevronBasP">
-                                                <img src="{{asset('build/images/chevron_bas.png')}}" alt="Chevron ouvrant" class="officialChevronBasImg chevronBasImg chevron">
-                                            </div>
-                                            
-                                            <div class="modifyQuestionImgDiv ">
-                                             {% if qcmInstancesByQuestion[question.id] == 0 %}
-                                                <img src="{{asset('build/images/edit.png')}}" alt="bouton modifier" class="modifyQuestionImg">
-                                             {% endif %} 
-                                            </div>
-                                        </div>
-                                        <div>
-
-                                            <div class="OfficialProposalWordingDiv proposalWordingDiv">
-                                                {% set countLetter = 0 %}
-                                                {% for proposal in question.proposals %}
-                                                
-                                                    <p class="officialProposalWordingP proposalWordingP " data-id="{{proposal.id}}" >
-                                                        <span class="numeroProp nPropPartTwo">{{ letters[countLetter] }}</span><span class="spanWording" >{{ proposal.wording | raw }}</span>
-                                                    </p>
-                                                    {% set countLetter = countLetter + 1 %}
-                                                {% endfor %}
-                                                <div class="questionModify">
-                                                    <button class="save">{{ 'button.register'|trans }}</button>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </li>
-                                {% endfor %} #}
-                            </ul>
-                        </div>
-
-                        {#*************************************************************************************************#}
-                        {#BUTTON CREATE QUESTION #}
-                        <div class="createQuestion">
-                            <button >{{ 'button.createQuestion'|trans }}</button>
-                        </div>
+                    {#BUTTON CREATE QUESTION #}
+                    <div class="createQuestion">
+                        <button >{{ 'button.createQuestion'|trans }}</button>
                     </div>
+                </div>
+            </section>
 
-
-
-            </div>
             <p class="pStepFour"><span class="step">{{ 'title.step4'|trans }}</span> {{ 'title.qcmPersonalizedTitle'|trans }}</p>
             <div class="blocBeforeValidation">
                     {#*************************************************************************************************#}
                     {#NAME#}
                  <div class="qcmName">
-                      {# <input type="text" placeholder="Veuillez indiquer un nom pour le qcm" class="qcmNameInput" data-module="{{generatedQcm.module.id}}"> #}
+                       <input id="choosenQcmName" type="text" placeholder="Veuillez indiquer un nom pour le qcm" class="qcmNameInput">
+                        <p id="errorMessageChoseNameQcm"></p>
                  </div>
 
                  <div class="isPublic">
@@ -337,45 +190,47 @@
                      <input type="checkbox"  id="isPublicInput" >
                  </div>
             </div>
-            <div class="qcmValidation">
+            <div id="validationCreationQcmBnt" class="qcmValidation">
                 <button>{{ 'button.validPersonalizedQcm'|trans }}</button>
             </div>
 
             {# {% endif %} #}
-        </div>
-   </section>
+        </main>
+    </section>
+
+{#    ********************************************************************************************************************#}
+{#    Modal Explanation#}
 
     <div class="blocModalExplaination">
         <div class="modal">
             <img src="{{asset('build/images/delete_close.png')}}" alt="close" srcset="">
             <div>
-                <p class="pTitle">- Modifier un qcm -</p>
+                <p class="pTitle">- {{ 'title.modifyQcm'|trans }} -</p>
                 <div>
                     <p class="notice">
                         <img src="{{asset('build/images/notification.png')}}" alt="rappel" srcset="">
-                        <span> Petit rappel:</span> <br/><br/>
-                        Les qcms sélectionnés  ont tous un niveau de difficulté allant de facile , moyen ou difficile
-                        déterminés par le niveau de difficulté des questions. <br/>
-                        A noter que, cela est également valable  après personnalisation.
+                        <span>{{ 'title.reminder'|trans }}</span> <br/><br/>
+                        {{ 'title.reminderText'|trans }} <br/>
+                        {{ 'title.reminderText2'|trans }}
                     </p>
                     <p class="rules">
-                        1/ Lors de la modification(personnalisation) d'un qcm, il est possible de :<br/>
-                        - retirer ou d'ajouter une ou plusieurs questions
+                        {{ 'title.rule'|trans }}<br/>
+                        {{ 'title.ruleExplaination'|trans }}
                     <p>
                 </div>
             </div>
             <div>
-                <p class="pTitle">- Niveau du qcm -</p>
+                <p class="pTitle">- {{ 'title.qcmLvl'|trans }} -</p>
                 <table class="modalDifficultyLevel">
                     <tr>
-                        <td><div>Facile</div></td>
-                        <td><div>Moyen</div></td>
-                        <td><div>Difficile</div></td>
+                        <td><div>{{ 'difficulty.easy'|trans }}</div></td>
+                        <td><div>{{ 'difficulty.medium'|trans }}</div></td>
+                        <td><div>{{ 'difficulty.difficult'|trans }}</div></td>
                     </tr>
                     <tr>
-                        <td>Minimum X question</td>
-                        <td>Minimum X question</td>
-                        <td>Minimum X question</td>
+                        <td>{{ 'title.minimumQuestionX'|trans }}</td>
+                        <td>{{ 'title.minimumQuestionX'|trans }}</td>
+                        <td>{{ 'title.minimumQuestionX'|trans }}</td>
                     </tr>
                 </table>
             </div>
@@ -388,13 +243,6 @@
         let chevronHaut = "/build/images/chevron_haut.acd8ac5d.svg"
         let chevronBas = "/build/images/chevron_bas.216a40a5.svg"
         let deleteImg = "/build/images/delete_close.d95f0f41.svg"
-      {#  let qcmInstanceQuestions= {{ qcmInstanceQuestionsCache|json_encode }}#}
-
-        {#let route = "{{ path('instructor_questions_update_fetch') }}"#}
-          {#id : user.id => temporaire /// voir controller + var #}
-        {#let routeInstructorQcmFetch = "{{ path('instructor_qcm_create_fetch' ) }}"#}
-
-        {#let questions = {{ questions|json_encode }}#}
     </script>
     <script type="text/javascript" src="{{ asset('js/instructor/create_qcm_perso.js') }}"></script>
 {% endblock %}
