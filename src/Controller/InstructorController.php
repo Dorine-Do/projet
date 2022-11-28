@@ -683,35 +683,36 @@ class InstructorController extends AbstractController
         return new JsonResponse();
     }
 
-    #[Route('instructor/qcm-planner/distribute', name: 'instructor_distribue_qcm')]
-    public function planQcmToStudents(
-        Request                $request,
-        QcmRepository          $qcmRepo,
-        StudentRepository      $studentRepo,
-        EntityManagerInterface $manager,
-        UserRepository         $userRepository
-    ): Response
-    {
-        $qcm = $qcmRepo->find(intval($request->get('qcm')));
-        $startTime = new \DateTime($request->get('start-time'));
-        $endTime = new \DateTime($request->get('end-time'));
-        $students = array_map(function ($studentId) use ($studentRepo) {
-            return $studentRepo->find(intval($studentId));
-        }, $request->get('students'));
-        foreach ($students as $student)
+        #[Route('instructor/qcm-planner/distribute', name: 'instructor_distribue_qcm')]
+        public function planQcmToStudents(
+            Request                $request,
+            QcmRepository          $qcmRepo,
+            StudentRepository      $studentRepo,
+            EntityManagerInterface $manager,
+            UserRepository         $userRepository
+        ): Response
         {
+            $qcm = $qcmRepo->find(intval($request->get('qcm')));
+            $startTime = new \DateTime($request->get('start-time'));
+            $endTime = new \DateTime($request->get('end-time'));
             $qcmInstance = new QcmInstance();
-            $qcmInstance->setStudent($student);
-            /* TODO à voir si ça fonctionne */
-            $qcmInstance->setDistributedBy($userRepository->find($this->security->getUser()->getId()));
-            $qcmInstance->setQcm($qcm);
-            $qcmInstance->setStartTime($startTime);
-            $qcmInstance->setEndTime($endTime);
-            $qcmInstance->setCreatedAtValue();
-            $qcmInstance->setUpdateAtValue();
-            $manager->persist($qcmInstance);
-        }
-        $manager->flush();
+            $students = array_map(function ($studentId) use ($studentRepo) {
+                return $studentRepo->find(intval($studentId));
+            }, $request->get('student'));
+
+            foreach ($students as $student)
+            {
+                $qcmInstance->setStudent($student);
+                /* TODO à voir si ça fonctionne */
+                $qcmInstance->setDistributedBy($userRepository->find($this->security->getUser()->getId()));
+                $qcmInstance->setQcm($qcm);
+                $qcmInstance->setStartTime($startTime);
+                $qcmInstance->setEndTime($endTime);
+                $qcmInstance->setCreatedAtValue();
+                $qcmInstance->setUpdateAtValue();
+                $manager->persist($qcmInstance);
+            }
+            $manager->flush();
 
         $this->addFlash('success', 'La programmation du qcm a bien été enregistrée.');
         return $this->redirectToRoute('welcome_instructor');
