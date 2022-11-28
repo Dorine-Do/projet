@@ -74,7 +74,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
 //            // TODO delete in production -------------------------------------------------------------------------------
             $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
             if( $stringBeginning[0] === 'C:' ) {
-                return $this->userRepo->find(141);
+                return $this->userRepo->find(6);
             }
 //            // TODO end delete in production ---------------------------------------------------------------------------
 
