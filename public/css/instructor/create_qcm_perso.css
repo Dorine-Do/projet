@@ -1063,4 +1063,11 @@ hr {
   .imageDragAndDrop {
     padding: 1em;
   }
+  .contentExplicationAndLegend {
+    padding: 1em 0.5em;
+  }
+  .btnToggle,
+  .blocBeforeValidation {
+    border-radius: 0;
+  }
 }
