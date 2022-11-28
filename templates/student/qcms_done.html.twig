@@ -98,9 +98,11 @@
                         qcmDone.type is same as 'official' and
                         qcmDone.isFirstTry is same as false
                     %}
-                        <img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">
+                        <img class="badge" src="{{asset('build/images/retry.png')}}">
                     {% elseif qcmDone.type is same as 'exercice' %}
                         <img class="badge" src="{{asset('build/images/non-officiel.png')}}">
+                    {% elseif qcmDone.type is same as 'retryBadge' %}
+                        <img class="badge" src="{{asset('build/images/retry.png')}}">
                     {% endif %}
                 </p>
             </div>

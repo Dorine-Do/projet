@@ -484,6 +484,7 @@ class StudentController extends AbstractController
         $qcmInstance = new QcmInstance();
         $student = $this->studentRepo->find( $this->security->getUser()->getId() );
         $qcmInstance->setStudent( $student );
+        $qcmInstance->setDistributedBy($student);
         $qcmInstance->setQcm( $qcm );
         $qcmInstance->setStartTime( new \DateTime() );
         $endTime = new \DateTime();
