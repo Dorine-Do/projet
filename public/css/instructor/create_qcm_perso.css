@@ -109,6 +109,7 @@ hr {
     margin: auto;
     border-radius: 50px;
     cursor: pointer;
+    text-align: center;
 }
 
 .colorDifficulty {
@@ -141,9 +142,9 @@ hr {
     display: flex;
     justify-content: center;
     align-content: center;
+    margin-bottom: 50px;
 }
 
-.buttonGenerate,
 .qcmOfficial {
     background-color: var(--grey);
     color: white;
@@ -153,12 +154,6 @@ hr {
     font-size: var(--semi_normal);
     width: 80%;
     margin: auto;
-}
-
-.buttonGenerate:hover {
-    cursor: pointer;
-    background-color: var(--vert);
-    font-weight: bold;
 }
 
 .etape {
@@ -183,12 +178,16 @@ hr {
     color: white;
     border-radius: 2em;
     border: none;
-    padding: 1.3em 0;
+    padding: 1em 0;
     width: 60%;
     font-size: var(--semi_normal);
     margin: auto;
     display: block;
     cursor: pointer;
+}
+
+.btnShowQcm:hover {
+    background-color: var(--vert);
 }
 
 .btnCustom:hover {
@@ -994,5 +993,11 @@ hr {
     .contentPartOne,
     #contentPartTwo {
         width: 80%;
+    }
+}
+
+@media screen and (min-width: 450px) {
+    .divOptions {
+        margin-top: 30px;
     }
 }

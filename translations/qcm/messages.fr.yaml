@@ -40,6 +40,7 @@ module:
   choice: Choix du module
   filter: Filtrer par module
   plsChoice: Veuillez sélectionner un module
+  moduleChoice: Veuillez choisir un module
   beforeChoice: Selectionnez une session pour choisir un module
   selectModuleToChooseQcm : Selectionnez un module pour choisir un QCM
 
@@ -138,6 +139,8 @@ button:
   toRegister: Register
   reportBug: Faire remonter un bug
   backToHome: Retour à l'accueil
+  personalizeQcm: Personaliser le QCM
+  validQcm: Valider le QCM tel quel
 
 header:
   dashboard: Tableau de bord
@@ -259,6 +262,14 @@ title:
   myCreation: Mes créations
   oups: Oups
   bravo: Bravo !
+  reminder: Petit rappel
+  reminderText: Les qcms sélectionnés  ont tous un niveau de difficulté allant de facile , moyen ou difficile déterminés par le niveau de difficulté des questions.
+  reminderText2: A noter que, cela est également valable  après personnalisation.
+  modifyQcm: Modifier un QCM
+  rule: 1/ Lors de la modification(personnalisation) d'un qcm, il est possible de
+  ruleExplaination: retirer ou d'ajouter une ou plusieurs questions
+  qcmLvl: Niveau du QCM
+  minimumQuestionX: Minimum X question
 
 
 

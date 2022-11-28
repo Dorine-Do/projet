@@ -20,7 +20,7 @@
         <main>
             <div class="selectOptionChoiceModule">
                 <select  id="moduleOption" class="selectVarFond" name="module" >
-                    <option  value="null">Veuillez choisir un module</option>
+                    <option  value="null">{{ 'module.moduleChoice'|trans }}</option>
                     {% for module in modules %}
                         <option value="{{module.id}}">{{ module.title }}</option>
                     {% endfor %}
@@ -30,14 +30,14 @@
                 <div class="blocChoiceDifficulties">
                     <div class="blocBorderChoiceDifficulties">
                         <ul id="difficultyOption" class="listChoiceDifficulties">
-                            <li data-difficulty="1" >Facile </li>
-                            <li data-difficulty="2" >Moyen</li>
-                            <li data-difficulty="3" >Difficile </li>
+                            <li data-difficulty="1" >{{ 'difficulty.easy'|trans }} </li>
+                            <li data-difficulty="2" >{{ 'difficulty.medium'|trans }}</li>
+                            <li data-difficulty="3" >{{ 'difficulty.difficult'|trans }} </li>
                         </ul>
                     </div>
                 </div>
                 <div class="choiceTypeOfQcm">
-                    <button id="generateQcmButton" class="buttonGenerate">{{'button.generateQcmPersonalised'|trans}}</button>
+                    <button id="generateQcmButton" class="button mediumButton">{{'button.generateQcmPersonalised'|trans}}</button>
                 </div>
             </div>
             <p id="generationError" class="pRandomFetch displayNone" ></p>
@@ -46,10 +46,10 @@
     <section id="generatedQcmResumeBlock" class="contentPartThree displayNone">
         <p><span class="step">{{ 'title.step2'|trans }}</span>{{ 'title.qcmChoosed'|trans }}</p>
         <main class="showQcm">
-            <button id="showGeneratedQcmResumeButton" class="btnShowQcm">{{ 'button.hideQuestions'|trans }}</button>
-            <div>
-                <button id="personalizeQcmButton" class="" > Personaliser le qcm </button>
-                <button id="ValidateQcmButtonWhitoutChange" class="" > Valider le qcm tel quel </button>
+            <button id="showGeneratedQcmResumeButton" class="button mediumButton">{{ 'button.hideQuestions'|trans }}</button>
+            <div class="divOptions">
+                <button id="personalizeQcmButton" class="button" > {{ 'button.personalizeQcm'|trans }} </button>
+                <button id="ValidateQcmButtonWhitoutChange" class="button" > {{ 'button.validQcm'|trans }} </button>
             </div>
             <div id="containerQuestionsList" class="backWhite">
                 <ul>
@@ -205,33 +205,32 @@
         <div class="modal">
             <img src="{{asset('build/images/delete_close.png')}}" alt="close" srcset="">
             <div>
-                <p class="pTitle">- Modifier un qcm -</p>
+                <p class="pTitle">- {{ 'title.modifyQcm'|trans }} -</p>
                 <div>
                     <p class="notice">
                         <img src="{{asset('build/images/notification.png')}}" alt="rappel" srcset="">
-                        <span> Petit rappel:</span> <br/><br/>
-                        Les qcms sélectionnés  ont tous un niveau de difficulté allant de facile , moyen ou difficile
-                        déterminés par le niveau de difficulté des questions. <br/>
-                        A noter que, cela est également valable  après personnalisation.
+                        <span>{{ 'title.reminder'|trans }}</span> <br/><br/>
+                        {{ 'title.reminderText'|trans }} <br/>
+                        {{ 'title.reminderText2'|trans }}
                     </p>
                     <p class="rules">
-                        1/ Lors de la modification(personnalisation) d'un qcm, il est possible de :<br/>
-                        - retirer ou d'ajouter une ou plusieurs questions
+                        {{ 'title.rule'|trans }}<br/>
+                        {{ 'title.ruleExplaination'|trans }}
                     <p>
                 </div>
             </div>
             <div>
-                <p class="pTitle">- Niveau du qcm -</p>
+                <p class="pTitle">- {{ 'title.qcmLvl'|trans }} -</p>
                 <table class="modalDifficultyLevel">
                     <tr>
-                        <td><div>Facile</div></td>
-                        <td><div>Moyen</div></td>
-                        <td><div>Difficile</div></td>
+                        <td><div>{{ 'difficulty.easy'|trans }}</div></td>
+                        <td><div>{{ 'difficulty.medium'|trans }}</div></td>
+                        <td><div>{{ 'difficulty.difficult'|trans }}</div></td>
                     </tr>
                     <tr>
-                        <td>Minimum X question</td>
-                        <td>Minimum X question</td>
-                        <td>Minimum X question</td>
+                        <td>{{ 'title.minimumQuestionX'|trans }}</td>
+                        <td>{{ 'title.minimumQuestionX'|trans }}</td>
+                        <td>{{ 'title.minimumQuestionX'|trans }}</td>
                     </tr>
                 </table>
             </div>
