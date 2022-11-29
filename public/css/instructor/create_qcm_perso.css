@@ -3,329 +3,339 @@
 /*GENERAL*/
 
 body {
-  position: relative;
-  scroll-behavior: smooth;
+    position: relative;
+    scroll-behavior: smooth;
 }
 h3 {
-  text-align: center;
-  font-weight: normal;
+    text-align: center;
+    font-weight: normal;
 }
 
 p {
-  margin: 0;
+    margin: 0;
 }
 
 ul {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .chevron:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 hr {
-  width: 100%;
-  margin: 2em 0 1em;
-  border: 1px dashed;
+    width: 100%;
+    margin: 2em 0 1em;
+    border: 1px dashed;
 }
 
 .borderColor {
-  border: 2px solid var(--grey);
-  border-radius: 5px;
+    border: 2px solid var(--grey);
+    border-radius: 5px;
 }
 
 /*JS*/
 .displayNone {
-  display: none;
+    display: none;
 }
 
 .chosenElement {
-  border: 1px solid var(--grey);
-  border-radius: 5px;
+    border: 1px solid var(--grey);
+    border-radius: 5px;
 }
 
 .rotate {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 .qcmChoisedLi .displayNone,
 .questionLi .displayNone,
 .officialQuestionLi .displayNone {
-  display: none;
+    display: none;
 }
 
 /*PARTIE 1*/
 
 .contentPartOne {
-  width: 90%;
-  margin: auto;
-  padding: 3em 0 0;
-  display: grid;
-  grid-gap: 0.5em;
+    width: 90%;
+    margin: auto;
+    padding: 3em 0 0;
+    display: grid;
+    grid-gap: 0.5em;
 }
 
 .contentPartOne > p {
-  padding: 1.5em 0;
+    padding: 1.5em 0;
 }
 /* Random qcm */
 .pRandomFetch {
-  color: red;
+    color: red;
 }
 
 /*********************************************** BOUTON DEBUT DE PAGE (MODULE + GENERATE)***********************************/
 
 .contentPartOne > form {
-  /* border-bottom: 2px solid #c7c7c7; */
-  padding: 3em 0;
-  display: grid;
-  /* grid-template-rows: 1fr 1fr; */
-  grid-template-columns: 40% 60%;
-  text-align: center;
-  background: #fff4e4;
-  border-radius: 0.5em;
+    padding: 3em 0;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    text-align: center;
+    background: #fff4e4;
+    border-radius: 0.5em;
 }
 
 .blocBorderChoiceDifficulties {
-  border: 1px solid var(--pamplemousse);
-  border-radius: 50px;
-  padding: 5px;
-  width: 87%;
-  margin: auto;
+    border: 1px solid var(--pamplemousse);
+    border-radius: 50px;
+    padding: 5px;
+    width: 87%;
+    margin: auto;
 }
 
 .listChoiceDifficulties {
-  background: white;
-  border-radius: 50px;
-  padding: 10px;
+    background: white;
+    border-radius: 50px;
+    padding: 10px;
 }
 
 .listChoiceDifficulties > li {
-  padding: 10px;
-  width: 50%;
-  background: var(--grey);
-  color: white;
-  margin: auto;
-  border-radius: 50px;
-  cursor: pointer;
-  text-align: center;
+    padding: 10px;
+    width: 50%;
+    background: var(--grey);
+    color: white;
+    margin: auto;
+    border-radius: 50px;
+    cursor: pointer;
+    text-align: center;
 }
 
 .colorDifficulty {
-  background: var(--vert) !important;
+    background: var(--vert) !important;
 }
 
 .choiceDifficultiesAndTypeOfQcm {
-  display: grid;
-  grid-template-rows: repeat(2, 1fr);
-  grid-gap: 20px;
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 20px;
 }
 
 .listChoiceDifficulties {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .list_type_of_qcm {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  margin: 0;
-  padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin: 0;
+    padding: 0;
 }
 
 .list_type_of_qcm > li {
-  padding: 5px;
+    padding: 5px;
 }
 
 .selectOptionChoiceModule {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 50px;
 }
 
 .qcmOfficial {
-  background-color: var(--grey);
-  color: white;
-  border-radius: 2em;
-  border: none;
-  padding: 1em 0;
-  font-size: var(--semi_normal);
-  width: 80%;
-  margin: auto;
+    background-color: var(--grey);
+    color: white;
+    border-radius: 2em;
+    border: none;
+    padding: 1em 0;
+    font-size: var(--semi_normal);
+    width: 80%;
+    margin: auto;
 }
 
 .etape {
-  background-color: var(--pamplemousse);
-  font-weight: bold;
-  color: var(--fond);
-  padding: 0.5em 1em;
-  border-radius: 1.5em;
+    background-color: var(--pamplemousse);
+    font-weight: bold;
+    color: var(--fond);
+    padding: 0.5em 1em;
+    border-radius: 1.5em;
 }
 .btnToggle {
-  background: var(--fond);
-  padding: 2.5em 0;
-  border-radius: 0.5em;
+    background: var(--fond);
+    padding: 2.5em 0;
+    border-radius: 0.5em;
 }
 /***************************************************************************************************/
 /*GENERATE QCM*/
 /***************************************************************************************************/
+.contentPartThree > p{
+    width: 90%;
+    margin: 1em auto;
+}
+
+.divOptions{
+    display: flex;
+    justify-content: center;
+    margin-top: .5em;
+    gap: 1em;
+}
 
 .btnCustom,
 .btnShowQcm {
-  background-color: var(--grey);
-  color: white;
-  border-radius: 2em;
-  border: none;
-  padding: 1em 0;
-  width: 60%;
-  font-size: var(--semi_normal);
-  margin: auto;
-  display: block;
-  cursor: pointer;
+    background-color: var(--grey);
+    color: white;
+    border-radius: 2em;
+    border: none;
+    padding: 1em 0;
+    width: 60%;
+    font-size: var(--semi_normal);
+    margin: auto;
+    display: block;
+    cursor: pointer;
 }
 
 .btnShowQcm:hover {
-  background-color: var(--vert);
+    background-color: var(--vert);
 }
 
 .btnCustom:hover {
-  background-color: var(--vert);
-  font-weight: bold;
+    background-color: var(--vert);
+    font-weight: bold;
 }
 .showQcm {
-  background-color: var(--fond);
-  padding: 2em;
-  border-radius: 0.5em;
+    background-color: var(--fond);
+    padding: 2em;
+    border-radius: 0.5em;
 }
 /************************************************************************/
 /*CUSTOM SCROLL*/
 .backWhite {
-  grid-gap: 1em;
+    grid-gap: 1em;
 }
 .backWhite.activeQcm {
-  display: grid;
+    display: grid;
 }
 
 .backWhite > ul {
-  display: grid;
-  grid-gap: 1em;
-  padding: 0.5em;
+    display: grid;
+    grid-gap: 1em;
+    padding: 0.5em;
 }
 /* temporaire */
 .backWhite > ul p {
-  text-align: left;
+    text-align: left;
 }
 .qcmChoisedMain ul {
-  padding: 0.5em;
-  display: grid;
-  grid-gap: 0.5em;
+    padding: 0.5em;
+    display: grid;
+    grid-gap: 0.5em;
 }
 .backWhite,
 .qcmChoisedMain,
 .questionsOfficial {
-  overflow-y: scroll;
-  height: 590px;
-  border-radius: 10px;
-  border-style: none;
-  /* display: grid; */
+    overflow-y: scroll;
+    height: 590px;
+    border-radius: 10px;
+    border-style: none;
+    /* display: grid; */
 }
 
 /* Works on Firefox */
 .backWhite,
 .qcmChoisedMain,
 .questionsOfficial {
-  scrollbar-width: thin;
-  scrollbar-color: var(--grey) var(--fond);
+    scrollbar-width: thin;
+    scrollbar-color: var(--grey) var(--fond);
 }
 
 /* Works on Chrome, Edge, and Safari */
 .backWhite::-webkit-scrollbar,
 .qcmChoisedMain::-webkit-scrollbar,
 .questionsOfficial::-webkit-scrollbar {
-  width: 12px;
+    width: 12px;
 }
 
 .backWhite::-webkit-scrollbar-track,
 .qcmChoisedMain::-webkit-scrollbar-track,
 .questionsOfficial::-webkit-scrollbar-track {
-  /* background: var(--grey); */
-  border-radius: 5px;
+    /* background: var(--grey); */
+    border-radius: 5px;
 }
 
 .backWhite::-webkit-scrollbar-thumb,
 .qcmChoisedMain::-webkit-scrollbar-thumb,
 .questionsOfficial::-webkit-scrollbar-thumb {
-  background-color: var(--grey);
-  border-radius: 20px;
-  border: 3px solid var(--grey);
+    background-color: var(--grey);
+    border-radius: 20px;
+    border: 3px solid var(--grey);
 }
 
 .numeroForm {
-  background-color: white;
-  padding: 8px 17px;
-  border-radius: 50px;
-  margin-right: 8px;
+    background-color: white;
+    padding: 8px 17px;
+    border-radius: 50px;
+    margin-right: 8px;
+    display: inline-block;
 }
 
 .numeroProp {
-  background-color: var(--grey);
-  padding: 4px 12px;
-  border-radius: 50px;
-  margin-right: 8px;
-  color: white;
-  font-size: var(--grand);
+    background-color: var(--grey);
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin-right: 8px;
+    color: white;
+    font-size: var(--grand);
 }
 
 /************************************************************************/
 /*questions li*/
 .questionLi {
-  /* margin: 1em 0; */
-  display: grid;
-  grid-gap: 0.5em;
+    /* margin: 1em 0; */
+    display: grid;
+    grid-gap: 0.5em;
 }
 
 .questionWordingDiv {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  border-radius: 0.3em;
-  background-color: var(--pamplemousse);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 0.3em;
+    background-color: var(--pamplemousse);
 }
 
 .qcmChoisedQuestionWordingP:hover,
 .officialQuestionWordingP:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .qcmChoisedProposalWordingP,
 .officialProposalWordingP,
 .backWhite .proposalWordingP {
-  padding: 0 1em;
+    padding: 0 1em;
 }
 
 .proposalWordingDiv {
-  display: grid;
-  grid-template-rows: 1fr;
-  padding: 1em;
-  border-radius: 0.3em;
-  border: 1px dashed;
-  grid-gap: 1em;
-  text-align: left;
+    display: grid;
+    grid-template-rows: 1fr;
+    padding: 1em;
+    border-radius: 0.3em;
+    border: 1px dashed;
+    grid-gap: 1em;
+    text-align: left;
 }
 
 .questionWordingP {
-  padding: 1.5em 1em;
-  border-radius: 8px;
-  width: 100%;
+    padding: 1.5em 1em;
+    border-radius: 8px;
+    width: 100%;
 }
 
 .chevronBasP {
-  width: 5%;
+    width: 5%;
 }
 
 .chevronBasImg {
-  width: 35%;
+    width: 35%;
 }
 /************************************************************************/
 
@@ -333,273 +343,270 @@ hr {
 /***************************************************************************************************/
 /*LEGEND*/
 #contentPartTwo {
-  display: none;
-  width: 90%;
-  margin: auto;
-  padding-bottom: 2em;
+    display: none;
+    width: 90%;
+    margin: auto;
+    padding-bottom: 2em;
 }
 .pStepThree {
-  padding: 2em 0;
+    padding: 2em 0;
 }
 .legends {
-  padding: 1em 0;
-  border-radius: 0.5em;
-  text-align: center;
+    padding: 1em 0;
+    border-radius: 0.5em;
+    text-align: center;
 }
 .contentExplicationAndLegend {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  text-align: center;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    text-align: center;
 }
 
 .legends button {
-  padding: 1em;
-  border: none;
-  border-radius: 50px;
-  background-color: var(--grey);
-  color: white;
-  text-align: center;
-  cursor: pointer;
-  margin: 1em auto;
-  width: 23%;
+    padding: 1em;
+    border: none;
+    border-radius: 50px;
+    background-color: var(--grey);
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    margin: 1em auto;
+    width: 23%;
 }
 
 .legends > p {
-  margin: 0.5em;
-  font-weight: bold;
+    margin: 0.5em;
+    font-weight: bold;
 }
 
 .legendDifficultyDiv {
-  display: flex;
-  border: 2px solid #ffac8f;
-  border-radius: 3em;
-  padding: 0.8em;
-  background-color: #fff4e4;
-  justify-content: space-around;
-  margin: auto;
+    display: flex;
+    border: 2px solid #ffac8f;
+    border-radius: 3em;
+    padding: 0.8em;
+    background-color: #fff4e4;
+    justify-content: space-around;
+    margin: auto;
 }
 
 .legendDifficultyContainerDiv {
-  display: flex;
-  justify-content: space-around;
-  background: white;
-  padding: 0.2em;
-  border-radius: 2em;
+    display: flex;
+    justify-content: space-around;
+    background: white;
+    padding: 0.2em;
+    border-radius: 2em;
 }
 
 .legendDifficultyDecoDiv {
-  display: flex;
-  align-items: center;
-  width: 20%;
+    display: flex;
+    align-items: center;
+    width: 20%;
 }
 
 .legendDifficultyDecoSubDiv {
-  display: flex;
-  /* background-color: #616161; */
-  /* border-radius: 2em; */
-  justify-content: center;
-  padding: 0.2em;
-  width: 50%;
-  align-items: center;
+    display: flex;
+    /* background-color: #616161; */
+    /* border-radius: 2em; */
+    justify-content: center;
+    padding: 0.2em;
+    width: 50%;
+    align-items: center;
 }
 
 .legendDifficultyDecoSubDiv div {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 
 .legendDifficultyDecoSubDiv img {
-  padding: 5px;
-  background-color: #fff4e4;
-  border-radius: 50px;
-  width: 25%;
+    padding: 5px;
+    background-color: #fff4e4;
+    border-radius: 50px;
+    width: 25%;
 }
 
 .legendDifficultyNbr {
-  display: flex;
+    display: flex;
 }
 
 /***************************************************************************************************/
 /*DRAG AND DROP*/
 /***************************************************************************************************/
 .blocBeforeValidation {
-  background: var(--fond);
-  border-radius: 0.5em;
-  text-align: center;
-  padding: 1.5em 0;
+    background: var(--fond);
+    border-radius: 0.5em;
+    text-align: center;
+    padding: 1.5em 0;
 }
 .dragAndDrop {
-  display: flex;
-  gap: 0.5em;
-  margin-top: 4em;
-  border-radius: 5px;
-  text-align: center;
+    display: flex;
+    gap: 0.5em;
+    margin-top: 4em;
+    border-radius: 5px;
+    text-align: center;
 }
 .pStepFour {
-  padding: 2em 0;
-}
-.createQuestion {
-  /*width: 47%;*/
+    padding: 2em 0;
+    width: 90%;
+    margin: auto;
 }
 
 .nPropPartTwo {
-  padding: 2px 12px;
-  font-size: 23px;
-  margin: auto;
+    padding: 2px 12px;
+    font-size: 23px;
+    margin: auto;
 }
 .spanWording {
-  margin-left: 0.5em;
+    margin-left: 0.5em;
 }
 .responselabel {
-  text-align: center;
-  font-weight: 600;
-  font-size: 20px;
-  text-decoration: underline;
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+    text-decoration: underline;
 }
 /***************************************************************************************************/
 /*QCM CHOISED*/
 /***************************************************************************************************/
 
 .blocQcmChoisedLevel {
-  padding: 1em 0;
+    padding: 1em 0;
 }
 .qcmChoised {
-  display: flex;
-  border-radius: 0.5em;
-  background-color: #fff4e4;
-  padding: 2em 1em;
-  flex-grow: 1;
-  width: 40%;
+    display: flex;
+    border-radius: 0.5em;
+    background-color: #fff4e4;
+    padding: 2em 1em;
+    flex-grow: 1;
+    width: 40%;
 }
 .qcmChoisedLegend {
-  display: grid;
-  /* align-items: center; */
-  grid-template-columns: 70% 30%;
-  background-color: #ffac8f;
-  border-radius: 2em;
-  color: white;
-  padding: 0.7em 0;
-  width: 90%;
-  margin: auto;
+    display: grid;
+    /* align-items: center; */
+    grid-template-columns: 70% 30%;
+    background-color: #ffac8f;
+    border-radius: 2em;
+    color: white;
+    padding: 0.7em 0;
+    width: 90%;
+    margin: auto;
 }
 
 .qcmChoisedLevel {
-  padding: 0.2em;
-  background: grey;
-  width: 70%;
-  text-align: center;
-  border-radius: 50px;
-  color: white;
-  margin: auto;
-  font-weight: var(--semi_bold);
+    padding: 0.2em;
+    background: grey;
+    width: 70%;
+    text-align: center;
+    border-radius: 50px;
+    color: white;
+    margin: auto;
+    font-weight: var(--semi_bold);
 }
 
 /***************************************************************************************************/
 /* qcmChoisedSubDiv*/
 
 .qcmChoisedSubDiv {
-  height: 40%;
+    height: 40%;
 }
 .questionsOfficial > ul {
-  display: grid;
-  grid-gap: 0.5em;
-  padding: 0.5em;
+    display: grid;
+    grid-gap: 0.5em;
+    padding: 0.5em;
 }
-.qcmChoisedMain,
-.questionsOfficial {
-  height: 24em;
+.qcmChoisedMain {
+    height: 30em;
 }
 
 .listQuestionTypedDiv {
-  text-align: center;
-  flex-grow: 1;
-  width: 40%;
-  background: var(--fond);
-  border-radius: 0.5em;
-  padding: 2em 1em;
+    text-align: center;
+    flex-grow: 1;
+    width: 40%;
+    background: var(--fond);
+    border-radius: 0.5em;
+    padding: 2em 1em;
 }
 
 .qcmChoisedLi {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 .qcmChoisedLiDiv {
-  width: 100%;
-  padding: 0.2em;
-  display: grid;
-  grid-gap: 0.2em;
+    width: 100%;
+    padding: 0.2em;
+    display: grid;
+    grid-gap: 0.2em;
 }
 
 /***********************************************************************/
 /*Une question*/
 
 .qcmChoisedQuestionWordingDiv {
-  border-radius: 5px;
-  text-align: center;
-  justify-content: center;
+    border-radius: 5px;
+    text-align: center;
+    justify-content: center;
 }
 .qcmChoisedTreffleP {
-  width: 5%;
-  padding: 0.2em;
-  /* background: aliceblue; */
-  border-radius: 50px;
-  display: flex;
-  justify-content: center;
+    width: 5%;
+    padding: 0.2em;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 .qcmChoisedTrefle {
-  width: 100%;
+    width: 100%;
 }
 
 .qcmChoisedQuestionWordingP {
-  margin: 0;
-  text-align: left;
-  font-weight: 500;
-  width: 84%;
-  padding: 1em 0.2em;
-  display: grid;
-  grid-template-columns: 5% 95%;
+    margin: 0;
+    text-align: left;
+    font-weight: 500;
+    width: 84%;
+    padding: 1em 0.2em;
+    display: grid;
+    grid-template-columns: 5% 95%;
 }
 
 /* temporaire pour le marquage des questions */
 .qcmChoisedQuestionWordingP span {
-  background: green;
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-right: 0.5em;
-  align-self: center;
+    background: green;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 0.5em;
+    align-self: center;
 }
 
 .qcmChoisedchevronBasP {
-  width: 4%;
+    width: 4%;
 }
 .qcmChoisedchevronBasImg {
-  width: 100%;
+    width: 100%;
 }
 
 .qcmChoisedProposalWordingDiv {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 .qcmChoisedProposalWordingP {
 }
 
 .x {
-  height: 20%;
-  width: 5%;
-  text-align: center;
-  background-color: gray;
-  border-radius: 50px;
-  color: white;
-  padding: 0.2em;
-  margin-left: 0.2em;
+    height: 20%;
+    width: 5%;
+    text-align: center;
+    background-color: gray;
+    border-radius: 50px;
+    color: white;
+    padding: 0.2em;
+    margin-left: 0.2em;
 }
 
 .x:hover {
-  cursor: pointer;
-  background-color: red;
+    cursor: pointer;
+    background-color: red;
 }
 
 /***********************************************************************/
@@ -609,33 +616,33 @@ hr {
 /***************************************************************************************************/
 
 .imageDragAndDrop {
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-  align-items: center;
-  flex-grow: 2;
-  gap: 0.5em;
-  width: 10%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    align-items: center;
+    flex-grow: 2;
+    gap: 0.5em;
+    width: 10%;
 }
 
 .imageDragAndDrop img {
-  padding: 0.7em;
-  border: 1px dashed;
-  border-radius: 14px;
+    padding: 0.7em;
+    border: 1px dashed;
+    border-radius: 14px;
 }
 
 .imageDragAndDrop img:hover {
-  cursor: pointer;
-  background-color: var(--pamplemousse);
+    cursor: pointer;
+    background-color: var(--pamplemousse);
 }
 
 .arrowRight {
-  width: 35%;
+    width: 35%;
 }
 
 .arrowLeft {
-  width: 35%;
-  transform: rotate(180deg);
+    width: 35%;
+    transform: rotate(180deg);
 }
 
 /***************************************************************************************************/
@@ -643,194 +650,194 @@ hr {
 /***************************************************************************************************/
 
 .btnChoiseQuestionType {
-  width: 100%;
-  padding: 1em 0;
-  display: grid;
-  grid-template-columns: 0.7fr 1fr;
-  grid-gap: 0.5em;
+    width: 100%;
+    padding: 1em 0;
+    display: grid;
+    grid-template-columns: 0.7fr 1fr;
+    grid-gap: 0.5em;
 }
 
 .btnChoiseQuestionType button {
-  margin: auto;
-  border: none;
-  padding: 0.8em;
-  border-radius: 2em;
-  color: white;
-  font-weight: var(--semi_bold);
-  width: 85%;
+    margin: auto;
+    border: none;
+    padding: 0.8em;
+    border-radius: 2em;
+    color: white;
+    font-weight: var(--semi_bold);
+    width: 85%;
 }
 
 .btnChoiseQuestionType button:hover {
-  background-color: var(--vert);
-  cursor: pointer;
+    background-color: var(--vert);
+    cursor: pointer;
 }
 
 .btnChoiseQuestionType .btnQuestionsActive {
-  background-color: var(--vert);
+    background-color: var(--vert);
 }
 .btnQuestions {
-  background-color: var(--grey);
+    background-color: var(--grey);
 }
 
 /***************************************************************************************************/
 /*List questions*/
 .questionsCustom,
 .questionsOfficial {
-  height: 24em;
-  overflow-y: scroll;
+    overflow-y: scroll;
+    height: 26em;
 }
 
 /*Modify*/
 .questionModify {
-  width: 100%;
-  text-align: center;
+    width: 100%;
+    text-align: center;
 }
 
 .questionModify button {
-  padding: 0.5em;
-  border: none;
-  border-radius: 2em;
-  background: gray;
-  color: white;
-  width: 40%;
+    padding: 0.5em;
+    border: none;
+    border-radius: 2em;
+    background: gray;
+    color: white;
+    width: 40%;
 }
 
 .questionModify button:hover {
-  background-color: var(--vert);
-  cursor: pointer;
+    background-color: var(--vert);
+    cursor: pointer;
 }
 
 .modifyP {
-  display: grid;
-  grid-template-columns: 12% 65% 8% 15%;
-  align-items: center;
-  grid-gap: 0.2em;
-  padding: 0 0.5em;
+    display: grid;
+    grid-template-columns: 12% 65% 8% 15%;
+    align-items: center;
+    grid-gap: 0.2em;
+    padding: 0 0.5em;
 }
 
 .modifyP textarea {
-  border-radius: 5px;
-  border: none;
-  height: 3em;
-  padding: 0.5em;
-  margin: 0;
-  width: auto;
+    border-radius: 5px;
+    border: none;
+    height: 3em;
+    padding: 0.5em;
+    margin: 0;
+    width: auto;
 }
 
 .buttonAddProp {
-  padding: 0.5em;
-  border: none;
-  background: var(--pamplemousse);
-  border-radius: 2em;
-  margin: auto;
-  color: white;
-  width: 40%;
+    padding: 0.5em;
+    border: none;
+    background: var(--pamplemousse);
+    border-radius: 2em;
+    margin: auto;
+    color: white;
+    width: 40%;
 }
 
 .buttonAddProp:hover {
-  background-color: var(--grey);
-  cursor: pointer;
+    background-color: var(--grey);
+    cursor: pointer;
 }
 
 .deleteProp {
-  width: 30%;
-  padding: 0.2em;
-  border-radius: 5px;
-  margin: auto;
+    width: 30%;
+    padding: 0.2em;
+    border-radius: 5px;
+    margin: auto;
 }
 
 .deleteProp:hover {
-  background-color: var(--pamplemousse);
-  cursor: pointer;
+    background-color: var(--pamplemousse);
+    cursor: pointer;
 }
 
 .cancel {
-  width: 40%;
-  margin: auto;
-  padding: 0.5em 0;
-  border: 2px dashed;
-  border-radius: 2em;
-  text-align: center;
+    width: 40%;
+    margin: auto;
+    padding: 0.5em 0;
+    border: 2px dashed;
+    border-radius: 2em;
+    text-align: center;
 }
 
 .cancel:hover {
-  cursor: pointer;
-  color: red;
+    cursor: pointer;
+    color: red;
 }
 
 /***************************************************************************/
 
 .officialQuestionLi {
-  padding: 0.2em;
-  display: grid;
+    padding: 0.2em;
+    display: grid;
 }
 
 .OfficialQuestionWordingDiv {
-  border-radius: 5px;
-  text-align: center;
-  justify-content: space-around;
+    border-radius: 5px;
+    text-align: center;
+    justify-content: space-around;
 }
 .qcmChoisedTreffleP {
-  width: 6%;
-  padding: 0.2em 0.1em;
-  background: var(--fond);
-  border-radius: 50px;
-  display: flex;
-  justify-content: center;
+    width: 6%;
+    padding: 0.2em 0.1em;
+    background: var(--fond);
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 .qcmChoisedTrefle {
-  width: 72%;
+    width: 72%;
 }
 
 .officialQuestionWordingP {
-  margin: 0;
-  text-align: left;
-  width: 75%;
-  padding: 1em 0;
-  font-weight: 500;
-  display: grid;
-  grid-template-columns: 5% 95%;
+    margin: 0;
+    text-align: left;
+    width: 75%;
+    padding: 1em 0;
+    font-weight: 500;
+    display: grid;
+    grid-template-columns: 5% 95%;
 }
 
 /* temporaire */
 .officialQuestionWordingP span {
-  color: red;
-  background: red;
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  align-self: center;
-  /* temporaire pour cacher le texte -> numerotation */
-  overflow: hidden;
-  margin-right: 0.5em;
+    color: red;
+    background: red;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    align-self: center;
+    /* temporaire pour cacher le texte -> numerotation */
+    overflow: hidden;
+    margin-right: 0.5em;
 }
 
 .officialChevronBasP {
-  width: 4%;
+    width: 4%;
 }
 .officialChevronBasImg {
-  width: 100%;
+    width: 100%;
 }
 
 .OfficialProposalWordingDiv {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 .modifyQuestionImgDiv {
-  width: 5%;
-  padding: 0.2em;
-  border-radius: 5px;
+    width: 5%;
+    padding: 0.2em;
+    border-radius: 5px;
 }
 
 .modifyQuestionImgDiv:hover {
-  cursor: pointer;
-  background-color: var(--vert);
+    cursor: pointer;
+    background-color: var(--vert);
 }
 
 .modifyQuestionImg {
-  width: 100%;
+    width: 100%;
 }
 
 /***************************************************************************************************/
@@ -838,23 +845,23 @@ hr {
 /***************************************************************************************************/
 
 .createQuestion button {
-  padding: 0.8em;
-  border: none;
-  border-radius: 2em;
-  background: var(--grey);
-  color: white;
-  width: 100%;
-  outline: none;
+    padding: 0.8em;
+    border: none;
+    border-radius: 2em;
+    background: var(--grey);
+    color: white;
+    width: 100%;
+    outline: none;
 }
 
 .createQuestion {
-  text-align: center;
-  padding: 2em 0;
+    text-align: center;
+    margin-top: 1em;
 }
 
 .createQuestion button:hover {
-  cursor: pointer;
-  background-color: var(--vert);
+    cursor: pointer;
+    background-color: var(--vert);
 }
 
 /***************************************************************************************************/
@@ -862,20 +869,20 @@ hr {
 /***************************************************************************************************/
 
 .qcmName {
-  width: 100%;
-  text-align: center;
-  background: var(--fond);
-  padding: 0 0 1.5em;
-  border-radius: 5px;
+    width: 100%;
+    text-align: center;
+    background: var(--fond);
+    padding: 0 0 1.5em;
+    border-radius: 5px;
 }
 
 .qcmName input {
-  width: 60%;
-  outline: none;
-  border-radius: 0.5em;
-  padding: 0.8em 0;
-  text-align: center;
-  border: none;
+    width: 60%;
+    outline: none;
+    border-radius: 0.5em;
+    padding: 0.8em 0;
+    text-align: center;
+    border: none;
 }
 
 /***************************************************************************************************/
@@ -883,24 +890,24 @@ hr {
 /***************************************************************************************************/
 
 .qcmValidation {
-  margin: 3em auto;
-  width: 100%;
-  text-align: center;
+    margin: 3em auto;
+    width: 100%;
+    text-align: center;
 }
 
 .qcmValidation button {
-  padding: 1em;
-  border-radius: 30px;
-  border: none;
-  background: var(--grey);
-  color: white;
-  width: 60%;
-  box-shadow: 1px 1px 1px 1px rgb(0 0 0 / 30%);
+    padding: 1em;
+    border-radius: 30px;
+    border: none;
+    background: var(--grey);
+    color: white;
+    width: 60%;
+    box-shadow: 1px 1px 1px 1px rgb(0 0 0 / 30%);
 }
 
 .qcmValidation button:hover {
-  cursor: pointer;
-  background-color: var(--vert);
+    cursor: pointer;
+    background-color: var(--vert);
 }
 
 /***************************************************************************************************/
@@ -908,166 +915,175 @@ hr {
 /***************************************************************************************************/
 
 .blocModalExplaination {
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 999;
-  backdrop-filter: blur(5px);
-  background: #333333d3;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    backdrop-filter: blur(5px);
+    background: #333333d3;
 }
 
 .pTitle {
-  padding: 0.5em 0;
+    padding: 0.5em 0;
 }
 
 .modal {
-  background: white;
-  border-radius: 10px;
-  padding: 2em;
-  position: absolute;
-  width: 75%;
-  height: 75%;
-  z-index: -1;
+    background: white;
+    border-radius: 10px;
+    padding: 2em;
+    position: absolute;
+    width: 75%;
+    height: 75%;
+    z-index: -1;
 }
 
 .modal > img {
-  width: 25px;
-  position: absolute;
-  right: 2%;
-  top: 3%;
-  cursor: pointer;
+    width: 25px;
+    position: absolute;
+    right: 2%;
+    top: 3%;
+    cursor: pointer;
 }
 
 .pTitle {
-  text-align: center;
-  font-size: 30px;
-  font-weight: 600;
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
 }
 
 .notice {
-  background: var(--fond);
-  border-radius: 10px;
-  padding: 1em;
+    background: var(--fond);
+    border-radius: 10px;
+    padding: 1em;
 }
 
 .notice > img {
-  width: 40px;
-  transform: translateY(10px);
+    width: 40px;
+    transform: translateY(10px);
 }
 
 .notice > span {
-  font-size: 22px;
-  font-weight: 600;
-  /* text-decoration: underline; */
+    font-size: 22px;
+    font-weight: 600;
+    /* text-decoration: underline; */
 }
 
 .modalDifficultyLevel {
-  width: 100%;
+    width: 100%;
 }
 
 .modalDifficultyLevel tr td {
-  padding: 0.5em;
-  text-align: center;
+    padding: 0.5em;
+    text-align: center;
 }
 
 .modalDifficultyLevel tr:first-child td div {
-  border-radius: 2em;
-  padding: 0.8em;
-  background: var(--grey);
-  color: white;
-  width: 60%;
-  margin: auto;
+    border-radius: 2em;
+    padding: 0.8em;
+    background: var(--grey);
+    color: white;
+    width: 60%;
+    margin: auto;
 }
 
 .rules {
-  padding: 1.5em 0.8em 01em;
+    padding: 1.5em 0.8em 01em;
 }
 #pickableCustomQuestionsList {
-  padding: 0.5em;
+    padding: 0.5em;
 }
 
 /**********************************************************************************************************************/
 
 @media screen and (max-width: 1350px) {
-  .btnChoiseQuestionType {
-    grid-template-rows: 0.7fr 1fr;
-    grid-template-columns: none;
-  }
-  .blocQcmChoisedLevel {
-    display: grid;
-    grid-template-rows: 0.7fr 1fr;
-  }
+    .btnChoiseQuestionType {
+        grid-template-rows: 0.7fr 1fr;
+        grid-template-columns: none;
+    }
+    .blocQcmChoisedLevel {
+        display: grid;
+        grid-template-rows: 0.7fr 1fr;
+    }
 }
-@media screen and (min-width: 1000px) {
-  .contentPartOne,
-  #contentPartTwo {
-    width: 95%;
-  }
+
+@media screen and (max-width: 1000px) {
+    .contentPartOne,
+    #contentPartTwo {
+        width: 95%;
+    }
 }
+
 @media screen and (max-width: 900px) {
-  body {
-    font-size: 14px !important;
-  }
-  .btnChoiseQuestionType button {
-    padding: 0.8em;
-  }
+
+    .btnChoiseQuestionType button {
+        padding: 0.8em;
+    }
+
+    .dragAndDrop {
+        display: block;
+    }
+    .imageDragAndDrop {
+        flex-direction: row-reverse;
+        padding: 1em 0;
+        height: auto;
+        width: auto;
+    }
+    .imageDragAndDrop div > img {
+        width: 15%;
+        padding: 0.7em;
+    }
+
+    #moveToPickableQuestionsList{
+        transform: rotate(-90deg);
+    }
+
+    #moveToPickedQuestionsList{
+        transform: rotate(90deg);
+    }
+
+    .btnChoiseQuestionType {
+        padding-top: 0;
+    }
+    .qcmChoised,
+    .listQuestionTypedDiv {
+        width: auto;
+        padding: 2em 1em;
+        border-radius: 0;
+    }
+    .btnChoiseQuestionType {
+        grid-template-columns: 0.7fr 1fr;
+        grid-template-rows: none;
+    }
+    .imageDragAndDrop {
+        padding: 1em;
+    }
+    .contentExplicationAndLegend {
+        padding: 1em 0.5em;
+    }
+    .btnToggle,
+    .blocBeforeValidation {
+        border-radius: 0;
+    }
 }
 
 @media screen and (max-width: 700px) {
-  .blocQcmChoisedLevel {
-    display: block;
-    grid-template-rows: none;
-  }
-  .divOptions {
-    margin-top: 30px;
-  }
-  .dragAndDrop {
-    display: block;
-  }
-  .imageDragAndDrop {
-    flex-direction: row-reverse;
-    /* text-align: center; */
-    padding: 1em 0;
-    height: auto;
-    width: auto;
-  }
-  .imageDragAndDrop div > img {
-    width: 15%;
-    padding: 0.7em;
-  }
-  .imageDragAndDrop div:first-child {
-    text-align: right;
-  }
-  .imageDragAndDrop div:last-child {
-    text-align: left;
-  }
-  .btnChoiseQuestionType {
-    padding-top: 0;
-  }
-  .qcmChoised,
-  .listQuestionTypedDiv {
-    width: auto;
-    padding: 2em 1em;
-    border-radius: 0;
-  }
-  .btnChoiseQuestionType {
-    grid-template-columns: 0.7fr 1fr;
-    grid-template-rows: none;
-  }
-  .imageDragAndDrop {
-    padding: 1em;
-  }
-  .contentExplicationAndLegend {
-    padding: 1em 0.5em;
-  }
-  .btnToggle,
-  .blocBeforeValidation {
-    border-radius: 0;
-  }
+    .blocQcmChoisedLevel {
+        display: block;
+        grid-template-rows: none;
+    }
+    .divOptions {
+        margin-top: 30px;
+    }
+
+    .legends button{
+        width: 53%;
+    }
+
+
 }
