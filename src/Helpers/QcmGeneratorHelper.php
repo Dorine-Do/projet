@@ -30,7 +30,7 @@ class QcmGeneratorHelper
             $isPublic = false;
             $questions = $this->generateTrainingQcmQuestions( $module );
         }
-        if( $type === 'retry' )
+        if( $type === 'retryBadge' )
         {
             $title = 'QCM - Retentative - ' . $module->getTitle() . ' - ' . date('Ymd H:i');
             $isOfficial = true;

@@ -70,6 +70,8 @@ class StudentController extends AbstractController
             $unofficialQcmNotDone = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ) use ($student){
                 return
                     $qcmInstance->getQcm()->getIsOfficial() === false
+                    && $qcmInstance->getStartTime() < new \DateTime()
+                    && $qcmInstance->getEndTime() > new \DateTime()
                     && $qcmInstance->getResult() === null
                     && $qcmInstance->getQcm()->getAuthor() !== $student
                     ;
@@ -128,17 +130,39 @@ class StudentController extends AbstractController
         {
             $qcmInstance = $studentResult->getQcmInstance();
 
-            if($qcmInstance->getQcm()->getIsOfficial() === true && $qcmInstance->getQcm()->getIsPublic() === true )
+            if(
+                $qcmInstance->getQcm()->getIsOfficial() === true
+                && $qcmInstance->getQcm()->getIsPublic() === true
+                && $qcmInstance->getResult()->isFirstTry() === 1
+                && $qcmInstance->getQcm()->getAuthor()->getId() !== $student->getId()
+            )
             {
                 $type = 'official';
             }
             elseif
             (
+                $qcmInstance->getQcm()->getIsOfficial() === false
+                && $qcmInstance->getResult()->isFirstTry() === 1
+                && $qcmInstance->getQcm()->getAuthor()->getId() !== $student->getId()
+            )
+            {
+                $type = 'exercice';
+            }
+            elseif
+            (
                 $qcmInstance->getQcm()->getIsOfficial() === true
+                && $qcmInstance->getQcm()->getIsPublic() === false
                 && $qcmInstance->getQcm()->getAuthor()->getId() === $student->getId()
             )
             {
                 $type = 'retryBadge';
+            }
+            elseif
+            (
+                $qcmInstance->getResult()->isFirstTry() === 0
+            )
+            {
+                $type = 'retry';
             }
             elseif
             (
@@ -147,10 +171,6 @@ class StudentController extends AbstractController
             )
             {
                 $type = 'trainning';
-            }
-            else
-            {
-                $type = 'exercice';
             }
 
             $qcmsDone[] = [
@@ -336,7 +356,7 @@ class StudentController extends AbstractController
             $qcmInstances = $qcm->getQcmInstances()->filter( function( $qcmInstance ) use ($student) {
                 return $qcmInstance->getStudent() === $student;
             });
-            if( (count($qcmInstances) > 1 ) || ($qcmInstance->getDistributedBy() === $student) )
+            if( (count($qcmInstances) > 1 ) )
             {
                 $isFirstTry = false;
             }
@@ -452,7 +472,7 @@ class StudentController extends AbstractController
         $student = $this->studentRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository, 'retry' );
+        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository, 'retryBadge' );
         $manager->persist( $retryQcm );
         $manager->flush();
 
