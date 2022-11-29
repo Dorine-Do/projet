@@ -436,7 +436,7 @@ class StudentController extends AbstractController
         $student = $this->studentRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository ,'training', $difficulty);
+        $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository ,$difficulty, 'training');
 
         $manager->persist( $trainingQcm );
         $manager->flush();
@@ -472,7 +472,7 @@ class StudentController extends AbstractController
         $student = $this->studentRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
-        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository, 'retryBadge' );
+        $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository, 2,'retryBadge' );
         $manager->persist( $retryQcm );
         $manager->flush();
 

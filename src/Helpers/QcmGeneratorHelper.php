@@ -21,7 +21,7 @@ class QcmGeneratorHelper
         $this->_questionRepo = $questionRepo;
         $this->_security = $security;
     }
-    public function generateRandomQcm( Module $module, $user , UserRepository $userRepository , int $difficulty ,string $type = 'training'): Qcm
+    public function generateRandomQcm( Module $module, $user , UserRepository $userRepository , int $difficulty = 2 ,string $type = 'training'): Qcm
     {
         if( $type === 'training' )
         {
