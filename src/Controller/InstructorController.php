@@ -538,7 +538,7 @@ class InstructorController extends AbstractController
         {
             $module = $moduleRepository->find($formData["module"]);
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
-            $qcm = $qcmGenerator->generateRandomQcm($module,$this->security->getUser(), $userRepository , 'official');
+            $qcm = $qcmGenerator->generateRandomQcm($module,$this->security->getUser(), $userRepository , 2 ,'official');
             $manager->persist($qcm);
 
             $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
