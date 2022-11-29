@@ -43,11 +43,11 @@
                                 <div class="liWording">
                                     <p class="difficulty">
                                         {% if question.difficulty.value == 1 %}
-                                            <img class="difficultyIcone" src="{{ asset('build/images/trefle_facile.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
+                                            <img class="difficultyIcone" src="{{ asset('build/images/trefle_facile_bon_vert.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
                                         {% elseif question.difficulty.value == 2 %}
-                                            <img class="difficultyIcone" src="{{ asset('build/images/trefle_moyen.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
+                                            <img class="difficultyIcone" src="{{ asset('build/images/trefle_moyen_bon_vert.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
                                         {% else %}
-                                            <img class="difficultyIcone" src="{{ asset('build/images/difficil_difficile.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
+                                            <img class="difficultyIcone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
                                         {% endif %}
                                     </p>
                                     <div class="divWordingQuestion">{{ question.wording | raw }}</div>

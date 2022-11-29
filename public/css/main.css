@@ -84,7 +84,7 @@ pre {
 }
 
 .nameSession{
-  -moz-appearance: none;
+  -webkit-appearance: none;
   border-radius: 7px;
   width: 12em;
   border: 1px solid #ccc;
