@@ -32,7 +32,7 @@
                 <tbody>
                     {% for qcm in qcms %}
                         <tr>
-                            <td>{{ qcm.title }}</td>
+                            <td>{{ qcm.title }}{{dump(qcm.author.roles)}}</td>
                             <td>{{ qcm.author.firstname }} {{ qcm.author.lastname }}</td>
                             {% if qcm.difficulty == 1 %}
                             <td>Facile</td>
@@ -42,7 +42,7 @@
                             <td>Difficile</td>
                             {% endif %}
                             <td>{{ qcm.createdAt | date('d/m/Y') }}</td>
-                            {% if qcm.isOfficial == 0 and qcm.isEnabled == 1 and qcm.isPublic == 0 %}
+                            {% if qcm.isOfficial == 0 and qcm.isEnabled == 1 and "ROLE_STUDENT" in qcm.author.roles %}
                                 <td>{{ 'qcm.trainning'|trans }}</td>
                             {% elseif qcm.isOfficial == 1 and qcm.isEnabled == 1 and qcm.isPublic == 1  %}
                                 <td>{{ 'qcm.official'|trans }}</td>
