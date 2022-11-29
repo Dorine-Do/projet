@@ -91,13 +91,9 @@
             </div>
             <div>
                 <p class="typeQcm">
-                    {% if qcmDone.type is same as 'official' and qcmDone.isFirstTry is same as true %}
+                    {% if qcmDone.type is same as 'official' %}
                         <img class="badge" src="{{asset('build/images/officiel.png')}}">
-                    {% elseif
-                        qcmDone.type is same as 'trainning' or
-                        qcmDone.type is same as 'official' and
-                        qcmDone.isFirstTry is same as false
-                    %}
+                    {% elseif qcmDone.type is same as 'retry'%}
                         <img class="badge" src="{{asset('build/images/retry.png')}}">
                     {% elseif qcmDone.type is same as 'exercice' %}
                         <img class="badge" src="{{asset('build/images/non-officiel.png')}}">
