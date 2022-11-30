@@ -1379,6 +1379,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     moduleOption.addEventListener('change', function() {
         selectedModule = this.value;
+        generatedQcmResumeBlock.classList.add('displayNone')
     });
 
     for( let i = 0; i < difficultyOptions.length; i++ )
