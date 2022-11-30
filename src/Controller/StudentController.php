@@ -125,7 +125,7 @@ class StudentController extends AbstractController
             }
         }
         $qcmsDone = [];
-        dd($studentResults);
+
         foreach($studentResults as $studentResult)
         {
             $qcmInstance = $studentResult->getQcmInstance();
@@ -172,10 +172,6 @@ class StudentController extends AbstractController
             {
                 $type = 'trainning';
             }
-            else{
-                dd($qcmInstance);
-            }
-
 
 
             $qcmsDone[] = [
