@@ -131,9 +131,9 @@ class StudentController extends AbstractController
             $qcmInstance = $studentResult->getQcmInstance();
 
             if(
-                $qcmInstance->getQcm()->getIsOfficial() === true
-                && $qcmInstance->getQcm()->getIsPublic() === true
-                && $qcmInstance->getResult()->isFirstTry() === 1
+                $qcmInstance->getQcm()->getIsOfficial()
+                && $qcmInstance->getQcm()->getIsPublic()
+                && $qcmInstance->getResult()->isFirstTry()
                 && $qcmInstance->getQcm()->getAuthor()->getId() !== $student->getId()
             )
             {
@@ -141,8 +141,8 @@ class StudentController extends AbstractController
             }
             elseif
             (
-                $qcmInstance->getQcm()->getIsOfficial() === false
-                && $qcmInstance->getResult()->isFirstTry() === 1
+                !$qcmInstance->getQcm()->getIsOfficial()
+                && $qcmInstance->getResult()->isFirstTry()
                 && $qcmInstance->getQcm()->getAuthor()->getId() !== $student->getId()
             )
             {
@@ -150,8 +150,8 @@ class StudentController extends AbstractController
             }
             elseif
             (
-                $qcmInstance->getQcm()->getIsOfficial() === true
-                && $qcmInstance->getQcm()->getIsPublic() === false
+                $qcmInstance->getQcm()->getIsOfficial()
+                && !$qcmInstance->getQcm()->getIsPublic()
                 && $qcmInstance->getQcm()->getAuthor()->getId() === $student->getId()
             )
             {
@@ -159,14 +159,14 @@ class StudentController extends AbstractController
             }
             elseif
             (
-                $qcmInstance->getResult()->isFirstTry() === 0
+                !$qcmInstance->getResult()->isFirstTry()
             )
             {
                 $type = 'retry';
             }
             elseif
             (
-                $qcmInstance->getQcm()->getIsOfficial() === false
+                !$qcmInstance->getQcm()->getIsOfficial()
                 && $qcmInstance->getQcm()->getAuthor()->getId() === $student->getId()
             )
             {
