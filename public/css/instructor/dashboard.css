@@ -93,7 +93,7 @@
 /* Session / Level / Students */
 
 .nameLevel{
-    -moz-appearance: none;
+    -webkit-appearance: none;
     border-radius: 7px;
     padding: 1em 200px;
     width: 198px;

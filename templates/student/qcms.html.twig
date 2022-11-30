@@ -14,7 +14,7 @@
         <article class="articleGauche">
             <section>
                 <div class="divQcm">
-                    <h2><img class="badge" src="{{asset('build/images/officiel.png')}}">{{ 'qcm.todo'|trans }}</h2>
+                    <h2><img class="badge" src="{{asset('build/images/officiel.png')}}">{{ 'qcm.qcmToDo'|trans }}</h2>
                     <div class="inter">
                         <p>
                             <strong>{{ 'qcm.name'|trans }} : </strong>
@@ -37,11 +37,11 @@
                                 {% endfor %}
                             {% endif %}
                         </select>
-                        <button class="buttonExercice">{{ 'qcm.todo'|trans }}</button>
+                        <button class="buttonExercice">{{ 'button.todo'|trans }}</button>
                     </div>
                 </div>
             </section>
-            <h2><img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">{{ 'qcm.trainning'|trans }}</h2>
+            <h2><img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">{{ 'button.trainningQcm'|trans }}</h2>
             <section class="cercle">
                 <div id="training_choices" class="training">
                     <select name="module" class="selectModule">
