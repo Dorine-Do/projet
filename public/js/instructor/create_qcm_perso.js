@@ -1139,6 +1139,8 @@ function displayGeneratedQcmQuestionsList(e)
     {
         e.target.innerText = 'Voir les questions';
     }
+    pickedQuestionsList = document.querySelector('#pickedQuestionsList');
+    calcNbrQuestionByLevel(pickedQuestionsList)
 }
 
 function fillQcmPersonalizer( officialQuestions ,customQuestions, pickedQuestions )
@@ -1381,8 +1383,14 @@ document.addEventListener('DOMContentLoaded', function(){
 
     for( let i = 0; i < difficultyOptions.length; i++ )
     {
-        difficultyOptions[i].addEventListener('click', function(){
+        difficultyOptions[i].addEventListener('click', function(e){
             selectedDifficulty = this.dataset.difficulty;
+
+            Array.from(e.target.parentNode.children).forEach( li => {
+                li.style.backgroundColor = '#616161'
+            } )
+
+            e.target.style.backgroundColor = '#93ad6e'
         })
     }
 
