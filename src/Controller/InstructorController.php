@@ -495,8 +495,9 @@ class InstructorController extends AbstractController
         $entityManager->flush();
 
         /*redirection voir js*/
-        $this->addFlash('success', 'Le qcm a bien été modifiée.');
+        $this->addFlash('success', 'Le qcm a bien été enregistré.');
         return $this->json("ok",200);
+
 
     }
 
