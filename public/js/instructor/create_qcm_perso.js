@@ -1099,7 +1099,6 @@ function fillGeneratedQcmResumeBlock( questions )
 
     showGeneratedQcmResumeBtn.addEventListener('click', displayGeneratedQcmQuestionsList);
     personalizeQcmBtn.addEventListener('click', displayQcmPersonalizer);
-    // TODO Voir Avec Matthieu pk ça ne fonciton pas
     validateQcmButtonWhitoutChange.addEventListener('click', fetchCreateQcmPerso)
 }
 
