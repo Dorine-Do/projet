@@ -1006,69 +1006,67 @@ function fetchGeneratedQcm()
 
 function fetchCreateQcmPerso()
 {
-    qcmValidationBtn.addEventListener("click", (e) => {
-        let questionsSelect = {};
-        let choosenQcmName = document.querySelector("#choosenQcmName").value;
+    let questionsSelect = {};
+    let choosenQcmName = document.querySelector("#choosenQcmName").value;
 
-        if (!choosenQcmName)
-        {
-            let errorMessageChoseNameQcm = document.getElementById('errorMessageChoseNameQcm')
-            displayGenerationError(errorMessageChoseNameQcm, "Veuillez choisir un nom pour ce qcm")
-        }
+    if (!choosenQcmName)
+    {
+        let errorMessageChoseNameQcm = document.getElementById('errorMessageChoseNameQcm')
+        displayGenerationError(errorMessageChoseNameQcm, "Veuillez choisir un nom pour ce qcm")
+    }
 
-        let module = selectedModule;
-        let isPublic = document.getElementById("isPublicInput").checked;
-        /***********/
-        let qcmChoisedLevel = document.getElementById("qcmChoisedLevel").textContent.trim();
+    let module = selectedModule;
+    let isPublic = document.getElementById("isPublicInput").checked;
+    /***********/
+    let qcmChoisedLevel = document.getElementById("qcmChoisedLevel").textContent.trim();
 
-        questionsSelect = {
-            name: choosenQcmName,
-            level: qcmChoisedLevel,
-            module: module,
-            isPublic: isPublic,
-            questions: [],
-        };
+    questionsSelect = {
+        name: choosenQcmName,
+        level: qcmChoisedLevel,
+        module: module,
+        isPublic: isPublic,
+        questions: [],
+    };
 
-        let questions = pickedQuestionsList.querySelectorAll(
-            ".qcmChoisedLi"
-        );
+    let questions = pickedQuestionsList.querySelectorAll(
+        ".qcmChoisedLi"
+    );
 
-        questions.forEach((question) => {
-            let level = question.querySelector('.qcmChoisedTrefle').dataset.level;
-            let wording = question.querySelector('.questionWordingP').lastChild.textContent.trim();
-            let id = question.dataset.questionid
-            let proposals = Array.from(question.querySelector('.proposalWordingDiv'));
+    questions.forEach((question) => {
+        let level = question.querySelector('.qcmChoisedTrefle').dataset.level;
+        let wording = question.querySelector('.questionWordingP').lastChild.textContent.trim();
+        let id = question.dataset.questionid
+        let proposals = Array.from(question.querySelector('.proposalWordingDiv'));
 
-            questionsSelect["questions"].push({
-                id: id,
-                level: level,
-                wording: wording,
-                proposals: [],
-            });
-
-            proposals.forEach((prop) => {
-                questionsSelect["proposals"].push({
-                    wording: prop.children[1].textContent.trim(),
-                    id: prop.dataset.proposalid,
-                });
-            });
+        questionsSelect["questions"].push({
+            id: id,
+            level: level,
+            wording: wording,
+            proposals: [],
         });
 
-        fetch(`/instructor/qcms/create_fetch/${module}`, {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json", // The type of data you're sending
-            },
-            body: JSON.stringify(questionsSelect), // The data
-        })
-            .then((res) => res.json())
-            .then((result) => {
-                if (result === "ok") {
-                    window.location.href =
-                        "https://127.0.0.1:8000/instructor";
-                }
+        proposals.forEach((prop) => {
+            questionsSelect["proposals"].push({
+                wording: prop.children[1].textContent.trim(),
+                id: prop.dataset.proposalid,
             });
+        });
     });
+
+    fetch(`/instructor/qcms/create_fetch/${module}`, {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json", // The type of data you're sending
+        },
+        body: JSON.stringify(questionsSelect), // The data
+    })
+        .then((res) => res.json())
+        .then((result) => {
+            if (result === "ok") {
+                window.location.href =
+                    "https://127.0.0.1:8000/instructor";
+            }
+        });
 }
 
 function fillGeneratedQcmResumeBlock( questions )
@@ -1102,7 +1100,7 @@ function fillGeneratedQcmResumeBlock( questions )
     showGeneratedQcmResumeBtn.addEventListener('click', displayGeneratedQcmQuestionsList);
     personalizeQcmBtn.addEventListener('click', displayQcmPersonalizer);
     // TODO Voir Avec Matthieu pk ça ne fonciton pas
-    // validateQcmButtonWhitoutChange.addEventListener('click', fetchCreateQcmPerso)
+    validateQcmButtonWhitoutChange.addEventListener('click', fetchCreateQcmPerso)
 }
 
 function displayQcmPersonalizer(e)
