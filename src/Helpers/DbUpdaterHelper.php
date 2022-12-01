@@ -14,7 +14,7 @@ use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 class DbUpdaterHelper
 {
