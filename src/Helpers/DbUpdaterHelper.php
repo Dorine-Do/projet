@@ -5,7 +5,9 @@ namespace App\Helpers;
 
 use App\Entity\Main\LinkSessionStudent;
 use App\Entity\Main\Session;
+use App\Repository\LinkSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
+use App\Repository\ModuleRepository;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Google\Service\Docs\Link;
@@ -17,18 +19,24 @@ class DbUpdaterHelper
     private SessionRepository $sessionRepository;
     private EntityManagerInterface $entityManager;
     private LinkSessionStudentRepository $linkSessionStudentRepository;
+    private LinkSessionModuleRepository $linkSessionModuleRepository;
+    private ModuleRepository $moduleRepository;
 
     public function __construct(
         ManagerRegistry $doctrine,
         SessionRepository $sessionRepository,
         EntityManagerInterface $entityManager,
-        LinkSessionStudentRepository $linkSessionStudentRepository
+        LinkSessionStudentRepository $linkSessionStudentRepository,
+        LinkSessionModuleRepository $linkSessionModuleRepository,
+        ModuleRepository $moduleRepository
     )
     {
         $this->doctrine = $doctrine;
         $this->sessionRepository = $sessionRepository;
         $this->entityManager = $entityManager;
         $this->linkSessionStudentRepository = $linkSessionStudentRepository;
+        $this->linkSessionModuleRepository = $linkSessionModuleRepository;
+        $this->moduleRepository = $moduleRepository;
     }
 
     public function updateUserSession( $user )
@@ -94,14 +102,53 @@ class DbUpdaterHelper
                 }
                 $this->entityManager->flush();
             }
+
+            foreach( $linksStudentSession as $linkStudentSession )
+            {
+                $session = $linkStudentSession->getSession();
+                $suiviSessionModules = $this->getSuiviSessionModules( $session->getName() );
+                $linksSessionModule = $this->linkSessionModuleRepository->findBy( [ 'session' => $session ] );
+                $modules = array_map( function($linkSessionModule) {
+                    return $linkSessionModule->getModule();
+                }, $linksSessionModule);
+
+                foreach( $modules as $module )
+                {
+                    $suiviModule = array_filter( $suiviSessionModules, function( $suiviSessionModule ) use ( $module ) {
+                        return $suiviSessionModule['module_name'] === $module->getName();
+                    });
+
+                    if( !$suiviModule )
+                    {
+                        $linkSessionModuleToRemove = $this->linkSessionModuleRepository->findOneBy( [
+                            'session' => $linkStudentSession->getSession(),
+                            'module' => $module
+                        ]);
+                        $this->entityManager->remove( $linkSessionModuleToRemove );
+                    }
+                    else
+                    {
+                        array_splice(
+                            $suiviSessionModules,
+                            array_search( $suiviModule , $suiviSessionModules ),
+                            1
+                        );
+                    }
+                }
+
+                foreach($suiviSessionModules as $suiviSessionModule)
+                {
+                    $module = $this->moduleRepository->findOneBy( [ 'name' => $suiviSessionModule['module_name'] ] );
+                    // on verifier si le module de la db de suivi existe dans la db youup
+                        // si non -> on le créer
+                    // on créer le link dans notre db
+                }
+            }
         }
 
         if( $this->isUserInstructor( $user ) )
         {
-            // comparer les sessions dbSuivi VS dbYouUp
-                // ajouter celles qui manquent
-
-
+            $instructorSuiviSessions = '';
         }
     }
 
@@ -138,17 +185,7 @@ class DbUpdaterHelper
         return $this->rawSqlRequestToExtDb( $sql, ['email' => $studentEmail] );
     }
 
-    public function updateSessions()
-    {
-
-    }
-
-    public function updateLinksSessionsModules()
-    {
-
-    }
-
-    public function getSuiviModules()
+    public function getSuiviSessionModules( $sessionName )
     {
         $sql = "
             SELECT DISTINCT
@@ -184,10 +221,10 @@ class DbUpdaterHelper
                 LEFT JOIN modules ON modules.id = daily.id_module
                 LEFT JOIN categories ON categories.id = modules.id_category
                 LEFT JOIN sessions ON sessions.id = daily.id_session
-                WHERE sessions.id = :id
+                WHERE sessions.name = :name
                 GROUP BY modules.id";
 
-            $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ 'id' => $session->getId() ]);
+            $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ 'name' => $sessionName ]);
             $moduleByName = [];
             foreach($suiviModules as $suiviModule)
             {
@@ -218,11 +255,6 @@ class DbUpdaterHelper
             ];
         }
         return $modules;
-    }
-
-    public function getSuiviModulesBySession()
-    {
-
     }
 
     public function isUserStudent( $user )
