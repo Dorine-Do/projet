@@ -8,58 +8,58 @@
 {% block body %}
     <h1>- {{ 'title.myQcmExercice'|trans }} -</h1>
     <main class="subContainer containerQcmAndQuestionsManagement">
-        <div class=" blocIndice">
-            <p>
-                <span class="step">{{ 'title.step1'|trans }}</span> {{ 'title.iQcmSelect'|trans }}
-            </p>
-            <p class="indiceToShowQuestions ">
-                <span class="step">{{'title.step2'|trans }}</span> {{ 'title.displayMyQuestions'|trans }}
-            </p>
+    <div class=" blocIndice">
+        <p>
+            <span class="step">{{ 'title.step1'|trans }}</span> {{ 'title.iQcmSelect'|trans }}
+        </p>
+        <p class="indiceToShowQuestions ">
+            <span class="step">{{'title.step2'|trans }}</span> {{ 'title.displayMyQuestions'|trans }}
+        </p>
+    </div>
+
+    <div class="blocDisplayQuestionByQcm">
+        <div class="blocQcm">
+            <div class="divQcm">
+                <ul class="listBtnQcm">
+                    {% for qcm in qcms %}
+                        {# data-parent voir css ::after #}
+                        <li class="liBtnQcm" data-id="{{qcm.id}}" data-questions-cache="{{qcm.questionsCache|json_encode}}" data-parent="{{ qcm.difficulty == 1 ? 'facile'}}{{ qcm.difficulty == 2 ? 'moyen'}}{{ qcm.difficulty == 3 ? 'difficile'}}" >
+                            {{qcm.title|raw }}
+                        </li>
+
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="blocToggleUlQuestion">
+            <div class="divQuestions">
+                <ul class="listQuestions"  data-qcms="{{ qcms|json_encode|e('html_attr')}}">
+                    {% for qcm in qcms %}
+                        {% if qcm.id == qcms[0].id %}
+
+                            {% for question in qcm.getQuestionsCache() %}
+
+                                <li data-qcm-id="{{ qcm.id}}" data-id='{{question.id}}'>
+
+                                    <span class="qcmQuestionNumber"></span>
+                                    {{question.wording|raw }}
+
+                                </li>
+
+                            {% endfor %}
+
+                        {% endif %}
+
+                    {% endfor %}
+
+
+                </ul>
+            </div>
         </div>
 
-        <div class="blocDisplayQuestionByQcm">
-            <div class="blocQcm">
-                <div class="divQcm">
-                    <ul class="listBtnQcm">
-                        {% for qcm in qcms %}
-                            {# data-parent voir css ::after #}
-                            <li class="liBtnQcm" data-id="{{qcm.id}}" data-questions-cache="{{qcm.questionsCache|json_encode}}" data-parent="{{ qcm.difficulty == 1 ? 'facile'}}{{ qcm.difficulty == 2 ? 'moyen'}}{{ qcm.difficulty == 3 ? 'difficile'}}" >
-                                {{qcm.title|raw }}
-                            </li>
-
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-            <div class="blocToggleUlQuestion">
-                <div class="divQuestions">
-                    <ul class="listQuestions"  data-qcms="{{ qcms|json_encode|e('html_attr')}}">
-                        {% for qcm in qcms %}
-                            {% if qcm.id == qcms[0].id %}
-
-                                {% for question in qcm.getQuestionsCache() %}
-
-                                    <li data-qcm-id="{{ qcm.id}}" data-id='{{question.id}}'>
-
-                                        <span class="qcmQuestionNumber"></span>
-                                        {{question.wording|raw }}
-
-                                    </li>
-
-                                {% endfor %}
-
-                            {% endif %}
-
-                        {% endfor %}
-
-
-                    </ul>
-                </div>
-            </div>
-
-        </div>
+    </div>
     <main>
     {% block javascripts %}
-         <script type="text/javascript" src="{{ asset('js/instructor/displayQcms.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/instructor/displayQcms.js') }}"></script>
     {% endblock %}
 {% endblock %}

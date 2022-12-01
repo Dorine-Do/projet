@@ -3,7 +3,6 @@ qcm:
   choiced: QCM choisi
   name: Nom du QCM
   do: Faire le QCM
-  todo: QCM à faire
   official: QCM officiel
   inter: QCM d'exercice
   unactivated: QCM désactivé
@@ -28,6 +27,7 @@ qcm:
   done: Qcm effectués
   chooseQcmModuleLevel: Choix du QCM par module et par niveau
   chooseStudentsQcm: Choix du ou des élèves pouvant faire le QCM
+  qcmToDo: QCM à faire
 
 
 difficulty:
@@ -141,6 +141,9 @@ button:
   personalizeQcm: Personaliser le QCM
   validQcm: Valider le QCM tel quel
   sessionsManagement: Gestion des sessions
+  todo: Faire le QCM
+  trainningQcm: QCM d'entraînement
+
 
 header:
   dashboard: Tableau de bord
@@ -275,7 +278,7 @@ title:
   filterByDate: Filtrer par date
   mostRecent: Plus récent
   lessRecent: moins récent
-
+  questionsManagement: Gestion des questions
 
 
   general:
