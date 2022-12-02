@@ -413,8 +413,8 @@ class DbUpdaterHelper
             $modules[] = [
                 'title' => $name,
                 'weeks' => $weeks,
-                'startDate' => $submodules[$name]['start_date'],
-                'endDate' => $submodules[$name]['end_date'],
+                'startDate' => $submodules[$name][0]['start_date'],
+                'endDate' => $submodules[$name][0]['end_date'],
             ];
         }
         return $modules;
