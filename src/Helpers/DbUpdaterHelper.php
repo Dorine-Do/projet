@@ -132,7 +132,7 @@ class DbUpdaterHelper
                         return $suiviSessionModule['title'] === $module->getTitle();
                     });
 
-                    if( !$suiviModule )
+                    if( count($suiviModule) > 0 )
                     {
                         $linkSessionModuleToRemove = $this->linkSessionModuleRepository->findOneBy( [
                             'session' => $linkStudentSession->getSession(),
@@ -150,7 +150,39 @@ class DbUpdaterHelper
                     }
                 }
 
-                $this->createModulesAndLinksSessionModuleFromSuiviSessionModules( $suiviSessionModules );
+                foreach($suiviSessionModules as $suiviSessionModule)
+                {
+                    $module = $this->moduleRepository->findOneBy( [ 'title' => $suiviSessionModule['title'] ] );
+
+                    if( !$module )
+                    {
+                        $newModule = new Module();
+                        $newModule->setTitle( $suiviSessionModule['title'] );
+                        $newModule->setWeeks( $suiviSessionModule['weeks'] );
+                        $this->entityManager->persist( $newModule );
+
+                        $module = $newModule;
+                    }
+
+                    if( !$this->linkSessionModuleRepository->findOneBy( [ 'session' => $session, 'module' => $module ] ) )
+                    {
+                        $newLinkSessionModule = new LinkSessionModule();
+                        $newLinkSessionModule->setSession( $session );
+                        $newLinkSessionModule->setModule( $module );
+                        $newLinkSessionModule->setStartDate( new \DateTime( $suiviSessionModule['startDate'] ) );
+                        $newLinkSessionModule->setEndDate( new \DateTime( $suiviSessionModule['endDate'] ) );
+
+                        $this->entityManager->persist( $newLinkSessionModule );
+                        $this->entityManager->flush();
+
+                        $module->addLinksSessionModule( $newLinkSessionModule );
+                        $session->addLinksSessionModule( $newLinkSessionModule );
+
+                        $this->entityManager->persist( $module );
+                        $this->entityManager->persist( $session );
+                        $this->entityManager->flush();
+                    }
+                }
             }
         }
 
@@ -203,8 +235,8 @@ class DbUpdaterHelper
                         $newLinkSessionModule = new LinkSessionModule();
                         $newLinkSessionModule->setSession( $session );
                         $newLinkSessionModule->setModule( $youupEquivModule );
-                        $newLinkSessionModule->setStartDate( $instructorSuiviSessionModule['startDate'] );
-                        $newLinkSessionModule->setEndDate( $instructorSuiviSessionModule['endDate'] );
+                        $newLinkSessionModule->setStartDate( new \DateTime($instructorSuiviSessionModule['startDate']) );
+                        $newLinkSessionModule->setEndDate( new \DateTime($instructorSuiviSessionModule['endDate']) );
 
                         $this->entityManager->persist($newLinkSessionModule);
                         $this->entityManager->flush();
@@ -253,12 +285,20 @@ class DbUpdaterHelper
                 foreach( $youupLinksInstructorSessionModule as $youupLinkInstructorSessionModule )
                 {
                     $keep = array_filter( $instructorSuiviSessionModules, function($instructorSuiviSessionModule) use ($youupLinkInstructorSessionModule) {
-                        return $instructorSuiviSessionModule['sessionName'] === $youupLinkInstructorSessionModule->getSession()->getName() && $instructorSuiviSessionModule['moduleName'] === $youupLinkInstructorSessionModule->getModule()->getTitle();
-                    });
+                        if(
+                            $instructorSuiviSessionModule['sessionName'] === $youupLinkInstructorSessionModule->getSession()->getName()
+                            &&
+                            $instructorSuiviSessionModule['title'] === $youupLinkInstructorSessionModule->getModule()->getTitle()
+                        )
+                        {
+                            return $instructorSuiviSessionModule;
 
+                        };
+                    });
                     if( count($keep) === 0 )
                     {
                         $this->entityManager->remove($youupLinkInstructorSessionModule);
+                        $this->entityManager->flush();
                     }
                 }
             }
@@ -293,7 +333,7 @@ class DbUpdaterHelper
             ON users.id = daily.id_user
             LEFT JOIN modules
             ON modules.id = daily.id_module
-            WHERE users.email = ? AND daily.date >= DATE( NOW() - INTERVAL 1 MONTH )
+            WHERE users.email = ?
             GROUP BY sessions.name
         ";
         return $this->rawSqlRequestToExtDb( $sql, [$instructorEmail] );
@@ -325,25 +365,21 @@ class DbUpdaterHelper
             {
                 $moduleByName[$moduleName] = [];
             }
-            $moduleByName[$moduleName][] = $suiviModule;
+            $moduleByName[$moduleName] = $suiviModule;
         }
 
         $modules = [];
-        foreach( $moduleByName as $name => $submodules )
+        foreach( $moduleByName as $name => $module )
         {
-            $moduleDuration = 0;
-            foreach( $submodules as $submodule  )
-            {
-                $moduleDuration += $submodule['duration'];
-            }
 
-            $weeks = ceil( $moduleDuration / 5 );
+            $weeks = ceil( $module['duration'] / 5 );
 
             $modules[] = [
+                'sessionName' => $sessionName,
                 'title' => $name,
                 'weeks' => $weeks,
-                'startDate' => $submodules[$name]['start_date'],
-                'endDate' => $submodules[$name]['end_date'],
+                'startDate' => $module['start_date'],
+                'endDate' => $module['end_date'],
             ];
         }
         return $modules;
@@ -390,43 +426,6 @@ class DbUpdaterHelper
             ];
         }
         return $modules;
-    }
-
-    public function createModulesAndLinksSessionModuleFromSuiviSessionModules( $suiviSessionModules )
-    {
-        foreach($suiviSessionModules as $suiviSessionModule)
-        {
-            $module = $this->moduleRepository->findOneBy( [ 'title' => $suiviSessionModule['title'] ] );
-
-            if( !$module )
-            {
-                $newModule = new Module();
-                $newModule->setTitle( $suiviSessionModule['title'] );
-                $newModule->setWeeks( $suiviSessionModule['weeks'] );
-                $this->entityManager->persist( $newModule );
-
-                $module = $newModule;
-            }
-
-            if( !$this->linkSessionModuleRepository->findOneBy( [ 'session' => $session, 'module' => $module ] ) )
-            {
-                $newLinkSessionModule = new LinkSessionModule();
-                $newLinkSessionModule->setSession( $session );
-                $newLinkSessionModule->setModule( $module );
-                $newLinkSessionModule->setStartDate( new \DateTime( $suiviSessionModule['startDate'] ) );
-                $newLinkSessionModule->setEndDate( new \DateTime( $suiviSessionModule['endDate'] ) );
-
-                $this->entityManager->persist( $newLinkSessionModule );
-                $this->entityManager->flush();
-
-                $module->addLinksSessionModule( $newLinkSessionModule );
-                $session->addLinksSessionModule( $newLinkSessionModule );
-
-                $this->entityManager->persist( $module );
-                $this->entityManager->persist( $session );
-                $this->entityManager->flush();
-            }
-        }
     }
 
     public function isUserStudent( $user )
