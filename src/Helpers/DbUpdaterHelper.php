@@ -97,12 +97,14 @@ class DbUpdaterHelper
                 if( $suiviSession && count($suiviSession) > 0 )
                 {
                     $suiviSession = end($suiviSession);
+                    $startDate = new \DateTime($suiviSession['startDate']);
+                    $endDate = new \DateTime($suiviSession['endDate']);
 
-                    if( $suiviSession['startDate'] < $now && $suiviSession['endDate'] > $now && !$linkStudentSession->isEnabled() )
+                    if( $startDate < $now && $endDate > $now && !$linkStudentSession->isEnabled() )
                     {
                         $linkStudentSession->setIsEnabled( true );
                     }
-                    elseif( $suiviSession['startDate'] > $now || $suiviSession['endDate'] < $now && $linkStudentSession->isEnabled() )
+                    elseif( $startDate > $now || $endDate < $now && $linkStudentSession->isEnabled() )
                     {
                         $linkStudentSession->setIsEnabled( false );
                     }
@@ -388,6 +390,7 @@ class DbUpdaterHelper
 
         $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName ]);
         $moduleByName = [];
+
         foreach($suiviModules as $suiviModule)
         {
             $explodedModuleName = explode('.', $suiviModule['module_name']);
@@ -396,25 +399,18 @@ class DbUpdaterHelper
             {
                 $moduleByName[$moduleName] = [];
             }
-            $moduleByName[$moduleName][] = $suiviModule;
+            $moduleByName[$moduleName] = $suiviModule;
         }
 
         $modules = [];
-        foreach( $moduleByName as $name => $submodules )
+        foreach( $moduleByName as $name => $module )
         {
-            $moduleDuration = 0;
-            foreach( $submodules as $submodule  )
-            {
-                $moduleDuration += $submodule['duration'];
-            }
-
-            $weeks = ceil( $moduleDuration / 5 );
-
+            $weeks = ceil( $module['duration'] / 5 );
             $modules[] = [
                 'title' => $name,
                 'weeks' => $weeks,
-                'startDate' => $submodules[$name][0]['start_date'],
-                'endDate' => $submodules[$name][0]['end_date'],
+                'startDate' => $module['start_date'],
+                'endDate' => $module['end_date'],
             ];
         }
         return $modules;
