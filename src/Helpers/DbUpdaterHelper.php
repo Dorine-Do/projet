@@ -294,7 +294,7 @@ class DbUpdaterHelper
             ON daily.id_session = sessions.id
             LEFT JOIN users
             ON users.id = link_students_daily.id_student
-            WHERE users.email = ?,
+            WHERE users.email = ?
             GROUP BY sessions.name
         ";
         return $this->rawSqlRequestToExtDb( $sql, [$studentEmail] );
