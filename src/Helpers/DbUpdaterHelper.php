@@ -52,6 +52,7 @@ class DbUpdaterHelper
         if( $this->isUserStudent($user) )
         {
             $studentSuiviSessions = $this->getSuiviStudentSessions( $user->getEmail() );
+
             foreach ( $studentSuiviSessions as $studentSuiviSession )
             {
                 $youUpEquivSession = $this->sessionRepository->findOneBy( [ 'name' => $studentSuiviSession['name'] ] );
@@ -64,6 +65,7 @@ class DbUpdaterHelper
                     $newSession->setSchoolYear( $startDate->format('Y') );
 
                     $this->entityManager->persist( $newSession );
+                    $this->entityManager->flush();
 
                     $newLinkSessionStudent = new LinkSessionStudent();
                     $newLinkSessionStudent->setSession( $newSession );
@@ -73,6 +75,7 @@ class DbUpdaterHelper
                     );
 
                     $this->entityManager->persist( $newLinkSessionStudent );
+                    $this->entityManager->flush();
 
                     $newSession->addLinkSessionStudent( $newLinkSessionStudent );
                     $user->addLinkSessionStudent( $newLinkSessionStudent );
@@ -91,8 +94,10 @@ class DbUpdaterHelper
                     return $studentSuiviSession['name'] === $linkStudentSession->getSession()->getName();
                 });
 
-                if( $suiviSession )
+                if( $suiviSession && count($suiviSession) > 0 )
                 {
+                    $suiviSession = end($suiviSession);
+
                     if( $suiviSession['startDate'] < $now && $suiviSession['endDate'] > $now && !$linkStudentSession->isEnabled() )
                     {
                         $linkStudentSession->setIsEnabled( true );
@@ -329,7 +334,7 @@ class DbUpdaterHelper
             LEFT JOIN daily ON daily.id_module = modules.id
             LEFT JOIN sessions ON sessions.id = daily.id_session
             LEFT JOIN users ON users.id = daily.id_user
-            WHERE sessions.name = :name AND users.email = :email
+            WHERE sessions.name = ? AND users.email = ?
             GROUP BY modules.name";
 
         $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName, $userEmail ]);
@@ -378,7 +383,7 @@ class DbUpdaterHelper
             FROM modules
             LEFT JOIN daily ON daily.id_module = modules.id
             LEFT JOIN sessions ON sessions.id = daily.id_session
-            WHERE sessions.name = :name
+            WHERE sessions.name = ?
             GROUP BY modules.name";
 
         $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName ]);
