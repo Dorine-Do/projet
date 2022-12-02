@@ -960,6 +960,7 @@ let generatedQcmResumeBlock, showGeneratedQcmResumeBtn, validateQcmButtonWhitout
 let personalizeQcmBlock, personalizeQcmBtn, pickableOfficialQuestionsList, pickableCustomQuestionsList, pickedQuestionsList;
 let pickableCustomQuestionsBnt, pickableOfficialQuestionsBnt, moveTopickableQuestionsListBtn, moveTopickedQuestionsListBtn;
 let qcmValidationBtn
+let ulQcm, questionLi
 
 const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
 const difficultyImages =
@@ -1099,7 +1100,6 @@ function fillGeneratedQcmResumeBlock( questions )
 
     showGeneratedQcmResumeBtn.addEventListener('click', displayGeneratedQcmQuestionsList);
     personalizeQcmBtn.addEventListener('click', displayQcmPersonalizer);
-    // TODO Voir Avec Matthieu pk ça ne fonciton pas
     validateQcmButtonWhitoutChange.addEventListener('click', fetchCreateQcmPerso)
 }
 
@@ -1167,6 +1167,7 @@ function fillQcmPersonalizer( officialQuestions ,customQuestions, pickedQuestion
             chevrons[i].classList.toggle('rotate')
         })
     }
+    calcNbrQuestionByLevel()
 }
 
 function createQuestionLi( sourceQuestion, questionIndex, elementsList, isOfficial )
@@ -1263,13 +1264,14 @@ function moveTo(e)
         }else
         {
             pickedQuestionsList.append(question)
-            calcNbrQuestionByLevel(pickedQuestionsList)
+            calcNbrQuestionByLevel()
         }
     })
 }
 
 function displayPickableQuestionList(e)
 {
+
     if (e.target.id === "pickableCustomQuestionsBnt")
     {
         pickableOfficialQuestionsList.parentNode.classList.add('displayNone')
@@ -1286,15 +1288,16 @@ function displayPickableQuestionList(e)
         e.target.classList.add('btnQuestionsActive')
         pickableCustomQuestionsBnt.classList.remove('btnQuestionsActive')
     }
+
 }
 
-function calcNbrQuestionByLevel(side)
+function calcNbrQuestionByLevel()
 {
     let easyLevel = 0;
     let mediumLevel = 0;
     let difficultyLevel = 0;
 
-    let questions = side.querySelectorAll(".qcmChoisedTrefle");
+    let questions = pickedQuestionsList.querySelectorAll(".qcmChoisedTrefle");
     questions.forEach((question) => {
         if (question.dataset.level === "easy") {
             easyLevel++;
@@ -1372,12 +1375,20 @@ document.addEventListener('DOMContentLoaded', function(){
 
     qcmValidationBtn = document.querySelector("#validationCreationQcmBnt");
 
+    ulQcm = document.querySelector('.ulQcm')
+
+    questionLi = document.querySelectorAll('.questionLi')
+
     displayModal()
 
 
     moduleOption.addEventListener('change', function() {
         selectedModule = this.value;
         generatedQcmResumeBlock.classList.add('displayNone')
+        personalizeQcmBlock.classList.add('displayNone')
+        ulQcm.innerHTML = ''
+        pickableOfficialQuestionsList.innerHTML = ''
+        pickedQuestionsList.innerHTML = ''
     });
 
     for( let i = 0; i < difficultyOptions.length; i++ )

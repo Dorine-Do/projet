@@ -432,6 +432,7 @@ class StudentController extends AbstractController
     ): Response
     {
         $module = $moduleRepo->find( $request->get('module') );
+
         $difficulty = (int) $request->get('difficulty');
 
         $student = $this->studentRepo->find($this->security->getUser()->getId());
@@ -656,84 +657,6 @@ class StudentController extends AbstractController
         $linkSessionStudent = $linkSessionStudentRepository->findBy(['student'=>$this->security->getUser()->getId(), 'isEnabled'=>1]);
 
         $isOfficialQcms = $resultRepository->isOfficialQcmLevel( $this->security->getUser()->getId(), $linkSessionStudent[0]->getSession()->getId() );
-
-        $isOfficialQcms[] = [
-            "qcmId" => 6,
-            "qcmTitle" => "Qcm1",
-            "qcmInstanceId" => 10,
-            "resultID" => 7,
-            "moduleId" => 25,
-            "moduleTitle" => "NODE4",
-            "level" => 1,
-            "startDat" => "2021-12-12",
-            "endDate" => "2022-08-27"
-        ];
-        $isOfficialQcms[] = [
-            "qcmId" => 7,
-            "qcmTitle" => "Qcm2",
-            "qcmInstanceId" => 11,
-            "resultID" => 8,
-            "moduleId" => 24,
-            "moduleTitle" => "NODE3",
-            "level" => 4,
-            "startDat" => "2021-12-12",
-            "endDate" => "2022-08-27"
-        ];
-        $isOfficialQcms[] = [
-            "qcmId" => 8,
-            "qcmTitle" => "Qcm3",
-            "qcmInstanceId" => 12,
-            "resultID" => 9,
-            "moduleId" => 20,
-            "moduleTitle" => "NODE2",
-            "level" => 1,
-            "startDat" => "2021-12-12",
-            "endDate" => "2022-08-27"
-        ];
-        $isOfficialQcms[] = [
-            "qcmId" => 9,
-            "qcmTitle" => "Qcm4",
-            "qcmInstanceId" => 13,
-            "resultID" => 10,
-            "moduleId" => 19,
-            "moduleTitle" => "NODE1",
-            "level" => 2,
-            "startDat" => "2021-12-12",
-            "endDate" => "2022-08-27"
-        ];
-        $isOfficialQcms[] = [
-            "qcmId" => 9,
-            "qcmTitle" => "Qcm4",
-            "qcmInstanceId" => 13,
-            "resultID" => 10,
-            "moduleId" => 18,
-            "moduleTitle" => "JS6",
-            "level" => 1,
-            "startDat" => "2021-12-12",
-            "endDate" => "2022-08-27"
-        ];
-        $isOfficialQcms[] = [
-            "qcmId" => 10,
-            "qcmTitle" => "Qcm4",
-            "qcmInstanceId" => 14,
-            "resultID" => 11,
-            "moduleId" => 23,
-            "moduleTitle" => "JS5",
-            "level" => 4,
-            "startDat" => "2021-12-12",
-            "endDate" => "2022-08-27"
-        ];
-        $isOfficialQcms[] = [
-            "qcmId" => 11,
-            "qcmTitle" => "Qcm4",
-            "qcmInstanceId" => 15,
-            "resultID" => 12,
-            "moduleId" =>22,
-            "moduleTitle" => "JS4",
-            "level" => 4,
-            "startDat" => "2021-12-12",
-            "endDate" => "2022-08-27"
-        ];
 
         $moduleGroups = [];
 

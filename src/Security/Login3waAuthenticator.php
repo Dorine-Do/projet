@@ -5,6 +5,7 @@ use App\Entity\Main\Admin;
 use App\Entity\Main\Instructor;
 use App\Entity\Main\Student;
 use App\Entity\Main\User;
+use App\Helpers\DbUpdaterHelper;
 use App\Repository\CookieRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,6 +41,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
     private ManagerRegistry $doctrine;
     private CookieRepository $cookieRepo;
     private SessionInterface $session;
+    private DbUpdaterHelper $dbUpdaterHelper;
 
     public function __construct(
         ClientRegistry $clientRegistry,
@@ -49,6 +51,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         UserRepository $userRepo,
         ManagerRegistry $doctrine,
         CookieRepository $cookieRepo,
+        DbUpdaterHelper $dbUpdaterHelper
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -58,6 +61,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         $this->userRepo = $userRepo;
         $this->doctrine = $doctrine;
         $this->cookieRepo = $cookieRepo;
+        $this->dbUpdaterHelper = $dbUpdaterHelper;
     }
 
     public function supports(Request $request): ?bool
@@ -148,6 +152,22 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
 //            $sessionStorage = new NativeSessionStorage([], new NativeFileSessionHandler());
 //            $session = new Session($sessionStorage);
+
+            /********************************************
+            UPDATING DB FROM DBSUIVI
+            *********************************************/
+
+            $this->dbUpdaterHelper->updateUserSession( $user );
+
+
+                // Recuperer les formateurs inscris sur chaque module de cette session
+                // pour chaque formateurs de la session
+                    // s'il n'est pas ou plus inscrit au module de cette session
+                        // le supprimer de link-instructor-session-module
+                    // s'il doit y etre nais n'y est pas
+                        // ajout du link-instructor-session-module
+
+
 
             return $user;
         }));
