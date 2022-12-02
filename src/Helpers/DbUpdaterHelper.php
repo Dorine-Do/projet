@@ -164,20 +164,24 @@ class DbUpdaterHelper
                         $module = $newModule;
                     }
 
-                    $newLinkSessionModule = new LinkSessionModule();
-                    $newLinkSessionModule->setSession( $session );
-                    $newLinkSessionModule->setModule( $module );
-                    $newLinkSessionModule->setStartDate( new \DateTime( $suiviSessionModule['startDate'] ) );
-                    $newLinkSessionModule->setEndDate( new \DateTime( $suiviSessionModule['endDate'] ) );
+                    if( !$this->linkSessionModuleRepository->findOneBy( [ 'session' => $session, 'module' => $module ] ) )
+                    {
+                        $newLinkSessionModule = new LinkSessionModule();
+                        $newLinkSessionModule->setSession( $session );
+                        $newLinkSessionModule->setModule( $module );
+                        $newLinkSessionModule->setStartDate( new \DateTime( $suiviSessionModule['startDate'] ) );
+                        $newLinkSessionModule->setEndDate( new \DateTime( $suiviSessionModule['endDate'] ) );
 
-                    $this->entityManager->persist( $newLinkSessionModule );
+                        $this->entityManager->persist( $newLinkSessionModule );
+                        $this->entityManager->flush();
 
-                    $module->addLinksSessionModule( $newLinkSessionModule );
-                    $session->addLinksSessionModule( $newLinkSessionModule );
+                        $module->addLinksSessionModule( $newLinkSessionModule );
+                        $session->addLinksSessionModule( $newLinkSessionModule );
 
-                    $this->entityManager->persist( $module );
-                    $this->entityManager->persist( $session );
-                    $this->entityManager->flush();
+                        $this->entityManager->persist( $module );
+                        $this->entityManager->persist( $session );
+                        $this->entityManager->flush();
+                    }
                 }
             }
         }
