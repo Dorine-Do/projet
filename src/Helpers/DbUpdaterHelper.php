@@ -297,7 +297,7 @@ class DbUpdaterHelper
             WHERE users.email = ?,
             GROUP BY name
         ";
-        return $this->rawSqlRequestToExtDb( $sql, ['email' => $studentEmail] );
+        return $this->rawSqlRequestToExtDb( $sql, [$studentEmail] );
     }
 
     public function getSuiviInstructorSessions( string $instructorEmail )
@@ -313,7 +313,7 @@ class DbUpdaterHelper
             ON modules.id = daily.id_module
             WHERE users.email = ? AND daily.date >= DATE( NOW() - INTERVAL 1 MONTH )
         ";
-        return $this->rawSqlRequestToExtDb( $sql, ['email' => $instructorEmail] );
+        return $this->rawSqlRequestToExtDb( $sql, [$instructorEmail] );
     }
 
     public function getInstructorSuiviSessionModules( $sessionName, $userEmail )
@@ -332,7 +332,7 @@ class DbUpdaterHelper
             WHERE sessions.name = :name AND users.email = :email
             GROUP BY modules.name";
 
-        $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ 'name' => $sessionName, 'email' => $userEmail ]);
+        $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName, $userEmail ]);
         $moduleByName = [];
         foreach($suiviModules as $suiviModule)
         {
@@ -381,7 +381,7 @@ class DbUpdaterHelper
             WHERE sessions.name = :name
             GROUP BY modules.name";
 
-        $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ 'name' => $sessionName ]);
+        $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName ]);
         $moduleByName = [];
         foreach($suiviModules as $suiviModule)
         {
