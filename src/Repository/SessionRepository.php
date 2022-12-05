@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Main\LinkSessionStudent;
 use App\Entity\Main\Session;
 use App\Entity\Main\LinkInstructorSessionModule;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -47,6 +48,8 @@ class SessionRepository extends ServiceEntityRepository
             ->join(LinkInstructorSessionModule::class, 'lism')
             ->where('lism.instructor = :instructor' )
             ->andWhere( 'lism.session = s.id' )
+            ->join(LinkSessionStudent::class, 'lss')
+            ->andWhere('lss.isEnabled = true')
             ->setParameter('instructor', $id )
             ->getQuery()
             ->getResult();

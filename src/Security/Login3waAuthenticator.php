@@ -84,7 +84,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
 //                $this->dbUpdaterHelper->updateUserSession( $this->userRepo->find(11) );
 
-                return $this->userRepo->find(11);
+                return $this->userRepo->find(191);
             }
 //            // TODO end delete in production ---------------------------------------------------------------------------
 
