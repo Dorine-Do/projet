@@ -129,6 +129,7 @@ class StudentController extends AbstractController
             }
         }
         $qcmsDone = [];
+
         foreach($studentResults as $studentResult)
         {
             $qcmInstance = $studentResult->getQcmInstance();

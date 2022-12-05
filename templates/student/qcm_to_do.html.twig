@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ 'qcm.todo'|trans }}{% endblock %}
+{% block title %}{{ 'qcm.qcmToDo'|trans }}{% endblock %}
 
 {% block stylesheets %}
     <link href="{{asset('css/student/qcmToDoAndQcmCorrection.css')}}" rel="stylesheet">
@@ -8,7 +8,7 @@
 
 {% block body %}
 
-        <h1>- {{ 'qcm.todo'|trans }} -</h1>
+        <h1>- {{ 'qcm.qcmToDo'|trans }} -</h1>
 
         <div class="divName">
             <p class="nom">
@@ -109,6 +109,9 @@
             <div class="modalConfirm">
                 <img class="logoPop" src="{{asset('build/images/logo_officiel.png')}}" alt="logo de Youup">
                 <p>{{ 'title.myCommentary'|trans }}</p>
+                <p>Quels sont tes ressentis par rapport aux questions posées?</p>
+                <p>Quels sont selon toi les questions qui t’ont posé problèmes et celles où tu as plutôt bien réussi?</p>
+                <p>Tu pourras retrouver cet avis à la fin du corrigé de ce qcm.</p>
                 <textarea type="text" name="comment_student"></textarea>
                 <div class="buttonPop">
                     <button type="button" class="confirmBtn" id="confirm-qcm-btn">{{ 'button.validate'|trans }}</button>

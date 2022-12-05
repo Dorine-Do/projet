@@ -28,6 +28,7 @@ qcm:
   chooseQcmModuleLevel: Choix du QCM par module et par niveau
   chooseStudentsQcm: Choix du ou des élèves pouvant faire le QCM
   qcmToDo: QCM à faire
+  forTraining: QCM d'entraînement
 
 
 difficulty:
@@ -142,7 +143,6 @@ button:
   validQcm: Valider le QCM tel quel
   sessionsManagement: Gestion des sessions
   todo: Faire le QCM
-  trainningQcm: QCM d'entraînement
 
 
 header:
