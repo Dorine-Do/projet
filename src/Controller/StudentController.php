@@ -562,6 +562,7 @@ class StudentController extends AbstractController
 
             $qcmQuestions[] = [
                 'questionId'  => $dbAnswer['id'],
+                'difficulty' => $question->getDifficulty()->value,
                 'isMultiple'  => $question->getIsMultiple(),
                 'wording'     => $question->getWording(),
                 'answers'   => $proposals,

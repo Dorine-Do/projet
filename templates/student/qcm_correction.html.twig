@@ -39,7 +39,13 @@
             {% for question in qcmQuestions %}
                 <div class="imageDiff">
                     <div class="trefle">
-                        <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="difficile">
+                        {% if question.difficulty == 1 %}
+                            <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Facile">
+                        {% elseif question.difficulty == 2 %}
+                            <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Moyen">
+                        {% elseif question.difficulty == 3 %}
+                            <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Difficile">
+                        {% endif %}
                     </div>
                     <div>
                         <p class="question"><span class="numeroForm">1</span>
