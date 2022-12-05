@@ -7,11 +7,20 @@ class QcmResultHelper
     public static function calcQcmPonderatedScore( $qcm, $studentResponses ) : array
     {
         $questionsCache = $qcm->getQuestionsCache();
+        $qcmDifficulty = $qcm->getDifficulty();
 
         $countIsCorrectAnswer = 0;
 
+        $cumulatedScore = 0;
+        $cumulatedPonderations = 0;
+
         foreach ( $questionsCache as $questionCacheKey => $questionCache )
         {
+            $questionDifficulty = $questionCache[$questionCacheKey]['difficulty'];
+
+            $questionPonderation = $questionCache[$questionCacheKey]['difficulty'] === $qcmDifficulty ? 2 : 1;
+            $cumulatedPonderations += $questionPonderation;
+
             foreach ( $studentResponses as $studentAnswerKey => $studentAnswerValue )
             {
                 if( $questionsCache[$questionCacheKey]['id'] == $studentAnswerKey )
@@ -53,6 +62,7 @@ class QcmResultHelper
                         {
                             $countIsCorrectAnswer++;
                             $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
+                            $cumulatedScore += 1 * $questionPonderation;
                         }
                         else
                         {
@@ -113,6 +123,7 @@ class QcmResultHelper
                         {
                             $countIsCorrectAnswer ++;
                             $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
+                            $cumulatedScore += 1 * $questionPonderation;
                         }else{
                             $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
                         }
@@ -121,8 +132,10 @@ class QcmResultHelper
             }
         }
 
-        $nbQuestions = count($questionsCache);
-        $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
+//        $nbQuestions = count($questionsCache);
+//        $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
+
+        $totalScore = 100 * $cumulatedScore / $cumulatedPonderations;
 
         return [
             'totalScore' => $totalScore,
