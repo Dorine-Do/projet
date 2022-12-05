@@ -52,30 +52,26 @@ class StudentController extends AbstractController
         LinkSessionModuleRepository $linkSessionModuleRepository
     ): Response
     {
-
         $student = $this->studentRepo->find($this->security->getUser()->getId());
-        dump($student);
 
-//        $allAvailableQcmInstances = $qcmInstanceRepository->getQcmInstancesByStudent($this->security->getUser()->getId());
-        /*TODO Code fonctionnel normalement, a été remplacer par la ligne de haut dessus temporairement */
         $allAvailableQcmInstances = $qcmInstanceRepository->findBy(['student'=>$student]);
-//         $allAvailableQcmInstances = $student->getQcmInstances();
-        dd($allAvailableQcmInstances);
 
         if($allAvailableQcmInstances){
             /********************************************************************************************************/
 
-            $officialQcmOfTheWeek = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
+            $officialQcmOfTheWeek = array_filter($allAvailableQcmInstances, function( QcmInstance $qcmInstance ){
+
                 return
                     $qcmInstance->getQcm()->getIsOfficial() == true
-                    && $qcmInstance->getStartTime() < new \DateTime()
-                    && $qcmInstance->getEndTime() > new \DateTime()
+                    && $qcmInstance->getStartTime() <= new \DateTime()
+                    && $qcmInstance->getEndTime() >= new \DateTime()
                     && $qcmInstance->getQcm()->getIsEnabled() == true
                     && $qcmInstance->getResult() === null;
             });
+
             /********************************************************************************************************/
 
-            $unofficialQcmNotDone = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ) use ($student){
+            $unofficialQcmNotDone = array_filter($allAvailableQcmInstances, function( QcmInstance $qcmInstance ) use ($student){
                 return
                     $qcmInstance->getQcm()->getIsOfficial() === false
                     && $qcmInstance->getStartTime() < new \DateTime()
@@ -84,6 +80,7 @@ class StudentController extends AbstractController
                     && $qcmInstance->getQcm()->getAuthor() !== $student
                     ;
             });
+
         }
 
         /********************************************************************************************************/
@@ -123,9 +120,7 @@ class StudentController extends AbstractController
     {
         $student = $this->studentRepo->find($this->security->getUser()->getId());
 
-        $studentQcmInstances = $qcmInstanceRepository->getQcmInstancesByStudent($this->security->getUser()->getId());
-        /*TODO Code fonctionnel normalement, a été remplacer par la ligne de haut dessus temporairement */
-//        $studentQcmInstances = $student->getQcmInstances();
+        $studentQcmInstances = $qcmInstanceRepository->findBy(['student'=>$student]);
 
         $studentResults = [];
         foreach ($studentQcmInstances as $studentQcmInstance){
@@ -224,7 +219,7 @@ class StudentController extends AbstractController
 
         $qcm = $qcmRepository->find(['id' => ($qcmInstance->getQcm()->getId())]);
 
-//        $questionsCache = $qcm->getQuestionsCache();
+        $questionsCache = $qcm->getQuestionsCache();
 
         $resultRequest = $request->query->all();
         $countIsCorrectAnswer = 0;
@@ -544,6 +539,7 @@ class StudentController extends AbstractController
     ): Response
     {
         $dbAnswers = $result->getAnswers();
+        dd($dbAnswers);
         $qcmInstance = $result->getQcmInstance();
         $qcm = $qcmInstance->getQcm();
         $qcmQuestions = [];

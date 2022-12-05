@@ -6,7 +6,7 @@ class QcmResultHelper
 {
     public static function calcQcmPonderatedScore( $qcm, $studentResponses ) : int
     {
-        $questionsCache = $qcm->getQuestionCache();
+        $questionsCache = $qcm->getQuestionsCache();
 
         $countIsCorrectAnswer = 0;
 
