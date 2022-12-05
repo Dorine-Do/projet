@@ -13,6 +13,7 @@ use App\Entity\Main\User;
 use App\Helpers\QcmGeneratorHelper;
 use App\Helpers\QcmResultHelper;
 use App\Repository\LinkInstructorSessionModuleRepository;
+use App\Repository\LinkSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
@@ -46,14 +47,20 @@ class StudentController extends AbstractController
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
     public function manageQcms(
         LinkSessionStudentRepository $linkSessionStudentRepo,
-        LinkInstructorSessionModuleRepository $linkSessionModuleRepo,
         ModuleRepository $moduleRepo,
+        QcmInstanceRepository $qcmInstanceRepository,
+        LinkSessionModuleRepository $linkSessionModuleRepository
     ): Response
     {
 
         $student = $this->studentRepo->find($this->security->getUser()->getId());
+        dump($student);
 
-        $allAvailableQcmInstances = $student->getQcmInstances();
+//        $allAvailableQcmInstances = $qcmInstanceRepository->getQcmInstancesByStudent($this->security->getUser()->getId());
+        /*TODO Code fonctionnel normalement, a été remplacer par la ligne de haut dessus temporairement */
+        $allAvailableQcmInstances = $qcmInstanceRepository->findBy(['student'=>$student]);
+//         $allAvailableQcmInstances = $student->getQcmInstances();
+        dd($allAvailableQcmInstances);
 
         if($allAvailableQcmInstances){
             /********************************************************************************************************/
@@ -82,11 +89,12 @@ class StudentController extends AbstractController
         /********************************************************************************************************/
 
         $studentSession = $linkSessionStudentRepo->findOneBy([ 'student' => $student->getId(), 'isEnabled'=> 1] )->getSession();
-        $sessionModules = $linkSessionModuleRepo->findBy([ 'session' => $studentSession->getId() ]);
+        $sessionModules = $linkSessionModuleRepository->findBy([ 'session' => $studentSession ]);
         foreach ( $sessionModules as $key => $sessionModule )
         {
             $sessionModules[$key] = $sessionModule->getModule();
         }
+
         /********************************************************************************************************/
 
         $retryableModules = $moduleRepo->getRetryableModules( $student->getId() );
@@ -126,7 +134,6 @@ class StudentController extends AbstractController
             }
         }
         $qcmsDone = [];
-        dd($studentResults);
         foreach($studentResults as $studentResult)
         {
             $qcmInstance = $studentResult->getQcmInstance();
