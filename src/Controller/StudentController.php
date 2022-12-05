@@ -342,7 +342,7 @@ class StudentController extends AbstractController
 
             $totalScoreAndCache = QcmResultHelper::calcQcmPonderatedScore( $qcm, $resultRequest );
             $totalScore = $totalScoreAndCache['totalScore'];
-            $questionsCache = $totalScoreAndCache['questionCache'];
+            $questionsCache = $totalScoreAndCache['questionsCache'];
 
             $result = new Result();
 
@@ -541,7 +541,6 @@ class StudentController extends AbstractController
     ): Response
     {
         $dbAnswers = $result->getAnswers();
-        dd($dbAnswers);
         $qcmInstance = $result->getQcmInstance();
         $qcm = $qcmInstance->getQcm();
         $qcmQuestions = [];

@@ -126,7 +126,7 @@ class QcmResultHelper
 
         return [
             'totalScore' => $totalScore,
-            'questionCache' => $questionCache
+            'questionsCache' => $questionsCache
         ];
     }
 }
