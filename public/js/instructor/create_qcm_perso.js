@@ -1264,9 +1264,9 @@ function moveTo(e)
         }else
         {
             pickedQuestionsList.append(question)
-            calcNbrQuestionByLevel()
         }
     })
+    calcNbrQuestionByLevel()
 }
 
 function displayPickableQuestionList(e)
@@ -1293,45 +1293,65 @@ function displayPickableQuestionList(e)
 
 function calcNbrQuestionByLevel()
 {
-    let easyLevel = 0;
-    let mediumLevel = 0;
-    let difficultyLevel = 0;
+
+    let easy = {
+        nbrQuestions : 0,
+        points : 0,
+        type : 1,
+        name : "Facile"
+    }
+    let medium = {
+        nbrQuestions : 0,
+        points : 0,
+        type : 2,
+        name : "Moyen"
+    }
+    let difficult = {
+        nbrQuestions : 0,
+        points : 0,
+        type : 3,
+        name : "Difficile"
+    }
 
     let questions = pickedQuestionsList.querySelectorAll(".qcmChoisedTrefle");
     questions.forEach((question) => {
         if (question.dataset.level === "easy") {
-            easyLevel++;
+            easy.nbrQuestions++;
+            easy.points++;
         } else if (question.dataset.level === "medium") {
-            mediumLevel++;
+            medium.nbrQuestions++;
+            medium.points += 2;
         } else {
-            difficultyLevel++;
+            difficult.nbrQuestions++;
+            difficult.points += 3;
         }
     });
+     let difficulties = [ easy, medium, difficult ]
+    let difficultiesPoints = [ easy.points, medium.points, difficult.points ];
+    let maxDifficultyPoints = Math.max( ...difficultiesPoints)
+    let difficulty = difficulties.filter( (diff) => {
+        return diff.points === maxDifficultyPoints
+    } )
 
     let pEasy = document.getElementById("easy");
-    pEasy.innerHTML = easyLevel;
+    pEasy.innerHTML = easy.nbrQuestions;
     let pMedium = document.getElementById("medium");
-    pMedium.innerHTML = mediumLevel;
+    pMedium.innerHTML = medium.nbrQuestions;
     let pDifficult = document.getElementById("difficulty");
-    pDifficult.innerHTML = difficultyLevel;
+    pDifficult.innerHTML = difficult.nbrQuestions;
 
     let qcmChoisedLevel = document.getElementById("qcmChoisedLevel");
-    if ( difficultyLevel > mediumLevel && difficultyLevel > mediumLevel )
+
+    if( difficulty.length > 1 )
     {
-        qcmChoisedLevel.innerHTML = "Difficile";
+        let types = difficulty.map( diff => diff.type)
+        difficulty = difficulty.filter( diff => {
+            return diff.type === Math.max(...types )
+        } )
     }
-    else if ( mediumLevel > difficultyLevel && mediumLevel > easyLevel )
-    {
-        qcmChoisedLevel.innerHTML = "Moyen";
-    }
-    else if ( easyLevel > mediumLevel && easyLevel > difficultyLevel )
-    {
-        qcmChoisedLevel.innerHTML = "Facile";
-    }
-    else
-    {
-        qcmChoisedLevel.innerHTML = "Moyen";
-    }
+
+    qcmChoisedLevel.innerText = difficulty[0].name
+
 }
 
 function displayModal()

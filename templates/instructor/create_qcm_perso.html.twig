@@ -218,25 +218,47 @@
                         {{ 'title.reminderText2'|trans }}
                     </p>
                     <p class="rules">
-                        {{ 'title.rule'|trans }}<br/>
                         {{ 'title.ruleExplaination'|trans }}
                     <p>
                 </div>
             </div>
             <div>
-                <p class="pTitle">- {{ 'title.qcmLvl'|trans }} -</p>
-                <table class="modalDifficultyLevel">
-                    <tr>
-                        <td><div>{{ 'difficulty.easy'|trans }}</div></td>
-                        <td><div>{{ 'difficulty.medium'|trans }}</div></td>
-                        <td><div>{{ 'difficulty.difficult'|trans }}</div></td>
-                    </tr>
-                    <tr>
-                        <td>{{ 'title.minimumQuestionX'|trans }}</td>
-                        <td>{{ 'title.minimumQuestionX'|trans }}</td>
-                        <td>{{ 'title.minimumQuestionX'|trans }}</td>
-                    </tr>
-                </table>
+                <p class="pTitle">- {{ 'title.example'|trans }} -</p>
+
+                <div>
+                    <div>
+                        <p>Chaque difficulté a un poids</p>
+                        <p>
+                            facile = 1, moyen = 2, difficile = 3
+                        </p>
+                    </div>
+                    <div>
+                        <p>Prenons l'exemple suivant :</p>
+                        <p>
+                            7 questions faciles, 5 questions moyennes, 4 questions  difficiles
+                        </p>
+                    </div>
+
+                    <p>
+                        Calculs : Facile = (7*1 = 7) | Moyen = (5*2 = 10) | Difficile = (4*3 = 12)
+                    </p>
+                    <p>
+                        Le niveau du QCM sera difficile
+                    </p>
+
+                </div>
+{#                <table class="modalDifficultyLevel">#}
+{#                    <tr>#}
+{#                        <td><div>{{ 'difficulty.easy'|trans }}</div></td>#}
+{#                        <td><div>{{ 'difficulty.medium'|trans }}</div></td>#}
+{#                        <td><div>{{ 'difficulty.difficult'|trans }}</div></td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                        <td>{{ 'title.minimumQuestionX'|trans }}</td>#}
+{#                        <td>{{ 'title.minimumQuestionX'|trans }}</td>#}
+{#                        <td>{{ 'title.minimumQuestionX'|trans }}</td>#}
+{#                    </tr>#}
+{#                </table>#}
             </div>
         </div>
     </div>
