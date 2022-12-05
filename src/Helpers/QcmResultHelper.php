@@ -16,9 +16,7 @@ class QcmResultHelper
 
         foreach ( $questionsCache as $questionCacheKey => $questionCache )
         {
-            $questionDifficulty = $questionCache[$questionCacheKey]['difficulty'];
-
-            $questionPonderation = $questionCache[$questionCacheKey]['difficulty'] === $qcmDifficulty ? 2 : 1;
+            $questionPonderation = $questionsCache[$questionCacheKey]['difficulty'] === $qcmDifficulty ? 2 : 1;
             $cumulatedPonderations += $questionPonderation;
 
             foreach ( $studentResponses as $studentAnswerKey => $studentAnswerValue )
