@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 class QcmResultHelper
 {
-    public static function calcQcmPonderatedScore( $qcm, $studentResponses ) : int
+    public static function calcQcmPonderatedScore( $qcm, $studentResponses ) : array
     {
         $questionsCache = $qcm->getQuestionsCache();
 
@@ -124,6 +124,9 @@ class QcmResultHelper
         $nbQuestions = count($questionsCache);
         $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
 
-        return $totalScore;
+        return [
+            'totalScore' => $totalScore,
+            'questionCache' => $questionCache
+        ];
     }
 }

@@ -222,7 +222,7 @@ class StudentController extends AbstractController
         $questionsCache = $qcm->getQuestionsCache();
 
         $resultRequest = $request->query->all();
-        $countIsCorrectAnswer = 0;
+//        $countIsCorrectAnswer = 0;
 
         if( count($resultRequest) !== 0 )
         {
@@ -340,7 +340,9 @@ class StudentController extends AbstractController
 //            $nbQuestions = count($questionsCache);
 //            $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
 
-            $totalScore = QcmResultHelper::calcQcmPonderatedScore( $qcm, $resultRequest );
+            $totalScoreAndCache = QcmResultHelper::calcQcmPonderatedScore( $qcm, $resultRequest );
+            $totalScore = $totalScoreAndCache['totalScore'];
+            $questionsCache = $totalScoreAndCache['questionCache'];
 
             $result = new Result();
 
