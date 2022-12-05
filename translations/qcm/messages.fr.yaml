@@ -271,7 +271,6 @@ title:
   modifyQcm: Modifier un QCM
   ruleExplaination: Lors de la modification (personnalisation) d'un qcm, il est possible de retirer ou d'ajouter une ou plusieurs questions
   qcmLvl: Niveau du QCM
-  minimumQuestionX: Minimum X question
   sessionsManagement: Gestion des sessions
   retriedQcm: QCM refaits
   filterByDate: Filtrer par date
