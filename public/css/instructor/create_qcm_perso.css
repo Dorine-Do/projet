@@ -958,6 +958,7 @@ hr {
     background: var(--fond);
     border-radius: 10px;
     padding: 1em;
+    border: 1px solid var(--writing);
 }
 
 .notice > img {
@@ -996,6 +997,24 @@ hr {
     padding: 0.5em;
 }
 
+.explainPopup{
+    background-color: var(--fond);
+    padding: 5px;
+    border-radius: 8px;
+    border: 1px solid var(--writing);
+}
+
+.explainPopup p{
+    margin: 10px 15px 0;
+}
+
+.explainPopup h3{
+    font-weight: bold;
+}
+
+.explainDifficulty p{
+    font-weight: bold;
+}
 /**********************************************************************************************************************/
 
 @media screen and (max-width: 1350px) {
