@@ -299,7 +299,7 @@ class QcmGeneratorHelper
             {
                 case 1:
                     $easyQuestionsNbr = ceil( mt_rand( $totalQuestions * 5 / 6, $totalQuestions) );
-                    $mediumQuestionsNbr = mt_rand(1, $totalQuestions - $easyQuestionsNbr);
+                    $mediumQuestionsNbr = ceil( mt_rand( 2 * ( $totalQuestions / 6 + ($easyQuestionsNbr - $totalQuestions * 5 / 6) ) / 3, $totalQuestions - $easyQuestionsNbr) );
                     $difficultQuestionsNbr = $totalQuestions - $easyQuestionsNbr - $mediumQuestionsNbr;
                     if( $easyQuestionsNbr > 2 * $mediumQuestionsNbr && $easyQuestionsNbr > 3 * $difficultQuestionsNbr )
                     {
@@ -312,8 +312,8 @@ class QcmGeneratorHelper
                     }
                     break;
                 case 2:
-                    $mediumQuestionsNbr = ceil( mt_rand($totalQuestions * (1/2), $totalQuestions) );
-                    $easyQuestionsNbr = mt_rand( 1, $totalQuestions - $mediumQuestionsNbr);
+                    $mediumQuestionsNbr = ceil( mt_rand($totalQuestions/2, $totalQuestions) );
+                    $easyQuestionsNbr = ceil( mt_rand( ( $totalQuestions / 2 ) + ( $mediumQuestionsNbr - $totalQuestions / 2 )  , $totalQuestions - $mediumQuestionsNbr) );
                     $difficultQuestionsNbr = $totalQuestions - $easyQuestionsNbr - $mediumQuestionsNbr;
                     if( $easyQuestionsNbr < 2 * $mediumQuestionsNbr && 2 * $mediumQuestionsNbr > 3 * $difficultQuestionsNbr )
                     {
@@ -326,8 +326,8 @@ class QcmGeneratorHelper
                     }
                     break;
                 case 3:
-                    $difficultQuestionsNbr = ceil( mt_rand($totalQuestions * (1/3), $totalQuestions) );
-                    $easyQuestionsNbr = mt_rand( 1 , $totalQuestions - $difficultQuestionsNbr);
+                    $difficultQuestionsNbr = ceil( mt_rand($totalQuestions / 3, $totalQuestions) );
+                    $easyQuestionsNbr = mt_rand( 5 * ( $totalQuestions / 6 + ($difficultQuestionsNbr - $totalQuestions * 2 / 3) ) / 6  , $totalQuestions - $difficultQuestionsNbr);
                     $mediumQuestionsNbr = $totalQuestions - $difficultQuestionsNbr - $easyQuestionsNbr;
                     if( $easyQuestionsNbr < 3 * $difficultQuestionsNbr && 2 * $mediumQuestionsNbr < 3 * $difficultQuestionsNbr )
                     {
