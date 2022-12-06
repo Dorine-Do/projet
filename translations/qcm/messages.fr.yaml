@@ -163,6 +163,7 @@ title:
   connexion: Connexion
   AdminDashboard: Admin dashboard
   createCustomQcm: Créer un QCM personnalisé
+  createExerciceQcm: Créer un QCM d'exercice
   iCreateQcm: Je génère un QCM officiel
   generateQcmOfficial: Générer un qcm officiel
   myComment: Mon commentaire
