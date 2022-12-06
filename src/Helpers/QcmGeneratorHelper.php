@@ -313,7 +313,7 @@ class QcmGeneratorHelper
                     break;
                 case 2:
                     $mediumQuestionsNbr = ceil( mt_rand( $totalQuestions/2, $totalQuestions) );
-                    $easyQuestionsNbr = ceil( mt_rand( ( $totalQuestions / 2 )  - ( $mediumQuestionsNbr - $totalQuestions ) * 5 / 6 , $totalQuestions - $mediumQuestionsNbr) );
+                    $easyQuestionsNbr = ceil( mt_rand( ( $totalQuestions / 2 )  - ( $mediumQuestionsNbr - $totalQuestions / 2 ) * 5 / 6 , $totalQuestions - $mediumQuestionsNbr) );
                     $difficultQuestionsNbr = $totalQuestions - $easyQuestionsNbr - $mediumQuestionsNbr;
                     if( $easyQuestionsNbr < 2 * $mediumQuestionsNbr && 2 * $mediumQuestionsNbr > 3 * $difficultQuestionsNbr )
                     {
