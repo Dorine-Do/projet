@@ -97,7 +97,7 @@ class QcmGeneratorHelper
                     unset( $easyQuestionsPool[$easyQuestionToNotReuseIndex] );
                 }
             }
-            $recalcEasyPool = $questionsPool;
+            $recalcEasyPool = $easyQuestionsPool;
             $pickedEasyQuestions[] = $recalcEasyPool[ array_rand($recalcEasyPool) ];
         }
 
@@ -112,7 +112,7 @@ class QcmGeneratorHelper
                     unset( $mediumQuestionsPool[$mediumQuestionToNotReuseIndex] );
                 }
             }
-            $recalcMediumPool = $questionsPool;
+            $recalcMediumPool = $mediumQuestionsPool;
             $pickedMediumQuestions[] = $recalcMediumPool[ array_rand($recalcMediumPool) ];
         }
 
@@ -127,7 +127,7 @@ class QcmGeneratorHelper
                     unset( $difficultQuestionsPool[$difficultQuestionToNotReuseIndex] );
                 }
             }
-            $recalcDifficultPool = $questionsPool;
+            $recalcDifficultPool = $difficultQuestionsPool;
             $pickedDifficultQuestions[] = $recalcDifficultPool[ array_rand($recalcDifficultPool) ];
         }
 
@@ -194,8 +194,8 @@ class QcmGeneratorHelper
 
             while( $keepGoing )
             {
-                $nonMandatoryMediumQuestionsNbr = ceil( mt_rand( $this->_officialQcmQuestionQuantity * (1/2), $this->_officialQcmQuestionQuantity ) ) - $mandatoryQuestionsToPickNbr;
-                $nonMandatoryEasyQuestionsNbr = mt_rand( 1, $remainingQuestionsQuantityToPick - $nonMandatoryMediumQuestionsNbr);
+                $nonMandatoryMediumQuestionsNbr = ceil( mt_rand( $this->_officialQcmQuestionQuantity / 2, $this->_officialQcmQuestionQuantity ) ) - $mandatoryQuestionsToPickNbr;
+                $nonMandatoryEasyQuestionsNbr = ceil( mt_rand( ( $this->_officialQcmQuestionQuantity / 2 )  - ( $nonMandatoryMediumQuestionsNbr - $this->_officialQcmQuestionQuantity / 2 ) / 2 , $this->_officialQcmQuestionQuantity - $nonMandatoryMediumQuestionsNbr) );
                 $nonMandatoryDifficultQuestionsNbr = $remainingQuestionsQuantityToPick - $nonMandatoryMediumQuestionsNbr - $nonMandatoryEasyQuestionsNbr;
 
                 if( $nonMandatoryEasyQuestionsNbr < 2 * $nonMandatoryMediumQuestionsNbr && 2 * $nonMandatoryMediumQuestionsNbr > 3 * $nonMandatoryDifficultQuestionsNbr )
@@ -313,7 +313,7 @@ class QcmGeneratorHelper
                     break;
                 case 2:
                     $mediumQuestionsNbr = ceil( mt_rand( $totalQuestions / 2, $totalQuestions) );
-                    $easyQuestionsNbr = ceil( mt_rand( ( $totalQuestions / 4 )  - ( $mediumQuestionsNbr - $totalQuestions / 2 ) , $totalQuestions - $mediumQuestionsNbr) );
+                    $easyQuestionsNbr = ceil( mt_rand( ( $totalQuestions / 2 )  - ( $mediumQuestionsNbr - $totalQuestions / 2 ) / 2 , $totalQuestions - $mediumQuestionsNbr) );
                     $difficultQuestionsNbr = $totalQuestions - $easyQuestionsNbr - $mediumQuestionsNbr;
                     if( $easyQuestionsNbr < 2 * $mediumQuestionsNbr && 2 * $mediumQuestionsNbr > 3 * $difficultQuestionsNbr )
                     {
