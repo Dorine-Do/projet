@@ -194,7 +194,7 @@ class QcmGeneratorHelper
 
             while( $keepGoing )
             {
-                $nonMandatoryMediumQuestionsNbr = ceil( mt_rand( $this->_officialQcmQuestionQuantity * (2 + 2 / 3), $this->_officialQcmQuestionQuantity ) ) - $mandatoryQuestionsToPickNbr;
+                $nonMandatoryMediumQuestionsNbr = ceil( mt_rand( $this->_officialQcmQuestionQuantity * (1/2), $this->_officialQcmQuestionQuantity ) ) - $mandatoryQuestionsToPickNbr;
                 $nonMandatoryEasyQuestionsNbr = mt_rand( 1, $remainingQuestionsQuantityToPick - $nonMandatoryMediumQuestionsNbr);
                 $nonMandatoryDifficultQuestionsNbr = $remainingQuestionsQuantityToPick - $nonMandatoryMediumQuestionsNbr - $nonMandatoryEasyQuestionsNbr;
 
@@ -312,7 +312,7 @@ class QcmGeneratorHelper
                     }
                     break;
                 case 2:
-                    $mediumQuestionsNbr = ceil( mt_rand($totalQuestions * (2 + 2 / 3), $totalQuestions) );
+                    $mediumQuestionsNbr = ceil( mt_rand($totalQuestions * (1/2), $totalQuestions) );
                     $easyQuestionsNbr = mt_rand( 1, $totalQuestions - $mediumQuestionsNbr);
                     $difficultQuestionsNbr = $totalQuestions - $easyQuestionsNbr - $mediumQuestionsNbr;
                     if( $easyQuestionsNbr < 2 * $mediumQuestionsNbr && 2 * $mediumQuestionsNbr > 3 * $difficultQuestionsNbr )
@@ -326,7 +326,7 @@ class QcmGeneratorHelper
                     }
                     break;
                 case 3:
-                    $difficultQuestionsNbr = ceil( mt_rand($totalQuestions * ( 3 + 3 / 2 ), $totalQuestions) );
+                    $difficultQuestionsNbr = ceil( mt_rand($totalQuestions * (1/3), $totalQuestions) );
                     $easyQuestionsNbr = mt_rand( $totalQuestions, $totalQuestions - $difficultQuestionsNbr);
                     $mediumQuestionsNbr = $totalQuestions - $difficultQuestionsNbr - $easyQuestionsNbr;
                     if( $easyQuestionsNbr < 3 * $difficultQuestionsNbr && 2 * $mediumQuestionsNbr < 3 * $difficultQuestionsNbr )
