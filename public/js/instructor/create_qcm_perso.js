@@ -976,6 +976,11 @@ function generateRandomQcm()
     if( selectedModule && ( selectedDifficulty === '1' || selectedDifficulty === '2' || selectedDifficulty === '3' ) )
     {
         generationErrorBlock.innerText = '';
+        generatedQcmResumeBlock.classList.add('displayNone')
+        personalizeQcmBlock.classList.add('displayNone')
+        ulQcm.innerHTML = ''
+        pickableOfficialQuestionsList.innerHTML = ''
+        pickedQuestionsList.innerHTML = ''
         fetchGeneratedQcm();
     }
     else

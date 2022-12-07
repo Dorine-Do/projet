@@ -79,7 +79,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
             $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
             if( $stringBeginning[0] === 'C:' ) {
 
-                $idUser = 11;
+                $idUser = 181;
 
                 /********************************************
                 UPDATING DB FROM DBSUIVI
