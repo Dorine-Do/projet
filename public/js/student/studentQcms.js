@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function(){
     validTrainingQcm.addEventListener('click', function(){
         let module = trainingChoicesContainer.querySelector('select')
         let moduleValue =  module.value;
-        let difficulty = trainingChoicesContainer.querySelector('input[name="Difficulty"]').value;
+        let difficulty = trainingChoicesContainer.querySelector('input[name="Difficulty"]:checked').value;
         if (moduleValue === ""){
             manageErrorChoice(module, '#ffac8f', 'module')
         }else{
