@@ -133,7 +133,7 @@
                         {{ instructorComment }}
                     </p>
                 </div>
-                {% elseif 'ROLE_INSTRUCTOR' in app.user.roles %}
+                {% elseif 'ROLE_INSTRUCTOR' in app.user.roles and app.user.id is same as distributedBy %}
                     <div class="containerComment">
                         <div>
                             <h4>{{ 'title.addCommentary'|trans }}</h4>

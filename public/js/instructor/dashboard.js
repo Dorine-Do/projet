@@ -144,10 +144,13 @@ function displayQcmsDone(data){
         }
 
         let pIsOfficial = createElementSimple('p', 'pIsOfficial')
+
         if (qcm.isOfficial){
             pIsOfficial.innerHTML = 'Officiel'
-        }else{
+        }else if (!qcm.isOfficial && (qcm.authorRole.includes('ROLE_INSTRUCTOR') || qcm.authorRole.includes('ROLE_ADMIN'))){
             pIsOfficial.innerHTML = 'Exercice'
+        }else{
+            pIsOfficial.innerHTML = 'Entrainement'
         }
 
         let pTitle = createElementSimple('p', 'pTitle', qcm.title)

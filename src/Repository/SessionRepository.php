@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Main\LinkSessionModule;
 use App\Entity\Main\LinkSessionStudent;
 use App\Entity\Main\Session;
 use App\Entity\Main\LinkInstructorSessionModule;
@@ -43,16 +44,45 @@ class SessionRepository extends ServiceEntityRepository
 
     public function getInstructorSessions($id)
     {
-        return $this->createQueryBuilder('s')
-            ->select('s')
-            ->join(LinkInstructorSessionModule::class, 'lism')
-            ->where('lism.instructor = :instructor' )
-            ->andWhere( 'lism.session = s.id' )
-            ->join(LinkSessionStudent::class, 'lss')
-            ->andWhere('lss.isEnabled = true')
-            ->setParameter('instructor', $id )
-            ->getQuery()
-            ->getResult();
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT DISTINCT session.id, session.name
+            FROM link_instructor_session_module 
+            JOIN session ON link_instructor_session_module.session_id = session.id 
+            JOIN link_session_module ON link_session_module.session_id = session.id
+           WHERE link_instructor_session_module.instructor_id = 1
+             AND link_session_module.start_date <= NOW() 
+             AND link_session_module.end_date >= NOW()
+        ';
+
+        $stmt = $conn->prepare($sql);
+
+        $resultSet = $stmt->executeQuery();
+
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function getInstructorSessionsInYear($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT DISTINCT session.id, session.name
+            FROM link_instructor_session_module 
+            JOIN session ON link_instructor_session_module.session_id = session.id 
+            JOIN link_session_module ON link_session_module.session_id = session.id
+            WHERE link_instructor_session_module.instructor_id = 1
+            AND link_session_module.start_date <= DATE( NOW() + INTERVAL 6 MONTH)
+            AND link_session_module.end_date >= DATE( NOW() - INTERVAL 6 MONTH)
+            ORDER BY session.name ASC
+        ';
+
+        $stmt = $conn->prepare($sql);
+
+        $resultSet = $stmt->executeQuery();
+
+        return $resultSet->fetchAllAssociative();
     }
 
     public function findSessionByString($str)

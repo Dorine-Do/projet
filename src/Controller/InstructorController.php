@@ -617,7 +617,6 @@ class InstructorController extends AbstractController
     public function planQcm(SessionRepository $sessionRepo): Response
     {
         $instructorSessions = $sessionRepo->getInstructorSessions($this->security->getUser()->getId());
-
         return $this->render('instructor/plan_qcm.html.twig', [
             'instructorSessions' => $instructorSessions,
         ]);
@@ -733,15 +732,13 @@ class InstructorController extends AbstractController
 
         foreach ($sessionsAndModulesByInstructors as $sessionAndModuleByInstructor)
         {
-            $sessions = $sessionRepository->getInstructorSessions($userId);
-            $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
-            $qcm = $qcmRepository->getQcmModules(1);
+            $sessions = $sessionRepository->getInstructorSessionsInYear($userId);
+            $modules = $moduleRepository->getModuleSessions($sessions[0]['id']);
         }
 
         return $this->render('instructor/distributed_qcms.html.twig', [
                     'sessions' => $sessions,
                     'modules' => $modules,
-                    'qcm' => $qcm,
             ]);
     }
 
@@ -793,12 +790,9 @@ class InstructorController extends AbstractController
         ModuleRepository            $moduleRepository,
     ):Response
     {
-        $sessions = $sessionRepository->getInstructorSessions($this->security->getUser()->getId());
-        $modules = $moduleRepository->getModuleSessions($sessions[0]->getId());
-
+        $sessions = $sessionRepository->getInstructorSessionsInYear($this->security->getUser()->getId());
         return $this->render('instructor/dashboard.html.twig', [
-            'sessions' => $sessions,
-            'modules' => $modules,
+            'sessions' => $sessions
         ]);
     }
 
@@ -834,9 +828,18 @@ class InstructorController extends AbstractController
         Session $session,
         $moduleId,
         QcmRepository $qcmRepository,
+        UserRepository $userRepository
     ):JsonResponse
     {
         $qcms = $qcmRepository->getQcmsByStudentAndModule(intval($moduleId),intval($studentId));
+        $qcms = array_map( function ($qcm) use ($userRepository) {
+             $qcm['authorRole'] = $userRepository->find($qcm['author'])->getRoles();
+             return $qcm;
+        }, $qcms );
+
+
+
+
         return $this->json($qcms);
 
     }
