@@ -458,6 +458,7 @@ class StudentController extends AbstractController
         return $this->render('student/qcm_correction.html.twig', [
             'qcmQuestions' => $qcmQuestions,
             'nameQcmInstance' => $qcmInstance->getQcm()->getTitle(),
+            'distributedBy' => $qcmInstance->getDistributedBy()->getId(),
             'titleModule'=> $qcm->getModule()->getTitle(),
             'studentComment' => $result->getStudentComment(),
             'instructorComment' => $result->getInstructorComment(),
