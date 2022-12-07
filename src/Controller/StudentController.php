@@ -330,7 +330,7 @@ class StudentController extends AbstractController
     {
         $difficulty = intval( $difficulty );
 
-        $student = $this->security->getUser();
+        $student = $this->userRepo->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository ,$difficulty, 'training');
@@ -339,7 +339,7 @@ class StudentController extends AbstractController
         $manager->flush();
 
         $trainingQcmInstance = new QcmInstance();
-        $trainingQcmInstance->setStudent( $student );
+        $trainingQcmInstance->setStudent( $this->security->getUser() );
         $trainingQcmInstance->setDistributedBy( $student );
         $trainingQcmInstance->setQcm( $trainingQcm );
         $trainingQcmInstance->setStartTime( new \DateTime() );
