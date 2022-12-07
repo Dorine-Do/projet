@@ -324,13 +324,15 @@ class StudentController extends AbstractController
         Security $security,
         EntityManagerInterface $manager,
         UserRepository $userRepository,
+        StudentRepository $studentRepo,
         Module $module,
         $difficulty = 2
     ): Response
     {
         $difficulty = intval( $difficulty );
 
-        $student = $this->userRepo->find($this->security->getUser()->getId());
+        $student = $studentRepo->find($this->security->getUser()->getId());
+        $author = $userRepository->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository ,$difficulty, 'training');
@@ -339,8 +341,8 @@ class StudentController extends AbstractController
         $manager->flush();
 
         $trainingQcmInstance = new QcmInstance();
-        $trainingQcmInstance->setStudent( $this->security->getUser() );
-        $trainingQcmInstance->setDistributedBy( $student );
+        $trainingQcmInstance->setStudent( $student );
+        $trainingQcmInstance->setDistributedBy( $author );
         $trainingQcmInstance->setQcm( $trainingQcm );
         $trainingQcmInstance->setStartTime( new \DateTime() );
         $endTime = new \DateTime();
