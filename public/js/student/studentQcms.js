@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function(){
         if (moduleValue === ""){
             manageErrorChoice(module, '#ffac8f', 'module')
         }else{
-            window.location.href = "qcm/training?module="+moduleValue+"&difficulty="+difficulty;
+            window.location.href = "qcm/training/"+moduleValue+"/"+difficulty;
         }
     });
 
