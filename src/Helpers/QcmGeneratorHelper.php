@@ -73,15 +73,15 @@ class QcmGeneratorHelper
         ]);
 
         $easyQuestionsPool = array_filter($questionsPool, function( $questionFromMainPool ){
-            return $questionFromMainPool->getDifficulty() === 1;
+            return $questionFromMainPool->getDifficulty()->value === 1;
         });
 
         $mediumQuestionsPool = array_filter($questionsPool, function( $questionFromMainPool ){
-            return $questionFromMainPool->getDifficulty() === 2;
+            return $questionFromMainPool->getDifficulty()->value === 2;
         });
 
         $difficultQuestionsPool = array_filter($questionsPool, function( $questionFromMainPool ){
-            return $questionFromMainPool->getDifficulty() === 3;
+            return $questionFromMainPool->getDifficulty()->value === 3;
         });
 
         $questionsQuantityByDifficulty = $this->calcQuestionsNumberToPickByDifficulty( $difficulty, $this->_trainingQcmQuestionQuantity );
@@ -97,7 +97,7 @@ class QcmGeneratorHelper
                     unset( $easyQuestionsPool[$easyQuestionToNotReuseIndex] );
                 }
             }
-            $recalcEasyPool = $questionsPool;
+            $recalcEasyPool = $easyQuestionsPool;
             $pickedEasyQuestions[] = $recalcEasyPool[ array_rand($recalcEasyPool) ];
         }
 
@@ -112,7 +112,7 @@ class QcmGeneratorHelper
                     unset( $mediumQuestionsPool[$mediumQuestionToNotReuseIndex] );
                 }
             }
-            $recalcMediumPool = $questionsPool;
+            $recalcMediumPool = $mediumQuestionsPool;
             $pickedMediumQuestions[] = $recalcMediumPool[ array_rand($recalcMediumPool) ];
         }
 
@@ -127,7 +127,7 @@ class QcmGeneratorHelper
                     unset( $difficultQuestionsPool[$difficultQuestionToNotReuseIndex] );
                 }
             }
-            $recalcDifficultPool = $questionsPool;
+            $recalcDifficultPool = $difficultQuestionsPool;
             $pickedDifficultQuestions[] = $recalcDifficultPool[ array_rand($recalcDifficultPool) ];
         }
 
@@ -154,15 +154,15 @@ class QcmGeneratorHelper
         ]);
 
         $nonMandatoryEasyQuestionsPool = array_filter($nonMandatoryQuestionsPool, function( $nonMandatoryQuestion ){
-            return $nonMandatoryQuestion->getDifficulty() === 1;
+            return $nonMandatoryQuestion->getDifficulty()->value === 1;
         });
 
         $nonMandatoryMediumQuestionsPool =  array_filter($nonMandatoryQuestionsPool, function( $nonMandatoryQuestion ){
-            return $nonMandatoryQuestion->getDifficulty() === 2;
+            return $nonMandatoryQuestion->getDifficulty()->value === 2;
         });
 
         $nonMandatoryDifficultQuestionsPool = array_filter($nonMandatoryQuestionsPool, function( $nonMandatoryQuestion ){
-            return $nonMandatoryQuestion->getDifficulty() === 3;
+            return $nonMandatoryQuestion->getDifficulty()->value === 3;
         });
 
         $mandatoryQuestionsToPickNbr = min( count( $mandatoryQuestionsPool ), $this->_officialQcmQuestionQuantity);
@@ -194,8 +194,8 @@ class QcmGeneratorHelper
 
             while( $keepGoing )
             {
-                $nonMandatoryMediumQuestionsNbr = ceil( mt_rand( $this->_officialQcmQuestionQuantity * (1/2), $this->_officialQcmQuestionQuantity ) ) - $mandatoryQuestionsToPickNbr;
-                $nonMandatoryEasyQuestionsNbr = mt_rand( 1, $remainingQuestionsQuantityToPick - $nonMandatoryMediumQuestionsNbr);
+                $nonMandatoryMediumQuestionsNbr = ceil( mt_rand( $this->_officialQcmQuestionQuantity / 2, $this->_officialQcmQuestionQuantity ) ) - $mandatoryQuestionsToPickNbr;
+                $nonMandatoryEasyQuestionsNbr = ceil( mt_rand( ( $this->_officialQcmQuestionQuantity / 4 )  - ( $nonMandatoryMediumQuestionsNbr - $this->_officialQcmQuestionQuantity / 2 ) , $this->_officialQcmQuestionQuantity - $nonMandatoryMediumQuestionsNbr) );
                 $nonMandatoryDifficultQuestionsNbr = $remainingQuestionsQuantityToPick - $nonMandatoryMediumQuestionsNbr - $nonMandatoryEasyQuestionsNbr;
 
                 if( $nonMandatoryEasyQuestionsNbr < 2 * $nonMandatoryMediumQuestionsNbr && 2 * $nonMandatoryMediumQuestionsNbr > 3 * $nonMandatoryDifficultQuestionsNbr )
@@ -299,7 +299,7 @@ class QcmGeneratorHelper
             {
                 case 1:
                     $easyQuestionsNbr = ceil( mt_rand( $totalQuestions * 5 / 6, $totalQuestions) );
-                    $mediumQuestionsNbr = mt_rand(1, $totalQuestions - $easyQuestionsNbr);
+                    $mediumQuestionsNbr = ceil( mt_rand(  ( $totalQuestions / 6 - ($easyQuestionsNbr - $totalQuestions * 5 / 6) ) / 2, $totalQuestions - $easyQuestionsNbr) );
                     $difficultQuestionsNbr = $totalQuestions - $easyQuestionsNbr - $mediumQuestionsNbr;
                     if( $easyQuestionsNbr > 2 * $mediumQuestionsNbr && $easyQuestionsNbr > 3 * $difficultQuestionsNbr )
                     {
@@ -312,8 +312,8 @@ class QcmGeneratorHelper
                     }
                     break;
                 case 2:
-                    $mediumQuestionsNbr = ceil( mt_rand($totalQuestions * (1/2), $totalQuestions) );
-                    $easyQuestionsNbr = mt_rand( 1, $totalQuestions - $mediumQuestionsNbr);
+                    $mediumQuestionsNbr = ceil( mt_rand( $totalQuestions / 2, $totalQuestions) );
+                    $easyQuestionsNbr = ceil( mt_rand( ( $totalQuestions / 4 )  - ( $mediumQuestionsNbr - $totalQuestions / 2 ) , $totalQuestions - $mediumQuestionsNbr) );
                     $difficultQuestionsNbr = $totalQuestions - $easyQuestionsNbr - $mediumQuestionsNbr;
                     if( $easyQuestionsNbr < 2 * $mediumQuestionsNbr && 2 * $mediumQuestionsNbr > 3 * $difficultQuestionsNbr )
                     {
@@ -326,8 +326,8 @@ class QcmGeneratorHelper
                     }
                     break;
                 case 3:
-                    $difficultQuestionsNbr = ceil( mt_rand($totalQuestions * (1/3), $totalQuestions) );
-                    $easyQuestionsNbr = mt_rand( $totalQuestions, $totalQuestions - $difficultQuestionsNbr);
+                    $difficultQuestionsNbr = ceil( mt_rand($totalQuestions / 3, $totalQuestions) );
+                    $easyQuestionsNbr = mt_rand( ( ( $totalQuestions * 2 / 3 ) - ($difficultQuestionsNbr - $totalQuestions / 3) ) * 5 / 6  , $totalQuestions - $difficultQuestionsNbr);
                     $mediumQuestionsNbr = $totalQuestions - $difficultQuestionsNbr - $easyQuestionsNbr;
                     if( $easyQuestionsNbr < 3 * $difficultQuestionsNbr && 2 * $mediumQuestionsNbr < 3 * $difficultQuestionsNbr )
                     {
