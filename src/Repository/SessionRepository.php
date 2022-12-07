@@ -51,14 +51,14 @@ class SessionRepository extends ServiceEntityRepository
             FROM link_instructor_session_module 
             JOIN session ON link_instructor_session_module.session_id = session.id 
             JOIN link_session_module ON link_session_module.session_id = session.id
-           WHERE link_instructor_session_module.instructor_id = 1
+           WHERE link_instructor_session_module.instructor_id = ?
              AND link_session_module.start_date <= NOW() 
              AND link_session_module.end_date >= NOW()
         ';
 
         $stmt = $conn->prepare($sql);
 
-        $resultSet = $stmt->executeQuery();
+        $resultSet = $stmt->executeQuery([$id]);
 
         return $resultSet->fetchAllAssociative();
     }
@@ -72,7 +72,7 @@ class SessionRepository extends ServiceEntityRepository
             FROM link_instructor_session_module 
             JOIN session ON link_instructor_session_module.session_id = session.id 
             JOIN link_session_module ON link_session_module.session_id = session.id
-            WHERE link_instructor_session_module.instructor_id = 1
+            WHERE link_instructor_session_module.instructor_id = ?
             AND link_session_module.start_date <= DATE( NOW() + INTERVAL 6 MONTH)
             AND link_session_module.end_date >= DATE( NOW() - INTERVAL 6 MONTH)
             ORDER BY session.name ASC
@@ -80,7 +80,7 @@ class SessionRepository extends ServiceEntityRepository
 
         $stmt = $conn->prepare($sql);
 
-        $resultSet = $stmt->executeQuery();
+        $resultSet = $stmt->executeQuery([$id]);
 
         return $resultSet->fetchAllAssociative();
     }
