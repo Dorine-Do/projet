@@ -688,23 +688,14 @@ class InstructorController extends AbstractController
     public function distributedQcmToStudent(
         InstructorRepository        $instructorRepository,
         SessionRepository           $sessionRepository,
-        ModuleRepository            $moduleRepository,
-        QcmRepository               $qcmRepository,
     ):Response
     {
         $userId = $this->security->getUser()->getId();
-        $sessionsAndModulesByInstructors = $instructorRepository->find($userId)->getLinksInstructorSessionModule();
-
-        foreach ($sessionsAndModulesByInstructors as $sessionAndModuleByInstructor)
-        {
-            $sessions = $sessionRepository->getInstructorSessionsInYear($userId);
-            $modules = $moduleRepository->getModuleSessions($sessions[0]['id']);
-        }
+        $sessions = $sessionRepository->getInstructorSessionsInYear($userId);
 
         return $this->render('instructor/distributed_qcms.html.twig', [
-                    'sessions' => $sessions,
-                    'modules' => $modules,
-            ]);
+            'sessions' => $sessions,
+        ]);
     }
 
     #[Route('instructor/qcms/distributed_qcms/{session}',name:'instructor_distributed_qcms_get_module_ajax',methods:['GET'])]
