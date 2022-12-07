@@ -389,8 +389,7 @@ class InstructorController extends AbstractController
         if ($module && $difficulty) {
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module, $security->getUser(), $userRepository, $difficulty);
-            $manager->persist($generatedQcm);
-            $manager->flush();
+
             $generatedQcmQuestions = array_map( function ($question) use ($security, $questionRepository) {
                 $pickedQuestion = $questionRepository->find($question['id']);
                 $isDistributed = $questionRepository->getQuestionWithReleaseDate($pickedQuestion->getId());
@@ -461,19 +460,7 @@ class InstructorController extends AbstractController
         $qcm->setAuthor($author);
 
         $qcm->setTitle($data['name']);
-        if ($data['level'] === 'Difficile')
-        {
-            $level = 1;
-        }
-        elseif ($data['level'] === 'Moyen')
-        {
-            $level = 2;
-        }
-        else
-        {
-            $level = 3;
-        }
-        $qcm->setDifficulty($level);
+        $qcm->setDifficulty(intval($data['level']));
         $qcm->setIsEnabled(1);
         $qcm->setIsOfficial(0);
         $qcm->setIsPublic($data['isPublic']);

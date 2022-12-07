@@ -1019,7 +1019,7 @@ function fetchCreateQcmPerso()
     let module = selectedModule;
     let isPublic = document.getElementById("isPublicInput").checked;
     /***********/
-    let qcmChoisedLevel = document.getElementById("qcmChoisedLevel").textContent.trim();
+    let qcmChoisedLevel = document.getElementById("qcmChoisedLevel").dataset.level;
 
     questionsSelect = {
         name: choosenQcmName,
@@ -1351,6 +1351,7 @@ function calcNbrQuestionByLevel()
     }
 
     qcmChoisedLevel.innerText = difficulty[0].name
+    qcmChoisedLevel.dataset.level = difficulty[0].type
 
 }
 
