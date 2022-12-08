@@ -99,10 +99,10 @@ class DbUpdaterHelper
                             $studentSuiviSession['startDate'] < $now && $studentSuiviSession['endDate'] > $now
                         );
 
-                        $newSession->addLinkSessionStudent( $newLinkSessionStudent );
+                        $youUpEquivSession->addLinkSessionStudent( $newLinkSessionStudent );
                         $user->addLinkSessionStudent( $newLinkSessionStudent );
 
-                        $this->entityManager->persist( $newSession );
+                        $this->entityManager->persist( $youUpEquivSession );
                         $this->entityManager->persist( $user );
                         $this->entityManager->flush();
                     }
