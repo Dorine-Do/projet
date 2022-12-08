@@ -117,17 +117,17 @@
             <section class="dragAndDrop">
                 {#*************************************************************************************************#}
                 {#QCM CHOICED #}
-                <div class="qcmChoised">
-                    <div class="qcmChoisedSubDiv">
-                        <div class="blocQcmChoisedLevel">
-                            <div class="qcmChoisedLegend">
+                <div class="qcmChosen">
+                    <div class="qcmChosenSubDiv">
+                        <div class="blocQcmChosenLevel">
+                            <div class="qcmChosenLegend">
                                 {{'qcm.choiced'|trans}}
-                                <div class="qcmChoisedLevel" id="qcmChoisedLevel">
+                                <div class="qcmChosenLevel" id="qcmChosenLevel">
                                     Facile
                                 </div>
                             </div>
                         </div>
-                        <div class="qcmChoisedMain">
+                        <div class="qcmChosenMain">
                             <ul class="questionList" id="pickedQuestionsList">
 
                             </ul>
@@ -149,7 +149,7 @@
                 {#*************************************************************************************************#}
                 {#LIST OF QUESTION #}
                 <div class="listQuestionTypedDiv">
-                    <div class="btnChoiseQuestionType">
+                    <div class="btnChoiceQuestionType">
 
                         <button id="pickableOfficialQuestionsBnt" class="btnQuestionsActive, btnQuestions">{{'button.officialQuestions'|trans}} </button>
 
@@ -158,7 +158,7 @@
                     </div>
                     {#*************************************************************************************************#}
                     {#OFFICIAL #}
-                    <div class="questionsOfficial">
+                    <div class="questionsOfficial questionListPickable">
                         <ul class="questionList" id="pickableOfficialQuestionsList">
 
 
@@ -166,7 +166,7 @@
                     </div>
                     {#*************************************************************************************************#}
                     {#CUSTOM #}
-                    <div class="questionsCustom displayNone">
+                    <div class="questionsCustom questionListPickable displayNone">
                         <ul class="questionList" id="pickableCustomQuestionsList">
 
                         </ul>
@@ -185,7 +185,7 @@
                     {#*************************************************************************************************#}
                     {#NAME#}
                  <div class="qcmName">
-                       <input id="choosenQcmName" type="text" placeholder="Veuillez indiquer un nom pour le qcm" class="qcmNameInput">
+                       <input id="chosenQcmName" type="text" placeholder="Veuillez indiquer un nom pour le qcm" class="qcmNameInput">
                         <p id="errorMessageChoseNameQcm"></p>
                  </div>
 
@@ -197,8 +197,6 @@
             <div id="validationCreationQcmBnt" class="qcmValidation">
                 <button>{{ 'button.validPersonalizedQcm'|trans }}</button>
             </div>
-
-            {# {% endif %} #}
         </main>
     </section>
 
@@ -227,29 +225,29 @@
 
                 <div class="explainPopup">
                     <div class="explainDifficulty">
-                        <h3>Chaque difficulté a un poids</h3>
+                        <h3>{{ 'qcm.createExplanation'|trans }}</h3>
                         <p>
-                            Facile = 1
+                            {{ 'qcm.legendEasy'|trans }}
                         </p>
                         <p>
-                            Moyen = 2
+                            {{ 'qcm.legendMedium'|trans }}
                         </p>
                         <p>
-                            Difficile = 3
+                            {{ 'qcm.legendHard'|trans }}
                         </p>
                     </div>
                     <div>
-                        <h3>Prenons l'exemple suivant :</h3>
+                        <h3>{{ 'qcm.createExemple'|trans }}</h3>
                         <p>
-                            7 questions faciles, 5 questions moyennes, 4 questions  difficiles
+                            {{ 'qcm.createExempleContent'|trans }}
                         </p>
                     </div>
 
                     <p>
-                        Calculs : <strong>Facile</strong> = (7*1 = 7) | <strong>Moyen</strong> = (5*2 = 10) | <strong>Difficile</strong> = (4*3 = 12)
+                        {{ 'qcm.createCalcul'|trans }}
                     </p>
                     <p>
-                        Le niveau du QCM sera <strong>difficile</strong>
+                        {{ 'qcm.createExempleResult'|trans }}
                     </p>
                 </div>
 
