@@ -114,7 +114,7 @@ class DbUpdaterHelper
             foreach ( $linksStudentSession as $linkStudentSession ) {
                 // on recupere la session en rapport avec le linkSessionStudent
                 $suiviSession = array_filter( $studentSuiviSessions, function($studentSuiviSession) use ($linkStudentSession) {
-                    return $studentSuiviSession['name'] === $linkStudentSession->getSession()->getName();
+                    return strtoupper($studentSuiviSession['name']) === strtoupper($linkStudentSession->getSession()->getName());
                 });
 
                 // Si la session existe dans les deux db ( suivi et youup )
