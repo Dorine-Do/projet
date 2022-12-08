@@ -86,6 +86,18 @@ class DbUpdaterHelper
                 }
             }
 
+
+
+            if (  )
+            {
+                $newSession->addLinkSessionStudent( $newLinkSessionStudent );
+                $user->addLinkSessionStudent( $newLinkSessionStudent );
+
+                $this->entityManager->persist( $newSession );
+                $this->entityManager->persist( $user );
+                $this->entityManager->flush();
+            }
+
             $linksStudentSession = $this->linkSessionStudentRepository->findBy( [ 'student' => $user ] );
 
             foreach ( $linksStudentSession as $linkStudentSession ) {
@@ -94,6 +106,7 @@ class DbUpdaterHelper
                     return $studentSuiviSession['name'] === $linkStudentSession->getSession()->getName();
                 });
 
+                dump($suiviSession && count($suiviSession) > 0);
                 if( $suiviSession && count($suiviSession) > 0 )
                 {
                     $suiviSession = end($suiviSession);
@@ -112,10 +125,12 @@ class DbUpdaterHelper
                 }
                 else
                 {
+                    dump($linkStudentSession);
                     $this->entityManager->remove($linkStudentSession);
                 }
                 $this->entityManager->flush();
             }
+            dd('stop');
 
             foreach( $linksStudentSession as $linkStudentSession )
             {
