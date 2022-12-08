@@ -117,7 +117,6 @@ class DbUpdaterHelper
                     return $studentSuiviSession['name'] === $linkStudentSession->getSession()->getName();
                 });
 
-                dump($suiviSession && count($suiviSession) > 0);
                 // Si la session existe dans les deux db ( suivi et youup )
                 if( $suiviSession && count($suiviSession) > 0 )
                 {
@@ -138,12 +137,10 @@ class DbUpdaterHelper
                 else
                 {
                     // la session existe dans youup mais n'existe plus dans la db de suivi
-                    dump($linkStudentSession);
                     $this->entityManager->remove($linkStudentSession);
                 }
                 $this->entityManager->flush();
             }
-//            dd('stop');
 
             // pour chaque linkSessionStudent de la db youup
             foreach( $linksStudentSession as $linkStudentSession )
