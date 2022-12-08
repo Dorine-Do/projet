@@ -29,6 +29,17 @@ qcm:
   chooseStudentsQcm: Choix du ou des élèves pouvant faire le QCM
   qcmToDo: QCM à faire
   forTraining: QCM d'entraînement
+  question1 : Quels sont tes ressentis par rapport aux questions posées?
+  question2 : Quels sont selon toi les questions qui t’ont posé problèmes et celles où tu as plutôt bien réussi?
+  question3 : Tu pourras retrouver cet avis à la fin du corrigé de ce qcm.
+  createExplanation : Chaque difficulté a un poids
+  legendEasy : Facile = 1
+  legendMedium : Moyen = 2
+  legendHard : Difficile = 3
+  createExemple : Prenons l'exemple suivant
+  createExempleContent : 7 questions faciles, 5 questions moyennes, 4 questions  difficiles
+  createCalcul : 'Calculs : <strong>Facile</strong> = (7*1 = 7) | <strong>Moyen</strong> = (5*2 = 10) | <strong>Difficile</strong> = (4*3 = 12)'
+  createExempleResult : Le niveau du QCM sera <strong>difficile</strong>
 
 
 difficulty:
@@ -162,7 +173,6 @@ title:
   myQcmExercice: Mes QCM d'exercice
   connexion: Connexion
   AdminDashboard: Admin dashboard
-  createCustomQcm: Créer un QCM personnalisé
   createExerciceQcm: Créer un QCM d'exercice
   iCreateQcm: Je génère un QCM officiel
   generateQcmOfficial: Générer un qcm officiel
@@ -276,7 +286,7 @@ title:
   retriedQcm: QCM refaits
   filterByDate: Filtrer par date
   mostRecent: Plus récent
-  lessRecent: moins récent
+  lessRecent: Moins récent
   questionsManagement: Gestion des questions
   example: Exemple
 
