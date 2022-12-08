@@ -142,6 +142,7 @@ class DbUpdaterHelper
                     $user->removeLinkSessionStudent($linkStudentSession);
                     $this->entityManager->persist($sessionToUnlink);
                     $this->entityManager->persist($user);
+                    $this->entityManager->flush();
                     $this->entityManager->remove($linkStudentSession);
                 }
                 $this->entityManager->flush();
