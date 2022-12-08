@@ -308,7 +308,7 @@ class QcmGeneratorHelper
                         {
                             $questionsByDifficultyScore['difficult'][] = [
                                 'quantity' => $dqq,
-                                'score' => $dqq * 2
+                                'score' => $dqq * 3
                             ];
                         }
 
