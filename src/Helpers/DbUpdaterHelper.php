@@ -53,12 +53,14 @@ class DbUpdaterHelper
         {
             $studentSuiviSessions = $this->getSuiviStudentSessions( $user->getEmail() );
 
+            // Pour chaque session du student ( de la db de suivi )
             foreach ( $studentSuiviSessions as $studentSuiviSession )
             {
                 $youUpEquivSession = $this->sessionRepository->findOneBy( [ 'name' => $studentSuiviSession['name'] ] );
-
+                // si son equivalent n'existe pas dans la db youup
                 if( !$youUpEquivSession )
                 {
+                    // on le créer
                     $startDate = new \DateTime( $studentSuiviSession['startDate'] );
                     $newSession = new Session();
                     $newSession->setName( $studentSuiviSession['name'] );
@@ -67,11 +69,12 @@ class DbUpdaterHelper
                     $this->entityManager->persist( $newSession );
                     $this->entityManager->flush();
 
+                    // on créer le linkSessionStudent
                     $newLinkSessionStudent = new LinkSessionStudent();
                     $newLinkSessionStudent->setSession( $newSession );
                     $newLinkSessionStudent->setStudent( $user );
                     $newLinkSessionStudent->setIsEnabled(
-                        $studentSuiviSession['startDate'] < $now && $studentSuiviSession['endDate'] > $now ? true : false
+                        $studentSuiviSession['startDate'] < $now && $studentSuiviSession['endDate'] > $now
                     );
 
                     $this->entityManager->persist( $newLinkSessionStudent );
@@ -84,35 +87,44 @@ class DbUpdaterHelper
                     $this->entityManager->persist( $user );
                     $this->entityManager->flush();
                 }
-            }
+                else
+                {
+                    $linkSessionStudent = $this->linkSessionStudentRepository->findOneBy( [ 'session' => $youUpEquivSession, 'student' => $user] );
+                    if ( !$linkSessionStudent )
+                    {
+                        $newLinkSessionStudent = new LinkSessionStudent();
+                        $newLinkSessionStudent->setSession( $youUpEquivSession );
+                        $newLinkSessionStudent->setStudent( $user );
+                        $newLinkSessionStudent->setIsEnabled(
+                            $studentSuiviSession['startDate'] < $now && $studentSuiviSession['endDate'] > $now
+                        );
 
+                        $newSession->addLinkSessionStudent( $newLinkSessionStudent );
+                        $user->addLinkSessionStudent( $newLinkSessionStudent );
 
-
-            if (  )
-            {
-                $newSession->addLinkSessionStudent( $newLinkSessionStudent );
-                $user->addLinkSessionStudent( $newLinkSessionStudent );
-
-                $this->entityManager->persist( $newSession );
-                $this->entityManager->persist( $user );
-                $this->entityManager->flush();
+                        $this->entityManager->persist( $newSession );
+                        $this->entityManager->persist( $user );
+                        $this->entityManager->flush();
+                    }
+                }
             }
 
             $linksStudentSession = $this->linkSessionStudentRepository->findBy( [ 'student' => $user ] );
-
+            // pour chaque linkSessionStudent (db youup)
             foreach ( $linksStudentSession as $linkStudentSession ) {
-
+                // on recupere la session en rapport avec le linkSessionStudent
                 $suiviSession = array_filter( $studentSuiviSessions, function($studentSuiviSession) use ($linkStudentSession) {
                     return $studentSuiviSession['name'] === $linkStudentSession->getSession()->getName();
                 });
 
                 dump($suiviSession && count($suiviSession) > 0);
+                // Si la session existe dans les deux db ( suivi et youup )
                 if( $suiviSession && count($suiviSession) > 0 )
                 {
                     $suiviSession = end($suiviSession);
                     $startDate = new \DateTime($suiviSession['startDate']);
                     $endDate = new \DateTime($suiviSession['endDate']);
-
+                    // si la session de la db de suivi est toujours en cours (commencé, inachevée)
                     if( $startDate < $now && $endDate > $now && !$linkStudentSession->isEnabled() )
                     {
                         $linkStudentSession->setIsEnabled( true );
@@ -125,13 +137,15 @@ class DbUpdaterHelper
                 }
                 else
                 {
+                    // la session existe dans youup mais n'existe plus dans la db de suivi
                     dump($linkStudentSession);
                     $this->entityManager->remove($linkStudentSession);
                 }
                 $this->entityManager->flush();
             }
-            dd('stop');
+//            dd('stop');
 
+            // pour chaque linkSessionStudent de la db youup
             foreach( $linksStudentSession as $linkStudentSession )
             {
                 $session = $linkStudentSession->getSession();
@@ -141,6 +155,7 @@ class DbUpdaterHelper
                     return $linkSessionModule->getModule();
                 }, $linksSessionModule);
 
+                // Pour chaque module lié à cette session dans youup
                 foreach( $modules as $module )
                 {
                     $suiviModule = array_filter( $suiviSessionModules, function( $suiviSessionModule ) use ( $module ) {
