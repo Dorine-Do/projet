@@ -254,17 +254,119 @@ class QcmGeneratorHelper
                     }
                     break;
                 case 2:
-                    $mediumQuestionsNbr = ceil( mt_rand( $totalQuestions / 2, $totalQuestions) );
-                    $easyQuestionsNbr = ceil( mt_rand( ( $totalQuestions / 4 )  - ( $mediumQuestionsNbr - $totalQuestions / 2 ) , $totalQuestions - $mediumQuestionsNbr) );
-                    $difficultQuestionsNbr = $totalQuestions - $easyQuestionsNbr - $mediumQuestionsNbr;
-                    if( $easyQuestionsNbr < 2 * $mediumQuestionsNbr && 2 * $mediumQuestionsNbr > 3 * $difficultQuestionsNbr )
+
+                    $availableEasyQuestions = $this->_questionRepo->findBy([
+                        'isMandatory' => false,
+                        'isOfficial' => false,
+                        'isEnabled' => true,
+                        'module' => $this->_module,
+                        'difficulty' => 1
+                    ]);
+
+                    $availableMediumQuestions = $this->_questionRepo->findBy([
+                        'isMandatory' => false,
+                        'isOfficial' => false,
+                        'isEnabled' => true,
+                        'module' => $this->_module,
+                        'difficulty' => 2
+                    ]);
+
+                    $availableDifficultQuestions = $this->_questionRepo->findBy([
+                        'isMandatory' => false,
+                        'isOfficial' => false,
+                        'isEnabled' => true,
+                        'module' => $this->_module,
+                        'difficulty' => 3
+                    ]);
+
+                    $availableEasyQuestionQuantity = count( $availableEasyQuestions );
+                    $availableMediumQuestionQuantity = count( $availableMediumQuestions );
+                    $availableDifficultQuestionQuantity = count( $availableDifficultQuestions );
+
+                    if( !( $availableEasyQuestionQuantity + $availableMediumQuestionQuantity + $availableDifficultQuestionQuantity >= $totalQuestions ) )
                     {
-                        $questionsNbrByDifficulty = [
-                            'easy' => $easyQuestionsNbr,
-                            'medium' => $mediumQuestionsNbr,
-                            'difficult' => $difficultQuestionsNbr
-                        ];
-                        $keepGoing = false;
+                        // pas assez de question pour faire un QCM pour ce module quelle que soit la difficulté voulue
+                    }
+                    else
+                    {
+                        $questionsByDifficultyScore = [];
+                        for( $eqq = 0; $eqq < $availableEasyQuestionQuantity; $eqq++)
+                        {
+                            $questionsByDifficultyScore['easy'][] = [
+                                'quantity' => $eqq,
+                                'score' => $eqq
+                            ];
+                        }
+                        for( $mqq = 0; $mqq < $availableMediumQuestionQuantity; $mqq++)
+                        {
+                            $questionsByDifficultyScore['medium'][] = [
+                                'quantity' => $mqq,
+                                'score' => $mqq * 2
+                            ];
+                        }
+                        for( $dqq = 0; $dqq < $availableDifficultQuestionQuantity; $dqq++)
+                        {
+                            $questionsByDifficultyScore['difficult'][] = [
+                                'quantity' => $dqq,
+                                'score' => $dqq * 2
+                            ];
+                        }
+
+                        $maxQuantityMediumScore = end( $questionsByDifficultyScore['medium'] );
+
+                        $easyUsableQuestionsQuantity = array_filter( $questionsByDifficultyScore['easy'], function($easyQuestionQuantityScore) use($maxQuantityMediumScore) {
+                            return $easyQuestionQuantityScore['score'] < $maxQuantityMediumScore;
+                        });
+
+                        $difficultUsableQuestionsQuantity = array_filter( $questionsByDifficultyScore['difficult'], function($difficultQuestionQuantityScore) use($maxQuantityMediumScore) {
+                            return $difficultQuestionQuantityScore['score'] < $maxQuantityMediumScore;
+                        });
+
+                        $combinations = [];
+                        foreach( $questionsByDifficultyScore['medium'] as $mediumUsableQuestionQuantity )
+                        {
+                            foreach($easyUsableQuestionsQuantity as $easyUsableQuestionQuantity)
+                            {
+                                foreach( $difficultUsableQuestionsQuantity as $difficultUsableQuestionQuantity )
+                                {
+                                    $minimumNonMediumQuestionsRequired = $totalQuestions - $mediumUsableQuestionQuantity['quantity'];
+                                    if(
+                                        $easyUsableQuestionQuantity['quantity'] + $difficultUsableQuestionQuantity['quantity'] === $minimumNonMediumQuestionsRequired
+                                        && $easyUsableQuestionQuantity['score'] < $maxQuantityMediumScore['score']
+                                        && $difficultUsableQuestionQuantity['score'] < $maxQuantityMediumScore['score']
+                                    )
+                                    {
+                                        $combinations[] = [
+                                            'easy' => $easyUsableQuestionQuantity['quantity'],
+                                            'medium' => $mediumUsableQuestionQuantity['quantity'],
+                                            'difficult' => $difficultUsableQuestionQuantity['quantity']
+                                        ];
+                                    }
+                                }
+                            }
+                        }
+
+
+                        if( count( $combinations ) === 0 )
+                        {
+                            // Pas assez de questions pour faire un QCM moyen
+                        }
+                        else
+                        {
+                            $questionsNbrByDifficulty = $combinations[array_rand($combinations)];
+//                            $mediumQuestionsNbr = ceil( mt_rand( $totalQuestions / 2, $totalQuestions) );
+//                            $easyQuestionsNbr = ceil( mt_rand( ( $totalQuestions / 4 )  - ( $mediumQuestionsNbr - $totalQuestions / 2 ) , $totalQuestions - $mediumQuestionsNbr) );
+//                            $difficultQuestionsNbr = $totalQuestions - $easyQuestionsNbr - $mediumQuestionsNbr;
+//                            if( $easyQuestionsNbr < 2 * $mediumQuestionsNbr && 2 * $mediumQuestionsNbr > 3 * $difficultQuestionsNbr )
+//                            {
+//                                $questionsNbrByDifficulty = [
+//                                    'easy' => $easyQuestionsNbr,
+//                                    'medium' => $mediumQuestionsNbr,
+//                                    'difficult' => $difficultQuestionsNbr
+//                                ];
+//                                $keepGoing = false;
+//                            }
+                        }
                     }
                     break;
                 case 3:
