@@ -31,7 +31,7 @@ class Session
     #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $updatedAt;
 
-    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkSessionStudent::class)]
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkSessionStudent::class, cascade: ['persist'])]
     private $linksSessionStudent;
 
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: LinkInstructorSessionModule::class)]
