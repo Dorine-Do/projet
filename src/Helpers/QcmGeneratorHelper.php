@@ -21,6 +21,7 @@ class QcmGeneratorHelper
     private int $_difficulty;
     private string $_type;
     private $_user;
+    private array $_errors = [];
 
     public function __construct( QuestionRepository $questionRepo, Security $security )
     {
@@ -28,7 +29,7 @@ class QcmGeneratorHelper
         $this->_security = $security;
     }
 
-    public function generateRandomQcm( Module $module, $user , UserRepository $userRepository , int $difficulty = 2 ,string $type = 'training'): Qcm
+    public function generateRandomQcm( Module $module, $user , UserRepository $userRepository , int $difficulty = 2 ,string $type = 'training'): array|Qcm
     {
         $this->_module = $module;
         $this->_difficulty = $difficulty;
@@ -57,6 +58,11 @@ class QcmGeneratorHelper
             $isOfficial = true;
             $isPublic = true;
             $questions = $this->generateOfficialQcmQuestions();
+        }
+
+        if( count( $this->_errors ) > 0 )
+        {
+            return [ 'errors' => $this->_errors ];
         }
 
         $questionCache = $this->generateQuestionCache( $questions );
@@ -124,6 +130,11 @@ class QcmGeneratorHelper
         });
 
         $questionsQuantityByDifficulty = $this->calcQuestionsNumberToPickByDifficulty();
+
+        if( count($this->_errors) > 0 || count($questionsQuantityByDifficulty) === 0 )
+        {
+            return [];
+        }
 
         $pickedEasyQuestions = $this->pickQuestionsInPool( $questionsQuantityByDifficulty['easy'], $easyQuestionsPool );
         $pickedMediumQuestions = $this->pickQuestionsInPool( $questionsQuantityByDifficulty['medium'], $mediumQuestionsPool );
@@ -267,7 +278,7 @@ class QcmGeneratorHelper
         return $combinations;
     }
 
-    private function calcQuestionsNumberToPickByDifficulty() : array
+    private function calcQuestionsNumberToPickByDifficulty()
     {
         $totalQuestions = $this->_trainingQcmQuestionQuantity;
         if ($this->_type === 'official') {
@@ -284,7 +295,6 @@ class QcmGeneratorHelper
 
         $availableEasyQuestions = $this->_questionRepo->findBy([
             'isMandatory' => false,
-            'isOfficial' => false,
             'isEnabled' => true,
             'module' => $this->_module,
             'difficulty' => 1
@@ -292,7 +302,6 @@ class QcmGeneratorHelper
 
         $availableMediumQuestions = $this->_questionRepo->findBy([
             'isMandatory' => false,
-            'isOfficial' => false,
             'isEnabled' => true,
             'module' => $this->_module,
             'difficulty' => 2
@@ -300,7 +309,6 @@ class QcmGeneratorHelper
 
         $availableDifficultQuestions = $this->_questionRepo->findBy([
             'isMandatory' => false,
-            'isOfficial' => false,
             'isEnabled' => true,
             'module' => $this->_module,
             'difficulty' => 3
@@ -310,59 +318,68 @@ class QcmGeneratorHelper
         $availableMediumQuestionQuantity = count($availableMediumQuestions);
         $availableDifficultQuestionQuantity = count($availableDifficultQuestions);
 
-        if (!($availableEasyQuestionQuantity + $availableMediumQuestionQuantity + $availableDifficultQuestionQuantity >= $totalQuestions)) {
-            dd('pas assez de questions');
-            // pas assez de question pour faire un QCM pour ce module quelle que soit la difficulté voulue
+        try {
+            if (!($availableEasyQuestionQuantity + $availableMediumQuestionQuantity + $availableDifficultQuestionQuantity >= $totalQuestions)) {
+                // pas assez de question pour faire un QCM pour ce module quelle que soit la difficulté voulue
+                throw new Exception('Il n\'y a pas assez de questions en base de données pour générer un QCM pour ce module (quelle que soit le niveau de difficulté).');
+            }
+
+            $questionsByDifficultyScore = [];
+            for ($eqq = 0; $eqq < $availableEasyQuestionQuantity; $eqq++) {
+                $questionsByDifficultyScore['easy'][] = [
+                    'quantity' => $eqq,
+                    'score' => $eqq
+                ];
+            }
+            for ($mqq = 0; $mqq < $availableMediumQuestionQuantity; $mqq++) {
+                $questionsByDifficultyScore['medium'][] = [
+                    'quantity' => $mqq,
+                    'score' => $mqq * 2
+                ];
+            }
+            for ($dqq = 0; $dqq < $availableDifficultQuestionQuantity; $dqq++) {
+                $questionsByDifficultyScore['difficult'][] = [
+                    'quantity' => $dqq,
+                    'score' => $dqq * 3
+                ];
+            }
+
+            $combinations = [];
+            /********************************************************************************/
+
+            switch ($this->_difficulty) {
+                case 1:
+
+                    $combinations = $this->calculByDifficultyCombinations('easy', 'medium', 'difficult', $totalQuestions, $questionsByDifficultyScore);
+
+                    break;
+                case 2:
+
+                    $combinations = $this->calculByDifficultyCombinations('medium', 'easy', 'difficult', $totalQuestions, $questionsByDifficultyScore);
+
+                    break;
+                case 3:
+
+                    $combinations = $this->calculByDifficultyCombinations('difficult', 'easy', 'medium', $totalQuestions, $questionsByDifficultyScore);
+
+                    break;
+            }
+
+            if (count($combinations) === 0)
+            {
+                throw new Exception('Il n\'y a pas assez de questions en base de données pour générer un QCM pour le module et le niveau de difficulté.');
+            }
+            else
+            {
+                $questionsNbrByDifficulty = $combinations[array_rand($combinations)];
+            }
+            return $questionsNbrByDifficulty;
         }
-
-        $questionsByDifficultyScore = [];
-        for ($eqq = 0; $eqq < $availableEasyQuestionQuantity; $eqq++) {
-            $questionsByDifficultyScore['easy'][] = [
-                'quantity' => $eqq,
-                'score' => $eqq
-            ];
+        catch( Exception $e )
+        {
+            $this->_errors[] = $e->getMessage();
+            return [];
         }
-        for ($mqq = 0; $mqq < $availableMediumQuestionQuantity; $mqq++) {
-            $questionsByDifficultyScore['medium'][] = [
-                'quantity' => $mqq,
-                'score' => $mqq * 2
-            ];
-        }
-        for ($dqq = 0; $dqq < $availableDifficultQuestionQuantity; $dqq++) {
-            $questionsByDifficultyScore['difficult'][] = [
-                'quantity' => $dqq,
-                'score' => $dqq * 3
-            ];
-        }
-
-        $combinations = [];
-        /********************************************************************************/
-
-        switch ($this->_difficulty) {
-            case 1:
-
-                $combinations = $this->calculByDifficultyCombinations('easy', 'medium', 'difficult', $totalQuestions, $questionsByDifficultyScore);
-
-                break;
-            case 2:
-
-                $combinations = $this->calculByDifficultyCombinations('medium', 'easy', 'difficult', $totalQuestions, $questionsByDifficultyScore);
-
-                break;
-            case 3:
-
-                $combinations = $this->calculByDifficultyCombinations('difficult', 'easy', 'medium', $totalQuestions, $questionsByDifficultyScore);
-
-                break;
-        }
-
-        if (count($combinations) === 0) {
-            dd('Pas assez de combinaisons');
-            // Pas assez de questions pour faire un QCM moyen
-        } else {
-            $questionsNbrByDifficulty = $combinations[array_rand($combinations)];
-        }
-        return $questionsNbrByDifficulty;
     }
 
 

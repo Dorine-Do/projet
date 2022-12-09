@@ -62,6 +62,7 @@ function fetchGeneratedQcm()
             spinner.classList.remove("show");
             smoothScrollTo('#generatedQcmResumeBlock');
         })
+        .catch( error => console.log(error) );
 }
 
 function fetchCreateQcmPerso()

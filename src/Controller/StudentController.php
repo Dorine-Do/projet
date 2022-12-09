@@ -337,6 +337,11 @@ class StudentController extends AbstractController
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository ,$difficulty, 'training');
 
+        if( gettype($trainingQcm) === 'array' && array_key_exists('errors', $trainingQcm ) )
+        {
+            return $this->json( $trainingQcm['errors'], 204 );
+        }
+
         $manager->persist( $trainingQcm );
         $manager->flush();
 
@@ -353,9 +358,7 @@ class StudentController extends AbstractController
         $manager->persist( $trainingQcmInstance );
         $manager->flush();
 
-        return $this->redirectToRoute('student_qcm_to_do', [
-            'qcmInstance' => $trainingQcmInstance->getId()
-        ]);
+        return $this->json( ['qcmInstance' => $trainingQcmInstance->getId() ] );
     }
 
     #[Route('student/qcm/retry_for_badges/{module}', name: 'student_retry_for_badges', methods: ['GET'])]
@@ -372,6 +375,12 @@ class StudentController extends AbstractController
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository, 2,'retryBadge' );
+
+        if( gettype($retryQcm) === 'array' && array_key_exists('errors', $retryQcm ) )
+        {
+            return $this->json( $retryQcm['errors'], 204 );
+        }
+
         $manager->persist( $retryQcm );
         $manager->flush();
 
@@ -388,10 +397,7 @@ class StudentController extends AbstractController
         $manager->persist( $qcmInstanceRetry );
         $manager->flush();
 
-        return $this->redirectToRoute('student_qcm_to_do', [
-            'qcmInstance'    => $qcmInstanceRetry->getId(),
-            'isForBadge'     => 1
-        ]);
+        return $this->json( [ 'qcmInstance' => $qcmInstanceRetry->getId() ] );
     }
 
     #[Route('student/qcm/retry_same_qcm/{qcm}', name: 'student_retry_same_qcm', methods: ['GET'])]

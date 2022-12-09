@@ -386,9 +386,14 @@ class InstructorController extends AbstractController
         $difficulty = 2,
      ):JsonResponse
      {
-        if ($module && $difficulty) {
+         if ($module && $difficulty) {
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module, $security->getUser(), $userRepository, $difficulty);
+
+            if( gettype($generatedQcm) === 'array' && array_key_exists('errors', $generatedQcm ) )
+            {
+                return $this->json( $generatedQcm['errors'], 204 );
+            }
 
             $generatedQcmQuestions = array_map( function ($question) use ($security, $questionRepository) {
                 $pickedQuestion = $questionRepository->find($question['id']);
@@ -434,7 +439,7 @@ class InstructorController extends AbstractController
             ];
 
             return $this->json($data, 200, [], ["groups" => ["question:read", "qcm:read"]]);
-        }
+         }
 
          return $this->json('une erreur est survenue', 500);
      }

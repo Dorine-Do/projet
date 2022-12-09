@@ -24,7 +24,13 @@ document.addEventListener('DOMContentLoaded', function(){
         if (moduleValue === ""){
             manageErrorChoice(module, '#ffac8f', 'module')
         }else{
-            window.location.href = "qcm/training/"+moduleValue+"/"+difficulty;
+            fetch( "qcm/training/"+moduleValue+"/"+difficulty, {method: 'GET'} )
+                .then( response => response.json() )
+                .then( result => {
+                    window.location.href = 'student/qcms/qcmToDo/'+ result.qcmInstance +'/'
+                })
+                .catch( error => console.log(error) )
+
         }
     });
 
@@ -50,7 +56,12 @@ document.addEventListener('DOMContentLoaded', function(){
         if (moduleValue === ""){
             manageErrorChoice(validRetryForBadge, '#ffac8f', 'module')
         }else{
-            window.location.href = "qcm/retry_for_badges/"+moduleValue;
+            fetch("qcm/retry_for_badges/"+moduleValue, {method: 'GET'})
+                .then( response => response.json())
+                .then( result => {
+                    window.location.href = window.location.href = 'student/qcms/qcmToDo/'+ result.qcmInstance +'/1';
+                })
+                .catch( error => console.log(error) )
         }
     });
 });
