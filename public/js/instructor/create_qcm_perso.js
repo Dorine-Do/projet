@@ -51,18 +51,31 @@ function fetchGeneratedQcm()
     fetch(`/instructor/qcms/random_fetch/${selectedModule}/${selectedDifficulty}`, {method: 'GET'})
         .then( response => response.json() )
         .then( data => {
-            let generatedQcmQuestions = Object.values(data.generatedQcmQuestions);
-            let officialQuestions = Object.values(data.officialQuestions);
-            let instructorQuestions = Object.values(data.instructorQuestions);
-            fillGeneratedQcmResumeBlock( generatedQcmQuestions );
-            fillQcmPersonalizer( officialQuestions, instructorQuestions, generatedQcmQuestions )
-            generatedQcmResumeBlock.classList.remove('displayNone')
-            finalSection.classList.remove('displayNone')
+            console.log(data)
+            //TODO Améliorer la gestion des erreurs
+            if ( data['messages'] !== undefined )
+            {
+                console.log("EnoughQuestionsForThisLevel")
+                generationErrorBlock.innerText = data.messages[0]
+                generationErrorBlock.classList.remove('displayNone')
+            }
+            else
+            {
+                generationErrorBlock.classList.add('displayNone')
+                generationErrorBlock.innerText = ""
+                let generatedQcmQuestions = Object.values(data.generatedQcmQuestions);
+                let officialQuestions = Object.values(data.officialQuestions);
+                let instructorQuestions = Object.values(data.instructorQuestions);
+                fillGeneratedQcmResumeBlock( generatedQcmQuestions );
+                fillQcmPersonalizer( officialQuestions, instructorQuestions, generatedQcmQuestions )
+                generatedQcmResumeBlock.classList.remove('displayNone')
+                finalSection.classList.remove('displayNone')
 
-            spinner.classList.remove("show");
-            smoothScrollTo('#generatedQcmResumeBlock');
+                spinner.classList.remove("show");
+                smoothScrollTo('#generatedQcmResumeBlock');
+            }
+
         })
-        .catch( error => console.log(error) );
 }
 
 function fetchCreateQcmPerso()

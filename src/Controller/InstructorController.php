@@ -390,9 +390,9 @@ class InstructorController extends AbstractController
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             $generatedQcm = $qcmGenerator->generateRandomQcm($module, $security->getUser(), $userRepository, $difficulty);
 
-            if( gettype($generatedQcm) === 'array' && array_key_exists('errors', $generatedQcm ) )
+            if( gettype($generatedQcm) === 'array' && array_key_exists('messages', $generatedQcm ) )
             {
-                return $this->json( $generatedQcm['errors'], 204 );
+                return $this->json( ['messages'=>$generatedQcm['messages']] );
             }
 
             $generatedQcmQuestions = array_map( function ($question) use ($security, $questionRepository) {

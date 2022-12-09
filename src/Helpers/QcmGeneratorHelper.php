@@ -62,7 +62,7 @@ class QcmGeneratorHelper
 
         if( count( $this->_errors ) > 0 )
         {
-            return [ 'errors' => $this->_errors ];
+            return [ 'messages' => $this->_errors ];
         }
 
         $questionCache = $this->generateQuestionCache( $questions );
@@ -162,6 +162,8 @@ class QcmGeneratorHelper
             'module' => $this->_module
         ]);
 
+        /*************************************/
+
         $nonMandatoryEasyQuestionsPool = array_filter($nonMandatoryQuestionsPool, function( $nonMandatoryQuestion ){
             return $nonMandatoryQuestion->getDifficulty()->value === 1;
         });
@@ -173,6 +175,13 @@ class QcmGeneratorHelper
         $nonMandatoryDifficultQuestionsPool = array_filter($nonMandatoryQuestionsPool, function( $nonMandatoryQuestion ){
             return $nonMandatoryQuestion->getDifficulty()->value === 3;
         });
+
+        $questionsQuantityByDifficulty = $this->calcQuestionsNumberToPickByDifficulty();
+
+        if( count($this->_errors) > 0 || count($questionsQuantityByDifficulty) === 0 )
+        {
+            return [];
+        }
 
         $mandatoryQuestionsToPickNbr = min( count( $mandatoryQuestionsPool ), $this->_officialQcmQuestionQuantity);
 
@@ -281,15 +290,6 @@ class QcmGeneratorHelper
     private function calcQuestionsNumberToPickByDifficulty()
     {
         $totalQuestions = $this->_trainingQcmQuestionQuantity;
-        if ($this->_type === 'official') {
-            $totalQuestions = $this->_officialQcmQuestionQuantity;
-        }
-
-        $questionsNbrByDifficulty = [
-            'easy' => 0,
-            'medium' => 0,
-            'difficult' => 0
-        ];
 
         /********************************************************************************/
 
