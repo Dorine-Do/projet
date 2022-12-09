@@ -17,6 +17,8 @@ class QcmGeneratorHelper
     private int $_trainingQcmQuestionQuantity = 20;
     private int $_officialQcmQuestionQuantity = 42;
 
+    private $_mandatoryQuestionsPool;
+
     private Module $_module;
     private int $_difficulty;
     private string $_type;
@@ -149,7 +151,7 @@ class QcmGeneratorHelper
 
     private function generateOfficialQcmQuestions(): array
     {
-        $mandatoryQuestionsPool = $this->_questionRepo->findBy([
+        $this->_mandatoryQuestionsPool = $this->_questionRepo->findBy([
             'isMandatory' => true,
             'isOfficial' => true,
             'isEnabled' => true,
@@ -176,41 +178,20 @@ class QcmGeneratorHelper
             return $nonMandatoryQuestion->getDifficulty()->value === 3;
         });
 
-        $questionsQuantityByDifficulty = $this->calcQuestionsNumberToPickByDifficulty();
+        $mandatoryQuestionsToPickNbr = min( count( $this->_mandatoryQuestionsPool ), $this->_officialQcmQuestionQuantity);
 
-        if( count($this->_errors) > 0 || count($questionsQuantityByDifficulty) === 0 )
-        {
-            return [];
-        }
-
-        $mandatoryQuestionsToPickNbr = min( count( $mandatoryQuestionsPool ), $this->_officialQcmQuestionQuantity);
-
-        $pickedMandatoryQuestions = $this->pickQuestionsInPool( $mandatoryQuestionsToPickNbr, $mandatoryQuestionsPool );
+        $pickedMandatoryQuestions = $this->pickQuestionsInPool( $mandatoryQuestionsToPickNbr, $this->_mandatoryQuestionsPool );
 
         $nonMandatoryPickedEasyQuestions = [];
         $nonMandatoryPickedMediumQuestions = [];
         $nonMandatoryPickedDifficultQuestions = [];
         if( $mandatoryQuestionsToPickNbr < $this->_officialQcmQuestionQuantity )
         {
-            $remainingQuestionsQuantityToPick = $this->_officialQcmQuestionQuantity - $mandatoryQuestionsToPickNbr;
+            $nonMandatoryQuestionsNbrByDifficulty = $this->calcQuestionsNumberToPickByDifficulty();
 
-            $keepGoing = true;
-
-            while( $keepGoing )
-            {
-                $nonMandatoryMediumQuestionsNbr = ceil( mt_rand( $this->_officialQcmQuestionQuantity / 2, $this->_officialQcmQuestionQuantity ) ) - $mandatoryQuestionsToPickNbr;
-                $nonMandatoryEasyQuestionsNbr = ceil( mt_rand( ( $this->_officialQcmQuestionQuantity / 4 )  - ( $nonMandatoryMediumQuestionsNbr - $this->_officialQcmQuestionQuantity / 2 ) , $this->_officialQcmQuestionQuantity - $nonMandatoryMediumQuestionsNbr) );
-                $nonMandatoryDifficultQuestionsNbr = $remainingQuestionsQuantityToPick - $nonMandatoryMediumQuestionsNbr - $nonMandatoryEasyQuestionsNbr;
-
-                if( $nonMandatoryEasyQuestionsNbr < 2 * $nonMandatoryMediumQuestionsNbr && 2 * $nonMandatoryMediumQuestionsNbr > 3 * $nonMandatoryDifficultQuestionsNbr )
-                {
-                    $keepGoing = false;
-                }
-            }
-
-            $nonMandatoryPickedEasyQuestions = $this->pickQuestionsInPool( $nonMandatoryEasyQuestionsNbr, $nonMandatoryEasyQuestionsPool );
-            $nonMandatoryPickedMediumQuestions = $this->pickQuestionsInPool( $nonMandatoryMediumQuestionsNbr, $nonMandatoryMediumQuestionsPool );
-            $nonMandatoryPickedDifficultQuestions = $this->pickQuestionsInPool( $nonMandatoryDifficultQuestionsNbr, $nonMandatoryDifficultQuestionsPool );
+            $nonMandatoryPickedEasyQuestions = $this->pickQuestionsInPool( $nonMandatoryQuestionsNbrByDifficulty['easy'], $nonMandatoryEasyQuestionsPool );
+            $nonMandatoryPickedMediumQuestions = $this->pickQuestionsInPool( $nonMandatoryQuestionsNbrByDifficulty['medium'], $nonMandatoryMediumQuestionsPool );
+            $nonMandatoryPickedDifficultQuestions = $this->pickQuestionsInPool( $nonMandatoryQuestionsNbrByDifficulty['difficult'], $nonMandatoryDifficultQuestionsPool );
         }
 
         $pickedQuestions = array_merge( $pickedMandatoryQuestions , $nonMandatoryPickedEasyQuestions, $nonMandatoryPickedMediumQuestions, $nonMandatoryPickedDifficultQuestions );
@@ -260,14 +241,14 @@ class QcmGeneratorHelper
             {
                 foreach ($otherDifficultyUsableQuestionsQuantity2 as $otherDifficultyUsableQuestionQuantity2)
                 {
-                    $minimumNonDifficultQuestionsRequired = $totalQuestions - $chosenDifficultyUsableQuestionQuantity['quantity'];
+                    $minimumNonChosenDifficultyQuestionsRequired = $totalQuestions - $chosenDifficultyUsableQuestionQuantity['quantity'];
 
                     if (
                         $otherDifficultyUsableQuestionQuantity1['quantity']
                         +
                         $otherDifficultyUsableQuestionQuantity2['quantity']
                         ===
-                        $minimumNonDifficultQuestionsRequired
+                        $minimumNonChosenDifficultyQuestionsRequired
                         &&
                         $otherDifficultyUsableQuestionQuantity1['score'] < $chosenDifficultyUsableQuestionQuantity['score']
                         &&
@@ -278,10 +259,15 @@ class QcmGeneratorHelper
                             $chosenDifficultyName => $chosenDifficultyUsableQuestionQuantity['quantity'],
                             $otherDifficultyName1 => $otherDifficultyUsableQuestionQuantity1['quantity'],
                             $otherDifficultyName2 => $otherDifficultyUsableQuestionQuantity2['quantity']
-                            ];
+                        ];
                     }
                 }
             }
+        }
+
+        if( $this->_type === 'official' )
+        {
+            $combinations[$chosenDifficultyName]['quantity'] -= count( $this->_mandatoryQuestionsPool );
         }
 
         return $combinations;
@@ -290,6 +276,10 @@ class QcmGeneratorHelper
     private function calcQuestionsNumberToPickByDifficulty()
     {
         $totalQuestions = $this->_trainingQcmQuestionQuantity;
+        if( $this->_type === 'official' )
+        {
+            $totalQuestions = $this->_officialQcmQuestionQuantity;
+        }
 
         /********************************************************************************/
 
@@ -342,6 +332,13 @@ class QcmGeneratorHelper
                     'quantity' => $dqq,
                     'score' => $dqq * 3
                 ];
+            }
+
+            if( $this->_type === 'officiel' )
+            {
+                $questionsByDifficultyScore['medium'] = array_filter( $questionsByDifficultyScore['medium'], function( $mediumQuantityScore ) {
+                   return  $mediumQuantityScore['quantity'] >= count( $this->_mandatoryQuestionsPool );
+                });
             }
 
             $combinations = [];
