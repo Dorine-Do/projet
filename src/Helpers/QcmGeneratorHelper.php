@@ -265,11 +265,6 @@ class QcmGeneratorHelper
             }
         }
 
-        if( $this->_type === 'official' )
-        {
-            $combinations[$chosenDifficultyName]['quantity'] -= count( $this->_mandatoryQuestionsPool );
-        }
-
         return $combinations;
     }
 
@@ -369,6 +364,10 @@ class QcmGeneratorHelper
             else
             {
                 $questionsNbrByDifficulty = $combinations[array_rand($combinations)];
+                if( $this->_type === 'official' )
+                {
+                    $questionsNbrByDifficulty['medium']['quantity'] -= count( $this->_mandatoryQuestionsPool );
+                }
             }
             return $questionsNbrByDifficulty;
         }
