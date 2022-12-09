@@ -1,15 +1,12 @@
-// TODO
 // info bouton modif une question retiré
-// faire un event au survol pour signifier ce changement
-
 
 // REFACTO TOTALE DU FICHIER
-let moduleOption, difficultyOptions, selectedModule, selectedDifficulty, generateQcmBtn, generationErrorBlock;
+let moduleOption, difficultyOptions, selectedModule, selectedDifficulty, generateQcmBtn,finalSection, generationErrorBlock;
 let generatedQcmResumeBlock, showGeneratedQcmResumeBtn, validateQcmButtonWhitoutChange;
 let personalizeQcmBlock, personalizeQcmBtn, pickableOfficialQuestionsList, pickableCustomQuestionsList, pickedQuestionsList;
 let pickableCustomQuestionsBnt, pickableOfficialQuestionsBnt, moveTopickableQuestionsListBtn, moveTopickedQuestionsListBtn;
 let qcmValidationBtn
-let ulQcm, questionLi
+let ulQcm, questionLi, spinner, spinner2
 
 const letters = ['A', 'B', 'C', 'D', 'E', 'F'];
 const difficultyImages =
@@ -46,6 +43,11 @@ function displayGenerationError(element, text)
 
 function fetchGeneratedQcm()
 {
+    spinner.classList.add("show");
+    setTimeout(() => {
+        spinner.classList.remove("show");
+    }, 5000);
+
     fetch(`/instructor/qcms/random_fetch/${selectedModule}/${selectedDifficulty}`, {method: 'GET'})
         .then( response => response.json() )
         .then( data => {
@@ -55,12 +57,20 @@ function fetchGeneratedQcm()
             fillGeneratedQcmResumeBlock( generatedQcmQuestions );
             fillQcmPersonalizer( officialQuestions, instructorQuestions, generatedQcmQuestions )
             generatedQcmResumeBlock.classList.remove('displayNone')
+            finalSection.classList.remove('displayNone')
+
+            spinner.classList.remove("show");
             smoothScrollTo('#generatedQcmResumeBlock');
         })
 }
 
 function fetchCreateQcmPerso()
 {
+    spinner2.classList.add("show");
+    setTimeout(() => {
+        spinner2.classList.remove("show");
+    }, 5000);
+
     let questionsSelect = {};
     let choosenQcmName = document.querySelector("#chosenQcmName").value;
 
@@ -68,6 +78,8 @@ function fetchCreateQcmPerso()
     {
         let errorMessageChoseNameQcm = document.getElementById('errorMessageChoseNameQcm')
         displayGenerationError(errorMessageChoseNameQcm, "Veuillez choisir un nom pour ce qcm")
+        smoothScrollTo("#finalStep")
+        return;
     }
 
     let module = selectedModule;
@@ -118,6 +130,7 @@ function fetchCreateQcmPerso()
         .then((res) => res.json())
         .then((result) => {
             if (result === "ok") {
+                spinner2.classList.remove("show");
                 window.location.href =
                     "https://127.0.0.1:8000/instructor";
             }
@@ -154,7 +167,7 @@ function fillGeneratedQcmResumeBlock( questions )
 
     showGeneratedQcmResumeBtn.addEventListener('click', displayGeneratedQcmQuestionsList);
     personalizeQcmBtn.addEventListener('click', displayQcmPersonalizer);
-    validateQcmButtonWhitoutChange.addEventListener('click', fetchCreateQcmPerso)
+    validateQcmButtonWhitoutChange.addEventListener('click', scrollTofinalStep)
 }
 
 function displayQcmPersonalizer(e)
@@ -277,6 +290,12 @@ function smoothScrollTo( targetElement )
     })
 }
 
+function scrollTofinalStep(e){
+    document.querySelector( '#finalStep' ).scrollIntoView({
+        behavior: "smooth"
+    })
+}
+
 function chooseQuestionToMove(e)
 {
     let li = e.target.closest('.qcmLi')
@@ -343,7 +362,6 @@ function displayPickableQuestionList(e)
 
 function calcNbrQuestionByLevel()
 {
-    console.log('calcNbrQuestionByLevel')
     let easy = {
         nbrQuestions : 0,
         points : 0,
@@ -427,6 +445,9 @@ document.addEventListener('DOMContentLoaded', function(){
     generationErrorBlock = document.querySelector('#generationError');
     generatedQcmResumeBlock = document.querySelector('#generatedQcmResumeBlock');
     showGeneratedQcmResumeBtn = document.querySelector('#showGeneratedQcmResumeButton');
+    finalSection = document.querySelector('#finalStep')
+    spinner = document.querySelector('#spinner')
+    spinner2 = document.querySelector('#spinner2')
 
     personalizeQcmBtn = document.querySelector('#personalizeQcmButton');
     personalizeQcmBlock = document.querySelector('#personalizeQcmBlock');

@@ -155,6 +155,48 @@ hr {
     padding: 2.5em 0;
     border-radius: 0.5em;
 }
+
+/***********************************************/
+/*spinner*/
+
+.loading{
+    position: relative;
+}
+
+#spinner,
+#spinner2{
+    display: block;
+    visibility: hidden;
+    width: 30px;
+    height: 30px;
+
+    border: 7px solid var(--fond);
+    border-top: 7px solid var(--pamplemousse);
+    border-radius: 100%;
+
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:30%;
+    margin: auto;
+
+    animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    } to {
+          transform: rotate(360deg);
+      }
+}
+
+#spinner.show,
+#spinner2.show{
+    visibility: visible;
+}
+
+
 /***************************************************************************************************/
 /*GENERATE QCM*/
 /***************************************************************************************************/

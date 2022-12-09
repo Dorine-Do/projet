@@ -13,7 +13,7 @@
 
 
 
-    <h1>- {{ 'title.createCustomQcm'|trans }} -</h1>
+    <h1>- {{ 'title.createExerciceQcm'|trans }} -</h1>
 
     <section class="contentPartOne">
         <p><span class="step">{{ 'title.step1'|trans }}</span>{{ 'qcm.chooseQcmModuleLevel'|trans }}</p>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="choiceTypeOfQcm">
-                    <button id="generateQcmButton" class="button mediumButton">{{'button.generateQcmPersonalised'|trans}}</button>
+                    <button id="generateQcmButton" class="button mediumButton loading">{{'button.generateQcmPersonalised'|trans}} <span id="spinner"></span> </button>
                 </div>
             </div>
             <p id="generationError" class="pRandomFetch displayNone" ></p>
@@ -179,25 +179,26 @@
                     </div>
                 </div>
             </section>
-
-            <p class="pStepFour"><span class="step">{{ 'title.step4'|trans }}</span> {{ 'title.qcmPersonalizedTitle'|trans }}</p>
-            <div class="blocBeforeValidation">
-                    {#*************************************************************************************************#}
-                    {#NAME#}
-                 <div class="qcmName">
-                       <input id="chosenQcmName" type="text" placeholder="Veuillez indiquer un nom pour le qcm" class="qcmNameInput">
-                        <p id="errorMessageChoseNameQcm"></p>
-                 </div>
-
-                 <div class="isPublic">
-                     <label for=""> {{ 'title.qcmUseByOtherTeacher'|trans }} </label>
-                     <input type="checkbox"  id="isPublicInput" >
-                 </div>
-            </div>
-            <div id="validationCreationQcmBnt" class="qcmValidation">
-                <button>{{ 'button.validPersonalizedQcm'|trans }}</button>
-            </div>
         </main>
+    </section>
+    <section id="finalStep" class="displayNone">
+        <p class="pStepFour"><span class="step">{{ 'title.step4'|trans }}</span> {{ 'title.qcmPersonalizedTitle'|trans }}</p>
+        <div class="blocBeforeValidation">
+                {#*************************************************************************************************#}
+                {#NAME#}
+             <div class="qcmName">
+                   <input id="chosenQcmName" type="text" placeholder="Veuillez indiquer un nom pour le qcm" class="qcmNameInput">
+                    <p id="errorMessageChoseNameQcm"></p>
+             </div>
+
+             <div class="isPublic">
+                 <label for=""> {{ 'title.qcmUseByOtherTeacher'|trans }} </label>
+                 <input type="checkbox"  id="isPublicInput" >
+             </div>
+        </div>
+        <div id="validationCreationQcmBnt" class="qcmValidation">
+            <button class="loading">{{ 'button.validPersonalizedQcm'|trans }} <span id="spinner2"></span> </button>
+        </div>
     </section>
 
 {#    ********************************************************************************************************************#}
