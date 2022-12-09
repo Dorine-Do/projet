@@ -225,8 +225,7 @@ class QcmGeneratorHelper
         $combinations = [];
 
         $maxQuantityChosenDifficultyScore = end($questionsByDifficultyScore[$chosenDifficultyName]);
-        dump($chosenDifficultyName);
-        dump($maxQuantityChosenDifficultyScore);
+
         $otherDifficultyUsableQuestionsQuantity1 = array_filter($questionsByDifficultyScore[$otherDifficultyName1], function ($otherDifficultyQuestionQuantityScore) use ($maxQuantityChosenDifficultyScore) {
             return $otherDifficultyQuestionQuantityScore['score'] < $maxQuantityChosenDifficultyScore;
         });
@@ -235,10 +234,14 @@ class QcmGeneratorHelper
             return $otherDifficultyQuestionQuantityScore['score'] < $maxQuantityChosenDifficultyScore;
         });
 
-        foreach ($questionsByDifficultyScore[$chosenDifficultyName] as $chosenDifficultyUsableQuestionQuantity) {
-            foreach ($otherDifficultyUsableQuestionsQuantity1 as $otherDifficultyUsableQuestionQuantity1) {
-                foreach ($otherDifficultyUsableQuestionsQuantity2 as $otherDifficultyUsableQuestionQuantity2) {
+        foreach ($questionsByDifficultyScore[$chosenDifficultyName] as $chosenDifficultyUsableQuestionQuantity)
+        {
+            foreach ($otherDifficultyUsableQuestionsQuantity1 as $otherDifficultyUsableQuestionQuantity1)
+            {
+                foreach ($otherDifficultyUsableQuestionsQuantity2 as $otherDifficultyUsableQuestionQuantity2)
+                {
                     $minimumNonDifficultQuestionsRequired = $totalQuestions - $chosenDifficultyUsableQuestionQuantity['quantity'];
+
                     if (
                         $otherDifficultyUsableQuestionQuantity1['quantity']
                         +
@@ -256,29 +259,10 @@ class QcmGeneratorHelper
                             $otherDifficultyName1 => $otherDifficultyUsableQuestionQuantity1['quantity'],
                             $otherDifficultyName2 => $otherDifficultyUsableQuestionQuantity2['quantity']
                             ];
-
-//                        $combinations[] = [
-//                            $chosenDifficultyName =>
-//                                [
-//                                    'quanty' => $chosenDifficultyUsableQuestionQuantity['quantity'],
-//                                    'score' => $chosenDifficultyUsableQuestionQuantity['score']
-//                                ],
-//                            $otherDifficultyName1 =>
-//                                [
-//                                    'quanty' => $otherDifficultyUsableQuestionQuantity1['quantity'],
-//                                    'score' => $otherDifficultyUsableQuestionQuantity1['score']
-//                                ],
-//                            $otherDifficultyName2 =>
-//                                [
-//                                    'quanty' => $otherDifficultyUsableQuestionQuantity2['quantity'],
-//                                    'score' => $otherDifficultyUsableQuestionQuantity2['score']
-//                                ]
-//                        ];
                     }
                 }
             }
         }
-
 
         return $combinations;
     }
@@ -325,9 +309,7 @@ class QcmGeneratorHelper
         $availableEasyQuestionQuantity = count($availableEasyQuestions);
         $availableMediumQuestionQuantity = count($availableMediumQuestions);
         $availableDifficultQuestionQuantity = count($availableDifficultQuestions);
-        dump($availableEasyQuestionQuantity);
-        dump($availableMediumQuestionQuantity);
-        dump($availableDifficultQuestionQuantity);
+
         if (!($availableEasyQuestionQuantity + $availableMediumQuestionQuantity + $availableDifficultQuestionQuantity >= $totalQuestions)) {
             dd('pas assez de questions');
             // pas assez de question pour faire un QCM pour ce module quelle que soit la difficulté voulue
@@ -361,103 +343,16 @@ class QcmGeneratorHelper
 
                 $combinations = $this->calculByDifficultyCombinations('easy', 'medium', 'difficult', $totalQuestions, $questionsByDifficultyScore);
 
-//                $maxQuantityEasyScore = end($questionsByDifficultyScore['easy']);
-//
-//                $mediumUsableQuestionsQuantity = array_filter($questionsByDifficultyScore['medium'], function ($mediumQuestionQuantityScore) use ($maxQuantityEasyScore) {
-//                    return $mediumQuestionQuantityScore['score'] < $maxQuantityEasyScore;
-//                });
-//
-//                $difficultUsableQuestionsQuantity = array_filter($questionsByDifficultyScore['difficult'], function ($difficultQuestionQuantityScore) use ($maxQuantityEasyScore) {
-//                    return $difficultQuestionQuantityScore['score'] < $maxQuantityEasyScore;
-//                });
-//
-//                foreach ($questionsByDifficultyScore['easy'] as $easyUsableQuestionQuantity) {
-//                    foreach ($mediumUsableQuestionsQuantity as $mediumUsableQuestionQuantity) {
-//                        foreach ($difficultUsableQuestionsQuantity as $difficultUsableQuestionQuantity) {
-//                            $minimumNonEasyQuestionsRequired = $totalQuestions - $easyUsableQuestionQuantity['quantity'];
-//                            if (
-//                                $mediumUsableQuestionQuantity['quantity'] + $difficultUsableQuestionQuantity['quantity'] === $minimumNonEasyQuestionsRequired
-//                                && $mediumUsableQuestionQuantity['score'] < $maxQuantityEasyScore['score']
-//                                && $difficultUsableQuestionQuantity['score'] < $maxQuantityEasyScore['score']
-//                            ) {
-//                                $combinations[] = [
-//                                    'easy' => $easyUsableQuestionQuantity['quantity'],
-//                                    'medium' => $mediumUsableQuestionQuantity['quantity'],
-//                                    'difficult' => $difficultUsableQuestionQuantity['quantity']
-//                                ];
-//                            }
-//                        }
-//                    }
-//                }
-//                break;
                 break;
             case 2:
 
                 $combinations = $this->calculByDifficultyCombinations('medium', 'easy', 'difficult', $totalQuestions, $questionsByDifficultyScore);
 
-//                $maxQuantityMediumScore = end($questionsByDifficultyScore['medium']);
-//
-//                $easyUsableQuestionsQuantity = array_filter($questionsByDifficultyScore['easy'], function ($easyQuestionQuantityScore) use ($maxQuantityMediumScore) {
-//                    return $easyQuestionQuantityScore['score'] < $maxQuantityMediumScore;
-//                });
-//
-//                $difficultUsableQuestionsQuantity = array_filter($questionsByDifficultyScore['difficult'], function ($difficultQuestionQuantityScore) use ($maxQuantityMediumScore) {
-//                    return $difficultQuestionQuantityScore['score'] < $maxQuantityMediumScore;
-//                });
-//
-//                $combinations = [];
-//                foreach ($questionsByDifficultyScore['medium'] as $mediumUsableQuestionQuantity) {
-//                    foreach ($easyUsableQuestionsQuantity as $easyUsableQuestionQuantity) {
-//                        foreach ($difficultUsableQuestionsQuantity as $difficultUsableQuestionQuantity) {
-//                            $minimumNonMediumQuestionsRequired = $totalQuestions - $mediumUsableQuestionQuantity['quantity'];
-//                            if (
-//                                $easyUsableQuestionQuantity['quantity'] + $difficultUsableQuestionQuantity['quantity'] === $minimumNonMediumQuestionsRequired
-//                                && $easyUsableQuestionQuantity['score'] < $maxQuantityMediumScore['score']
-//                                && $difficultUsableQuestionQuantity['score'] < $maxQuantityMediumScore['score']
-//                            ) {
-//                                $combinations[] = [
-//                                    'easy' => $easyUsableQuestionQuantity['quantity'],
-//                                    'medium' => $mediumUsableQuestionQuantity['quantity'],
-//                                    'difficult' => $difficultUsableQuestionQuantity['quantity']
-//                                ];
-//                            }
-//                        }
-//                    }
-//                }
-//                break;
                 break;
             case 3:
 
                 $combinations = $this->calculByDifficultyCombinations('difficult', 'easy', 'medium', $totalQuestions, $questionsByDifficultyScore);
 
-//                $maxQuantityDifficultScore = end($questionsByDifficultyScore['difficult']);
-//
-//                $easyUsableQuestionsQuantity = array_filter($questionsByDifficultyScore['easy'], function ($easyQuestionQuantityScore) use ($maxQuantityDifficultScore) {
-//                    return $easyQuestionQuantityScore['score'] < $maxQuantityDifficultScore;
-//                });
-//
-//                $mediumUsableQuestionsQuantity = array_filter($questionsByDifficultyScore['medium'], function ($mediumQuestionQuantityScore) use ($maxQuantityDifficultScore) {
-//                    return $mediumQuestionQuantityScore['score'] < $maxQuantityDifficultScore;
-//                });
-//
-//                foreach ($questionsByDifficultyScore['difficult'] as $difficultUsableQuestionQuantity) {
-//                    foreach ($easyUsableQuestionsQuantity as $easyUsableQuestionQuantity) {
-//                        foreach ($mediumUsableQuestionsQuantity as $mediumUsableQuestionQuantity) {
-//                            $minimumNonDifficultQuestionsRequired = $totalQuestions - $difficultUsableQuestionQuantity['quantity'];
-//                            if (
-//                                $easyUsableQuestionQuantity['quantity'] + $mediumUsableQuestionQuantity['quantity'] === $minimumNonDifficultQuestionsRequired
-//                                && $easyUsableQuestionQuantity['score'] < $maxQuantityDifficultScore['score']
-//                                && $mediumUsableQuestionQuantity['score'] < $maxQuantityDifficultScore['score']
-//                            ) {
-//                                $combinations[] = [
-//                                    'easy' => $easyUsableQuestionQuantity['quantity'],
-//                                    'medium' => $mediumUsableQuestionQuantity['quantity'],
-//                                    'difficult' => $difficultUsableQuestionQuantity['quantity']
-//                                ];
-//                            }
-//                        }
-//                    }
-//                }
                 break;
         }
 
@@ -467,7 +362,6 @@ class QcmGeneratorHelper
         } else {
             $questionsNbrByDifficulty = $combinations[array_rand($combinations)];
         }
-        dd($questionsNbrByDifficulty);
         return $questionsNbrByDifficulty;
     }
 
