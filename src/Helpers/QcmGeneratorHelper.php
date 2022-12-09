@@ -366,7 +366,7 @@ class QcmGeneratorHelper
                 $questionsNbrByDifficulty = $combinations[array_rand($combinations)];
                 if( $this->_type === 'official' )
                 {
-                    $questionsNbrByDifficulty['medium']['quantity'] = $questionsNbrByDifficulty['medium']['quantity'] - count( $this->_mandatoryQuestionsPool );
+                    $questionsNbrByDifficulty['medium'] = $questionsNbrByDifficulty['medium'] - count( $this->_mandatoryQuestionsPool );
                 }
             }
             return $questionsNbrByDifficulty;
