@@ -27,9 +27,20 @@ document.addEventListener('DOMContentLoaded', function(){
             fetch( "qcm/training/"+moduleValue+"/"+difficulty, {method: 'GET'} )
                 .then( response => response.json() )
                 .then( result => {
-                    window.location.href = 'student/qcms/qcmToDo/'+ result.qcmInstance +'/'
+                    let errorGeneratedQcm = document.querySelector('#errorGeneratedQcm')
+                    errorGeneratedQcm.style.color = 'red'
+                    if ( result['messages'] !== undefined )
+                    {
+                        errorGeneratedQcm.innerText = result.messages[0]
+                        errorGeneratedQcm.classList.remove('displayNone')
+                    }
+                    else
+                    {
+                        errorGeneratedQcm.innerText = ""
+                        errorGeneratedQcm.classList.add('displayNone')
+                        window.location.href = 'qcms/qcmToDo/'+ result.qcmInstance +'/'
+                    }
                 })
-                .catch( error => console.log(error) )
 
         }
     });
@@ -59,9 +70,20 @@ document.addEventListener('DOMContentLoaded', function(){
             fetch("qcm/retry_for_badges/"+moduleValue, {method: 'GET'})
                 .then( response => response.json())
                 .then( result => {
-                    window.location.href = window.location.href = 'student/qcms/qcmToDo/'+ result.qcmInstance +'/1';
+                    let errorGeneratedQcmBadges = document.querySelector('#errorGeneratedQcmBadges')
+                    errorGeneratedQcmBadges.style.color = 'red'
+                    if ( result['messages'] !== undefined )
+                    {
+                        errorGeneratedQcmBadges.innerText = result.messages[0]
+                        errorGeneratedQcmBadges.classList.remove('displayNone')
+                    }
+                    else
+                    {
+                        errorGeneratedQcmBadges.innerText = ""
+                        errorGeneratedQcmBadges.classList.add('displayNone')
+                        window.location.href = 'qcms/qcmToDo/'+ result.qcmInstance +'/'
+                    }
                 })
-                .catch( error => console.log(error) )
         }
     });
 });
