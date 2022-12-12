@@ -85,7 +85,4 @@
 
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script>
-    <script>
-        let questions = {{questions|json_encode|raw}};
-    </script>
 {% endblock %}

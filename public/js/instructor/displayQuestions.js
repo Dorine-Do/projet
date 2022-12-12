@@ -1,6 +1,5 @@
 // //ONLOAD ET NON DOM CHARGEMENT 1 FOIS ET NON 2 COMME DOM CAR ERREUR ET PROBLEME D AFFICHAGE
 window.onload = function (event) {
-    console.log(questions)
 
     let spanFlashAddIns = document.querySelector(".flashNotice div");
     let addFlashIns = document.querySelector(".flashNotice ");
@@ -49,34 +48,7 @@ window.onload = function (event) {
         })
     })
 
-
-
-
     let chevrons = document.querySelectorAll(".imgChevron");
-
-    // let p_prop;
-    // for (const question of questions) {
-    //
-    //     let id = parseInt(e.target.dataset.id);
-    //
-    //     if (id === proposal.id_question) {
-    //
-    //
-    //
-    //
-    //         p_prop = document.createElement("p");
-    //         p_prop.innerHTML = proposal.wording;
-    //         p_prop.classList.add("blocContentProposal");
-    //
-    //         let div_container = document.createElement("div")
-    //         div_container.className = "divProp"
-    //
-    //
-    //
-    //         count++;
-    //     }
-    // }
-
     chevrons.forEach((chevron) => {
         chevron.addEventListener("click", (e) => {
             let liQuestion = e.target.parentElement.parentElement.parentElement.parentElement;
