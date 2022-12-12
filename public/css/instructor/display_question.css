@@ -23,6 +23,16 @@
     margin-left: 20px;
 }
 
+/*********************************Général**************************************************/
+
+.displayNone{
+    display: none;
+}
+
+.rotate{
+    transform: rotate(180deg);
+}
+
 /* ********************************FLASH NOTICE*********************************************** */
 
 .flashNotice > div,
@@ -194,12 +204,18 @@ pre::-webkit-scrollbar-thumb {
     margin-top: 0.5em;
     border-radius: 0.5em;
     padding: 0.5em;
-    display: none;
     width: 98%;
 }
 
-.difficulty {
-    margin: 0 5px 0 0;
+.divJs{
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    margin: .5em;
+}
+
+.divJs p {
+    margin: 0;
 }
 
 .divWordingQuestion {
@@ -233,20 +249,11 @@ pre code{
     background-color: var(--fond);
     border-radius: 0 0 5px 5px;
     margin-top: 0.1em;
+    flex-direction: column;
 }
 
 .displayNone {
     display: none;
-}
-
-.divJs {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    width: 100%;
-    padding: 0;
-    background: var(--fond);
-    border-radius: 0 0 5px 5px;
 }
 
 .divProp {

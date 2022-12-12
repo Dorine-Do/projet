@@ -140,10 +140,8 @@ form {
 
 #create_question_explanation{
   padding: 0.8em;
-  width: 70%;
+  width: 80%;
   margin: auto;
-  border-radius: 10px;
-  box-shadow: 2px 1px 1px 1px rgba(0, 0, 0, 0.2);
   outline: none;
   text-align: center;
   border: none;

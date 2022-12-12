@@ -51,11 +51,9 @@ function fetchGeneratedQcm()
     fetch(`/instructor/qcms/random_fetch/${selectedModule}/${selectedDifficulty}`, {method: 'GET'})
         .then( response => response.json() )
         .then( data => {
-            console.log(data)
             //TODO Améliorer la gestion des erreurs
             if ( data['messages'] !== undefined )
             {
-                console.log("EnoughQuestionsForThisLevel")
                 generationErrorBlock.innerText = data.messages[0]
                 generationErrorBlock.classList.remove('displayNone')
             }

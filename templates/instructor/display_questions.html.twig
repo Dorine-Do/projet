@@ -41,30 +41,29 @@
                         <li class="liQuestion">
                             <div class="subLiQuestion">
                                 <div class="liWording">
-                                    <p class="difficulty">
-                                        {% if question.difficulty.value == 1 %}
+                                    <p class="">
+                                        {% if question.difficulty == 1 %}
                                             <img class="difficultyIcone" src="{{ asset('build/images/trefle_facile_bon_vert.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
-                                        {% elseif question.difficulty.value == 2 %}
+                                        {% elseif question.difficulty == 2 %}
                                             <img class="difficultyIcone" src="{{ asset('build/images/trefle_moyen_bon_vert.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
                                         {% else %}
                                             <img class="difficultyIcone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
                                         {% endif %}
                                     </p>
-                                    <div class="divWordingQuestion">{{ question.wording | raw }}</div>
+                                    <div class="divWordingQuestion">{{ question.wording }}</div>
                                     <div class="divChevron">
                                         <img class="imgChevron" src="{{ asset('build/images/chevron_bas.png') }}" alt="chevron ouvrant" data-status="false" data-id="{{ question.id }}">
                                     </div>
                                 </div>
                                 <a href="{{ path('instructor_modify_question', {question: question.id}) }}" class="linkModify"><img class="buttonModify" src="{{ asset('build/images/modify.png') }}" alt="bouton de modification de la question"></a>
                             </div>
-                            <div class="blocDivProposal">
-                                <div class="divJs">
-                                </div>
+                            <div class="blocDivProposal displayNone">
                                 <div class="divProposals">
-                                    {% for proposal in proposals  %}
-                                        {% if question.id == proposal.id_question %}
-                                            <p>{{ proposal.wording }}</p>
-                                        {% endif %}
+                                    {% for proposal in question.proposals  %}
+                                            <div class="divJs">
+                                                <p class="circle greyCircle"></p>
+                                                <p>{{ proposal.wording }}</p>
+                                            </div>
                                     {% endfor %}
                                 </div>
                             </div>
@@ -87,6 +86,6 @@
 {% block javascripts %}
     <script type="text/javascript" src="{{ asset('js/instructor/displayQuestions.js') }}"></script>
     <script>
-        let proposals = {{proposals|json_encode|raw}};
+        let questions = {{questions|json_encode|raw}};
     </script>
 {% endblock %}

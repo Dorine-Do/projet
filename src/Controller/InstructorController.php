@@ -70,27 +70,30 @@ class InstructorController extends AbstractController
         ProposalRepository $proposalRepository
     ): Response
     {
-        $proposals = [];
-        $resumeProposal = [];
 
-        $questions = $questionRepository->findBy(['author' => $this->security->getUser()->getId()]);
-        foreach( $questions as $question )
+        $questions = array_map( function ($question) {
+            return [
+                'id' => $question->getId(),
+                'difficulty' => $question->getDifficulty()->value,
+                'wording' => $question->getWording()
+            ];
+        } ,$questionRepository->findBy(['author' => $this->security->getUser()->getId()]));
+
+        foreach( $questions as $key => $value )
         {
-            $question_id = $question->getId();
-            $proposals[$question_id] = $proposalRepository->findBy( ['question' => $question_id] );
-            foreach( $proposals[$question_id] as $proposal )
+            $proposals = $proposalRepository->findBy( ['question' => $value['id']] );
+//            dump($proposals);
+            foreach( $proposals as $proposal )
             {
-                $proposalValues = [
+                $questions[$key]['proposals'][] = [
                     'id' => $proposal->getId(),
-                    'wording' => $proposal->getWording(),
-                    'id_question' => $proposal->getQuestion()->getId()
+                    'wording' => $proposal->getWording()
                 ];
-                $resumeProposal[] = $proposalValues;
             }
         }
+//        dd($questions);
         return $this->render('instructor/display_questions.html.twig', [
-            'questions' => $questions,
-            'proposals' => $resumeProposal,
+            'questions' => $questions
         ]);
     }
 
