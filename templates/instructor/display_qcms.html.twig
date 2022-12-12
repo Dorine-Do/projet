@@ -24,7 +24,7 @@
                     {% for qcm in qcms %}
                         {# data-parent voir css ::after #}
                         <li class="liBtnQcm" data-id="{{qcm.id}}" data-questions-cache="{{qcm.questionsCache|json_encode}}" data-parent="{{ qcm.difficulty == 1 ? 'facile'}}{{ qcm.difficulty == 2 ? 'moyen'}}{{ qcm.difficulty == 3 ? 'difficile'}}" >
-                            {{qcm.title|raw }}
+                            {{qcm.title}}
                         </li>
 
                     {% endfor %}
@@ -42,7 +42,7 @@
                                 <li data-qcm-id="{{ qcm.id}}" data-id='{{question.id}}'>
 
                                     <span class="qcmQuestionNumber"></span>
-                                    {{question.wording|raw }}
+                                    {{question.wording}}
 
                                 </li>
 
