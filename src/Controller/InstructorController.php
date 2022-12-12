@@ -82,7 +82,6 @@ class InstructorController extends AbstractController
         foreach( $questions as $key => $value )
         {
             $proposals = $proposalRepository->findBy( ['question' => $value['id']] );
-//            dump($proposals);
             foreach( $proposals as $proposal )
             {
                 $questions[$key]['proposals'][] = [
@@ -91,7 +90,6 @@ class InstructorController extends AbstractController
                 ];
             }
         }
-//        dd($questions);
         return $this->render('instructor/display_questions.html.twig', [
             'questions' => $questions
         ]);

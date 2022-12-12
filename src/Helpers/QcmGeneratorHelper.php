@@ -18,6 +18,9 @@ class QcmGeneratorHelper
     private int $_officialQcmQuestionQuantity = 42;
 
     private $_mandatoryQuestionsPool;
+    private $_mandatoryQuestionsToPickNbr;
+    private $_pickedMandatoryQuestions;
+    private $_questionsMandatoryQuantityScore;
 
     private Module $_module;
     private int $_difficulty;
@@ -178,23 +181,28 @@ class QcmGeneratorHelper
             return $nonMandatoryQuestion->getDifficulty()->value === 3;
         });
 
-        $mandatoryQuestionsToPickNbr = min( count( $this->_mandatoryQuestionsPool ), $this->_officialQcmQuestionQuantity);
+        $this->_mandatoryQuestionsToPickNbr = min( count( $this->_mandatoryQuestionsPool ), $this->_officialQcmQuestionQuantity);
 
-        $pickedMandatoryQuestions = $this->pickQuestionsInPool( $mandatoryQuestionsToPickNbr, $this->_mandatoryQuestionsPool );
+        $this->_pickedMandatoryQuestions = $this->pickQuestionsInPool( $this->_mandatoryQuestionsToPickNbr, $this->_mandatoryQuestionsPool );
 
         $nonMandatoryPickedEasyQuestions = [];
         $nonMandatoryPickedMediumQuestions = [];
         $nonMandatoryPickedDifficultQuestions = [];
-        if( $mandatoryQuestionsToPickNbr < $this->_officialQcmQuestionQuantity )
+        if( $this->_mandatoryQuestionsToPickNbr < $this->_officialQcmQuestionQuantity )
         {
             $nonMandatoryQuestionsNbrByDifficulty = $this->calcQuestionsNumberToPickByDifficulty();
+
+            if( count($this->_errors) > 0 || count($nonMandatoryQuestionsNbrByDifficulty) === 0 )
+            {
+                return [];
+            }
 
             $nonMandatoryPickedEasyQuestions = $this->pickQuestionsInPool( $nonMandatoryQuestionsNbrByDifficulty['easy'], $nonMandatoryEasyQuestionsPool );
             $nonMandatoryPickedMediumQuestions = $this->pickQuestionsInPool( $nonMandatoryQuestionsNbrByDifficulty['medium'], $nonMandatoryMediumQuestionsPool );
             $nonMandatoryPickedDifficultQuestions = $this->pickQuestionsInPool( $nonMandatoryQuestionsNbrByDifficulty['difficult'], $nonMandatoryDifficultQuestionsPool );
         }
 
-        $pickedQuestions = array_merge( $pickedMandatoryQuestions , $nonMandatoryPickedEasyQuestions, $nonMandatoryPickedMediumQuestions, $nonMandatoryPickedDifficultQuestions );
+        $pickedQuestions = array_merge( $this->_pickedMandatoryQuestions , $nonMandatoryPickedEasyQuestions, $nonMandatoryPickedMediumQuestions, $nonMandatoryPickedDifficultQuestions );
 
         shuffle($pickedQuestions);
 
@@ -203,8 +211,9 @@ class QcmGeneratorHelper
 
     private function pickQuestionsInPool( int $quantityToPick, array $basePool ) : array
     {
+
         $pickedQuestions = [];
-        for( $eq = 0; $eq < $quantityToPick; $eq++ )
+        for( $eq = 0; $eq < $quantityToPick - 1; $eq++ )
         {
             if( count($pickedQuestions) > 0 )
             {
@@ -214,8 +223,10 @@ class QcmGeneratorHelper
                     unset( $basePool[$questionToNotReuseIndex] );
                 }
             }
+
             $recalculatedPool = $basePool;
             $pickedQuestions[] = $recalculatedPool[ array_rand($recalculatedPool) ];
+
         }
 
         return $pickedQuestions;
@@ -225,14 +236,28 @@ class QcmGeneratorHelper
     {
         $combinations = [];
 
-        $maxQuantityChosenDifficultyScore = end($questionsByDifficultyScore[$chosenDifficultyName]);
+        if ($this->_type === 'official')
+        {
+            if (count($questionsByDifficultyScore['medium']) != 0 && end($questionsByDifficultyScore['medium'])['score'] > $this->_questionsMandatoryQuantityScore['score'])
+            {
+                $maxQuantityChosenDifficultyScore = end($questionsByDifficultyScore['medium']);
+            }
+            else
+            {
+                $maxQuantityChosenDifficultyScore = $questionsByDifficultyScore['mandatory'];
+            }
+        }else
+        {
+            $maxQuantityChosenDifficultyScore = end($questionsByDifficultyScore[$chosenDifficultyName]);
+        }
+
 
         $otherDifficultyUsableQuestionsQuantity1 = array_filter($questionsByDifficultyScore[$otherDifficultyName1], function ($otherDifficultyQuestionQuantityScore) use ($maxQuantityChosenDifficultyScore) {
-            return $otherDifficultyQuestionQuantityScore['score'] < $maxQuantityChosenDifficultyScore;
+            return $otherDifficultyQuestionQuantityScore['score'] < $maxQuantityChosenDifficultyScore['score'];
         });
 
         $otherDifficultyUsableQuestionsQuantity2 = array_filter($questionsByDifficultyScore[$otherDifficultyName2], function ($otherDifficultyQuestionQuantityScore) use ($maxQuantityChosenDifficultyScore) {
-            return $otherDifficultyQuestionQuantityScore['score'] < $maxQuantityChosenDifficultyScore;
+            return $otherDifficultyQuestionQuantityScore['score'] < $maxQuantityChosenDifficultyScore['score'];
         });
 
         foreach ($questionsByDifficultyScore[$chosenDifficultyName] as $chosenDifficultyUsableQuestionQuantity)
@@ -244,11 +269,11 @@ class QcmGeneratorHelper
                     $minimumNonChosenDifficultyQuestionsRequired = $totalQuestions - $chosenDifficultyUsableQuestionQuantity['quantity'];
 
                     if (
-                        $otherDifficultyUsableQuestionQuantity1['quantity']
+                        ($otherDifficultyUsableQuestionQuantity1['quantity']
                         +
                         $otherDifficultyUsableQuestionQuantity2['quantity']
                         ===
-                        $minimumNonChosenDifficultyQuestionsRequired
+                        $minimumNonChosenDifficultyQuestionsRequired)
                         &&
                         $otherDifficultyUsableQuestionQuantity1['score'] < $chosenDifficultyUsableQuestionQuantity['score']
                         &&
@@ -329,11 +354,17 @@ class QcmGeneratorHelper
                 ];
             }
 
-            if( $this->_type === 'officiel' )
+            if( $this->_type === 'official' )
             {
+                $this->_questionsMandatoryQuantityScore = [
+                    'quantity' => $this->_mandatoryQuestionsToPickNbr,
+                    'score' => $this->_mandatoryQuestionsToPickNbr * 2
+                ];
+
                 $questionsByDifficultyScore['medium'] = array_filter( $questionsByDifficultyScore['medium'], function( $mediumQuantityScore ) {
-                   return  $mediumQuantityScore['quantity'] >= count( $this->_mandatoryQuestionsPool );
+                   return  $mediumQuantityScore['quantity'] >= $this->_mandatoryQuestionsToPickNbr;
                 });
+
             }
 
             $combinations = [];
@@ -341,19 +372,15 @@ class QcmGeneratorHelper
 
             switch ($this->_difficulty) {
                 case 1:
-
                     $combinations = $this->calculByDifficultyCombinations('easy', 'medium', 'difficult', $totalQuestions, $questionsByDifficultyScore);
-
                     break;
+
                 case 2:
-
                     $combinations = $this->calculByDifficultyCombinations('medium', 'easy', 'difficult', $totalQuestions, $questionsByDifficultyScore);
-
                     break;
+
                 case 3:
-
                     $combinations = $this->calculByDifficultyCombinations('difficult', 'easy', 'medium', $totalQuestions, $questionsByDifficultyScore);
-
                     break;
             }
 
