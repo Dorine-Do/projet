@@ -4,6 +4,26 @@ section{
     margin-bottom: 3em;
 }
 
+/********************************************/
+/*Spinner*/
+
+.liSession,
+.backgroundEtape{
+    position: relative;
+}
+
+.liSession #spinner{
+    left: 1%;
+}
+
+.backgroundEtape #spinner2,
+.backgroundEtape #spinner3{
+    border: 7px solid var(--grey);
+    border-top: 7px solid var(--pamplemousse);
+}
+
+/*******************************************/
+
 ul, .backgroundEtape, .allDate{
     background-color: var(--fond);
     padding: 25px;

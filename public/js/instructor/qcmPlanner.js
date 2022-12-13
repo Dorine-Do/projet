@@ -1,4 +1,4 @@
-let sessionfields, moduleField, qcmField, studentsFields, startDateField, endDateField, qcmData, selectedSession, divDate, btnValid = null;
+let sessionfields, moduleField, qcmField, studentsFields, startDateField, endDateField, qcmData, selectedSession, divDate, btnValid, spinner = null;
 
 async function updateModulesFromAjax( session, field )
 {
@@ -31,6 +31,8 @@ function updateModuleSelect( field, fieldData )
         field.append(option);
     });
     updateQcmsFromAjax( fieldData[0].id, qcmField );
+
+    spinner.remove()
 
     document.getElementById('module-choice').scrollIntoView({
         behavior: 'smooth',
@@ -155,7 +157,19 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
     sessionfields.forEach( sessionField => {
-        sessionField.addEventListener('click', function(){
+        sessionField.addEventListener('click', function(e){
+
+            spinner = document.createElement('div')
+            spinner.id = 'spinner';
+
+            let liSession = e.target.parentNode
+            liSession.insertBefore(spinner, e.target)
+
+            spinner.classList.add("show");
+            setTimeout(() => {
+                spinner.classList.remove("show");
+            }, 5000);
+
             selectedSession = this.value;
             updateModulesFromAjax( selectedSession.toString(), moduleField );
             updateStudentsFromAjax( selectedSession.toString(), studentsFields );
