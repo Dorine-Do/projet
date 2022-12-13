@@ -1,7 +1,13 @@
-let selectSession, selectModule, qcmsContainer, ulQcm, qcmsName, studentsContainer, redirect, divLegend, ulStudent
+let selectSession, selectModule, qcmsContainer, ulQcm, qcmsName, studentsContainer, redirect, divLegend, ulStudent, spinner, spinner2
 
 
 function fetchModules(e){
+
+    spinner.classList.add("show");
+    setTimeout(() => {
+        spinner.classList.remove("show");
+    }, 5000);
+
     fetch( 'distributed_qcms/' + e.target.value, {method: 'GET'} )
         .then((response) => response.json())
         .then((data) => {
@@ -17,6 +23,8 @@ function fetchModules(e){
                 selectModule.append(option)
             })
 
+            spinner.classList.remove("show");
+
             document.getElementById('sectionModule').scrollIntoView({
                 behavior: 'smooth'
             });
@@ -29,6 +37,12 @@ function fetchModules(e){
 }
 
 function fetchQcms(e){
+
+    spinner2.classList.add("show");
+    setTimeout(() => {
+        spinner2.classList.remove("show");
+    }, 5000);
+
     fetch('../qcm-planner/getModuleQcms/' + e.target.value + '/true', {method: 'GET'})
         .then((response) => response.json())
         .then((data) => {
@@ -39,8 +53,6 @@ function fetchQcms(e){
 
             qcmsContainer.innerHTML = ''
             qcmsContainer.append(divLegend)
-
-            console.log(qcmsWithoutRetry)
 
             if(qcmsWithoutRetry.length === 0){
                 let p = document.createElement('p')
@@ -90,6 +102,9 @@ function fetchQcms(e){
                 }
 
             })
+
+            spinner2.classList.remove("show");
+
             document.getElementById('sectionQcms').scrollIntoView({
                 behavior: 'smooth'
             });
@@ -99,6 +114,18 @@ function fetchQcms(e){
 }
 
 function fetchStudents(e){
+
+    let spinner3 = document.createElement('div')
+    spinner3.id = 'spinner3';
+
+    let ulQcm = e.target.parentNode
+    ulQcm.insertBefore(spinner3, e.target)
+
+    spinner3.classList.add("show");
+    setTimeout(() => {
+        spinner3.classList.remove("show");
+    }, 5000);
+
     fetch('distributed_students/' + this.dataset.qcm, {method: 'GET'})
         .then((response) => response.json())
         .then((studentsResults) => {
@@ -187,10 +214,13 @@ function fetchStudents(e){
                     ulStudent.append(li);
 
                 })
+
                 document.getElementById('sectionStudents').scrollIntoView({
                     behavior: 'smooth'
                 });
             }
+
+            spinner3.remove()
         })
 }
 
@@ -232,8 +262,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
     qcmsContainer = document.getElementById('qcms-module')
     divLegend = document.getElementById('div-legend')
     studentsContainer = document.getElementById('students-qcm')
+    spinner = document.querySelector('#spinner')
+    spinner2 = document.querySelector('#spinner2')
+
     selectSession.addEventListener('change', fetchModules)
     selectModule.addEventListener('change', fetchQcms)
     selectModule.addEventListener('change', showQcmsStudent)
     qcmsName.addEventListener('click', showQcmsStudent)
+
+
 });

@@ -5,11 +5,28 @@
     margin-bottom: 3em;
 }
 
+/********************************************/
+/*Spinner*/
+
+.firstSelect #spinner,
+.secondSelect #spinner2,
+.qcmStudent #spinner3{
+    border: 7px solid var(--grey);
+    border-top: 7px solid var(--pamplemousse);
+}
+
+.qcmStudent #spinner3{
+    left: 0;
+}
+
+/*******************************************/
+
 .firstSelect, .secondSelect{
     display: flex;
     justify-content: center;
     background-color: var(--fond);
     padding: 25px;
+    position: relative;
 }
 
 .separator{
@@ -29,6 +46,7 @@
     width: 80%;
     margin: 30px auto;
     padding: 1em 0;
+    position: relative;
 }
 
 .qcmStudent li{
