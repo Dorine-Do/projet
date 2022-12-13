@@ -1,4 +1,4 @@
-let liSession, liLevel, levelDiv, studentsDiv, qcmsDiv = null
+let liSession, liLevel, levelDiv, studentsDiv, qcmsDiv, spinner, spinner2 = null
 let namesLevel, pNoStudents, liStudentsData, nameSession, moduleId, sessionId, selectModule, ulListQcms, ulListStudents, liStudentData = null
 
 //Ajax
@@ -59,6 +59,8 @@ function displayModules(data){
         selectModule.append(option)
     } )
 
+    spinner.remove()
+
     document.getElementById('section-module').scrollIntoView({
         behavior: 'smooth'
     });
@@ -68,10 +70,7 @@ function displayModules(data){
 function displayStudents(data){
     qcmsDiv.style.display = "none"
     ulListQcms.innerHTML = ""
-
-
     ulListStudents.innerHTML = ''
-
 
     data.forEach( student => {
         let div = createElementSimple('div', 'divStudentData')
@@ -112,6 +111,8 @@ function displayStudents(data){
         ulListStudents.style.display = 'block'
         ulListStudents.append(div)
     }
+
+    spinner2.classList.remove("show");
 
     document.getElementById('section-students').scrollIntoView({
         behavior: 'smooth'
@@ -257,6 +258,12 @@ function positionLabelInput(parent){
 }
 
 function showStudentByModules(e){
+
+    spinner2.classList.add("show");
+    setTimeout(() => {
+        spinner2.classList.remove("show");
+    }, 5000);
+
     studentsDiv.style.display = 'block'
     if (moduleId !== e.target.value){
         qcmsDiv.style.display = 'none';
@@ -269,6 +276,18 @@ function showStudentByModules(e){
 function showModulesBySessions(){
     nameSession.forEach( input => {
         input.addEventListener('click', (e)=>{
+
+            spinner = document.createElement('div')
+            spinner.id = 'spinner';
+
+            let liSession = e.target.parentNode
+            liSession.insertBefore(spinner, e.target)
+
+            spinner.classList.add("show");
+            setTimeout(() => {
+                spinner.classList.remove("show");
+            }, 5000);
+
             if (sessionId !== e.target.value){
                 sessionId = e.target.value
                 getModuleBySessionFromAjax(sessionId)
@@ -360,6 +379,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     qcmsDiv = document.querySelector('.qcms')
     selectModule = document.getElementById('module-choice')
     ulListStudents = document.querySelector('.ulListStudents')
+    spinner2 = document.querySelector('#spinner2')
 
     pNoStudents = document.createElement('p')
 
