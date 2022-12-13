@@ -506,6 +506,7 @@ class InstructorController extends AbstractController
         UserRepository         $userRepository
     ): Response
     {
+
         $dayOfWeekEnd = array("Saturday", "Sunday");
         $sessionAndModuleByInstructor = $instructorRepository->find($this->security->getUser()->getId())->getLinksInstructorSessionModule();
         $sessions = [];
@@ -533,6 +534,17 @@ class InstructorController extends AbstractController
             $module = $moduleRepository->find($formData["module"]);
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             $qcm = $qcmGenerator->generateRandomQcm($module,$this->security->getUser(), $userRepository , 2 ,'official');
+
+            if( gettype($qcm) === 'array' && array_key_exists('messages', $qcm ) )
+            {
+                //  redirect to route avec flash
+                $this->addFlash(
+                    'fail',
+                    $qcm['messages']
+                );
+                return $this->redirectToRoute('welcome_instructor');
+            }
+
             $manager->persist($qcm);
 
             $linksSessionStudent = $sessionRepository->find($formData["session"])->getLinksSessionStudent();
@@ -547,7 +559,6 @@ class InstructorController extends AbstractController
             {
                 $qcmInstance = new QcmInstance();
                 $qcmInstance->setStudent($student);
-                /* TODO à voir si ça foncitonne */
                 $qcmInstance->setDistributedBy($userRepository->find($this->security->getUser()->getId()));
                 $qcmInstance->setQcm($qcm);
                 $qcmInstance->setCreatedAtValue();
