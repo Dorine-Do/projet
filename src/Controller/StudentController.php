@@ -56,6 +56,9 @@ class StudentController extends AbstractController
 
         $allAvailableQcmInstances = $qcmInstanceRepository->findBy(['student'=>$student]);
 
+        $officialQcmOfTheWeek = null;
+        $unofficialQcmNotDone = null;
+
         if($allAvailableQcmInstances){
             /********************************************************************************************************/
 
@@ -80,7 +83,6 @@ class StudentController extends AbstractController
                     && $qcmInstance->getQcm()->getAuthor() !== $student
                     ;
             });
-
         }
 
         /********************************************************************************************************/
