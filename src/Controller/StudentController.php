@@ -65,10 +65,10 @@ class StudentController extends AbstractController
             $officialQcmOfTheWeek = array_filter($allAvailableQcmInstances, function( QcmInstance $qcmInstance ){
 
                 return
-                    $qcmInstance->getQcm()->getIsOfficial() == true
+                    $qcmInstance->getQcm()->getIsOfficial() === true
                     && $qcmInstance->getStartTime() <= new \DateTime()
                     && $qcmInstance->getEndTime() >= new \DateTime()
-                    && $qcmInstance->getQcm()->getIsEnabled() == true
+                    && $qcmInstance->getQcm()->getIsEnabled() === true
                     && $qcmInstance->getResult() === null;
             });
 
