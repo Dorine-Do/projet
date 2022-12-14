@@ -77,7 +77,7 @@ class InstructorController extends AbstractController
                 'difficulty' => $question->getDifficulty()->value,
                 'wording' => $question->getWording()
             ];
-        } ,$questionRepository->findBy(['author' => $this->security->getUser()->getId()]));
+        } ,$questionRepository->findBy(['author' => $this->security->getUser()->getId(), 'isOfficial' => false]));
 
         foreach( $questions as $key => $value )
         {
@@ -165,7 +165,7 @@ class InstructorController extends AbstractController
             foreach ($instanceQuestion->getProposals() as $prop) {
                 $bool = in_array($prop->getId(), $arrayBeforeProp);
                 // Si la prop est une déjà créer en db ou si son id est null alors si elle vient d'être créée.
-                if ($bool || $prop->getId() == null) {
+                if ($bool || $prop->getId() === null) {
                     // Si l'utilisateur a modifié la reponse
                     $prop->setQuestion($instanceQuestion);
                     $persistProp[] = $prop->getId();
@@ -182,7 +182,7 @@ class InstructorController extends AbstractController
             {
                 $instanceQuestion->setIsMultiple(true);
             }
-            elseif ($count == 1)
+            elseif ($count === 1)
             {
                 $instanceQuestion->setIsMultiple(false);
             }
@@ -258,7 +258,7 @@ class InstructorController extends AbstractController
             {
                 $questionEntity->setIsMultiple(1);
             }
-            elseif ($count == 1)
+            elseif ($count === 1)
             {
                 $questionEntity->setIsMultiple(0);
             }
@@ -369,9 +369,7 @@ class InstructorController extends AbstractController
 
         return $this->render('instructor/create_qcm_perso.html.twig', [
             'modules' => empty($modules ) ? null : $modules, // condition 1 + condition 2 + condition 3 sinon erreur
-            // temporaire voir todo pour connection
-            'user'=>$userId,
-            'qcmsLevel'=>$qcmsLevel == [] ? null : $qcmsLevel,
+            'qcmsLevel'=>$qcmsLevel === [] ? null : $qcmsLevel,
             'qcms'=>!isset($qcms)? null :$qcms,
             'qcmInstancesByQuestion'=>!isset($qcmInstancesByQuestion )? null : $qcmInstancesByQuestion, // condition 3
         ]);
@@ -535,15 +533,15 @@ class InstructorController extends AbstractController
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             $qcm = $qcmGenerator->generateRandomQcm($module,$this->security->getUser(), $userRepository , 2 ,'official');
 
-            if( gettype($qcm) === 'array' && array_key_exists('messages', $qcm ) )
-            {
-                //  redirect to route avec flash
-                $this->addFlash(
-                    'fail',
-                    $qcm['messages']
-                );
-                return $this->redirectToRoute('welcome_instructor');
-            }
+//            if( gettype($qcm) === 'array' && array_key_exists('messages', $qcm ) )
+//            {
+//                //  redirect to route avec flash
+//                $this->addFlash(
+//                    'fail',
+//                    $qcm['messages']
+//                );
+//                return $this->redirectToRoute('welcome_instructor');
+//            }
 
             $manager->persist($qcm);
 
@@ -578,15 +576,14 @@ class InstructorController extends AbstractController
 
                 $manager->persist($qcmInstance);
                 $manager->flush();
-
-                //  redirect to route avec flash
-                $this->addFlash(
-                    'success',
-                    'Le qcm a été généré avec succès'
-                );
-                return $this->redirectToRoute('welcome_instructor');
             }
+            //  redirect to route avec flash
+            $this->addFlash(
+                'success',
+                'Le qcm a été généré avec succès'
+            );
 
+            return $this->redirectToRoute('welcome_instructor');
         }
 
         return $this->render('instructor/generate_official_qcm.html.twig', [
