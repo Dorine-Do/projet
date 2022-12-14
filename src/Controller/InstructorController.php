@@ -533,15 +533,15 @@ class InstructorController extends AbstractController
             $qcmGenerator = new QcmGeneratorHelper($questionRepository, $security);
             $qcm = $qcmGenerator->generateRandomQcm($module,$this->security->getUser(), $userRepository , 2 ,'official');
 
-//            if( gettype($qcm) === 'array' && array_key_exists('messages', $qcm ) )
-//            {
-//                //  redirect to route avec flash
-//                $this->addFlash(
-//                    'fail',
-//                    $qcm['messages']
-//                );
-//                return $this->redirectToRoute('welcome_instructor');
-//            }
+            if( gettype($qcm) === 'array' && array_key_exists('messages', $qcm ) )
+            {
+                //  redirect to route avec flash
+                $this->addFlash(
+                    'fail',
+                    $qcm['messages']
+                );
+                return $this->redirectToRoute('welcome_instructor');
+            }
 
             $manager->persist($qcm);
 

@@ -1,4 +1,4 @@
-let createQuestionFormSubmit, createQuestionFormErrors;
+let createQuestionFormSubmit, createQuestionFormErrors, proposalWordingInput;
 let isCreateQuestionFormValidable = false;
 
 function checkCreateQuestionForm(e)
