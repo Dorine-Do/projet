@@ -37,11 +37,11 @@
                         <tr>
                             <td>{{ question.module.title }}</td>
                             <td>{{ question.wording | raw}}</td>
-                            {% if question.difficulty.value == 1 %}
+                            {% if question.difficulty.value is same as 1 %}
                                 <td>Facile</td>
-                            {% elseif question.difficulty.value == 2 %}
+                            {% elseif question.difficulty.value is same as 2 %}
                                 <td>Moyen</td>
-                            {% elseif question.difficulty.value == 3 %}
+                            {% elseif question.difficulty.value is same as 3 %}
                                 <td>Difficile</td>
                             {% endif %}
                             <td>

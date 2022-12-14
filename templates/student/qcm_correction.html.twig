@@ -39,11 +39,11 @@
             {% for question in qcmQuestions %}
                 <div class="imageDiff">
                     <div class="trefle">
-                        {% if question.difficulty == 1 %}
+                        {% if question.difficulty is same as 1 %}
                             <img src="{{asset('build/images/trefle_facile_bon_vert.png')}}" alt="Facile">
-                        {% elseif question.difficulty == 2 %}
+                        {% elseif question.difficulty is same as 2 %}
                             <img src="{{asset('build/images/trefle_moyen_bon_vert.png')}}" alt="Moyen">
-                        {% elseif question.difficulty == 3 %}
+                        {% elseif question.difficulty is same as 3 %}
                             <img src="{{asset('build/images/trefle_difficile_bon_vert.png')}}" alt="Difficile">
                         {% endif %}
                     </div>
@@ -63,7 +63,7 @@
                 </div>
                 <div class="allReponse">
                     {% for proposal in question.answers %}
-                        {% if proposal.isCorrectAnswer == true and proposal.isStudentAnswer == true %}
+                        {% if proposal.isCorrectAnswer is same as true and proposal.isStudentAnswer is same as true %}
                             <div class="reponseCorrection">
                                 {% if not question.isMultiple %}
                                     <input type="radio" checked disabled>

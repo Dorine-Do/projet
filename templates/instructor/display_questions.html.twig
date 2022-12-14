@@ -33,7 +33,7 @@
     <div class="blocQuestions">
         <div class="divQuestions">
             <div class="subDivQuestions">
-                {% if questions == null %}
+                {% if questions is same as null %}
                     <li>{{ 'title.notCreateQuestionAlready'|trans }}</li>
                 {% endif %}
                 <ul>
@@ -42,9 +42,9 @@
                             <div class="subLiQuestion">
                                 <div class="liWording">
                                     <p class="">
-                                        {% if question.difficulty == 1 %}
+                                        {% if question.difficulty is same as 1 %}
                                             <img class="difficultyIcone" src="{{ asset('build/images/trefle_facile_bon_vert.png') }}" alt="Trefle à trois feuilles, le niveau de difficulté est facile">
-                                        {% elseif question.difficulty == 2 %}
+                                        {% elseif question.difficulty is same as 2 %}
                                             <img class="difficultyIcone" src="{{ asset('build/images/trefle_moyen_bon_vert.png') }}" alt="Trefle à quarte feuilles, le niveau de difficulté est moyen">
                                         {% else %}
                                             <img class="difficultyIcone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">

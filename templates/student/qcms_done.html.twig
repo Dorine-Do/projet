@@ -68,7 +68,7 @@
         {{ 'title.qcm'|trans }}
     </p>
 
-    {% if qcmsDone == null %}
+    {% if qcmsDone is same as null %}
         <p class="noResult">{{ 'title.noResult'|trans }}</p>
     {% endif %}
 
