@@ -50,7 +50,7 @@
                                             <img class="difficultyIcone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
                                         {% endif %}
                                     </p>
-                                    <div class="divWordingQuestion">{{ question.wording }}</div>
+                                    <div class="divWordingQuestion">{{ question.wording|raw }}</div>
                                     <div class="divChevron">
                                         <img class="imgChevron" src="{{ asset('build/images/chevron_bas.png') }}" alt="chevron ouvrant" data-status="false" data-id="{{ question.id }}">
                                     </div>
@@ -62,7 +62,7 @@
                                     {% for proposal in question.proposals  %}
                                             <div class="divJs">
                                                 <p class="circle greyCircle"></p>
-                                                <p>{{ proposal.wording }}</p>
+                                                <p>{{ proposal.wording|raw }}</p>
                                             </div>
                                     {% endfor %}
                                 </div>
