@@ -34,7 +34,7 @@ function refreshUserInTable( user )
     {
         roleToDisplay = 'Etudiant';
     }
-    document.querySelector('#tableToSort tr button[data-user="'+ user.id +'"]').closest('tr').querySelector('td:nth-of-type(3)').innerHTML = roleToDisplay;
+    document.querySelector('#tableToSort tr button[data-user="'+ user.id +'"]').closest('tr').querySelector('td:nth-of-type(3)').innerText = roleToDisplay;
 
     closeRoleUpdaterModale();
 }
@@ -121,7 +121,7 @@ function openUserDetailsModale(data)
 function closeUserDetailsModale()
 {
     userDetailsModale.classList.add('hideModale');
-    userDetailsModaleContent.innerHTML = '';
+    userDetailsModaleContent.innerText = '';
 }
 
 function initUserDetails()

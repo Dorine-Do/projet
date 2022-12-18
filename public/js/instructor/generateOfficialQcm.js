@@ -13,7 +13,7 @@ function displayModulesOptions(modules)
 {
     moduleSelect = document.querySelector( '#module' );
 
-    moduleSelect.innerHTML = '';
+    moduleSelect.innerText = '';
 
     modules.forEach( module => {
         let option = document.createElement('option');
@@ -40,7 +40,7 @@ function messageError(e){
 
     if(moduleSelect.value === '0'){
         let p = document.createElement('p')
-        p.innerHTML = 'Veuillez sélectionner un module'
+        p.innerText = 'Veuillez sélectionner un module'
         p.style.color = 'red'
         p.style.width = '100%'
         p.style.textAlign = 'center'
@@ -51,7 +51,7 @@ function messageError(e){
 
     if(!sessionField){
         let p = document.createElement('p')
-        p.innerHTML = 'Veuillez sélectionner une session'
+        p.innerText = 'Veuillez sélectionner une session'
         p.style.color = 'red'
         p.style.width = '100%'
         p.style.textAlign = 'center'

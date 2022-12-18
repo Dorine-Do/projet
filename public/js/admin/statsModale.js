@@ -12,14 +12,14 @@ function hideStatsModale(){
     statsModale.style.display = 'none';
     searchType = ""
     searchInput.value = ""
-    resultsContainer.innerHTML = ""
+    resultsContainer.innerText = ""
 }
 
 function goSearch(){
     fetch(`/admin/stats/fetch/search/${searchType}/${this.value}`, {method:"GET"})
         .then( data => data.json() )
         .then( searchResults => {
-            resultsContainer.innerHTML = ""
+            resultsContainer.innerText = ""
             for (let i = 0; i < searchResults.length; i++){
                 let result = document.createElement("li");
                 if (searchType === "session"){

@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let count = 0;
     p_letters.forEach((p) => {
       let letters = p.textContent;
-      p.innerHTML = alphabet[count];
+      p.innerText = alphabet[count];
       count++;
     });
     indexData--;
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let li = document.createElement("li");
 
     // Replace
-    li.innerHTML += form.replace(/__name__/g, indexData);
+    li.innerText += form.replace(/__name__/g, indexData);
     li.className = "liProposal";
 
     let checkbox = li.firstElementChild.lastElementChild.lastElementChild;
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     div_wording.className = "divWording";
 
     let buttonRemoveNew = document.createElement("button");
-    buttonRemoveNew.innerHTML = "Supprimer";
+    buttonRemoveNew.innerText = "Supprimer";
     buttonRemoveNew.classList.add("removeProposal");
     // Remove
     buttonRemoveNew.addEventListener("click", clickRemove);
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     let p = document.createElement("p");
     p.className = "circle greyCircle pletter";
-    p.innerHTML = letter;
+    p.innerText = letter;
 
     div_proposal.firstElementChild.insertBefore(p, label);
   }

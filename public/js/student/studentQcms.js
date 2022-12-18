@@ -4,7 +4,7 @@ function manageErrorChoice (element, color, choice){
         pError.remove()
     }
     let p = document.createElement('p')
-    p.innerHTML = `Sélectionne bien ton ${choice}`
+    p.innerText = `Sélectionne bien ton ${choice}`
     p.id = 'p-error'
     p.style.color = color
     p.style.padding = '.2em'

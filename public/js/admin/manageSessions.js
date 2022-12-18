@@ -17,7 +17,7 @@ function displayStudentsModale(students)
     if( students.length > 0 )
     {
         students.forEach( student => {
-            sessionStudentsModaleContent.innerHTML += `
+            sessionStudentsModaleContent.innerText += `
                 <div>${ student.firstName } ${ student.lastName }</div>
             `;
         })
@@ -34,7 +34,7 @@ function showStudentsModale()
 function hideStudentsModale()
 {
     sessionStudentsModale.classList.add('hideModale');
-    sessionStudentsModaleContent.innerHTML = '';
+    sessionStudentsModaleContent.innerText = '';
 }
 
 function initSessionStudents()
@@ -80,7 +80,7 @@ function displayModulesModale(modules)
                 moduleRow.classList.add('currentModule')
             }
 
-            moduleRow.innerHTML = `
+            moduleRow.innerText = `
                 <td>${ module.title }</td>
                 `
                 tdInstructors = []
@@ -113,7 +113,7 @@ function showModulesModale()
 function hideModulesModale()
 {
     sessionModulesModale.classList.add('hideModale');
-    sessionModulesModaleContent.innerHTML = '';
+    sessionModulesModaleContent.innerText = '';
 }
 
 function initSessionModules()

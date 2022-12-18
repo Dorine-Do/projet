@@ -50,10 +50,10 @@ window.onload = function (event) {
                         let letter = alphabet.slice(begin, end);
                         let p = document.createElement("p");
                         p.className = "pLetter";
-                        p.innerHTML = letter;
+                        p.innerText = letter;
 
                         p_prop = document.createElement("div");
-                        p_prop.innerHTML = proposal.wording;
+                        p_prop.innerText = proposal.wording;
                         p_prop.classList.add("blocContentProposal");
 
                         div_js.append(p, p_prop);
@@ -78,7 +78,7 @@ window.onload = function (event) {
             } else {
                 // si ouvert alors
                 div_question.style.display = "none";
-                div_js.innerHTML = "";
+                div_js.innerText = "";
                 e.target.dataset.status = false;
 
                 chevron.classList.remove("closed");

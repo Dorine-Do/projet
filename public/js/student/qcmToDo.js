@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Numéro question
     let countNum = 1
     numeroForm.forEach(num => {
-        num.innerHTML = countNum
+        num.innerText = countNum
         countNum ++
     })
 
@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             let letter = alphabet.slice(begin, end);
             let p = document.createElement("p");
             p.className = "pLetter";
-            p.innerHTML = letter;
+            p.innerText = letter;
 
             divReponse.insertBefore(p,divReponse.firstElementChild )
             countLetter++;

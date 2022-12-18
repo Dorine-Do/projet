@@ -24,9 +24,9 @@ function generateRandomQcm()
         generationErrorBlock.innerText = '';
         generatedQcmResumeBlock.classList.add('displayNone')
         personalizeQcmBlock.classList.add('displayNone')
-        ulQcm.innerHTML = ''
-        pickableOfficialQuestionsList.innerHTML = ''
-        pickedQuestionsList.innerHTML = ''
+        ulQcm.innerText = ''
+        pickableOfficialQuestionsList.innerText = ''
+        pickedQuestionsList.innerText = ''
         fetchGeneratedQcm();
     }
     else
@@ -414,11 +414,11 @@ function calcNbrQuestionByLevel()
     } )
 
     let pEasy = document.getElementById("easy");
-    pEasy.innerHTML = easy.nbrQuestions;
+    pEasy.innerText = easy.nbrQuestions;
     let pMedium = document.getElementById("medium");
-    pMedium.innerHTML = medium.nbrQuestions;
+    pMedium.innerText = medium.nbrQuestions;
     let pDifficult = document.getElementById("difficulty");
-    pDifficult.innerHTML = difficult.nbrQuestions;
+    pDifficult.innerText = difficult.nbrQuestions;
 
     let qcmChosenLevel = document.getElementById("qcmChosenLevel");
 
@@ -490,9 +490,9 @@ document.addEventListener('DOMContentLoaded', function(){
         selectedModule = this.value;
         generatedQcmResumeBlock.classList.add('displayNone')
         personalizeQcmBlock.classList.add('displayNone')
-        ulQcm.innerHTML = ''
-        pickableOfficialQuestionsList.innerHTML = ''
-        pickedQuestionsList.innerHTML = ''
+        ulQcm.innerText = ''
+        pickableOfficialQuestionsList.innerText = ''
+        pickedQuestionsList.innerText = ''
     });
 
     for( let i = 0; i < difficultyOptions.length; i++ )

@@ -11,14 +11,14 @@ function fetchModules(e){
     fetch( 'distributed_qcms/' + e.target.value, {method: 'GET'} )
         .then((response) => response.json())
         .then((data) => {
-            selectModule.innerHTML = ''
+            selectModule.innerText = ''
             let option = document.createElement('option')
-            option.innerHTML = 'Sélectionnez un module'
+            option.innerText = 'Sélectionnez un module'
             option.value = 0
             selectModule.append(option)
             data.forEach( module => {
                 option = document.createElement('option')
-                option.innerHTML = module['name']
+                option.innerText = module['name']
                 option.value = module['id']
                 selectModule.append(option)
             })
@@ -51,12 +51,12 @@ function fetchQcms(e){
                 return !qcm.title.includes('Retentative')
             } )
 
-            qcmsContainer.innerHTML = ''
+            qcmsContainer.innerText = ''
             qcmsContainer.append(divLegend)
 
             if(qcmsWithoutRetry.length === 0){
                 let p = document.createElement('p')
-                p.innerHTML = 'Aucun QCM n\'a été trouvé'
+                p.innerText = 'Aucun QCM n\'a été trouvé'
                 p.style.textAlign = 'center'
                 p.style.fontSize = '1.2em'
                 p.style.marginTop = '40px'
@@ -75,23 +75,23 @@ function fetchQcms(e){
                 isOfficial.className = 'official'
                 difficulty.className = 'difficulty'
 
-                name.innerHTML = qcm.title
+                name.innerText = qcm.title
                 name.dataset.qcm = qcm.id
                 name.id = qcm.id
                 qcmsContainer.append(ulQcm)
 
                 if(qcm.difficulty === 1){
-                    difficulty.innerHTML = 'Facile'
+                    difficulty.innerText = 'Facile'
                 }else if(qcm.difficulty === 2){
-                    difficulty.innerHTML = 'Moyen'
+                    difficulty.innerText = 'Moyen'
                 }else{
-                    difficulty.innerHTML = 'Difficile'
+                    difficulty.innerText = 'Difficile'
                 }
 
                 if(qcm.isOfficial === true){
-                    isOfficial.innerHTML = 'Officiel'
+                    isOfficial.innerText = 'Officiel'
                 }else{
-                    isOfficial.innerHTML = 'Exerice'
+                    isOfficial.innerText = 'Exerice'
                 }
 
                 ulQcm.append(name, isOfficial, difficulty)
@@ -110,7 +110,7 @@ function fetchQcms(e){
             });
         })
     ulStudent.remove()
-    ulStudent.innerHTML = ' '
+    ulStudent.innerText = ' '
 }
 
 function fetchStudents(e){
@@ -129,11 +129,11 @@ function fetchStudents(e){
     fetch('distributed_students/' + this.dataset.qcm, {method: 'GET'})
         .then((response) => response.json())
         .then((studentsResults) => {
-            studentsContainer.innerHTML = ''
+            studentsContainer.innerText = ''
             if (typeof studentsResults === 'string'){
                 let p = document.createElement('p')
                 p.classList.add('noStudent')
-                p.innerHTML = "Aucun étudiant n'a encore de note sur ce QCM"
+                p.innerText = "Aucun étudiant n'a encore de note sur ce QCM"
                 studentsContainer.append(p)
 
                 document.getElementById('sectionStudents').scrollIntoView({
@@ -162,11 +162,11 @@ function fetchStudents(e){
 
                     let score = studentResult.result ? studentResult.result.score : 'QCM pas encore effectué'
 
-                    name.innerHTML = studentResult.student.firstName +' '+ studentResult.student.lastName +' : '
+                    name.innerText = studentResult.student.firstName +' '+ studentResult.student.lastName +' : '
                     container.append(name)
 
                     let dateToDisplay = new Date(studentResult.distributedAt)
-                    date.innerHTML = dateToDisplay.toLocaleDateString()
+                    date.innerText = dateToDisplay.toLocaleDateString()
                     container.append(date)
 
                     if(score < 25){
@@ -237,7 +237,7 @@ const mouseEnter = (e) =>{
     pInfo.style.position = 'absolute'
     pInfo.setAttribute('id', 'infoHover')
     pInfo.classList.add('imgHover')
-    pInfo.innerHTML = e.target.dataset.level
+    pInfo.innerText = e.target.dataset.level
     e.target.parentNode.append(pInfo)
     pInfo.style.left = e.pageX + 'px';
     pInfo.style.top = e.pageY + 'px';

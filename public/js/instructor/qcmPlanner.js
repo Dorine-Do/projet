@@ -23,7 +23,7 @@ async function updateQcmsFromAjax( module, field )
 
 function updateModuleSelect( field, fieldData )
 {
-    field.innerHTML = '';
+    field.innerText = '';
     fieldData.forEach( data => {
         let option = document.createElement('option');
         option.value = data.id;
@@ -42,7 +42,7 @@ function updateModuleSelect( field, fieldData )
 
 function updateStudentOptions( field, fieldData )
 {
-    field.innerHTML = '';
+    field.innerText = '';
     fieldData.forEach( data => {
         let input = document.createElement('input');
         let label = document.createElement('label');
@@ -70,7 +70,7 @@ function updateStudentOptions( field, fieldData )
 
 function updateQcmSelect( field, fieldData )
 {
-    field.innerHTML = '';
+    field.innerText = '';
     fieldData.forEach( data => {
         let option = document.createElement('option');
         option.value = data.id;
@@ -89,7 +89,7 @@ function updateQcmSelect( field, fieldData )
 function buildMessageError(e,parent, message, id){
     e.preventDefault()
     let p = document.createElement('p')
-    p.innerHTML = message
+    p.innerText = message
     p.style.color = 'red'
     p.style.width = '100%'
     p.style.textAlign = 'center'
