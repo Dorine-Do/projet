@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </section>
-            <h2><img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">{{ 'button.trainningQcm'|trans }}</h2>
+            <h2><img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">{{ 'qcm.forTraining'|trans }}</h2>
             <section class="cercle">
                 <div id="training_choices" class="training">
                     <select name="module" class="selectModule">
@@ -54,7 +54,7 @@
                     </select>
                     <div class="difficult">
                         <div class="difficultySubDiv">
-                            <input type="radio" id="Easy" name="Difficulty" value="1"checked>
+                            <input type="radio" id="Easy" name="Difficulty" value="1" checked>
                             <label for="Easy">{{ 'difficulty.easy'|trans }}</label>
                         </div>
                         <div class="difficultySubDiv">
@@ -67,6 +67,7 @@
                         </div>
                     </div>
                     <button class="buttonValid" >{{ 'qcm.trainning'|trans }}</button>
+                    <p class="displayNone" id="errorGeneratedQcm" ></p>
                 </div>
             </section>
         </article>
@@ -100,6 +101,8 @@
                         </select>
                     </div>
                     <button class="buttonBadge">{{ 'button.tryAgain'|trans }}</button>
+                    <p class="displayNone" id="errorGeneratedQcmBadge" ></p>
+
                 </div>
             </section>
             <p class="lastP">

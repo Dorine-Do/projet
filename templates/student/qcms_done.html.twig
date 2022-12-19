@@ -24,7 +24,7 @@
         </div>
         <div class="divBadge">
             <p>
-                {{ 'qcm.trainning'|trans }}
+                {{ 'qcm.forTraining'|trans }}
             </p>
             <img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">
         </div>
@@ -53,7 +53,7 @@
     <div>
         <p>
             <span class="numeroForm">Option</span>
-            {{ 'title.filterByDate'|trans }}
+            {{ 'title.filterByDate'|trans }} :
         </p>
     </div>
     <select name="date" id="select_date">
@@ -67,7 +67,7 @@
         {{ 'qcm.done'|trans }}
     </p>
 
-    {% if qcmsDone == null %}
+    {% if qcmsDone is same as null %}
         <p class="noResult">{{ 'title.noResult'|trans }}</p>
     {% endif %}
 
@@ -96,8 +96,8 @@
                         <img class="badge" src="{{asset('build/images/retry.png')}}">
                     {% elseif qcmDone.type is same as 'exercice' %}
                         <img class="badge" src="{{asset('build/images/non-officiel.png')}}">
-                    {% elseif qcmDone.type is same as 'retryBadge' %}
-                        <img class="badge" src="{{asset('build/images/retry.png')}}">
+                    {% elseif qcmDone.type is same as 'trainning' %}
+                        <img class="badge" src="{{asset('build/images/qcm_entrainement.png')}}">
                     {% endif %}
                 </p>
             </div>

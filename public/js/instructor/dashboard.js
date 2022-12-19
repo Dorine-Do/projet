@@ -1,4 +1,4 @@
-let liSession, liLevel, levelDiv, studentsDiv, qcmsDiv = null
+let liSession, liLevel, levelDiv, studentsDiv, qcmsDiv, spinner, spinner2 = null
 let namesLevel, pNoStudents, liStudentsData, nameSession, moduleId, sessionId, selectModule, ulListQcms, ulListStudents, liStudentData = null
 
 //Ajax
@@ -34,30 +34,32 @@ function displayModules(data){
     ulListStudents = document.querySelector('.ulListStudents')
     studentsDiv = document.querySelector('.students')
     studentsDiv.style.display = "none"
-    ulListStudents.innerHTML = ""
+    ulListStudents.innerText = ""
 
     qcmsDiv = document.querySelector('.qcms')
     ulListQcms = document.querySelector('.ulListQcms')
     qcmsDiv.style.display = "none"
-    ulListQcms.innerHTML = ""
+    ulListQcms.innerText = ""
 
 
     levelDiv.style.display = 'block'
 
-    selectModule.innerHTML = ""
+    selectModule.innerText = ""
 
     let option = document.createElement('option')
-    option.innerHTML = 'Séléctionner un module'
+    option.innerText = 'Séléctionner un module'
     selectModule.append(option)
 
     data.forEach( module => {
         let option = document.createElement('option')
-        option.innerHTML = module['name']
+        option.innerText = module['name']
         option.value = module['id']
         option.id = 'option-module'
         option.dataset.anchor = '#option-module'
         selectModule.append(option)
     } )
+
+    spinner.remove()
 
     document.getElementById('section-module').scrollIntoView({
         behavior: 'smooth'
@@ -67,11 +69,8 @@ function displayModules(data){
 
 function displayStudents(data){
     qcmsDiv.style.display = "none"
-    ulListQcms.innerHTML = ""
-
-
-    ulListStudents.innerHTML = ''
-
+    ulListQcms.innerText = ""
+    ulListStudents.innerText = ''
 
     data.forEach( student => {
         let div = createElementSimple('div', 'divStudentData')
@@ -108,10 +107,12 @@ function displayStudents(data){
     positionLabelInput(liStudentData)
     if (data.length === 0){
         let div = createElementSimple('p', 'noStudent')
-        div.innerHTML = "Aucun étudiant n'a encore de note dans cette session"
+        div.innerText = "Aucun étudiant n'a encore de note dans cette session"
         ulListStudents.style.display = 'block'
         ulListStudents.append(div)
     }
+
+    spinner2.classList.remove("show");
 
     document.getElementById('section-students').scrollIntoView({
         behavior: 'smooth'
@@ -122,7 +123,7 @@ function displayStudents(data){
 
 function displayQcmsDone(data){
     qcmsDiv.style.display = 'block'
-    ulListQcms.innerHTML = ""
+    ulListQcms.innerText = ""
     data.forEach( qcm => {
         let li = createElementSimple('li', 'liQcmDone')
         li.addEventListener('click', (e) => {
@@ -132,22 +133,25 @@ function displayQcmsDone(data){
         let pDifficulty = createElementSimple('p', 'pDifficulty')
         if (qcm.difficulty === 1)
         {
-            pDifficulty.innerHTML = 'Facile'
+            pDifficulty.innerText = 'Facile'
         }
         else if (qcm.difficulty === 2)
         {
-            pDifficulty.innerHTML = 'Moyen'
+            pDifficulty.innerText = 'Moyen'
         }
         else if (qcm.difficulty === 3)
         {
-            pDifficulty.innerHTML = 'Difficile'
+            pDifficulty.innerText = 'Difficile'
         }
 
         let pIsOfficial = createElementSimple('p', 'pIsOfficial')
+
         if (qcm.isOfficial){
-            pIsOfficial.innerHTML = 'Officiel'
+            pIsOfficial.innerText = 'Officiel'
+        }else if (!qcm.isOfficial && (qcm.authorRole.includes('ROLE_INSTRUCTOR') || qcm.authorRole.includes('ROLE_ADMIN'))){
+            pIsOfficial.innerText = 'Exercice'
         }else{
-            pIsOfficial.innerHTML = 'Exercice'
+            pIsOfficial.innerText = 'Entrainement'
         }
 
         let pTitle = createElementSimple('p', 'pTitle', qcm.title)
@@ -155,7 +159,7 @@ function displayQcmsDone(data){
         let pDate = createElementSimple('p', 'pDate')
         let date = qcm.submittedAt.substring(0, 10)
         date = date.replaceAll('-','/')
-        pDate.innerHTML = date
+        pDate.innerText = date
 
         let imgLevel = createElementSimple('img', 'qcmImgLevel')
         imgLevel = dislayImgLevel(qcm.level, imgLevel)
@@ -179,7 +183,7 @@ function createElementSimple(elementName,className, textContent = null){
     let createdElement = document.createElement(elementName)
     createdElement.classList.add(className)
     if (textContent !== null){
-        createdElement.innerHTML = textContent
+        createdElement.innerText = textContent
     }
     return createdElement
 }
@@ -254,10 +258,16 @@ function positionLabelInput(parent){
 }
 
 function showStudentByModules(e){
+
+    spinner2.classList.add("show");
+    setTimeout(() => {
+        spinner2.classList.remove("show");
+    }, 5000);
+
     studentsDiv.style.display = 'block'
     if (moduleId !== e.target.value){
         qcmsDiv.style.display = 'none';
-        ulListStudents.innerHTML = ""
+        ulListStudents.innerText = ""
         moduleId = e.target.value
         getStudentsByModuleFromAjax(sessionId, moduleId)
     }
@@ -266,6 +276,18 @@ function showStudentByModules(e){
 function showModulesBySessions(){
     nameSession.forEach( input => {
         input.addEventListener('click', (e)=>{
+
+            spinner = document.createElement('div')
+            spinner.id = 'spinner';
+
+            let liSession = e.target.parentNode
+            liSession.insertBefore(spinner, e.target)
+
+            spinner.classList.add("show");
+            setTimeout(() => {
+                spinner.classList.remove("show");
+            }, 5000);
+
             if (sessionId !== e.target.value){
                 sessionId = e.target.value
                 getModuleBySessionFromAjax(sessionId)
@@ -279,7 +301,7 @@ function displayContact(){
         input.addEventListener('click', (e)=>{
             if (qcmsDiv.style.display === 'block'){
                 qcmsDiv.style.display = "none"
-                ulListQcms.innerHTML = ""
+                ulListQcms.innerText = ""
             }
             pNoStudents.style.display = "none"
 
@@ -325,7 +347,7 @@ const mouseEnter = (e) =>{
     pInfo.style.position = 'absolute'
     pInfo.setAttribute('id', 'infoHover')
     pInfo.classList.add('imgHover')
-    pInfo.innerHTML = e.target.dataset.level
+    pInfo.innerText = e.target.dataset.level
     e.target.parentNode.append(pInfo)
     console.log(e)
     console.log(e.pageX)
@@ -357,6 +379,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     qcmsDiv = document.querySelector('.qcms')
     selectModule = document.getElementById('module-choice')
     ulListStudents = document.querySelector('.ulListStudents')
+    spinner2 = document.querySelector('#spinner2')
 
     pNoStudents = document.createElement('p')
 

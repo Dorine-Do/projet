@@ -34,21 +34,21 @@
                         <tr>
                             <td>{{ qcm.title }}{{dump(qcm.author.roles)}}</td>
                             <td>{{ qcm.author.firstname }} {{ qcm.author.lastname }}</td>
-                            {% if qcm.difficulty == 1 %}
+                            {% if qcm.difficulty is same as 1 %}
                             <td>Facile</td>
-                            {% elseif qcm.difficulty == 2 %}
+                            {% elseif qcm.difficulty is same as 2 %}
                             <td>Moyen</td>
-                            {% elseif qcm.difficulty == 3 %}
+                            {% elseif qcm.difficulty is same as 3 %}
                             <td>Difficile</td>
                             {% endif %}
                             <td>{{ qcm.createdAt | date('d/m/Y') }}</td>
-                            {% if qcm.isOfficial == 0 and qcm.isEnabled == 1 and "ROLE_STUDENT" in qcm.author.roles %}
+                            {% if qcm.isOfficial is same as 0 and qcm.isEnabled is same as 1 and "ROLE_STUDENT" in qcm.author.roles %}
                                 <td>{{ 'qcm.trainning'|trans }}</td>
-                            {% elseif qcm.isOfficial == 1 and qcm.isEnabled == 1 and qcm.isPublic == 1  %}
+                            {% elseif qcm.isOfficial is same as 1 and qcm.isEnabled is same as 1 and qcm.isPublic is same as 1  %}
                                 <td>{{ 'qcm.official'|trans }}</td>
-                            {% elseif qcm.isOfficial == 0 and qcm.isEnabled == 1 %}
+                            {% elseif qcm.isOfficial is same as 0 and qcm.isEnabled =is same as1 %}
                                 <td>{{ 'qcm.inter'|trans }}</td>
-                            {% elseif qcm.isEnabled == 0 %}
+                            {% elseif qcm.isEnabled is same as 0 %}
                                 <td>{{ 'qcm.unactivated'|trans }}</td>
                             {% else %}
                                 <td>{{ 'qcm.errorType'|trans }}</td>

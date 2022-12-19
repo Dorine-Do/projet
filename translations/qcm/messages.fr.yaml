@@ -28,6 +28,18 @@ qcm:
   chooseQcmModuleLevel: Choix du QCM par module et par niveau
   chooseStudentsQcm: Choix du ou des élèves pouvant faire le QCM
   qcmToDo: QCM à faire
+  forTraining: QCM d'entraînement
+  question1 : Quels sont tes ressentis par rapport aux questions posées?
+  question2 : Quels sont selon toi les questions qui t’ont posé problèmes et celles où tu as plutôt bien réussi?
+  question3 : Tu pourras retrouver cet avis à la fin du corrigé de ce qcm.
+  createExplanation : Chaque difficulté a un poids
+  legendEasy : Facile = 1
+  legendMedium : Moyen = 2
+  legendHard : Difficile = 3
+  createExemple : Prenons l'exemple suivant
+  createExempleContent : 7 questions faciles, 5 questions moyennes, 4 questions  difficiles
+  createCalcul : 'Calculs : <strong>Facile</strong> = (7*1 = 7) | <strong>Moyen</strong> = (5*2 = 10) | <strong>Difficile</strong> = (4*3 = 12)'
+  createExempleResult : Le niveau du QCM sera <strong>difficile</strong>
 
 
 difficulty:
@@ -142,7 +154,6 @@ button:
   validQcm: Valider le QCM tel quel
   sessionsManagement: Gestion des sessions
   todo: Faire le QCM
-  trainningQcm: QCM d'entraînement
 
 
 header:
@@ -162,7 +173,7 @@ title:
   myQcmExercice: Mes QCM d'exercice
   connexion: Connexion
   AdminDashboard: Admin dashboard
-  createCustomQcm: Créer un QCM personnalisé
+  createExerciceQcm: Créer un QCM d'exercice
   iCreateQcm: Je génère un QCM officiel
   generateQcmOfficial: Générer un qcm officiel
   myComment: Mon commentaire
@@ -182,7 +193,7 @@ title:
   validate: Valider
   qcmChoosed: QCM choisi
   qcmPersonalized: Personnaliser son QCM
-  levelByQuestionDifficulty: Le niveau est déterminé automatiquement par la difficulté des questions
+  levelByQuestionDifficulty: Le niveau est déterminé automatiquement avec la pondération de la difficulté des questions
   qcmPersonalizedTitle: Donner un titre au QCM personnalisé
   qcmUseByOtherTeacher: Ce QCM pourra-t-il être utilisé par d'autres formateurs?
   qcmPlan: QCM distribués
@@ -266,26 +277,25 @@ title:
   oups: Oups
   bravo: Bravo !
   reminder: Petit rappel
-  reminderText: Les qcms sélectionnés  ont tous un niveau de difficulté allant de facile , moyen ou difficile déterminés par le niveau de difficulté des questions.
+  reminderText: Les qcms sélectionnés  ont tous un niveau de difficulté allant de facile , moyen ou difficile déterminé par la quantité de questions de chaque niveau de difficulté.
   reminderText2: A noter que, cela est également valable  après personnalisation.
   modifyQcm: Modifier un QCM
-  rule: 1/ Lors de la modification(personnalisation) d'un qcm, il est possible de
-  ruleExplaination: retirer ou d'ajouter une ou plusieurs questions
+  ruleExplaination: Lors de la modification (personnalisation) d'un qcm, il est possible de retirer ou d'ajouter une ou plusieurs questions
   qcmLvl: Niveau du QCM
-  minimumQuestionX: Minimum X question
   sessionsManagement: Gestion des sessions
   retriedQcm: QCM refaits
   filterByDate: Filtrer par date
   mostRecent: Plus récent
-  lessRecent: moins récent
+  lessRecent: Moins récent
   questionsManagement: Gestion des questions
+  example: Exemple
 
 
-  general:
-    studentInterface: Mon interface apprenant
-    chooseQcm: Choix du QCM par module et par niveau
-    clickFrameToCloseTab: Clique sur le cadre pour fermer l'onglet
-    espaceQcm: Mon espace QCM
-    bravo: Bravo !
-    oups: Oups
-    bug: Bug ?
+general:
+  studentInterface: Mon interface apprenant
+  chooseQcm: Choix du QCM par module et par niveau
+  clickFrameToCloseTab: Clique sur le cadre pour fermer l'onglet
+  espaceQcm: Mon espace QCM
+  bravo: Bravo !
+  oups: Oups
+  bug: Bug ?

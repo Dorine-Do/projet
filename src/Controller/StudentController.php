@@ -11,7 +11,9 @@ use App\Entity\Main\QcmInstance;
 use App\Entity\Main\Result;
 use App\Entity\Main\User;
 use App\Helpers\QcmGeneratorHelper;
+use App\Helpers\QcmResultHelper;
 use App\Repository\LinkInstructorSessionModuleRepository;
+use App\Repository\LinkSessionModuleRepository;
 use App\Repository\LinkSessionStudentRepository;
 use App\Repository\ModuleRepository;
 use App\Repository\ProposalRepository;
@@ -45,29 +47,34 @@ class StudentController extends AbstractController
     #[Route('/student/qcms', name: 'student_qcms', methods: ['GET'])]
     public function manageQcms(
         LinkSessionStudentRepository $linkSessionStudentRepo,
-        LinkInstructorSessionModuleRepository $linkSessionModuleRepo,
         ModuleRepository $moduleRepo,
+        QcmInstanceRepository $qcmInstanceRepository,
+        LinkSessionModuleRepository $linkSessionModuleRepository
     ): Response
     {
-
         $student = $this->studentRepo->find($this->security->getUser()->getId());
 
-        $allAvailableQcmInstances = $student->getQcmInstances();
+        $allAvailableQcmInstances = $qcmInstanceRepository->findBy(['student'=>$student]);
+
+        $officialQcmOfTheWeek = null;
+        $unofficialQcmNotDone = null;
 
         if($allAvailableQcmInstances){
             /********************************************************************************************************/
 
-            $officialQcmOfTheWeek = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ){
+            $officialQcmOfTheWeek = array_filter($allAvailableQcmInstances, function( QcmInstance $qcmInstance ){
+
                 return
-                    $qcmInstance->getQcm()->getIsOfficial() == true
-                    && $qcmInstance->getStartTime() < new \DateTime()
-                    && $qcmInstance->getEndTime() > new \DateTime()
-                    && $qcmInstance->getQcm()->getIsEnabled() == true
+                    $qcmInstance->getQcm()->getIsOfficial() === true
+                    && $qcmInstance->getStartTime() <= new \DateTime()
+                    && $qcmInstance->getEndTime() >= new \DateTime()
+                    && $qcmInstance->getQcm()->getIsEnabled() === true
                     && $qcmInstance->getResult() === null;
             });
+
             /********************************************************************************************************/
 
-            $unofficialQcmNotDone = $allAvailableQcmInstances->filter(function( QcmInstance $qcmInstance ) use ($student){
+            $unofficialQcmNotDone = array_filter($allAvailableQcmInstances, function( QcmInstance $qcmInstance ) use ($student){
                 return
                     $qcmInstance->getQcm()->getIsOfficial() === false
                     && $qcmInstance->getStartTime() < new \DateTime()
@@ -81,11 +88,12 @@ class StudentController extends AbstractController
         /********************************************************************************************************/
 
         $studentSession = $linkSessionStudentRepo->findOneBy([ 'student' => $student->getId(), 'isEnabled'=> 1] )->getSession();
-        $sessionModules = $linkSessionModuleRepo->findBy([ 'session' => $studentSession->getId() ]);
+        $sessionModules = $linkSessionModuleRepository->findBy([ 'session' => $studentSession ]);
         foreach ( $sessionModules as $key => $sessionModule )
         {
             $sessionModules[$key] = $sessionModule->getModule();
         }
+
         /********************************************************************************************************/
 
         $retryableModules = $moduleRepo->getRetryableModules( $student->getId() );
@@ -114,9 +122,7 @@ class StudentController extends AbstractController
     {
         $student = $this->studentRepo->find($this->security->getUser()->getId());
 
-        $studentQcmInstances = $qcmInstanceRepository->getQcmInstancesByStudent($this->security->getUser()->getId());
-        /*TODO Code fonctionnel normalement, a été remplacer par la ligne de haut dessus temporairement */
-//        $studentQcmInstances = $student->getQcmInstances();
+        $studentQcmInstances = $qcmInstanceRepository->findBy(['student'=>$student]);
 
         $studentResults = [];
         foreach ($studentQcmInstances as $studentQcmInstance){
@@ -215,123 +221,12 @@ class StudentController extends AbstractController
         $questionsCache = $qcm->getQuestionsCache();
 
         $resultRequest = $request->query->all();
-        $countIsCorrectAnswer = 0;
 
         if( count($resultRequest) !== 0 )
         {
-            foreach ( $questionsCache as $questionCacheKey => $questionCache )
-            {
-                foreach ( $resultRequest as $studentAnswerKey => $studentAnswerValue )
-                {
-                    if( $questionsCache[$questionCacheKey]['id'] == $studentAnswerKey )
-                    {
-                        // Radio
-                        if ( !$questionsCache[$questionCacheKey]['isMultiple'] )
-                        {
-                            $radioIsCorrect = 0;
-                            $studentAnswerValue = intval($studentAnswerValue);
-                            foreach ($questionsCache[$questionCacheKey]['proposals'] as $proposalKey => $proposal)
-                            {
-                                //Si case cochée par l'etudiant et bonne réponse
-                                if(
-                                    $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isCorrectAnswer']
-                                    &&
-                                    $studentAnswerValue === $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id']
-                                )
-                                {
-                                    $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 1;
-                                    $radioIsCorrect ++ ;
-                                }
-                                // Si case cochée par l'etudiant
-                                elseif(
-                                    !$questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isCorrectAnswer']
-                                    &&
-                                    $studentAnswerValue === $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id']
-                                )
-                                {
-                                    $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 1;
-                                }
-                                // Si pas case cochée par l'etudiant
-                                else
-                                {
-                                    $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isStudentAnswer'] = 0;
-                                }
-                            }
-                            // Si l'étudiant a répondu juste
-                            if ($radioIsCorrect !== 0)
-                            {
-                                $countIsCorrectAnswer++;
-                                $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
-                            }
-                            else
-                            {
-                                $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
-                            }
-                        } // CheckBox
-                        else
-                        {
-                            $dbAnswersCheck = [
-                                'good' => [],
-                                'bad' => []
-                            ];
-                            foreach( $questionsCache[$questionCacheKey]['proposals'] as $proposalKey => $proposal )
-                            {
-                                if( $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['isCorrectAnswer'] )
-                                {
-                                    $dbAnswersCheck['good'][] = $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id'];
-                                }
-                                else
-                                {
-                                    $dbAnswersCheck['bad'][] = $questionsCache[$questionCacheKey]['proposals'][$proposalKey]['id'];
-                                }
-                            }
-                            $goodAnswersCount = 0;
-                            $badAnswersCount = 0;
-                            foreach ($studentAnswerValue as $studentAnswer)
-                            {
-                                if( in_array( $studentAnswer, $dbAnswersCheck['good'] ) )
-                                {
-                                    $goodAnswersCount++;
-
-                                }
-                                elseif( in_array($studentAnswer, $dbAnswersCheck['bad']) )
-                                {
-                                    $badAnswersCount++;
-
-                                }
-                                else{
-                                    $badAnswersCount++;
-
-                                }
-                            }
-
-                            // Pour savoir quelles réponses à coché l'étudiant
-                            foreach ($questionsCache[$questionCacheKey]['proposals'] as $answerDbKey => $answerDbValue)
-                            {
-                                if( in_array($answerDbValue['id'], $studentAnswerValue) )
-                                {
-                                    $questionsCache[$questionCacheKey]['proposals'][$answerDbKey]['isStudentAnswer'] = 1;
-                                }
-                                else
-                                {
-                                    $questionsCache[$questionCacheKey]['proposals'][$answerDbKey]['isStudentAnswer'] = 0;
-                                }
-                            }
-
-                            if( $goodAnswersCount === count($dbAnswersCheck['good']) && $badAnswersCount === 0 )
-                            {
-                                $countIsCorrectAnswer ++;
-                                $questionsCache[$questionCacheKey]['student_answer_correct'] = 1;
-                            }else{
-                                $questionsCache[$questionCacheKey]['student_answer_correct'] = 0;
-                            }
-                        }
-                    }
-                }
-            }
-
-            $nbQuestions = count($questionsCache);
-            $totalScore = (100/$nbQuestions)*$countIsCorrectAnswer;
+            $totalScoreAndCache = QcmResultHelper::calcQcmPonderatedScore( $qcm, $resultRequest );
+            $totalScore = $totalScoreAndCache['totalScore'];
+            $questionsCache = $totalScoreAndCache['questionsCache'];
 
             $result = new Result();
 
@@ -421,31 +316,36 @@ class StudentController extends AbstractController
         ]);
     }
 
-    #[Route('student/qcm/training', name: 'student_qcm_training', methods: ['GET']) ]
+    #[Route('student/qcm/training/{module}/{difficulty}', name: 'student_qcm_training', methods: ['GET']) ]
     public function qcmTraining(
-        Request $request,
-        ModuleRepository $moduleRepo,
         QuestionRepository $questionRepo,
         Security $security,
         EntityManagerInterface $manager,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        StudentRepository $studentRepo,
+        Module $module,
+        $difficulty = 2
     ): Response
     {
-        $module = $moduleRepo->find( $request->get('module') );
+        $difficulty = intval( $difficulty );
 
-        $difficulty = (int) $request->get('difficulty');
-
-        $student = $this->studentRepo->find($this->security->getUser()->getId());
+        $student = $studentRepo->find($this->security->getUser()->getId());
+        $author = $userRepository->find($this->security->getUser()->getId());
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $trainingQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository ,$difficulty, 'training');
+
+        if( gettype($trainingQcm) === 'array' && array_key_exists('errors', $trainingQcm ) )
+        {
+            return $this->json( $trainingQcm['errors'], 204 );
+        }
 
         $manager->persist( $trainingQcm );
         $manager->flush();
 
         $trainingQcmInstance = new QcmInstance();
         $trainingQcmInstance->setStudent( $student );
-        $trainingQcmInstance->setDistributedBy( $student );
+        $trainingQcmInstance->setDistributedBy( $author );
         $trainingQcmInstance->setQcm( $trainingQcm );
         $trainingQcmInstance->setStartTime( new \DateTime() );
         $endTime = new \DateTime();
@@ -456,9 +356,7 @@ class StudentController extends AbstractController
         $manager->persist( $trainingQcmInstance );
         $manager->flush();
 
-        return $this->redirectToRoute('student_qcm_to_do', [
-            'qcmInstance' => $trainingQcmInstance->getId()
-        ]);
+        return $this->json( ['qcmInstance' => $trainingQcmInstance->getId() ] );
     }
 
     #[Route('student/qcm/retry_for_badges/{module}', name: 'student_retry_for_badges', methods: ['GET'])]
@@ -475,6 +373,12 @@ class StudentController extends AbstractController
 
         $qcmGenerator = new QcmGeneratorHelper( $questionRepo, $security);
         $retryQcm = $qcmGenerator->generateRandomQcm( $module, $student, $userRepository, 2,'retryBadge' );
+
+        if( gettype($retryQcm) === 'array' && array_key_exists('errors', $retryQcm ) )
+        {
+            return $this->json( $retryQcm['errors'], 204 );
+        }
+
         $manager->persist( $retryQcm );
         $manager->flush();
 
@@ -491,10 +395,7 @@ class StudentController extends AbstractController
         $manager->persist( $qcmInstanceRetry );
         $manager->flush();
 
-        return $this->redirectToRoute('student_qcm_to_do', [
-            'qcmInstance'    => $qcmInstanceRetry->getId(),
-            'isForBadge'     => 1
-        ]);
+        return $this->json( [ 'qcmInstance' => $qcmInstanceRetry->getId() ] );
     }
 
     #[Route('student/qcm/retry_same_qcm/{qcm}', name: 'student_retry_same_qcm', methods: ['GET'])]
@@ -551,6 +452,7 @@ class StudentController extends AbstractController
 
             $qcmQuestions[] = [
                 'questionId'  => $dbAnswer['id'],
+                'difficulty' => $question->getDifficulty()->value,
                 'isMultiple'  => $question->getIsMultiple(),
                 'wording'     => $question->getWording(),
                 'answers'   => $proposals,
@@ -562,6 +464,7 @@ class StudentController extends AbstractController
         return $this->render('student/qcm_correction.html.twig', [
             'qcmQuestions' => $qcmQuestions,
             'nameQcmInstance' => $qcmInstance->getQcm()->getTitle(),
+            'distributedBy' => $qcmInstance->getDistributedBy()->getId(),
             'titleModule'=> $qcm->getModule()->getTitle(),
             'studentComment' => $result->getStudentComment(),
             'instructorComment' => $result->getInstructorComment(),

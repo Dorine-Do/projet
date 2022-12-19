@@ -1,4 +1,4 @@
-let sessionfields, moduleField, qcmField, studentsFields, startDateField, endDateField, qcmData, selectedSession, divDate, btnValid = null;
+let sessionfields, moduleField, qcmField, studentsFields, startDateField, endDateField, qcmData, selectedSession, divDate, btnValid, spinner = null;
 
 async function updateModulesFromAjax( session, field )
 {
@@ -23,7 +23,7 @@ async function updateQcmsFromAjax( module, field )
 
 function updateModuleSelect( field, fieldData )
 {
-    field.innerHTML = '';
+    field.innerText = '';
     fieldData.forEach( data => {
         let option = document.createElement('option');
         option.value = data.id;
@@ -31,6 +31,8 @@ function updateModuleSelect( field, fieldData )
         field.append(option);
     });
     updateQcmsFromAjax( fieldData[0].id, qcmField );
+
+    spinner.remove()
 
     document.getElementById('module-choice').scrollIntoView({
         behavior: 'smooth',
@@ -40,7 +42,7 @@ function updateModuleSelect( field, fieldData )
 
 function updateStudentOptions( field, fieldData )
 {
-    field.innerHTML = '';
+    field.innerText = '';
     fieldData.forEach( data => {
         let input = document.createElement('input');
         let label = document.createElement('label');
@@ -68,7 +70,7 @@ function updateStudentOptions( field, fieldData )
 
 function updateQcmSelect( field, fieldData )
 {
-    field.innerHTML = '';
+    field.innerText = '';
     fieldData.forEach( data => {
         let option = document.createElement('option');
         option.value = data.id;
@@ -87,7 +89,7 @@ function updateQcmSelect( field, fieldData )
 function buildMessageError(e,parent, message, id){
     e.preventDefault()
     let p = document.createElement('p')
-    p.innerHTML = message
+    p.innerText = message
     p.style.color = 'red'
     p.style.width = '100%'
     p.style.textAlign = 'center'
@@ -155,7 +157,19 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
     sessionfields.forEach( sessionField => {
-        sessionField.addEventListener('click', function(){
+        sessionField.addEventListener('click', function(e){
+
+            spinner = document.createElement('div')
+            spinner.id = 'spinner';
+
+            let liSession = e.target.parentNode
+            liSession.insertBefore(spinner, e.target)
+
+            spinner.classList.add("show");
+            setTimeout(() => {
+                spinner.classList.remove("show");
+            }, 5000);
+
             selectedSession = this.value;
             updateModulesFromAjax( selectedSession.toString(), moduleField );
             updateStudentsFromAjax( selectedSession.toString(), studentsFields );

@@ -4,7 +4,7 @@ function manageErrorChoice (element, color, choice){
         pError.remove()
     }
     let p = document.createElement('p')
-    p.innerHTML = `Sélectionne bien ton ${choice}`
+    p.innerText = `Sélectionne bien ton ${choice}`
     p.id = 'p-error'
     p.style.color = color
     p.style.padding = '.2em'
@@ -20,11 +20,28 @@ document.addEventListener('DOMContentLoaded', function(){
     validTrainingQcm.addEventListener('click', function(){
         let module = trainingChoicesContainer.querySelector('select')
         let moduleValue =  module.value;
-        let difficulty = trainingChoicesContainer.querySelector('input[name="Difficulty"]').value;
+        let difficulty = trainingChoicesContainer.querySelector('input[name="Difficulty"]:checked').value;
         if (moduleValue === ""){
             manageErrorChoice(module, '#ffac8f', 'module')
         }else{
-            window.location.href = "qcm/training?module="+moduleValue+"&difficulty="+difficulty;
+            fetch( "qcm/training/"+moduleValue+"/"+difficulty, {method: 'GET'} )
+                .then( response => response.json() )
+                .then( result => {
+                    let errorGeneratedQcm = document.querySelector('#errorGeneratedQcm')
+                    errorGeneratedQcm.style.color = 'red'
+                    if ( result['messages'] !== undefined )
+                    {
+                        errorGeneratedQcm.innerText = result.messages[0]
+                        errorGeneratedQcm.classList.remove('displayNone')
+                    }
+                    else
+                    {
+                        errorGeneratedQcm.innerText = ""
+                        errorGeneratedQcm.classList.add('displayNone')
+                        window.location.href = 'qcms/qcmToDo/'+ result.qcmInstance +'/'
+                    }
+                })
+
         }
     });
 
@@ -50,7 +67,23 @@ document.addEventListener('DOMContentLoaded', function(){
         if (moduleValue === ""){
             manageErrorChoice(validRetryForBadge, '#ffac8f', 'module')
         }else{
-            window.location.href = "qcm/retry_for_badges/"+moduleValue;
+            fetch("qcm/retry_for_badges/"+moduleValue, {method: 'GET'})
+                .then( response => response.json())
+                .then( result => {
+                    let errorGeneratedQcmBadges = document.querySelector('#errorGeneratedQcmBadges')
+                    errorGeneratedQcmBadges.style.color = 'red'
+                    if ( result['messages'] !== undefined )
+                    {
+                        errorGeneratedQcmBadges.innerText = result.messages[0]
+                        errorGeneratedQcmBadges.classList.remove('displayNone')
+                    }
+                    else
+                    {
+                        errorGeneratedQcmBadges.innerText = ""
+                        errorGeneratedQcmBadges.classList.add('displayNone')
+                        window.location.href = 'qcms/qcmToDo/'+ result.qcmInstance +'/'
+                    }
+                })
         }
     });
 });

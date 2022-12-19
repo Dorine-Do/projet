@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Numéro question
     let countNum = 1
     numeroForm.forEach(num => {
-        num.innerHTML = countNum
+        num.innerText = countNum
         countNum++
     })
 
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             let letter = alphabet.slice(begin, end);
             let p = document.createElement("p");
             p.className = "pLetter";
-            p.innerHTML = letter;
+            p.innerText = letter;
 
             if (divReponse.firstElementChild.dataset.correction){
                 p.style.backgroundColor = "green"
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             if (comment === ""){
                 pInfoComment.style.display = 'block'
-                pInfoComment.innerHTML = "Veuillez remplir le formulaire d'ajout de commentaire avant de le soumettre"
+                pInfoComment.innerText = "Veuillez remplir le formulaire d'ajout de commentaire avant de le soumettre"
                 pInfoComment.style.color = 'red'
             }else {
                 pInfoComment.style.display = 'none'
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 .then((response) => response.json())
                 .then((data) => {
                     pInfoComment.style.display = 'block'
-                    pInfoComment.innerHTML = data
+                    pInfoComment.innerText = data
                     pInfoComment.style.color = '#93ad6e'
                     input.value = comment
 

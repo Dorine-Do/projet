@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         pInfo.style.position = 'absolute'
         pInfo.setAttribute('id', 'infoHover')
         pInfo.classList.add('pInfo')
-        pInfo.innerHTML = e.target.dataset.level
+        pInfo.innerText = e.target.dataset.level
         e.target.parentNode.append(pInfo)
         pInfo.style.left = e.pageX + 'px';
         pInfo.style.top = e.pageY + 'px';

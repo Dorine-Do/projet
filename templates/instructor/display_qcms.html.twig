@@ -23,8 +23,8 @@
                 <ul class="listBtnQcm">
                     {% for qcm in qcms %}
                         {# data-parent voir css ::after #}
-                        <li class="liBtnQcm" data-id="{{qcm.id}}" data-questions-cache="{{qcm.questionsCache|json_encode}}" data-parent="{{ qcm.difficulty == 1 ? 'facile'}}{{ qcm.difficulty == 2 ? 'moyen'}}{{ qcm.difficulty == 3 ? 'difficile'}}" >
-                            {{qcm.title|raw }}
+                        <li class="liBtnQcm" data-id="{{qcm.id}}" data-questions-cache="{{qcm.questionsCache|json_encode}}" data-parent="{{ qcm.difficulty is same as 1 ? 'facile'}}{{ qcm.difficulty is same as 2 ? 'moyen'}}{{ qcm.difficulty is same as 3 ? 'difficile'}}" >
+                            {{qcm.title}}
                         </li>
 
                     {% endfor %}
@@ -35,14 +35,14 @@
             <div class="divQuestions">
                 <ul class="listQuestions"  data-qcms="{{ qcms|json_encode|e('html_attr')}}">
                     {% for qcm in qcms %}
-                        {% if qcm.id == qcms[0].id %}
+                        {% if qcm.id is same as qcms[0].id %}
 
                             {% for question in qcm.getQuestionsCache() %}
 
                                 <li data-qcm-id="{{ qcm.id}}" data-id='{{question.id}}'>
 
                                     <span class="qcmQuestionNumber"></span>
-                                    {{question.wording|raw }}
+                                    {{question.wording}}
 
                                 </li>
 

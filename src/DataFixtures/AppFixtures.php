@@ -70,10 +70,10 @@ class AppFixtures extends Fixture
     //    $this->generateStudents( $manager );
 
         //Question + Proposal
-    //    $this->generateQuestions( $manager );
+        $this->generateQuestions( $manager );
 
         //Qcm
-        $this->generateQcm( $manager );
+//        $this->generateQcm( $manager );
 
         // QcmInstances
 //        $this->generateQcmInstances( $manager );
@@ -199,11 +199,11 @@ class AppFixtures extends Fixture
 
     public function generateQuestions( $manager ) :void
     {
-        $dbModules  = $this->moduleRepository->findAll();
+        $dbModules = $this->moduleRepository->findAll();
         $dbInstructors = $this->instructorRepository->findAll();
         // 50 questions par module
         foreach ($dbModules as $dbModule){
-            for ($i=0; $i<50; $i++)
+            for ($i=0; $i<10; $i++)
             {
                 $question = new Question();
                 $question->setModule($dbModule);
@@ -211,9 +211,9 @@ class AppFixtures extends Fixture
                 $question->setAuthor( $dbInstructors[array_rand($dbInstructors)] );
                 $question->setIsEnabled( 1 );
                 $question->setIsMandatory(0);
-                $question->setIsOfficial(0);
+                $question->setIsOfficial(1);
                 $count = $this->generateProposals($manager, $question);
-                $question->setDifficulty($this->faker->numberBetween(1, 3));
+                $question->setDifficulty(3);
                 $question->setExplanation($this->faker->paragraph());
 
                 if($count > 1){

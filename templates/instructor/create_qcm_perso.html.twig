@@ -5,7 +5,7 @@
     <link href="{{asset('css/instructor/create_qcm_perso.css')}}" rel="stylesheet">
 {% endblock %}
 
-{% block title %} Créer un qcm d"exercice {% endblock %}
+{% block title %} {{ 'title.createExerciceQcm'|trans }} {% endblock %}
 
 {% block body %}
     {% set count = 0 %}
@@ -13,7 +13,7 @@
 
 
 
-    <h1>- {{ 'title.createCustomQcm'|trans }} -</h1>
+    <h1>- {{ 'title.createExerciceQcm'|trans }} -</h1>
 
     <section class="contentPartOne">
         <p><span class="step">{{ 'title.step1'|trans }}</span>{{ 'qcm.chooseQcmModuleLevel'|trans }}</p>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="choiceTypeOfQcm">
-                    <button id="generateQcmButton" class="button mediumButton">{{'button.generateQcmPersonalised'|trans}}</button>
+                    <button id="generateQcmButton" class="button mediumButton loading">{{'button.generateQcmPersonalised'|trans}} <span id="spinner"></span> </button>
                 </div>
             </div>
             <p id="generationError" class="pRandomFetch displayNone" ></p>
@@ -117,17 +117,17 @@
             <section class="dragAndDrop">
                 {#*************************************************************************************************#}
                 {#QCM CHOICED #}
-                <div class="qcmChoised">
-                    <div class="qcmChoisedSubDiv">
-                        <div class="blocQcmChoisedLevel">
-                            <div class="qcmChoisedLegend">
+                <div class="qcmChosen">
+                    <div class="qcmChosenSubDiv">
+                        <div class="blocQcmChosenLevel">
+                            <div class="qcmChosenLegend">
                                 {{'qcm.choiced'|trans}}
-                                <div class="qcmChoisedLevel" id="qcmChoisedLevel">
+                                <div class="qcmChosenLevel" id="qcmChosenLevel">
                                     Facile
                                 </div>
                             </div>
                         </div>
-                        <div class="qcmChoisedMain">
+                        <div class="qcmChosenMain">
                             <ul class="questionList" id="pickedQuestionsList">
 
                             </ul>
@@ -149,7 +149,7 @@
                 {#*************************************************************************************************#}
                 {#LIST OF QUESTION #}
                 <div class="listQuestionTypedDiv">
-                    <div class="btnChoiseQuestionType">
+                    <div class="btnChoiceQuestionType">
 
                         <button id="pickableOfficialQuestionsBnt" class="btnQuestionsActive, btnQuestions">{{'button.officialQuestions'|trans}} </button>
 
@@ -158,7 +158,7 @@
                     </div>
                     {#*************************************************************************************************#}
                     {#OFFICIAL #}
-                    <div class="questionsOfficial">
+                    <div class="questionsOfficial questionListPickable">
                         <ul class="questionList" id="pickableOfficialQuestionsList">
 
 
@@ -166,7 +166,7 @@
                     </div>
                     {#*************************************************************************************************#}
                     {#CUSTOM #}
-                    <div class="questionsCustom displayNone">
+                    <div class="questionsCustom questionListPickable displayNone">
                         <ul class="questionList" id="pickableCustomQuestionsList">
 
                         </ul>
@@ -179,27 +179,26 @@
                     </div>
                 </div>
             </section>
-
-            <p class="pStepFour"><span class="step">{{ 'title.step4'|trans }}</span> {{ 'title.qcmPersonalizedTitle'|trans }}</p>
-            <div class="blocBeforeValidation">
-                    {#*************************************************************************************************#}
-                    {#NAME#}
-                 <div class="qcmName">
-                       <input id="choosenQcmName" type="text" placeholder="Veuillez indiquer un nom pour le qcm" class="qcmNameInput">
-                        <p id="errorMessageChoseNameQcm"></p>
-                 </div>
-
-                 <div class="isPublic">
-                     <label for=""> {{ 'title.qcmUseByOtherTeacher'|trans }} </label>
-                     <input type="checkbox"  id="isPublicInput" >
-                 </div>
-            </div>
-            <div id="validationCreationQcmBnt" class="qcmValidation">
-                <button>{{ 'button.validPersonalizedQcm'|trans }}</button>
-            </div>
-
-            {# {% endif %} #}
         </main>
+    </section>
+    <section id="finalStep" class="displayNone">
+        <p class="pStepFour"><span class="step">{{ 'title.step4'|trans }}</span> {{ 'title.qcmPersonalizedTitle'|trans }}</p>
+        <div class="blocBeforeValidation">
+                {#*************************************************************************************************#}
+                {#NAME#}
+             <div class="qcmName">
+                   <input id="chosenQcmName" type="text" placeholder="Veuillez indiquer un nom pour le qcm" class="qcmNameInput">
+                    <p id="errorMessageChoseNameQcm"></p>
+             </div>
+
+             <div class="isPublic">
+                 <label for=""> {{ 'title.qcmUseByOtherTeacher'|trans }} </label>
+                 <input type="checkbox"  id="isPublicInput" >
+             </div>
+        </div>
+        <div id="validationCreationQcmBnt" class="qcmValidation">
+            <button class="loading">{{ 'button.validPersonalizedQcm'|trans }} <span id="spinner2"></span> </button>
+        </div>
     </section>
 
 {#    ********************************************************************************************************************#}
@@ -218,25 +217,41 @@
                         {{ 'title.reminderText2'|trans }}
                     </p>
                     <p class="rules">
-                        {{ 'title.rule'|trans }}<br/>
                         {{ 'title.ruleExplaination'|trans }}
                     <p>
                 </div>
             </div>
             <div>
-                <p class="pTitle">- {{ 'title.qcmLvl'|trans }} -</p>
-                <table class="modalDifficultyLevel">
-                    <tr>
-                        <td><div>{{ 'difficulty.easy'|trans }}</div></td>
-                        <td><div>{{ 'difficulty.medium'|trans }}</div></td>
-                        <td><div>{{ 'difficulty.difficult'|trans }}</div></td>
-                    </tr>
-                    <tr>
-                        <td>{{ 'title.minimumQuestionX'|trans }}</td>
-                        <td>{{ 'title.minimumQuestionX'|trans }}</td>
-                        <td>{{ 'title.minimumQuestionX'|trans }}</td>
-                    </tr>
-                </table>
+                <p class="pTitle">- {{ 'title.example'|trans }} -</p>
+
+                <div class="explainPopup">
+                    <div class="explainDifficulty">
+                        <h3>{{ 'qcm.createExplanation'|trans }}</h3>
+                        <p>
+                            {{ 'qcm.legendEasy'|trans }}
+                        </p>
+                        <p>
+                            {{ 'qcm.legendMedium'|trans }}
+                        </p>
+                        <p>
+                            {{ 'qcm.legendHard'|trans }}
+                        </p>
+                    </div>
+                    <div>
+                        <h3>{{ 'qcm.createExemple'|trans }}</h3>
+                        <p>
+                            {{ 'qcm.createExempleContent'|trans }}
+                        </p>
+                    </div>
+
+                    <p>
+                        {{ 'qcm.createCalcul'|trans }}
+                    </p>
+                    <p>
+                        {{ 'qcm.createExempleResult'|trans }}
+                    </p>
+                </div>
+
             </div>
         </div>
     </div>

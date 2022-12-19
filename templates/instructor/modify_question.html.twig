@@ -82,7 +82,7 @@
                                     <div class="divProposal">
                                         {{form_row(proposal.wording,{'disabled' : true})}}{{form_row(proposal.is_correct_answer,{'disabled' : true})}}
                                     </div>
-                                    {% if distribute == null %}
+                                    {% if distribute is same as null %}
                                         <button type="button" class="removeProposal button greyButton" >{{ 'button.delete'|trans }}</button>
                                     {% endif %}
                                 </li>
@@ -131,7 +131,7 @@
 {#    ******************************************************************************************/#}
 
     {#    Info question#}
-    {% if distribute == null %}
+    {% if distribute is same as null %}
 
         <div class="infoQuestion">
            <div class="info">

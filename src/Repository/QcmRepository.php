@@ -161,7 +161,7 @@ class QcmRepository extends ServiceEntityRepository
     public function getQcmsByStudentAndModule($moduleId, $studentId): array
     {
         return $this->createQueryBuilder('q')
-        ->select('qi.id, r.level, m.title, q.difficulty, q.isOfficial, r.submittedAt, r.id as resultId')
+        ->select('qi.id, r.level, m.title, q.difficulty, q.isOfficial, r.submittedAt, r.id as resultId, IDENTITY(q.author) as author')
         ->innerJoin('q.qcmInstances', 'qi')
         ->innerJoin('qi.student', 's')
         ->innerJoin('qi.result', 'r')

@@ -26,7 +26,7 @@ function showMessage( message, msgType ) {
     bugReportMessage.style.display = 'block';
     setTimeout( function(){
         bugReportMessage.style.display = 'none';
-        bugReportMessage.innerHTML = '';
+        bugReportMessage.innerText = '';
         bugReportMessage.classList.remove(...bugReportMessage.classList);
     }, 3000 );
 }
