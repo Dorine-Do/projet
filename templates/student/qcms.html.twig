@@ -15,16 +15,16 @@
             <section>
                 <div class="divQcm">
                     <h2><img class="badge" src="{{asset('build/images/officiel.png')}}">{{ 'qcm.qcmToDo'|trans }}</h2>
+                    {% for qcm in qcmOfTheWeek %}
                     <div class="inter">
                         <p>
                             <strong>{{ 'qcm.name'|trans }} : </strong>
-                            {% for qcm in qcmOfTheWeek %} {{qcm.qcm.title}} {% endfor %}
+                            {{qcm.qcm.title}}
                         </p>
-                        {% for qcm in qcmOfTheWeek %}
-                            <a class="button" href="{{ path('student_qcm_to_do', { qcmInstance: qcm.id }) }}">{{ 'qcm.do'|trans }}</a>
-                        {% endfor %}
-
+                        <a class="button" href="{{ path('student_qcm_to_do', { qcmInstance: qcm.id }) }}">{{ 'qcm.do'|trans }}</a>
                     </div>
+                    {% endfor %}
+
                 </div>
                 <div class="divQcm">
                     <h2><img class="badge" src="{{asset('build/images/non-officiel.png')}}">{{ 'qcm.inter'|trans }}</h2>
@@ -101,7 +101,7 @@
                         </select>
                     </div>
                     <button class="buttonBadge">{{ 'button.tryAgain'|trans }}</button>
-                    <p class="displayNone" id="errorGeneratedQcmBadge" ></p>
+                    <p class="displayNone" id="errorGeneratedQcmBadges" ></p>
 
                 </div>
             </section>
