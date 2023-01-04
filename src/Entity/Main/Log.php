@@ -18,13 +18,13 @@ class Log
     private $log;
 
     #[ORM\Column(type: 'smallint')]
-    private $level;
+    private $level; // info, warning ou error
 
     #[ORM\Column(type: 'string', length: 150)]
-    private $path;
+    private $path; // url
 
     #[ORM\Column(type: 'string', length: 150)]
-    private $latency;
+    private $latency; // délai en ms entre la requete et l'inscription du log
 
     #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private $created_at;
