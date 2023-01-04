@@ -62,14 +62,15 @@ class StudentController extends AbstractController
         if($allAvailableQcmInstances){
             /********************************************************************************************************/
 
-            $officialQcmOfTheWeek = array_filter($allAvailableQcmInstances, function( QcmInstance $qcmInstance ){
-
+            $officialQcmOfTheWeek = array_filter($allAvailableQcmInstances, function( QcmInstance $qcmInstance ) use ($student)
+            {
                 return
                     $qcmInstance->getQcm()->getIsOfficial() === true
                     && $qcmInstance->getStartTime() <= new \DateTime()
                     && $qcmInstance->getEndTime() >= new \DateTime()
                     && $qcmInstance->getQcm()->getIsEnabled() === true
-                    && $qcmInstance->getResult() === null;
+                    && $qcmInstance->getResult() === null
+                    && $qcmInstance->getQcm()->getAuthor() !== $student;
             });
 
             /********************************************************************************************************/
@@ -178,10 +179,6 @@ class StudentController extends AbstractController
             {
                 $type = 'trainning';
             }
-            else{
-                dd($qcmInstance);
-            }
-
 
 
             $qcmsDone[] = [

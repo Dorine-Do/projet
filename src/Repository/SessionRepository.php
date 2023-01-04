@@ -85,6 +85,28 @@ class SessionRepository extends ServiceEntityRepository
         return $resultSet->fetchAllAssociative();
     }
 
+    public function getInstructorSessionsAndModules($id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT DISTINCT session.id as sessionId, session.name as sessionName, module.title as moduleName, module.id as moduleId
+            FROM link_instructor_session_module 
+            JOIN session ON link_instructor_session_module.session_id = session.id 
+            JOIN link_session_module ON link_session_module.session_id = session.id
+            JOIN module ON link_session_module.module_id = module.id 
+           WHERE link_instructor_session_module.instructor_id = ?
+             AND link_session_module.start_date <= NOW() 
+             AND link_session_module.end_date >= NOW()
+        ';
+
+        $stmt = $conn->prepare($sql);
+
+        $resultSet = $stmt->executeQuery([$id]);
+
+        return $resultSet->fetchAllAssociative();
+    }
+
     public function findSessionByString($str)
     {
         return $this->createQueryBuilder('s')

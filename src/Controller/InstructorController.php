@@ -506,13 +506,14 @@ class InstructorController extends AbstractController
     {
 
         $dayOfWeekEnd = array("Saturday", "Sunday");
-        $sessionAndModuleByInstructor = $instructorRepository->find($this->security->getUser()->getId())->getLinksInstructorSessionModule();
+        $activeSessionsByInstructor = $sessionRepository->getInstructorSessionsAndModules($this->security->getUser()->getId());
+
         $sessions = [];
         $modules = [];
-        foreach ($sessionAndModuleByInstructor as $sessionAndModule)
+        foreach ($activeSessionsByInstructor as $sessionAndModule)
         {
-            $sessions[] = $sessionAndModule->getSession()->getId();
-            $modules[] = $sessionAndModule->getModule()->getId();
+            $sessions[] = $sessionAndModule['sessionId'];
+            $modules[] = $sessionAndModule['moduleId'];
         }
         $sessions = array_unique($sessions);
         $modules = array_unique($modules);
