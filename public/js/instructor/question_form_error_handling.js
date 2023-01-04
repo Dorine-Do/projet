@@ -41,7 +41,7 @@ function checkCreateQuestionForm(e)
         {
             proposalWordingInput = proposalsWordingInputs[i];
             let proposalContainer = parent.document.querySelectorAll( '#listProposal .liProposal' )[i];
-            if( proposalWordingInput.innerHTML === '<br>' )
+            if( proposalWordingInput.innerHTML === '<br>' && proposalWordingInput === null)
             {
                 createQuestionFormErrors.push({
                     errorMessage: 'L\'intitulé de la réponse ne peut pas être vide',
@@ -122,8 +122,13 @@ function checkCreateQuestionForm(e)
                 errorTxtElement.classList.add('errorMsg');
                 errorTxtElement.innerText = error.errorMessage;
                 error.errorParentContainer.prepend( errorTxtElement );
-
             });
+
+            let errorGlobalcontainer = document.createElement('p')
+            errorGlobalcontainer.innerText = "Une ou plusieurs erreurs sont survenues, elles sont sont visible en rouge dans le page."
+            errorGlobalcontainer.classList.add('errorMsg');
+            let validateForm = document.querySelector('#validateForm')
+            validateForm.append(errorGlobalcontainer)
         }
     }
     else
