@@ -78,15 +78,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
 //            // TODO delete in production -------------------------------------------------------------------------------
             $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
             if( $stringBeginning[0] === 'C:' ) {
-
-                $idUser = 181;
-
-                /********************************************
-                UPDATING DB FROM DBSUIVI
-                 *********************************************/
-                $this->dbUpdaterHelper->updateUserSession( $this->userRepo->find($idUser) );
-
-                return $this->userRepo->find($idUser);
+                return $this->userRepo->find(121);
             }
 //            // TODO end delete in production ---------------------------------------------------------------------------
 

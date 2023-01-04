@@ -66,6 +66,22 @@ select{
 .officiel{
     display: flex;
     margin: 50px auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.mOfficiel{
+    display: flex;
+    margin: 50px auto;
+}
+
+.qcmDone {
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin: 20px;
 }
 /***************************************** PARTIE AFFICHAGE QCM ******************************************/
 

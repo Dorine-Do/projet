@@ -178,10 +178,6 @@ class StudentController extends AbstractController
             {
                 $type = 'trainning';
             }
-            else{
-                dd($qcmInstance);
-            }
-
 
 
             $qcmsDone[] = [
