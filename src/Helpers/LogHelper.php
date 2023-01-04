@@ -5,7 +5,7 @@ namespace App\Helpers;
 use App\Repository\LogRepository;
 use App\Entity\Main\Log;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Extension\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request;
 
 class LogHelper
 {
