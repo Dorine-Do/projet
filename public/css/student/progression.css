@@ -162,7 +162,6 @@
 /*******************************BADGES***********************/
 
 .badges{
-    width: 8%;
     height: 134px;
     margin: 0 10px;
 }
@@ -176,10 +175,21 @@
     margin-bottom: 40px;
 }
 
+.containerBadge{
+    text-align: center;
+}
+
+.keyBadge{
+    font-weight: bold;
+    margin: 0;
+}
+
 .splitBadges{
     background-color: white;
     display: flex;
     padding: 1em;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .certif{
@@ -196,14 +206,12 @@
 
 @media screen and (max-width: 1200px) {
     .badges{
-        width: 18%;
         margin: 0 5px;
     }
 }
 
 @media screen and (max-width: 780px) {
     .badges{
-        width: 79%;
         margin: 0 5px;
     }
 
@@ -300,8 +308,7 @@
     }
 
     .badges{
-        width: 95%;
-        height: 200px;
+        height: 148px;
         margin: 0 5px;
     }
 

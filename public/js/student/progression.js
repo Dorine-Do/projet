@@ -23,7 +23,7 @@ function lineXManagment(){
     lineX.style.width = diffLeft - 20 + 'em'
 }
 
-function resizeSup420(){
+function resizeSup420(resize = false){
 
     // timeline
     timeLine.style.flexDirection = 'row'
@@ -73,9 +73,12 @@ function resizeSup420(){
         }
     }
 
-    // timeline
-    diffLeft = leftLastElement - leftFirstElement
-    timeLine.style.width = diffLeft - 10 + 'em'
+    if (resize === false)
+    {
+        // timeline
+        diffLeft = leftLastElement - leftFirstElement
+        timeLine.style.width = diffLeft - 10 + 'em'
+    }
 
     // lineX et lineY
     lineXManagment()
@@ -150,8 +153,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
     window.addEventListener('resize', function(e) {
         timeLine = document.querySelector('.timeLine')
         if (window.innerWidth > 450){
+            resizeSup420(true)
+        }
+        else if (window.innerWidth === 450)
+        {
             resizeSup420()
-        }else if(window.innerWidth <= 450){
+        }
+        else if(window.innerWidth < 450){
             resize420()
         }
     }, true);

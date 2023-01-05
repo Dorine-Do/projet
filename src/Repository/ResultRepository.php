@@ -145,7 +145,7 @@ class ResultRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Module[] Returns an array of Student objects
+     * @return Result[] Returns an array of Student objects
      */
     public function isOfficialQcmLevel($idStudent,$idSession): array
     {
