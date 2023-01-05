@@ -157,10 +157,10 @@ function fillGeneratedQcmResumeBlock( questions )
         li.classList.add('questionLi');
         li.innerHTML = `
             <div class="questionWordingDiv">
-                <p class="questionWordingP">
+                <div class="questionWordingP">
                     <span class="numeroForm"> ${i + 1}</span>
                     ${question.question.wording}
-                </p>
+                </div>
             </div>
             <div class="proposalWordingDiv"></div>
         `;
@@ -257,6 +257,7 @@ function createQuestionLi( sourceQuestion, questionIndex, elementsList, isOffici
     li.classList.add('qcmLi');
     li.dataset.questionid = question.id;
     li.dataset.isofficial = isOfficial
+    console.log(question.wording)
     li.innerHTML = `
         <div class="qcmLiDiv">
             <div class="questionWordingDiv">
@@ -268,11 +269,11 @@ function createQuestionLi( sourceQuestion, questionIndex, elementsList, isOffici
                         class="imgTrefle"
                     >
                 </p>
-                <p class="questionWordingP" 
+                <div class="questionWordingP" 
                     data-questionid="${ question.id }" 
                     data-isofficial="${isOfficial}">
                     ${question.wording}
-                </p>                
+                </div>                
                 <p class="qcmChevronBasP">
                     <img src="/build/images/chevron_bas.de9c9a9d.png" alt="Chevron ouvrant" class="qcmChevronBasImg chevron">
                 </p>
