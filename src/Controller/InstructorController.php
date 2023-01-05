@@ -87,7 +87,8 @@ class InstructorController extends AbstractController
             {
                 $questions[$key]['proposals'][] = [
                     'id' => $proposal->getId(),
-                    'wording' => $proposal->getWording()
+                    'wording' => $proposal->getWording(),
+                    'isCorrectAnswer' => $proposal->getIsCorrectAnswer()
                 ];
             }
         }
