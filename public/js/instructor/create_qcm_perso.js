@@ -168,9 +168,10 @@ function fillGeneratedQcmResumeBlock( questions )
         let proposalsList = questionsList.querySelectorAll('.proposalWordingDiv')[i];
         question.proposals.forEach( ( proposal, index ) => {
             let p = document.createElement('p');
+            let pillClass = proposal.isCorrectAnswer ? 'greenCircle' : 'greyCircle';
             p.classList.add('proposalWordingP');
             p.innerHTML = `
-                <span class="numeroProp">${letters[index]}</span>
+                <span class="numeroProp ${pillClass}">${letters[index]}</span>
                 ${proposal.wording}
             `;
             proposalsList.append(p);
@@ -283,10 +284,11 @@ function createQuestionLi( sourceQuestion, questionIndex, elementsList, isOffici
     let proposalsList = elementsList.querySelectorAll('.proposalWordingDiv')[questionIndex];
     proposals.forEach( (proposal, index) => {
         let div = document.createElement('div');
+        let pillClass = proposal.isCorrectAnswer ? 'greenCircle' : 'greyCircle';
         div.classList.add('proposalWordingP');
         div.dataset.proposalid = `${proposal.id}`
         div.innerHTML = `
-            <span class="numeroProp nPropPartTwo">${letters[index]}</span>
+            <span class="numeroProp nPropPartTwo ${pillClass}">${letters[index]}</span>
             ${proposal.wording}
         `;
         proposalsList.append(div);
