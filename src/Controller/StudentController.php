@@ -298,7 +298,19 @@ class StudentController extends AbstractController
                         $studentBadges = [];
                     }
 
-                    $studentBadges[] = strtoupper($moduleBaseName) . '.svg';
+                    $badgeDispo = scandir('build/images/badges', SCANDIR_SORT_DESCENDING);
+
+                    array_pop($badgeDispo);
+                    array_pop($badgeDispo);
+
+                    $pickableBadges = array_filter( $badgeDispo, function ($badge) use ($studentBadges) {
+                        $badgeTitle = explode('.', $badge)[0].'.png';
+                        return !in_array($badgeTitle, $studentBadges) ;
+                    } );
+                    $randomPickedBadge = $pickableBadges[array_rand($pickableBadges)];
+                    $randomPickedBadge = explode('.',$randomPickedBadge)[0].'.png';
+                    $studentBadges[$moduleBaseName] = $randomPickedBadge;
+
                     $student->setBadges($studentBadges);
                     $em->persist($student);
                     $em->flush();
@@ -561,7 +573,6 @@ class StudentController extends AbstractController
         $linkSessionStudent = $linkSessionStudentRepository->findBy(['student'=>$this->security->getUser()->getId(), 'isEnabled'=>1]);
 
         $isOfficialQcms = $resultRepository->isOfficialQcmLevel( $this->security->getUser()->getId(), $linkSessionStudent[0]->getSession()->getId() );
-
         $moduleGroups = [];
 
         foreach ($isOfficialQcms as $res)
