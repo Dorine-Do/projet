@@ -14,6 +14,7 @@ use App\Entity\Main\Session;
 use App\Entity\Main\Student;
 use App\Form\CreateQuestionType;
 use App\Form\QcmFormType;
+use App\Helpers\LogHelper;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\InstructorRepository;
 use App\Repository\LinkInstructorSessionModuleRepository;
@@ -274,6 +275,15 @@ class InstructorController extends AbstractController
             $questionEntity->setAuthor($user);
             $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
 
+            if ($form->get('is_enabled')->getViewData() !== null)
+            {
+                $questionEntity->setIsEnabled(0);
+            }
+            else
+            {
+                $questionEntity->setIsEnabled(1);
+            }
+
             //  validation et enregistrement des données du form dans la bdd
             $manager->persist($questionEntity);
 
@@ -485,6 +495,9 @@ class InstructorController extends AbstractController
         $entityManager->persist($qcm);
         $entityManager->flush();
 
+        $logger = new LogHelper($entityManager, $request);
+        $logger->saveLog("l'utilisateur ".$this->getUser()->getId()." a généré un qcm d'exercice", "info");
+
         /*redirection voir js*/
         $this->addFlash('success', 'Le qcm a bien été enregistré.');
         return $this->json("ok",200);
@@ -664,14 +677,14 @@ class InstructorController extends AbstractController
         return new JsonResponse();
     }
 
-        #[Route('instructor/qcm-planner/distribute', name: 'instructor_distribue_qcm')]
-        public function planQcmToStudents(
-            Request                $request,
-            QcmRepository          $qcmRepo,
-            StudentRepository      $studentRepo,
-            EntityManagerInterface $manager,
-            UserRepository         $userRepository
-        ): Response
+    #[Route('instructor/qcm-planner/distribute', name: 'instructor_distribue_qcm')]
+    public function planQcmToStudents(
+        Request                $request,
+        QcmRepository          $qcmRepo,
+        StudentRepository      $studentRepo,
+        EntityManagerInterface $manager,
+        UserRepository         $userRepository
+    ): Response
         {
             $qcm = $qcmRepo->find(intval($request->get('qcm')));
             $startTime = new \DateTime($request->get('start-time'));
