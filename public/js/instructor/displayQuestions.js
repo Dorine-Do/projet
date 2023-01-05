@@ -17,18 +17,6 @@ window.onload = function (event) {
             addFlashQuestionPerso.style.display = "none";
         });
     }
-    //////////////ESPACE AFTER BALISE PRE
-
-    let divsWordingQuestion = document.querySelectorAll('.divWordingQuestion')
-    divsWordingQuestion.forEach( (div) => {
-        console.log(div.lastElementChild)
-        if (div.lastElementChild !== null){
-            if (div.lastElementChild.firstElementChild === null){
-                div.lastElementChild.remove()
-            }
-        }
-
-    })
 
     //////////////PROPOSALS
     let divProposals = document.querySelectorAll(".divProposals");

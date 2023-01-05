@@ -220,7 +220,10 @@ pre::-webkit-scrollbar-thumb {
 
 .divWordingQuestion {
     font-weight: 600;
-    width: 87%;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .divWordingQuestion p{
@@ -228,13 +231,18 @@ pre::-webkit-scrollbar-thumb {
 }
 
 .divWordingQuestion pre{
-    width: 100%;
-    padding: 0;
+    width: 94%;
+    max-height: 15em;
+    padding: 0 1em;
 }
 
 pre{
     overflow: scroll;
     margin: 0;
+}
+
+pre + p {
+    margin: .5em 0 0 0;
 }
 
 pre code{

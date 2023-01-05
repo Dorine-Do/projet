@@ -62,7 +62,7 @@
                                     {% for proposal in question.proposals  %}
                                             <div class="divJs">
                                                 <p class="circle {% if proposal.isCorrectAnswer %}greenCircle{% else %}greyCircle{% endif %}"></p>
-                                                <p>{{ proposal.wording|raw }}</p>
+                                                {{ proposal.wording|raw }}
                                             </div>
                                     {% endfor %}
                                 </div>
