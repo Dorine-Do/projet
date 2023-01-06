@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let li = document.createElement("li");
 
     // Replace
-    li.innerText += form.replace(/__name__/g, indexData);
+    li.innerHTML += form.replace(/__name__/g, indexData);
     li.className = "liProposal";
 
     let checkbox = li.firstElementChild.lastElementChild.lastElementChild;
