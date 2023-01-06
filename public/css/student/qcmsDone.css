@@ -66,8 +66,6 @@ select{
 .officiel{
     display: flex;
     margin: 50px auto;
-    align-items: center;
-    justify-content: center;
 }
 
 .mOfficiel{
