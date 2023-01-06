@@ -114,6 +114,88 @@ header{
     margin: auto;
 }
 
+/************************************** FOOTER **********************************/
+
+#footer {
+    background-color: #454545;
+    color: white;
+    display: flex;
+    padding-left: 10%;
+    padding-top: 5%;
+}
+
+.footerContactAddress {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.ftitle {
+    display: flex;
+    margin: auto;
+}
+
+.contactBtn {
+    color: #EC510F;
+    border-color: #EC510F;
+    background-color: transparent;
+    display: inline-block;
+    cursor: pointer;
+    border: 2px solid #EC510F;
+    font-size: var(--font-s);
+    font-weight: bold;
+    line-height: 1.2;
+    width: 164px;
+    padding: 10px;
+    border-radius: 20px;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.numero {
+    font-weight: bold;
+    font-style: normal;
+    color: white;
+    font-size: 20px;
+}
+
+.localisationLogo {
+    height: 30px;
+    width: 30px;
+    padding-right: 5px;
+}
+
+.adress {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+}
+
+.telephone {
+    height: 30px;
+    width: 30px;
+    padding-right: 5px;
+}
+
+.align {
+    display: flex;
+}
+
+.siege {
+    font-size: 15px;
+    margin: 0;
+}
+
+.text  {
+    margin: 0;
+}
+
+.footerDivs {
+    display: flex;
+    justify-content: space-between
+}
+
 @media screen and (max-width: 1200px) {
 
     .part1{
