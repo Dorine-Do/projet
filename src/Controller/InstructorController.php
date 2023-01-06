@@ -330,7 +330,6 @@ class InstructorController extends AbstractController
         $question->setIsOfficial(0);
         $question->setIsEnabled(1);
 
-        //TODO a debug , proposal vide
         foreach ($data['proposals'] as $proposal)
         {
             $newProposal = new Proposal();
@@ -698,7 +697,6 @@ class InstructorController extends AbstractController
             foreach ($students as $student)
             {
                 $qcmInstance->setStudent($student);
-                /* TODO à voir si ça fonctionne */
                 $qcmInstance->setDistributedBy($userRepository->find($this->security->getUser()->getId()));
                 $qcmInstance->setQcm($qcm);
                 $qcmInstance->setStartTime($startTime);

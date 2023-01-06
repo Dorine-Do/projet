@@ -78,7 +78,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
 //            // TODO delete in production -------------------------------------------------------------------------------
             $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
             if( $stringBeginning[0] === 'C:' ) {
-                return $this->userRepo->find(121);
+                return $this->userRepo->find(1);
             }
 //            // TODO end delete in production ---------------------------------------------------------------------------
 
@@ -194,9 +194,8 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
-        // TODO Check this
         return new RedirectResponse(
-            '/connect/', // might be the site, where users choose their oauth provider
+            '/connect/',
             Response::HTTP_TEMPORARY_REDIRECT
         );
     }
