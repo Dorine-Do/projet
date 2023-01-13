@@ -50,6 +50,7 @@
                                             <img class="difficultyIcone" src="{{ asset('build/images/trefle_difficile_bon_vert.png') }}" alt="Trefle à 7 feuilles, le niveau de difficulté est difficile">
                                         {% endif %}
                                     </p>
+                                    {{dump(question)}}
                                     <div class="divWordingQuestion">{{ question.wording|raw }}</div>
                                     <div class="divChevron">
                                         <img class="imgChevron" src="{{ asset('build/images/chevron_bas.png') }}" alt="chevron ouvrant" data-status="false" data-id="{{ question.id }}">
