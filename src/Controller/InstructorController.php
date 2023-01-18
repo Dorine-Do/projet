@@ -222,15 +222,15 @@ class InstructorController extends AbstractController
         $user = $instructorRepository->find( $this->security->getUser()->getId() );
 
         $questionEntity = new Question();
-//
-//        $proposal1 = new Proposal();
-//        $proposal1->setWording('');
-//
-//        $proposal2 = new Proposal();
-//        $proposal2->setWording('');
-//
-//        $questionEntity->addProposal($proposal2);
-//        $questionEntity->addProposal($proposal1);
+
+        $proposal1 = new Proposal();
+        $proposal1->setWording('');
+
+        $proposal2 = new Proposal();
+        $proposal2->setWording('');
+
+        $questionEntity->addProposal($proposal2);
+        $questionEntity->addProposal($proposal1);
 
 
         // création form
