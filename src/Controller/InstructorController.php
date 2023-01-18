@@ -222,34 +222,30 @@ class InstructorController extends AbstractController
         $user = $instructorRepository->find( $this->security->getUser()->getId() );
 
         $questionEntity = new Question();
-
-        $proposal1 = new Proposal();
-        $proposal1->setWording('');
-
-        $proposal2 = new Proposal();
-        $proposal2->setWording('');
-
-        $questionEntity->addProposal($proposal2);
-        $questionEntity->addProposal($proposal1);
+//
+//        $proposal1 = new Proposal();
+//        $proposal1->setWording('');
+//
+//        $proposal2 = new Proposal();
+//        $proposal2->setWording('');
+//
+//        $questionEntity->addProposal($proposal2);
+//        $questionEntity->addProposal($proposal1);
 
 
         // création form
         $form = $this->createForm(CreateQuestionType::class, $questionEntity);
+
         // accès aux données du form
         $form->handleRequest($request);
-
 
         // vérification des données soumises
         if ( $form->isSubmitted() && $form->isValid() )
         {
             $count = 0;
-            $persitPropCount = 0;
+
             foreach( $questionEntity->getProposals() as $proposal )
             {
-                // set les proposals
-                $proposal->setQuestion($questionEntity);
-                $persitPropCount++;
-
                 // set le response type
                 if( $proposal->getIsCorrectAnswer() )
                 {
@@ -274,7 +270,6 @@ class InstructorController extends AbstractController
                 }
             }
             $questionEntity->setAuthor($user);
-            $questionEntity->setDifficulty(intval($form->get('difficulty')->getViewData()));
 
             if ($form->get('is_enabled')->getViewData() !== null)
             {
