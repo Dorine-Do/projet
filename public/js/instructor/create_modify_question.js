@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // AJOUT D'UNE REPONSE LIMITE A 6
     if (indexData <= 5) {
       li_form(ul);
-      if (indexData == 6) {
+      if (indexData === 6) {
         addbutton.style.display = "none";
       }
     }
@@ -189,8 +189,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     forBadgesInput++
   ) {
     for (let forImgPath = 0; forImgPath < imgPath.length; forImgPath++) {
-      if (forImgPath == forBadgesInput) {
-        console.log("yes");
+      if (forImgPath === forBadgesInput) {
         badgesInput[
           forBadgesInput
         ].style.backgroundImage = `url(${imgPath[forImgPath]})`;

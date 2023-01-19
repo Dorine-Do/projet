@@ -3,6 +3,7 @@
 namespace App\Entity\Main;
 
 use App\Repository\LogRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LogRepository::class)]
@@ -11,37 +12,31 @@ class Log
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'text')]
-    private $log;
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $message = null;
 
-    #[ORM\Column(type: 'smallint')]
-    private $level; // info, warning ou error
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $context = [];
 
-    #[ORM\Column(type: 'string', length: 150)]
-    private $path; // url
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $level = null;
 
-    #[ORM\Column(type: 'string', length: 150)]
-    private $latency; // délai en ms entre la requete et l'inscription du log
+    #[ORM\Column(length: 50)]
+    private ?string $levelName = null;
 
-    #[ORM\Column(type: 'datetime', options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private $created_at;
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $extra = [];
 
-    public function __construct()
-    {
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
 
-    }
     #[ORM\PrePersist]
-    public function setCreatedAtValue(){
-        $this->created_at = new \DateTime();
-        $this->updated_at = new \DateTime();
-    }
-
-    #[ORM\PreUpdate]
-    public function setUpdateAtValue(){
-        $this->updated_at = new \DateTime();
+    public function setCreatedAtValue():void
+    {
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -49,62 +44,74 @@ class Log
         return $this->id;
     }
 
-    public function getLog(): ?string
+    public function getMessage(): ?string
     {
-        return $this->log;
+        return $this->message;
     }
 
-    public function setLog(string $log): self
+    public function setMessage(string $message): self
     {
-        $this->log = $log;
+        $this->message = $message;
 
         return $this;
     }
 
-    public function getLevel(): ?bool
+    public function getContext(): array
+    {
+        return $this->context;
+    }
+
+    public function setContext(array $context): self
+    {
+        $this->context = $context;
+
+        return $this;
+    }
+
+    public function getLevel(): ?int
     {
         return $this->level;
     }
 
-    public function setLevel(bool $level): self
+    public function setLevel(int $level): self
     {
         $this->level = $level;
 
         return $this;
     }
 
-    public function getPath(): ?string
+    public function getLevelName(): ?string
     {
-        return $this->path;
+        return $this->levelName;
     }
 
-    public function setPath(string $path): self
+    public function setLevelName(string $levelName): self
     {
-        $this->path = $path;
+        $this->levelName = $levelName;
 
         return $this;
     }
 
-    public function getLatency(): ?string
+    public function getExtra(): array
     {
-        return $this->latency;
+        return $this->extra;
     }
 
-    public function setLatency(string $latency): self
+    public function setExtra(array $extra): self
     {
-        $this->latency = $latency;
+        $this->extra = $extra;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }

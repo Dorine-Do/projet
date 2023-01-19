@@ -27,3 +27,10 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    dbHandler:
+        class: App\Utility\DbHandler
+
+    App\Controller\InstructorController:
+        arguments:
+            $logger : '@monolog.logger.db'

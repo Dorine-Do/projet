@@ -14,7 +14,6 @@ use App\Entity\Main\Session;
 use App\Entity\Main\Student;
 use App\Form\CreateQuestionType;
 use App\Form\QcmFormType;
-use App\Helpers\LogHelper;
 use App\Helpers\QcmGeneratorHelper;
 use App\Repository\InstructorRepository;
 use App\Repository\LinkInstructorSessionModuleRepository;
@@ -31,6 +30,7 @@ use App\Repository\UserRepository;
 use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Proxies\__CG__\App\Entity\Main\Module as MainModule;
+use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,15 +47,20 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class InstructorController extends AbstractController
 {
+    private $logger;
 
-    public function __construct(Security $security, UserRepository $userRepository){
+    public function __construct(Security $security, UserRepository $userRepository, LoggerInterface $logger){
         $this->userRepo = $userRepository;
         $this->security = $security;
+
+        $this->logger = $logger;
     }
 
     #[Route('/instructor', name: 'welcome_instructor')]
     public function welcome(): Response
     {
+        $this->logger->error('prems log');
+
         return $this->render('instructor/welcome_instructor.html.twig', []);
     }
 
@@ -490,8 +495,7 @@ class InstructorController extends AbstractController
         $entityManager->persist($qcm);
         $entityManager->flush();
 
-        $logger = new LogHelper($entityManager, $request);
-        $logger->saveLog("l'utilisateur ".$this->getUser()->getId()." a généré un qcm d'exercice", "info");
+        //TODO Mettre log
 
         /*redirection voir js*/
         $this->addFlash('success', 'Le qcm a bien été enregistré.');
@@ -707,7 +711,7 @@ class InstructorController extends AbstractController
     }
 
     #[Route('instructor/qcms/distributed_qcms',name:'instructor_distributed_qcms',methods:['GET','POST'])]
-    public function distributedQcmToStudent(
+    public function distributedQcmStudents(
         InstructorRepository        $instructorRepository,
         SessionRepository           $sessionRepository,
     ):Response
@@ -814,9 +818,6 @@ class InstructorController extends AbstractController
              $qcm['authorRole'] = $userRepository->find($qcm['author'])->getRoles();
              return $qcm;
         }, $qcms );
-
-
-
 
         return $this->json($qcms);
 

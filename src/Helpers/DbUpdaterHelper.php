@@ -234,7 +234,7 @@ class DbUpdaterHelper
 
             foreach( $instructorSuiviSessions as $instructorSuiviSession )
             {
-
+                // Sessions
                 $session = $this->sessionRepository->findOneBy( [ 'name' => $instructorSuiviSession['sessionName'] ] );
 
                 if( !$session ) {
@@ -253,6 +253,7 @@ class DbUpdaterHelper
 
                 foreach( $instructorSuiviSessionModules as $instructorSuiviSessionModule)
                 {
+                    // Modules
                     $youupEquivModule = $this->moduleRepository->findOneBy( [ 'title' => $instructorSuiviSessionModule['title'] ] );
 
                     if( !$youupEquivModule )
@@ -272,6 +273,7 @@ class DbUpdaterHelper
                         'module' => $youupEquivModule
                     ]);
 
+                    // LinkSessionModule
                     if( !$youupLinkSessionModule )
                     {
                         $newLinkSessionModule = new LinkSessionModule();
@@ -296,6 +298,7 @@ class DbUpdaterHelper
                         'session' => $session,
                         'module' => $youupEquivModule
                     ]);
+
 
                     if( !$youupLinkInstructorSessionModule )
                     {
@@ -327,6 +330,7 @@ class DbUpdaterHelper
                 foreach( $youupLinksInstructorSessionModule as $youupLinkInstructorSessionModule )
                 {
                     $keep = array_filter( $instructorSuiviSessionModules, function($instructorSuiviSessionModule) use ($youupLinkInstructorSessionModule) {
+
                         if(
                             $instructorSuiviSessionModule['sessionName'] === $youupLinkInstructorSessionModule->getSession()->getName()
                             &&
@@ -337,6 +341,7 @@ class DbUpdaterHelper
 
                         };
                     });
+
                     if( count($keep) === 0 )
                     {
                         $this->entityManager->remove($youupLinkInstructorSessionModule);
@@ -344,7 +349,8 @@ class DbUpdaterHelper
                     }
                 }
             }
-        }
+
+          }
     }
 
     public function getSuiviStudentSessions( string $studentEmail )
