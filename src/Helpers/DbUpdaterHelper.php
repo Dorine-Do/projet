@@ -255,6 +255,7 @@ class DbUpdaterHelper
                 {
                     // Modules
                     $youupEquivModule = $this->moduleRepository->findOneBy( [ 'title' => $instructorSuiviSessionModule['title'] ] );
+                    dump($youupEquivModule);
 
                     if( !$youupEquivModule )
                     {
