@@ -371,14 +371,14 @@ class DbUpdaterHelper
 
                         };
                     });
-                    dump($keep);
+//                    dump($keep);
 
                     if( count($keep) === 0 )
                     {
                         $this->entityManager->remove($youupLinkInstructorSessionModule);
-                        dump('remove');
+//                        dump('remove');
                         $this->entityManager->flush();
-                        dump('remove flush');
+//                        dump('remove flush');
                     }
                 }
             }
