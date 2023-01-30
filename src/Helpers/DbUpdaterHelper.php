@@ -295,11 +295,14 @@ class DbUpdaterHelper
                         $this->entityManager->flush();
                     }
 
+
                     $youupLinkInstructorSessionModule = $this->linkInstructorSessionModuleRepository->findOneBy([
                         'instructor' => $user,
                         'session' => $session,
                         'module' => $youupEquivModule
                     ]);
+
+                    dump($youupLinkInstructorSessionModule);
 
                     //linkInstructorSessionModule
                     if( !$youupLinkInstructorSessionModule )
