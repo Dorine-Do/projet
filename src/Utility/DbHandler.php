@@ -13,7 +13,7 @@ class DbHandler extends AbstractProcessingHandler
 
     private $manager;
 
-    public function __construct(EntityManagerInterface $manager, UserRepository $userRepository)
+    public function __construct(EntityManagerInterface $manager, UserRepository $userRepository, )
     {
         parent::__construct();
         $this->manager = $manager;
@@ -32,7 +32,10 @@ class DbHandler extends AbstractProcessingHandler
         $log->setLevelName($record['level_name']);
         $log->setMessage($record['message']);
         $log->setExtra($record['extra']);
-        $log->setUser($this->userRepository->find($record['extra']['user']));
+        if ( $log->setExtra($record['extra']['user']) )
+        {
+            $log->setUser($this->userRepository->find($record['extra']['user']));
+        }
         $this->manager->persist($log);
         $this->manager->flush();
     }

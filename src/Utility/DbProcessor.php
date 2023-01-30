@@ -22,7 +22,10 @@ class DbProcessor
         $record['extra']['method'] = $this->request->getMethod();
         $now = new \DateTime();
         $record['extra']['latency'] = $now->getTimestamp() - $this->request->server->get('REQUEST_TIME') . 'ms';
-        $record['extra']['user'] = $this->security->getUser()->getId();
+        if ( $this->security->getUser() )
+        {
+            $record['extra']['user'] = $this->security->getUser()->getId();
+        }
         return $record;
     }
 
