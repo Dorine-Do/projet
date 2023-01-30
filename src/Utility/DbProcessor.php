@@ -17,17 +17,22 @@ class DbProcessor
 
     public function __invoke(array $record) :array
     {
-        $record['extra']['path'] = $this->request->getPathInfo();
-        $record['extra']['method'] = $this->request->getMethod();
-        $now = new \DateTime();
-        $record['extra']['latency'] = $now->getTimestamp() - $this->request->server->get('REQUEST_TIME') . 'ms';
-        if ( $this->security->getUser() )
+        try {
+            $record['extra']['path'] = $this->request->getPathInfo();
+            $record['extra']['method'] = $this->request->getMethod();
+            $now = new \DateTime();
+            $record['extra']['latency'] = $now->getTimestamp() - $this->request->server->get('REQUEST_TIME') . 'ms';
+            if ( $this->security->getUser() )
+            {
+                $record['extra']['user'] = $this->security->getUser()->getId();
+            }
+            else
+            {
+                $record['extra']['user'] = null;
+            }
+        }catch ( \Error $e )
         {
-            $record['extra']['user'] = $this->security->getUser()->getId();
-        }
-        else
-        {
-            $record['extra']['user'] = null;
+            dd($e);
         }
         return $record;
     }
