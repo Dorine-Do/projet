@@ -227,11 +227,12 @@ class DbUpdaterHelper
                 }
             }
         }
-        dd($this->isUserInstructor( $user ));
 
         if( $this->isUserInstructor( $user ) )
         {
             $instructorSuiviSessions = $this->getSuiviInstructorSessions( $user->getEmail() );
+            dd($instructorSuiviSessions);
+
             foreach( $instructorSuiviSessions as $instructorSuiviSession )
             {
                 // Sessions
