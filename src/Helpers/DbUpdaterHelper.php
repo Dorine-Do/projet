@@ -373,7 +373,9 @@ class DbUpdaterHelper
                     if( count($keep) === 0 )
                     {
                         $this->entityManager->remove($youupLinkInstructorSessionModule);
+                        dump('remove');
                         $this->entityManager->flush();
+                        dump('remove flush');
                     }
                 }
             }
