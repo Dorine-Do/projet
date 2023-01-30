@@ -99,7 +99,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                 header('Location: https://login.3wa.io/youup');
                 exit();
             }
-            dd($_COOKIE['cookie']);
+
             // get user by cookie in dblogin
             $sqlReqDblogin = "
                 SELECT
@@ -111,7 +111,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                 ";
 
             $dbLoginUser = $this->rawSqlRequestToExtDb( $sqlReqDblogin, [ 'cookie' => $_COOKIE['cookie'] ], 'dblogin' )[0];
-
+            dd($dbLoginUser);
             // if userLogin doesn't exist in youUp db
             if( !$this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] ) )
             {
