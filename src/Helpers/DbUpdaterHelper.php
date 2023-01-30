@@ -315,8 +315,9 @@ class DbUpdaterHelper
                         dump($newLinkInstructorSessionModule);
 
                         $this->entityManager->persist($newLinkInstructorSessionModule);
-                        $this->entityManager->flush();
                         dump('persist');
+                        $this->entityManager->flush();
+                        dump('flush');
 
                         $youupEquivModule->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
                         dump('$youupEquivModule->$newLinkInstructorSessionModule');
