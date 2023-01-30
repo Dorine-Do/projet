@@ -321,7 +321,7 @@ class DbUpdaterHelper
                             //HERE
                             $this->entityManager->flush();
                             dump('flush');
-                        }catch (Exception $e)
+                        }catch (\Exception $e)
                         {
                             dd($e);
                         }
