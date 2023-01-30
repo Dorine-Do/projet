@@ -46,7 +46,7 @@
                                 <td>{{ 'qcm.trainning'|trans }}</td>
                             {% elseif qcm.isOfficial is same as 1 and qcm.isEnabled is same as 1 and qcm.isPublic is same as 1  %}
                                 <td>{{ 'qcm.official'|trans }}</td>
-                            {% elseif qcm.isOfficial is same as 0 and qcm.isEnabled =is same as1 %}
+                            {% elseif qcm.isOfficial is same as 0 and qcm.isEnabled is same as1 %}
                                 <td>{{ 'qcm.inter'|trans }}</td>
                             {% elseif qcm.isEnabled is same as 0 %}
                                 <td>{{ 'qcm.unactivated'|trans }}</td>

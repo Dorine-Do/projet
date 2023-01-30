@@ -792,7 +792,7 @@ class AdminController extends AbstractController
             $searchResults = $sessionRepository->findSessionByString($searchtherm);
             return $this->json($searchResults, 200, [], ['groups' => 'session:read']);
         }
-        elseif ($searchtype === "apprenant" || $searcht²²ype === "formateur")
+        elseif ($searchtype === "apprenant" || $searchtype === "formateur")
         {
             $searchResults = $userRepository->findUserByString($searchtherm);
             if ($searchtype === "apprenant") {
