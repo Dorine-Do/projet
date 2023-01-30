@@ -341,7 +341,7 @@ class DbUpdaterHelper
                         $this->entityManager->persist($user);
 //                        dump('before flush');
                         $this->entityManager->flush();
-                        dump('after flush');
+//                        dump('after flush');
 
                     }
                 }
@@ -351,18 +351,20 @@ class DbUpdaterHelper
                     'session' => $session,
                     'instructor' => $user
                 ]);
-                dump($youupLinksInstructorSessionModule);
+//                dump($youupLinksInstructorSessionModule);
 
                 foreach( $youupLinksInstructorSessionModule as $youupLinkInstructorSessionModule )
                 {
                     $keep = array_filter( $instructorSuiviSessionModules, function($instructorSuiviSessionModule) use ($youupLinkInstructorSessionModule) {
-                        dump($instructorSuiviSessionModule['sessionName'] === $youupLinkInstructorSessionModule->getSession()->getName());
-                        dump($instructorSuiviSessionModule['title'] === $youupLinkInstructorSessionModule->getModule()->getTitle());
 
                         if(
-                            $instructorSuiviSessionModule['sessionName'] === $youupLinkInstructorSessionModule->getSession()->getName()
+                            strtoupper($instructorSuiviSessionModule['sessionName'])
+                            ===
+                            strtoupper($youupLinkInstructorSessionModule->getSession()->getName())
                             &&
-                            $instructorSuiviSessionModule['title'] === $youupLinkInstructorSessionModule->getModule()->getTitle()
+                            strtoupper($instructorSuiviSessionModule['title'])
+                            ===
+                            strtoupper($youupLinkInstructorSessionModule->getModule()->getTitle())
                         )
                         {
                             return $instructorSuiviSessionModule;
