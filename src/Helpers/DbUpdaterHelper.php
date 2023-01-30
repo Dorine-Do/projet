@@ -331,7 +331,9 @@ class DbUpdaterHelper
                         $this->entityManager->persist($youupEquivModule);
                         $this->entityManager->persist($session);
                         $this->entityManager->persist($user);
+                        dump('before flush');
                         $this->entityManager->flush();
+                        dump('after flush');
 
                     }
                 }
