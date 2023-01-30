@@ -26,7 +26,7 @@ class DbHandler extends AbstractProcessingHandler
     protected function write(array $record): void
     {
         $log = new Log();
-
+        dump($record);
         $log->setContext($record['context']);
         $log->setLevel($record['level']);
         $log->setLevelName($record['level_name']);
