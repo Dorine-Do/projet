@@ -44,10 +44,15 @@ class DoctrineSubscriber implements EventSubscriber
 
     public function log ($message, $args)
     {
-        if(!$args->getObject() instanceof Log)
+        try {
+            if(!$args->getObject() instanceof Log)
+            {
+                $className = explode('\\', get_class($args->getObject())) ;
+                $this->logger->info( end($className).' '.$message);
+            }
+        }catch ( \Error $e )
         {
-            $className = explode('\\', get_class($args->getObject())) ;
-            $this->logger->info( end($className).' '.$message);
+            dd($e);
         }
     }
 }
