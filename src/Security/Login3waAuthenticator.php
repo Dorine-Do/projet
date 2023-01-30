@@ -79,19 +79,19 @@ class Login3waAuthenticator extends AbstractAuthenticator
         return new SelfValidatingPassport(new UserBadge($cookieString, function() use ($request, $cookieString) {
 
 //            // TODO delete in production -------------------------------------------------------------------------------
-            $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
-            if( $stringBeginning[0] === 'C:' ) {
-
-                $user = $this->userRepo->find(1);
-
-                /********************************************
-                UPDATING DB FROM DBSUIVI
-                 *********************************************/
-
-                $this->dbUpdaterHelper->updateUserSession( $user );
-
-                return $user;
-            }
+//            $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
+//            if( $stringBeginning[0] === 'C:' ) {
+//
+//                $user = $this->userRepo->find(1);
+//
+//                /********************************************
+//                UPDATING DB FROM DBSUIVI
+//                 *********************************************/
+//
+//                $this->dbUpdaterHelper->updateUserSession( $user );
+//
+//                return $user;
+//            }
 //            // TODO end delete in production ---------------------------------------------------------------------------
 
             // if user isn't logged in 3wa.io ( cookie isn't set )
