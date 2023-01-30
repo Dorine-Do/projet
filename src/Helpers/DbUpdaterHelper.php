@@ -235,7 +235,7 @@ class DbUpdaterHelper
             {
                 // Sessions
                 $session = $this->sessionRepository->findOneBy( [ 'name' => $instructorSuiviSession['sessionName'] ] );
-                dd($session);
+                dump($session);
                 if( !$session ) {
                     $startDate = new \DateTime($instructorSuiviSession['startDate']);
                     $newSession = new Session();
@@ -349,6 +349,7 @@ class DbUpdaterHelper
                     }
                 }
             }
+            dd('stop for');
         }
     }
 
