@@ -32,7 +32,7 @@ class Log
     private $user;
 
     #[ORM\Column(type: 'json', nullable: true)]
-    private array $extra = [];
+    private ?array $extra = [];
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;

@@ -17,7 +17,6 @@ class DbProcessor
 
     public function __invoke(array $record) :array
     {
-//        dd( $this->request);
         $record['extra']['path'] = $this->request->getPathInfo();
         $record['extra']['method'] = $this->request->getMethod();
         $now = new \DateTime();
