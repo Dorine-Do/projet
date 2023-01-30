@@ -21,9 +21,9 @@ class DoctrineSubscriber implements EventSubscriber
     public function getSubscribedEvents()
     {
         return [
-//            Events::postPersist,
-//            Events::postUpdate,
-//            Events::postRemove
+            Events::postPersist,
+            Events::postUpdate,
+            Events::postRemove
         ];
     }
 

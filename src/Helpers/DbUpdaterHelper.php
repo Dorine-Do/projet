@@ -274,7 +274,7 @@ class DbUpdaterHelper
                         'session' => $session,
                         'module' => $youupEquivModule
                     ]);
-//                    dump($youupLinkSessionModule);
+                    dump($youupLinkSessionModule);
 
                     // LinkSessionModule
                     if( !$youupLinkSessionModule )
@@ -303,7 +303,7 @@ class DbUpdaterHelper
                         'module' => $youupEquivModule
                     ]);
 
-//                    dump($youupLinkInstructorSessionModule);
+                    dump($youupLinkInstructorSessionModule);
 
                     //linkInstructorSessionModule
                     if( !$youupLinkInstructorSessionModule )
@@ -313,14 +313,14 @@ class DbUpdaterHelper
                         $newLinkInstructorSessionModule->setSession( $session );
                         $newLinkInstructorSessionModule->setModule( $youupEquivModule );
 
-//                        dump($newLinkInstructorSessionModule);
+                        dump($newLinkInstructorSessionModule);
 
                         try {
                             $this->entityManager->persist($newLinkInstructorSessionModule);
-//                            dump('persist');
+                            dump('persist');
                             //HERE
                             $this->entityManager->flush();
-//                            dump('flush');
+                            dump('flush');
                         }catch (\Error $e)
                         {
                             dd($e);
@@ -328,19 +328,19 @@ class DbUpdaterHelper
 
 
                         $youupEquivModule->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
-//                        dump('$youupEquivModule->$newLinkInstructorSessionModule');
+                        dump('$youupEquivModule->$newLinkInstructorSessionModule');
                         $session->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
-//                        dump('$session->$newLinkInstructorSessionModule');
+                        dump('$session->$newLinkInstructorSessionModule');
                         $user->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
-//                        dump('$user->$newLinkInstructorSessionModule');
+                        dump('$user->$newLinkInstructorSessionModule');
 
 
                         $this->entityManager->persist($youupEquivModule);
                         $this->entityManager->persist($session);
                         $this->entityManager->persist($user);
-//                        dump('before flush');
+                        dump('before flush');
                         $this->entityManager->flush();
-//                        dump('after flush');
+                        dump('after flush');
 
                     }
                 }
@@ -395,6 +395,7 @@ class DbUpdaterHelper
             LEFT JOIN users
             ON users.id = link_students_daily.id_student
             WHERE users.email = ?
+            AND daily.date = NOW() - INTERVAL 3 MONTH
             GROUP BY sessions.name
         ";
         return $this->rawSqlRequestToExtDb( $sql, [$studentEmail] );
@@ -412,6 +413,7 @@ class DbUpdaterHelper
             LEFT JOIN modules
             ON modules.id = daily.id_module
             WHERE users.email = ?
+            AND daily.date = NOW() - INTERVAL 3 MONTH
             GROUP BY sessions.name
         ";
         return $this->rawSqlRequestToExtDb( $sql, [$instructorEmail] );
@@ -431,6 +433,7 @@ class DbUpdaterHelper
             LEFT JOIN sessions ON sessions.id = daily.id_session
             LEFT JOIN users ON users.id = daily.id_user
             WHERE sessions.name = ? AND users.email = ?
+            AND daily.date = NOW() - INTERVAL 3 MONTH
             GROUP BY modules.name";
 
         $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName, $userEmail ]);
@@ -476,6 +479,7 @@ class DbUpdaterHelper
             LEFT JOIN daily ON daily.id_module = modules.id
             LEFT JOIN sessions ON sessions.id = daily.id_session
             WHERE sessions.name = ?
+            AND daily.date = NOW() - INTERVAL 3 MONTH
             GROUP BY modules.name";
 
         $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName ]);
