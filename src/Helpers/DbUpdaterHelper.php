@@ -379,7 +379,7 @@ class DbUpdaterHelper
                     }
                 }
             }
-//            dd('stop for');
+            dd('stop for');
         }
     }
 

@@ -168,8 +168,14 @@ class Login3waAuthenticator extends AbstractAuthenticator
             /********************************************
             UPDATING DB FROM DBSUIVI
             *********************************************/
-
-            $this->dbUpdaterHelper->updateUserSession( $user );
+            try
+            {
+                $this->dbUpdaterHelper->updateUserSession( $user );
+            }
+            catch ( \Error $e )
+            {
+                dd($e);
+            }
 //            dd('stop');
 
 
