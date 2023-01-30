@@ -436,7 +436,7 @@ class DbUpdaterHelper
             LEFT JOIN sessions ON sessions.id = daily.id_session
             LEFT JOIN users ON users.id = daily.id_user
             WHERE sessions.name = ? AND users.email = ?
-            AND daily.date >= NOW() - INTERVAL 1 MONTH
+            AND daily.date >= NOW() - INTERVAL 7 DAY
             GROUP BY modules.name";
 
         $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName, $userEmail ]);
