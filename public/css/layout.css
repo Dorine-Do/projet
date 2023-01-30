@@ -171,6 +171,7 @@ header{
     display: flex;
     flex-direction: column-reverse;
     justify-content: flex-start;
+    padding-right: 10px;
 }
 
 .telephone {
@@ -196,6 +197,39 @@ header{
     display: flex;
     justify-content: space-between
 }
+
+.divFooterTitle {
+    position: relative;
+    top: 35px;
+}
+
+.divGlobalContacts {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    top: 35px;
+    left: 187px;
+}
+
+.divFooterGlobal {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.divContactPhone {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    top: 2px;
+    left: 256px;
+}
+
 
 @media screen and (max-width: 1200px) {
 
