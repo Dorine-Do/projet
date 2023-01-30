@@ -273,6 +273,7 @@ class DbUpdaterHelper
                         'session' => $session,
                         'module' => $youupEquivModule
                     ]);
+                    dump($youupLinkSessionModule);
 
                     // LinkSessionModule
                     if( !$youupLinkSessionModule )
