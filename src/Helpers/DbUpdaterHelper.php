@@ -321,6 +321,7 @@ class DbUpdaterHelper
                         $session->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
                         $user->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
 
+                        dump('$newLinkInstructorSessionModule');
 
                         $this->entityManager->persist($youupEquivModule);
                         $this->entityManager->persist($session);
