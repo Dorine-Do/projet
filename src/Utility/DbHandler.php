@@ -26,16 +26,16 @@ class DbHandler extends AbstractProcessingHandler
     protected function write(array $record): void
     {
         try {
-        $log = new Log();
-        $log->setContext($record['context']);
-        $log->setLevel($record['level']);
-        $log->setLevelName($record['level_name']);
-        $log->setMessage($record['message']);
-        $log->setExtra($record['extra']);
-        if ( $log->setExtra($record['extra']['user']) )
-        {
-            $log->setUser($this->userRepository->find($record['extra']['user']));
-        }
+            $log = new Log();
+            $log->setContext($record['context']);
+            $log->setLevel($record['level']);
+            $log->setLevelName($record['level_name']);
+            $log->setMessage($record['message']);
+            $log->setExtra($record['extra']);
+            if ( $record['extra']['user'] )
+            {
+                $log->setUser($this->userRepository->find($record['extra']['user']));
+            }
 
             $this->manager->persist($log);
             $this->manager->flush();

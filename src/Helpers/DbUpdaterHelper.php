@@ -313,7 +313,7 @@ class DbUpdaterHelper
                         $newLinkInstructorSessionModule->setSession( $session );
                         $newLinkInstructorSessionModule->setModule( $youupEquivModule );
 
-                        dump($newLinkInstructorSessionModule);
+//                        dump($newLinkInstructorSessionModule);
 
                         try {
                             $this->entityManager->persist($newLinkInstructorSessionModule);
