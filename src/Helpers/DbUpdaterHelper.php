@@ -249,6 +249,7 @@ class DbUpdaterHelper
                 }
 
                 $instructorSuiviSessionModules = $this->getInstructorSuiviSessionModules( $instructorSuiviSession['sessionName'], $user->getEmail() );
+                dump($instructorSuiviSessionModules);
 
                 foreach( $instructorSuiviSessionModules as $instructorSuiviSessionModule)
                 {
