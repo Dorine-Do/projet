@@ -231,7 +231,7 @@ class DbUpdaterHelper
         if( $this->isUserInstructor( $user ) )
         {
             $instructorSuiviSessions = $this->getSuiviInstructorSessions( $user->getEmail() );
-
+            dd('stop2');
             foreach( $instructorSuiviSessions as $instructorSuiviSession )
             {
                 // Sessions
