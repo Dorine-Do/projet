@@ -237,7 +237,7 @@ class DbUpdaterHelper
             {
                 // Sessions
                 $session = $this->sessionRepository->findOneBy( [ 'name' => $instructorSuiviSession['sessionName'] ] );
-                dump($session);
+//                dump($session);
                 if( !$session ) {
                     $startDate = new \DateTime($instructorSuiviSession['startDate']);
                     $newSession = new Session();
@@ -251,13 +251,13 @@ class DbUpdaterHelper
                 }
 
                 $instructorSuiviSessionModules = $this->getInstructorSuiviSessionModules( $instructorSuiviSession['sessionName'], $user->getEmail() );
-                dump($instructorSuiviSessionModules);
+//                dump($instructorSuiviSessionModules);
 
                 foreach( $instructorSuiviSessionModules as $instructorSuiviSessionModule)
                 {
                     // Modules
                     $youupEquivModule = $this->moduleRepository->findOneBy( [ 'title' => $instructorSuiviSessionModule['title'] ] );
-                    dump($youupEquivModule);
+//                    dump($youupEquivModule);
 
                     if( !$youupEquivModule )
                     {
@@ -275,7 +275,7 @@ class DbUpdaterHelper
                         'session' => $session,
                         'module' => $youupEquivModule
                     ]);
-                    dump($youupLinkSessionModule);
+//                    dump($youupLinkSessionModule);
 
                     // LinkSessionModule
                     if( !$youupLinkSessionModule )
@@ -304,7 +304,7 @@ class DbUpdaterHelper
                         'module' => $youupEquivModule
                     ]);
 
-                    dump($youupLinkInstructorSessionModule);
+//                    dump($youupLinkInstructorSessionModule);
 
                     //linkInstructorSessionModule
                     if( !$youupLinkInstructorSessionModule )
@@ -314,14 +314,14 @@ class DbUpdaterHelper
                         $newLinkInstructorSessionModule->setSession( $session );
                         $newLinkInstructorSessionModule->setModule( $youupEquivModule );
 
-                        dump($newLinkInstructorSessionModule);
+//                        dump($newLinkInstructorSessionModule);
 
                         try {
                             $this->entityManager->persist($newLinkInstructorSessionModule);
-                            dump('persist');
+//                            dump('persist');
                             //HERE
                             $this->entityManager->flush();
-                            dump('flush');
+//                            dump('flush');
                         }catch (\Error $e)
                         {
                             dd($e);
@@ -329,17 +329,17 @@ class DbUpdaterHelper
 
 
                         $youupEquivModule->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
-                        dump('$youupEquivModule->$newLinkInstructorSessionModule');
+//                        dump('$youupEquivModule->$newLinkInstructorSessionModule');
                         $session->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
-                        dump('$session->$newLinkInstructorSessionModule');
+//                        dump('$session->$newLinkInstructorSessionModule');
                         $user->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
-                        dump('$user->$newLinkInstructorSessionModule');
+//                        dump('$user->$newLinkInstructorSessionModule');
 
 
                         $this->entityManager->persist($youupEquivModule);
                         $this->entityManager->persist($session);
                         $this->entityManager->persist($user);
-                        dump('before flush');
+//                        dump('before flush');
                         $this->entityManager->flush();
                         dump('after flush');
 
@@ -351,13 +351,13 @@ class DbUpdaterHelper
                     'session' => $session,
                     'instructor' => $user
                 ]);
-//                dump($youupLinksInstructorSessionModule);
+                dump($youupLinksInstructorSessionModule);
 
                 foreach( $youupLinksInstructorSessionModule as $youupLinkInstructorSessionModule )
                 {
                     $keep = array_filter( $instructorSuiviSessionModules, function($instructorSuiviSessionModule) use ($youupLinkInstructorSessionModule) {
-//                        dump($instructorSuiviSessionModule['sessionName'] === $youupLinkInstructorSessionModule->getSession()->getName());
-//                        dump($instructorSuiviSessionModule['title'] === $youupLinkInstructorSessionModule->getModule()->getTitle());
+                        dump($instructorSuiviSessionModule['sessionName'] === $youupLinkInstructorSessionModule->getSession()->getName());
+                        dump($instructorSuiviSessionModule['title'] === $youupLinkInstructorSessionModule->getModule()->getTitle());
 
                         if(
                             $instructorSuiviSessionModule['sessionName'] === $youupLinkInstructorSessionModule->getSession()->getName()
@@ -369,18 +369,18 @@ class DbUpdaterHelper
 
                         };
                     });
-//                    dump($keep);
+                    dump($keep);
 
                     if( count($keep) === 0 )
                     {
                         $this->entityManager->remove($youupLinkInstructorSessionModule);
-//                        dump('remove');
+                        dump('remove');
                         $this->entityManager->flush();
-//                        dump('remove flush');
+                        dump('remove flush');
                     }
                 }
             }
-//            dd('stop for');
+            dd('stop for');
         }
     }
 
