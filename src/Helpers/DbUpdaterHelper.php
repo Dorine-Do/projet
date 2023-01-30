@@ -312,12 +312,15 @@ class DbUpdaterHelper
                         $newLinkInstructorSessionModule->setSession( $session );
                         $newLinkInstructorSessionModule->setModule( $youupEquivModule );
 
+                        dump($newLinkInstructorSessionModule);
+
                         $this->entityManager->persist($newLinkInstructorSessionModule);
                         $this->entityManager->flush();
 
                         $youupEquivModule->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
                         $session->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
                         $user->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
+
 
                         $this->entityManager->persist($youupEquivModule);
                         $this->entityManager->persist($session);
