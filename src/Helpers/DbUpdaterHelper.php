@@ -350,6 +350,7 @@ class DbUpdaterHelper
                     'session' => $session,
                     'instructor' => $user
                 ]);
+                dump($youupLinksInstructorSessionModule);
 
                 foreach( $youupLinksInstructorSessionModule as $youupLinkInstructorSessionModule )
                 {
