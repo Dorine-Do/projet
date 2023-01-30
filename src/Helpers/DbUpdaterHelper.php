@@ -355,6 +355,8 @@ class DbUpdaterHelper
                 foreach( $youupLinksInstructorSessionModule as $youupLinkInstructorSessionModule )
                 {
                     $keep = array_filter( $instructorSuiviSessionModules, function($instructorSuiviSessionModule) use ($youupLinkInstructorSessionModule) {
+                        dump($instructorSuiviSessionModule['sessionName'] === $youupLinkInstructorSessionModule->getSession()->getName());
+                        dump($instructorSuiviSessionModule['title'] === $youupLinkInstructorSessionModule->getModule()->getTitle());
 
                         if(
                             $instructorSuiviSessionModule['sessionName'] === $youupLinkInstructorSessionModule->getSession()->getName()
@@ -366,6 +368,7 @@ class DbUpdaterHelper
 
                         };
                     });
+                    dump($keep);
 
                     if( count($keep) === 0 )
                     {
