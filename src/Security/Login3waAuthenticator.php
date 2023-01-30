@@ -168,9 +168,9 @@ class Login3waAuthenticator extends AbstractAuthenticator
             /********************************************
             UPDATING DB FROM DBSUIVI
             *********************************************/
-            dd($user);
 
             $this->dbUpdaterHelper->updateUserSession( $user );
+            dd($user);
 
 
                 // Recuperer les formateurs inscris sur chaque module de cette session
