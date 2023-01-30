@@ -72,7 +72,7 @@ class Session
 
     public function setName(string $name): self
     {
-        $this->name = strtoupper($name);
+        $this->name = $name;
 
         return $this;
     }

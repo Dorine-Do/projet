@@ -236,7 +236,6 @@ class DbUpdaterHelper
             {
                 // Sessions
                 $session = $this->sessionRepository->findOneBy( [ 'name' => $instructorSuiviSession['sessionName'] ] );
-
                 if( !$session ) {
                     $startDate = new \DateTime($instructorSuiviSession['startDate']);
                     $newSession = new Session();
@@ -249,7 +248,7 @@ class DbUpdaterHelper
                     $session = $newSession;
                 }
 
-                $instructorSuiviSessionModules = $this->getInstructorSuiviSessionModules( $session->getName(), $user->getEmail() );
+                $instructorSuiviSessionModules = $this->getInstructorSuiviSessionModules( $instructorSuiviSession['sessionName'], $user->getEmail() );
 
                 foreach( $instructorSuiviSessionModules as $instructorSuiviSessionModule)
                 {
@@ -299,7 +298,7 @@ class DbUpdaterHelper
                         'module' => $youupEquivModule
                     ]);
 
-
+                    //linkInstructorSessionModule
                     if( !$youupLinkInstructorSessionModule )
                     {
                         $newLinkInstructorSessionModule = new LinkInstructorSessionModule();
@@ -318,9 +317,9 @@ class DbUpdaterHelper
                         $this->entityManager->persist($session);
                         $this->entityManager->persist($user);
                         $this->entityManager->flush();
+
                     }
                 }
-
                 // -----------------------------------------------------------------------------------------------------
                 $youupLinksInstructorSessionModule = $this->linkInstructorSessionModuleRepository->findBy([
                     'session' => $session,
@@ -349,8 +348,7 @@ class DbUpdaterHelper
                     }
                 }
             }
-
-          }
+        }
     }
 
     public function getSuiviStudentSessions( string $studentEmail )
