@@ -232,7 +232,7 @@ class DbUpdaterHelper
         if( $this->isUserInstructor( $user ) )
         {
             $instructorSuiviSessions = $this->getSuiviInstructorSessions( $user->getEmail() );
-            dd($instructorSuiviSessions);
+
             foreach( $instructorSuiviSessions as $instructorSuiviSession )
             {
                 // Sessions
