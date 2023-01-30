@@ -176,7 +176,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
             {
                 dd($e);
             }
-//            dd('stop');
+            dd('stop');
 
 
                 // Recuperer les formateurs inscris sur chaque module de cette session

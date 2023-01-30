@@ -236,7 +236,7 @@ class DbUpdaterHelper
             {
                 // Sessions
                 $session = $this->sessionRepository->findOneBy( [ 'name' => $instructorSuiviSession['sessionName'] ] );
-//                dump($session);
+                dump($session);
                 if( !$session ) {
                     $startDate = new \DateTime($instructorSuiviSession['startDate']);
                     $newSession = new Session();
@@ -250,13 +250,13 @@ class DbUpdaterHelper
                 }
 
                 $instructorSuiviSessionModules = $this->getInstructorSuiviSessionModules( $instructorSuiviSession['sessionName'], $user->getEmail() );
-//                dump($instructorSuiviSessionModules);
+                dump($instructorSuiviSessionModules);
 
                 foreach( $instructorSuiviSessionModules as $instructorSuiviSessionModule)
                 {
                     // Modules
                     $youupEquivModule = $this->moduleRepository->findOneBy( [ 'title' => $instructorSuiviSessionModule['title'] ] );
-//                    dump($youupEquivModule);
+                    dump($youupEquivModule);
 
                     if( !$youupEquivModule )
                     {
