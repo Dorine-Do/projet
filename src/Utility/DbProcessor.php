@@ -26,6 +26,10 @@ class DbProcessor
         {
             $record['extra']['user'] = $this->security->getUser()->getId();
         }
+        else
+        {
+            $record['extra']['user'] = null;
+        }
         return $record;
     }
 
