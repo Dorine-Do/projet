@@ -25,6 +25,7 @@ class DbHandler extends AbstractProcessingHandler
      */
     protected function write(array $record): void
     {
+        try {
         $log = new Log();
         $log->setContext($record['context']);
         $log->setLevel($record['level']);
@@ -35,7 +36,7 @@ class DbHandler extends AbstractProcessingHandler
         {
             $log->setUser($this->userRepository->find($record['extra']['user']));
         }
-        try {
+
             $this->manager->persist($log);
             $this->manager->flush();
         }catch (\Error $e)
