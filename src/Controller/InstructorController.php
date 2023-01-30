@@ -47,20 +47,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class InstructorController extends AbstractController
 {
-    private $logger;
 
-    public function __construct(Security $security, UserRepository $userRepository, LoggerInterface $logger){
+    public function __construct(Security $security, UserRepository $userRepository, ){
         $this->userRepo = $userRepository;
         $this->security = $security;
-
-        $this->logger = $logger;
     }
 
     #[Route('/instructor', name: 'welcome_instructor')]
     public function welcome(): Response
     {
-        $this->logger->error('prems log');
-
         return $this->render('instructor/welcome_instructor.html.twig', []);
     }
 
@@ -287,7 +282,6 @@ class InstructorController extends AbstractController
 
             //  validation et enregistrement des données du form dans la bdd
             $manager->persist($questionEntity);
-
             $manager->flush();
 
             //  redirect to route avec flash

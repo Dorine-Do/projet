@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use phpDocumentor\Reflection\Types\Object_;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -51,7 +52,8 @@ class Login3waAuthenticator extends AbstractAuthenticator
         UserRepository $userRepo,
         ManagerRegistry $doctrine,
         CookieRepository $cookieRepo,
-        DbUpdaterHelper $dbUpdaterHelper
+        DbUpdaterHelper $dbUpdaterHelper,
+        LoggerInterface $dbLogger
     )
     {
         $this->clientRegistry = $clientRegistry;
@@ -62,6 +64,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
         $this->doctrine = $doctrine;
         $this->cookieRepo = $cookieRepo;
         $this->dbUpdaterHelper = $dbUpdaterHelper;
+        $this->dbLogger = $dbLogger;
     }
 
     public function supports(Request $request): ?bool
@@ -76,19 +79,19 @@ class Login3waAuthenticator extends AbstractAuthenticator
         return new SelfValidatingPassport(new UserBadge($cookieString, function() use ($request, $cookieString) {
 
 //            // TODO delete in production -------------------------------------------------------------------------------
-//            $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
-//            if( $stringBeginning[0] === 'C:' ) {
-//
-//                $user = $this->userRepo->find(1);
-//
-//                /********************************************
-//                UPDATING DB FROM DBSUIVI
-//                 *********************************************/
-//
-//                $this->dbUpdaterHelper->updateUserSession( $user );
-//
-//                return $user;
-//            }
+            $stringBeginning = explode('\\',$request->server->get('PUBLIC'));
+            if( $stringBeginning[0] === 'C:' ) {
+
+                $user = $this->userRepo->find(1);
+
+                /********************************************
+                UPDATING DB FROM DBSUIVI
+                 *********************************************/
+
+                $this->dbUpdaterHelper->updateUserSession( $user );
+
+                return $user;
+            }
 //            // TODO end delete in production ---------------------------------------------------------------------------
 
             // if user isn't logged in 3wa.io ( cookie isn't set )
@@ -184,12 +187,15 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        $this->dbLogger->info('Success Login');
         $targetUrl = $this->router->generate('app_check_dashboard');
         return new RedirectResponse($targetUrl);
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
+        $this->dbLogger->error('Fail Login');
+
         $data = [
             // you may want to customize or obfuscate the message first
             'message' => strtr($exception->getMessageKey(), $exception->getMessageData())

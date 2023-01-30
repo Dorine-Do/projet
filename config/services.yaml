@@ -28,9 +28,15 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    dbHandler:
+    monolog.dbHandler:
         class: App\Utility\DbHandler
 
-    App\Controller\InstructorController:
-        arguments:
-            $logger : '@monolog.logger.db'
+    monolog.dbProcessor:
+        class: App\Utility\DbProcessor
+        tags:
+            - {name: monolog.processor, handler: dbHandler}
+
+    doctrine.doctrineSubscriber:
+        class: App\EventListener\DoctrineSubscriber
+        tags:
+            - {name: doctrine.event_subscriber}

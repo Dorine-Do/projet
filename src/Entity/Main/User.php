@@ -68,10 +68,14 @@ class User implements UserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: BugReport::class)]
     private Collection $bugReports;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Log::class)]
+    private $logs;
+
     public function __construct()
     {
         $this->qcms = new ArrayCollection();
         $this->bugReports = new ArrayCollection();
+        $this->logs = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -328,6 +332,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($bugReport->getUser() === $this) {
                 $bugReport->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Log>
+     */
+    public function getLog(): Collection
+    {
+        return $this->logs;
+    }
+
+    public function addLog(Log $log): self
+    {
+        if (!$this->logs->contains($log)) {
+            $this->logs[] = $log;
+            $log->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLog(Log $log): self
+    {
+        if ($this->logs->removeElement($log)) {
+            // set the owning side to null (unless already changed)
+            if ($log->getUser() === $this) {
+                $log->setUser(null);
             }
         }
 
