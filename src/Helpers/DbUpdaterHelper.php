@@ -15,6 +15,7 @@ use App\Repository\ModuleRepository;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 class DbUpdaterHelper
 {
@@ -314,11 +315,17 @@ class DbUpdaterHelper
 
                         dump($newLinkInstructorSessionModule);
 
-                        $this->entityManager->persist($newLinkInstructorSessionModule);
-                        dump('persist');
-                        //HERE
-                        $this->doctrine->getManager()->flush();
-                        dump('flush');
+                        try {
+                            $this->entityManager->persist($newLinkInstructorSessionModule);
+                            dump('persist');
+                            //HERE
+                            $this->entityManager->flush();
+                            dump('flush');
+                        }catch (Exception $e)
+                        {
+                            dd($e);
+                        }
+
 
                         $youupEquivModule->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
                         dump('$youupEquivModule->$newLinkInstructorSessionModule');
