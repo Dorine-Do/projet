@@ -317,7 +317,7 @@ class DbUpdaterHelper
                         $this->entityManager->persist($newLinkInstructorSessionModule);
                         dump('persist');
                         //HERE
-//                        $this->entityManager->flush();
+                        $this->doctrine->getManager()->flush();
                         dump('flush');
 
                         $youupEquivModule->addLinksInstructorSessionModule( $newLinkInstructorSessionModule );
@@ -332,7 +332,7 @@ class DbUpdaterHelper
                         $this->entityManager->persist($session);
                         $this->entityManager->persist($user);
                         dump('before flush');
-                        $this->entityManager->flush();
+//                        $this->entityManager->flush();
                         dump('after flush');
 
                     }
