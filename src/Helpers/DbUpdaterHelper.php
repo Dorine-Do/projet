@@ -609,6 +609,10 @@ class DbUpdaterHelper
             GROUP BY modules.name";
 
         $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName ]);
+        dump('$sessionName');
+        dump($sessionName);
+        dump('$suiviModules');
+        dump($suiviModules);
         $moduleByName = [];
 
         foreach($suiviModules as $suiviModule)
