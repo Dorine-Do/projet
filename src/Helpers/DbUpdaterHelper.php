@@ -53,99 +53,153 @@ class DbUpdaterHelper
         if( $this->isUserStudent($user) )
         {
             try {
-                $studentSuiviSessions = $this->getSuiviStudentSessions( $user->getEmail() );
-
+                $studentSuiviSessions = $this->getSuiviStudentSessions($user->getEmail());
+            }
+            catch (\Error $e)
+            {
+                dd($e);
+            }
                 // Pour chaque session du student ( de la db de suivi )
                 foreach ( $studentSuiviSessions as $studentSuiviSession )
                 {
-                    $youUpEquivSession = $this->sessionRepository->findOneBy( [ 'name' => $studentSuiviSession['name'] ] );
+                    try {
+                        $youUpEquivSession = $this->sessionRepository->findOneBy( [ 'name' => $studentSuiviSession['name'] ] );
+                    }
+                    catch (\Error $e)
+                    {
+                        dd($e);
+                    }
                     // si son equivalent n'existe pas dans la db youup
                     if( !$youUpEquivSession )
                     {
-                        // on le créer
-                        $startDate = new \DateTime( $studentSuiviSession['startDate'] );
-                        $newSession = new Session();
-                        $newSession->setName( $studentSuiviSession['name'] );
-                        $newSession->setSchoolYear( $startDate->format('Y') );
+                        try {
+                            // on le créer
+                            $startDate = new \DateTime( $studentSuiviSession['startDate'] );
+                            $newSession = new Session();
+                            $newSession->setName( $studentSuiviSession['name'] );
+                            $newSession->setSchoolYear( $startDate->format('Y') );
 
-                        $this->entityManager->persist( $newSession );
-                        $this->entityManager->flush();
+                            $this->entityManager->persist( $newSession );
+                            $this->entityManager->flush();
 
-                        // on créer le linkSessionStudent
-                        $newLinkSessionStudent = new LinkSessionStudent();
-                        $newLinkSessionStudent->setSession( $newSession );
-                        $newLinkSessionStudent->setStudent( $user );
-                        $newLinkSessionStudent->setIsEnabled(
-                            $studentSuiviSession['startDate'] < $now && $studentSuiviSession['endDate'] > $now
-                        );
-
-                        $this->entityManager->persist( $newLinkSessionStudent );
-                        $this->entityManager->flush();
-
-                        $newSession->addLinkSessionStudent( $newLinkSessionStudent );
-                        $user->addLinkSessionStudent( $newLinkSessionStudent );
-
-                        $this->entityManager->persist( $newSession );
-                        $this->entityManager->persist( $user );
-                        $this->entityManager->flush();
-                    }
-                    else
-                    {
-                        $linkSessionStudent = $this->linkSessionStudentRepository->findOneBy( [ 'session' => $youUpEquivSession, 'student' => $user] );
-                        if ( !$linkSessionStudent )
-                        {
+                            // on créer le linkSessionStudent
                             $newLinkSessionStudent = new LinkSessionStudent();
-                            $newLinkSessionStudent->setSession( $youUpEquivSession );
+                            $newLinkSessionStudent->setSession( $newSession );
                             $newLinkSessionStudent->setStudent( $user );
                             $newLinkSessionStudent->setIsEnabled(
                                 $studentSuiviSession['startDate'] < $now && $studentSuiviSession['endDate'] > $now
                             );
 
-                            $youUpEquivSession->addLinkSessionStudent( $newLinkSessionStudent );
+                            $this->entityManager->persist( $newLinkSessionStudent );
+                            $this->entityManager->flush();
+
+                            $newSession->addLinkSessionStudent( $newLinkSessionStudent );
                             $user->addLinkSessionStudent( $newLinkSessionStudent );
 
-                            $this->entityManager->persist( $youUpEquivSession );
+                            $this->entityManager->persist( $newSession );
                             $this->entityManager->persist( $user );
                             $this->entityManager->flush();
+                        }
+                        catch(\Error $e)
+                        {
+                            dd($e);
+                        }
+
+                    }
+                    else
+                    {
+                        try {
+                            $linkSessionStudent = $this->linkSessionStudentRepository->findOneBy( [ 'session' => $youUpEquivSession, 'student' => $user] );
+                        }catch (\Error $e)
+                        {
+                            dd($e);
+                        }
+
+                        if ( !$linkSessionStudent )
+                        {
+                            try {
+                                $newLinkSessionStudent = new LinkSessionStudent();
+                                $newLinkSessionStudent->setSession( $youUpEquivSession );
+                                $newLinkSessionStudent->setStudent( $user );
+                                $newLinkSessionStudent->setIsEnabled(
+                                    $studentSuiviSession['startDate'] < $now && $studentSuiviSession['endDate'] > $now
+                                );
+
+                                $youUpEquivSession->addLinkSessionStudent( $newLinkSessionStudent );
+                                $user->addLinkSessionStudent( $newLinkSessionStudent );
+
+                                $this->entityManager->persist( $youUpEquivSession );
+                                $this->entityManager->persist( $user );
+                                $this->entityManager->flush();
+                            }catch (\Error $e)
+                            {
+                                dd($e);
+                            }
+
                         }
                     }
                 }
 
+            try {
                 $linksStudentSession = $this->linkSessionStudentRepository->findBy( [ 'student' => $user ] );
                 // pour chaque linkSessionStudent (db youup)
+            }catch (\Error $e)
+            {
+                dd($e);
+            }
+
                 foreach ( $linksStudentSession as $linkStudentSession ) {
-                    // on recupere la session en rapport avec le linkSessionStudent
-                    $suiviSession = array_filter( $studentSuiviSessions, function($studentSuiviSession) use ($linkStudentSession) {
-                        return strtoupper($studentSuiviSession['name']) === strtoupper($linkStudentSession->getSession()->getName());
-                    });
+
+                    try {
+                        // on recupere la session en rapport avec le linkSessionStudent
+                        $suiviSession = array_filter( $studentSuiviSessions, function($studentSuiviSession) use ($linkStudentSession) {
+                            return strtoupper($studentSuiviSession['name']) === strtoupper($linkStudentSession->getSession()->getName());
+                        });
+                    }catch (\Error $e)
+                    {
+                        dd($e);
+                    }
 
                     // Si la session existe dans les deux db ( suivi et youup )
                     if( $suiviSession && count($suiviSession) > 0 )
                     {
-                        $suiviSession = end($suiviSession);
-                        $startDate = new \DateTime($suiviSession['startDate']);
-                        $endDate = new \DateTime($suiviSession['endDate']);
-                        // si la session de la db de suivi est toujours en cours (commencé, inachevée)
-                        if( $startDate < $now && $endDate > $now && !$linkStudentSession->isEnabled() )
+
+                        try {
+                            $suiviSession = end($suiviSession);
+                            $startDate = new \DateTime($suiviSession['startDate']);
+                            $endDate = new \DateTime($suiviSession['endDate']);
+                            // si la session de la db de suivi est toujours en cours (commencé, inachevée)
+                            if( $startDate < $now && $endDate > $now && !$linkStudentSession->isEnabled() )
+                            {
+                                $linkStudentSession->setIsEnabled( true );
+                            }
+                            elseif( $startDate > $now || $endDate < $now && $linkStudentSession->isEnabled() )
+                            {
+                                $linkStudentSession->setIsEnabled( false );
+                            }
+                            $this->entityManager->persist($linkStudentSession);
+                        }catch (\Error $e)
                         {
-                            $linkStudentSession->setIsEnabled( true );
+                            dd($e);
                         }
-                        elseif( $startDate > $now || $endDate < $now && $linkStudentSession->isEnabled() )
-                        {
-                            $linkStudentSession->setIsEnabled( false );
-                        }
-                        $this->entityManager->persist($linkStudentSession);
+
                     }
                     else
                     {
-                        // la session existe dans youup mais n'existe plus dans la db de suivi
-                        $sessionToUnlink = $linkStudentSession->getSession();
-                        $sessionToUnlink->removeLinkSessionStudent($linkStudentSession);
-                        $user->removeLinkSessionStudent($linkStudentSession);
-                        $this->entityManager->persist($sessionToUnlink);
-                        $this->entityManager->persist($user);
-                        $this->entityManager->flush();
-                        $this->entityManager->remove($linkStudentSession);
+                        try {
+                            // la session existe dans youup mais n'existe plus dans la db de suivi
+                            $sessionToUnlink = $linkStudentSession->getSession();
+                            $sessionToUnlink->removeLinkSessionStudent($linkStudentSession);
+                            $user->removeLinkSessionStudent($linkStudentSession);
+                            $this->entityManager->persist($sessionToUnlink);
+                            $this->entityManager->persist($user);
+                            $this->entityManager->flush();
+                            $this->entityManager->remove($linkStudentSession);
+                        }catch (\Error $e)
+                        {
+                            dd($e);
+                        }
+
                     }
                     $this->entityManager->flush();
                 }
@@ -153,36 +207,54 @@ class DbUpdaterHelper
                 // pour chaque linkSessionStudent de la db youup
                 foreach( $linksStudentSession as $linkStudentSession )
                 {
-                    $session = $linkStudentSession->getSession();
-                    $suiviSessionModules = $this->getSuiviSessionModules( $session->getName() );
-                    $linksSessionModule = $this->linkSessionModuleRepository->findBy( [ 'session' => $session ] );
-                    $modules = array_map( function($linkSessionModule) {
-                        return $linkSessionModule->getModule();
-                    }, $linksSessionModule);
+                    try {
+                        $session = $linkStudentSession->getSession();
+                        $suiviSessionModules = $this->getSuiviSessionModules( $session->getName() );
+                        $linksSessionModule = $this->linkSessionModuleRepository->findBy( [ 'session' => $session ] );
+                        $modules = array_map( function($linkSessionModule) {
+                            return $linkSessionModule->getModule();
+                        }, $linksSessionModule);
+                    }catch (\Error $e)
+                    {
+                        dd($e);
+                    }
+
 
                     // Pour chaque module lié à cette session dans youup
                     foreach( $modules as $module )
                     {
-                        $suiviModule = array_filter( $suiviSessionModules, function( $suiviSessionModule ) use ( $module ) {
-                            return $suiviSessionModule['title'] === $module->getTitle();
-                        });
+                        try {
+                            $suiviModule = array_filter( $suiviSessionModules, function( $suiviSessionModule ) use ( $module ) {
+                                return $suiviSessionModule['title'] === $module->getTitle();
+                            });
+                        }catch (\Error $e)
+                        {
+                            dd($e);
+                        }
+
 
                         if( count($suiviModule) > 0 )
                         {
-                            $linkSessionModuleToRemove = $this->linkSessionModuleRepository->findOneBy( [
-                                'session' => $linkStudentSession->getSession(),
-                                'module' => $module
-                            ]);
-                            $sessionToUnlink = $linkStudentSession->getSession();
+                            try {
+                                $linkSessionModuleToRemove = $this->linkSessionModuleRepository->findOneBy( [
+                                    'session' => $linkStudentSession->getSession(),
+                                    'module' => $module
+                                ]);
+                                $sessionToUnlink = $linkStudentSession->getSession();
 
-                            $sessionToUnlink->removeLinksSessionModule($linkSessionModuleToRemove);
-                            $module->removeLinksSessionModule($linkSessionModuleToRemove);
+                                $sessionToUnlink->removeLinksSessionModule($linkSessionModuleToRemove);
+                                $module->removeLinksSessionModule($linkSessionModuleToRemove);
 
-                            $this->entityManager->persist($sessionToUnlink);
-                            $this->entityManager->persist($module);
+                                $this->entityManager->persist($sessionToUnlink);
+                                $this->entityManager->persist($module);
 
-                            $this->entityManager->remove( $linkSessionModuleToRemove );
-                            $this->entityManager->flush();
+                                $this->entityManager->remove( $linkSessionModuleToRemove );
+                                $this->entityManager->flush();
+                            }catch (\Error $e)
+                            {
+                                dd($e);
+                            }
+
                         }
                         else
                         {
@@ -196,44 +268,55 @@ class DbUpdaterHelper
 
                     foreach($suiviSessionModules as $suiviSessionModule)
                     {
-                        $module = $this->moduleRepository->findOneBy( [ 'title' => $suiviSessionModule['title'] ] );
+                        try {
+                            $module = $this->moduleRepository->findOneBy( [ 'title' => $suiviSessionModule['title'] ] );
+                        }catch (\Error $e)
+                        {
+                            dd($e);
+                        }
 
                         if( !$module )
                         {
-                            $newModule = new Module();
-                            $newModule->setTitle( $suiviSessionModule['title'] );
-                            $newModule->setWeeks( $suiviSessionModule['weeks'] );
-                            $this->entityManager->persist( $newModule );
+                            try {
+                                $newModule = new Module();
+                                $newModule->setTitle( $suiviSessionModule['title'] );
+                                $newModule->setWeeks( $suiviSessionModule['weeks'] );
+                                $this->entityManager->persist( $newModule );
 
-                            $module = $newModule;
+                                $module = $newModule;
+                            }catch (\Error $e)
+                            {
+                                dd($e);
+                            }
+
                         }
 
                         if( !$this->linkSessionModuleRepository->findOneBy( [ 'session' => $session, 'module' => $module ] ) )
                         {
-                            $newLinkSessionModule = new LinkSessionModule();
-                            $newLinkSessionModule->setSession( $session );
-                            $newLinkSessionModule->setModule( $module );
-                            $newLinkSessionModule->setStartDate( new \DateTime( $suiviSessionModule['startDate'] ) );
-                            $newLinkSessionModule->setEndDate( new \DateTime( $suiviSessionModule['endDate'] ) );
+                            try {
+                                $newLinkSessionModule = new LinkSessionModule();
+                                $newLinkSessionModule->setSession( $session );
+                                $newLinkSessionModule->setModule( $module );
+                                $newLinkSessionModule->setStartDate( new \DateTime( $suiviSessionModule['startDate'] ) );
+                                $newLinkSessionModule->setEndDate( new \DateTime( $suiviSessionModule['endDate'] ) );
 
-                            $this->entityManager->persist( $newLinkSessionModule );
-                            $this->entityManager->flush();
+                                $this->entityManager->persist( $newLinkSessionModule );
+                                $this->entityManager->flush();
 
-                            $module->addLinksSessionModule( $newLinkSessionModule );
-                            $session->addLinksSessionModule( $newLinkSessionModule );
+                                $module->addLinksSessionModule( $newLinkSessionModule );
+                                $session->addLinksSessionModule( $newLinkSessionModule );
 
-                            $this->entityManager->persist( $module );
-                            $this->entityManager->persist( $session );
-                            $this->entityManager->flush();
+                                $this->entityManager->persist( $module );
+                                $this->entityManager->persist( $session );
+                                $this->entityManager->flush();
+                            }catch (\Error $e)
+                            {
+                                dd($e);
+                            }
+
                         }
                     }
                 }
-            }
-            catch (\Error $e)
-            {
-                dd($e);
-            }
-
         }
 
         if( $this->isUserInstructor( $user ) )
