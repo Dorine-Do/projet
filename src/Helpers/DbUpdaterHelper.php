@@ -611,9 +611,10 @@ class DbUpdaterHelper
             LEFT JOIN daily ON daily.id_module = modules.id
             LEFT JOIN sessions ON sessions.id = daily.id_session
             WHERE LOWER(sessions.name) = ?
-            AND daily.date >= NOW() - INTERVAL 1 YEAR
+            AND daily.date >= NOW() - INTERVAL 6 MONTH
             GROUP BY modules.name";
-
+        dump('$modulesSql');
+        dump($modulesSql);
         $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ strtolower($sessionName) ]);
         $moduleByName = [];
 
