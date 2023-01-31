@@ -346,7 +346,6 @@ class DbUpdaterHelper
                             {
                                 dd($e);
                             }
-
                         }
                     }
                 }
@@ -565,11 +564,11 @@ class DbUpdaterHelper
             LEFT JOIN daily ON daily.id_module = modules.id
             LEFT JOIN sessions ON sessions.id = daily.id_session
             LEFT JOIN users ON users.id = daily.id_user
-            WHERE sessions.name = ? AND users.email = ?
+            WHERE LOWER(sessions.name) = ? AND users.email = ?
             AND daily.date >= NOW() - INTERVAL 30 DAY
             GROUP BY modules.name";
 
-        $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName, $userEmail ]);
+        $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ strtolower($sessionName), $userEmail ]);
         $moduleByName = [];
         foreach($suiviModules as $suiviModule)
         {
@@ -611,15 +610,11 @@ class DbUpdaterHelper
             FROM modules
             LEFT JOIN daily ON daily.id_module = modules.id
             LEFT JOIN sessions ON sessions.id = daily.id_session
-            WHERE sessions.name = ?
-            AND daily.date >= NOW() - INTERVAL 30 DAY
+            WHERE LOWER(sessions.name) = ?
+            AND daily.date >= NOW() - INTERVAL 1 YEAR
             GROUP BY modules.name";
 
-        $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName ]);
-//        dump('$sessionName');
-//        dump($sessionName);
-//        dump('$suiviModules');
-//        dump($suiviModules);
+        $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ strtolower($sessionName) ]);
         $moduleByName = [];
 
         foreach($suiviModules as $suiviModule)
@@ -632,9 +627,6 @@ class DbUpdaterHelper
             }
             $moduleByName[$moduleName] = $suiviModule;
         }
-
-//        dump('$moduleByName');
-//        dump($moduleByName);
 
         $modules = [];
         foreach( $moduleByName as $name => $module )

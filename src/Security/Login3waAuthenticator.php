@@ -174,20 +174,8 @@ class Login3waAuthenticator extends AbstractAuthenticator
             UPDATING DB FROM DBSUIVI
             *********************************************/
 
-                $this->dbUpdaterHelper->updateUserSession( $user );
-
-//            dump('stop');
-
-
-                // Recuperer les formateurs inscris sur chaque module de cette session
-                // pour chaque formateurs de la session
-                    // s'il n'est pas ou plus inscrit au module de cette session
-                        // le supprimer de link-instructor-session-module
-                    // s'il doit y etre nais n'y est pas
-                        // ajout du link-instructor-session-module
-
-
-
+            $this->dbUpdaterHelper->updateUserSession( $user );
+            dd('stop');
             return $user;
         }));
     }
@@ -197,8 +185,6 @@ class Login3waAuthenticator extends AbstractAuthenticator
         $this->dbLogger->info('Success Login');
         $targetUrl = $this->router->generate('app_check_dashboard');
         return new RedirectResponse($targetUrl);
-//        header("Location: https://you-up.3wa.io".$targetUrl);
-//        exit;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
