@@ -55,6 +55,7 @@ class DbUpdaterHelper
         {
             try {
                 $studentSuiviSessions = $this->getSuiviStudentSessions($user->getEmail());
+                dump($studentSuiviSessions);
             }
             catch (\Error $e)
             {
@@ -65,6 +66,7 @@ class DbUpdaterHelper
                 {
                     try {
                         $youUpEquivSession = $this->sessionRepository->findOneBy( [ 'name' => $studentSuiviSession['name'] ] );
+                        dump($youUpEquivSession);
                     }
                     catch (\Error $e)
                     {
@@ -111,6 +113,7 @@ class DbUpdaterHelper
                     {
                         try {
                             $linkSessionStudent = $this->linkSessionStudentRepository->findOneBy( [ 'session' => $youUpEquivSession, 'student' => $user] );
+                            dump($linkSessionStudent);
                         }catch (\Error $e)
                         {
                             dd($e);
@@ -143,12 +146,13 @@ class DbUpdaterHelper
 
             try {
                 $linksStudentSession = $this->linkSessionStudentRepository->findBy( [ 'student' => $user ] );
-                // pour chaque linkSessionStudent (db youup)
+                dump($linksStudentSession);
             }catch (\Error $e)
             {
                 dd($e);
             }
 
+                // pour chaque linkSessionStudent (db youup)
                 foreach ( $linksStudentSession as $linkStudentSession ) {
 
                     try {
@@ -156,6 +160,7 @@ class DbUpdaterHelper
                         $suiviSession = array_filter( $studentSuiviSessions, function($studentSuiviSession) use ($linkStudentSession) {
                             return strtoupper($studentSuiviSession['name']) === strtoupper($linkStudentSession->getSession()->getName());
                         });
+                        dump($suiviSession);
                     }catch (\Error $e)
                     {
                         dd($e);
