@@ -111,7 +111,6 @@ class Login3waAuthenticator extends AbstractAuthenticator
                 ";
 
             $dbLoginUser = $this->rawSqlRequestToExtDb( $sqlReqDblogin, [ 'cookie' => $_COOKIE['cookie'] ], 'dblogin' )[0];
-            dd($dbLoginUser);
             // if userLogin doesn't exist in youUp db
             if( !$this->userRepo->findOneBy( [ 'email' => $dbLoginUser['email'] ] ) )
             {
@@ -119,6 +118,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                 $sqlReqDbsuivi = "SELECT firstname, lastname, email, access, phone, id_moodle, id FROM users WHERE email = :email";
 
                 $dbSuiviUser = $this->rawSqlRequestToExtDb( $sqlReqDbsuivi, [ 'email' => $dbLoginUser['email'] ], 'dbsuivi' )[0];
+                dd($dbSuiviUser);
 
                 // check access type
                 switch( $dbSuiviUser['access'] )
