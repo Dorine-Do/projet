@@ -659,10 +659,15 @@ class DbUpdaterHelper
     }
 
     protected function rawSqlRequestToExtDb( $sql, $params = [], $extDb = 'dbsuivi' ) {
-        $conn = $this->doctrine->getConnection($extDb);
-        return $conn
-            ->prepare($sql)
-            ->executeQuery($params)
-            ->fetchAll();
+        try {
+            $conn = $this->doctrine->getConnection($extDb);
+            return $conn
+                ->prepare($sql)
+                ->executeQuery($params)
+                ->fetchAll();
+        }catch ( \Error $e )
+        {
+            dd($e);
+        }
     }
 }
