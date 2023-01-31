@@ -521,7 +521,7 @@ class DbUpdaterHelper
             LEFT JOIN users
             ON users.id = link_students_daily.id_student
             WHERE users.email = ?
-            AND daily.date >= NOW() - INTERVAL 20 DAY
+            AND daily.date >= NOW() - INTERVAL 30 DAY
             GROUP BY sessions.name
         ";
         return $this->rawSqlRequestToExtDb( $sql, [$studentEmail] );
@@ -539,7 +539,7 @@ class DbUpdaterHelper
             LEFT JOIN modules
             ON modules.id = daily.id_module
             WHERE users.email = ?
-            AND daily.date >= NOW() - INTERVAL 20 DAY
+            AND daily.date >= NOW() - INTERVAL 30 DAY
             GROUP BY sessions.name
         ";
         return $this->rawSqlRequestToExtDb( $sql, [$instructorEmail] );
@@ -559,7 +559,7 @@ class DbUpdaterHelper
             LEFT JOIN sessions ON sessions.id = daily.id_session
             LEFT JOIN users ON users.id = daily.id_user
             WHERE sessions.name = ? AND users.email = ?
-            AND daily.date >= NOW() - INTERVAL 20 DAY
+            AND daily.date >= NOW() - INTERVAL 30 DAY
             GROUP BY modules.name";
 
         $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName, $userEmail ]);
@@ -605,7 +605,7 @@ class DbUpdaterHelper
             LEFT JOIN daily ON daily.id_module = modules.id
             LEFT JOIN sessions ON sessions.id = daily.id_session
             WHERE sessions.name = ?
-            AND daily.date >= NOW() - INTERVAL 20 DAY
+            AND daily.date >= NOW() - INTERVAL 30 DAY
             GROUP BY modules.name";
 
         $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName ]);
