@@ -613,7 +613,12 @@ class DbUpdaterHelper
             WHERE LOWER(sessions.name) = ?
             AND daily.date >= NOW() - INTERVAL 6 MONTH
             GROUP BY modules.name";
+        try {
         $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ strtolower($sessionName) ]);
+        }catch (\Error $e)
+        {
+            dd($e);
+        }
         $moduleByName = [];
         dump('$suiviModules');
         dump($suiviModules);
