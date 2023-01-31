@@ -175,7 +175,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
             *********************************************/
 
             $this->dbUpdaterHelper->updateUserSession( $user );
-            dd('stop');
+
             return $user;
         }));
     }
