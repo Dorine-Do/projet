@@ -99,7 +99,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
                 header('Location: https://login.3wa.io/youup');
                 exit();
             }
-
+            dd($_COOKIE['cookie']);
             // get user by cookie in dblogin
             $sqlReqDblogin = "
                 SELECT
