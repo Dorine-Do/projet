@@ -611,14 +611,11 @@ class DbUpdaterHelper
             LEFT JOIN daily ON daily.id_module = modules.id
             LEFT JOIN sessions ON sessions.id = daily.id_session
             WHERE LOWER(sessions.name) = ?
-            AND daily.date >= NOW() - INTERVAL 6 MONTH
+            AND daily.date >= NOW() - INTERVAL 3 MONTH
             GROUP BY modules.name";
-        try {
+
         $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ strtolower($sessionName) ]);
-        }catch (\Error $e)
-        {
-            dd($e);
-        }
+
         $moduleByName = [];
         dump('$suiviModules');
         dump($suiviModules);
@@ -659,15 +656,10 @@ class DbUpdaterHelper
     }
 
     protected function rawSqlRequestToExtDb( $sql, $params = [], $extDb = 'dbsuivi' ) {
-        try {
-            $conn = $this->doctrine->getConnection($extDb);
-            return $conn
-                ->prepare($sql)
-                ->executeQuery($params)
-                ->fetchAll();
-        }catch ( \Error $e )
-        {
-            dd($e);
-        }
+        $conn = $this->doctrine->getConnection($extDb);
+        return $conn
+            ->prepare($sql)
+            ->executeQuery($params)
+            ->fetchAll();
     }
 }
