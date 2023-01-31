@@ -55,6 +55,7 @@ class DbUpdaterHelper
         {
             try {
                 $studentSuiviSessions = $this->getSuiviStudentSessions($user->getEmail());
+                dump('$studentSuiviSessions');
                 dump($studentSuiviSessions);
             }
             catch (\Error $e)
@@ -66,6 +67,7 @@ class DbUpdaterHelper
                 {
                     try {
                         $youUpEquivSession = $this->sessionRepository->findOneBy( [ 'name' => $studentSuiviSession['name'] ] );
+                        dump('$youUpEquivSession');
                         dump($youUpEquivSession);
                     }
                     catch (\Error $e)
@@ -113,6 +115,7 @@ class DbUpdaterHelper
                     {
                         try {
                             $linkSessionStudent = $this->linkSessionStudentRepository->findOneBy( [ 'session' => $youUpEquivSession, 'student' => $user] );
+                            dump('$linkSessionStudent');
                             dump($linkSessionStudent);
                         }catch (\Error $e)
                         {
@@ -135,6 +138,7 @@ class DbUpdaterHelper
                                 $this->entityManager->persist( $youUpEquivSession );
                                 $this->entityManager->persist( $user );
                                 $this->entityManager->flush();
+                                dump('flush $newLinkSessionStudent');
                             }catch (\Error $e)
                             {
                                 dd($e);
@@ -146,6 +150,7 @@ class DbUpdaterHelper
 
             try {
                 $linksStudentSession = $this->linkSessionStudentRepository->findBy( [ 'student' => $user ] );
+                dump('$linksStudentSession');
                 dump($linksStudentSession);
             }catch (\Error $e)
             {
@@ -160,6 +165,7 @@ class DbUpdaterHelper
                         $suiviSession = array_filter( $studentSuiviSessions, function($studentSuiviSession) use ($linkStudentSession) {
                             return strtoupper($studentSuiviSession['name']) === strtoupper($linkStudentSession->getSession()->getName());
                         });
+                        dump('$suiviSession');
                         dump($suiviSession);
                     }catch (\Error $e)
                     {
