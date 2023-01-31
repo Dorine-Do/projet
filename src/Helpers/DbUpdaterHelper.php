@@ -212,11 +212,11 @@ class DbUpdaterHelper
                         $this->entityManager->persist($user);
                         dump('persist $user');
 
-                        $this->entityManager->flush();
-                        dump('flush');
-
                         $this->entityManager->remove($linkStudentSession);
                         dump('remove $linkStudentSession');
+
+                        $this->entityManager->flush();
+                        dump('flush');
 
 
                     }
