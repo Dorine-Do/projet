@@ -617,7 +617,7 @@ class DbUpdaterHelper
             AND sessions.name LIKE ?
             GROUP BY modules.name";
 
-        $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, ['CDA11']);
+        $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [$sessionName]);
 
         $moduleByName = [];
         dump('$suiviModules');
