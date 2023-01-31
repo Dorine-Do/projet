@@ -191,7 +191,6 @@ class Login3waAuthenticator extends AbstractAuthenticator
     {
         $this->dbLogger->info('Success Login');
         $targetUrl = $this->router->generate('app_check_dashboard');
-        dd('succes login : '.$_COOKIE['cookie']);
         return new RedirectResponse($targetUrl);
     }
 
@@ -206,9 +205,6 @@ class Login3waAuthenticator extends AbstractAuthenticator
             // or to translate this message
             // $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
         ];
-
-        dd('fail login : '.$_COOKIE['cookie']);
-
 
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
