@@ -50,6 +50,7 @@ class DbUpdaterHelper
     public function updateUserSession( $user )
     {
         $now = new \DateTime();
+        dump($this->isUserStudent($user));
         if( $this->isUserStudent($user) )
         {
             try {
