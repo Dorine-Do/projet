@@ -194,18 +194,28 @@ class DbUpdaterHelper
                     {
                             // la session existe dans youup mais n'existe plus dans la db de suivi
                             $sessionToUnlink = $linkStudentSession->getSession();
-                            dump('$sessionToUnlink '.$sessionToUnlink);
+                            dump('$sessionToUnlink');
+                            dump($sessionToUnlink);
                         try {
                             $sessionToUnlink->removeLinkSessionStudent($linkStudentSession);
+                            dump('removeLinkSessionStudent');
                         }catch (\Error $e)
                         {
                             dd($e);
                         }
-                            $user->removeLinkSessionStudent($linkStudentSession);
-                            $this->entityManager->persist($sessionToUnlink);
-                            $this->entityManager->persist($user);
-                            $this->entityManager->flush();
+                        $user->removeLinkSessionStudent($linkStudentSession);
+                        dump('removeLinkSessionStudent');
+
+                        $this->entityManager->persist($sessionToUnlink);
+                        dump('persist $sessionToUnlink');
+
+                        $this->entityManager->persist($user);
+                        dump('persist $user');
+
+                        $this->entityManager->flush();
                             $this->entityManager->remove($linkStudentSession);
+                        dump('remove $linkStudentSession');
+
 
                     }
                     $this->entityManager->flush();
