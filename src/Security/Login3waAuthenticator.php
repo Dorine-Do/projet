@@ -176,7 +176,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
                 $this->dbUpdaterHelper->updateUserSession( $user );
 
-//            dd('stop');
+            dump('stop');
 
 
                 // Recuperer les formateurs inscris sur chaque module de cette session
@@ -196,6 +196,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
     {
         $this->dbLogger->info('Success Login');
         $targetUrl = $this->router->generate('app_check_dashboard');
+        dump('login Success');
         return new RedirectResponse($targetUrl);
     }
 
