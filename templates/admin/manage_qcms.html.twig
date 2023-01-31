@@ -32,7 +32,7 @@
                 <tbody>
                     {% for qcm in qcms %}
                         <tr>
-                            <td>{{ qcm.title }}{{dump(qcm.author.roles)}}</td>
+                            <td>{{ qcm.title }}</td>
                             <td>{{ qcm.author.firstname }} {{ qcm.author.lastname }}</td>
                             {% if qcm.difficulty is same as 1 %}
                             <td>Facile</td>
