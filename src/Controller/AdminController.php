@@ -63,7 +63,6 @@ class AdminController extends AbstractController
     {
 
         $qcms = $qcmRepo->findAll();
-        dd($qcms);
 
         return $this->render('admin/manage_qcms.html.twig', [
             'qcms' => $qcms,
