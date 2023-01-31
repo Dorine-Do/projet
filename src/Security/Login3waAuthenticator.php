@@ -195,9 +195,11 @@ class Login3waAuthenticator extends AbstractAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         $this->dbLogger->info('Success Login');
-        $targetUrl = $this->router->generate('app_check_dashboard');
+//        $targetUrl = $this->router->generate('app_check_dashboard');
         dump('login Success');
-        return new RedirectResponse($targetUrl);
+//        return new RedirectResponse($targetUrl);
+        header("location: /dashboard/check");
+        exit;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
