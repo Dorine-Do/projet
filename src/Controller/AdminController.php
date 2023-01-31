@@ -72,8 +72,11 @@ class AdminController extends AbstractController
     #[Route('admin/manage-questions', name: 'admin_manage_questions')]
     public function manageQuestions( QuestionRepository $questionRepo ): Response
     {
+
+        $questions = $questionRepo->findAll();
+
         return $this->render('admin/manage_questions.html.twig', [
-            'questions' => $questionRepo->findAll()
+            'questions' => $questions
         ]);
     }
 
