@@ -622,6 +622,9 @@ class DbUpdaterHelper
             $moduleByName[$moduleName] = $suiviModule;
         }
 
+        dump('$moduleByName');
+        dump($moduleByName);
+
         $modules = [];
         foreach( $moduleByName as $name => $module )
         {
