@@ -244,8 +244,16 @@ class InstructorController extends AbstractController
         {
             $count = 0;
 
+            $cleanWording = str_replace( '<script>','&lt;script&gt;',$questionEntity->getWording() );
+            $cleanWording = str_replace( '</script>','&lt;&#47;script&gt;',$cleanWording );
+            $questionEntity->setWording($cleanWording);
+
             foreach( $questionEntity->getProposals() as $proposal )
             {
+                $cleanWording = str_replace( '<script>','&lt;script&gt;',$proposal->getWording() );
+                $cleanWording = str_replace( '</script>','&lt;&#47;script&gt;',$cleanWording );
+                $proposal->setWording($cleanWording);
+
                 // set le response type
                 if( $proposal->getIsCorrectAnswer() )
                 {
@@ -260,6 +268,10 @@ class InstructorController extends AbstractController
             {
                 $questionEntity->setIsMultiple(0);
             }
+
+            $cleanWording = str_replace( '<script>','&lt;script&gt;',$questionEntity->getExplanation());
+            $cleanWording = str_replace( '</script>','&lt;&#47;script&gt;',$cleanWording );
+            $questionEntity->setExplanation($cleanWording);
 
             if(!in_array('ROLE_ADMIN', $user->getRoles()))
             {
@@ -282,6 +294,7 @@ class InstructorController extends AbstractController
 
             //  validation et enregistrement des données du form dans la bdd
             $manager->persist($questionEntity);
+//            dd($questionEntity->getWording());
             $manager->flush();
 
             //  redirect to route avec flash

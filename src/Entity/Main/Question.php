@@ -59,7 +59,7 @@ class Question
     #[ORM\ManyToMany(targetEntity: Qcm::class, mappedBy: 'questions')]
     private $qcms;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'questions')]
+    #[ORM\ManyToOne(targetEntity: Instructor::class, inversedBy: 'questions')]
     #[ORM\JoinColumn(nullable: false)]
     private $author;
 
