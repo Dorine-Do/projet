@@ -176,7 +176,7 @@ class Login3waAuthenticator extends AbstractAuthenticator
 
                 $this->dbUpdaterHelper->updateUserSession( $user );
 
-            dump('stop');
+//            dump('stop');
 
 
                 // Recuperer les formateurs inscris sur chaque module de cette session
