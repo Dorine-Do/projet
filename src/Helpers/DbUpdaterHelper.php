@@ -614,7 +614,7 @@ class DbUpdaterHelper
             AND daily.date >= NOW() - INTERVAL 1 YEAR
             GROUP BY modules.name";
 
-        $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ $sessionName ]);
+        $suiviModules = $this->rawSqlRequestToExtDb($modulesSql, [ strtolower($sessionName) ]);
 
         $moduleByName = [];
         dump('$suiviModules');
