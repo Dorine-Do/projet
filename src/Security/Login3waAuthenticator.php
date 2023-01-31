@@ -196,8 +196,6 @@ class Login3waAuthenticator extends AbstractAuthenticator
     {
         $this->dbLogger->info('Success Login');
         $targetUrl = $this->router->generate('app_check_dashboard');
-        dump('login Success');
-        dump(new RedirectResponse($targetUrl));
 //        return new RedirectResponse($targetUrl);
         header("Location: https://you-up.3wa.io".$targetUrl);
         exit;
