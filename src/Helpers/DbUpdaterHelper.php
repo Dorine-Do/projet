@@ -374,12 +374,14 @@ class DbUpdaterHelper
                 }
 
                 $instructorSuiviSessionModules = $this->getInstructorSuiviSessionModules( $instructorSuiviSession['sessionName'], $user->getEmail() );
+                dump('$instructorSuiviSessionModules');
                 dump($instructorSuiviSessionModules);
 
                 foreach( $instructorSuiviSessionModules as $instructorSuiviSessionModule)
                 {
                     // Modules
                     $youupEquivModule = $this->moduleRepository->findOneBy( [ 'title' => $instructorSuiviSessionModule['title'] ] );
+                    dump('$youupEquivModule');
                     dump($youupEquivModule);
 
                     if( !$youupEquivModule )
@@ -398,6 +400,7 @@ class DbUpdaterHelper
                         'session' => $session,
                         'module' => $youupEquivModule
                     ]);
+                    dump('$youupLinkSessionModule');
                     dump($youupLinkSessionModule);
 
                     // LinkSessionModule
@@ -427,6 +430,7 @@ class DbUpdaterHelper
                         'module' => $youupEquivModule
                     ]);
 
+                    dump('$youupLinkInstructorSessionModule');
                     dump($youupLinkInstructorSessionModule);
 
                     //linkInstructorSessionModule
@@ -437,6 +441,7 @@ class DbUpdaterHelper
                         $newLinkInstructorSessionModule->setSession( $session );
                         $newLinkInstructorSessionModule->setModule( $youupEquivModule );
 
+                        dump('$newLinkInstructorSessionModule');
                         dump($newLinkInstructorSessionModule);
 
                         try {
@@ -474,6 +479,7 @@ class DbUpdaterHelper
                     'session' => $session,
                     'instructor' => $user
                 ]);
+                dump('$youupLinksInstructorSessionModule');
                 dump($youupLinksInstructorSessionModule);
 
                 foreach( $youupLinksInstructorSessionModule as $youupLinkInstructorSessionModule )
@@ -494,6 +500,7 @@ class DbUpdaterHelper
 
                         };
                     });
+                    dump('$keep');
                     dump($keep);
 
                     if( count($keep) === 0 )
